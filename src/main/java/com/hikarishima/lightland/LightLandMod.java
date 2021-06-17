@@ -1,6 +1,6 @@
 package com.hikarishima.lightland;
 
-import com.hikarishima.lightland.mobspawn.MobSpawn;
+import com.hikarishima.lightland.mobspawn.*;
 import net.minecraft.block.Block;
 import net.minecraft.profiler.IProfiler;
 import net.minecraft.resources.IFutureReloadListener;
@@ -23,6 +23,7 @@ import java.util.concurrent.Executor;
 // The value here should match an entry in the META-INF/mods.toml file
 @Mod("lightland")
 public class LightLandMod {
+
     // Directly reference a log4j logger.
     private static final Logger LOGGER = LogManager.getLogger();
 
@@ -47,7 +48,9 @@ public class LightLandMod {
     }
 
     private CompletableFuture<Void> onReload(IFutureReloadListener.IStage stage, IResourceManager manager, IProfiler p0, IProfiler p1, Executor e0, Executor e1) {
-        return CompletableFuture.runAsync(MobSpawn::init);
+        return CompletableFuture.runAsync(() -> {
+            MobSpawn.init();
+        });
     }
 
     @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)

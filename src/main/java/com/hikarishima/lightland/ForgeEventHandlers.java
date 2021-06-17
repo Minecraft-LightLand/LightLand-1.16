@@ -2,7 +2,11 @@ package com.hikarishima.lightland;
 
 import com.hikarishima.lightland.mobspawn.MobSpawn;
 import net.minecraft.entity.EntityClassification;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IWorld;
 import net.minecraft.world.biome.MobSpawnInfo;
+import net.minecraftforge.event.entity.living.LivingSpawnEvent;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -15,11 +19,19 @@ public class ForgeEventHandlers {
     public void onPotentialSpawns(WorldEvent.PotentialSpawns event) {
         EntityClassification cls = event.getType();
         if (cls == EntityClassification.MONSTER) {
+            IWorld world = event.getWorld();
             List<MobSpawnInfo.Spawners> list = event.getList();
             list.clear();
-            MobSpawn.spawn(list, event.getPos());
+            MobSpawn.fillSpawnList(world, list, event.getPos());
         }
+    }
 
+    @SubscribeEvent(priority = EventPriority.HIGHEST)
+    public void doSpecialSpawns(LivingSpawnEvent.SpecialSpawn event) {
+        IWorld world = event.getWorld();
+        LivingEntity ent = event.getEntityLiving();
+        if(!MobSpawn.modifySpawnedEntity(world, ent))
+            event.setCanceled(true);
     }
 
 }

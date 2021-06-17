@@ -6,7 +6,9 @@ import com.lcy0x1.core.util.ExceptionHandler;
 import com.lcy0x1.core.util.SerialClass;
 import com.lcy0x1.core.util.Serializer;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IWorld;
 import net.minecraft.world.biome.MobSpawnInfo;
 import net.minecraftforge.fml.loading.FMLPaths;
 import org.apache.logging.log4j.LogManager;
@@ -14,7 +16,9 @@ import org.apache.logging.log4j.LogManager;
 import java.io.File;
 import java.io.FileReader;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @SerialClass
 public class MobSpawn {
@@ -22,6 +26,9 @@ public class MobSpawn {
     public static final List<MobSpawn> LIST = new ArrayList<>();
 
     public static void init() {
+        EquipLevel.init();
+        PotionLevel.init();
+        BuffLevel.init();
         LIST.clear();
         String path = FMLPaths.CONFIGDIR.get().toString();
         File file = new File(path + File.separator + "lightland" + File.separator + "spawn_rules.json");
@@ -38,25 +45,38 @@ public class MobSpawn {
 
     }
 
-    public static void spawn(List<MobSpawnInfo.Spawners> list, BlockPos pos) {
+    private static MobSpawn getSpawner(IWorld world, int x, int y) {
         MobSpawn winner = null;
         double max_density = 0;
         for (MobSpawn spawn : MobSpawn.LIST) {
-            double density = spawn.getDensity(pos.getX(), pos.getY());
+            double density = spawn.getDensity(x, y);
             if (density > max_density) {
                 winner = spawn;
                 max_density = density;
             }
         }
+        return winner;
+    }
+
+    public static void fillSpawnList(IWorld world, List<MobSpawnInfo.Spawners> list, BlockPos pos) {
+        MobSpawn winner = getSpawner(world, pos.getX(), pos.getY());
         if (winner != null) {
             double difficulty = winner.getDifficulty(pos.getX(), pos.getY());
             if (difficulty > 0)
                 for (MobSpawn.Entry entry : winner.getMobs())
-                    if (entry.type != null) {
+                    if (entry.type != null)
                         list.add(new MobSpawnInfo.Spawners(entry.type, entry.weight, entry.min, entry.max));
-                        //TODO add difficulty
-                    }
         }
+    }
+
+    public static boolean modifySpawnedEntity(IWorld world, LivingEntity ent) {
+        int x = (int) ent.getX();
+        int y = (int) ent.getY();
+        MobSpawn spawner = getSpawner(world, x, y);
+        if (spawner == null)
+            return true;
+        double difficulty = spawner.getDifficulty(x, y);
+        return IMobLevel.apply(world, ent, difficulty);
     }
 
     @SerialClass
@@ -72,7 +92,7 @@ public class MobSpawn {
 
         @SerialClass.OnInject
         public void onInject() {
-            type = EntityType.byString(id).get();
+            type = EntityType.byString(id).orElse(null);
             if (type == null)
                 LogManager.getLogger().warn("entity type [" + id + "] not present");
         }
