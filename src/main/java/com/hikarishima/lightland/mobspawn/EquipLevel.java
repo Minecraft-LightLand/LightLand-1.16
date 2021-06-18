@@ -1,50 +1,52 @@
 package com.hikarishima.lightland.mobspawn;
 
-import com.google.gson.JsonElement;
-import com.google.gson.JsonParser;
 import com.lcy0x1.core.util.ExceptionHandler;
 import com.lcy0x1.core.util.SerialClass;
-import com.lcy0x1.core.util.Serializer;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.monster.*;
+import net.minecraft.entity.monster.AbstractSkeletonEntity;
+import net.minecraft.entity.monster.DrownedEntity;
+import net.minecraft.entity.monster.WitherSkeletonEntity;
+import net.minecraft.entity.monster.ZombieEntity;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.IWorld;
-import net.minecraftforge.fml.loading.FMLPaths;
 import net.minecraftforge.registries.ForgeRegistries;
-import org.apache.logging.log4j.LogManager;
 
-import java.io.File;
-import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
 
 public class EquipLevel {
 
-    public static List<Equip> ENTRIES = new ArrayList<>();
-    public static double EQUIP = 0.2, ENCHANT = 0.2;
+    public static List<EquipItem> ITEMS = new ArrayList<>();
+    public static List<Enchant> ENCHANTS = new ArrayList<>();
+    public static double ITEM_BUDGET = 0.2, ENCHANT_BUDGET = 0.2;
 
-    public static void init() {
-        ENTRIES.clear();
-        String path = FMLPaths.CONFIGDIR.get().toString();
-        File file = new File(path + File.separator + "lightland" + File.separator + "equipment_cost.json");
-        if (file.exists()) {
-            JsonElement elem = ExceptionHandler.get(() -> new JsonParser().parse(new FileReader(file)));
-            if (elem != null && elem.isJsonArray()) {
-                for (JsonElement e : elem.getAsJsonArray()) {
-                    ENTRIES.add(Serializer.from(e.getAsJsonObject(), Equip.class, new Equip()));
-                }
-            }
-        } else {
-            LogManager.getLogger().warn(file.toString() + " does not exist");
+    @SerialClass
+    public static class Enchant {
+
+        @SerialClass.SerialField
+        public String id;
+
+        @SerialClass.SerialField
+        public double cost, chance = 1;
+
+        @SerialClass.SerialField
+        public int weight, level;
+
+        public Enchantment enchantment;
+
+        @SerialClass.OnInject
+        public void onInject() {
+            enchantment = ExceptionHandler.get(() -> ForgeRegistries.ENCHANTMENTS.getValue(ResourceLocation.tryParse(id)));
         }
+
     }
 
     @SerialClass
-    public static class Equip {
+    public static class EquipItem implements IMobLevel.Entry<EquipItem> {
 
         public enum Type {
             HELMET(EquipmentSlotType.HEAD),
@@ -53,8 +55,7 @@ public class EquipLevel {
             BOOTS(EquipmentSlotType.FEET),
             SWORD(EquipmentSlotType.MAINHAND),
             BOW(EquipmentSlotType.MAINHAND),
-            TRIDENT(EquipmentSlotType.MAINHAND),
-            ENCHANTMENT(null);
+            TRIDENT(EquipmentSlotType.MAINHAND);
 
             public EquipmentSlotType type;
 
@@ -70,129 +71,131 @@ public class EquipLevel {
         public String id;
 
         @SerialClass.SerialField
-        public double cost, chance;
+        public double cost, chance = 1;
 
         @SerialClass.SerialField
-        public int weight, level;
+        public int weight;
 
         public Item item;
-        public Enchantment enchantment;
+
+        @Override
+        public int getWeight() {
+            return weight;
+        }
+
+        @Override
+        public double getCost() {
+            return cost;
+        }
+
+        @Override
+        public boolean equal(EquipItem other) {
+            return other.type == type;
+        }
+
+        @Override
+        public double getChance() {
+            return chance;
+        }
 
         @SerialClass.OnInject
         public void onInject() {
-            if (type == Type.ENCHANTMENT) {
-                enchantment = ExceptionHandler.get(() -> ForgeRegistries.ENCHANTMENTS.getValue(ResourceLocation.tryParse(id)));
-            } else {
-                item = ExceptionHandler.get(() -> ForgeRegistries.ITEMS.getValue(ResourceLocation.tryParse(id)));
-            }
+            item = ExceptionHandler.get(() -> ForgeRegistries.ITEMS.getValue(ResourceLocation.tryParse(id)));
         }
 
     }
 
-    public static class EnchantPair {
+    public static class ItemPair {
 
         public ItemStack stack;
-        public Equip equip;
+        public EquipItem equip;
 
-        public EnchantPair(ItemStack stack, Equip equip) {
+        public ItemPair(ItemStack stack, EquipItem equip) {
+            this.stack = stack;
+            this.equip = equip;
+        }
+    }
+
+
+    public static class EnchantPair implements IMobLevel.Entry<EnchantPair> {
+
+        public ItemStack stack;
+        public Enchant equip;
+
+        public EnchantPair(ItemStack stack, Enchant equip) {
             this.stack = stack;
             this.equip = equip;
         }
 
+        @Override
+        public int getWeight() {
+            return equip.weight;
+        }
+
+        @Override
+        public double getCost() {
+            return equip.cost;
+        }
+
+        @Override
+        public boolean equal(EnchantPair other) {
+            return other.stack == stack;
+        }
+
+        @Override
+        public double getChance() {
+            return equip.chance;
+        }
     }
 
     public static double modify(IWorld world, LivingEntity ent, double difficulty) {
         if (ent instanceof ZombieEntity || ent instanceof AbstractSkeletonEntity) {
             // get a list of items
-            double max_cost = EQUIP * difficulty;
-            List<EnchantPair> items = new ArrayList<>();
-            {
-                Equip.Type weapon;
-                if (ent instanceof WitherSkeletonEntity)
-                    weapon = Equip.Type.SWORD;
-                else if (ent instanceof AbstractSkeletonEntity)
-                    weapon = Equip.Type.BOW;
-                else if (ent instanceof DrownedEntity)
-                    weapon = Equip.Type.TRIDENT;
-                else weapon = Equip.Type.SWORD;
-                List<Equip.Type> type_list = new ArrayList<>();
-                type_list.add(Equip.Type.HELMET);
-                type_list.add(Equip.Type.CHESTPLATE);
-                type_list.add(Equip.Type.LEGGINGS);
-                type_list.add(Equip.Type.BOOTS);
-                type_list.add(weapon);
-                List<Equip> equips = new ArrayList<>();
-                for (Equip equip : ENTRIES) {
-                    if (equip.item != null && type_list.contains(equip.type) && equip.cost < max_cost) {
-                        equips.add(equip);
-                    }
-                }
-                if (equips.size() == 0)
-                    return 0;
+            double max_cost = ITEM_BUDGET * difficulty;
 
-                int trial = 1;
-                while (equips.size() > 0) {
-                    int total_weight = 0;
-                    for (Equip equip : equips)
-                        total_weight += equip.weight;
-                    int rand = world.getRandom().nextInt(total_weight);
-                    Equip sele = null;
-                    for (Equip equip : equips) {
-                        sele = equip;
-                        if (rand < equip.weight)
-                            break;
-                        rand -= equip.weight;
-                    }
-                    if (max_cost < sele.cost)
-                        break;
-                    if (sele.chance * trial > world.getRandom().nextDouble()) {
-                        max_cost -= sele.cost;
-                        items.add(new EnchantPair(new ItemStack(sele.item), sele));
-                        Equip select = sele;
-                        equips.removeIf(config -> config.type == select.type);
-                    }
+            EquipItem.Type weapon;
+            if (ent instanceof WitherSkeletonEntity)
+                weapon = EquipItem.Type.SWORD;
+            else if (ent instanceof AbstractSkeletonEntity)
+                weapon = EquipItem.Type.BOW;
+            else if (ent instanceof DrownedEntity)
+                weapon = EquipItem.Type.TRIDENT;
+            else weapon = EquipItem.Type.SWORD;
+            List<EquipItem.Type> type_list = new ArrayList<>();
+            type_list.add(EquipItem.Type.HELMET);
+            type_list.add(EquipItem.Type.CHESTPLATE);
+            type_list.add(EquipItem.Type.LEGGINGS);
+            type_list.add(EquipItem.Type.BOOTS);
+            type_list.add(weapon);
+            List<EquipItem> equips = new ArrayList<>();
+            for (EquipItem equip : ITEMS) {
+                if (equip.item != null && type_list.contains(equip.type) && equip.cost < max_cost) {
+                    equips.add(equip);
                 }
             }
+            if (equips.size() == 0)
+                return 0;
+            List<EquipItem> items = IMobLevel.loot(world, equips, max_cost);
+            for (EquipItem e : items)
+                max_cost -= e.cost;
+            List<ItemPair> stacks = new ArrayList<>();
+            for (EquipItem e : items)
+                stacks.add(new ItemPair(new ItemStack(e.item), e));
 
             // get a list of enchants
-            max_cost += ENCHANT * difficulty;
-            List<EnchantPair> selected_enc = new ArrayList<>();
-            {
-                List<EnchantPair> pair = new ArrayList<>();
-                for (Equip equip : ENTRIES) {
-                    if (equip.enchantment != null && equip.cost < max_cost) {
-                        for (EnchantPair is : items)
-                            if (equip.enchantment.canEnchant(is.stack))
-                                pair.add(new EnchantPair(is.stack, equip));
-                    }
-                }
-
-                int trial = 1;
-                while (pair.size() > 0) {
-                    int total_weight = 0;
-                    for (EnchantPair enc : pair)
-                        total_weight += enc.equip.weight;
-                    int rand = world.getRandom().nextInt(total_weight);
-                    EnchantPair sele = null;
-                    for (EnchantPair enc : pair) {
-                        sele = enc;
-                        if (rand < enc.equip.weight)
-                            break;
-                        rand -= enc.equip.weight;
-                    }
-                    if (max_cost < sele.equip.cost)
-                        break;
-                    if (sele.equip.chance * trial > world.getRandom().nextDouble()) {
-                        max_cost -= sele.equip.cost;
-                        selected_enc.add(sele);
-                        EnchantPair select = sele;
-                        pair.removeIf(config -> config.stack == select.stack);
-                    }
+            max_cost += ENCHANT_BUDGET * difficulty;
+            List<EnchantPair> pair = new ArrayList<>();
+            for (Enchant equip : ENCHANTS) {
+                if (equip.enchantment != null && equip.cost < max_cost) {
+                    for (ItemPair is : stacks)
+                        if (equip.enchantment.canEnchant(is.stack))
+                            pair.add(new EnchantPair(is.stack, equip));
                 }
             }
+            List<EnchantPair> selected_enc = IMobLevel.loot(world, pair, max_cost);
 
             double cost = 0;
-            for (EnchantPair is : items) {
+            for (ItemPair is : stacks) {
                 cost += is.equip.cost;
                 for (EnchantPair enc : selected_enc) {
                     if (enc.stack == is.stack) {

@@ -10,6 +10,7 @@ import net.minecraft.entity.ai.attributes.Attribute;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.AttributeModifierManager;
 import net.minecraft.entity.ai.attributes.ModifiableAttributeInstance;
+import net.minecraft.entity.monster.IMob;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.IWorld;
 import net.minecraftforge.fml.loading.FMLPaths;
@@ -28,44 +29,31 @@ public class BuffLevel {
     public static final UUID MODIFIER_UUID = new UUID(453447673, 432547674);
     public static final String NAME = "buff_leveler";
 
-    public static void init() {
-        LIST.clear();
-        String path = FMLPaths.CONFIGDIR.get().toString();
-        File file = new File(path + File.separator + "lightland" + File.separator + "buff_cost.json");
-        if (file.exists()) {
-            JsonElement elem = ExceptionHandler.get(() -> new JsonParser().parse(new FileReader(file)));
-            if (elem != null && elem.isJsonArray()) {
-                for (JsonElement e : elem.getAsJsonArray()) {
-                    LIST.add(Serializer.from(e.getAsJsonObject(), Buff.class, new Buff()));
-                }
-            }
-        } else {
-            LogManager.getLogger().warn(file.toString() + " does not exist");
-        }
-    }
-
     @SerialClass
     public static class Buff {
 
         @SerialClass.SerialField
-        public String attribute;
+        public String id;
 
         @SerialClass.SerialField
         public int max, weight;
 
         @SerialClass.SerialField
-        public double cost, base;
+        public double cost, base, chance;
+
+        @SerialClass.SerialField
+        public AttributeModifier.Operation operation = AttributeModifier.Operation.MULTIPLY_TOTAL;
 
         public Attribute attr;
 
         @SerialClass.OnInject
         public void onInject() {
-            attr = ExceptionHandler.get(() -> ForgeRegistries.ATTRIBUTES.getValue(ResourceLocation.tryParse(attribute)));
+            attr = ExceptionHandler.get(() -> ForgeRegistries.ATTRIBUTES.getValue(ResourceLocation.tryParse(id)));
         }
 
     }
 
-    public static class BuffIns {
+    public static class BuffIns implements IMobLevel.Entry<BuffIns> {
 
         public Buff buff;
         public int lv;
@@ -75,6 +63,25 @@ public class BuffLevel {
             this.lv = lv;
         }
 
+        @Override
+        public int getWeight() {
+            return buff.weight*lv;
+        }
+
+        @Override
+        public double getCost() {
+            return buff.cost*lv;
+        }
+
+        @Override
+        public boolean equal(BuffIns other) {
+            return buff.attr == other.buff.attr;
+        }
+
+        @Override
+        public double getChance() {
+            return buff.chance;
+        }
     }
 
     public static double modify(IWorld world, LivingEntity ent, double difficulty) {
@@ -90,31 +97,13 @@ public class BuffLevel {
         }
         if (list.size() == 0)
             return 0;
-        List<BuffIns> insList = new ArrayList<>();
-        while (list.size() > 0) {
-            int total_weight = 0;
-            for (BuffIns buff : list) {
-                total_weight += buff.buff.weight * buff.lv;
-            }
-            int rand = world.getRandom().nextInt(total_weight);
-            BuffIns sele = null;
-            for (BuffIns buff : list) {
-                sele = buff;
-                if (rand < buff.buff.weight * buff.lv)
-                    break;
-                rand -= buff.buff.weight * buff.lv;
-            }
-            difficulty -= sele.buff.cost * sele.lv;
-            insList.add(sele);
-            BuffIns select = sele;
-            list.removeIf(e -> e.buff.attr == select.buff.attr);
-        }
+        List<BuffIns> insList = IMobLevel.loot(world, list, difficulty);
         int cost = 0;
         for (BuffIns ins : insList) {
            ModifiableAttributeInstance mains = attrs.getInstance(ins.buff.attr);
             if(mains!=null){
                 double coef = Math.pow(ins.buff.base, ins.lv);
-                AttributeModifier mod = new AttributeModifier(MODIFIER_UUID, NAME, coef, AttributeModifier.Operation.MULTIPLY_BASE);
+                AttributeModifier mod = new AttributeModifier(MODIFIER_UUID, NAME, coef, ins.buff.operation);
                 mains.addPermanentModifier(mod);
                 cost += ins.buff.cost * ins.lv;
             }

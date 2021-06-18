@@ -26,9 +26,7 @@ public class MobSpawn {
     public static final List<MobSpawn> LIST = new ArrayList<>();
 
     public static void init() {
-        EquipLevel.init();
-        PotionLevel.init();
-        BuffLevel.init();
+        IMobLevel.init();
         LIST.clear();
         String path = FMLPaths.CONFIGDIR.get().toString();
         File file = new File(path + File.separator + "lightland" + File.separator + "spawn_rules.json");

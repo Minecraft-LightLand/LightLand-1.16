@@ -1,0 +1,219 @@
+[
+    {
+        "type": "HELMET",
+        "id": "minecraft:leather_helmet",
+        "cost": 15,
+        "weight": 5
+    },
+    {
+        "type": "CHESTPLATE",
+        "id": "minecraft:leather_chestplate",
+        "cost": 24,
+        "weight": 5
+    },
+    {
+        "type": "LEGGINGS",
+        "id": "minecraft:leather_leggings",
+        "cost": 21,
+        "weight": 5
+    },
+    {
+        "type": "BOOTS",
+        "id": "minecraft:leather_boots",
+        "cost": 12,
+        "weight": 5
+    },
+    {
+        "type": "HELMET",
+        "id": "minecraft:golden_helmet",
+        "cost": 15,
+        "weight": 5
+    },
+    {
+        "type": "CHESTPLATE",
+        "id": "minecraft:golden_chestplate",
+        "cost": 24,
+        "weight": 5
+    },
+    {
+        "type": "LEGGINGS",
+        "id": "minecraft:golden_leggings",
+        "cost": 21,
+        "weight": 5
+    },
+    {
+        "type": "BOOTS",
+        "id": "minecraft:golden_boots",
+        "cost": 12,
+        "weight": 5
+    },
+    {
+        "type": "HELMET",
+        "id": "minecraft:chain_helmet",
+        "cost": 25,
+        "weight": 5
+    },
+    {
+        "type": "CHESTPLATE",
+        "id": "minecraft:chain_chestplate",
+        "cost": 40,
+        "weight": 5
+    },
+    {
+        "type": "LEGGINGS",
+        "id": "minecraft:chain_leggings",
+        "cost": 35,
+        "weight": 5
+    },
+    {
+        "type": "BOOTS",
+        "id": "minecraft:chain_boots",
+        "cost": 20,
+        "weight": 5
+    },
+    {
+        "type": "HELMET",
+        "id": "minecraft:iron_helmet",
+        "cost": 35,
+        "weight": 10
+    },
+    {
+        "type": "CHESTPLATE",
+        "id": "minecraft:iron_chestplate",
+        "cost": 56,
+        "weight": 10
+    },
+    {
+        "type": "LEGGINGS",
+        "id": "minecraft:iron_leggings",
+        "cost": 49,
+        "weight": 10
+    },
+    {
+        "type": "BOOTS",
+        "id": "minecraft:iron_boots",
+        "cost": 28,
+        "weight": 10
+    },
+    {
+        "type": "HELMET",
+        "id": "minecraft:diamond_helmet",
+        "cost": 50,
+        "weight": 20
+    },
+    {
+        "type": "CHESTPLATE",
+        "id": "minecraft:diamond_chestplate",
+        "cost": 80,
+        "weight": 20
+    },
+    {
+        "type": "LEGGINGS",
+        "id": "minecraft:diamond_leggings",
+        "cost": 70,
+        "weight": 20
+    },
+    {
+        "type": "BOOTS",
+        "id": "minecraft:diamond_boots",
+        "cost": 40,
+        "weight": 20
+    },
+    {
+        "type": "HELMET",
+        "id": "minecraft:netherite_helmet",
+        "cost": 100,
+        "weight": 20
+    },
+    {
+        "type": "CHESTPLATE",
+        "id": "minecraft:netherite_chestplate",
+        "cost": 130,
+        "weight": 20
+    },
+    {
+        "type": "LEGGINGS",
+        "id": "minecraft:netherite_leggings",
+        "cost": 120,
+        "weight": 20
+    },
+    {
+        "type": "BOOTS",
+        "id": "minecraft:netherite_boots",
+        "cost": 90,
+        "weight": 20
+    },
+    {
+        "type": "SWORD",
+        "id": "minecraft:stone_sword",
+        "cost": 6,
+        "weight": 10
+    },
+    {
+        "type": "SWORD",
+        "id": "minecraft:golden_sword",
+        "cost": 6,
+        "weight": 10
+    },
+    {
+        "type": "SWORD",
+        "id": "minecraft:iron_sword",
+        "cost": 14,
+        "weight": 20
+    },
+    {
+        "type": "SWORD",
+        "id": "minecraft:diamond_sword",
+        "cost": 20,
+        "weight": 40
+    },
+    {
+        "type": "SWORD",
+        "id": "minecraft:netherite_sword",
+        "cost": 70,
+        "weight": 40
+    },
+    {
+        "type": "SWORD",
+        "id": "minecraft:stone_axe",
+        "cost": 9,
+        "weight": 5
+    },
+    {
+        "type": "SWORD",
+        "id": "minecraft:golden_axe",
+        "cost": 9,
+        "weight": 5
+    },
+    {
+        "type": "SWORD",
+        "id": "minecraft:iron_axe",
+        "cost": 21,
+        "weight": 10
+    },
+    {
+        "type": "SWORD",
+        "id": "minecraft:diamond_axe",
+        "cost": 30,
+        "weight": 20
+    },
+    {
+        "type": "SWORD",
+        "id": "minecraft:netherite_axe",
+        "cost": 80,
+        "weight": 20
+    },
+    {
+        "type": "BOW",
+        "id": "minecraft:bow",
+        "cost": 5,
+        "weight": 100
+    },
+    {
+        "type": "TRIDENT",
+        "id": "minecraft:trident",
+        "cost": 20,
+        "chance": 0.25,
+        "weight": 20
+    }
+]

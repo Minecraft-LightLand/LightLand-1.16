@@ -2,6 +2,7 @@ package com.hikarishima.lightland;
 
 import com.hikarishima.lightland.mobspawn.*;
 import net.minecraft.block.Block;
+import net.minecraft.item.Items;
 import net.minecraft.profiler.IProfiler;
 import net.minecraft.resources.IFutureReloadListener;
 import net.minecraft.resources.IReloadableResourceManager;
@@ -40,6 +41,7 @@ public class LightLandMod {
     }
 
     private void doClientStuff(final FMLClientSetupEvent event) {
+
     }
 
     @SubscribeEvent
