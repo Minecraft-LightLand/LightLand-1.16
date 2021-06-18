@@ -1,24 +1,15 @@
 package com.hikarishima.lightland.mobspawn;
 
-import com.google.gson.JsonElement;
-import com.google.gson.JsonParser;
-import com.lcy0x1.core.util.ExceptionHandler;
 import com.lcy0x1.core.util.SerialClass;
-import com.lcy0x1.core.util.Serializer;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.biome.MobSpawnInfo;
-import net.minecraftforge.fml.loading.FMLPaths;
 import org.apache.logging.log4j.LogManager;
 
-import java.io.File;
-import java.io.FileReader;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @SerialClass
 public class MobSpawn {
@@ -26,21 +17,11 @@ public class MobSpawn {
     public static final List<MobSpawn> LIST = new ArrayList<>();
 
     public static void init() {
-        IMobLevel.init();
-        LIST.clear();
-        String path = FMLPaths.CONFIGDIR.get().toString();
-        File file = new File(path + File.separator + "lightland" + File.separator + "spawn_rules.json");
-        if (file.exists()) {
-            JsonElement elem = ExceptionHandler.get(() -> new JsonParser().parse(new FileReader(file)));
-            if (elem != null && elem.isJsonArray()) {
-                for (JsonElement e : elem.getAsJsonArray()) {
-                    LIST.add(Serializer.from(e.getAsJsonObject(), MobSpawn.class, new MobSpawn()));
-                }
-            }
-        } else {
-            LogManager.getLogger().warn(file.toString() + " does not exist");
-        }
-
+        IMobLevel.readFile(MobSpawn.class, LIST, "spawn_rules.json");
+        IMobLevel.readFile(EquipLevel.EquipItem.class, EquipLevel.ITEMS, "item_cost.json");
+        IMobLevel.readFile(EquipLevel.Enchant.class, EquipLevel.ENCHANTS, "enchant_cost.json");
+        IMobLevel.readFile(BuffLevel.Buff.class, BuffLevel.LIST, "buff_cost.json");
+        IMobLevel.readFile(PotionLevel.PotionEntry.class, PotionLevel.LIST, "potion_cost.json");
     }
 
     private static MobSpawn getSpawner(IWorld world, int x, int y) {
@@ -132,7 +113,7 @@ public class MobSpawn {
         double dis = Math.sqrt(dx * dx + dy * dy);
         if (dis < safe_threshold)
             return 0;
-        double diff = base_difficulty + dis * difficulty_scale;
+        double diff = base_difficulty + (dis - safe_threshold) * difficulty_scale;
         if (diff > difficulty_cap)
             return difficulty_cap;
         return diff;
