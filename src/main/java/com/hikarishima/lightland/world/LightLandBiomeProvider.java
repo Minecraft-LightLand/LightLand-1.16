@@ -2,16 +2,16 @@ package com.hikarishima.lightland.world;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import mcp.MethodsReturnNonnullByDefault;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.util.registry.RegistryLookupCodec;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.Biomes;
 import net.minecraft.world.biome.provider.BiomeProvider;
-import net.minecraft.world.gen.layer.Layer;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.ArrayList;
-import java.util.stream.Collectors;
 
 public class LightLandBiomeProvider extends BiomeProvider {
 
@@ -42,9 +42,13 @@ public class LightLandBiomeProvider extends BiomeProvider {
 
     @Override
     public Biome getNoiseBiome(int x, int y, int z) {
-        Biome biome = ImageBiomeReader.getBiome(x, z);
-        if (biome != null)
-            return biome;
-        return biomes.get(Biomes.DEEP_OCEAN);
+        ResourceLocation rl = ImageBiomeReader.getBiome(x, z);
+        if (rl == null)
+            return biomes.get(Biomes.DEEP_OCEAN);
+        Biome biome = biomes.get(rl);
+        if (biome == null)
+            return biomes.get(Biomes.DEEP_OCEAN);
+        return biome;
+
     }
 }

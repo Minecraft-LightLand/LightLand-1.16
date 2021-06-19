@@ -17,6 +17,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.minecraftforge.fml.event.server.FMLServerAboutToStartEvent;
 import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.apache.logging.log4j.LogManager;
@@ -32,7 +33,7 @@ public class LightLandMod {
     // Directly reference a log4j logger.
     private static final Logger LOGGER = LogManager.getLogger();
 
-    public static LightLandWorldType WORLD_TYPE= new LightLandWorldType();;
+    public static LightLandWorldType WORLD_TYPE= new LightLandWorldType();
 
     public LightLandMod() {
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
@@ -51,9 +52,13 @@ public class LightLandMod {
     }
 
     @SubscribeEvent
+    public void onServerAboutToStart(FMLServerAboutToStartEvent event){
+        ImageBiomeReader.init();
+    }
+
+    @SubscribeEvent
     public void onServerStarting(FMLServerStartingEvent event) {
         MobSpawn.init();
-        ImageBiomeReader.init();
         ((IReloadableResourceManager) event.getServer().getDataPackRegistries().getResourceManager()).registerReloadListener(this::onReload);
     }
 
@@ -68,7 +73,7 @@ public class LightLandMod {
 
         @SubscribeEvent
         public static void onWorldTypeRegistry(RegistryEvent.Register<ForgeWorldType> event){
-            event.getRegistry().register(WORLD_TYPE);
+            event.getRegistry().register(WORLD_TYPE.setRegistryName("lightland","custom_biome"));
         }
 
     }

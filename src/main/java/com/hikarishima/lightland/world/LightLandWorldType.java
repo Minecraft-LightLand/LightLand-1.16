@@ -14,7 +14,7 @@ public class LightLandWorldType extends ForgeWorldType {
     }
 
     public static ChunkGenerator getCG(Registry<Biome> regBiome, Registry<DimensionSettings> regDS, long seed) {
-        regBiome.forEach(e->e.getGenerationSettings());
+        //TODO remove features
         return new NoiseChunkGenerator(new LightLandBiomeProvider(seed, regBiome), seed, () -> regDS.getOrThrow(DimensionSettings.OVERWORLD));
     }
 

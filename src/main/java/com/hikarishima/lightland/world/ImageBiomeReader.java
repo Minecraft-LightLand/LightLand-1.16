@@ -2,14 +2,12 @@ package com.hikarishima.lightland.world;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
+import com.hikarishima.lightland.FileIO;
 import com.lcy0x1.core.util.ExceptionHandler;
 import com.lcy0x1.core.util.SerialClass;
 import com.lcy0x1.core.util.Serializer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.world.biome.Biome;
-import net.minecraftforge.fml.loading.FMLPaths;
-import net.minecraftforge.registries.ForgeRegistries;
 import org.apache.logging.log4j.LogManager;
 
 import javax.imageio.ImageIO;
@@ -41,17 +39,14 @@ public class ImageBiomeReader {
         @SerialClass.SerialField
         public Entry[] entries;
 
-        public Map<Integer, Biome> map = new HashMap<>();
+        public Map<Integer, ResourceLocation> map = new HashMap<>();
 
         @SerialClass.OnInject
         public void onInject() {
             for (Entry e : entries) {
-                int color = Integer.parseInt(e.color);
+                int color = Integer.parseInt(e.color, 16);
                 ResourceLocation rl = new ResourceLocation(e.id);
-                Biome b = ForgeRegistries.BIOMES.getValue(rl);
-                if (b == null)
-                    LogManager.getLogger().error("biome " + e.id + " does not exist");
-                else map.put(color, b);
+                map.put(color, rl);
             }
         }
 
@@ -61,35 +56,29 @@ public class ImageBiomeReader {
     public static Config CONFIG;
 
     public static void init() {
-        String path = FMLPaths.CONFIGDIR.toString();
-        File imgfile = new File(path + "/lightland/biome.jpg");
-        File configfile = new File(path + "/lightland/biome_config.json");
-        if (!imgfile.exists()) {
-        } else {
-            ExceptionHandler.run(() -> {
-                IMG = ImageIO.read(imgfile);
-            });
-        }
-        if (!configfile.exists()) {
-        } else {
-            ExceptionHandler.run(() -> {
-                JsonElement je = new JsonParser().parse(new FileReader(configfile));
-                CONFIG = Serializer.from(je.getAsJsonObject(), Config.class, null);
-            });
-        }
+        File imgfile = FileIO.loadConfigFile("biome.png");
+        File configfile = FileIO.loadConfigFile("biome_config.json");
+        ExceptionHandler.run(() -> {
+            IMG = ImageIO.read(imgfile);
+            JsonElement je = new JsonParser().parse(new FileReader(configfile));
+            CONFIG = Serializer.from(je.getAsJsonObject(), Config.class, null);
+        });
     }
 
-    public static Biome getBiome(int x, int y) {
+    public static ResourceLocation getBiome(int x, int y) {
         if (IMG == null || CONFIG == null)
             return null;
 
-        // TODO interpolate
         int px = (x - CONFIG.xoffset) / CONFIG.accuracy;
         int py = (y - CONFIG.yoffset) / CONFIG.accuracy;
-        px = MathHelper.clamp(px, 0, IMG.getWidth());
-        py = MathHelper.clamp(py, 0, IMG.getHeight());
+        px = MathHelper.clamp(px, 0, IMG.getWidth()-1);
+        py = MathHelper.clamp(py, 0, IMG.getHeight()-1);
 
-        int val = IMG.getRGB(px, py);
+        int val = IMG.getRGB(px, py) & 0x00FFFFFF;
+        if (!CONFIG.map.containsKey(val)) {
+            LogManager.getLogger().error("color " + val + " not mapped. Keyset: " + CONFIG.map.keySet());
+            return null;
+        }
         return CONFIG.map.get(val);
     }
 

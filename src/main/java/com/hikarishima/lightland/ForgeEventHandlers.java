@@ -3,7 +3,6 @@ package com.hikarishima.lightland;
 import com.hikarishima.lightland.mobspawn.MobSpawn;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.biome.MobSpawnInfo;
 import net.minecraftforge.event.entity.living.LivingSpawnEvent;

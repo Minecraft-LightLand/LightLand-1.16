@@ -2,17 +2,14 @@ package com.hikarishima.lightland.mobspawn;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
+import com.hikarishima.lightland.FileIO;
 import com.lcy0x1.core.util.ExceptionHandler;
 import com.lcy0x1.core.util.Serializer;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.world.IWorld;
-import net.minecraftforge.fml.loading.FMLPaths;
 
 import java.io.File;
 import java.io.FileReader;
-import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,19 +27,7 @@ public interface IMobLevel {
 
     static <T> void readFile(Class<T> cls, List<T> list, String name) {
         list.clear();
-        String path = FMLPaths.CONFIGDIR.get().toString();
-        File file = new File(path + File.separator + "lightland" + File.separator + name);
-        if (!file.exists()) {
-            ExceptionHandler.run(() -> {
-                String jar_path = "/data/lightland/default_config/" + name;
-                InputStream is = IMobLevel.class.getResourceAsStream(jar_path);
-                if(!file.getParentFile().exists())
-                    file.getParentFile().mkdirs();
-                file.createNewFile();
-                if (is != null)
-                    Files.copy(is, file.toPath(), StandardCopyOption.REPLACE_EXISTING);
-            });
-        }
+        File file = FileIO.loadConfigFile(name);
         ExceptionHandler.run(() -> {
             JsonElement elem = new JsonParser().parse(new FileReader(file));
             if (elem != null && elem.isJsonArray()) {
@@ -64,7 +49,7 @@ public interface IMobLevel {
         double getChance();
     }
 
-    static <T extends Entry> List<T> loot(IWorld world, List<T> supply, double money) {
+    static <T extends Entry<T>> List<T> loot(IWorld world, List<T> supply, double money) {
         List<T> result = new ArrayList<>();
         while (supply.size() > 0) {
             int total_weight = 0;
@@ -82,8 +67,7 @@ public interface IMobLevel {
             if (sele.getChance() >= world.getRandom().nextDouble()) {
                 money -= sele.getCost();
                 result.add(sele);
-                T select = sele;
-                supply.removeIf(e -> select.equal(e));
+                supply.removeIf(sele::equal);
                 double max = money;
                 supply.removeIf(e -> e.getCost() > max);
             } else supply.remove(sele);
