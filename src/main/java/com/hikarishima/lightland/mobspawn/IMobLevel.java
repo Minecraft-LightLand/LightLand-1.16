@@ -36,6 +36,9 @@ public interface IMobLevel {
             ExceptionHandler.run(() -> {
                 String jar_path = "/data/lightland/default_config/" + name;
                 InputStream is = IMobLevel.class.getResourceAsStream(jar_path);
+                if(!file.getParentFile().exists())
+                    file.getParentFile().mkdirs();
+                file.createNewFile();
                 if (is != null)
                     Files.copy(is, file.toPath(), StandardCopyOption.REPLACE_EXISTING);
             });

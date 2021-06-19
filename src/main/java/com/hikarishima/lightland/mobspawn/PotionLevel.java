@@ -1,22 +1,15 @@
 package com.hikarishima.lightland.mobspawn;
 
-import com.google.gson.JsonElement;
-import com.google.gson.JsonParser;
 import com.lcy0x1.core.util.ExceptionHandler;
 import com.lcy0x1.core.util.SerialClass;
-import com.lcy0x1.core.util.Serializer;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.monster.IMob;
 import net.minecraft.potion.Effect;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.IWorld;
-import net.minecraftforge.fml.loading.FMLPaths;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.apache.logging.log4j.LogManager;
 
-import java.io.File;
-import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,24 +21,27 @@ public class PotionLevel {
     public static class PotionEntry {
 
         @SerialClass.SerialField
-        public String effect;
+        public String id;
 
         @SerialClass.SerialField
         public int max, weight;
 
         @SerialClass.SerialField
-        public double cost,chance;
+        public double cost, chance;
 
         public Effect eff;
 
         @SerialClass.OnInject
         public void onInject() {
-            eff = ExceptionHandler.get(() -> ForgeRegistries.POTIONS.getValue(ResourceLocation.tryParse(effect)));
+            eff = ExceptionHandler.get(() -> ForgeRegistries.POTIONS.getValue(ResourceLocation.tryParse(id)));
+            if (eff == null) {
+                LogManager.getLogger().error("potion status effect " + id + " does not exist");
+            }
         }
 
     }
 
-    public static class PotionIns implements IMobLevel.Entry<PotionIns>{
+    public static class PotionIns implements IMobLevel.Entry<PotionIns> {
 
         public PotionEntry buff;
         public int lv;
@@ -57,12 +53,12 @@ public class PotionLevel {
 
         @Override
         public int getWeight() {
-            return buff.weight*lv;
+            return buff.weight * lv;
         }
 
         @Override
         public double getCost() {
-            return buff.cost*lv;
+            return buff.cost * lv;
         }
 
         @Override
@@ -88,7 +84,7 @@ public class PotionLevel {
         List<PotionIns> insList = IMobLevel.loot(world, list, difficulty);
         int cost = 0;
         for (PotionIns ins : insList) {
-            ent.addEffect(new EffectInstance(ins.buff.eff, 12000,ins.lv - 1));
+            ent.addEffect(new EffectInstance(ins.buff.eff, 12000, ins.lv - 1));
             cost += ins.buff.cost * ins.lv;
         }
         return cost;

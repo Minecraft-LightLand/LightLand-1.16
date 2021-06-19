@@ -58,6 +58,9 @@ public class Serializer {
                 (p, o) -> p.writeBoolean(o));
         new ClassHandler<String>(String.class, e -> e.getAsString(), p -> p.readUtf(),
                 (p, o) -> p.writeUtf(o));
+        new ClassHandler<Double>(double.class, e -> e.getAsDouble(), p -> p.readDouble(), (p, o) -> p.writeDouble(o));
+        new ClassHandler<Float>(float.class, e -> e.getAsFloat(), p -> p.readFloat(), (p, o) -> p.writeFloat(o));
+
 
         new ClassHandler<Item>(Item.class, e -> Registry.ITEM.get(new ResourceLocation(e.getAsString())),
                 p -> Item.byId(p.readVarInt()), (p, o) -> p.writeVarInt(Item.getId(o)));
@@ -86,11 +89,13 @@ public class Serializer {
         while (cls.getAnnotation(SerialClass.class) != null) {
             for (Field f : cls.getDeclaredFields()) {
                 if (f.getAnnotation(SerialClass.SerialField.class) != null) {
-                    f.set(ans, fromRaw(obj.get(f.getName()), f.getType()));
+                    if (obj.has(f.getName()))
+                        f.set(ans, fromRaw(obj.get(f.getName()), f.getType()));
                 }
             }
             cls = cls.getSuperclass();
         }
+        cls = ans.getClass();
         for (Method method : cls.getMethods())
             if (method.isAnnotationPresent(SerialClass.OnInject.class))
                 method.invoke(ans);
@@ -132,7 +137,7 @@ public class Serializer {
             return ans;
         }
         if (cls.isEnum())
-            return Enum.valueOf((Class)cls, e.getAsString());
+            return Enum.valueOf((Class) cls, e.getAsString());
         if (MAP.containsKey(cls))
             return MAP.get(cls).fromJson.apply(e);
         return fromImpl(e.getAsJsonObject(), cls, null);
@@ -149,7 +154,7 @@ public class Serializer {
             return ans;
         }
         if (cls.isEnum())
-            return Enum.valueOf((Class)cls, buf.readUtf());
+            return Enum.valueOf((Class) cls, buf.readUtf());
         if (MAP.containsKey(cls))
             return MAP.get(cls).fromPacket.apply(buf);
         return fromImpl(buf, cls, null);

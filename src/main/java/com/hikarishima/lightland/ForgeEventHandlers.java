@@ -8,6 +8,7 @@ import net.minecraft.world.IWorld;
 import net.minecraft.world.biome.MobSpawnInfo;
 import net.minecraftforge.event.entity.living.LivingSpawnEvent;
 import net.minecraftforge.event.world.WorldEvent;
+import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
@@ -15,7 +16,7 @@ import java.util.List;
 
 public class ForgeEventHandlers {
 
-    @SubscribeEvent(priority = EventPriority.LOWEST)
+    @SubscribeEvent(priority = EventPriority.HIGHEST)
     public void onPotentialSpawns(WorldEvent.PotentialSpawns event) {
         EntityClassification cls = event.getType();
         if (cls == EntityClassification.MONSTER) {
@@ -23,6 +24,7 @@ public class ForgeEventHandlers {
             List<MobSpawnInfo.Spawners> list = event.getList();
             list.clear();
             MobSpawn.fillSpawnList(world, list, event.getPos());
+            event.setResult(Event.Result.ALLOW);
         }
     }
 

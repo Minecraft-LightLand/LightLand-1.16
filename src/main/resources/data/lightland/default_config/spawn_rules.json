@@ -7,8 +7,34 @@
         "center_density": 1024,
         "density_scale": 1,
         "safe_threshold": 10,
-        "difficulty_cap": 16384,
+        "difficulty_cap": 10000,
         "base_difficulty": 0,
-        "difficulty_scale": 16
+        "difficulty_scale": 16,
+        "mobs":[
+            {
+                "id":"minecraft:zombie",
+                "weight":200,
+                "min":2,
+                "max":4
+            },
+            {
+                "id":"minecraft:skeleton",
+                "weight":200,
+                "min":2,
+                "max":4
+            },
+            {
+                "id":"minecraft:spider",
+                "weight":100,
+                "min":2,
+                "max":4
+            },
+            {
+                "id":"minecraft:creeper",
+                "weight":100,
+                "min":2,
+                "max":4
+            }
+        ]
     }
 ]

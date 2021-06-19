@@ -1,13 +1,17 @@
 package com.hikarishima.lightland;
 
-import com.hikarishima.lightland.mobspawn.*;
-import net.minecraft.block.Block;
-import net.minecraft.item.Items;
+import com.hikarishima.lightland.mobspawn.MobSpawn;
+import com.hikarishima.lightland.world.ImageBiomeReader;
+import com.hikarishima.lightland.world.LightLandBiomeProvider;
+import com.hikarishima.lightland.world.LightLandWorldType;
 import net.minecraft.profiler.IProfiler;
 import net.minecraft.resources.IFutureReloadListener;
 import net.minecraft.resources.IReloadableResourceManager;
 import net.minecraft.resources.IResourceManager;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.registry.Registry;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.world.ForgeWorldType;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -28,6 +32,8 @@ public class LightLandMod {
     // Directly reference a log4j logger.
     private static final Logger LOGGER = LogManager.getLogger();
 
+    public static LightLandWorldType WORLD_TYPE= new LightLandWorldType();;
+
     public LightLandMod() {
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::doClientStuff);
@@ -37,7 +43,7 @@ public class LightLandMod {
     }
 
     private void setup(final FMLCommonSetupEvent event) {
-        MobSpawn.init();
+        Registry.register(Registry.BIOME_SOURCE, new ResourceLocation("lightland","image_biome"),LightLandBiomeProvider.CODEC);
     }
 
     private void doClientStuff(final FMLClientSetupEvent event) {
@@ -46,6 +52,8 @@ public class LightLandMod {
 
     @SubscribeEvent
     public void onServerStarting(FMLServerStartingEvent event) {
+        MobSpawn.init();
+        ImageBiomeReader.init();
         ((IReloadableResourceManager) event.getServer().getDataPackRegistries().getResourceManager()).registerReloadListener(this::onReload);
     }
 
@@ -59,8 +67,9 @@ public class LightLandMod {
     public static class RegistryEvents {
 
         @SubscribeEvent
-        public static void onBlocksRegistry(final RegistryEvent.Register<Block> blockRegistryEvent) {
-
+        public static void onWorldTypeRegistry(RegistryEvent.Register<ForgeWorldType> event){
+            event.getRegistry().register(WORLD_TYPE);
         }
+
     }
 }
