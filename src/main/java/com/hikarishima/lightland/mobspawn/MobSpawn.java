@@ -44,8 +44,14 @@ public class MobSpawn {
             if (difficulty > 0)
                 for (MobSpawn.Entry entry : winner.getMobs())
                     if (entry.type != null)
-                        list.add(new MobSpawnInfo.Spawners(entry.type, entry.weight, entry.min, entry.max));
+                        list.add(entry.spawner);
         }
+    }
+
+    public static void addAllSpawns(List<MobSpawnInfo.Spawners> list){
+        for(MobSpawn rule : LIST)
+            for(MobSpawn.Entry entry : rule.getMobs())
+                list.add(entry.spawner);
     }
 
     public static boolean modifySpawnedEntity(IWorld world, LivingEntity ent) {
@@ -69,11 +75,16 @@ public class MobSpawn {
 
         public EntityType<?> type;
 
+        public MobSpawnInfo.Spawners spawner;
+
         @SerialClass.OnInject
         public void onInject() {
             type = EntityType.byString(id).orElse(null);
             if (type == null)
                 LogManager.getLogger().warn("entity type [" + id + "] not present");
+            else {
+                spawner = new MobSpawnInfo.Spawners(type, weight, min, max);
+            }
         }
 
     }

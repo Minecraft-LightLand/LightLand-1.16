@@ -1,9 +1,15 @@
 package com.hikarishima.lightland;
 
 import com.hikarishima.lightland.mobspawn.MobSpawn;
+import com.hikarishima.lightland.proxy.ClientProxy;
+import com.hikarishima.lightland.proxy.ISidedProxy;
+import com.hikarishima.lightland.proxy.ServerProxy;
+import com.hikarishima.lightland.registry.ItemRegistry;
+import com.hikarishima.lightland.registry.RegistryBase;
 import com.hikarishima.lightland.world.ImageBiomeReader;
 import com.hikarishima.lightland.world.LightLandBiomeProvider;
 import com.hikarishima.lightland.world.LightLandWorldType;
+import net.minecraft.item.Item;
 import net.minecraft.profiler.IProfiler;
 import net.minecraft.resources.IFutureReloadListener;
 import net.minecraft.resources.IReloadableResourceManager;
@@ -14,37 +20,45 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.world.ForgeWorldType;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.server.FMLServerAboutToStartEvent;
 import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
 
 // The value here should match an entry in the META-INF/mods.toml file
 @Mod("lightland")
-public class LightLandMod {
+public class LightLand {
 
-    // Directly reference a log4j logger.
-    private static final Logger LOGGER = LogManager.getLogger();
+    public static final String MODID = "lightland";
 
-    public static LightLandWorldType WORLD_TYPE= new LightLandWorldType();
+    public static ISidedProxy proxy = DistExecutor.safeRunForDist(() -> ClientProxy::new, () -> ServerProxy::new);
+    public static LightLandWorldType WORLD_TYPE = new LightLandWorldType();
 
-    public LightLandMod() {
+    public LightLand() {
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::doClientStuff);
-
         MinecraftForge.EVENT_BUS.register(this);
         MinecraftForge.EVENT_BUS.register(new ForgeEventHandlers());
+
+        proxy.init();
     }
 
     private void setup(final FMLCommonSetupEvent event) {
-        Registry.register(Registry.BIOME_SOURCE, new ResourceLocation("lightland","image_biome"),LightLandBiomeProvider.CODEC);
+        FileIO.loadConfigFile("biome.png");
+        FileIO.loadConfigFile("biome_config.json");
+        FileIO.loadConfigFile("spawn_rules.json");
+        FileIO.loadConfigFile("item_cost.json");
+        FileIO.loadConfigFile("enchant_cost.json");
+        FileIO.loadConfigFile("potion_cost.json");
+        FileIO.loadConfigFile("buff_cost.json");
+
+        Registry.register(Registry.BIOME_SOURCE, new ResourceLocation(MODID, "image_biome"), LightLandBiomeProvider.CODEC);
     }
 
     private void doClientStuff(final FMLClientSetupEvent event) {
@@ -52,13 +66,13 @@ public class LightLandMod {
     }
 
     @SubscribeEvent
-    public void onServerAboutToStart(FMLServerAboutToStartEvent event){
+    public void onServerAboutToStart(FMLServerAboutToStartEvent event) {
+        MobSpawn.init();
         ImageBiomeReader.init();
     }
 
     @SubscribeEvent
     public void onServerStarting(FMLServerStartingEvent event) {
-        MobSpawn.init();
         ((IReloadableResourceManager) event.getServer().getDataPackRegistries().getResourceManager()).registerReloadListener(this::onReload);
     }
 
@@ -72,8 +86,13 @@ public class LightLandMod {
     public static class RegistryEvents {
 
         @SubscribeEvent
-        public static void onWorldTypeRegistry(RegistryEvent.Register<ForgeWorldType> event){
-            event.getRegistry().register(WORLD_TYPE.setRegistryName("lightland","custom_biome"));
+        public static void onItemRegistry(RegistryEvent.Register<Item> event){
+            RegistryBase.process(ItemRegistry.class, Item.class, event.getRegistry()::register);
+        }
+
+        @SubscribeEvent
+        public static void onWorldTypeRegistry(RegistryEvent.Register<ForgeWorldType> event) {
+            event.getRegistry().register(WORLD_TYPE.setRegistryName(MODID, "image_biome"));
         }
 
     }

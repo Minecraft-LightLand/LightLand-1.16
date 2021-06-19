@@ -21,7 +21,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Target(TYPE)
 public @interface SerialClass {
 
-    public static class RecSerializer<R extends IRecipe<I>, I extends IInventory> extends ForgeRegistryEntry<IRecipeSerializer<?>> implements IRecipeSerializer<R> {
+    class RecSerializer<R extends IRecipe<I>, I extends IInventory> extends ForgeRegistryEntry<IRecipeSerializer<?>> implements IRecipeSerializer<R> {
 
         public final Class<R> cls;
 
@@ -54,6 +54,8 @@ public @interface SerialClass {
     public @interface SerialField {
 
         boolean toClient() default false;
+
+        Class<?>[] generic() default {};
 
     }
 
