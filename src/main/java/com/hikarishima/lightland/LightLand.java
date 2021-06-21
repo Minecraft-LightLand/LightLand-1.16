@@ -4,6 +4,7 @@ import com.hikarishima.lightland.mobspawn.MobSpawn;
 import com.hikarishima.lightland.proxy.ClientProxy;
 import com.hikarishima.lightland.proxy.ISidedProxy;
 import com.hikarishima.lightland.proxy.ServerProxy;
+import com.hikarishima.lightland.registry.BiomeRegistry;
 import com.hikarishima.lightland.registry.ItemRegistry;
 import com.hikarishima.lightland.registry.RegistryBase;
 import com.hikarishima.lightland.world.ImageBiomeReader;
@@ -16,6 +17,10 @@ import net.minecraft.resources.IReloadableResourceManager;
 import net.minecraft.resources.IResourceManager;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.registry.Registry;
+import net.minecraft.world.biome.Biome;
+import net.minecraft.world.biome.BiomeMaker;
+import net.minecraft.world.biome.Biomes;
+import net.minecraft.world.gen.surfacebuilders.ConfiguredSurfaceBuilders;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.world.ForgeWorldType;
 import net.minecraftforge.event.RegistryEvent;
@@ -84,6 +89,12 @@ public class LightLand {
 
     @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
     public static class RegistryEvents {
+
+        @SubscribeEvent
+        public static void onBiomeRegistry(RegistryEvent.Register<Biome> event){
+            RegistryBase.process(BiomeRegistry.class, Biome.class, event.getRegistry()::register);
+
+        }
 
         @SubscribeEvent
         public static void onItemRegistry(RegistryEvent.Register<Item> event){

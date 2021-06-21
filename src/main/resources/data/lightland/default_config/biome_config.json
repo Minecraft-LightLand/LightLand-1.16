@@ -25,11 +25,11 @@
         },
         {
             "color":"85929E",
-            "id":"minecraft:wooded_mountain"
+            "id":"minecraft:mountains"
         },
         {
             "color":"FFFFFF",
-            "id":"minecraft:mountains"
+            "id":"lightland:volcano"
         },
         {
             "color":"F9E79F",
