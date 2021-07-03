@@ -21,6 +21,7 @@ import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.BiomeMaker;
 import net.minecraft.world.biome.Biomes;
 import net.minecraft.world.gen.surfacebuilders.ConfiguredSurfaceBuilders;
+import net.minecraft.world.gen.surfacebuilders.SurfaceBuilder;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.world.ForgeWorldType;
 import net.minecraftforge.event.RegistryEvent;
@@ -89,6 +90,11 @@ public class LightLand {
 
     @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
     public static class RegistryEvents {
+
+        @SubscribeEvent
+        public static void onSurfaceBuilderRegistry(RegistryEvent.Register<SurfaceBuilder<?>> event){
+            RegistryBase.process(BiomeRegistry.class, SurfaceBuilder.class, event.getRegistry()::register);
+        }
 
         @SubscribeEvent
         public static void onBiomeRegistry(RegistryEvent.Register<Biome> event){
