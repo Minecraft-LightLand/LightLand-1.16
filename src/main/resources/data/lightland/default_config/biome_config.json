@@ -4,36 +4,32 @@
     "y_offset":0,
     "entries":[
         {
-            "color":"249FDE",
-            "id":"minecraft:ocean"
+            "color":"000000",
+            "id":"lightland:volcano_lava"
         },
         {
-            "color":"1B4F72",
-            "id":"minecraft:deep_ocean"
-        },
-        {
-            "color":"2ECC71",
-            "id":"minecraft:plains"
-        },
-        {
-            "color":"145A32",
-            "id":"minecraft:forest"
-        },
-        {
-            "color":"AF601A",
-            "id":"minecraft:swamp"
-        },
-        {
-            "color":"85929E",
-            "id":"minecraft:mountains"
-        },
-        {
-            "color":"FFFFFF",
+            "color":"808080",
             "id":"lightland:volcano"
         },
         {
-            "color":"F9E79F",
+            "color":"A0A0A0",
+            "id":"lightland:volcano_side"
+        },
+        {
+            "color":"FFFFFF",
+            "id":"minecraft:badlands_plateau"
+        },
+        {
+            "color":"FFD800",
             "id":"minecraft:desert"
+        },
+        {
+            "color":"00FFFF",
+            "id":"minecraft:ocean"
+        },
+        {
+            "color":"0026FF",
+            "id":"minecraft:deep_ocean"
         }
     ]
 }
