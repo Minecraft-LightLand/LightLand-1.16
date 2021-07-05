@@ -11,11 +11,9 @@ import net.minecraft.world.gen.surfacebuilders.SurfaceBuilderConfig;
 
 import java.util.Random;
 
-public class LavaSurfaceBuilder extends SurfaceBuilder<SurfaceBuilderConfig> {
+public class TerracotaSurfaceBuilder extends SurfaceBuilder<SurfaceBuilderConfig> {
 
-    public static final int LAVA_LEVEL = 132;
-
-    public LavaSurfaceBuilder(Codec<SurfaceBuilderConfig> config) {
+    public TerracotaSurfaceBuilder(Codec<SurfaceBuilderConfig> config) {
         super(config);
     }
 
@@ -37,7 +35,7 @@ public class LavaSurfaceBuilder extends SurfaceBuilder<SurfaceBuilderConfig> {
             depth++;
             if (depth > thickness)
                 return;
-            chunk.setBlockState(pos, config.getUnderwaterMaterial(), false);
+            chunk.setBlockState(pos, config.getTopMaterial(), false);
         }
     }
 

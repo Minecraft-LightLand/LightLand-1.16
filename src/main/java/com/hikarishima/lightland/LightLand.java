@@ -9,6 +9,7 @@ import com.hikarishima.lightland.registry.ItemRegistry;
 import com.hikarishima.lightland.registry.RegistryBase;
 import com.hikarishima.lightland.world.ImageBiomeReader;
 import com.hikarishima.lightland.world.LightLandBiomeProvider;
+import com.hikarishima.lightland.world.LightLandChunkGenerator;
 import com.hikarishima.lightland.world.LightLandWorldType;
 import net.minecraft.item.Item;
 import net.minecraft.profiler.IProfiler;
@@ -57,6 +58,7 @@ public class LightLand {
 
     private void setup(final FMLCommonSetupEvent event) {
         FileIO.loadConfigFile("biome.png");
+        FileIO.loadConfigFile("road.png");
         FileIO.loadConfigFile("biome_config.json");
         FileIO.loadConfigFile("spawn_rules.json");
         FileIO.loadConfigFile("item_cost.json");
@@ -65,6 +67,7 @@ public class LightLand {
         FileIO.loadConfigFile("buff_cost.json");
 
         Registry.register(Registry.BIOME_SOURCE, new ResourceLocation(MODID, "image_biome"), LightLandBiomeProvider.CODEC);
+        Registry.register(Registry.CHUNK_GENERATOR, new ResourceLocation(MODID, "lightland"), LightLandChunkGenerator.CODEC);
     }
 
     private void doClientStuff(final FMLClientSetupEvent event) {
