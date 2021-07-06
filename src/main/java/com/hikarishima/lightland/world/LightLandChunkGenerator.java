@@ -1,5 +1,7 @@
 package com.hikarishima.lightland.world;
 
+import com.hikarishima.lightland.config.ImageRoadReader;
+import com.hikarishima.lightland.config.VolcanoBiomeReader;
 import com.hikarishima.lightland.registry.BiomeRegistry;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -363,7 +365,7 @@ public class LightLandChunkGenerator extends ChunkGenerator {
                 p_225551_1_.getBiome(pos.set(k + i1, i2, l + j1)).buildSurfaceAt(r, c, k1, l1, i2, d1, this.defaultBlock, this.defaultFluid, this.getSeaLevel(), p_225551_1_.getSeed());
                 if (ImageRoadReader.onRoad(k1, l1)) {
                     BlockState bs;
-                    if (ImageBiomeReader.CONFIG.road_type == 0)//debug
+                    if (ImageRoadReader.CONFIG.debug)//debug
                         if (((k1 & 3) == 1 || (k1 & 3) == 2) && ((l1 & 3) == 1 || (l1 & 3) == 2))
                             bs = Blocks.IRON_BLOCK.defaultBlockState();
                         else
@@ -371,7 +373,7 @@ public class LightLandChunkGenerator extends ChunkGenerator {
                     else {
                         double x = r.nextDouble();
                         Block b = c.getBlockState(pos.below()).getBlock();
-                        b = ImageBiomeReader.CONFIG.getBlock(b, x);
+                        b = ImageRoadReader.CONFIG.getBlock(b, x);
                         bs = b == null ? null : b.defaultBlockState();
                     }
                     if (bs != null)
@@ -517,7 +519,7 @@ public class LightLandChunkGenerator extends ChunkGenerator {
 
                                 pos.set(px, py, pz);
 
-                                if (blockstate != this.defaultBlock && py <= LavaSurfaceBuilder.LAVA_LEVEL) {
+                                if (blockstate != this.defaultBlock && py <= VolcanoBiomeReader.CONFIG.lava_level) {
                                     Biome biome = this.biomeSource.getNoiseBiome(px / 4, py, pz / 4);
                                     if (BiomeRegistry.isLavaLakeBiome(biome))
                                         blockstate = Blocks.LAVA.defaultBlockState();

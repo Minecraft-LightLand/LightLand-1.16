@@ -1,8 +1,4 @@
 {
-    "accuracy": 1,
-    "x_offset": 0,
-    "y_offset": 0,
-    "road_type": 1,
     "entries": [
         {
             "color": "000000",
@@ -59,81 +55,6 @@
         {
             "color": "0026FF",
             "id": "minecraft:deep_ocean"
-        }
-    ],
-    "roads": [
-        {
-            "color": "FFFFFF",
-            "type": "NONE"
-        },
-        {
-            "color": "000000",
-            "type": "RURAL"
-        },
-        {
-            "color": "808080",
-            "type": "VILLAGE"
-        },
-        {
-            "color": "A0A0A0",
-            "type": "COMMERCE"
-        }
-    ],
-    "materials": [
-        {
-            "entries": [
-                {
-                    "block": "minecraft:cobblestone",
-                    "weight": 100
-                },
-                {
-                    "block": "minecraft:gravel",
-                    "weight": 100
-                },
-                {
-                    "weight": 200
-                }
-            ]
-        },
-        {
-            "base_block": "minecraft:grassblock",
-            "entries": [
-                {
-                    "block": "minecraft:coarsedirt",
-                    "weight": 100
-                },
-                {
-                    "block": "minecraft:gravel",
-                    "weight": 100
-                },
-                {
-                    "block": "minecraft:dirt_path",
-                    "weight": 100
-                },
-                {
-                    "weight": 100
-                }
-            ]
-        },
-        {
-            "base_block": "minecraft:sand",
-            "entries": [
-                {
-                    "block": "minecraft:cobblestone",
-                    "weight": 100
-                },
-                {
-                    "block": "minecraft:gravel",
-                    "weight": 100
-                },
-                {
-                    "block": "minecraft:clay",
-                    "weight": 100
-                },
-                {
-                    "weight": 100
-                }
-            ]
         }
     ]
 }

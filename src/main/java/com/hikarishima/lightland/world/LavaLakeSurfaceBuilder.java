@@ -11,11 +11,9 @@ import net.minecraft.world.gen.surfacebuilders.SurfaceBuilderConfig;
 
 import java.util.Random;
 
-public class LavaSurfaceBuilder extends SurfaceBuilder<SurfaceBuilderConfig> {
+public class LavaLakeSurfaceBuilder extends SurfaceBuilder<SurfaceBuilderConfig> {
 
-    public static final int LAVA_LEVEL = 132;
-
-    public LavaSurfaceBuilder(Codec<SurfaceBuilderConfig> config) {
+    public LavaLakeSurfaceBuilder(Codec<SurfaceBuilderConfig> config) {
         super(config);
     }
 

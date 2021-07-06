@@ -1,9 +1,10 @@
 package com.hikarishima.lightland.registry;
 
 import com.hikarishima.lightland.LightLand;
-import com.hikarishima.lightland.world.LavaSurfaceBuilder;
-import com.hikarishima.lightland.world.MagmaSurfaceBuilder;
-import com.hikarishima.lightland.world.TerracotaSurfaceBuilder;
+import com.hikarishima.lightland.config.VolcanoBiomeReader;
+import com.hikarishima.lightland.world.LavaBeachSurfaceBuilder;
+import com.hikarishima.lightland.world.LavaLakeSurfaceBuilder;
+import com.hikarishima.lightland.world.VolcanoSideSurfaceBuilder;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.util.math.MathHelper;
@@ -14,29 +15,32 @@ import net.minecraftforge.registries.ForgeRegistryEntry;
 
 public class BiomeRegistry {
 
-    public static final BlockState BS_DEF = Blocks.TERRACOTTA.defaultBlockState();
+    public static final BlockState BS_DEF = Blocks.BASALT.defaultBlockState();
     public static final BlockState BS_BASE = Blocks.BASALT.defaultBlockState();
     public static final BlockState BS_MAGMA = Blocks.MAGMA_BLOCK.defaultBlockState();
-    public static final SurfaceBuilderConfig SBC_LAVA = new SurfaceBuilderConfig(BS_DEF, BS_BASE, BS_MAGMA);
+    public static final SurfaceBuilderConfig SBC_VOLCANO = new SurfaceBuilderConfig(BS_DEF, BS_BASE, BS_MAGMA);
 
-    public static final SurfaceBuilder<SurfaceBuilderConfig> SB_LAVA = reg("lava_lake", new LavaSurfaceBuilder(SurfaceBuilderConfig.CODEC));
-    public static final SurfaceBuilder<SurfaceBuilderConfig> SB_BEACH = reg("lava_beach", new MagmaSurfaceBuilder(SurfaceBuilderConfig.CODEC));
-    public static final SurfaceBuilder<SurfaceBuilderConfig> SB_TERRA = reg("volcano_top", new TerracotaSurfaceBuilder(SurfaceBuilderConfig.CODEC));
-    public static final ConfiguredSurfaceBuilder<SurfaceBuilderConfig> CSB_LAVA = reg("lava_lake", SB_LAVA.configured(SBC_LAVA));
-    public static final ConfiguredSurfaceBuilder<SurfaceBuilderConfig> CSB_BEACH = reg("lava_beach", SB_BEACH.configured(SBC_LAVA));
-    public static final ConfiguredSurfaceBuilder<SurfaceBuilderConfig> CSB_TERRA = reg("volcano_top", SB_TERRA.configured(SBC_LAVA));
+    public static final SurfaceBuilder<SurfaceBuilderConfig> SB_LAVA_LAKE = reg("lava_lake", new LavaLakeSurfaceBuilder(SurfaceBuilderConfig.CODEC));
+    public static final SurfaceBuilder<SurfaceBuilderConfig> SB_LAVA_BEACH = reg("lava_beach", new LavaBeachSurfaceBuilder(SurfaceBuilderConfig.CODEC));
+    public static final SurfaceBuilder<SurfaceBuilderConfig> SB_VOL_BASE = reg("volcano_top", new VolcanoSideSurfaceBuilder(SurfaceBuilderConfig.CODEC));
+    public static final ConfiguredSurfaceBuilder<SurfaceBuilderConfig> CSB_LAVA_LAKE = reg("lava_lake", SB_LAVA_LAKE.configured(SBC_VOLCANO));
+    public static final ConfiguredSurfaceBuilder<SurfaceBuilderConfig> CSB_LAVA_BEACH = reg("lava_beach", SB_LAVA_BEACH.configured(SBC_VOLCANO));
+    public static final ConfiguredSurfaceBuilder<SurfaceBuilderConfig> CSB_VOL_BASE = reg("volcano_top", SB_VOL_BASE.configured(SBC_VOLCANO));
 
-    public static final Biome VOLCANO_LAVA = reg("lava_lake", genVolcanoLavaBiome(4f, 0f, CSB_LAVA));
-    public static final Biome VOLCANO_BEACH = reg("lava_beach", genVolcanoLavaBiome(5f, 0f, CSB_BEACH));
-    public static final Biome VOLCANO_TOP = reg("volcano_top", genVolcanoLavaBiome(5f, 0f,CSB_TERRA));
-    public static final Biome VOLCANO_SIDE_0 = reg("volcano_side_0", genBadlandsBiome(4.5f, 0.025f));
-    public static final Biome VOLCANO_SIDE_1 = reg("volcano_side_1", genBadlandsBiome(4.0f, 0.025f));
-    public static final Biome VOLCANO_SIDE_2 = reg("volcano_side_2", genBadlandsBiome(3.5f, 0.025f));
-    public static final Biome VOLCANO_SIDE_3 = reg("volcano_side_3", genBadlandsBiome(3.0f, 0.025f));
-    public static final Biome VOLCANO_SIDE_4 = reg("volcano_side_4", genBadlandsBiome(2.5f, 0.025f));
-    public static final Biome VOLCANO_SIDE_5 = reg("volcano_side_5", genBadlandsBiome(2.0f, 0.025f));
-    public static final Biome VOLCANO_SIDE_6 = reg("volcano_side_6", genBadlandsBiome(1.5f, 0.025f));
-    public static final Biome VOLCANO_SIDE_7 = reg("volcano_side_7", genBadlandsBiome(1.0f, 0.025f));
+    public static final Biome VOLCANO_LAVA, VOLCANO_BEACH, VOLCANO_TOP;
+    public static final Biome[] VOLCANO_SIDE;
+
+    static {
+        VolcanoBiomeReader.init();
+        VolcanoBiomeReader.VolcanoConfig c = VolcanoBiomeReader.CONFIG;
+        VOLCANO_LAVA = reg("lava_lake", genVolcanoLavaBiome(c.max - 1, 0f, CSB_LAVA_LAKE));
+        VOLCANO_BEACH = reg("lava_beach", genVolcanoLavaBiome(c.max, 0f, CSB_LAVA_BEACH));
+        VOLCANO_TOP = reg("volcano_top", genVolcanoLavaBiome(c.max, 0f, CSB_VOL_BASE));
+        VOLCANO_SIDE = new Biome[c.side_count];
+        for (int i = 0; i < c.side_count; i++) {
+            VOLCANO_SIDE[i] = reg("volcano_side_" + i, genVolcanoLavaBiome(c.max - c.step * (i + 1), c.scale, CSB_VOL_BASE));
+        }
+    }
 
     public static boolean isLavaLakeBiome(Biome b) {
         return b.getRegistryName() != null &&
@@ -99,7 +103,7 @@ public class BiomeRegistry {
                 .generationSettings(bgs.build()).build();
     }
 
-    private static Biome genVolcanoLavaBiome(float depth, float scale,ConfiguredSurfaceBuilder<SurfaceBuilderConfig> csb) {
+    private static Biome genVolcanoLavaBiome(float depth, float scale, ConfiguredSurfaceBuilder<SurfaceBuilderConfig> csb) {
         BiomeGenerationSettings.Builder bgs = new BiomeGenerationSettings.Builder().surfaceBuilder(csb);
         DefaultBiomeFeatures.addBadlandGrass(bgs);
         DefaultBiomeFeatures.addBadlandExtraVegetation(bgs);

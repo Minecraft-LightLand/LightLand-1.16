@@ -1,5 +1,6 @@
 package com.hikarishima.lightland.world;
 
+import com.hikarishima.lightland.config.ImageBiomeReader;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.util.ResourceLocation;
