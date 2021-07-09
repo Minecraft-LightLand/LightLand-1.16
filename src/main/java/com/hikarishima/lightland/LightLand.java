@@ -32,7 +32,9 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.server.FMLServerAboutToStartEvent;
+import net.minecraftforge.fml.event.server.FMLServerStartedEvent;
 import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
+import net.minecraftforge.fml.event.server.FMLServerStoppingEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 
 import java.util.concurrent.CompletableFuture;
@@ -88,6 +90,18 @@ public class LightLand {
     @SubscribeEvent
     public void onServerStarting(FMLServerStartingEvent event) {
         ((IReloadableResourceManager) event.getServer().getDataPackRegistries().getResourceManager()).registerReloadListener(this::onReload);
+    }
+
+    @SubscribeEvent
+    public void onServerStart(FMLServerStartedEvent event){
+        ImageBiomeReader.genGradient();
+    }
+
+    @SubscribeEvent
+    public void onServerClosing(FMLServerStoppingEvent event){
+        ImageBiomeReader.clear();
+        ImageRoadReader.clear();
+        VolcanoBiomeReader.clear();
     }
 
     private CompletableFuture<Void> onReload(IFutureReloadListener.IStage stage, IResourceManager manager, IProfiler p0, IProfiler p1, Executor e0, Executor e1) {

@@ -7,6 +7,7 @@ import com.hikarishima.lightland.world.LavaLakeSurfaceBuilder;
 import com.hikarishima.lightland.world.VolcanoSideSurfaceBuilder;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
+import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.registry.WorldGenRegistries;
 import net.minecraft.world.biome.*;
@@ -45,8 +46,7 @@ public class BiomeRegistry {
     public static boolean isLavaLakeBiome(Biome b) {
         return b.getRegistryName() != null &&
                 (b.getRegistryName().equals(VOLCANO_LAVA.getRegistryName()) ||
-                        b.getRegistryName().equals(VOLCANO_BEACH.getRegistryName()) ||
-                        b.getRegistryName().equals(VOLCANO_TOP.getRegistryName()));
+                        b.getRegistryName().equals(VOLCANO_BEACH.getRegistryName()));
     }
 
     private static <V extends T, T extends ForgeRegistryEntry<T>> V reg(String name, V v) {
@@ -113,8 +113,9 @@ public class BiomeRegistry {
                 .biomeCategory(Biome.Category.MESA)
                 .depth(depth).scale(scale).temperature(2.0F).downfall(0.0F)
                 .specialEffects(new BiomeAmbience.Builder()
-                        .waterColor(4159204).waterFogColor(329011).fogColor(12638463)
-                        .skyColor(calculateSkyColor(2.0F))
+                        .ambientParticle(new ParticleEffectAmbience(ParticleTypes.WHITE_ASH, 0.118093334F))
+                        .waterColor(4159204).waterFogColor(329011)
+                        .fogColor(6840176).skyColor(calculateSkyColor(2.0F))
                         .foliageColorOverride(10387789)
                         .grassColorOverride(9470285)
                         .ambientMoodSound(MoodSoundAmbience.LEGACY_CAVE_SETTINGS).build())

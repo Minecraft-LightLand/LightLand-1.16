@@ -34,4 +34,8 @@ public class VolcanoBiomeReader {
         });
     }
 
+    public static void clear(){
+        CONFIG = null;
+    }
+
 }

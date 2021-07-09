@@ -29,4 +29,21 @@ public class FileIO {
         return file;
     }
 
+    public static File getFile(String name) {
+        String path = FMLPaths.CONFIGDIR.get().toString();
+        File file = new File(path + File.separator + LightLand.MODID + File.separator + name);
+
+        return file;
+    }
+
+    public static void checkFile(File file) {
+        if (!file.exists()) {
+            ExceptionHandler.run(() -> {
+                if (!file.getParentFile().exists())
+                    file.getParentFile().mkdirs();
+                file.createNewFile();
+            });
+        }
+    }
+
 }

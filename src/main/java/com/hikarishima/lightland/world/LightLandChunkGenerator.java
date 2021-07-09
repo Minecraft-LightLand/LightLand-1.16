@@ -1,5 +1,6 @@
 package com.hikarishima.lightland.world;
 
+import com.hikarishima.lightland.config.ImageBiomeReader;
 import com.hikarishima.lightland.config.ImageRoadReader;
 import com.hikarishima.lightland.config.VolcanoBiomeReader;
 import com.hikarishima.lightland.registry.BiomeRegistry;
@@ -8,7 +9,6 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import it.unimi.dsi.fastutil.objects.ObjectList;
 import it.unimi.dsi.fastutil.objects.ObjectListIterator;
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.EntityClassification;
@@ -65,7 +65,8 @@ public class LightLandChunkGenerator extends ChunkGenerator {
         }
 
     });
-    private static final float[] BIOME_WEIGHTS = Util.make(new float[25], (p_236092_0_) -> {
+
+    public static final float[] BIOME_WEIGHTS = Util.make(new float[25], (p_236092_0_) -> {
         for (int i = -2; i <= 2; ++i) {
             for (int j = -2; j <= 2; ++j) {
                 float f = 10.0F / MathHelper.sqrt((float) (i * i + j * j) + 0.2F);
@@ -179,14 +180,14 @@ public class LightLandChunkGenerator extends ChunkGenerator {
         return adouble;
     }
 
-    private void fillNoiseColumn(double[] p_222548_1_, int p_222548_2_, int p_222548_3_) {
+    private void fillNoiseColumn(double[] p_222548_1_, int x, int z) {
         NoiseSettings noisesettings = this.settings.get().noiseSettings();
         double d0;
         double d1;
         double d17;
         double d19;
         if (this.islandNoise != null) {
-            d0 = EndBiomeProvider.getHeightValue(this.islandNoise, p_222548_2_, p_222548_3_) - 8.0F;
+            d0 = EndBiomeProvider.getHeightValue(this.islandNoise, x, z) - 8.0F;
             if (d0 > 0.0D) {
                 d1 = 0.25D;
             } else {
@@ -196,29 +197,18 @@ public class LightLandChunkGenerator extends ChunkGenerator {
             float f = 0.0F;
             float f1 = 0.0F;
             float f2 = 0.0F;
-            int j = this.getSeaLevel();
-            float f3 = this.biomeSource.getNoiseBiome(p_222548_2_, j, p_222548_3_).getDepth();
+            float self_depth = ImageBiomeReader.getDepth(biomeSource, x, z);
 
             for (int k = -2; k <= 2; ++k) {
                 for (int l = -2; l <= 2; ++l) {
-                    Biome biome = this.biomeSource.getNoiseBiome(p_222548_2_ + k, j, p_222548_3_ + l);
-                    float f4 = biome.getDepth();
-                    float f5 = biome.getScale();
-                    float f6;
-                    float f7;
-                    if (noisesettings.isAmplified() && f4 > 0.0F) {
-                        f6 = 1.0F + f4 * 2.0F;
-                        f7 = 1.0F + f5 * 4.0F;
-                    } else {
-                        f6 = f4;
-                        f7 = f5;
-                    }
+                    float depth = ImageBiomeReader.getDepth(biomeSource, x, z);
+                    float scale = ImageBiomeReader.getScale(biomeSource, x, z);
 
-                    float f8 = f4 > f3 ? 0.5F : 1.0F;
-                    float f9 = f8 * BIOME_WEIGHTS[k + 2 + (l + 2) * 5] / (f6 + 2.0F);
-                    f += f7 * f9;
-                    f1 += f6 * f9;
-                    f2 += f9;
+                    float v = depth > self_depth ? 0.5F : 1.0F;
+                    float weight = v * BIOME_WEIGHTS[k + 2 + (l + 2) * 5] / (depth + 2.0F);
+                    f += scale * weight;
+                    f1 += depth * weight;
+                    f2 += weight;
                 }
             }
 
@@ -240,12 +230,12 @@ public class LightLandChunkGenerator extends ChunkGenerator {
         double d21 = noisesettings.bottomSlideSettings().target();
         double d2 = noisesettings.bottomSlideSettings().size();
         double d3 = noisesettings.bottomSlideSettings().offset();
-        double d4 = noisesettings.randomDensityOffset() ? this.getRandomDensity(p_222548_2_, p_222548_3_) : 0.0D;
+        double d4 = noisesettings.randomDensityOffset() ? this.getRandomDensity(x, z) : 0.0D;
         double d5 = noisesettings.densityFactor();
         double d6 = noisesettings.densityOffset();
 
         for (int i1 = 0; i1 <= this.chunkCountY; ++i1) {
-            double d7 = this.sampleAndClampNoise(p_222548_2_, i1, p_222548_3_, d12, d13, d14, d15);
+            double d7 = this.sampleAndClampNoise(x, i1, z, d12, d13, d14, d15);
             double d8 = 1.0D - (double) i1 * 2.0D / (double) this.chunkCountY + d4;
             double d9 = d8 * d5 + d6;
             double d10 = (d9 + d0) * d1;
@@ -344,41 +334,26 @@ public class LightLandChunkGenerator extends ChunkGenerator {
         return blockstate;
     }
 
-    public void buildSurfaceAndBedrock(WorldGenRegion p_225551_1_, IChunk c) {
+    public void buildSurfaceAndBedrock(WorldGenRegion region, IChunk c) {
         ChunkPos chunkpos = c.getPos();
         int i = chunkpos.x;
         int j = chunkpos.z;
         SharedSeedRandom r = new SharedSeedRandom();
         r.setBaseChunkSeed(i, j);
-        ChunkPos chunkpos1 = c.getPos();
-        int k = chunkpos1.getMinBlockX();
-        int l = chunkpos1.getMinBlockZ();
+        ChunkPos cPos = c.getPos();
+        int pcx = cPos.getMinBlockX();
+        int pcz = cPos.getMinBlockZ();
         double d0 = 0.0625D;
         Mutable pos = new Mutable();
 
-        for (int i1 = 0; i1 < 16; ++i1) {
-            for (int j1 = 0; j1 < 16; ++j1) {
-                int k1 = k + i1;
-                int l1 = l + j1;
-                int i2 = c.getHeight(Type.WORLD_SURFACE_WG, i1, j1) + 1;
-                double d1 = this.surfaceNoise.getSurfaceNoiseValue((double) k1 * 0.0625D, (double) l1 * 0.0625D, 0.0625D, (double) i1 * 0.0625D) * 15.0D;
-                p_225551_1_.getBiome(pos.set(k + i1, i2, l + j1)).buildSurfaceAt(r, c, k1, l1, i2, d1, this.defaultBlock, this.defaultFluid, this.getSeaLevel(), p_225551_1_.getSeed());
-                if (ImageRoadReader.onRoad(k1, l1)) {
-                    BlockState bs;
-                    if (ImageRoadReader.CONFIG.debug)//debug
-                        if (((k1 & 3) == 1 || (k1 & 3) == 2) && ((l1 & 3) == 1 || (l1 & 3) == 2))
-                            bs = Blocks.IRON_BLOCK.defaultBlockState();
-                        else
-                            bs = Blocks.COBBLESTONE.defaultBlockState();
-                    else {
-                        double x = r.nextDouble();
-                        Block b = c.getBlockState(pos.below()).getBlock();
-                        b = ImageRoadReader.CONFIG.getBlock(b, x);
-                        bs = b == null ? null : b.defaultBlockState();
-                    }
-                    if (bs != null)
-                        c.setBlockState(pos.below(), bs, false);
-                }
+        for (int ix = 0; ix < 16; ++ix) {
+            for (int iz = 0; iz < 16; ++iz) {
+                int x = pcx + ix;
+                int z = pcz + iz;
+                int y = c.getHeight(Type.WORLD_SURFACE_WG, ix, iz) + 1;
+                double d1 = this.surfaceNoise.getSurfaceNoiseValue((double) x * 0.0625D, (double) z * 0.0625D, 0.0625D, (double) ix * 0.0625D) * 15.0D;
+                region.getBiome(pos.set(pcx + ix, y, pcz + iz)).buildSurfaceAt(r, c, x, z, y, d1, this.defaultBlock, this.defaultFluid, this.getSeaLevel(), region.getSeed());
+                ImageRoadReader.buildRoadSurface(x, z, r, c, pos.below());
             }
         }
     }
@@ -576,7 +551,7 @@ public class LightLandChunkGenerator extends ChunkGenerator {
     }
 
     public int getSeaLevel() {
-        return (this.settings.get()).seaLevel();
+        return this.settings.get().seaLevel();
     }
 
     public List<Spawners> getMobsAt(Biome b, StructureManager sm, EntityClassification ec, BlockPos pos) {
