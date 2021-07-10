@@ -22,6 +22,8 @@ import net.minecraft.resources.IResourceManager;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.biome.Biome;
+import net.minecraft.world.gen.feature.Feature;
+import net.minecraft.world.gen.placement.Placement;
 import net.minecraft.world.gen.surfacebuilders.SurfaceBuilder;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.world.ForgeWorldType;
@@ -36,6 +38,7 @@ import net.minecraftforge.fml.event.server.FMLServerStartedEvent;
 import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 import net.minecraftforge.fml.event.server.FMLServerStoppingEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
@@ -101,7 +104,6 @@ public class LightLand {
     public void onServerClosing(FMLServerStoppingEvent event){
         ImageBiomeReader.clear();
         ImageRoadReader.clear();
-        VolcanoBiomeReader.clear();
     }
 
     private CompletableFuture<Void> onReload(IFutureReloadListener.IStage stage, IResourceManager manager, IProfiler p0, IProfiler p1, Executor e0, Executor e1) {
@@ -116,6 +118,16 @@ public class LightLand {
     public static class RegistryEvents {
 
         @SubscribeEvent
+        public static void onPlacementRegistry(RegistryEvent.Register<Placement<?>> event){
+            RegistryBase.process(BiomeRegistry.class, Placement.class, event.getRegistry()::register);
+        }
+
+        @SubscribeEvent
+        public static void onFeatureRegistry(RegistryEvent.Register<Feature<?>> event){
+            RegistryBase.process(BiomeRegistry.class, Feature.class, event.getRegistry()::register);
+        }
+
+        @SubscribeEvent
         public static void onSurfaceBuilderRegistry(RegistryEvent.Register<SurfaceBuilder<?>> event){
             RegistryBase.process(BiomeRegistry.class, SurfaceBuilder.class, event.getRegistry()::register);
         }
@@ -123,7 +135,6 @@ public class LightLand {
         @SubscribeEvent
         public static void onBiomeRegistry(RegistryEvent.Register<Biome> event){
             RegistryBase.process(BiomeRegistry.class, Biome.class, event.getRegistry()::register);
-
         }
 
         @SubscribeEvent

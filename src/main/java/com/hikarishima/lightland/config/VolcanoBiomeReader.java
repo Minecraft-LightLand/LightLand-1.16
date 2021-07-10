@@ -14,11 +14,25 @@ public class VolcanoBiomeReader {
     @SerialClass
     public static class VolcanoConfig {
 
+        @SerialClass
+        public static class LavaWell {
+
+            @SerialClass.SerialField
+            public float size, height, delta_size, delta_height, slope, delta_slope;
+
+            @SerialClass.SerialField
+            public float chance, lava_lake_chance;
+
+        }
+
         @SerialClass.SerialField
         public int lava_level, side_count;
 
         @SerialClass.SerialField
         public float max, step, scale;
+
+        @SerialClass.SerialField
+        public LavaWell lava_well;
 
     }
 
@@ -32,10 +46,6 @@ public class VolcanoBiomeReader {
             JsonElement je = new JsonParser().parse(new FileReader(configfile));
             CONFIG = Serializer.from(je.getAsJsonObject(), VolcanoConfig.class, null);
         });
-    }
-
-    public static void clear(){
-        CONFIG = null;
     }
 
 }

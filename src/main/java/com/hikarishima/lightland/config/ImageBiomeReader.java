@@ -97,7 +97,7 @@ public class ImageBiomeReader {
     private static float getDepthImpl(int x, int z) {
         if (DEPTH == null)
             return Float.NaN;
-        if (x < 0 || x >= DEPTH.getWidth() || z < 0 || z >= DEPTH.getWidth())
+        if (x < 0 || x >= DEPTH.getWidth() || z < 0 || z >= DEPTH.getHeight())
             return Float.NaN;
         int col = DEPTH.getRGB(x, z) & 0xFF;
         return col / 16f - 4f;
@@ -106,7 +106,7 @@ public class ImageBiomeReader {
     private static float getScaleImpl(int x, int z) {
         if (SCALE == null)
             return Float.NaN;
-        if (x < 0 || x >= SCALE.getWidth() || z < 0 || z >= SCALE.getWidth())
+        if (x < 0 || x >= SCALE.getWidth() || z < 0 || z >= SCALE.getHeight())
             return Float.NaN;
         int col = SCALE.getRGB(x, z) & 0xFF;
         return col / 512f;

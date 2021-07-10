@@ -1,4 +1,4 @@
-package com.hikarishima.lightland.world;
+package com.hikarishima.lightland.world.surfacebuilder;
 
 import com.mojang.serialization.Codec;
 import net.minecraft.block.BlockState;

@@ -66,11 +66,11 @@ public class LightLandChunkGenerator extends ChunkGenerator {
 
     });
 
-    public static final float[] BIOME_WEIGHTS = Util.make(new float[25], (p_236092_0_) -> {
+    public static final float[] BIOME_WEIGHTS = Util.make(new float[25], (ans) -> {
         for (int i = -2; i <= 2; ++i) {
             for (int j = -2; j <= 2; ++j) {
-                float f = 10.0F / MathHelper.sqrt((float) (i * i + j * j) + 0.2F);
-                p_236092_0_[i + 2 + (j + 2) * 5] = f;
+                float f = 10.0F / MathHelper.sqrt(i * i + j * j + 0.2F);
+                ans[i + 2 + (j + 2) * 5] = f;
             }
         }
 
@@ -201,8 +201,8 @@ public class LightLandChunkGenerator extends ChunkGenerator {
 
             for (int k = -2; k <= 2; ++k) {
                 for (int l = -2; l <= 2; ++l) {
-                    float depth = ImageBiomeReader.getDepth(biomeSource, x, z);
-                    float scale = ImageBiomeReader.getScale(biomeSource, x, z);
+                    float depth = ImageBiomeReader.getDepth(biomeSource, x + k, z + l);
+                    float scale = ImageBiomeReader.getScale(biomeSource, x + k, z + l);
 
                     float v = depth > self_depth ? 0.5F : 1.0F;
                     float weight = v * BIOME_WEIGHTS[k + 2 + (l + 2) * 5] / (depth + 2.0F);
@@ -351,7 +351,7 @@ public class LightLandChunkGenerator extends ChunkGenerator {
                 int x = pcx + ix;
                 int z = pcz + iz;
                 int y = c.getHeight(Type.WORLD_SURFACE_WG, ix, iz) + 1;
-                double d1 = this.surfaceNoise.getSurfaceNoiseValue((double) x * 0.0625D, (double) z * 0.0625D, 0.0625D, (double) ix * 0.0625D) * 15.0D;
+                double d1 = this.surfaceNoise.getSurfaceNoiseValue(x * d0, z * d0, d0, ix * d0) * 15.0D;
                 region.getBiome(pos.set(pcx + ix, y, pcz + iz)).buildSurfaceAt(r, c, x, z, y, d1, this.defaultBlock, this.defaultFluid, this.getSeaLevel(), region.getSeed());
                 ImageRoadReader.buildRoadSurface(x, z, r, c, pos.below());
             }

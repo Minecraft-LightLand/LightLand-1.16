@@ -1,5 +1,6 @@
-package com.hikarishima.lightland.world;
+package com.hikarishima.lightland.world.surfacebuilder;
 
+import com.hikarishima.lightland.config.VolcanoBiomeReader;
 import com.mojang.serialization.Codec;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -12,6 +13,10 @@ import net.minecraft.world.gen.surfacebuilders.SurfaceBuilderConfig;
 import java.util.Random;
 
 public class LavaLakeSurfaceBuilder extends SurfaceBuilder<SurfaceBuilderConfig> {
+
+    public static final BlockState CAMPFIRE = Blocks.CAMPFIRE.defaultBlockState();
+    public static final BlockState HAYBALE = Blocks.HAY_BLOCK.defaultBlockState();
+    public static final BlockState LAVA = Blocks.LAVA.defaultBlockState();
 
     public LavaLakeSurfaceBuilder(Codec<SurfaceBuilderConfig> config) {
         super(config);
