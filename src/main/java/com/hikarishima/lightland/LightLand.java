@@ -1,16 +1,15 @@
 package com.hikarishima.lightland;
 
 import com.hikarishima.lightland.config.FileIO;
+import com.hikarishima.lightland.config.ImageBiomeReader;
 import com.hikarishima.lightland.config.ImageRoadReader;
 import com.hikarishima.lightland.config.VolcanoBiomeReader;
 import com.hikarishima.lightland.mobspawn.MobSpawn;
 import com.hikarishima.lightland.proxy.ClientProxy;
 import com.hikarishima.lightland.proxy.ISidedProxy;
 import com.hikarishima.lightland.proxy.ServerProxy;
-import com.hikarishima.lightland.registry.BiomeRegistry;
 import com.hikarishima.lightland.registry.ItemRegistry;
 import com.hikarishima.lightland.registry.RegistryBase;
-import com.hikarishima.lightland.config.ImageBiomeReader;
 import com.hikarishima.lightland.world.LightLandBiomeProvider;
 import com.hikarishima.lightland.world.LightLandChunkGenerator;
 import com.hikarishima.lightland.world.LightLandWorldType;
@@ -38,7 +37,6 @@ import net.minecraftforge.fml.event.server.FMLServerStartedEvent;
 import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 import net.minecraftforge.fml.event.server.FMLServerStoppingEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
@@ -96,12 +94,12 @@ public class LightLand {
     }
 
     @SubscribeEvent
-    public void onServerStart(FMLServerStartedEvent event){
+    public void onServerStart(FMLServerStartedEvent event) {
         ImageBiomeReader.genGradient();
     }
 
     @SubscribeEvent
-    public void onServerClosing(FMLServerStoppingEvent event){
+    public void onServerClosing(FMLServerStoppingEvent event) {
         ImageBiomeReader.clear();
         ImageRoadReader.clear();
     }
@@ -118,27 +116,27 @@ public class LightLand {
     public static class RegistryEvents {
 
         @SubscribeEvent
-        public static void onPlacementRegistry(RegistryEvent.Register<Placement<?>> event){
-            RegistryBase.process(BiomeRegistry.class, Placement.class, event.getRegistry()::register);
+        public static void onPlacementRegistry(RegistryEvent.Register<Placement<?>> event) {
+            RegistryBase.processBiome(event);
         }
 
         @SubscribeEvent
-        public static void onFeatureRegistry(RegistryEvent.Register<Feature<?>> event){
-            RegistryBase.process(BiomeRegistry.class, Feature.class, event.getRegistry()::register);
+        public static void onFeatureRegistry(RegistryEvent.Register<Feature<?>> event) {
+            RegistryBase.processBiome(event);
         }
 
         @SubscribeEvent
-        public static void onSurfaceBuilderRegistry(RegistryEvent.Register<SurfaceBuilder<?>> event){
-            RegistryBase.process(BiomeRegistry.class, SurfaceBuilder.class, event.getRegistry()::register);
+        public static void onSurfaceBuilderRegistry(RegistryEvent.Register<SurfaceBuilder<?>> event) {
+            RegistryBase.processBiome(event);
         }
 
         @SubscribeEvent
-        public static void onBiomeRegistry(RegistryEvent.Register<Biome> event){
-            RegistryBase.process(BiomeRegistry.class, Biome.class, event.getRegistry()::register);
+        public static void onBiomeRegistry(RegistryEvent.Register<Biome> event) {
+            RegistryBase.processBiome(event);
         }
 
         @SubscribeEvent
-        public static void onItemRegistry(RegistryEvent.Register<Item> event){
+        public static void onItemRegistry(RegistryEvent.Register<Item> event) {
             RegistryBase.process(ItemRegistry.class, Item.class, event.getRegistry()::register);
         }
 

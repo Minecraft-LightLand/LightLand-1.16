@@ -3,7 +3,6 @@ package com.hikarishima.lightland.world;
 import com.hikarishima.lightland.config.ImageBiomeReader;
 import com.hikarishima.lightland.config.ImageRoadReader;
 import com.hikarishima.lightland.config.VolcanoBiomeReader;
-import com.hikarishima.lightland.registry.BiomeRegistry;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
@@ -496,7 +495,7 @@ public class LightLandChunkGenerator extends ChunkGenerator {
 
                                 if (blockstate != this.defaultBlock && py <= VolcanoBiomeReader.CONFIG.lava_level) {
                                     Biome biome = this.biomeSource.getNoiseBiome(px / 4, py, pz / 4);
-                                    if (BiomeRegistry.isLavaLakeBiome(biome))
+                                    if (VolcanoBiomeRegistry.isLavaLakeBiome(biome))
                                         blockstate = Blocks.LAVA.defaultBlockState();
                                 }
                                 if (blockstate != AIR) {

@@ -1,11 +1,8 @@
-package com.hikarishima.lightland.registry;
+package com.hikarishima.lightland.world;
 
 import com.hikarishima.lightland.LightLand;
 import com.hikarishima.lightland.config.VolcanoBiomeReader;
-import com.hikarishima.lightland.world.feature.LavaSmokeFeature;
-import com.hikarishima.lightland.world.feature.LavaSmokeFeatureConfig;
-import com.hikarishima.lightland.world.feature.LavaSmokePlacement;
-import com.hikarishima.lightland.world.feature.LavaSmokePlacementConfig;
+import com.hikarishima.lightland.world.feature.*;
 import com.hikarishima.lightland.world.surfacebuilder.LavaBeachSurfaceBuilder;
 import com.hikarishima.lightland.world.surfacebuilder.LavaLakeSurfaceBuilder;
 import com.hikarishima.lightland.world.surfacebuilder.VolcanoSideSurfaceBuilder;
@@ -19,12 +16,16 @@ import net.minecraft.world.gen.GenerationStage;
 import net.minecraft.world.gen.feature.ConfiguredFeature;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.IFeatureConfig;
+import net.minecraft.world.gen.feature.NoFeatureConfig;
 import net.minecraft.world.gen.placement.ConfiguredPlacement;
-import net.minecraft.world.gen.surfacebuilders.*;
+import net.minecraft.world.gen.surfacebuilders.ConfiguredSurfaceBuilder;
+import net.minecraft.world.gen.surfacebuilders.ISurfaceBuilderConfig;
+import net.minecraft.world.gen.surfacebuilders.SurfaceBuilder;
+import net.minecraft.world.gen.surfacebuilders.SurfaceBuilderConfig;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 import org.apache.logging.log4j.LogManager;
 
-public class BiomeRegistry {
+public class VolcanoBiomeRegistry {
 
     public static final BlockState BS_DEF = Blocks.BASALT.defaultBlockState();
     public static final BlockState BS_BASE = Blocks.BASALT.defaultBlockState();
@@ -39,9 +40,11 @@ public class BiomeRegistry {
     public static final ConfiguredSurfaceBuilder<SurfaceBuilderConfig> CSB_VOL_BASE = reg("volcano_top", SB_VOL_BASE.configured(SBC_VOLCANO));
 
     public static final LavaSmokePlacement P_SMOKE = reg("smoke", new LavaSmokePlacement(LavaSmokePlacementConfig.CODEC));
+    public static final LavaLakeSmokePlacement P_LAKE = reg("lava_lake_smoke", new LavaLakeSmokePlacement(LavaLakeSmokePlacementConfig.CODEC));
     public static final LavaSmokeFeature F_SMOKE = reg("smoke", new LavaSmokeFeature(LavaSmokeFeatureConfig.CODEC));
-    public static final ConfiguredPlacement<LavaSmokePlacementConfig> CP_SMOKE;
-    public static final ConfiguredFeature<?, ?> CF_SMOKE;
+    public static final LavaLakeSmokeFeature F_LAKE = reg("lava_lake_smoke", new LavaLakeSmokeFeature(NoFeatureConfig.CODEC));
+    public static final ConfiguredPlacement<?> CP_SMOKE, CP_LAKE;
+    public static final ConfiguredFeature<?, ?> CF_SMOKE, CF_LAKE;
 
     public static final Biome VOLCANO_LAVA, VOLCANO_BEACH, VOLCANO_TOP;
     public static final Biome[] VOLCANO_SIDE;
@@ -53,8 +56,10 @@ public class BiomeRegistry {
             LogManager.getLogger().fatal("volcano biome config not loaded");
         }
         CP_SMOKE = P_SMOKE.configured(new LavaSmokePlacementConfig(c.lava_well.chance));
+        CP_LAKE = P_LAKE.configured(new LavaLakeSmokePlacementConfig(c.lava_well.lava_lake_chance));
         LavaSmokeFeatureConfig fc = new LavaSmokeFeatureConfig(c.lava_well);
         CF_SMOKE = reg("smoke", F_SMOKE.configured(fc).decorated(CP_SMOKE));
+        CF_LAKE = reg("lava_lake_smoke", F_LAKE.configured(NoFeatureConfig.INSTANCE).decorated(CP_LAKE));
 
         VOLCANO_LAVA = reg("lava_lake", genVolcanoLavaBiome(c.max - 1, 0f, CSB_LAVA_LAKE));
         VOLCANO_BEACH = reg("lava_beach", genVolcanoLavaBiome(c.max, 0f, CSB_LAVA_BEACH));
@@ -92,6 +97,9 @@ public class BiomeRegistry {
         DefaultBiomeFeatures.addDefaultSprings(bgs);
         if (csb == CSB_VOL_BASE)
             bgs.addFeature(GenerationStage.Decoration.SURFACE_STRUCTURES, CF_SMOKE);
+        if (csb == CSB_LAVA_LAKE)
+            bgs.addFeature(GenerationStage.Decoration.SURFACE_STRUCTURES, CF_LAKE);
+
         return (new net.minecraft.world.biome.Biome.Builder())
                 .precipitation(Biome.RainType.NONE)
                 .biomeCategory(Biome.Category.MESA)

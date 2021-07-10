@@ -1,6 +1,9 @@
 package com.hikarishima.lightland.registry;
 
+import com.hikarishima.lightland.world.VolcanoBiomeRegistry;
 import com.lcy0x1.core.util.ExceptionHandler;
+import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.registries.IForgeRegistryEntry;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
@@ -18,6 +21,13 @@ public class RegistryBase {
                         for (Object o : (Object[]) f.get(null))
                             ((Consumer) acceptor).accept(o);
         });
+    }
+
+    public static final Class<?>[] BIOME_REGISTRIES = {VolcanoBiomeRegistry.class};
+
+    public static <T extends IForgeRegistryEntry<T>> void processBiome(RegistryEvent.Register<T> event) {
+        for (Class<?> cls : BIOME_REGISTRIES)
+            process(cls, event.getRegistry().getRegistrySuperType(), event.getRegistry()::register);
     }
 
     public static void init() {
