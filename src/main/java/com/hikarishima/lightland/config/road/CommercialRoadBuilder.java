@@ -14,7 +14,8 @@ public class CommercialRoadBuilder {
     private static float[][] getCommercialRoad(int cx, int cz) {
         if (cx == cache_x && cz == cache_z && cache_road != null)
             return cache_road;
-
+        cache_x = cx;
+        cache_z = cz;
         int n = 4 + OFFSET * 2;
         int[][] pixels = new int[n][n];
 
@@ -31,7 +32,7 @@ public class CommercialRoadBuilder {
                     for (int iz = -2; iz <= 2; iz++) {
                         float dx = (x + ix & 3) / 4f;
                         float dz = (z + iz & 3) / 4f;
-                        
+
                     }
             }
         return cache_road;

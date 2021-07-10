@@ -83,7 +83,7 @@ public class ImageBiomeReader {
         if (BIOME == null || CONFIG == null)
             return null;
 
-        if (x < 0 || x >= BIOME.getWidth() || z < 0 || z >= BIOME.getWidth())
+        if (x < 0 || x >= BIOME.getWidth() || z < 0 || z >= BIOME.getHeight())
             return null;
 
         int val = BIOME.getRGB(x, z) & 0x00FFFFFF;
