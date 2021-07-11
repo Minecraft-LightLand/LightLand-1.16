@@ -1,6 +1,5 @@
 package com.hikarishima.lightland.world.surfacebuilder;
 
-import com.hikarishima.lightland.config.VolcanoBiomeReader;
 import com.mojang.serialization.Codec;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;

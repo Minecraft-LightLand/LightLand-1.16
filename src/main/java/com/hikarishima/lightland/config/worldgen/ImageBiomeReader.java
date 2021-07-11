@@ -1,7 +1,8 @@
-package com.hikarishima.lightland.config;
+package com.hikarishima.lightland.config.worldgen;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
+import com.hikarishima.lightland.config.FileIO;
 import com.lcy0x1.core.util.ExceptionHandler;
 import com.lcy0x1.core.util.SerialClass;
 import com.lcy0x1.core.util.Serializer;

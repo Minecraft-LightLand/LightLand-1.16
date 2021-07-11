@@ -1,7 +1,5 @@
 package com.hikarishima.lightland.config.road;
 
-import com.hikarishima.lightland.config.ImageRoadReader;
-
 public class CommercialRoadBuilder {
 
     private static final int OFFSET = 2;

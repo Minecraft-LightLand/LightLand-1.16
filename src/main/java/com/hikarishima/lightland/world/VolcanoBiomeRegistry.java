@@ -1,7 +1,7 @@
 package com.hikarishima.lightland.world;
 
 import com.hikarishima.lightland.LightLand;
-import com.hikarishima.lightland.config.VolcanoBiomeReader;
+import com.hikarishima.lightland.config.worldgen.VolcanoBiomeReader;
 import com.hikarishima.lightland.world.feature.*;
 import com.hikarishima.lightland.world.surfacebuilder.LavaBeachSurfaceBuilder;
 import com.hikarishima.lightland.world.surfacebuilder.LavaLakeSurfaceBuilder;

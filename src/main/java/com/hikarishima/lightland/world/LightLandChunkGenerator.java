@@ -1,8 +1,8 @@
 package com.hikarishima.lightland.world;
 
-import com.hikarishima.lightland.config.ImageBiomeReader;
-import com.hikarishima.lightland.config.ImageRoadReader;
-import com.hikarishima.lightland.config.VolcanoBiomeReader;
+import com.hikarishima.lightland.config.worldgen.ImageBiomeReader;
+import com.hikarishima.lightland.config.road.ImageRoadReader;
+import com.hikarishima.lightland.config.worldgen.VolcanoBiomeReader;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;

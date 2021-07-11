@@ -1,6 +1,6 @@
 package com.hikarishima.lightland.world.feature;
 
-import com.hikarishima.lightland.config.VolcanoBiomeReader;
+import com.hikarishima.lightland.config.worldgen.VolcanoBiomeReader;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.world.gen.feature.IFeatureConfig;
