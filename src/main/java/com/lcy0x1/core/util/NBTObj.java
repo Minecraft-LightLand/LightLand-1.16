@@ -11,7 +11,9 @@ import net.minecraft.util.math.BlockPos;
  */
 public class NBTObj {
 
-	public final CompoundNBT tag;
+    public static final String BASE = "_base";
+    public static final int TYPE_STRING = 8;
+    public final CompoundNBT tag;
 
 	public NBTObj() {
 		tag = new CompoundNBT();

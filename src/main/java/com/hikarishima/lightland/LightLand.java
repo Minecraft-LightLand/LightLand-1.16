@@ -4,6 +4,7 @@ import com.hikarishima.lightland.config.FileIO;
 import com.hikarishima.lightland.config.worldgen.ImageBiomeReader;
 import com.hikarishima.lightland.config.road.ImageRoadReader;
 import com.hikarishima.lightland.config.worldgen.VolcanoBiomeReader;
+import com.hikarishima.lightland.event.ForgeEventHandlers;
 import com.hikarishima.lightland.mobspawn.MobSpawn;
 import com.hikarishima.lightland.proxy.ClientProxy;
 import com.hikarishima.lightland.proxy.ISidedProxy;
