@@ -1,6 +1,6 @@
 package com.lcy0x1.base;
 
-import com.lcy0x1.core.util.SerialClass;
+import com.lcy0x1.core.util.RecSerializer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
@@ -17,14 +17,12 @@ public abstract class BaseRecipe<Rec extends SRec, SRec extends BaseRecipe<?, SR
     }
 
     public static class RecType<Rec extends SRec, SRec extends BaseRecipe<?, SRec, Inv>, Inv extends RecInv<SRec>>
-            extends SerialClass.RecSerializer<Rec, Inv>{
+            extends RecSerializer<Rec, Inv> {
 
-        public final ResourceLocation rl;
         public final IRecipeType<Rec> type;
 
-        public RecType(ResourceLocation rl, Class<Rec> rec, IRecipeType<Rec> type) {
+        public RecType(Class<Rec> rec, IRecipeType<Rec> type) {
             super(rec);
-            this.rl = rl;
             this.type = type;
         }
 
@@ -34,7 +32,8 @@ public abstract class BaseRecipe<Rec extends SRec, SRec extends BaseRecipe<?, SR
 
     public ResourceLocation id;
 
-    public BaseRecipe(RecType<Rec, SRec, Inv> fac) {
+    public BaseRecipe(ResourceLocation id, RecType<Rec, SRec, Inv> fac) {
+        this.id = id;
         factory = fac;
     }
 

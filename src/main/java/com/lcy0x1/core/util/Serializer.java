@@ -3,6 +3,8 @@ package com.lcy0x1.core.util;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.hikarishima.lightland.magic.MagicElement;
+import com.hikarishima.lightland.magic.MagicRegistry;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.Ingredient;
@@ -10,6 +12,8 @@ import net.minecraft.item.crafting.ShapedRecipe;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.IForgeRegistry;
+import net.minecraftforge.registries.IForgeRegistryEntry;
 
 import java.lang.reflect.Array;
 import java.lang.reflect.Field;
@@ -44,6 +48,41 @@ public class Serializer {
 
     }
 
+    public static class StringClassHandler<T> extends ClassHandler<T> {
+
+        public StringClassHandler(Class<?> cls, Function<String, T> fj, Function<T, String> tp) {
+            super(cls, e -> {
+                if (e.isJsonNull())
+                    return null;
+                String str = e.getAsString();
+                if (str.length() == 0)
+                    return null;
+                return fj.apply(str);
+            }, p -> {
+                String str = p.readUtf();
+                if (str.length() == 0)
+                    return null;
+                return fj.apply(str);
+            }, (p, t) -> p.writeUtf(t == null ? "" : tp.apply(t)));
+        }
+
+    }
+
+    public static class RLClassHandler<T extends IForgeRegistryEntry<T>> extends ClassHandler<T> {
+
+        public RLClassHandler(Class<?> cls, IForgeRegistry<T> r) {
+            super(cls, e -> e.isJsonNull() ? null : r.getValue(new ResourceLocation(e.getAsString())),
+                    p -> {
+                        String str = p.readUtf();
+                        if (str.length() == 0)
+                            return null;
+                        return r.getValue(new ResourceLocation(p.readUtf()));
+                    },
+                    (p, t) -> p.writeUtf(t == null ? "" : t.getRegistryName().toString()));
+        }
+
+    }
+
     public static final Map<Class<?>, ClassHandler<?>> MAP = new HashMap<>();
 
     static {
@@ -53,13 +92,17 @@ public class Serializer {
         new ClassHandler<Byte>(byte.class, JsonElement::getAsByte, PacketBuffer::readByte, PacketBuffer::writeByte);
         new ClassHandler<Character>(char.class, JsonElement::getAsCharacter, PacketBuffer::readChar, PacketBuffer::writeChar);
         new ClassHandler<>(boolean.class, JsonElement::getAsBoolean, PacketBuffer::readBoolean, PacketBuffer::writeBoolean);
-        new ClassHandler<>(String.class, JsonElement::getAsString, PacketBuffer::readUtf, PacketBuffer::writeUtf);
         new ClassHandler<>(double.class, JsonElement::getAsDouble, PacketBuffer::readDouble, PacketBuffer::writeDouble);
         new ClassHandler<>(float.class, JsonElement::getAsFloat, PacketBuffer::readFloat, PacketBuffer::writeFloat);
-        new ClassHandler<>(Item.class, e -> ForgeRegistries.ITEMS.getValue(new ResourceLocation(e.getAsString())), p -> Item.byId(p.readVarInt()), (p, o) -> p.writeVarInt(Item.getId(o)));
+        new ClassHandler<>(String.class, JsonElement::getAsString, PacketBuffer::readUtf, PacketBuffer::writeUtf);
         new ClassHandler<>(ItemStack.class, (e) -> ShapedRecipe.itemFromJson(e.getAsJsonObject()), PacketBuffer::readItem, PacketBuffer::writeItem);
         new ClassHandler<>(Ingredient.class, Ingredient::fromJson, Ingredient::fromNetwork, (p, o) -> o.toNetwork(p));
 
+        new StringClassHandler<>(ResourceLocation.class, ResourceLocation::new, ResourceLocation::toString);
+
+        new RLClassHandler<>(Item.class, ForgeRegistries.ITEMS);
+        new RLClassHandler<>(MagicElement.class, MagicRegistry.ELEMENT);
+        new RLClassHandler<>(MagicRegistry.MPTRaw.class, MagicRegistry.PRODUCT_TYPE);
     }
 
     @SuppressWarnings("unchecked")
@@ -141,8 +184,8 @@ public class Serializer {
                 return ans;
             }
             if (e.isJsonObject() && ckey == String.class) {
-                for(Map.Entry<String,JsonElement> ent : e.getAsJsonObject().entrySet()){
-                    ((Map) ans).put(ent.getKey(),fromRaw(ent.getValue(), cval, null, null));
+                for (Map.Entry<String, JsonElement> ent : e.getAsJsonObject().entrySet()) {
+                    ((Map) ans).put(ent.getKey(), fromRaw(ent.getValue(), cval, null, null));
                 }
             }
         }

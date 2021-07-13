@@ -6,10 +6,11 @@ import com.hikarishima.lightland.config.road.ImageRoadReader;
 import com.hikarishima.lightland.config.worldgen.VolcanoBiomeReader;
 import com.hikarishima.lightland.event.ForgeEventHandlers;
 import com.hikarishima.lightland.magic.MagicElement;
-import com.hikarishima.lightland.magic.MagicRegistries;
+import com.hikarishima.lightland.magic.MagicRegistry;
 import com.hikarishima.lightland.mobspawn.MobSpawn;
 import com.hikarishima.lightland.proxy.ClientProxy;
 import com.hikarishima.lightland.proxy.ISidedProxy;
+import com.hikarishima.lightland.proxy.PacketHandler;
 import com.hikarishima.lightland.proxy.ServerProxy;
 import com.hikarishima.lightland.registry.ItemRegistry;
 import com.hikarishima.lightland.registry.RegistryBase;
@@ -40,7 +41,6 @@ import net.minecraftforge.fml.event.server.FMLServerStartedEvent;
 import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 import net.minecraftforge.fml.event.server.FMLServerStoppingEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.minecraftforge.registries.IForgeRegistry;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
@@ -51,6 +51,7 @@ import java.util.concurrent.Executor;
 public class LightLand {
 
     public static final String MODID = "lightland";
+    public static final String NETWORK_VERSION = "1";
 
     public static ISidedProxy proxy = DistExecutor.safeRunForDist(() -> ClientProxy::new, () -> ServerProxy::new);
     public static LightLandWorldType WORLD_TYPE = new LightLandWorldType();
@@ -62,6 +63,7 @@ public class LightLand {
         MinecraftForge.EVENT_BUS.register(new ForgeEventHandlers());
 
         proxy.init();
+        PacketHandler.registerPackets();
     }
 
     private void setup(final FMLCommonSetupEvent event) {
@@ -122,7 +124,7 @@ public class LightLand {
 
         @SubscribeEvent
         public static void onNewRegistry(RegistryEvent.NewRegistry event){
-            MagicRegistries.createRegistries();
+            MagicRegistry.createRegistries();
         }
 
         @SubscribeEvent
@@ -157,12 +159,12 @@ public class LightLand {
 
         @SubscribeEvent
         public static void onMagicElementRegistry(RegistryEvent.Register<MagicElement> event) {
-            RegistryBase.process(MagicRegistries.class, MagicElement.class, event.getRegistry()::register);
+            RegistryBase.process(MagicRegistry.class, MagicElement.class, event.getRegistry()::register);
         }
 
         @SubscribeEvent
-        public static void onMagicProductTypeRegistry(RegistryEvent.Register<MagicRegistries.MPTRaw> event) {
-            RegistryBase.process(MagicRegistries.class, MagicRegistries.MPTRaw.class, event.getRegistry()::register);
+        public static void onMagicProductTypeRegistry(RegistryEvent.Register<MagicRegistry.MPTRaw> event) {
+            RegistryBase.process(MagicRegistry.class, MagicRegistry.MPTRaw.class, event.getRegistry()::register);
         }
 
     }

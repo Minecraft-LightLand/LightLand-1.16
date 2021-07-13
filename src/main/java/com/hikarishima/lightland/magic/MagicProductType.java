@@ -1,17 +1,18 @@
 package com.hikarishima.lightland.magic;
 
 import com.lcy0x1.core.util.NBTObj;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.registries.IForgeRegistryEntry;
 
 import java.util.function.Function;
 
-public class MagicProductType<I extends IForgeRegistryEntry<I>, P extends MagicProduct<I, P>> extends MagicRegistries.MPTRaw {
+public class MagicProductType<I extends IForgeRegistryEntry<I>, P extends MagicProduct<I, P>> extends MagicRegistry.MPTRaw {
 
     @FunctionalInterface
     public interface MagicFactory<I extends IForgeRegistryEntry<I>, P extends MagicProduct<I, P>> {
 
-        P get(NBTObj nbtManager, ResourceLocation rl);
+        P get(PlayerEntity player, NBTObj nbtManager, ResourceLocation rl);
 
     }
 

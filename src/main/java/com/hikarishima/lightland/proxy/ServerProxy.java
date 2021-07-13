@@ -20,9 +20,4 @@ public class ServerProxy implements ISidedProxy {
         //
     }
 
-    @Override
-    public void openMagicBookGui() {
-
-    }
-
 }
