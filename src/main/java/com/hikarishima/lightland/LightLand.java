@@ -5,6 +5,8 @@ import com.hikarishima.lightland.config.worldgen.ImageBiomeReader;
 import com.hikarishima.lightland.config.road.ImageRoadReader;
 import com.hikarishima.lightland.config.worldgen.VolcanoBiomeReader;
 import com.hikarishima.lightland.event.ForgeEventHandlers;
+import com.hikarishima.lightland.magic.MagicElement;
+import com.hikarishima.lightland.magic.MagicRegistries;
 import com.hikarishima.lightland.mobspawn.MobSpawn;
 import com.hikarishima.lightland.proxy.ClientProxy;
 import com.hikarishima.lightland.proxy.ISidedProxy;
@@ -38,11 +40,13 @@ import net.minecraftforge.fml.event.server.FMLServerStartedEvent;
 import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 import net.minecraftforge.fml.event.server.FMLServerStoppingEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.registries.IForgeRegistry;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
 
 // The value here should match an entry in the META-INF/mods.toml file
+@SuppressWarnings("unused")
 @Mod("lightland")
 public class LightLand {
 
@@ -117,6 +121,11 @@ public class LightLand {
     public static class RegistryEvents {
 
         @SubscribeEvent
+        public static void onNewRegistry(RegistryEvent.NewRegistry event){
+            MagicRegistries.createRegistries();
+        }
+
+        @SubscribeEvent
         public static void onPlacementRegistry(RegistryEvent.Register<Placement<?>> event) {
             RegistryBase.processBiome(event);
         }
@@ -144,6 +153,16 @@ public class LightLand {
         @SubscribeEvent
         public static void onWorldTypeRegistry(RegistryEvent.Register<ForgeWorldType> event) {
             event.getRegistry().register(WORLD_TYPE.setRegistryName(MODID, "image_biome"));
+        }
+
+        @SubscribeEvent
+        public static void onMagicElementRegistry(RegistryEvent.Register<MagicElement> event) {
+            RegistryBase.process(MagicRegistries.class, MagicElement.class, event.getRegistry()::register);
+        }
+
+        @SubscribeEvent
+        public static void onMagicProductTypeRegistry(RegistryEvent.Register<MagicRegistries.MPTRaw> event) {
+            RegistryBase.process(MagicRegistries.class, MagicRegistries.MPTRaw.class, event.getRegistry()::register);
         }
 
     }
