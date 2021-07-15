@@ -187,13 +187,14 @@ public class Serializer {
                 for (Map.Entry<String, JsonElement> ent : e.getAsJsonObject().entrySet()) {
                     ((Map) ans).put(ent.getKey(), fromRaw(ent.getValue(), cval, null, null));
                 }
+                return ans;
             }
         }
         if (cls.isEnum())
             return Enum.valueOf((Class) cls, e.getAsString());
         if (MAP.containsKey(cls))
             return MAP.get(cls).fromJson.apply(e);
-        return fromImpl(e.getAsJsonObject(), cls, null, anno);
+        return fromImpl(e.getAsJsonObject(), cls, ans, anno);
     }
 
     @SuppressWarnings({"unchecked", "rawtypes"})
@@ -225,7 +226,7 @@ public class Serializer {
             return Enum.valueOf((Class) cls, buf.readUtf());
         if (MAP.containsKey(cls))
             return MAP.get(cls).fromPacket.apply(buf);
-        return fromImpl(buf, cls, null, anno);
+        return fromImpl(buf, cls, ans, anno);
     }
 
     public static <T> void to(PacketBuffer buf, T obj) {

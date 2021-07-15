@@ -23,33 +23,8 @@ public class IMagicRecipe<R extends IMagicRecipe<R>> extends BaseRecipe<R, IMagi
 
     }
 
-    @SuppressWarnings("unchecked")
-    public static IMagicRecipe<?> getRecipe(World w, IMagicProduct<?, ?> p) {
-        List<IMagicRecipe<?>> list = new ArrayList<>();
-        RegistryBase.process(RecipeRegistry.class, BaseRecipe.RecType.class, (t) -> {
-            if (!IMagicRecipe.class.isAssignableFrom(t.cls))
-                return;
-            for (IMagicRecipe<?> r : w.getRecipeManager().getAllRecipesFor((IRecipeType<IMagicRecipe<?>>) t.type)) {
-                if (r.product_type == p.type && r.product_id.equals(p.rl))
-                    list.add(r);
-            }
-        });
-        if (list.size() == 0)
-            return null;
-        else if (list.size() > 1) LogManager.getLogger().error("repeated recipe for " + p + " : " + list);
-        return list.get(0);
-
-    }
-
-    @SuppressWarnings("unchecked")
     public static List<IMagicRecipe<?>> getAll(World w) {
-        List<IMagicRecipe<?>> list = new ArrayList<>();
-        RegistryBase.process(RecipeRegistry.class, BaseRecipe.RecType.class, (t) -> {
-            if (!IMagicRecipe.class.isAssignableFrom(t.cls))
-                return;
-            list.addAll(w.getRecipeManager().getAllRecipesFor((IRecipeType<IMagicRecipe<?>>) t.type));
-        });
-        return list;
+        return w.getRecipeManager().getAllRecipesFor(RecipeRegistry.RT_MAGIC);
     }
 
     @SerialClass
@@ -109,7 +84,7 @@ public class IMagicRecipe<R extends IMagicRecipe<R>> extends BaseRecipe<R, IMagi
 
     @Override
     public final ItemStack assemble(Inv inv) {
-        return null;
+        return ItemStack.EMPTY;
     }
 
     @Override
@@ -119,7 +94,7 @@ public class IMagicRecipe<R extends IMagicRecipe<R>> extends BaseRecipe<R, IMagi
 
     @Override
     public final ItemStack getResultItem() {
-        return null;
+        return ItemStack.EMPTY;
     }
 
 

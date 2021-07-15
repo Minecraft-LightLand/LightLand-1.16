@@ -19,7 +19,7 @@
         "C": "lightland:earth",
         "D": "lightland:void"
     },
-    "flow": [
+    "flows": [
         "ABC<->D"
     ]
 }

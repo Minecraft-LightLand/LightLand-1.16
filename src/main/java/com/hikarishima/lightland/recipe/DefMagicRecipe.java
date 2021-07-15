@@ -11,7 +11,7 @@ import java.util.TreeMap;
 @SerialClass
 public class DefMagicRecipe extends IMagicRecipe<DefMagicRecipe> {
 
-    @SerialClass.SerialField
+    @SerialClass.SerialField(generic = {String.class, MagicElement.class})
     public TreeMap<String, MagicElement> elements = new TreeMap<>();
     @SerialClass.SerialField
     public String[] flows;
@@ -31,6 +31,7 @@ public class DefMagicRecipe extends IMagicRecipe<DefMagicRecipe> {
             if (ent.getKey().length() != 1)
                 LogManager.getLogger().error("key length not 1 in " + this.id);
             chars[i] = ent.getKey().charAt(0);
+            i++;
         }
         boolean[][] bools = new boolean[n][n];
         for (String flow : flows) {

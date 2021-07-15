@@ -67,7 +67,8 @@ public class Automator {
             obj = cls.newInstance();
         while (cls.getAnnotation(SerialClass.class) != null) {
             for (Field f : cls.getDeclaredFields()) {
-                if (!pred.test(f.getAnnotation(SerialClass.SerialField.class)))
+                SerialClass.SerialField sf = f.getAnnotation(SerialClass.SerialField.class);
+                if (sf == null || !pred.test(sf))
                     continue;
                 Object fa = fromTagRaw(tag.get(f.getName()), f.getType(), pred);
                 if (fa != null || !f.getType().isPrimitive())
@@ -111,7 +112,8 @@ public class Automator {
             return tag;
         while (cls.getAnnotation(SerialClass.class) != null) {
             for (Field f : cls.getDeclaredFields()) {
-                if (!pred.test(f.getAnnotation(SerialClass.SerialField.class)))
+                SerialClass.SerialField sf = f.getAnnotation(SerialClass.SerialField.class);
+                if (sf == null || !pred.test(sf))
                     continue;
                 if (f.get(obj) != null)
                     tag.put(f.getName(), toTagRaw(f.getType(), f.get(obj), pred));

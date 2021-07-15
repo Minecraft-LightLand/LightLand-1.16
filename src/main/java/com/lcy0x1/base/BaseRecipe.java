@@ -19,9 +19,9 @@ public abstract class BaseRecipe<Rec extends SRec, SRec extends BaseRecipe<?, SR
     public static class RecType<Rec extends SRec, SRec extends BaseRecipe<?, SRec, Inv>, Inv extends RecInv<SRec>>
             extends RecSerializer<Rec, Inv> {
 
-        public final IRecipeType<Rec> type;
+        public final IRecipeType<SRec> type;
 
-        public RecType(Class<Rec> rec, IRecipeType<Rec> type) {
+        public RecType(Class<Rec> rec, IRecipeType<SRec> type) {
             super(rec);
             this.type = type;
         }

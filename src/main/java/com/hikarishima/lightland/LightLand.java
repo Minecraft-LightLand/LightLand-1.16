@@ -1,23 +1,22 @@
 package com.hikarishima.lightland;
 
 import com.hikarishima.lightland.config.FileIO;
-import com.hikarishima.lightland.config.worldgen.ImageBiomeReader;
 import com.hikarishima.lightland.config.road.ImageRoadReader;
+import com.hikarishima.lightland.config.worldgen.ImageBiomeReader;
 import com.hikarishima.lightland.config.worldgen.VolcanoBiomeReader;
 import com.hikarishima.lightland.event.ForgeEventHandlers;
 import com.hikarishima.lightland.magic.MagicElement;
 import com.hikarishima.lightland.magic.MagicRegistry;
 import com.hikarishima.lightland.mobspawn.MobSpawn;
-import com.hikarishima.lightland.proxy.ClientProxy;
-import com.hikarishima.lightland.proxy.ISidedProxy;
 import com.hikarishima.lightland.proxy.PacketHandler;
-import com.hikarishima.lightland.proxy.ServerProxy;
 import com.hikarishima.lightland.recipe.RecipeRegistry;
+import com.hikarishima.lightland.registry.ContainerRegistry;
 import com.hikarishima.lightland.registry.ItemRegistry;
 import com.hikarishima.lightland.registry.RegistryBase;
 import com.hikarishima.lightland.world.LightLandBiomeProvider;
 import com.hikarishima.lightland.world.LightLandChunkGenerator;
 import com.hikarishima.lightland.world.LightLandWorldType;
+import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.item.Item;
 import net.minecraft.item.crafting.IRecipeSerializer;
 import net.minecraft.profiler.IProfiler;
@@ -34,7 +33,6 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.world.ForgeWorldType;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
@@ -55,7 +53,6 @@ public class LightLand {
     public static final String MODID = "lightland";
     public static final String NETWORK_VERSION = "1";
 
-    public static ISidedProxy proxy = DistExecutor.safeRunForDist(() -> ClientProxy::new, () -> ServerProxy::new);
     public static LightLandWorldType WORLD_TYPE = new LightLandWorldType();
 
     public LightLand() {
@@ -63,8 +60,6 @@ public class LightLand {
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::doClientStuff);
         MinecraftForge.EVENT_BUS.register(this);
         MinecraftForge.EVENT_BUS.register(new ForgeEventHandlers());
-
-        proxy.init();
         PacketHandler.registerPackets();
     }
 
@@ -87,7 +82,7 @@ public class LightLand {
     }
 
     private void doClientStuff(final FMLClientSetupEvent event) {
-
+        ContainerRegistry.registerScreens();
     }
 
     @SubscribeEvent
@@ -155,10 +150,16 @@ public class LightLand {
         }
 
         @SubscribeEvent
+        public static void onContainerTypeRegistry(RegistryEvent.Register<ContainerType<?>> event) {
+            RegistryBase.process(ContainerRegistry.class, ContainerType.class, event.getRegistry()::register);
+        }
+
+        @SubscribeEvent
         public static void onWorldTypeRegistry(RegistryEvent.Register<ForgeWorldType> event) {
             event.getRegistry().register(WORLD_TYPE.setRegistryName(MODID, "image_biome"));
         }
 
+        @SubscribeEvent
         public static void onRecipeSerializerRegistry(RegistryEvent.Register<IRecipeSerializer<?>> event){
             RegistryBase.process(RecipeRegistry.class, IRecipeSerializer.class, event.getRegistry()::register);
         }
