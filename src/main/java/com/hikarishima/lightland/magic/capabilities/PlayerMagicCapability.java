@@ -1,7 +1,5 @@
 package com.hikarishima.lightland.magic.capabilities;
 
-import com.lcy0x1.core.util.Automator;
-import com.lcy0x1.core.util.ExceptionHandler;
 import com.lcy0x1.core.util.SerialClass;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.Direction;
@@ -18,7 +16,7 @@ import javax.annotation.Nullable;
 public class PlayerMagicCapability implements ICapabilitySerializable<CompoundNBT> {
 
     public final World w;
-    public MagicHandler handler= new MagicHandler();
+    public MagicHandler handler = new MagicHandler();
     public LazyOptional<MagicHandler> lo = LazyOptional.of(() -> this.handler);
 
     public PlayerMagicCapability(World w) {

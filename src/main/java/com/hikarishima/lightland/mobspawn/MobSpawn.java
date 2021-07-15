@@ -48,9 +48,9 @@ public class MobSpawn {
         }
     }
 
-    public static void addAllSpawns(List<MobSpawnInfo.Spawners> list){
-        for(MobSpawn rule : LIST)
-            for(MobSpawn.Entry entry : rule.getMobs())
+    public static void addAllSpawns(List<MobSpawnInfo.Spawners> list) {
+        for (MobSpawn rule : LIST)
+            for (MobSpawn.Entry entry : rule.getMobs())
                 list.add(entry.spawner);
     }
 

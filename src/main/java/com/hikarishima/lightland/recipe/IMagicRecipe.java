@@ -3,17 +3,12 @@ package com.hikarishima.lightland.recipe;
 import com.hikarishima.lightland.magic.IMagicProduct;
 import com.hikarishima.lightland.magic.MagicElement;
 import com.hikarishima.lightland.magic.MagicRegistry;
-import com.hikarishima.lightland.registry.RegistryBase;
 import com.lcy0x1.base.BaseRecipe;
 import com.lcy0x1.core.util.SerialClass;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.IRecipeType;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
-import org.apache.logging.log4j.LogManager;
 
-import java.awt.print.Book;
-import java.util.ArrayList;
 import java.util.List;
 
 @SerialClass
@@ -72,7 +67,7 @@ public class IMagicRecipe<R extends IMagicRecipe<R>> extends BaseRecipe<R, IMagi
         return IMagicProduct.getInstance(product_type, product_id);
     }
 
-    protected final void register(MagicElement[] elements, boolean[][] maps){
+    protected final void register(MagicElement[] elements, boolean[][] maps) {
         this.elements = elements;
         this.maps = maps;
     }

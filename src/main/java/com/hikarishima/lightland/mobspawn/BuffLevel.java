@@ -57,12 +57,12 @@ public class BuffLevel {
 
         @Override
         public int getWeight() {
-            return buff.weight*lv;
+            return buff.weight * lv;
         }
 
         @Override
         public double getCost() {
-            return buff.cost*lv;
+            return buff.cost * lv;
         }
 
         @Override
@@ -92,8 +92,8 @@ public class BuffLevel {
         List<BuffIns> insList = IMobLevel.loot(world, list, difficulty);
         int cost = 0;
         for (BuffIns ins : insList) {
-           ModifiableAttributeInstance mains = attrs.getInstance(ins.buff.attr);
-            if(mains!=null){
+            ModifiableAttributeInstance mains = attrs.getInstance(ins.buff.attr);
+            if (mains != null) {
                 double coef = Math.pow(ins.buff.base, ins.lv);
                 AttributeModifier mod = new AttributeModifier(MODIFIER_UUID, NAME, coef, ins.buff.operation);
                 mains.addPermanentModifier(mod);

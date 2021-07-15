@@ -17,7 +17,6 @@ import net.minecraftforge.fml.loading.FMLEnvironment;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.function.Consumer;
 
 @SerialClass
@@ -148,7 +147,7 @@ public class SpriteManager {
 
     public interface SlotFactory<T extends Slot> {
 
-        public T getSlot(int x, int y);
+        T getSlot(int x, int y);
 
     }
 
@@ -156,7 +155,7 @@ public class SpriteManager {
     private final ResourceLocation coords, texture;
 
     @SerialClass.SerialField
-    private int height = 0;
+    private final int height = 0;
     @SerialClass.SerialField(generic = {String.class, Rect.class})
     private HashMap<String, Rect> side, comp;
 

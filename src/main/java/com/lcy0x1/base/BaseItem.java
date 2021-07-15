@@ -94,7 +94,7 @@ public class BaseItem extends Item {
 
     public interface InvTickImpl extends IImpl {
 
-        public void inventoryTick(ItemStack stack, World w, Entity e, int slot, boolean selected);
+        void inventoryTick(ItemStack stack, World w, Entity e, int slot, boolean selected);
 
     }
 

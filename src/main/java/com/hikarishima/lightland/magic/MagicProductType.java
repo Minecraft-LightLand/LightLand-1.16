@@ -3,7 +3,6 @@ package com.hikarishima.lightland.magic;
 import com.hikarishima.lightland.magic.capabilities.MagicHandler;
 import com.hikarishima.lightland.recipe.IMagicRecipe;
 import com.lcy0x1.core.util.NBTObj;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.registries.IForgeRegistryEntry;
 

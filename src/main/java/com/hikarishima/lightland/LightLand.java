@@ -120,7 +120,7 @@ public class LightLand {
     public static class RegistryEvents {
 
         @SubscribeEvent
-        public static void onNewRegistry(RegistryEvent.NewRegistry event){
+        public static void onNewRegistry(RegistryEvent.NewRegistry event) {
             MagicRegistry.createRegistries();
         }
 
@@ -160,7 +160,7 @@ public class LightLand {
         }
 
         @SubscribeEvent
-        public static void onRecipeSerializerRegistry(RegistryEvent.Register<IRecipeSerializer<?>> event){
+        public static void onRecipeSerializerRegistry(RegistryEvent.Register<IRecipeSerializer<?>> event) {
             RegistryBase.process(RecipeRegistry.class, IRecipeSerializer.class, event.getRegistry()::register);
         }
 

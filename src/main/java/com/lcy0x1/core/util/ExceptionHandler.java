@@ -5,35 +5,35 @@ import org.apache.logging.log4j.LogManager;
 
 public class ExceptionHandler {
 
-	@FunctionalInterface
-	public interface ExcRun {
+    @FunctionalInterface
+    public interface ExcRun {
 
-		void get() throws Exception;
+        void get() throws Exception;
 
-	}
+    }
 
-	@FunctionalInterface
-	public interface ExcSup<T> {
+    @FunctionalInterface
+    public interface ExcSup<T> {
 
-		T get() throws Exception;
+        T get() throws Exception;
 
-	}
+    }
 
-	public static void run(ExcRun run) {
-		try {
-			run.get();
-		} catch (Exception e) {
-			LogManager.getLogger().throwing(Level.ERROR, e);
-		}
-	}
+    public static void run(ExcRun run) {
+        try {
+            run.get();
+        } catch (Exception e) {
+            LogManager.getLogger().throwing(Level.ERROR, e);
+        }
+    }
 
-	public static <T> T get(ExcSup<T> sup) {
-		try {
-			return sup.get();
-		} catch (Exception e) {
-			LogManager.getLogger().throwing(Level.ERROR, e);
-			return null;
-		}
-	}
+    public static <T> T get(ExcSup<T> sup) {
+        try {
+            return sup.get();
+        } catch (Exception e) {
+            LogManager.getLogger().throwing(Level.ERROR, e);
+            return null;
+        }
+    }
 
 }

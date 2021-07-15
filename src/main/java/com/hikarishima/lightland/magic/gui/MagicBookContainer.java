@@ -40,7 +40,7 @@ public class MagicBookContainer extends Container implements PacketHandler.Seria
     private final ItemStack book;
     private final PlayerEntity player;
     private IMagicRecipe<?> product = null;
-    private MagicHandler handler;
+    private final MagicHandler handler;
 
     public void setProduct(IMagicRecipe<?> prod) {
         product = prod;
@@ -57,7 +57,7 @@ public class MagicBookContainer extends Container implements PacketHandler.Seria
         ItemStack off = plinv.player.getOffhandItem();
         book = main.getItem() instanceof MagicBook ? main : off;
         handler = player.getCapability(MagicHandler.CAPABILITY)
-                .orElseThrow(()->new RuntimeException("magic handler not present"));
+                .orElseThrow(() -> new RuntimeException("magic handler not present"));
     }
 
     @Override

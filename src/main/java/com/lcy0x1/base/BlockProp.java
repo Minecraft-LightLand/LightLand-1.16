@@ -6,28 +6,28 @@ import net.minecraftforge.common.ToolType;
 
 public class BlockProp {
 
-	public static final BlockProp ORE_0 = new BlockProp(Material.STONE, 3, 3).setTool(ToolType.PICKAXE, 0);
+    public static final BlockProp ORE_0 = new BlockProp(Material.STONE, 3, 3).setTool(ToolType.PICKAXE, 0);
 
 
-	private final Block.Properties props;
+    private final Block.Properties props;
 
-	private BlockProp(Material mat, float hard, float rest) {
-		this(Block.Properties.of(mat), hard, rest);
-	}
+    private BlockProp(Material mat, float hard, float rest) {
+        this(Block.Properties.of(mat), hard, rest);
+    }
 
-	private BlockProp(Block.Properties mat, float hard, float rest) {
-		props = mat;
-		props.strength(hard, rest);
-	}
+    private BlockProp(Block.Properties mat, float hard, float rest) {
+        props = mat;
+        props.strength(hard, rest);
+    }
 
-	public Block.Properties getProps() {
-		return props;
-	}
+    public Block.Properties getProps() {
+        return props;
+    }
 
-	private BlockProp setTool(ToolType tool, int level) {
-		props.harvestTool(tool);
-		props.harvestLevel(level);
-		return this;
-	}
+    private BlockProp setTool(ToolType tool, int level) {
+        props.harvestTool(tool);
+        props.harvestLevel(level);
+        return this;
+    }
 
 }
