@@ -1,5 +1,7 @@
 package com.hikarishima.lightland.magic;
 
+import com.hikarishima.lightland.magic.capabilities.MagicHandler;
+import com.hikarishima.lightland.recipe.IMagicRecipe;
 import com.lcy0x1.core.util.NBTObj;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.ResourceLocation;
@@ -12,7 +14,7 @@ public class MagicProductType<I extends IForgeRegistryEntry<I>, P extends MagicP
     @FunctionalInterface
     public interface MagicFactory<I extends IForgeRegistryEntry<I>, P extends MagicProduct<I, P>> {
 
-        P get(PlayerEntity player, NBTObj nbtManager, ResourceLocation rl);
+        P get(MagicHandler player, NBTObj nbtManager, ResourceLocation rl, IMagicRecipe<?> r);
 
     }
 

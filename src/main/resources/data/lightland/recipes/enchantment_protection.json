@@ -1,0 +1,25 @@
+{
+    "type": "lightland:magic_default",
+    "product_type": "lightland:enchantment",
+    "product_id": "minecraft:protection",
+    "predecessor": [],
+    "elemental_mastery": [
+        {
+            "element": "lightland:earth",
+            "level": 1
+        }
+    ],
+    "screen": {
+        "screen_x": 0,
+        "screen_y": 0
+    },
+    "elements": {
+        "A": "lightland:earth",
+        "B": "lightland:earth",
+        "C": "lightland:earth",
+        "D": "lightland:void"
+    },
+    "flow": [
+        "ABC<->D"
+    ]
+}

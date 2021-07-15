@@ -1,7 +1,9 @@
 package com.hikarishima.lightland.item;
 
 import com.hikarishima.lightland.config.Translator;
+import com.hikarishima.lightland.magic.capabilities.MagicHandler;
 import com.hikarishima.lightland.magic.gui.MagicBookContainer;
+import com.lcy0x1.core.util.NBTObj;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Container;
@@ -13,6 +15,7 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.world.World;
+import net.minecraftforge.common.capabilities.Capability;
 
 import javax.annotation.Nullable;
 

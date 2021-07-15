@@ -12,12 +12,14 @@ import com.hikarishima.lightland.proxy.ClientProxy;
 import com.hikarishima.lightland.proxy.ISidedProxy;
 import com.hikarishima.lightland.proxy.PacketHandler;
 import com.hikarishima.lightland.proxy.ServerProxy;
+import com.hikarishima.lightland.recipe.RecipeRegistry;
 import com.hikarishima.lightland.registry.ItemRegistry;
 import com.hikarishima.lightland.registry.RegistryBase;
 import com.hikarishima.lightland.world.LightLandBiomeProvider;
 import com.hikarishima.lightland.world.LightLandChunkGenerator;
 import com.hikarishima.lightland.world.LightLandWorldType;
 import net.minecraft.item.Item;
+import net.minecraft.item.crafting.IRecipeSerializer;
 import net.minecraft.profiler.IProfiler;
 import net.minecraft.resources.IFutureReloadListener;
 import net.minecraft.resources.IReloadableResourceManager;
@@ -155,6 +157,10 @@ public class LightLand {
         @SubscribeEvent
         public static void onWorldTypeRegistry(RegistryEvent.Register<ForgeWorldType> event) {
             event.getRegistry().register(WORLD_TYPE.setRegistryName(MODID, "image_biome"));
+        }
+
+        public static void onRecipeSerializerRegistry(RegistryEvent.Register<IRecipeSerializer<?>> event){
+            RegistryBase.process(RecipeRegistry.class, IRecipeSerializer.class, event.getRegistry()::register);
         }
 
         @SubscribeEvent

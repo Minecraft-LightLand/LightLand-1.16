@@ -2,7 +2,6 @@ package com.hikarishima.lightland.recipe;
 
 import com.hikarishima.lightland.LightLand;
 import com.lcy0x1.base.BaseRecipe;
-import net.minecraft.item.crafting.IRecipeSerializer;
 import net.minecraft.item.crafting.IRecipeType;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.registries.IForgeRegistryEntry;

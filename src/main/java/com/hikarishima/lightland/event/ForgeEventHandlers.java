@@ -1,11 +1,17 @@
 package com.hikarishima.lightland.event;
 
+import com.hikarishima.lightland.LightLand;
+import com.hikarishima.lightland.magic.capabilities.PlayerMagicCapability;
 import com.hikarishima.lightland.mobspawn.MobSpawn;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.biome.MobSpawnInfo;
 import net.minecraft.world.gen.GenerationStage;
+import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.entity.living.LivingSpawnEvent;
 import net.minecraftforge.event.entity.player.AttackEntityEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
@@ -82,6 +88,15 @@ public class ForgeEventHandlers {
     @SubscribeEvent
     public void onPlayerRightClickEntity(PlayerInteractEvent.EntityInteract event) {
         ItemUseHandler.execute(event.getItemStack(), event, ItemUseHandler.ItemClickHandler::onPlayerRightClickEntity);
+    }
+
+    @SubscribeEvent
+    public void onAttachCapabilities(AttachCapabilitiesEvent<Entity> event) {
+        if (event.getObject() instanceof PlayerEntity) {
+            event.addCapability(new ResourceLocation(LightLand.MODID, "magic"),
+                    new PlayerMagicCapability(event.getObject().level));
+        }
+
     }
 
 }

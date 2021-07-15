@@ -31,19 +31,20 @@ public class MagicRegistry {
     public static MagicElement ELEM_AIR = reg("air", new MagicElement());
     public static MagicElement ELEM_WATER = reg("water", new MagicElement());
     public static MagicElement ELEM_FIRE = reg("fire", new MagicElement());
+    public static MagicElement ELEM_VOID = reg("void", new MagicElement());
 
     public static MagicProductType<Enchantment, EnchantmentMagic> MPT_ENCH =
-            new MagicProductType<>(
+            reg("enchantment", new MagicProductType<>(
                     EnchantmentMagic.class, EnchantmentMagic::new,
                     ForgeRegistries.ENCHANTMENTS::getValue, Enchantment::getDescriptionId,
-                    Enchantments.ALL_DAMAGE_PROTECTION);
+                    Enchantments.ALL_DAMAGE_PROTECTION));
 
 
     public static MagicProductType<Effect, PotionMagic> MPT_EFF =
-            new MagicProductType<>(
+            reg("effect", new MagicProductType<>(
                     PotionMagic.class, PotionMagic::new,
                     ForgeRegistries.POTIONS::getValue, Effect::getDescriptionId,
-                    Effects.MOVEMENT_SPEED);
+                    Effects.MOVEMENT_SPEED));
 
 
     public static void createRegistries() {

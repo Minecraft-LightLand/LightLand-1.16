@@ -12,13 +12,14 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import org.apache.logging.log4j.LogManager;
 
+import java.awt.print.Book;
 import java.util.ArrayList;
 import java.util.List;
 
 @SerialClass
 public class IMagicRecipe<R extends IMagicRecipe<R>> extends BaseRecipe<R, IMagicRecipe<?>, IMagicRecipe.Inv> {
 
-    public interface Inv extends RecInv<IMagicRecipe<?>> {
+    public interface Inv extends BaseRecipe.RecInv<IMagicRecipe<?>> {
 
     }
 
@@ -41,21 +42,12 @@ public class IMagicRecipe<R extends IMagicRecipe<R>> extends BaseRecipe<R, IMagi
     }
 
     @SuppressWarnings("unchecked")
-    public static List<IMagicRecipe<?>> getDependent(World w, IMagicRecipe<?> p) {
+    public static List<IMagicRecipe<?>> getAll(World w) {
         List<IMagicRecipe<?>> list = new ArrayList<>();
         RegistryBase.process(RecipeRegistry.class, BaseRecipe.RecType.class, (t) -> {
             if (!IMagicRecipe.class.isAssignableFrom(t.cls))
                 return;
-            for (IMagicRecipe<?> r : w.getRecipeManager().getAllRecipesFor((IRecipeType<IMagicRecipe<?>>) t.type)) {
-                if (r.predecessor.length == 0 && p == null)
-                    list.add(r);
-                else if (p != null) {
-                    boolean find = false;
-                    for (ResourceLocation rl : r.predecessor)
-                        if (rl.equals(p.id))
-                            list.add(r);
-                }
-            }
+            list.addAll(w.getRecipeManager().getAllRecipesFor((IRecipeType<IMagicRecipe<?>>) t.type));
         });
         return list;
     }
@@ -71,6 +63,14 @@ public class IMagicRecipe<R extends IMagicRecipe<R>> extends BaseRecipe<R, IMagi
 
     }
 
+    @SerialClass
+    public static class BookScreen {
+
+        @SerialClass.SerialField
+        public int screen_x, screen_y;
+
+    }
+
     @SerialClass.SerialField
     public ResourceLocation[] predecessor;
 
@@ -83,8 +83,23 @@ public class IMagicRecipe<R extends IMagicRecipe<R>> extends BaseRecipe<R, IMagi
     @SerialClass.SerialField
     public ResourceLocation product_id;
 
+    @SerialClass.SerialField
+    public BookScreen screen;
+
+    private MagicElement[] elements;
+    private boolean[][] maps;
+
     public IMagicRecipe(ResourceLocation id, RecType<R, IMagicRecipe<?>, Inv> fac) {
         super(id, fac);
+    }
+
+    public final IMagicProduct<?, ?> getProduct() {
+        return IMagicProduct.getInstance(product_type, product_id);
+    }
+
+    protected final void register(MagicElement[] elements, boolean[][] maps){
+        this.elements = elements;
+        this.maps = maps;
     }
 
     @Override
@@ -107,8 +122,5 @@ public class IMagicRecipe<R extends IMagicRecipe<R>> extends BaseRecipe<R, IMagi
         return null;
     }
 
-    public final IMagicProduct<?, ?> getProduct() {
-        return IMagicProduct.getInstance(product_type, product_id);
-    }
 
 }
