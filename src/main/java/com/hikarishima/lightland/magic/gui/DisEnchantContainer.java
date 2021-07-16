@@ -12,7 +12,7 @@ import net.minecraft.inventory.container.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 
-public class MagicBookContainer extends Container implements PacketHandler.SerialMsgCont<MagicBookContainer.Msg> {
+public class DisEnchantContainer extends Container implements PacketHandler.SerialMsgCont<DisEnchantContainer.Msg> {
 
     public static final int SLOTS = 1;
 
@@ -39,8 +39,9 @@ public class MagicBookContainer extends Container implements PacketHandler.Seria
 
     private final ItemStack book;
     private final PlayerEntity player;
-    private IMagicRecipe<?> product = null;
-    private final MagicHandler handler;
+
+    protected IMagicRecipe<?> product = null;
+    protected final MagicHandler handler;
 
     public void setProduct(IMagicRecipe<?> prod) {
         product = prod;
@@ -50,7 +51,7 @@ public class MagicBookContainer extends Container implements PacketHandler.Seria
                 prod.id.toString()));
     }
 
-    public MagicBookContainer(int id, PlayerInventory plinv) {
+    public DisEnchantContainer(int id, PlayerInventory plinv) {
         super(ContainerRegistry.CT_MAGIC_BOOK, id);
         player = plinv.player;
         ItemStack main = plinv.player.getMainHandItem();

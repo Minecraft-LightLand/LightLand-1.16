@@ -1,7 +1,7 @@
 package com.hikarishima.lightland.proxy;
 
 import com.hikarishima.lightland.LightLand;
-import com.hikarishima.lightland.magic.gui.MagicBookContainer;
+import com.hikarishima.lightland.magic.gui.DisEnchantContainer;
 import com.lcy0x1.core.util.SerialClass;
 import com.lcy0x1.core.util.Serializer;
 import net.minecraft.client.Minecraft;
@@ -95,7 +95,7 @@ public class PacketHandler {
 
     public static void registerPackets() {
         reg(IntMsg.class, IntMsg::encode, IntMsg::decode, IntMsg::handle);
-        reg(MagicBookContainer.Msg.class, MagicBookContainer.class);
+        reg(DisEnchantContainer.Msg.class, DisEnchantContainer.class);
     }
 
     public static <T> void send(T msg) {

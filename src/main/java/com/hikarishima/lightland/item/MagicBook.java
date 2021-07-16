@@ -1,7 +1,7 @@
 package com.hikarishima.lightland.item;
 
 import com.hikarishima.lightland.config.Translator;
-import com.hikarishima.lightland.magic.gui.MagicBookContainer;
+import com.hikarishima.lightland.magic.gui.DisEnchantContainer;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Container;
@@ -42,7 +42,7 @@ public class MagicBook extends Item implements INamedContainerProvider {
     @Nullable
     @Override
     public Container createMenu(int id, PlayerInventory inv, PlayerEntity player) {
-        return new MagicBookContainer(id, inv);
+        return new DisEnchantContainer(id, inv);
     }
 
 }

@@ -16,6 +16,7 @@ import com.hikarishima.lightland.registry.RegistryBase;
 import com.hikarishima.lightland.world.LightLandBiomeProvider;
 import com.hikarishima.lightland.world.LightLandChunkGenerator;
 import com.hikarishima.lightland.world.LightLandWorldType;
+import net.minecraft.block.Block;
 import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.item.Item;
 import net.minecraft.item.crafting.IRecipeSerializer;
@@ -23,6 +24,7 @@ import net.minecraft.profiler.IProfiler;
 import net.minecraft.resources.IFutureReloadListener;
 import net.minecraft.resources.IReloadableResourceManager;
 import net.minecraft.resources.IResourceManager;
+import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.biome.Biome;
@@ -147,6 +149,16 @@ public class LightLand {
         @SubscribeEvent
         public static void onItemRegistry(RegistryEvent.Register<Item> event) {
             RegistryBase.process(ItemRegistry.class, Item.class, event.getRegistry()::register);
+        }
+
+        @SubscribeEvent
+        public static void onBlockRegistry(RegistryEvent.Register<Block> event) {
+            RegistryBase.process(ItemRegistry.class, Block.class, event.getRegistry()::register);
+        }
+
+        @SubscribeEvent
+        public static void onTileEntityTypeRegistry(RegistryEvent.Register<TileEntityType<?>> event) {
+            RegistryBase.process(ContainerRegistry.class, TileEntityType.class, event.getRegistry()::register);
         }
 
         @SubscribeEvent
