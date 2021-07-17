@@ -57,8 +57,7 @@ public class DisEnchantContainer extends Container implements PacketHandler.Seri
         ItemStack main = plinv.player.getMainHandItem();
         ItemStack off = plinv.player.getOffhandItem();
         book = main.getItem() instanceof MagicBook ? main : off;
-        handler = player.getCapability(MagicHandler.CAPABILITY)
-                .orElseThrow(() -> new RuntimeException("magic handler not present"));
+        handler = MagicHandler.get(player);
     }
 
     @Override

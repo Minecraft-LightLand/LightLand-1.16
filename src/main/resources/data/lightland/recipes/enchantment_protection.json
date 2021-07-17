@@ -17,7 +17,7 @@
         "A": "lightland:earth",
         "B": "lightland:earth",
         "C": "lightland:earth",
-        "D": "lightland:void"
+        "D": "lightland:quint"
     },
     "flows": [
         "ABC<->D"

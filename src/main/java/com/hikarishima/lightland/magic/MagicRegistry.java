@@ -1,8 +1,11 @@
 package com.hikarishima.lightland.magic;
 
 import com.hikarishima.lightland.LightLand;
+import com.hikarishima.lightland.item.arcane.internal.Arcane;
+import com.hikarishima.lightland.item.arcane.internal.ArcaneType;
 import com.hikarishima.lightland.magic.products.EnchantmentMagic;
 import com.hikarishima.lightland.magic.products.PotionMagic;
+import com.lcy0x1.base.NamedEntry;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.potion.Effect;
@@ -15,7 +18,11 @@ import net.minecraftforge.registries.RegistryBuilder;
 
 public class MagicRegistry {
 
-    public static abstract class MPTRaw extends ForgeRegistryEntry<MPTRaw> {
+    public static abstract class MPTRaw extends NamedEntry<MPTRaw> {
+
+        public MPTRaw() {
+            super(() -> PRODUCT_TYPE);
+        }
 
         @SuppressWarnings("unchecked")
         public <I extends ForgeRegistryEntry<I>, P extends MagicProduct<I, P>> MagicProductType<I, P> getAsType() {
@@ -26,12 +33,14 @@ public class MagicRegistry {
 
     public static IForgeRegistry<MagicElement> ELEMENT;
     public static IForgeRegistry<MPTRaw> PRODUCT_TYPE;
+    public static IForgeRegistry<ArcaneType> ARCANE_TYPE;
+    public static IForgeRegistry<Arcane> ARCANE;
 
     public static MagicElement ELEM_EARTH = reg("earth", new MagicElement());
     public static MagicElement ELEM_AIR = reg("air", new MagicElement());
     public static MagicElement ELEM_WATER = reg("water", new MagicElement());
     public static MagicElement ELEM_FIRE = reg("fire", new MagicElement());
-    public static MagicElement ELEM_VOID = reg("void", new MagicElement());
+    public static MagicElement ELEM_VOID = reg("quint", new MagicElement());
 
     public static MagicProductType<Enchantment, EnchantmentMagic> MPT_ENCH =
             reg("enchantment", new MagicProductType<>(
@@ -55,6 +64,14 @@ public class MagicRegistry {
         PRODUCT_TYPE = new RegistryBuilder<MPTRaw>()
                 .setName(new ResourceLocation(LightLand.MODID, "magic_product_type"))
                 .setType(MPTRaw.class).create();
+
+        ARCANE_TYPE = new RegistryBuilder<ArcaneType>()
+                .setName(new ResourceLocation(LightLand.MODID, "arcane_type"))
+                .setType(ArcaneType.class).create();
+
+        ARCANE = new RegistryBuilder<Arcane>()
+                .setName(new ResourceLocation(LightLand.MODID, "arcane"))
+                .setType(Arcane.class).create();
 
     }
 

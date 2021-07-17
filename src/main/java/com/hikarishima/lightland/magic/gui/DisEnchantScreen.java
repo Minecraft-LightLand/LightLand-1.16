@@ -18,7 +18,7 @@ public class DisEnchantScreen extends ContainerScreen<DisEnchantContainer> {
         this.cont = cont;
     }
 
-    protected void init(){
+    protected void init() {
         super.init();
     }
 

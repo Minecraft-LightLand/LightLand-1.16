@@ -4,36 +4,21 @@ import com.hikarishima.lightland.config.FileIO;
 import com.hikarishima.lightland.config.road.ImageRoadReader;
 import com.hikarishima.lightland.config.worldgen.ImageBiomeReader;
 import com.hikarishima.lightland.config.worldgen.VolcanoBiomeReader;
-import com.hikarishima.lightland.event.ForgeEventHandlers;
-import com.hikarishima.lightland.magic.MagicElement;
-import com.hikarishima.lightland.magic.MagicRegistry;
+import com.hikarishima.lightland.event.forge.ItemUseEventHandler;
 import com.hikarishima.lightland.mobspawn.MobSpawn;
 import com.hikarishima.lightland.proxy.PacketHandler;
-import com.hikarishima.lightland.recipe.RecipeRegistry;
 import com.hikarishima.lightland.registry.ContainerRegistry;
-import com.hikarishima.lightland.registry.ItemRegistry;
-import com.hikarishima.lightland.registry.RegistryBase;
 import com.hikarishima.lightland.world.LightLandBiomeProvider;
 import com.hikarishima.lightland.world.LightLandChunkGenerator;
 import com.hikarishima.lightland.world.LightLandWorldType;
-import net.minecraft.block.Block;
-import net.minecraft.inventory.container.ContainerType;
-import net.minecraft.item.Item;
-import net.minecraft.item.crafting.IRecipeSerializer;
 import net.minecraft.profiler.IProfiler;
 import net.minecraft.resources.IFutureReloadListener;
 import net.minecraft.resources.IReloadableResourceManager;
 import net.minecraft.resources.IResourceManager;
-import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.registry.Registry;
-import net.minecraft.world.biome.Biome;
-import net.minecraft.world.gen.feature.Feature;
-import net.minecraft.world.gen.placement.Placement;
-import net.minecraft.world.gen.surfacebuilders.SurfaceBuilder;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.common.world.ForgeWorldType;
-import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
@@ -58,10 +43,12 @@ public class LightLand {
     public static LightLandWorldType WORLD_TYPE = new LightLandWorldType();
 
     public LightLand() {
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::doClientStuff);
+        IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
+        bus.addListener(this::setup);
+        bus.addListener(this::doClientStuff);
         MinecraftForge.EVENT_BUS.register(this);
-        MinecraftForge.EVENT_BUS.register(new ForgeEventHandlers());
+        //MinecraftForge.EVENT_BUS.register(new WorldGenEventHandler());
+        MinecraftForge.EVENT_BUS.register(new ItemUseEventHandler());
         PacketHandler.registerPackets();
     }
 
@@ -118,73 +105,4 @@ public class LightLand {
         });
     }
 
-    @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
-    public static class RegistryEvents {
-
-        @SubscribeEvent
-        public static void onNewRegistry(RegistryEvent.NewRegistry event) {
-            MagicRegistry.createRegistries();
-        }
-
-        @SubscribeEvent
-        public static void onPlacementRegistry(RegistryEvent.Register<Placement<?>> event) {
-            RegistryBase.processBiome(event);
-        }
-
-        @SubscribeEvent
-        public static void onFeatureRegistry(RegistryEvent.Register<Feature<?>> event) {
-            RegistryBase.processBiome(event);
-        }
-
-        @SubscribeEvent
-        public static void onSurfaceBuilderRegistry(RegistryEvent.Register<SurfaceBuilder<?>> event) {
-            RegistryBase.processBiome(event);
-        }
-
-        @SubscribeEvent
-        public static void onBiomeRegistry(RegistryEvent.Register<Biome> event) {
-            RegistryBase.processBiome(event);
-        }
-
-        @SubscribeEvent
-        public static void onItemRegistry(RegistryEvent.Register<Item> event) {
-            RegistryBase.process(ItemRegistry.class, Item.class, event.getRegistry()::register);
-        }
-
-        @SubscribeEvent
-        public static void onBlockRegistry(RegistryEvent.Register<Block> event) {
-            RegistryBase.process(ItemRegistry.class, Block.class, event.getRegistry()::register);
-        }
-
-        @SubscribeEvent
-        public static void onTileEntityTypeRegistry(RegistryEvent.Register<TileEntityType<?>> event) {
-            RegistryBase.process(ContainerRegistry.class, TileEntityType.class, event.getRegistry()::register);
-        }
-
-        @SubscribeEvent
-        public static void onContainerTypeRegistry(RegistryEvent.Register<ContainerType<?>> event) {
-            RegistryBase.process(ContainerRegistry.class, ContainerType.class, event.getRegistry()::register);
-        }
-
-        @SubscribeEvent
-        public static void onWorldTypeRegistry(RegistryEvent.Register<ForgeWorldType> event) {
-            event.getRegistry().register(WORLD_TYPE.setRegistryName(MODID, "image_biome"));
-        }
-
-        @SubscribeEvent
-        public static void onRecipeSerializerRegistry(RegistryEvent.Register<IRecipeSerializer<?>> event) {
-            RegistryBase.process(RecipeRegistry.class, IRecipeSerializer.class, event.getRegistry()::register);
-        }
-
-        @SubscribeEvent
-        public static void onMagicElementRegistry(RegistryEvent.Register<MagicElement> event) {
-            RegistryBase.process(MagicRegistry.class, MagicElement.class, event.getRegistry()::register);
-        }
-
-        @SubscribeEvent
-        public static void onMagicProductTypeRegistry(RegistryEvent.Register<MagicRegistry.MPTRaw> event) {
-            RegistryBase.process(MagicRegistry.class, MagicRegistry.MPTRaw.class, event.getRegistry()::register);
-        }
-
-    }
 }

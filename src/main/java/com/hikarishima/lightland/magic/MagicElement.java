@@ -1,12 +1,16 @@
 package com.hikarishima.lightland.magic;
 
 import com.hikarishima.lightland.LightLand;
+import com.lcy0x1.base.NamedEntry;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.registries.ForgeRegistryEntry;
 
-public class MagicElement extends ForgeRegistryEntry<MagicElement> {
+public class MagicElement extends NamedEntry<MagicElement> {
+
+    public MagicElement() {
+        super(() -> MagicRegistry.ELEMENT);
+    }
 
     @OnlyIn(Dist.CLIENT)
     public ResourceLocation getIcon() {

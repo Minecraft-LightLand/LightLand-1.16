@@ -1,0 +1,39 @@
+{
+    "language": {
+        "name": "English",
+        "region": "United States",
+        "code": "en_us"
+    },
+    "lightland:chat": {
+        "player_not_found": "player not found",
+        "action_success": "action success",
+        "wrong_item": "wrong_item",
+        "list_arcane_type": "%s",
+        "list_arcane_type.unlocked": "unlocked",
+        "list_arcane_type.locked": "locked",
+        "list_arcane_type.item": "%s: %s\n",
+        "show_arcane_mana": "%s / %s"
+    },
+    "lightland:element": {
+        "lightland:earth": "Earth",
+        "lightland:water": "Water",
+        "lightland:air": "Air",
+        "lightland:fire": "Fire",
+        "lightland:quint": "Quint"
+    },
+    "lightland:arcane_type": {
+        "lightland:dubhe": "Dubhe",
+        "lightland:merak": "Merak",
+        "lightland:phecda": "Phecda",
+        "lightland:megrez": "Megrez",
+        "lightland:alioth": "Alioth",
+        "lightland:mizar": "Mizar",
+        "lightland:alkaid": "Alkaid"
+    },
+    "lightland:arcane": {
+        "lightland:thunder_axe": "Thunder Axe"
+    },
+    "item.lightland": {
+        "magic_book": "Magic Book (not finished)"
+    }
+}

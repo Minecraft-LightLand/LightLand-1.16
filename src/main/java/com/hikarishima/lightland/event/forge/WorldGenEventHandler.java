@@ -1,20 +1,12 @@
-package com.hikarishima.lightland.event;
+package com.hikarishima.lightland.event.forge;
 
-import com.hikarishima.lightland.LightLand;
-import com.hikarishima.lightland.magic.capabilities.PlayerMagicCapability;
 import com.hikarishima.lightland.mobspawn.MobSpawn;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.biome.MobSpawnInfo;
 import net.minecraft.world.gen.GenerationStage;
-import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.entity.living.LivingSpawnEvent;
-import net.minecraftforge.event.entity.player.AttackEntityEvent;
-import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.world.BiomeLoadingEvent;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.eventbus.api.Event;
@@ -22,7 +14,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 import java.util.List;
 
-public class ForgeEventHandlers {
+public class WorldGenEventHandler {
 
     @SubscribeEvent
     public void onPotentialSpawns(WorldEvent.PotentialSpawns event) {
@@ -57,45 +49,6 @@ public class ForgeEventHandlers {
         List<MobSpawnInfo.Spawners> list = event.getSpawns().getSpawner(EntityClassification.MONSTER);
         list.clear();
         MobSpawn.addAllSpawns(list);
-
-    }
-
-    @SubscribeEvent
-    public void onPlayerLeftClickEmpty(PlayerInteractEvent.LeftClickEmpty event) {
-        ItemUseHandler.execute(event.getItemStack(), event, ItemUseHandler.ItemClickHandler::onPlayerLeftClickEmpty);
-    }
-
-    @SubscribeEvent
-    public void onPlayerLeftClickBlock(PlayerInteractEvent.LeftClickBlock event) {
-        ItemUseHandler.execute(event.getItemStack(), event, ItemUseHandler.ItemClickHandler::onPlayerLeftClickBlock);
-    }
-
-    @SubscribeEvent
-    public void onPlayerLeftClickEntity(AttackEntityEvent event) {
-        ItemUseHandler.execute(event.getPlayer().getMainHandItem(), event, ItemUseHandler.ItemClickHandler::onPlayerLeftClickEntity);
-    }
-
-    @SubscribeEvent
-    public void onPlayerRightClickEmpty(PlayerInteractEvent.RightClickEmpty event) {
-        ItemUseHandler.execute(event.getItemStack(), event, ItemUseHandler.ItemClickHandler::onPlayerRightClickEmpty);
-    }
-
-    @SubscribeEvent
-    public void onPlayerRightClickBlock(PlayerInteractEvent.RightClickBlock event) {
-        ItemUseHandler.execute(event.getItemStack(), event, ItemUseHandler.ItemClickHandler::onPlayerRightClickBlock);
-    }
-
-    @SubscribeEvent
-    public void onPlayerRightClickEntity(PlayerInteractEvent.EntityInteract event) {
-        ItemUseHandler.execute(event.getItemStack(), event, ItemUseHandler.ItemClickHandler::onPlayerRightClickEntity);
-    }
-
-    @SubscribeEvent
-    public void onAttachCapabilities(AttachCapabilitiesEvent<Entity> event) {
-        if (event.getObject() instanceof PlayerEntity) {
-            event.addCapability(new ResourceLocation(LightLand.MODID, "magic"),
-                    new PlayerMagicCapability(event.getObject().level));
-        }
 
     }
 

@@ -1,5 +1,6 @@
 package com.hikarishima.lightland.magic.capabilities;
 
+import com.hikarishima.lightland.item.arcane.internal.ArcaneType;
 import com.hikarishima.lightland.magic.MagicElement;
 import com.hikarishima.lightland.magic.MagicProduct;
 import com.hikarishima.lightland.magic.MagicProductType;
@@ -8,10 +9,12 @@ import com.lcy0x1.core.util.Automator;
 import com.lcy0x1.core.util.ExceptionHandler;
 import com.lcy0x1.core.util.NBTObj;
 import com.lcy0x1.core.util.SerialClass;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.INBT;
 import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
@@ -49,6 +52,11 @@ public class MagicHandler {
         CapabilityManager.INSTANCE.register(MagicHandler.class, STORAGE, MagicHandler::new);
     }
 
+
+    public static MagicHandler get(PlayerEntity e) {
+        return e.getCapability(CAPABILITY).resolve().get();
+    }
+
     public enum State {
         PREINJECT, PREINIT, ACTIVE
     }
@@ -62,9 +70,15 @@ public class MagicHandler {
     @SerialClass.SerialField
     public CompoundNBT products = new CompoundNBT();
 
+    @SerialClass.SerialField
+    public int magic_mana, magic_mana_max, arcane_mana, arcane_mana_max;
+
+    @SerialClass.SerialField
+    public CompoundNBT arcane_type = new CompoundNBT();
+
     public World world;
 
-    private NBTObj manager;
+    private NBTObj product_manager, arcane_manager;
 
     private final Map<MagicProductType<?, ?>, Map<ResourceLocation, MagicProduct<?, ?>>> product_cache = new HashMap<>();
     private final Map<ResourceLocation, IMagicRecipe<?>> recipe_cache = new HashMap<>();
@@ -85,6 +99,8 @@ public class MagicHandler {
         if (state == State.PREINIT) {
             state = State.ACTIVE;
         }
+        product_manager = new NBTObj(products);
+        arcane_manager = new NBTObj(arcane_type);
         checkUnlocks();
     }
 
@@ -125,17 +141,30 @@ public class MagicHandler {
         else submap = product_cache.get(type);
         if (submap.containsKey(r.product_id))
             return submap.get(r.product_id);
-        NBTObj nbt = manager.getSub(type.getRegistryName().toString()).getSub(r.product_id.toString());
+        NBTObj nbt = product_manager.getSub(type.getRegistryName().toString()).getSub(r.product_id.toString());
         MagicProduct<?, ?> ans = type.fac.get(this, nbt, r.product_id, r);
         submap.put(r.product_id, ans);
         return ans;
+    }
+
+    public boolean isArcaneTypeUnlocked(ArcaneType type) {
+        return arcane_manager.getSub(type.getRegistryName().toString()).tag.getInt("level") > 0;
+    }
+
+    public void giveArcaneMana(int mana) {
+        arcane_mana = MathHelper.clamp(arcane_mana + mana, 0, arcane_mana_max);
+    }
+
+    public void unlockArcaneType(ArcaneType type) {
+        if (!isArcaneTypeUnlocked(type))
+            arcane_manager.getSub(type.getRegistryName().toString()).tag.putInt("level", 1);
     }
 
     @SerialClass.OnInject
     public void onInject() {
         if (state == State.PREINJECT)
             state = State.PREINIT;
-        manager = new NBTObj(products);
+        product_manager = new NBTObj(products);
     }
 
 
