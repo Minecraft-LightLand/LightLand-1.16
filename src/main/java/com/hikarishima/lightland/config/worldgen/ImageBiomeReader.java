@@ -22,36 +22,6 @@ import java.util.Map;
 
 public class ImageBiomeReader {
 
-    @SerialClass
-    public static class Config {
-
-        @SerialClass
-        public static class Entry {
-
-            @SerialClass.SerialField
-            public String color;
-
-            @SerialClass.SerialField
-            public String id;
-
-        }
-
-        @SerialClass.SerialField
-        public Entry[] entries;
-
-        public Map<Integer, ResourceLocation> map = new HashMap<>();
-
-        @SerialClass.OnInject
-        public void onInject() {
-            for (Entry e : entries) {
-                int color = Integer.parseInt(e.color, 16);
-                ResourceLocation rl = new ResourceLocation(e.id);
-                map.put(color, rl);
-            }
-        }
-
-    }
-
     public static BufferedImage BIOME, DEPTH, SCALE;
     public static Config CONFIG;
 
@@ -163,6 +133,35 @@ public class ImageBiomeReader {
     private static BufferedImage loadOrCreate(File file) {
         return file.exists() ? ExceptionHandler.get(() -> ImageIO.read(file)) :
                 new BufferedImage(BIOME.getWidth(), BIOME.getHeight(), BufferedImage.TYPE_BYTE_GRAY);
+    }
+
+    @SerialClass
+    public static class Config {
+
+        @SerialClass.SerialField
+        public Entry[] entries;
+        public Map<Integer, ResourceLocation> map = new HashMap<>();
+
+        @SerialClass.OnInject
+        public void onInject() {
+            for (Entry e : entries) {
+                int color = Integer.parseInt(e.color, 16);
+                ResourceLocation rl = new ResourceLocation(e.id);
+                map.put(color, rl);
+            }
+        }
+
+        @SerialClass
+        public static class Entry {
+
+            @SerialClass.SerialField
+            public String color;
+
+            @SerialClass.SerialField
+            public String id;
+
+        }
+
     }
 
 }

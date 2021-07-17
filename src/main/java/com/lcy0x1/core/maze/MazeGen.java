@@ -6,214 +6,24 @@ import java.util.Random;
 
 public class MazeGen {
 
-    public static class Debugger {
-
-        MazeGen maze;
-        StateRim[] cur_rims;
-        StateRim cur_rim;
-        int root_count;
-        private final boolean skip = true;
-
-        private void begin(MazeGen gen) {
-            maze = gen;
-        }
-
-        private synchronized void breakpoint(String msg) {
-            if (skip)
-                return;
-            try {
-                System.out.println("[builder] " + msg);
-                this.wait();
-                System.out.println("[builder] next");
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-
-    }
-
-    class State {
-
-        private final int ind;
-        private State parent;
-
-        private State() {
-            ind = STATE_LIST.size();
-            STATE_LIST.add(this);
-        }
-
-        int getInd() {
-            return getRoot().ind;
-        }
-
-        boolean isRoot() {
-            return getInd() == 0;
-        }
-
-        private boolean equals(State st) {
-            return getInd() == st.getInd();
-        }
-
-        private State getRoot() {
-            if (parent != null)
-                return parent.getRoot();
-            return this;
-        }
-
-        private void set(State st) {
-            getRoot().parent = st;
-        }
-
-    }
-
-    class StateRim {
-
-        int r;
-        int x0;
-        int x1;
-        State state;
-
-        int path;
-        int loop;
-        int[] paths;
-
-        private StateRim(int i, int j0, State val) {
-            r = i;
-            x0 = j0;
-            state = val;
-        }
-
-        int aviLoop() {
-            return len() - path;
-        }
-
-        int aviPath() {
-            return len() - cornerCount();
-        }
-
-        private int cornerCount() {
-            int a0 = x0;
-            int a1 = x1;
-            int ans = 0;
-            if (x1 < x0)
-                x1 += r * 8;
-            for (int i = 0; i < 4; i++) {
-                int c = r * 2 * i;
-                if (c < x0)
-                    c += r * 8;
-                if (c >= a0 && c <= a1)
-                    ans++;
-            }
-            return ans;
-        }
-
-        private int len() {
-            if (x1 >= x0)
-                return x1 - x0 + 1;
-            return x1 + r * 8 - x0 + 1;
-        }
-
-        private void seg() {
-            paths = new int[len()];
-            if (loop == 0 && path == 0) {
-                System.out.println("ERROR: all zero");
-            }
-            // debug.showRim(this);
-            int[] rarr = randArray(paths.length, rand);
-            State[] sts = new State[loop];
-            for (int i = 0; i < loop; i++)
-                sts[i] = new State();
-            State[] sta = new State[paths.length];
-            int i = 0;
-            while (path > 0) {
-                int ind = rarr[i++];
-                if ((ind + x0) % (r * 2) == 0)
-                    continue;
-                paths[ind] = 1;
-                sta[ind] = state;
-                path--;
-            }
-            i = 0;
-            rarr = randArray(paths.length, rand);
-            while (loop > 0) {
-                int ind = rarr[i++];
-                if (paths[ind] > 0)
-                    continue;
-                paths[ind] = 2;
-                sta[ind] = sts[sts.length - loop];
-                loop--;
-            }
-            rarr = randArray(paths.length, rand);
-            for (i = 0; i < paths.length; i++) {
-                int ind = rarr[i];
-                if (paths[ind] == 0) {
-                    int dir = rand.nextInt(2);
-                    int off = dir * 2 - 1;
-                    while (ind >= 0 && ind < paths.length && paths[ind] == 0) {
-                        paths[ind] = dir + 3;
-                        ind += off;
-                    }
-                }
-            }
-            if (paths[0] == 3) {
-                i = 0;
-                while (paths[i] == 3) {
-                    paths[i] = 4;
-                    i++;
-                }
-            }
-            if (paths[paths.length - 1] == 4) {
-                i = paths.length - 1;
-                while (paths[i] == 4) {
-                    paths[i] = 3;
-                    i--;
-                }
-            }
-            for (i = 0; i < paths.length; i++) {
-                if (sta[i] != null) {
-                    if (i > 0) {
-                        int ind = i - 1;
-                        while (ind >= 0 && paths[ind] == 4)
-                            sta[ind--] = sta[i];
-                    }
-                    if (i < paths.length - 1) {
-                        int ind = i + 1;
-                        while (ind < paths.length && paths[ind] == 3)
-                            sta[ind++] = sta[i];
-                    }
-                }
-            }
-            for (i = 0; i < paths.length; i++) {
-                int trans = rim(r, x0 + i);
-                int val = 0;
-                if (paths[i] == 3)
-                    val |= 1;
-                if (paths[i] == 4)
-                    val |= 2;
-                if (i > 0 && paths[i - 1] == 4)
-                    val |= 1;
-                if (i < paths.length - 1 && paths[i + 1] == 3)
-                    val |= 2;
-                if (paths[i] == 1)
-                    val |= 4;
-                set(conn, trans, val);
-                set(states, trans, sta[i]);
-            }
-            // debug.breakpoint("end rim segmentation");
-        }
-
-    }
-
-    private class PostRim {
-
-        private int x0, x1;
-        private final State state;
-
-        private PostRim(int i, int j0, State val) {
-            x0 = j0;
-            state = val;
-        }
-
+    public final int[][] ans;
+    public final int r;
+    public final int w;
+    final int[][] conn;
+    final State[][] states;
+    final Random rand;
+    private final List<State> STATE_LIST = new ArrayList<>();
+    private final MazeConfig config;
+    private final Debugger debug;
+    public MazeGen(int rad, Random ra, MazeConfig conf, Debugger deb) {
+        config = conf;
+        debug = deb;
+        r = rad;
+        w = r * 2 + 1;
+        rand = ra;
+        ans = new int[w][w];
+        conn = new int[w][w];
+        states = new State[w][w];
     }
 
     private static int[] randArray(int n, Random r) {
@@ -235,29 +45,6 @@ public class MazeGen {
 
     private static int sign(int x) {
         return x < 0 ? -1 : x > 0 ? 1 : 0;
-    }
-
-    private final List<State> STATE_LIST = new ArrayList<>();
-    private final MazeConfig config;
-    private final Debugger debug;
-    public final int[][] ans;
-    final int[][] conn;
-
-    final State[][] states;
-    public final int r;
-    public final int w;
-
-    final Random rand;
-
-    public MazeGen(int rad, Random ra, MazeConfig conf, Debugger deb) {
-        config = conf;
-        debug = deb;
-        r = rad;
-        w = r * 2 + 1;
-        rand = ra;
-        ans = new int[w][w];
-        conn = new int[w][w];
-        states = new State[w][w];
     }
 
     public void gen() {
@@ -459,6 +246,216 @@ public class MazeGen {
 
     private int trans(int x, int y) {
         return (x + r) + (y + r) * w;
+    }
+
+    public static class Debugger {
+
+        private final boolean skip = true;
+        MazeGen maze;
+        StateRim[] cur_rims;
+        StateRim cur_rim;
+        int root_count;
+
+        private void begin(MazeGen gen) {
+            maze = gen;
+        }
+
+        private synchronized void breakpoint(String msg) {
+            if (skip)
+                return;
+            try {
+                System.out.println("[builder] " + msg);
+                this.wait();
+                System.out.println("[builder] next");
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
+    }
+
+    class State {
+
+        private final int ind;
+        private State parent;
+
+        private State() {
+            ind = STATE_LIST.size();
+            STATE_LIST.add(this);
+        }
+
+        int getInd() {
+            return getRoot().ind;
+        }
+
+        boolean isRoot() {
+            return getInd() == 0;
+        }
+
+        private boolean equals(State st) {
+            return getInd() == st.getInd();
+        }
+
+        private State getRoot() {
+            if (parent != null)
+                return parent.getRoot();
+            return this;
+        }
+
+        private void set(State st) {
+            getRoot().parent = st;
+        }
+
+    }
+
+    class StateRim {
+
+        int r;
+        int x0;
+        int x1;
+        State state;
+
+        int path;
+        int loop;
+        int[] paths;
+
+        private StateRim(int i, int j0, State val) {
+            r = i;
+            x0 = j0;
+            state = val;
+        }
+
+        int aviLoop() {
+            return len() - path;
+        }
+
+        int aviPath() {
+            return len() - cornerCount();
+        }
+
+        private int cornerCount() {
+            int a0 = x0;
+            int a1 = x1;
+            int ans = 0;
+            if (x1 < x0)
+                x1 += r * 8;
+            for (int i = 0; i < 4; i++) {
+                int c = r * 2 * i;
+                if (c < x0)
+                    c += r * 8;
+                if (c >= a0 && c <= a1)
+                    ans++;
+            }
+            return ans;
+        }
+
+        private int len() {
+            if (x1 >= x0)
+                return x1 - x0 + 1;
+            return x1 + r * 8 - x0 + 1;
+        }
+
+        private void seg() {
+            paths = new int[len()];
+            if (loop == 0 && path == 0) {
+                System.out.println("ERROR: all zero");
+            }
+            // debug.showRim(this);
+            int[] rarr = randArray(paths.length, rand);
+            State[] sts = new State[loop];
+            for (int i = 0; i < loop; i++)
+                sts[i] = new State();
+            State[] sta = new State[paths.length];
+            int i = 0;
+            while (path > 0) {
+                int ind = rarr[i++];
+                if ((ind + x0) % (r * 2) == 0)
+                    continue;
+                paths[ind] = 1;
+                sta[ind] = state;
+                path--;
+            }
+            i = 0;
+            rarr = randArray(paths.length, rand);
+            while (loop > 0) {
+                int ind = rarr[i++];
+                if (paths[ind] > 0)
+                    continue;
+                paths[ind] = 2;
+                sta[ind] = sts[sts.length - loop];
+                loop--;
+            }
+            rarr = randArray(paths.length, rand);
+            for (i = 0; i < paths.length; i++) {
+                int ind = rarr[i];
+                if (paths[ind] == 0) {
+                    int dir = rand.nextInt(2);
+                    int off = dir * 2 - 1;
+                    while (ind >= 0 && ind < paths.length && paths[ind] == 0) {
+                        paths[ind] = dir + 3;
+                        ind += off;
+                    }
+                }
+            }
+            if (paths[0] == 3) {
+                i = 0;
+                while (paths[i] == 3) {
+                    paths[i] = 4;
+                    i++;
+                }
+            }
+            if (paths[paths.length - 1] == 4) {
+                i = paths.length - 1;
+                while (paths[i] == 4) {
+                    paths[i] = 3;
+                    i--;
+                }
+            }
+            for (i = 0; i < paths.length; i++) {
+                if (sta[i] != null) {
+                    if (i > 0) {
+                        int ind = i - 1;
+                        while (ind >= 0 && paths[ind] == 4)
+                            sta[ind--] = sta[i];
+                    }
+                    if (i < paths.length - 1) {
+                        int ind = i + 1;
+                        while (ind < paths.length && paths[ind] == 3)
+                            sta[ind++] = sta[i];
+                    }
+                }
+            }
+            for (i = 0; i < paths.length; i++) {
+                int trans = rim(r, x0 + i);
+                int val = 0;
+                if (paths[i] == 3)
+                    val |= 1;
+                if (paths[i] == 4)
+                    val |= 2;
+                if (i > 0 && paths[i - 1] == 4)
+                    val |= 1;
+                if (i < paths.length - 1 && paths[i + 1] == 3)
+                    val |= 2;
+                if (paths[i] == 1)
+                    val |= 4;
+                set(conn, trans, val);
+                set(states, trans, sta[i]);
+            }
+            // debug.breakpoint("end rim segmentation");
+        }
+
+    }
+
+    private class PostRim {
+
+        private final State state;
+        private int x0, x1;
+
+        private PostRim(int i, int j0, State val) {
+            x0 = j0;
+            state = val;
+        }
+
     }
 
 }

@@ -19,22 +19,6 @@ import java.util.function.Predicate;
  */
 public class Automator {
 
-    private static class ClassHandler<R extends INBT, T> {
-
-        private final Function<INBT, ?> fromTag;
-        private final Function<Object, INBT> toTag;
-
-        @SuppressWarnings("unchecked")
-        private ClassHandler(Class<T> cls, Function<R, T> ft, Function<T, INBT> tt, Class<?>... alt) {
-            fromTag = (Function<INBT, ?>) ft;
-            toTag = (Function<Object, INBT>) tt;
-            MAP.put(cls, this);
-            for (Class<?> c : alt)
-                MAP.put(c, this);
-        }
-
-    }
-
     private static final Map<Class<?>, ClassHandler<?, ?>> MAP = new HashMap<>();
 
     static {
@@ -140,6 +124,22 @@ public class Automator {
         if (cls.getAnnotation(SerialClass.class) != null)
             return toTag(new CompoundNBT(), cls, obj, pred);
         throw new Exception("unsupported class " + cls);
+    }
+
+    private static class ClassHandler<R extends INBT, T> {
+
+        private final Function<INBT, ?> fromTag;
+        private final Function<Object, INBT> toTag;
+
+        @SuppressWarnings("unchecked")
+        private ClassHandler(Class<T> cls, Function<R, T> ft, Function<T, INBT> tt, Class<?>... alt) {
+            fromTag = (Function<INBT, ?>) ft;
+            toTag = (Function<Object, INBT>) tt;
+            MAP.put(cls, this);
+            for (Class<?> c : alt)
+                MAP.put(c, this);
+        }
+
     }
 
 }

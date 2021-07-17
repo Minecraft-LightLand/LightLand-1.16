@@ -21,6 +21,33 @@ public class BuffLevel {
     public static final UUID MODIFIER_UUID = new UUID(453447673, 432547674);
     public static final String NAME = "buff_leveler";
 
+    public static double modify(IWorld world, LivingEntity ent, double difficulty) {
+        AttributeModifierManager attrs = ent.getAttributes();
+        List<BuffIns> list = new ArrayList<>();
+        for (Buff buff : LIST) {
+            if (!attrs.hasAttribute(buff.attr))
+                continue;
+            for (int i = 1; i <= buff.max; i++) {
+                if (buff.cost * i < difficulty)
+                    list.add(new BuffIns(buff, i));
+            }
+        }
+        if (list.size() == 0)
+            return 0;
+        List<BuffIns> insList = IMobLevel.loot(world, list, difficulty);
+        int cost = 0;
+        for (BuffIns ins : insList) {
+            ModifiableAttributeInstance mains = attrs.getInstance(ins.buff.attr);
+            if (mains != null) {
+                double coef = Math.pow(ins.buff.base, ins.lv);
+                AttributeModifier mod = new AttributeModifier(MODIFIER_UUID, NAME, coef, ins.buff.operation);
+                mains.addPermanentModifier(mod);
+                cost += ins.buff.cost * ins.lv;
+            }
+        }
+        return cost;
+    }
+
     @SerialClass
     public static class Buff {
 
@@ -74,33 +101,6 @@ public class BuffLevel {
         public double getChance() {
             return buff.chance;
         }
-    }
-
-    public static double modify(IWorld world, LivingEntity ent, double difficulty) {
-        AttributeModifierManager attrs = ent.getAttributes();
-        List<BuffIns> list = new ArrayList<>();
-        for (Buff buff : LIST) {
-            if (!attrs.hasAttribute(buff.attr))
-                continue;
-            for (int i = 1; i <= buff.max; i++) {
-                if (buff.cost * i < difficulty)
-                    list.add(new BuffIns(buff, i));
-            }
-        }
-        if (list.size() == 0)
-            return 0;
-        List<BuffIns> insList = IMobLevel.loot(world, list, difficulty);
-        int cost = 0;
-        for (BuffIns ins : insList) {
-            ModifiableAttributeInstance mains = attrs.getInstance(ins.buff.attr);
-            if (mains != null) {
-                double coef = Math.pow(ins.buff.base, ins.lv);
-                AttributeModifier mod = new AttributeModifier(MODIFIER_UUID, NAME, coef, ins.buff.operation);
-                mains.addPermanentModifier(mod);
-                cost += ins.buff.cost * ins.lv;
-            }
-        }
-        return cost;
     }
 
 }

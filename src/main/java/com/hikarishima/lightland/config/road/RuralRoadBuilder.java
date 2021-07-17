@@ -2,112 +2,14 @@ package com.hikarishima.lightland.config.road;
 
 public class RuralRoadBuilder {
 
-    private enum ConnDire {
-        UL(-1, -1, 0),
-        UP(-1, 0, 1),
-        UR(-1, 1, 2),
-        LEFT(0, -1, 7),
-        RIGHT(0, 1, 3),
-        DL(1, -1, 6),
-        DOWN(1, 0, 5),
-        DR(1, 1, 4);
-
-        public static final ConnDire[] ADJS = {UL, UP, UR, RIGHT, DR, DOWN, DL, LEFT};
-
-        public final int dx, dz, a, fill;
-
-        ConnDire(int dx, int dz, int a) {
-            this.dx = dx;
-            this.dz = dz;
-            this.a = a;
-            this.fill = RuralRoadBuilder.rotate(a % 2 == 0 ? FILL_UL : FILL_UP, a / 2);
-        }
-
-        public boolean isDiag() {
-            return dx * dz != 0;
-        }
-
-        public ConnDire getHor() {
-            return getDire(dx, 0);
-        }
-
-        public ConnDire getVer() {
-            return getDire(0, dz);
-        }
-
-        public ConnDire rotate(int ind) {
-            return ADJS[(a + ind + 8) % 8];
-        }
-
-        public int mask() {
-            return 1 << ordinal();
-        }
-
-        public boolean isIn(int mask) {
-            return (mask & mask()) != 0;
-        }
-
-        public static ConnDire getDire(int dx, int dz) {
-            int a = (dx + 1) * 3 + (dz + 1);
-            if (a > 3) a--;
-            return ConnDire.values()[a];
-        }
-    }
-
-    private enum SideDire {
-        SUL(-1, -1),
-        SUR(-1, 1),
-        SDR(1, 1),
-        SDL(1, -1);
-
-        public final int dx, dz, fill;
-
-        SideDire(int dx, int dz) {
-            this.dx = dx;
-            this.dz = dz;
-            this.fill = rotate(FILL_SUL, ordinal());
-        }
-
-        public ConnDire getHor() {
-            return ConnDire.getDire(dx, 0);
-        }
-
-        public ConnDire getVer() {
-            return ConnDire.getDire(0, dz);
-        }
-
-    }
-
-    private enum SpecDire {
-        UCW(-1, 0),
-        UCCW(-1, 0),
-        RCW(0, 1),
-        RCCW(0, 1),
-        DCW(1, 0),
-        DCCW(1, 0),
-        LCW(0, -1),
-        LCCW(0, -1);
-
-        public final int dx, dz, fill;
-
-        SpecDire(int dx, int dz) {
-            this.dx = dx;
-            this.dz = dz;
-            this.fill = rotate(ordinal() % 2 == 0 ? FILL_UCW : FILL_UCCW, ordinal() / 2);
-        }
-
-    }
-
     private static final int FILL_UL = 0b1110111011000000;
     private static final int FILL_UP = 0b1111111101100000;
     private static final int FILL_SUL = 0b1100100000000000;
     private static final int FILL_UCW = 0b1111111100110000;
     private static final int FILL_UCCW = 0b1111111111000000;
-
+    public static int[] cache_road;
     private static int cache_x;
     private static int cache_z;
-
-    public static int[] cache_road;
 
     private static int rotate(int fill, int a) {
         if (a == 0)
@@ -206,6 +108,102 @@ public class RuralRoadBuilder {
         cache_z = z;
         cache_road = ans;
         return ans;
+    }
+
+    private enum ConnDire {
+        UL(-1, -1, 0),
+        UP(-1, 0, 1),
+        UR(-1, 1, 2),
+        LEFT(0, -1, 7),
+        RIGHT(0, 1, 3),
+        DL(1, -1, 6),
+        DOWN(1, 0, 5),
+        DR(1, 1, 4);
+
+        public static final ConnDire[] ADJS = {UL, UP, UR, RIGHT, DR, DOWN, DL, LEFT};
+
+        public final int dx, dz, a, fill;
+
+        ConnDire(int dx, int dz, int a) {
+            this.dx = dx;
+            this.dz = dz;
+            this.a = a;
+            this.fill = RuralRoadBuilder.rotate(a % 2 == 0 ? FILL_UL : FILL_UP, a / 2);
+        }
+
+        public static ConnDire getDire(int dx, int dz) {
+            int a = (dx + 1) * 3 + (dz + 1);
+            if (a > 3) a--;
+            return ConnDire.values()[a];
+        }
+
+        public boolean isDiag() {
+            return dx * dz != 0;
+        }
+
+        public ConnDire getHor() {
+            return getDire(dx, 0);
+        }
+
+        public ConnDire getVer() {
+            return getDire(0, dz);
+        }
+
+        public ConnDire rotate(int ind) {
+            return ADJS[(a + ind + 8) % 8];
+        }
+
+        public int mask() {
+            return 1 << ordinal();
+        }
+
+        public boolean isIn(int mask) {
+            return (mask & mask()) != 0;
+        }
+    }
+
+    private enum SideDire {
+        SUL(-1, -1),
+        SUR(-1, 1),
+        SDR(1, 1),
+        SDL(1, -1);
+
+        public final int dx, dz, fill;
+
+        SideDire(int dx, int dz) {
+            this.dx = dx;
+            this.dz = dz;
+            this.fill = rotate(FILL_SUL, ordinal());
+        }
+
+        public ConnDire getHor() {
+            return ConnDire.getDire(dx, 0);
+        }
+
+        public ConnDire getVer() {
+            return ConnDire.getDire(0, dz);
+        }
+
+    }
+
+    private enum SpecDire {
+        UCW(-1, 0),
+        UCCW(-1, 0),
+        RCW(0, 1),
+        RCCW(0, 1),
+        DCW(1, 0),
+        DCCW(1, 0),
+        LCW(0, -1),
+        LCCW(0, -1);
+
+        public final int dx, dz, fill;
+
+        SpecDire(int dx, int dz) {
+            this.dx = dx;
+            this.dz = dz;
+            this.fill = rotate(ordinal() % 2 == 0 ? FILL_UCW : FILL_UCCW, ordinal() / 2);
+        }
+
     }
 
 }

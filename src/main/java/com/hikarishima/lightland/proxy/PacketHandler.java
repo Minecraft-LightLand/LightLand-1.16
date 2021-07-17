@@ -23,17 +23,60 @@ import java.util.function.Supplier;
 
 public class PacketHandler {
 
+    private static final ResourceLocation NAME = new ResourceLocation(LightLand.MODID, "main");
+    private static final SimpleChannel CH = NetworkRegistry.newSimpleChannel(NAME, () -> LightLand.NETWORK_VERSION, LightLand.NETWORK_VERSION::equals, LightLand.NETWORK_VERSION::equals);
+    private static int id = 0;
+
+    public static void registerPackets() {
+        reg(IntMsg.class, IntMsg::encode, IntMsg::decode, IntMsg::handle);
+        reg(DisEnchantContainer.Msg.class, DisEnchantContainer.class);
+    }
+
+    public static <T> void send(T msg) {
+        CH.sendToServer(msg);
+    }
+
+    public static <T> void toClient(T msg) {
+        NetworkManager manager = Objects.requireNonNull(Minecraft.getInstance().getConnection()).getConnection();
+        NetworkDirection dir = NetworkDirection.PLAY_TO_CLIENT;
+        CH.sendTo(msg, manager, dir);
+    }
+
+    private static <T> void reg(Class<T> cls, BiConsumer<T, PacketBuffer> encoder, Function<PacketBuffer, T> decoder,
+                                BiConsumer<T, Supplier<NetworkEvent.Context>> handler) {
+        CH.registerMessage(id++, cls, encoder, decoder, handler);
+    }
+
+    private static <T extends BaseSerialMsg, C extends SerialMsgCont<T>> void reg(Class<T> cls, Class<C> cont) {
+        reg(cls, (msg, p) -> Serializer.to(p, msg), (p) -> Serializer.from(p, cls, null), (t, s) -> handle(t, cont, s.get()));
+    }
+
+    @SuppressWarnings("unchecked")
+    private static <T extends BaseSerialMsg, C extends SerialMsgCont<T>> void handle(T msg, Class<C> cls, NetworkEvent.Context ctx) {
+        if (ctx == null)
+            return;
+        ServerPlayerEntity pl = ctx.getSender();
+        if (pl == null)
+            return;
+        Container c = pl.containerMenu;
+        if (c != null && c.containerId == msg.wid && cls.isInstance(c)) {
+            ((C) c).handle(msg);
+        }
+    }
+
     public interface DataCont {
 
         IIntArray getData();
 
     }
 
-    public static class IntMsg {
+    public interface SerialMsgCont<T extends BaseSerialMsg> {
 
-        public static IntMsg decode(PacketBuffer packet) {
-            return new IntMsg(packet.readInt(), packet.readVarInt(), packet.readVarInt());
-        }
+        void handle(T t);
+
+    }
+
+    public static class IntMsg {
 
         private final int wid, ind, val;
 
@@ -41,6 +84,10 @@ public class PacketHandler {
             wid = id;
             ind = index;
             val = value;
+        }
+
+        public static IntMsg decode(PacketBuffer packet) {
+            return new IntMsg(packet.readInt(), packet.readVarInt(), packet.readVarInt());
         }
 
         public void encode(PacketBuffer packet) {
@@ -80,54 +127,6 @@ public class PacketHandler {
             this.wid = wid;
         }
 
-    }
-
-    public interface SerialMsgCont<T extends BaseSerialMsg> {
-
-        void handle(T t);
-
-    }
-
-    private static final ResourceLocation NAME = new ResourceLocation(LightLand.MODID, "main");
-    private static final SimpleChannel CH = NetworkRegistry.newSimpleChannel(NAME, () -> LightLand.NETWORK_VERSION, LightLand.NETWORK_VERSION::equals, LightLand.NETWORK_VERSION::equals);
-
-    private static int id = 0;
-
-    public static void registerPackets() {
-        reg(IntMsg.class, IntMsg::encode, IntMsg::decode, IntMsg::handle);
-        reg(DisEnchantContainer.Msg.class, DisEnchantContainer.class);
-    }
-
-    public static <T> void send(T msg) {
-        CH.sendToServer(msg);
-    }
-
-    public static <T> void toClient(T msg) {
-        NetworkManager manager = Objects.requireNonNull(Minecraft.getInstance().getConnection()).getConnection();
-        NetworkDirection dir = NetworkDirection.PLAY_TO_CLIENT;
-        CH.sendTo(msg, manager, dir);
-    }
-
-    private static <T> void reg(Class<T> cls, BiConsumer<T, PacketBuffer> encoder, Function<PacketBuffer, T> decoder,
-                                BiConsumer<T, Supplier<NetworkEvent.Context>> handler) {
-        CH.registerMessage(id++, cls, encoder, decoder, handler);
-    }
-
-    private static <T extends BaseSerialMsg, C extends SerialMsgCont<T>> void reg(Class<T> cls, Class<C> cont) {
-        reg(cls, (msg, p) -> Serializer.to(p, msg), (p) -> Serializer.from(p, cls, null), (t, s) -> handle(t, cont, s.get()));
-    }
-
-    @SuppressWarnings("unchecked")
-    private static <T extends BaseSerialMsg, C extends SerialMsgCont<T>> void handle(T msg, Class<C> cls, NetworkEvent.Context ctx) {
-        if (ctx == null)
-            return;
-        ServerPlayerEntity pl = ctx.getSender();
-        if (pl == null)
-            return;
-        Container c = pl.containerMenu;
-        if (c != null && c.containerId == msg.wid && cls.isInstance(c)) {
-            ((C) c).handle(msg);
-        }
     }
 
 }

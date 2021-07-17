@@ -31,58 +31,6 @@ import java.util.function.Function;
  */
 public class Serializer {
 
-    public static class ClassHandler<T> {
-
-        public Function<JsonElement, ?> fromJson;
-        public Function<PacketBuffer, ?> fromPacket;
-        public BiConsumer<PacketBuffer, Object> toPacket;
-
-        @SuppressWarnings("unchecked")
-        public ClassHandler(Class<?> cls, Function<JsonElement, T> fj, Function<PacketBuffer, T> fp,
-                            BiConsumer<PacketBuffer, T> tp) {
-            this.fromJson = fj;
-            this.fromPacket = fp;
-            this.toPacket = (BiConsumer<PacketBuffer, Object>) tp;
-            MAP.put(cls, this);
-        }
-
-    }
-
-    public static class StringClassHandler<T> extends ClassHandler<T> {
-
-        public StringClassHandler(Class<?> cls, Function<String, T> fj, Function<T, String> tp) {
-            super(cls, e -> {
-                if (e.isJsonNull())
-                    return null;
-                String str = e.getAsString();
-                if (str.length() == 0)
-                    return null;
-                return fj.apply(str);
-            }, p -> {
-                String str = p.readUtf();
-                if (str.length() == 0)
-                    return null;
-                return fj.apply(str);
-            }, (p, t) -> p.writeUtf(t == null ? "" : tp.apply(t)));
-        }
-
-    }
-
-    public static class RLClassHandler<T extends IForgeRegistryEntry<T>> extends ClassHandler<T> {
-
-        public RLClassHandler(Class<?> cls, IForgeRegistry<T> r) {
-            super(cls, e -> e.isJsonNull() ? null : r.getValue(new ResourceLocation(e.getAsString())),
-                    p -> {
-                        String str = p.readUtf();
-                        if (str.length() == 0)
-                            return null;
-                        return r.getValue(new ResourceLocation(p.readUtf()));
-                    },
-                    (p, t) -> p.writeUtf(t == null ? "" : t.getRegistryName().toString()));
-        }
-
-    }
-
     public static final Map<Class<?>, ClassHandler<?>> MAP = new HashMap<>();
 
     static {
@@ -270,6 +218,58 @@ public class Serializer {
             MAP.get(cls).toPacket.accept(buf, obj);
         else
             toImpl(buf, cls, obj, anno);
+
+    }
+
+    public static class ClassHandler<T> {
+
+        public Function<JsonElement, ?> fromJson;
+        public Function<PacketBuffer, ?> fromPacket;
+        public BiConsumer<PacketBuffer, Object> toPacket;
+
+        @SuppressWarnings("unchecked")
+        public ClassHandler(Class<?> cls, Function<JsonElement, T> fj, Function<PacketBuffer, T> fp,
+                            BiConsumer<PacketBuffer, T> tp) {
+            this.fromJson = fj;
+            this.fromPacket = fp;
+            this.toPacket = (BiConsumer<PacketBuffer, Object>) tp;
+            MAP.put(cls, this);
+        }
+
+    }
+
+    public static class StringClassHandler<T> extends ClassHandler<T> {
+
+        public StringClassHandler(Class<?> cls, Function<String, T> fj, Function<T, String> tp) {
+            super(cls, e -> {
+                if (e.isJsonNull())
+                    return null;
+                String str = e.getAsString();
+                if (str.length() == 0)
+                    return null;
+                return fj.apply(str);
+            }, p -> {
+                String str = p.readUtf();
+                if (str.length() == 0)
+                    return null;
+                return fj.apply(str);
+            }, (p, t) -> p.writeUtf(t == null ? "" : tp.apply(t)));
+        }
+
+    }
+
+    public static class RLClassHandler<T extends IForgeRegistryEntry<T>> extends ClassHandler<T> {
+
+        public RLClassHandler(Class<?> cls, IForgeRegistry<T> r) {
+            super(cls, e -> e.isJsonNull() ? null : r.getValue(new ResourceLocation(e.getAsString())),
+                    p -> {
+                        String str = p.readUtf();
+                        if (str.length() == 0)
+                            return null;
+                        return r.getValue(new ResourceLocation(p.readUtf()));
+                    },
+                    (p, t) -> p.writeUtf(t == null ? "" : t.getRegistryName().toString()));
+        }
 
     }
 

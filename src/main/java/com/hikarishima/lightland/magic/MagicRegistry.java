@@ -18,43 +18,25 @@ import net.minecraftforge.registries.RegistryBuilder;
 
 public class MagicRegistry {
 
-    public static abstract class MPTRaw extends NamedEntry<MPTRaw> {
-
-        public MPTRaw() {
-            super(() -> PRODUCT_TYPE);
-        }
-
-        @SuppressWarnings("unchecked")
-        public <I extends ForgeRegistryEntry<I>, P extends MagicProduct<I, P>> MagicProductType<I, P> getAsType() {
-            return (MagicProductType<I, P>) this;
-        }
-
-    }
-
     public static IForgeRegistry<MagicElement> ELEMENT;
     public static IForgeRegistry<MPTRaw> PRODUCT_TYPE;
     public static IForgeRegistry<ArcaneType> ARCANE_TYPE;
     public static IForgeRegistry<Arcane> ARCANE;
-
     public static MagicElement ELEM_EARTH = reg("earth", new MagicElement());
     public static MagicElement ELEM_AIR = reg("air", new MagicElement());
     public static MagicElement ELEM_WATER = reg("water", new MagicElement());
     public static MagicElement ELEM_FIRE = reg("fire", new MagicElement());
     public static MagicElement ELEM_VOID = reg("quint", new MagicElement());
-
     public static MagicProductType<Enchantment, EnchantmentMagic> MPT_ENCH =
             reg("enchantment", new MagicProductType<>(
                     EnchantmentMagic.class, EnchantmentMagic::new,
                     ForgeRegistries.ENCHANTMENTS::getValue, Enchantment::getDescriptionId,
                     Enchantments.ALL_DAMAGE_PROTECTION));
-
-
     public static MagicProductType<Effect, PotionMagic> MPT_EFF =
             reg("effect", new MagicProductType<>(
                     PotionMagic.class, PotionMagic::new,
                     ForgeRegistries.POTIONS::getValue, Effect::getDescriptionId,
                     Effects.MOVEMENT_SPEED));
-
 
     public static void createRegistries() {
         ELEMENT = new RegistryBuilder<MagicElement>()
@@ -78,6 +60,19 @@ public class MagicRegistry {
     private static <V extends T, T extends ForgeRegistryEntry<T>> V reg(String name, V v) {
         v.setRegistryName(LightLand.MODID, name);
         return v;
+    }
+
+    public static abstract class MPTRaw extends NamedEntry<MPTRaw> {
+
+        public MPTRaw() {
+            super(() -> PRODUCT_TYPE);
+        }
+
+        @SuppressWarnings("unchecked")
+        public <I extends ForgeRegistryEntry<I>, P extends MagicProduct<I, P>> MagicProductType<I, P> getAsType() {
+            return (MagicProductType<I, P>) this;
+        }
+
     }
 
 }

@@ -22,6 +22,10 @@ public class ArcaneItemUseHelper implements ItemUseEventHandler.ItemClickHandler
 
     public static final ArcaneItemUseHelper INSTANCE = new ArcaneItemUseHelper();
 
+    private ArcaneItemUseHelper() {
+        ItemUseEventHandler.LIST.add(this);
+    }
+
     public static boolean isArcaneItem(ItemStack stack) {
         Item item = stack.getItem();
         return item instanceof ArcaneSword || item instanceof ArcaneAxe;
@@ -56,8 +60,37 @@ public class ArcaneItemUseHelper implements ItemUseEventHandler.ItemClickHandler
         return stack.getOrCreateTagElement("arcane").getBoolean("charged");
     }
 
-    private ArcaneItemUseHelper() {
-        ItemUseEventHandler.LIST.add(this);
+    private static void handleLeftClickEvent(PlayerInteractEvent event, LivingEntity target) {
+        ItemStack stack = event.getItemStack();
+        PlayerEntity player = event.getPlayer();
+        MagicHandler magic = MagicHandler.get(player);
+        if (stack.getItem() instanceof ArcaneAxe) {
+            ArcaneType type = isAxeCharged(stack) ? ArcaneType.DUBHE : ArcaneType.MEGREZ;
+            if (executeArcane(player, magic, stack, type, target)) {
+                event.setCanceled(true);
+                event.setCancellationResult(ActionResultType.SUCCESS);
+            }
+        } else if (stack.getItem() instanceof ArcaneSword) {
+            if (executeArcane(player, magic, stack, ArcaneType.ALIOTH, target)) {
+                event.setCanceled(true);
+                event.setCancellationResult(ActionResultType.SUCCESS);
+            }
+        }
+    }
+
+    private static void handleRightClickEvent(PlayerInteractEvent event) {
+        if (event.getItemStack().getItem() instanceof ArcaneAxe) {
+            rightClickAxe(event.getItemStack());
+            event.setCanceled(true);
+            event.setCancellationResult(ActionResultType.SUCCESS);
+        } else if (event.getItemStack().getItem() instanceof ArcaneSword) {
+            if (executeArcane(event.getPlayer(),
+                    MagicHandler.get(event.getPlayer()),
+                    event.getItemStack(), ArcaneType.ALKAID, event.getEntityLiving())) {
+                event.setCanceled(true);
+                event.setCancellationResult(ActionResultType.SUCCESS);
+            }
+        }
     }
 
     @Override
@@ -116,39 +149,6 @@ public class ArcaneItemUseHelper implements ItemUseEventHandler.ItemClickHandler
     @Override
     public void onPlayerRightClickEntity(PlayerInteractEvent.EntityInteract event) {
         handleRightClickEvent(event);
-    }
-
-    private static void handleLeftClickEvent(PlayerInteractEvent event, LivingEntity target) {
-        ItemStack stack = event.getItemStack();
-        PlayerEntity player = event.getPlayer();
-        MagicHandler magic = MagicHandler.get(player);
-        if (stack.getItem() instanceof ArcaneAxe) {
-            ArcaneType type = isAxeCharged(stack) ? ArcaneType.DUBHE : ArcaneType.MEGREZ;
-            if (executeArcane(player, magic, stack, type, target)) {
-                event.setCanceled(true);
-                event.setCancellationResult(ActionResultType.SUCCESS);
-            }
-        } else if (stack.getItem() instanceof ArcaneSword) {
-            if (executeArcane(player, magic, stack, ArcaneType.ALIOTH, target)) {
-                event.setCanceled(true);
-                event.setCancellationResult(ActionResultType.SUCCESS);
-            }
-        }
-    }
-
-    private static void handleRightClickEvent(PlayerInteractEvent event) {
-        if (event.getItemStack().getItem() instanceof ArcaneAxe) {
-            rightClickAxe(event.getItemStack());
-            event.setCanceled(true);
-            event.setCancellationResult(ActionResultType.SUCCESS);
-        } else if (event.getItemStack().getItem() instanceof ArcaneSword) {
-            if (executeArcane(event.getPlayer(),
-                    MagicHandler.get(event.getPlayer()),
-                    event.getItemStack(), ArcaneType.ALKAID, event.getEntityLiving())) {
-                event.setCanceled(true);
-                event.setCancellationResult(ActionResultType.SUCCESS);
-            }
-        }
     }
 
 }

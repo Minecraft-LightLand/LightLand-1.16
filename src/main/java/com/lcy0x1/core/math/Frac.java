@@ -8,6 +8,14 @@ package com.lcy0x1.core.math;
  */
 public class Frac implements Comparable<Frac> {
 
+    public long num, den;
+
+    public Frac(long num, long den) {
+        this.num = num;
+        this.den = den;
+        validate();
+    }
+
     public static Frac mult(Frac f0, Frac f1) {
         long gcd0 = gcd(f0.num, f1.den);
         long gcd1 = gcd(f1.num, f0.den);
@@ -20,14 +28,6 @@ public class Frac implements Comparable<Frac> {
         long max = Math.max(a, b);
         long min = Math.min(a, b);
         return min == 0 ? max : gcd(min, max % min);
-    }
-
-    public long num, den;
-
-    public Frac(long num, long den) {
-        this.num = num;
-        this.den = den;
-        validate();
     }
 
     public void add(Frac o) {

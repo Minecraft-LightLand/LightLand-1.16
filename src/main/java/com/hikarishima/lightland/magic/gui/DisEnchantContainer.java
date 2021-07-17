@@ -15,41 +15,10 @@ import net.minecraft.util.ResourceLocation;
 public class DisEnchantContainer extends Container implements PacketHandler.SerialMsgCont<DisEnchantContainer.Msg> {
 
     public static final int SLOTS = 1;
-
-    public enum MsgType {
-        CLEAR, SET_PRODUCT
-    }
-
-    @SerialClass
-    public static class Msg extends PacketHandler.BaseSerialMsg {
-
-        @SerialClass.SerialField
-        public MsgType type;
-
-        @SerialClass.SerialField
-        public String[] str;
-
-        public Msg(int wid, MsgType type, String... str) {
-            super(wid);
-            this.type = type;
-            this.str = str;
-        }
-
-    }
-
+    protected final MagicHandler handler;
     private final ItemStack book;
     private final PlayerEntity player;
-
     protected IMagicRecipe<?> product = null;
-    protected final MagicHandler handler;
-
-    public void setProduct(IMagicRecipe<?> prod) {
-        product = prod;
-        if (prod == null)
-            PacketHandler.send(new Msg(containerId, MsgType.CLEAR));
-        else PacketHandler.send(new Msg(containerId, MsgType.SET_PRODUCT,
-                prod.id.toString()));
-    }
 
     public DisEnchantContainer(int id, PlayerInventory plinv) {
         super(ContainerRegistry.CT_MAGIC_BOOK, id);
@@ -58,6 +27,14 @@ public class DisEnchantContainer extends Container implements PacketHandler.Seri
         ItemStack off = plinv.player.getOffhandItem();
         book = main.getItem() instanceof MagicBook ? main : off;
         handler = MagicHandler.get(player);
+    }
+
+    public void setProduct(IMagicRecipe<?> prod) {
+        product = prod;
+        if (prod == null)
+            PacketHandler.send(new Msg(containerId, MsgType.CLEAR));
+        else PacketHandler.send(new Msg(containerId, MsgType.SET_PRODUCT,
+                prod.id.toString()));
     }
 
     @Override
@@ -78,6 +55,27 @@ public class DisEnchantContainer extends Container implements PacketHandler.Seri
         if (book != null && book.getItem() instanceof MagicBook) {
 
         }
+    }
+
+    public enum MsgType {
+        CLEAR, SET_PRODUCT
+    }
+
+    @SerialClass
+    public static class Msg extends PacketHandler.BaseSerialMsg {
+
+        @SerialClass.SerialField
+        public MsgType type;
+
+        @SerialClass.SerialField
+        public String[] str;
+
+        public Msg(int wid, MsgType type, String... str) {
+            super(wid);
+            this.type = type;
+            this.str = str;
+        }
+
     }
 
 }

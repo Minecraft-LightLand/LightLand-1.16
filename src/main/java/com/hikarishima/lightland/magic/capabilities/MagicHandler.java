@@ -28,60 +28,31 @@ import java.util.Map;
 @SerialClass
 public class MagicHandler {
 
-    public static class Storage implements Capability.IStorage<MagicHandler> {
-
-        @Nullable
-        @Override
-        public INBT writeNBT(Capability<MagicHandler> capability, MagicHandler obj, Direction direction) {
-            return ExceptionHandler.get(() -> Automator.toTag(new CompoundNBT(), MagicHandler.class, obj, f -> true));
-        }
-
-        @Override
-        public void readNBT(Capability<MagicHandler> capability, MagicHandler obj, Direction direction, INBT inbt) {
-            ExceptionHandler.get(() -> Automator.fromTag((CompoundNBT) inbt, MagicHandler.class, obj, f -> true));
-        }
-
-    }
-
     public static final Storage STORAGE = new Storage();
-
     @CapabilityInject(MagicHandler.class)
     public static Capability<MagicHandler> CAPABILITY = null;
+    private final Map<MagicProductType<?, ?>, Map<ResourceLocation, MagicProduct<?, ?>>> product_cache = new HashMap<>();
+    private final Map<ResourceLocation, IMagicRecipe<?>> recipe_cache = new HashMap<>();
+    @SerialClass.SerialField
+    public State state = State.PREINJECT;
+    @SerialClass.SerialField
+    public CompoundNBT masteries = new CompoundNBT();
+    @SerialClass.SerialField
+    public CompoundNBT products = new CompoundNBT();
+    @SerialClass.SerialField
+    public int magic_mana, magic_mana_max, arcane_mana, arcane_mana_max;
+    @SerialClass.SerialField
+    public CompoundNBT arcane_type = new CompoundNBT();
+    public World world;
+    private NBTObj product_manager, arcane_manager;
 
     public static void register() {
         CapabilityManager.INSTANCE.register(MagicHandler.class, STORAGE, MagicHandler::new);
     }
 
-
     public static MagicHandler get(PlayerEntity e) {
         return e.getCapability(CAPABILITY).resolve().get();
     }
-
-    public enum State {
-        PREINJECT, PREINIT, ACTIVE
-    }
-
-    @SerialClass.SerialField
-    public State state = State.PREINJECT;
-
-    @SerialClass.SerialField
-    public CompoundNBT masteries = new CompoundNBT();
-
-    @SerialClass.SerialField
-    public CompoundNBT products = new CompoundNBT();
-
-    @SerialClass.SerialField
-    public int magic_mana, magic_mana_max, arcane_mana, arcane_mana_max;
-
-    @SerialClass.SerialField
-    public CompoundNBT arcane_type = new CompoundNBT();
-
-    public World world;
-
-    private NBTObj product_manager, arcane_manager;
-
-    private final Map<MagicProductType<?, ?>, Map<ResourceLocation, MagicProduct<?, ?>>> product_cache = new HashMap<>();
-    private final Map<ResourceLocation, IMagicRecipe<?>> recipe_cache = new HashMap<>();
 
     public int getElementalMastery(MagicElement elem) {
         return masteries.getInt(elem.getRegistryName().toString());
@@ -96,7 +67,7 @@ public class MagicHandler {
 
     public void init(World world) {
         this.world = world;
-        if(state == null){
+        if (state == null) {
             state = State.PREINIT;
             masteries = new CompoundNBT();
             products = new CompoundNBT();
@@ -171,6 +142,25 @@ public class MagicHandler {
         if (state == State.PREINJECT)
             state = State.PREINIT;
         product_manager = new NBTObj(products);
+    }
+
+    public enum State {
+        PREINJECT, PREINIT, ACTIVE
+    }
+
+    public static class Storage implements Capability.IStorage<MagicHandler> {
+
+        @Nullable
+        @Override
+        public INBT writeNBT(Capability<MagicHandler> capability, MagicHandler obj, Direction direction) {
+            return ExceptionHandler.get(() -> Automator.toTag(new CompoundNBT(), MagicHandler.class, obj, f -> true));
+        }
+
+        @Override
+        public void readNBT(Capability<MagicHandler> capability, MagicHandler obj, Direction direction, INBT inbt) {
+            ExceptionHandler.get(() -> Automator.fromTag((CompoundNBT) inbt, MagicHandler.class, obj, f -> true));
+        }
+
     }
 
 

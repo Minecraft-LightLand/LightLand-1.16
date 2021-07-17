@@ -22,6 +22,125 @@ import java.util.function.Consumer;
 @SerialClass
 public class SpriteManager {
 
+    private final String name;
+    private final ResourceLocation coords, texture;
+    @SerialClass.SerialField
+    private final int height = 0;
+    @SerialClass.SerialField(generic = {String.class, Rect.class})
+    private HashMap<String, Rect> side, comp;
+    private boolean loaded = false;
+
+    public SpriteManager(String mod, String str) {
+        name = mod + ":" + str;
+        coords = new ResourceLocation(mod, "/textures/gui/coords/" + str + ".json");
+        texture = new ResourceLocation(mod, "/textures/gui/container/" + str + ".png");
+        check();
+    }
+
+    /**
+     * get the location of the component on the GUI
+     */
+    public Rect getComp(String key) {
+        check();
+        return comp.getOrDefault(key, Rect.ZERO);
+    }
+
+    /**
+     * Height of this GUI
+     */
+    public int getHeight() {
+        check();
+        return height;
+    }
+
+    /**
+     * The X position of the player inventory
+     */
+    public int getPlInvX() {
+        check();
+        return 8;// TODO
+    }
+
+    /**
+     * The Y position of the player inventory
+     */
+    public int getPlInvY() {
+        check();
+        return height - 82;
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    public ScreenRenderer getRenderer(ContainerScreen<?> gui) {
+        check();
+        return new ScreenRenderer(gui);
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    public ScreenRenderer getRenderer(Screen gui, int x, int y, int w, int h) {
+        check();
+        return new ScreenRenderer(gui, x, y, w, h);
+    }
+
+    /**
+     * get the rectangle representing the sprite element on the sprite
+     */
+    public Rect getSide(String key) {
+        check();
+        return side.getOrDefault(key, Rect.ZERO);
+    }
+
+    /**
+     * configure the coordinate of the slot
+     */
+    public <T extends Slot> void getSlot(String key, SlotFactory<T> fac, Consumer<Slot> con) {
+        check();
+        Rect c = getComp(key);
+        for (int i = 0; i < c.rx; i++)
+            for (int j = 0; j < c.ry; j++)
+                con.accept(fac.getSlot(c.x + i * c.w, c.y + j * c.h));
+    }
+
+    public int getWidth() {
+        check();
+        return 176;// TODO
+    }
+
+    @Override
+    public String toString() {
+        return name;
+    }
+
+    /**
+     * return if the coordinate is within the rectangle represented by the key
+     */
+    public boolean within(String key, double x, double y) {
+        check();
+        Rect c = getComp(key);
+        return x > c.x && x < c.x + c.w && y > c.y && y < c.y + c.h;
+    }
+
+    private void check() {
+        if (!loaded && FMLEnvironment.dist.isClient())
+            load();
+    }
+
+    private void load() {
+        try {
+            IResource r = Minecraft.getInstance().getResourceManager().getResource(coords);
+            JsonObject jo = new JsonParser().parse(new InputStreamReader(r.getInputStream())).getAsJsonObject();
+            Serializer.from(jo, SpriteManager.class, this);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        loaded = true;
+    }
+
+    public interface SlotFactory<T extends Slot> {
+
+        T getSlot(int x, int y);
+
+    }
+
     @SerialClass
     public static class Rect {
 
@@ -143,127 +262,6 @@ public class SpriteManager {
             }
         }
 
-    }
-
-    public interface SlotFactory<T extends Slot> {
-
-        T getSlot(int x, int y);
-
-    }
-
-    private final String name;
-    private final ResourceLocation coords, texture;
-
-    @SerialClass.SerialField
-    private final int height = 0;
-    @SerialClass.SerialField(generic = {String.class, Rect.class})
-    private HashMap<String, Rect> side, comp;
-
-    private boolean loaded = false;
-
-    public SpriteManager(String mod, String str) {
-        name = mod + ":" + str;
-        coords = new ResourceLocation(mod, "/textures/gui/coords/" + str + ".json");
-        texture = new ResourceLocation(mod, "/textures/gui/container/" + str + ".png");
-        check();
-    }
-
-    /**
-     * get the location of the component on the GUI
-     */
-    public Rect getComp(String key) {
-        check();
-        return comp.getOrDefault(key, Rect.ZERO);
-    }
-
-    /**
-     * Height of this GUI
-     */
-    public int getHeight() {
-        check();
-        return height;
-    }
-
-    /**
-     * The X position of the player inventory
-     */
-    public int getPlInvX() {
-        check();
-        return 8;// TODO
-    }
-
-    /**
-     * The Y position of the player inventory
-     */
-    public int getPlInvY() {
-        check();
-        return height - 82;
-    }
-
-    @OnlyIn(Dist.CLIENT)
-    public ScreenRenderer getRenderer(ContainerScreen<?> gui) {
-        check();
-        return new ScreenRenderer(gui);
-    }
-
-    @OnlyIn(Dist.CLIENT)
-    public ScreenRenderer getRenderer(Screen gui, int x, int y, int w, int h) {
-        check();
-        return new ScreenRenderer(gui, x, y, w, h);
-    }
-
-    /**
-     * get the rectangle representing the sprite element on the sprite
-     */
-    public Rect getSide(String key) {
-        check();
-        return side.getOrDefault(key, Rect.ZERO);
-    }
-
-    /**
-     * configure the coordinate of the slot
-     */
-    public <T extends Slot> void getSlot(String key, SlotFactory<T> fac, Consumer<Slot> con) {
-        check();
-        Rect c = getComp(key);
-        for (int i = 0; i < c.rx; i++)
-            for (int j = 0; j < c.ry; j++)
-                con.accept(fac.getSlot(c.x + i * c.w, c.y + j * c.h));
-    }
-
-    public int getWidth() {
-        check();
-        return 176;// TODO
-    }
-
-    @Override
-    public String toString() {
-        return name;
-    }
-
-    /**
-     * return if the coordinate is within the rectangle represented by the key
-     */
-    public boolean within(String key, double x, double y) {
-        check();
-        Rect c = getComp(key);
-        return x > c.x && x < c.x + c.w && y > c.y && y < c.y + c.h;
-    }
-
-    private void check() {
-        if (!loaded && FMLEnvironment.dist.isClient())
-            load();
-    }
-
-    private void load() {
-        try {
-            IResource r = Minecraft.getInstance().getResourceManager().getResource(coords);
-            JsonObject jo = new JsonParser().parse(new InputStreamReader(r.getInputStream())).getAsJsonObject();
-            Serializer.from(jo, SpriteManager.class, this);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        loaded = true;
     }
 
 }

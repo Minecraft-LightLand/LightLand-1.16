@@ -5,19 +5,11 @@ import com.lcy0x1.core.magic.HexHandler.FlowChart.Flow;
 
 public class HexRenderer {
 
-    public interface Renderer {
-
-        void render(int x, int y, String sprite);
-
-    }
-
     public final Renderer renderer;
     public HexHandler hex;
     public LocateResult result;
     public FlowChart flow;
-
     private Cell cell;
-
     private int time;
 
     public HexRenderer(Renderer renderer) {
@@ -149,6 +141,12 @@ public class HexRenderer {
      */
     private void renderTile(boolean enabled) {
         renderer.render(cell.getX() - 3, cell.getY() - 3, "tile_" + (enabled ? "light" : "dark"));
+    }
+
+    public interface Renderer {
+
+        void render(int x, int y, String sprite);
+
     }
 
 }

@@ -17,24 +17,6 @@ public class ArcaneType extends NamedEntry<ArcaneType> {
     public static final ArcaneType ALIOTH = reg("alioth", new ArcaneType(Weapon.SWORD, Hit.LIGHT, Mana.PASSIVE));
     public static final ArcaneType MIZAR = reg("mizar", new ArcaneType(Weapon.SWORD, Hit.CRITICAL, Mana.PASSIVE));
     public static final ArcaneType ALKAID = reg("alkaid", new ArcaneType(Weapon.SWORD, Hit.NONE, Mana.ACTIVE));
-
-    public enum Weapon {
-        SWORD, AXE
-    }
-
-    public enum Hit {
-        LIGHT, CRITICAL, NONE
-    }
-
-    public enum Mana {
-        PASSIVE, ACTIVE
-    }
-
-    private static ArcaneType reg(String str, ArcaneType type) {
-        type.setRegistryName(LightLand.MODID, str);
-        return type;
-    }
-
     public final Weapon weapon;
     public final Hit hit;
     public final Mana mana;
@@ -44,5 +26,20 @@ public class ArcaneType extends NamedEntry<ArcaneType> {
         this.weapon = weapon;
         this.hit = hit;
         this.mana = mana;
+    }
+
+    private static ArcaneType reg(String str, ArcaneType type) {
+        type.setRegistryName(LightLand.MODID, str);
+        return type;
+    }
+    public enum Weapon {
+        SWORD, AXE
+    }
+    public enum Hit {
+        LIGHT, CRITICAL, NONE
+    }
+
+    public enum Mana {
+        PASSIVE, ACTIVE
     }
 }

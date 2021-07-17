@@ -38,17 +38,6 @@ public interface IMobLevel {
         });
     }
 
-    interface Entry<T> {
-
-        int getWeight();
-
-        double getCost();
-
-        boolean equal(T other);
-
-        double getChance();
-    }
-
     static <T extends Entry<T>> List<T> loot(IWorld world, List<T> supply, double money) {
         List<T> result = new ArrayList<>();
         while (supply.size() > 0) {
@@ -73,6 +62,17 @@ public interface IMobLevel {
             } else supply.remove(sele);
         }
         return result;
+    }
+
+    interface Entry<T> {
+
+        int getWeight();
+
+        double getCost();
+
+        boolean equal(T other);
+
+        double getChance();
     }
 
 }

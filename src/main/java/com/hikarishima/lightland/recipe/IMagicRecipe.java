@@ -14,53 +14,25 @@ import java.util.List;
 @SerialClass
 public class IMagicRecipe<R extends IMagicRecipe<R>> extends BaseRecipe<R, IMagicRecipe<?>, IMagicRecipe.Inv> {
 
-    public interface Inv extends BaseRecipe.RecInv<IMagicRecipe<?>> {
-
-    }
-
-    public static List<IMagicRecipe<?>> getAll(World w) {
-        return w.getRecipeManager().getAllRecipesFor(RecipeRegistry.RT_MAGIC);
-    }
-
-    @SerialClass
-    public static class ElementalMastery {
-
-        @SerialClass.SerialField
-        public MagicElement element;
-
-        @SerialClass.SerialField
-        public int level;
-
-    }
-
-    @SerialClass
-    public static class BookScreen {
-
-        @SerialClass.SerialField
-        public int screen_x, screen_y;
-
-    }
-
     @SerialClass.SerialField
     public ResourceLocation[] predecessor;
-
     @SerialClass.SerialField
     public ElementalMastery[] elemental_mastery;
-
     @SerialClass.SerialField
     public MagicRegistry.MPTRaw product_type;
-
     @SerialClass.SerialField
     public ResourceLocation product_id;
-
     @SerialClass.SerialField
     public BookScreen screen;
-
     private MagicElement[] elements;
     private boolean[][] maps;
 
     public IMagicRecipe(ResourceLocation id, RecType<R, IMagicRecipe<?>, Inv> fac) {
         super(id, fac);
+    }
+
+    public static List<IMagicRecipe<?>> getAll(World w) {
+        return w.getRecipeManager().getAllRecipesFor(RecipeRegistry.RT_MAGIC);
     }
 
     public final IMagicProduct<?, ?> getProduct() {
@@ -90,6 +62,29 @@ public class IMagicRecipe<R extends IMagicRecipe<R>> extends BaseRecipe<R, IMagi
     @Override
     public final ItemStack getResultItem() {
         return ItemStack.EMPTY;
+    }
+
+    public interface Inv extends BaseRecipe.RecInv<IMagicRecipe<?>> {
+
+    }
+
+    @SerialClass
+    public static class ElementalMastery {
+
+        @SerialClass.SerialField
+        public MagicElement element;
+
+        @SerialClass.SerialField
+        public int level;
+
+    }
+
+    @SerialClass
+    public static class BookScreen {
+
+        @SerialClass.SerialField
+        public int screen_x, screen_y;
+
     }
 
 

@@ -15,6 +15,17 @@ import java.util.List;
 public class MobSpawn {
 
     public static final List<MobSpawn> LIST = new ArrayList<>();
+    @SerialClass.SerialField
+    public String id, name;
+    @SerialClass.SerialField
+    public int origin_x, origin_y;
+    @SerialClass.SerialField
+    public double center_density, density_scale, safe_threshold, difficulty_cap, base_difficulty, difficulty_scale;
+    @SerialClass.SerialField
+    public Entry[] mobs;
+
+    public MobSpawn() {
+    }
 
     public static void init() {
         IMobLevel.readFile(MobSpawn.class, LIST, "spawn_rules.json");
@@ -64,46 +75,6 @@ public class MobSpawn {
         return IMobLevel.apply(world, ent, difficulty);
     }
 
-    @SerialClass
-    public static class Entry {
-
-        @SerialClass.SerialField
-        public String id;
-
-        @SerialClass.SerialField
-        public int weight, min, max;
-
-        public EntityType<?> type;
-
-        public MobSpawnInfo.Spawners spawner;
-
-        @SerialClass.OnInject
-        public void onInject() {
-            type = EntityType.byString(id).orElse(null);
-            if (type == null)
-                LogManager.getLogger().warn("entity type [" + id + "] not present");
-            else {
-                spawner = new MobSpawnInfo.Spawners(type, weight, min, max);
-            }
-        }
-
-    }
-
-    @SerialClass.SerialField
-    public String id, name;
-
-    @SerialClass.SerialField
-    public int origin_x, origin_y;
-
-    @SerialClass.SerialField
-    public double center_density, density_scale, safe_threshold, difficulty_cap, base_difficulty, difficulty_scale;
-
-    @SerialClass.SerialField
-    public Entry[] mobs;
-
-    public MobSpawn() {
-    }
-
     public String getID() {
         return id;
     }
@@ -132,5 +103,30 @@ public class MobSpawn {
 
     public Entry[] getMobs() {
         return mobs;
+    }
+
+    @SerialClass
+    public static class Entry {
+
+        @SerialClass.SerialField
+        public String id;
+
+        @SerialClass.SerialField
+        public int weight, min, max;
+
+        public EntityType<?> type;
+
+        public MobSpawnInfo.Spawners spawner;
+
+        @SerialClass.OnInject
+        public void onInject() {
+            type = EntityType.byString(id).orElse(null);
+            if (type == null)
+                LogManager.getLogger().warn("entity type [" + id + "] not present");
+            else {
+                spawner = new MobSpawnInfo.Spawners(type, weight, min, max);
+            }
+        }
+
     }
 }

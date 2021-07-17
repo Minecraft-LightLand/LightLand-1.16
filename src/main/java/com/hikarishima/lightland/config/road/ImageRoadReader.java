@@ -27,126 +27,6 @@ import java.util.function.DoubleFunction;
 
 public class ImageRoadReader {
 
-    public enum RoadType {
-        COMMERCIAL, COMMERCIAL_SIDE,
-        COMMERCIAL_CROSS_SIDE, COMMERCIAL_CROSS_SPINE, COMMERCIAL_CROSS_CENTER,
-        NONE, VILLAGE, RURAL;
-
-        public static int getCommercial(RoadType type) {
-            switch (type) {
-                case COMMERCIAL:
-                case COMMERCIAL_CROSS_SPINE:
-                case COMMERCIAL_CROSS_CENTER:
-                    return 2;
-                case COMMERCIAL_SIDE:
-                case COMMERCIAL_CROSS_SIDE:
-                    return 1;
-                default:
-                    return 0;
-            }
-        }
-    }
-
-    @SerialClass
-    public static class Config {
-
-        @SerialClass
-        public static class Road {
-
-            @SerialClass.SerialField
-            public String color;
-
-            @SerialClass.SerialField
-            public RoadType type;
-
-        }
-
-        @SerialClass
-        public static class RoadMaterial {
-
-            @SerialClass
-            public static class MaterialEntry {
-
-                @SerialClass.SerialField
-                public String block;
-
-                @SerialClass.SerialField
-                public int weight;
-
-                public Block b;
-
-                @SerialClass.OnInject
-                public void onInject() {
-                    if (block != null) {
-                        ResourceLocation rl = new ResourceLocation(block);
-                        b = ForgeRegistries.BLOCKS.getValue(rl);
-                        if (b == null)
-                            LogManager.getLogger().error("block " + block + " not exist");
-                    }
-                }
-
-            }
-
-            @SerialClass.SerialField
-            public String base_block;
-
-            @SerialClass.SerialField
-            public RoadMaterial.MaterialEntry[] entries;
-
-            public Block get(double r) {
-                int total_weight = 0;
-                for (RoadMaterial.MaterialEntry m : entries) {
-                    total_weight += m.weight;
-                }
-                int rand = (int) (total_weight * r);
-                for (RoadMaterial.MaterialEntry m : entries) {
-                    if (rand < m.weight)
-                        return m.b;
-                    rand -= m.weight;
-                }
-                return null;
-            }
-
-        }
-
-        @SerialClass.SerialField
-        public boolean debug;
-
-        @SerialClass.SerialField
-        public Road[] roads;
-
-        @SerialClass.SerialField
-        public RoadMaterial[] materials;
-
-        public Map<Integer, RoadType> roadmap = new HashMap<>();
-        public Map<Block, DoubleFunction<Block>> blockmap = new HashMap<>();
-
-        @SerialClass.OnInject
-        public void onInject() {
-            for (Road e : roads) {
-                int color = Integer.parseInt(e.color, 16);
-                roadmap.put(color, e.type);
-            }
-            for (RoadMaterial e : materials) {
-                Block b = null;
-                if (e.base_block != null) {
-                    ResourceLocation rl = new ResourceLocation(e.base_block);
-                    b = ForgeRegistries.BLOCKS.getValue(rl);
-                }
-                blockmap.put(b, e::get);
-            }
-        }
-
-        @Nullable
-        public Block getBlock(Block b, double x) {
-            DoubleFunction<Block> ans = blockmap.get(b);
-            if (ans == null)
-                ans = blockmap.get(null);
-            return ans.apply(x);
-        }
-
-    }
-
     public static Config CONFIG;
     public static BufferedImage ROAD;
 
@@ -196,6 +76,122 @@ public class ImageRoadReader {
             if (bs != null)
                 c.setBlockState(pos, bs, false);
         }
+    }
+
+    public enum RoadType {
+        COMMERCIAL, COMMERCIAL_SIDE,
+        COMMERCIAL_CROSS_SIDE, COMMERCIAL_CROSS_SPINE, COMMERCIAL_CROSS_CENTER,
+        NONE, VILLAGE, RURAL;
+
+        public static int getCommercial(RoadType type) {
+            switch (type) {
+                case COMMERCIAL:
+                case COMMERCIAL_CROSS_SPINE:
+                case COMMERCIAL_CROSS_CENTER:
+                    return 2;
+                case COMMERCIAL_SIDE:
+                case COMMERCIAL_CROSS_SIDE:
+                    return 1;
+                default:
+                    return 0;
+            }
+        }
+    }
+
+    @SerialClass
+    public static class Config {
+
+        @SerialClass.SerialField
+        public boolean debug;
+        @SerialClass.SerialField
+        public Road[] roads;
+        @SerialClass.SerialField
+        public RoadMaterial[] materials;
+        public Map<Integer, RoadType> roadmap = new HashMap<>();
+        public Map<Block, DoubleFunction<Block>> blockmap = new HashMap<>();
+
+        @SerialClass.OnInject
+        public void onInject() {
+            for (Road e : roads) {
+                int color = Integer.parseInt(e.color, 16);
+                roadmap.put(color, e.type);
+            }
+            for (RoadMaterial e : materials) {
+                Block b = null;
+                if (e.base_block != null) {
+                    ResourceLocation rl = new ResourceLocation(e.base_block);
+                    b = ForgeRegistries.BLOCKS.getValue(rl);
+                }
+                blockmap.put(b, e::get);
+            }
+        }
+
+        @Nullable
+        public Block getBlock(Block b, double x) {
+            DoubleFunction<Block> ans = blockmap.get(b);
+            if (ans == null)
+                ans = blockmap.get(null);
+            return ans.apply(x);
+        }
+
+        @SerialClass
+        public static class Road {
+
+            @SerialClass.SerialField
+            public String color;
+
+            @SerialClass.SerialField
+            public RoadType type;
+
+        }
+
+        @SerialClass
+        public static class RoadMaterial {
+
+            @SerialClass.SerialField
+            public String base_block;
+            @SerialClass.SerialField
+            public RoadMaterial.MaterialEntry[] entries;
+
+            public Block get(double r) {
+                int total_weight = 0;
+                for (RoadMaterial.MaterialEntry m : entries) {
+                    total_weight += m.weight;
+                }
+                int rand = (int) (total_weight * r);
+                for (RoadMaterial.MaterialEntry m : entries) {
+                    if (rand < m.weight)
+                        return m.b;
+                    rand -= m.weight;
+                }
+                return null;
+            }
+
+            @SerialClass
+            public static class MaterialEntry {
+
+                @SerialClass.SerialField
+                public String block;
+
+                @SerialClass.SerialField
+                public int weight;
+
+                public Block b;
+
+                @SerialClass.OnInject
+                public void onInject() {
+                    if (block != null) {
+                        ResourceLocation rl = new ResourceLocation(block);
+                        b = ForgeRegistries.BLOCKS.getValue(rl);
+                        if (b == null)
+                            LogManager.getLogger().error("block " + block + " not exist");
+                    }
+                }
+
+            }
+
+        }
+
     }
 
 }

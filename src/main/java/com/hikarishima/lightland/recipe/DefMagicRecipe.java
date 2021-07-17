@@ -20,34 +20,6 @@ public class DefMagicRecipe extends IMagicRecipe<DefMagicRecipe> {
         super(id, RecipeRegistry.RSM_DEF);
     }
 
-    @SerialClass.OnInject
-    public void onInject() {
-        int n = elements.size();
-        MagicElement[] elems = new MagicElement[n];
-        char[] chars = new char[n];
-        int i = 0;
-        for (Map.Entry<String, MagicElement> ent : elements.entrySet()) {
-            elems[i] = ent.getValue();
-            if (ent.getKey().length() != 1)
-                LogManager.getLogger().error("key length not 1 in " + this.id);
-            chars[i] = ent.getKey().charAt(0);
-            i++;
-        }
-        boolean[][] bools = new boolean[n][n];
-        for (String flow : flows) {
-            if (flow.contains("<->")) {
-                String[] strs = flow.split("<->");
-                if (strs.length != 2 || !flowRegex(chars, strs[0], strs[1], bools, true))
-                    LogManager.getLogger().error("illegal side expression" + flow + " in " + this.id);
-            } else if (flow.contains("->")) {
-                String[] strs = flow.split("->");
-                if (strs.length != 2 || !flowRegex(chars, strs[0], strs[1], bools, false))
-                    LogManager.getLogger().error("illegal side expression " + flow + " in " + this.id);
-            } else LogManager.getLogger().error("illegal connector " + flow + " in " + this.id);
-        }
-        register(elems, bools);
-    }
-
     private static boolean flowRegex(char[] chars, String s0, String s1, boolean[][] bools, boolean bidirect) {
         int[] i0 = new int[s0.length()];
         int[] i1 = new int[s1.length()];
@@ -87,6 +59,34 @@ public class DefMagicRecipe extends IMagicRecipe<DefMagicRecipe> {
                 }
             }
         return true;
+    }
+
+    @SerialClass.OnInject
+    public void onInject() {
+        int n = elements.size();
+        MagicElement[] elems = new MagicElement[n];
+        char[] chars = new char[n];
+        int i = 0;
+        for (Map.Entry<String, MagicElement> ent : elements.entrySet()) {
+            elems[i] = ent.getValue();
+            if (ent.getKey().length() != 1)
+                LogManager.getLogger().error("key length not 1 in " + this.id);
+            chars[i] = ent.getKey().charAt(0);
+            i++;
+        }
+        boolean[][] bools = new boolean[n][n];
+        for (String flow : flows) {
+            if (flow.contains("<->")) {
+                String[] strs = flow.split("<->");
+                if (strs.length != 2 || !flowRegex(chars, strs[0], strs[1], bools, true))
+                    LogManager.getLogger().error("illegal side expression" + flow + " in " + this.id);
+            } else if (flow.contains("->")) {
+                String[] strs = flow.split("->");
+                if (strs.length != 2 || !flowRegex(chars, strs[0], strs[1], bools, false))
+                    LogManager.getLogger().error("illegal side expression " + flow + " in " + this.id);
+            } else LogManager.getLogger().error("illegal connector " + flow + " in " + this.id);
+        }
+        register(elems, bools);
     }
 
 }

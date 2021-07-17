@@ -4,7 +4,6 @@ import com.hikarishima.lightland.LightLand;
 import com.lcy0x1.base.NamedEntry;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraftforge.registries.IForgeRegistryEntry;
 
 public class Translator {
 

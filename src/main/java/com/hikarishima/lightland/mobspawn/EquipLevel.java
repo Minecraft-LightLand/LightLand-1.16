@@ -24,130 +24,6 @@ public class EquipLevel {
     public static List<Enchant> ENCHANTS = new ArrayList<>();
     public static double ITEM_BUDGET = 0.2, ENCHANT_BUDGET = 0.2;
 
-    @SerialClass
-    public static class Enchant {
-
-        @SerialClass.SerialField
-        public String id;
-
-        @SerialClass.SerialField
-        public double cost, chance = 1;
-
-        @SerialClass.SerialField
-        public int weight, level;
-
-        public Enchantment enchantment;
-
-        @SerialClass.OnInject
-        public void onInject() {
-            enchantment = ExceptionHandler.get(() -> ForgeRegistries.ENCHANTMENTS.getValue(ResourceLocation.tryParse(id)));
-        }
-
-    }
-
-    @SerialClass
-    public static class EquipItem implements IMobLevel.Entry<EquipItem> {
-
-        public enum Type {
-            HELMET(EquipmentSlotType.HEAD),
-            CHESTPLATE(EquipmentSlotType.CHEST),
-            LEGGINGS(EquipmentSlotType.LEGS),
-            BOOTS(EquipmentSlotType.FEET),
-            SWORD(EquipmentSlotType.MAINHAND),
-            BOW(EquipmentSlotType.MAINHAND),
-            TRIDENT(EquipmentSlotType.MAINHAND);
-
-            public EquipmentSlotType type;
-
-            Type(EquipmentSlotType type) {
-                this.type = type;
-            }
-        }
-
-        @SerialClass.SerialField
-        public Type type;
-
-        @SerialClass.SerialField
-        public String id;
-
-        @SerialClass.SerialField
-        public double cost, chance = 1;
-
-        @SerialClass.SerialField
-        public int weight;
-
-        public Item item;
-
-        @Override
-        public int getWeight() {
-            return weight;
-        }
-
-        @Override
-        public double getCost() {
-            return cost;
-        }
-
-        @Override
-        public boolean equal(EquipItem other) {
-            return other.type == type;
-        }
-
-        @Override
-        public double getChance() {
-            return chance;
-        }
-
-        @SerialClass.OnInject
-        public void onInject() {
-            item = ExceptionHandler.get(() -> ForgeRegistries.ITEMS.getValue(ResourceLocation.tryParse(id)));
-        }
-
-    }
-
-    public static class ItemPair {
-
-        public ItemStack stack;
-        public EquipItem equip;
-
-        public ItemPair(ItemStack stack, EquipItem equip) {
-            this.stack = stack;
-            this.equip = equip;
-        }
-    }
-
-
-    public static class EnchantPair implements IMobLevel.Entry<EnchantPair> {
-
-        public ItemStack stack;
-        public Enchant equip;
-
-        public EnchantPair(ItemStack stack, Enchant equip) {
-            this.stack = stack;
-            this.equip = equip;
-        }
-
-        @Override
-        public int getWeight() {
-            return equip.weight;
-        }
-
-        @Override
-        public double getCost() {
-            return equip.cost;
-        }
-
-        @Override
-        public boolean equal(EnchantPair other) {
-            return other.stack == stack;
-        }
-
-        @Override
-        public double getChance() {
-            return equip.chance;
-        }
-    }
-
     public static double modify(IWorld world, LivingEntity ent, double difficulty) {
         if (ent instanceof ZombieEntity || ent instanceof AbstractSkeletonEntity) {
             // get a list of items
@@ -208,5 +84,124 @@ public class EquipLevel {
             return cost;
         }
         return 0;
+    }
+
+    @SerialClass
+    public static class Enchant {
+
+        @SerialClass.SerialField
+        public String id;
+
+        @SerialClass.SerialField
+        public double cost, chance = 1;
+
+        @SerialClass.SerialField
+        public int weight, level;
+
+        public Enchantment enchantment;
+
+        @SerialClass.OnInject
+        public void onInject() {
+            enchantment = ExceptionHandler.get(() -> ForgeRegistries.ENCHANTMENTS.getValue(ResourceLocation.tryParse(id)));
+        }
+
+    }
+
+    @SerialClass
+    public static class EquipItem implements IMobLevel.Entry<EquipItem> {
+
+        @SerialClass.SerialField
+        public Type type;
+        @SerialClass.SerialField
+        public String id;
+        @SerialClass.SerialField
+        public double cost, chance = 1;
+        @SerialClass.SerialField
+        public int weight;
+        public Item item;
+
+        @Override
+        public int getWeight() {
+            return weight;
+        }
+
+        @Override
+        public double getCost() {
+            return cost;
+        }
+
+        @Override
+        public boolean equal(EquipItem other) {
+            return other.type == type;
+        }
+
+        @Override
+        public double getChance() {
+            return chance;
+        }
+
+        @SerialClass.OnInject
+        public void onInject() {
+            item = ExceptionHandler.get(() -> ForgeRegistries.ITEMS.getValue(ResourceLocation.tryParse(id)));
+        }
+
+        public enum Type {
+            HELMET(EquipmentSlotType.HEAD),
+            CHESTPLATE(EquipmentSlotType.CHEST),
+            LEGGINGS(EquipmentSlotType.LEGS),
+            BOOTS(EquipmentSlotType.FEET),
+            SWORD(EquipmentSlotType.MAINHAND),
+            BOW(EquipmentSlotType.MAINHAND),
+            TRIDENT(EquipmentSlotType.MAINHAND);
+
+            public EquipmentSlotType type;
+
+            Type(EquipmentSlotType type) {
+                this.type = type;
+            }
+        }
+
+    }
+
+    public static class ItemPair {
+
+        public ItemStack stack;
+        public EquipItem equip;
+
+        public ItemPair(ItemStack stack, EquipItem equip) {
+            this.stack = stack;
+            this.equip = equip;
+        }
+    }
+
+    public static class EnchantPair implements IMobLevel.Entry<EnchantPair> {
+
+        public ItemStack stack;
+        public Enchant equip;
+
+        public EnchantPair(ItemStack stack, Enchant equip) {
+            this.stack = stack;
+            this.equip = equip;
+        }
+
+        @Override
+        public int getWeight() {
+            return equip.weight;
+        }
+
+        @Override
+        public double getCost() {
+            return equip.cost;
+        }
+
+        @Override
+        public boolean equal(EnchantPair other) {
+            return other.stack == stack;
+        }
+
+        @Override
+        public double getChance() {
+            return equip.chance;
+        }
     }
 }

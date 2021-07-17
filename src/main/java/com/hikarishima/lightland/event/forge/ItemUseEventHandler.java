@@ -13,40 +13,6 @@ import java.util.function.BiConsumer;
 
 public class ItemUseEventHandler {
 
-    public interface ItemClickHandler {
-
-        boolean predicate(ItemStack stack, Class<? extends PlayerEvent> cls, PlayerEvent event);
-
-        default void onPlayerLeftClickEmpty(PlayerInteractEvent.LeftClickEmpty event) {
-
-        }
-
-        default void onPlayerLeftClickBlock(PlayerInteractEvent.LeftClickBlock event) {
-
-        }
-
-        default void onPlayerLeftClickEntity(AttackEntityEvent event) {
-
-        }
-
-        default void onCriticalHit(CriticalHitEvent event) {
-
-        }
-
-        default void onPlayerRightClickEmpty(PlayerInteractEvent.RightClickEmpty event) {
-
-        }
-
-        default void onPlayerRightClickBlock(PlayerInteractEvent.RightClickBlock event) {
-
-        }
-
-        default void onPlayerRightClickEntity(PlayerInteractEvent.EntityInteract event) {
-
-        }
-
-    }
-
     public static final List<ItemClickHandler> LIST = new ArrayList<>();
 
     public static <T extends PlayerEvent> void execute(ItemStack stack, T event, BiConsumer<ItemClickHandler, T> cons) {
@@ -88,6 +54,40 @@ public class ItemUseEventHandler {
     @SubscribeEvent
     public void onCriticalHit(CriticalHitEvent event) {
         execute(event.getPlayer().getMainHandItem(), event, ItemClickHandler::onCriticalHit);
+    }
+
+    public interface ItemClickHandler {
+
+        boolean predicate(ItemStack stack, Class<? extends PlayerEvent> cls, PlayerEvent event);
+
+        default void onPlayerLeftClickEmpty(PlayerInteractEvent.LeftClickEmpty event) {
+
+        }
+
+        default void onPlayerLeftClickBlock(PlayerInteractEvent.LeftClickBlock event) {
+
+        }
+
+        default void onPlayerLeftClickEntity(AttackEntityEvent event) {
+
+        }
+
+        default void onCriticalHit(CriticalHitEvent event) {
+
+        }
+
+        default void onPlayerRightClickEmpty(PlayerInteractEvent.RightClickEmpty event) {
+
+        }
+
+        default void onPlayerRightClickBlock(PlayerInteractEvent.RightClickBlock event) {
+
+        }
+
+        default void onPlayerRightClickEntity(PlayerInteractEvent.EntityInteract event) {
+
+        }
+
     }
 
 }

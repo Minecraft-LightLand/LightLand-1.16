@@ -27,6 +27,18 @@ public class LavaSmokeFeature extends Feature<LavaSmokeFeatureConfig> {
         super(codec);
     }
 
+    private static BlockState getTopBlock(int dx, int dz, float r) {
+        if (!inCircle(dx, dz, r))
+            return null;
+        if (inCircle(dx - 1, dz, r) && inCircle(dx + 1, dz, r) && inCircle(dx, dz - 1, r) && inCircle(dx, dz + 1, r))
+            return LAVA;
+        return BASE;
+    }
+
+    private static boolean inCircle(int dx, int dz, float r) {
+        return (dx - 0.5f) * (dx - 0.5f) + (dz - 0.5f) * (dz - 0.5f) < r * r;
+    }
+
     @Override
     public boolean place(
             ISeedReader w, ChunkGenerator gen, Random random,
@@ -91,17 +103,5 @@ public class LavaSmokeFeature extends Feature<LavaSmokeFeatureConfig> {
             }
         }
         return true;
-    }
-
-    private static BlockState getTopBlock(int dx, int dz, float r) {
-        if (!inCircle(dx, dz, r))
-            return null;
-        if (inCircle(dx - 1, dz, r) && inCircle(dx + 1, dz, r) && inCircle(dx, dz - 1, r) && inCircle(dx, dz + 1, r))
-            return LAVA;
-        return BASE;
-    }
-
-    private static boolean inCircle(int dx, int dz, float r) {
-        return (dx - 0.5f) * (dx - 0.5f) + (dz - 0.5f) * (dz - 0.5f) < r * r;
     }
 }

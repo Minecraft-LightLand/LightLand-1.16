@@ -53,7 +53,15 @@ public class LightLandChunkGenerator extends ChunkGenerator {
             Codec.LONG.fieldOf("seed").stable().forGetter((e1) -> e1.seed),
             DimensionSettings.CODEC.fieldOf("settings").forGetter((e1) -> e1.settings)
     ).apply(e0, e0.stable(LightLandChunkGenerator::new)));
+    public static final float[] BIOME_WEIGHTS = Util.make(new float[25], (ans) -> {
+        for (int i = -2; i <= 2; ++i) {
+            for (int j = -2; j <= 2; ++j) {
+                float f = 10.0F / MathHelper.sqrt(i * i + j * j + 0.2F);
+                ans[i + 2 + (j + 2) * 5] = f;
+            }
+        }
 
+    });
     private static final float[] BEARD_KERNEL = Util.make(new float[13824], (p_236094_0_) -> {
         for (int i = 0; i < 24; ++i) {
             for (int j = 0; j < 24; ++j) {
@@ -64,23 +72,21 @@ public class LightLandChunkGenerator extends ChunkGenerator {
         }
 
     });
-
-    public static final float[] BIOME_WEIGHTS = Util.make(new float[25], (ans) -> {
-        for (int i = -2; i <= 2; ++i) {
-            for (int j = -2; j <= 2; ++j) {
-                float f = 10.0F / MathHelper.sqrt(i * i + j * j + 0.2F);
-                ans[i + 2 + (j + 2) * 5] = f;
-            }
-        }
-
-    });
     private static final BlockState AIR;
+
+    static {
+        AIR = Blocks.AIR.defaultBlockState();
+    }
+
+    protected final SharedSeedRandom random;
+    protected final BlockState defaultBlock;
+    protected final BlockState defaultFluid;
+    protected final Supplier<DimensionSettings> settings;
     private final int chunkHeight;
     private final int chunkWidth;
     private final int chunkCountX;
     private final int chunkCountY;
     private final int chunkCountZ;
-    protected final SharedSeedRandom random;
     private final OctavesNoiseGenerator minLimitPerlinNoise;
     private final OctavesNoiseGenerator maxLimitPerlinNoise;
     private final OctavesNoiseGenerator mainPerlinNoise;
@@ -88,10 +94,7 @@ public class LightLandChunkGenerator extends ChunkGenerator {
     private final OctavesNoiseGenerator depthNoise;
     @Nullable
     private final SimplexNoiseGenerator islandNoise;
-    protected final BlockState defaultBlock;
-    protected final BlockState defaultFluid;
     private final long seed;
-    protected final Supplier<DimensionSettings> settings;
     private final int height;
 
     public LightLandChunkGenerator(BiomeProvider p_i241975_1_, long p_i241975_2_, Supplier<DimensionSettings> p_i241975_4_) {
@@ -127,6 +130,30 @@ public class LightLandChunkGenerator extends ChunkGenerator {
             this.islandNoise = null;
         }
 
+    }
+
+    private static double getContribution(int p_222556_0_, int p_222556_1_, int p_222556_2_) {
+        int i = p_222556_0_ + 12;
+        int j = p_222556_1_ + 12;
+        int k = p_222556_2_ + 12;
+        if (i >= 0 && i < 24) {
+            if (j >= 0 && j < 24) {
+                return k >= 0 && k < 24 ? (double) BEARD_KERNEL[k * 24 * 24 + i * 24 + j] : 0.0D;
+            } else {
+                return 0.0D;
+            }
+        } else {
+            return 0.0D;
+        }
+    }
+
+    private static double computeContribution(int p_222554_0_, int p_222554_1_, int p_222554_2_) {
+        double d0 = p_222554_0_ * p_222554_0_ + p_222554_2_ * p_222554_2_;
+        double d1 = (double) p_222554_1_ + 0.5D;
+        double d2 = d1 * d1;
+        double d3 = Math.pow(2.718281828459045D, -(d2 / 16.0D + d0 / 16.0D));
+        double d4 = -d1 * MathHelper.fastInvSqrt(d2 / 2.0D + d0 / 2.0D) / 2.0D;
+        return d4 * d3;
     }
 
     protected Codec<? extends ChunkGenerator> codec() {
@@ -521,30 +548,6 @@ public class LightLandChunkGenerator extends ChunkGenerator {
 
     }
 
-    private static double getContribution(int p_222556_0_, int p_222556_1_, int p_222556_2_) {
-        int i = p_222556_0_ + 12;
-        int j = p_222556_1_ + 12;
-        int k = p_222556_2_ + 12;
-        if (i >= 0 && i < 24) {
-            if (j >= 0 && j < 24) {
-                return k >= 0 && k < 24 ? (double) BEARD_KERNEL[k * 24 * 24 + i * 24 + j] : 0.0D;
-            } else {
-                return 0.0D;
-            }
-        } else {
-            return 0.0D;
-        }
-    }
-
-    private static double computeContribution(int p_222554_0_, int p_222554_1_, int p_222554_2_) {
-        double d0 = p_222554_0_ * p_222554_0_ + p_222554_2_ * p_222554_2_;
-        double d1 = (double) p_222554_1_ + 0.5D;
-        double d2 = d1 * d1;
-        double d3 = Math.pow(2.718281828459045D, -(d2 / 16.0D + d0 / 16.0D));
-        double d4 = -d1 * MathHelper.fastInvSqrt(d2 / 2.0D + d0 / 2.0D) / 2.0D;
-        return d4 * d3;
-    }
-
     public int getGenDepth() {
         return this.height;
     }
@@ -565,9 +568,5 @@ public class LightLandChunkGenerator extends ChunkGenerator {
         SharedSeedRandom sharedseedrandom = new SharedSeedRandom();
         sharedseedrandom.setDecorationSeed(r.getSeed(), i << 4, j << 4);
         WorldEntitySpawner.spawnMobsForChunkGeneration(r, biome, i, j, sharedseedrandom);
-    }
-
-    static {
-        AIR = Blocks.AIR.defaultBlockState();
     }
 }

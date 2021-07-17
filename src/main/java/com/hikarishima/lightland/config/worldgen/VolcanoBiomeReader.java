@@ -12,8 +12,27 @@ import java.io.FileReader;
 
 public class VolcanoBiomeReader {
 
+    public static VolcanoConfig CONFIG;
+
+    public static void init() {
+        if (CONFIG != null)
+            return;
+        File configfile = FileIO.loadConfigFile("volcano_config.json");
+        ExceptionHandler.run(() -> {
+            JsonElement je = new JsonParser().parse(new FileReader(configfile));
+            CONFIG = Serializer.from(je.getAsJsonObject(), VolcanoConfig.class, null);
+        });
+    }
+
     @SerialClass
     public static class VolcanoConfig {
+
+        @SerialClass.SerialField
+        public int lava_level, side_count;
+        @SerialClass.SerialField
+        public float max, step, scale;
+        @SerialClass.SerialField
+        public LavaWell lava_well;
 
         @SerialClass
         public static class LavaWell {
@@ -26,27 +45,6 @@ public class VolcanoBiomeReader {
 
         }
 
-        @SerialClass.SerialField
-        public int lava_level, side_count;
-
-        @SerialClass.SerialField
-        public float max, step, scale;
-
-        @SerialClass.SerialField
-        public LavaWell lava_well;
-
-    }
-
-    public static VolcanoConfig CONFIG;
-
-    public static void init() {
-        if (CONFIG != null)
-            return;
-        File configfile = FileIO.loadConfigFile("volcano_config.json");
-        ExceptionHandler.run(() -> {
-            JsonElement je = new JsonParser().parse(new FileReader(configfile));
-            CONFIG = Serializer.from(je.getAsJsonObject(), VolcanoConfig.class, null);
-        });
     }
 
 }

@@ -3,11 +3,9 @@ package com.hikarishima.lightland.config.road;
 public class CommercialRoadBuilder {
 
     private static final int OFFSET = 2;
-
+    public static float[][] cache_road;
     private static int cache_x;
     private static int cache_z;
-
-    public static float[][] cache_road;
 
     private static float[][] getCommercialRoad(int cx, int cz) {
         if (cx == cache_x && cz == cache_z && cache_road != null)

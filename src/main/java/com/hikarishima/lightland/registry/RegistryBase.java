@@ -11,6 +11,8 @@ import java.util.function.Consumer;
 
 public class RegistryBase {
 
+    public static final Class<?>[] BIOME_REGISTRIES = {VolcanoBiomeRegistry.class};
+
     public static <T> void process(Class<?> provider, Class<T> reg, Consumer<T> acceptor) {
         ExceptionHandler.run(() -> {
             for (Field f : provider.getDeclaredFields())
@@ -22,8 +24,6 @@ public class RegistryBase {
                             ((Consumer) acceptor).accept(o);
         });
     }
-
-    public static final Class<?>[] BIOME_REGISTRIES = {VolcanoBiomeRegistry.class};
 
     public static <T extends IForgeRegistryEntry<T>> void processBiome(RegistryEvent.Register<T> event) {
         for (Class<?> cls : BIOME_REGISTRIES)

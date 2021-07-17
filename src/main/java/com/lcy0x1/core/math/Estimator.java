@@ -7,121 +7,23 @@ import java.util.function.Function;
 
 public class Estimator {
 
-    public interface EstiResult {
-
-        double getA();
-
-        double getT();
-
-        EstiType getType();
-
-        Vector3d getVec();
-
-    }
-
-    public enum EstiType implements EstiResult {
-        ZERO, FAIL, CLOSE;
-
-        @Override
-        public double getA() {
-            return 0;
-        }
-
-        @Override
-        public double getT() {
-            return 0;
-        }
-
-        @Override
-        public EstiType getType() {
-            return this;
-        }
-
-        @Override
-        public Vector3d getVec() {
-            return Vector3d.ZERO;
-        }
-    }
-
-    public interface SolResult {
-
-        SolType getType();
-
-        double getVal();
-
-    }
-
-    public enum SolType implements SolResult {
-        OVER, BELOW, ZERO;
-
-        @Override
-        public SolType getType() {
-            return this;
-        }
-
-        @Override
-        public double getVal() {
-            return 0;
-        }
-    }
-
-    private static class SucEstiRes implements EstiResult {
-
-        private final double a, t;
-        private final Estimator mov;
-
-        private SucEstiRes(double A, double T, Estimator m) {
-            a = A;
-            t = T;
-            mov = m;
-        }
-
-        @Override
-        public double getA() {
-            return a;
-        }
-
-        @Override
-        public double getT() {
-            return t;
-        }
-
-        @Override
-        public EstiType getType() {
-            return EstiType.ZERO;
-        }
-
-        @Override
-        public Vector3d getVec() {
-            Vector3d fin = mov.dp.add(mov.ev.scale(t)).multiply(1, 0, 1);
-            double l = fin.length();
-            double c = Math.cos(a);
-            return new Vector3d(mov.v * c * fin.x / l, mov.v * Math.sin(a), mov.v * c * fin.z / l);
-        }
-
-    }
-
-    private static class SucSolRes implements SolResult {
-
-        private final double val;
-
-        private SucSolRes(double value) {
-            val = value;
-        }
-
-        @Override
-        public SolType getType() {
-            return SolType.ZERO;
-        }
-
-        @Override
-        public double getVal() {
-            return val;
-        }
-
-    }
-
     private static final double ERR = 1e-5;
+    private final double gk, k, vk, g, v, x;
+    private final int max;
+    private final Vector3d dp, ev;
+
+    public Estimator(double G, double K, Vector3d pos, double V, int maxt, Vector3d ep, Vector3d eV) {
+        gk = G / K;
+        g = G;
+        k = K;
+        vk = V / K;
+        v = V;
+        max = maxt;
+        ev = eV;
+        Vector3d vdp = ep.subtract(pos);
+        dp = vdp.add(Math.abs(vdp.x) < ERR ? ERR : 0, 0, Math.abs(vdp.z) < ERR ? ERR : 0);
+        x = dis(dp.x, dp.z);
+    }
 
     public static SolResult solve(Function<Double, Double> f, double v, double min, double max, double err) {
         double x0 = min;
@@ -171,25 +73,6 @@ public class Estimator {
 
     private static double dis(double a, double b) {
         return Math.sqrt(a * a + b * b);
-    }
-
-    private final double gk, k, vk, g, v, x;
-
-    private final int max;
-
-    private final Vector3d dp, ev;
-
-    public Estimator(double G, double K, Vector3d pos, double V, int maxt, Vector3d ep, Vector3d eV) {
-        gk = G / K;
-        g = G;
-        k = K;
-        vk = V / K;
-        v = V;
-        max = maxt;
-        ev = eV;
-        Vector3d vdp = ep.subtract(pos);
-        dp = vdp.add(Math.abs(vdp.x) < ERR ? ERR : 0, 0, Math.abs(vdp.z) < ERR ? ERR : 0);
-        x = dis(dp.x, dp.z);
     }
 
     public EstiResult getAnswer() {
@@ -303,6 +186,120 @@ public class Estimator {
 
     private double getYT(double a, double t) {
         return (Math.sin(a) * v + gk) * Math.exp(-k * t) - gk - ev.y;
+    }
+
+    public enum EstiType implements EstiResult {
+        ZERO, FAIL, CLOSE;
+
+        @Override
+        public double getA() {
+            return 0;
+        }
+
+        @Override
+        public double getT() {
+            return 0;
+        }
+
+        @Override
+        public EstiType getType() {
+            return this;
+        }
+
+        @Override
+        public Vector3d getVec() {
+            return Vector3d.ZERO;
+        }
+    }
+
+    public enum SolType implements SolResult {
+        OVER, BELOW, ZERO;
+
+        @Override
+        public SolType getType() {
+            return this;
+        }
+
+        @Override
+        public double getVal() {
+            return 0;
+        }
+    }
+
+    public interface EstiResult {
+
+        double getA();
+
+        double getT();
+
+        EstiType getType();
+
+        Vector3d getVec();
+
+    }
+
+    public interface SolResult {
+
+        SolType getType();
+
+        double getVal();
+
+    }
+
+    private static class SucEstiRes implements EstiResult {
+
+        private final double a, t;
+        private final Estimator mov;
+
+        private SucEstiRes(double A, double T, Estimator m) {
+            a = A;
+            t = T;
+            mov = m;
+        }
+
+        @Override
+        public double getA() {
+            return a;
+        }
+
+        @Override
+        public double getT() {
+            return t;
+        }
+
+        @Override
+        public EstiType getType() {
+            return EstiType.ZERO;
+        }
+
+        @Override
+        public Vector3d getVec() {
+            Vector3d fin = mov.dp.add(mov.ev.scale(t)).multiply(1, 0, 1);
+            double l = fin.length();
+            double c = Math.cos(a);
+            return new Vector3d(mov.v * c * fin.x / l, mov.v * Math.sin(a), mov.v * c * fin.z / l);
+        }
+
+    }
+
+    private static class SucSolRes implements SolResult {
+
+        private final double val;
+
+        private SucSolRes(double value) {
+            val = value;
+        }
+
+        @Override
+        public SolType getType() {
+            return SolType.ZERO;
+        }
+
+        @Override
+        public double getVal() {
+            return val;
+        }
+
     }
 
 }

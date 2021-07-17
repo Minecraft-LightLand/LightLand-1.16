@@ -22,88 +22,6 @@ import java.util.List;
 
 public class BaseItem extends Item {
 
-    public static class ItemManager {
-
-        private final Properties props;
-        private QuickUseImpl quick;
-        private LongUseImpl hold;
-        private WeaponImpl weapon;
-        private final List<ItemTextImpl> tooltips = new ArrayList<>();
-        private final List<InvTickImpl> invTicks = new ArrayList<>();
-
-        public ItemManager(Properties prop) {
-            this.props = prop;
-        }
-
-        public ItemManager addImpl(IImpl impl) {
-            if (impl instanceof ItemTextImpl)
-                tooltips.add((ItemTextImpl) impl);
-            if (impl instanceof InvTickImpl)
-                invTicks.add((InvTickImpl) impl);
-            for (Field f : ItemManager.class.getFields()) {
-                if (IImpl.class.isAssignableFrom(f.getType()) && f.getType().isAssignableFrom(impl.getClass())) {
-                    try {
-                        f.setAccessible(true);
-                        if (f.get(this) != null)
-                            throw new RuntimeException("implementation conflict between " + f.get(this).getClass().getSimpleName() + " and " + impl.getClass().getSimpleName());
-                        f.set(this, impl);
-                    } catch (Exception e) {
-                        throw new RuntimeException("security error", e);
-                    }
-                }
-            }
-            return this;
-        }
-
-    }
-
-    public interface IImpl {
-
-    }
-
-    public interface QuickUseImpl extends IImpl {
-
-        ActionResult<ItemStack> use(World w, PlayerEntity player, Hand hand, ItemStack stack);
-
-        ActionResultType useOn(ItemUseContext context);
-
-        boolean doesSneakBypassUse(ItemStack stack, IWorldReader w, BlockPos pos, PlayerEntity player);
-
-        ActionResultType interactLivingEntity(ItemStack stack, PlayerEntity player, LivingEntity entity, Hand hand);
-
-    }
-
-    public interface LongUseImpl extends IImpl {
-
-        boolean useOnRelease(ItemStack stack);
-
-        ActionResultType onItemUseFirst(ItemStack stack, ItemUseContext context);
-
-        void onUseTick(World w, LivingEntity e, ItemStack stack, int time);
-
-        int getUseDuration(ItemStack stack);
-
-        void releaseUsing(ItemStack stack, World w, LivingEntity user, int time);
-    }
-
-    public interface ItemTextImpl extends IImpl {
-
-        void appendHoverText(ItemStack stack, World w, List<ITextComponent> list, ITooltipFlag flag, NBTObj nbt);
-
-    }
-
-    public interface InvTickImpl extends IImpl {
-
-        void inventoryTick(ItemStack stack, World w, Entity e, int slot, boolean selected);
-
-    }
-
-    public interface WeaponImpl extends IImpl {
-
-        boolean hurtEnemy(ItemStack stack, LivingEntity target, LivingEntity attacker);
-
-    }
-
     public final ItemManager manager;
 
     public BaseItem(ItemManager manager) {
@@ -169,6 +87,88 @@ public class BaseItem extends Item {
 
     public final int getUseDuration(ItemStack stack) {
         return manager.hold == null ? super.getUseDuration(stack) : manager.hold.getUseDuration(stack);
+    }
+
+    public interface IImpl {
+
+    }
+
+    public interface QuickUseImpl extends IImpl {
+
+        ActionResult<ItemStack> use(World w, PlayerEntity player, Hand hand, ItemStack stack);
+
+        ActionResultType useOn(ItemUseContext context);
+
+        boolean doesSneakBypassUse(ItemStack stack, IWorldReader w, BlockPos pos, PlayerEntity player);
+
+        ActionResultType interactLivingEntity(ItemStack stack, PlayerEntity player, LivingEntity entity, Hand hand);
+
+    }
+
+    public interface LongUseImpl extends IImpl {
+
+        boolean useOnRelease(ItemStack stack);
+
+        ActionResultType onItemUseFirst(ItemStack stack, ItemUseContext context);
+
+        void onUseTick(World w, LivingEntity e, ItemStack stack, int time);
+
+        int getUseDuration(ItemStack stack);
+
+        void releaseUsing(ItemStack stack, World w, LivingEntity user, int time);
+    }
+
+    public interface ItemTextImpl extends IImpl {
+
+        void appendHoverText(ItemStack stack, World w, List<ITextComponent> list, ITooltipFlag flag, NBTObj nbt);
+
+    }
+
+    public interface InvTickImpl extends IImpl {
+
+        void inventoryTick(ItemStack stack, World w, Entity e, int slot, boolean selected);
+
+    }
+
+    public interface WeaponImpl extends IImpl {
+
+        boolean hurtEnemy(ItemStack stack, LivingEntity target, LivingEntity attacker);
+
+    }
+
+    public static class ItemManager {
+
+        private final Properties props;
+        private final List<ItemTextImpl> tooltips = new ArrayList<>();
+        private final List<InvTickImpl> invTicks = new ArrayList<>();
+        private QuickUseImpl quick;
+        private LongUseImpl hold;
+        private WeaponImpl weapon;
+
+        public ItemManager(Properties prop) {
+            this.props = prop;
+        }
+
+        public ItemManager addImpl(IImpl impl) {
+            if (impl instanceof ItemTextImpl)
+                tooltips.add((ItemTextImpl) impl);
+            if (impl instanceof InvTickImpl)
+                invTicks.add((InvTickImpl) impl);
+            for (Field f : ItemManager.class.getFields()) {
+                if (IImpl.class.isAssignableFrom(f.getType()) && f.getType().isAssignableFrom(impl.getClass())) {
+                    try {
+                        f.setAccessible(true);
+                        if (f.get(this) != null)
+                            throw new RuntimeException("implementation conflict between " + f.get(this).getClass().getSimpleName() + " and " + impl.getClass().getSimpleName());
+                        f.set(this, impl);
+                    } catch (Exception e) {
+                        throw new RuntimeException("security error", e);
+                    }
+                }
+            }
+            return this;
+        }
+
     }
 
 }

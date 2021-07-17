@@ -17,6 +17,24 @@ public class PotionLevel {
 
     public static final List<PotionEntry> LIST = new ArrayList<>();
 
+    public static double modify(IWorld world, LivingEntity ent, double difficulty) {
+        List<PotionIns> list = new ArrayList<>();
+        for (PotionEntry entry : LIST) {
+            for (int i = 1; i <= entry.max; i++)
+                if (entry.cost * i < difficulty)
+                    list.add(new PotionIns(entry, i));
+        }
+        if (list.size() == 0)
+            return 0;
+        List<PotionIns> insList = IMobLevel.loot(world, list, difficulty);
+        int cost = 0;
+        for (PotionIns ins : insList) {
+            ent.addEffect(new EffectInstance(ins.buff.eff, 12000, ins.lv - 1));
+            cost += ins.buff.cost * ins.lv;
+        }
+        return cost;
+    }
+
     @SerialClass
     public static class PotionEntry {
 
@@ -70,24 +88,6 @@ public class PotionLevel {
         public double getChance() {
             return buff.chance;
         }
-    }
-
-    public static double modify(IWorld world, LivingEntity ent, double difficulty) {
-        List<PotionIns> list = new ArrayList<>();
-        for (PotionEntry entry : LIST) {
-            for (int i = 1; i <= entry.max; i++)
-                if (entry.cost * i < difficulty)
-                    list.add(new PotionIns(entry, i));
-        }
-        if (list.size() == 0)
-            return 0;
-        List<PotionIns> insList = IMobLevel.loot(world, list, difficulty);
-        int cost = 0;
-        for (PotionIns ins : insList) {
-            ent.addEffect(new EffectInstance(ins.buff.eff, 12000, ins.lv - 1));
-            cost += ins.buff.cost * ins.lv;
-        }
-        return cost;
     }
 
 }

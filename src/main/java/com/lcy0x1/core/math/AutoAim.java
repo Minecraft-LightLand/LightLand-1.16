@@ -22,36 +22,6 @@ import java.util.Optional;
 
 public class AutoAim {
 
-    public static class ShootConfig {
-
-        public ItemStack bow;
-        public ItemStack ammo;
-        public World world;
-        public PlayerEntity player;
-        public float pullProgress;
-        public boolean omitConsume;
-
-        public float maxVelo = 3;
-        public double power = 0.5;
-        public int punch = 1;
-        public int firetime = 100;
-        public AbstractArrowEntity ppe = null;
-        public ProjectileEntity pe = null;
-        public Entity e = null;
-
-        public double g, k;
-        public int r, t;
-        public float velo;
-
-        public void setData(double g, double k, int r, int t) {
-            this.g = g;
-            this.k = k;
-            this.r = r;
-            this.t = t;
-        }
-
-    }
-
     public static Entity getEntity(ShootConfig config) {
         config.velo = MathHelper.clamp(config.pullProgress, 0f, 1f) * config.maxVelo;
         if (config.ammo.getItem() == Items.TNT)
@@ -231,6 +201,36 @@ public class AutoAim {
         ent.xRot = (float) (MathHelper.atan2(Vector3d.y, f3) * (180F / (float) Math.PI));
         ent.xRotO = ent.xRot;
         ent.yRotO = ent.yRot;
+    }
+
+    public static class ShootConfig {
+
+        public ItemStack bow;
+        public ItemStack ammo;
+        public World world;
+        public PlayerEntity player;
+        public float pullProgress;
+        public boolean omitConsume;
+
+        public float maxVelo = 3;
+        public double power = 0.5;
+        public int punch = 1;
+        public int firetime = 100;
+        public AbstractArrowEntity ppe = null;
+        public ProjectileEntity pe = null;
+        public Entity e = null;
+
+        public double g, k;
+        public int r, t;
+        public float velo;
+
+        public void setData(double g, double k, int r, int t) {
+            this.g = g;
+            this.k = k;
+            this.r = r;
+            this.t = t;
+        }
+
     }
 
 }
