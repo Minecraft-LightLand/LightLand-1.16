@@ -4,6 +4,7 @@ import com.hikarishima.lightland.config.FileIO;
 import com.hikarishima.lightland.config.road.ImageRoadReader;
 import com.hikarishima.lightland.config.worldgen.ImageBiomeReader;
 import com.hikarishima.lightland.config.worldgen.VolcanoBiomeReader;
+import com.hikarishima.lightland.event.forge.GenericEventHandler;
 import com.hikarishima.lightland.event.forge.ItemUseEventHandler;
 import com.hikarishima.lightland.mobspawn.MobSpawn;
 import com.hikarishima.lightland.proxy.PacketHandler;
@@ -49,6 +50,7 @@ public class LightLand {
         MinecraftForge.EVENT_BUS.register(this);
         //MinecraftForge.EVENT_BUS.register(new WorldGenEventHandler());
         MinecraftForge.EVENT_BUS.register(new ItemUseEventHandler());
+        MinecraftForge.EVENT_BUS.register(new GenericEventHandler());
         PacketHandler.registerPackets();
     }
 

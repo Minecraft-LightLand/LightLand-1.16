@@ -34,6 +34,10 @@
         "lightland:thunder_axe": "Thunder Axe"
     },
     "item.lightland": {
-        "magic_book": "Magic Book (not finished)"
-    }
+        "magic_book": "Magic Book (not finished)",
+        "arcane_sowrd": "Arcane Sword",
+        "arcane_axe": "Arcane Axe"
+    },
+    "itemGroup.lightland": "Light Land",
+    "generator.lightland.image_biome": "World from Map"
 }

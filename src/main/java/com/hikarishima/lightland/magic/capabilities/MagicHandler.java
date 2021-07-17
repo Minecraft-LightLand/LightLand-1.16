@@ -96,6 +96,12 @@ public class MagicHandler {
 
     public void init(World world) {
         this.world = world;
+        if(state == null){
+            state = State.PREINIT;
+            masteries = new CompoundNBT();
+            products = new CompoundNBT();
+            arcane_type = new CompoundNBT();
+        }
         if (state == State.PREINIT) {
             state = State.ACTIVE;
         }

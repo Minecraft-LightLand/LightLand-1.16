@@ -25,6 +25,7 @@ public abstract class ResourceOrganizer {
 
     public static void main(String[] args) throws Exception {
         new LangFileOrganizer();
+        new ItemFileOrganizer();
         File f = new File("./src/test/resources");
         for (File fi : f.listFiles()) {
             MODID = fi.getName();

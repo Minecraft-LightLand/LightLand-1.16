@@ -1,6 +1,8 @@
 package com.hikarishima.lightland.event.forge;
 
 import com.hikarishima.lightland.LightLand;
+import com.hikarishima.lightland.command.ArcaneCommand;
+import com.hikarishima.lightland.item.arcane.internal.Arcane;
 import com.hikarishima.lightland.magic.capabilities.PlayerMagicCapability;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -21,7 +23,7 @@ public class GenericEventHandler {
 
     @SubscribeEvent
     public void onCommandRegister(RegisterCommandsEvent event) {
-
+        ArcaneCommand.register(event.getDispatcher());
     }
 
 }

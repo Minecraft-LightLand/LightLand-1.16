@@ -48,12 +48,12 @@ public class ArcaneItemUseHelper implements ItemUseEventHandler.ItemClickHandler
     }
 
     public static void rightClickAxe(ItemStack stack) {
-        CompoundNBT tag = stack.getTagElement("arcane");
+        CompoundNBT tag = stack.getOrCreateTagElement("arcane");
         tag.putBoolean("charged", !tag.getBoolean("charged"));
     }
 
     public static boolean isAxeCharged(ItemStack stack) {
-        return stack.getTagElement("arcane").getBoolean("charged");
+        return stack.getOrCreateTagElement("arcane").getBoolean("charged");
     }
 
     private ArcaneItemUseHelper() {

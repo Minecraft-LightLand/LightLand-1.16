@@ -11,7 +11,7 @@ import java.util.List;
 public class ArcaneItemCraftHelper {
 
     public static Arcane getArcaneOnItem(ItemStack stack, ArcaneType type) {
-        CompoundNBT tag = stack.getTagElement("arcane");
+        CompoundNBT tag = stack.getOrCreateTagElement("arcane");
         String s = type.getRegistryName().toString();
         if (!tag.contains(s))
             return null;
@@ -21,7 +21,7 @@ public class ArcaneItemCraftHelper {
     }
 
     public static List<Arcane> getAllArcanesOnItem(ItemStack stack) {
-        CompoundNBT tag = stack.getTagElement("arcane");
+        CompoundNBT tag = stack.getOrCreateTagElement("arcane");
         List<Arcane> list = new ArrayList<>();
         for (String str : tag.getAllKeys()) {
             list.add(MagicRegistry.ARCANE.getValue(new ResourceLocation(tag.getString(str))));
@@ -32,7 +32,7 @@ public class ArcaneItemCraftHelper {
     public static void setArcaneOnItem(ItemStack stack, Arcane arcane) {
         String s = arcane.type.getRegistryName().toString();
         String str = arcane.getRegistryName().toString();
-        stack.getTagElement("arcane").putString(s, str);
+        stack.getOrCreateTagElement("arcane").putString(s, str);
     }
 
 }
