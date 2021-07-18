@@ -23,7 +23,7 @@ public class GenericEventHandler {
 
     @SubscribeEvent
     public void onCommandRegister(RegisterCommandsEvent event) {
-        ArcaneCommand.register(event.getDispatcher());
+        new ArcaneCommand(event.getDispatcher());
     }
 
 }

@@ -1,10 +1,10 @@
 package com.hikarishima.lightland.magic.gui;
 
-import com.hikarishima.lightland.registry.item.MagicBook;
 import com.hikarishima.lightland.magic.capabilities.MagicHandler;
 import com.hikarishima.lightland.proxy.PacketHandler;
 import com.hikarishima.lightland.recipe.IMagicRecipe;
 import com.hikarishima.lightland.registry.ContainerRegistry;
+import com.hikarishima.lightland.registry.item.MagicBook;
 import com.lcy0x1.core.util.SerialClass;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;

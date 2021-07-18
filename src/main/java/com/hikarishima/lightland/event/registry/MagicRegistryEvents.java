@@ -1,10 +1,10 @@
 package com.hikarishima.lightland.event.registry;
 
+import com.hikarishima.lightland.magic.MagicElement;
+import com.hikarishima.lightland.magic.MagicRegistry;
 import com.hikarishima.lightland.magic.arcane.ArcaneRegistry;
 import com.hikarishima.lightland.magic.arcane.internal.Arcane;
 import com.hikarishima.lightland.magic.arcane.internal.ArcaneType;
-import com.hikarishima.lightland.magic.MagicElement;
-import com.hikarishima.lightland.magic.MagicRegistry;
 import com.hikarishima.lightland.magic.profession.Profession;
 import com.hikarishima.lightland.registry.RegistryBase;
 import net.minecraftforge.event.RegistryEvent;

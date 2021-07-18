@@ -36,9 +36,7 @@ public class PlayerMagicCapability implements ICapabilitySerializable<CompoundNB
 
     @Override
     public CompoundNBT serializeNBT() {
-        CompoundNBT ans = new CompoundNBT();
-        lo.ifPresent(e -> MagicHandler.STORAGE.writeNBT(MagicHandler.CAPABILITY, e, null));
-        return ans;
+        return (CompoundNBT) MagicHandler.STORAGE.writeNBT(MagicHandler.CAPABILITY, lo.resolve().get(), null);
     }
 
     @Override

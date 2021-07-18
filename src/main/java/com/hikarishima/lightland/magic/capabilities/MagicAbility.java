@@ -9,6 +9,7 @@ import net.minecraft.util.math.MathHelper;
 @SerialClass
 public class MagicAbility {
 
+    private final MagicHandler parent;
     @SerialClass.SerialField
     public CompoundNBT arcane_type = new CompoundNBT();
     public NBTObj arcane_manager;
@@ -16,7 +17,6 @@ public class MagicAbility {
     protected int magic_mana, spell_load, arcane_mana;
     @SerialClass.SerialField
     protected int magic_level, spell_level;
-    private final MagicHandler parent;
 
     MagicAbility(MagicHandler parent) {
         this.parent = parent;
@@ -64,7 +64,12 @@ public class MagicAbility {
     }
 
     public int getMaxArcaneMana() {
-        return arcane_type.getAllKeys().size() * 10;
+        int ans = 0;
+        for (String str : arcane_type.getAllKeys()) {
+            if (arcane_manager.getSub(str).tag.getInt("level") > 0)
+                ans += 10;
+        }
+        return ans;
     }
 
     public boolean isArcaneTypeUnlocked(ArcaneType type) {

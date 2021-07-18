@@ -1,10 +1,10 @@
 package com.hikarishima.lightland.command;
 
 import com.hikarishima.lightland.config.Translator;
-import com.hikarishima.lightland.magic.arcane.internal.Arcane;
-import com.hikarishima.lightland.magic.arcane.internal.ArcaneType;
 import com.hikarishima.lightland.magic.MagicElement;
 import com.hikarishima.lightland.magic.MagicRegistry;
+import com.hikarishima.lightland.magic.arcane.internal.Arcane;
+import com.hikarishima.lightland.magic.arcane.internal.ArcaneType;
 import com.mojang.brigadier.StringReader;
 import com.mojang.brigadier.arguments.ArgumentType;
 import com.mojang.brigadier.context.CommandContext;

@@ -1,10 +1,10 @@
 package com.hikarishima.lightland.magic.arcane.internal;
 
 import com.hikarishima.lightland.event.forge.ItemUseEventHandler;
-import com.hikarishima.lightland.registry.item.ArcaneAxe;
-import com.hikarishima.lightland.registry.item.ArcaneSword;
 import com.hikarishima.lightland.magic.MagicRegistry;
 import com.hikarishima.lightland.magic.capabilities.MagicHandler;
+import com.hikarishima.lightland.registry.item.ArcaneAxe;
+import com.hikarishima.lightland.registry.item.ArcaneSword;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -78,15 +78,16 @@ public class ArcaneItemUseHelper implements ItemUseEventHandler.ItemClickHandler
     }
 
     private static void handleRightClickEvent(ItemStack stack, PlayerInteractEvent event) {
+        boolean cancellable = event.isCancelable();
         if (stack.getItem() instanceof ArcaneAxe) {
             rightClickAxe(stack);
-            event.setCanceled(true);
+            if (cancellable) event.setCanceled(true);
             event.setCancellationResult(ActionResultType.SUCCESS);
         } else if (stack.getItem() instanceof ArcaneSword) {
             if (executeArcane(event.getPlayer(),
                     MagicHandler.get(event.getPlayer()),
                     stack, ArcaneType.ALKAID, event.getEntityLiving())) {
-                event.setCanceled(true);
+                if (cancellable) event.setCanceled(true);
                 event.setCancellationResult(ActionResultType.SUCCESS);
             }
         }
