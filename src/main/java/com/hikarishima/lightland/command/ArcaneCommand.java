@@ -1,12 +1,12 @@
 package com.hikarishima.lightland.command;
 
 import com.hikarishima.lightland.config.Translator;
-import com.hikarishima.lightland.item.arcane.ArcaneAxe;
-import com.hikarishima.lightland.item.arcane.ArcaneSword;
-import com.hikarishima.lightland.item.arcane.internal.Arcane;
-import com.hikarishima.lightland.item.arcane.internal.ArcaneItemCraftHelper;
-import com.hikarishima.lightland.item.arcane.internal.ArcaneItemUseHelper;
-import com.hikarishima.lightland.item.arcane.internal.ArcaneType;
+import com.hikarishima.lightland.registry.item.ArcaneAxe;
+import com.hikarishima.lightland.registry.item.ArcaneSword;
+import com.hikarishima.lightland.magic.arcane.internal.Arcane;
+import com.hikarishima.lightland.magic.arcane.internal.ArcaneItemCraftHelper;
+import com.hikarishima.lightland.magic.arcane.internal.ArcaneItemUseHelper;
+import com.hikarishima.lightland.magic.arcane.internal.ArcaneType;
 import com.hikarishima.lightland.magic.MagicRegistry;
 import com.hikarishima.lightland.magic.capabilities.MagicAbility;
 import com.hikarishima.lightland.magic.capabilities.MagicHandler;
@@ -116,7 +116,7 @@ public class ArcaneCommand {
 
     private static LiteralArgumentBuilder<CommandSource> getPlayer(String cls, String act) {
         LiteralArgumentBuilder<CommandSource> c = Commands.literal("lightland");
-        
+
         c = c.then(Commands.literal(cls));
         c = c.then(Commands.literal(act));
         c = c.requires(e -> e.hasPermission(2));

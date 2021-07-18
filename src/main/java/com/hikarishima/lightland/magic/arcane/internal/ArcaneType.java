@@ -1,4 +1,4 @@
-package com.hikarishima.lightland.item.arcane.internal;
+package com.hikarishima.lightland.magic.arcane.internal;
 
 import com.hikarishima.lightland.LightLand;
 import com.hikarishima.lightland.magic.MagicRegistry;

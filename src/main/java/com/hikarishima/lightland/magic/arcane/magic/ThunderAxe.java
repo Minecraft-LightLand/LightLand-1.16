@@ -1,7 +1,7 @@
-package com.hikarishima.lightland.item.arcane.magic;
+package com.hikarishima.lightland.magic.arcane.magic;
 
-import com.hikarishima.lightland.item.arcane.internal.Arcane;
-import com.hikarishima.lightland.item.arcane.internal.ArcaneType;
+import com.hikarishima.lightland.magic.arcane.internal.Arcane;
+import com.hikarishima.lightland.magic.arcane.internal.ArcaneType;
 import com.hikarishima.lightland.magic.capabilities.MagicHandler;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;

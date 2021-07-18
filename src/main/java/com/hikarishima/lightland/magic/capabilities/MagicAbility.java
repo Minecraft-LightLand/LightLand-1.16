@@ -1,6 +1,6 @@
 package com.hikarishima.lightland.magic.capabilities;
 
-import com.hikarishima.lightland.item.arcane.internal.ArcaneType;
+import com.hikarishima.lightland.magic.arcane.internal.ArcaneType;
 import com.lcy0x1.core.util.NBTObj;
 import com.lcy0x1.core.util.SerialClass;
 import net.minecraft.nbt.CompoundNBT;

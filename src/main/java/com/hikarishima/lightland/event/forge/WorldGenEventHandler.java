@@ -5,7 +5,7 @@ import com.hikarishima.lightland.config.FileIO;
 import com.hikarishima.lightland.config.road.ImageRoadReader;
 import com.hikarishima.lightland.config.worldgen.ImageBiomeReader;
 import com.hikarishima.lightland.config.worldgen.VolcanoBiomeReader;
-import com.hikarishima.lightland.mobspawn.MobSpawn;
+import com.hikarishima.lightland.world.mobspawn.MobSpawn;
 import com.hikarishima.lightland.world.LightLandBiomeProvider;
 import com.hikarishima.lightland.world.LightLandChunkGenerator;
 import net.minecraft.entity.EntityClassification;

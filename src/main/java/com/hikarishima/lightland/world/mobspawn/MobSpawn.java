@@ -1,4 +1,4 @@
-package com.hikarishima.lightland.mobspawn;
+package com.hikarishima.lightland.world.mobspawn;
 
 import com.lcy0x1.core.util.SerialClass;
 import net.minecraft.entity.EntityType;

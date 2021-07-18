@@ -1,6 +1,6 @@
 package com.hikarishima.lightland.magic.gui;
 
-import com.hikarishima.lightland.item.MagicBook;
+import com.hikarishima.lightland.registry.item.MagicBook;
 import com.hikarishima.lightland.magic.capabilities.MagicHandler;
 import com.hikarishima.lightland.proxy.PacketHandler;
 import com.hikarishima.lightland.recipe.IMagicRecipe;

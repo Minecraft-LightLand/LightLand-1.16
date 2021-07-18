@@ -1,9 +1,9 @@
 package com.hikarishima.lightland.registry;
 
 import com.hikarishima.lightland.LightLand;
-import com.hikarishima.lightland.item.MagicBook;
-import com.hikarishima.lightland.item.arcane.ArcaneAxe;
-import com.hikarishima.lightland.item.arcane.ArcaneSword;
+import com.hikarishima.lightland.registry.item.MagicBook;
+import com.hikarishima.lightland.registry.item.ArcaneAxe;
+import com.hikarishima.lightland.registry.item.ArcaneSword;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;

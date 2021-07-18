@@ -1,4 +1,4 @@
-package com.hikarishima.lightland.item.arcane;
+package com.hikarishima.lightland.registry.item;
 
 import net.minecraft.item.IItemTier;
 import net.minecraft.item.SwordItem;

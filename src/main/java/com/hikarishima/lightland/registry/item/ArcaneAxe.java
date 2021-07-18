@@ -1,6 +1,6 @@
-package com.hikarishima.lightland.item.arcane;
+package com.hikarishima.lightland.registry.item;
 
-import com.hikarishima.lightland.item.arcane.internal.ArcaneItemUseHelper;
+import com.hikarishima.lightland.magic.arcane.internal.ArcaneItemUseHelper;
 import net.minecraft.item.AxeItem;
 import net.minecraft.item.IItemTier;
 import net.minecraft.item.ItemStack;

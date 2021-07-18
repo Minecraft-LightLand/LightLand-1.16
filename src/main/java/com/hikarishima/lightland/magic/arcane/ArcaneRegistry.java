@@ -1,8 +1,8 @@
-package com.hikarishima.lightland.item.arcane;
+package com.hikarishima.lightland.magic.arcane;
 
 import com.hikarishima.lightland.LightLand;
-import com.hikarishima.lightland.item.arcane.internal.Arcane;
-import com.hikarishima.lightland.item.arcane.magic.ThunderAxe;
+import com.hikarishima.lightland.magic.arcane.internal.Arcane;
+import com.hikarishima.lightland.magic.arcane.magic.ThunderAxe;
 
 public class ArcaneRegistry {
 

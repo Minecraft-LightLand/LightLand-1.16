@@ -1,4 +1,4 @@
-package com.hikarishima.lightland.mobspawn;
+package com.hikarishima.lightland.world.mobspawn;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;

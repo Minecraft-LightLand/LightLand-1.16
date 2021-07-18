@@ -1,8 +1,8 @@
 package com.hikarishima.lightland.magic;
 
 import com.hikarishima.lightland.LightLand;
-import com.hikarishima.lightland.item.arcane.internal.Arcane;
-import com.hikarishima.lightland.item.arcane.internal.ArcaneType;
+import com.hikarishima.lightland.magic.arcane.internal.Arcane;
+import com.hikarishima.lightland.magic.arcane.internal.ArcaneType;
 import com.hikarishima.lightland.magic.products.EnchantmentMagic;
 import com.hikarishima.lightland.magic.products.PotionMagic;
 import com.hikarishima.lightland.magic.profession.ArcaneProfession;

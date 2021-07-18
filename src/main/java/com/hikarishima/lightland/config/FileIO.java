@@ -1,7 +1,7 @@
 package com.hikarishima.lightland.config;
 
 import com.hikarishima.lightland.LightLand;
-import com.hikarishima.lightland.mobspawn.IMobLevel;
+import com.hikarishima.lightland.world.mobspawn.IMobLevel;
 import com.lcy0x1.core.util.ExceptionHandler;
 import net.minecraftforge.fml.loading.FMLPaths;
 

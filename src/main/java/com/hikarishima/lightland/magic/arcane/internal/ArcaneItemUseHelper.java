@@ -1,8 +1,8 @@
-package com.hikarishima.lightland.item.arcane.internal;
+package com.hikarishima.lightland.magic.arcane.internal;
 
 import com.hikarishima.lightland.event.forge.ItemUseEventHandler;
-import com.hikarishima.lightland.item.arcane.ArcaneAxe;
-import com.hikarishima.lightland.item.arcane.ArcaneSword;
+import com.hikarishima.lightland.registry.item.ArcaneAxe;
+import com.hikarishima.lightland.registry.item.ArcaneSword;
 import com.hikarishima.lightland.magic.MagicRegistry;
 import com.hikarishima.lightland.magic.capabilities.MagicHandler;
 import net.minecraft.entity.Entity;
