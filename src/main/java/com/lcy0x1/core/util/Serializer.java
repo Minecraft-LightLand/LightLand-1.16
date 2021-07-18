@@ -3,8 +3,6 @@ package com.lcy0x1.core.util;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.hikarishima.lightland.magic.MagicElement;
-import com.hikarishima.lightland.magic.MagicRegistry;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.Ingredient;
@@ -23,6 +21,7 @@ import java.util.Map;
 import java.util.TreeMap;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 /**
  * Capable of serializing primitive type, Arrays, Item, ItemStacl, Ingredient
@@ -48,9 +47,7 @@ public class Serializer {
 
         new StringClassHandler<>(ResourceLocation.class, ResourceLocation::new, ResourceLocation::toString);
 
-        new RLClassHandler<>(Item.class, ForgeRegistries.ITEMS);
-        new RLClassHandler<>(MagicElement.class, MagicRegistry.ELEMENT);
-        new RLClassHandler<>(MagicRegistry.MPTRaw.class, MagicRegistry.PRODUCT_TYPE);
+        new RLClassHandler<>(Item.class, () -> ForgeRegistries.ITEMS);
     }
 
     @SuppressWarnings("unchecked")
@@ -260,13 +257,13 @@ public class Serializer {
 
     public static class RLClassHandler<T extends IForgeRegistryEntry<T>> extends ClassHandler<T> {
 
-        public RLClassHandler(Class<?> cls, IForgeRegistry<T> r) {
-            super(cls, e -> e.isJsonNull() ? null : r.getValue(new ResourceLocation(e.getAsString())),
+        public RLClassHandler(Class<?> cls, Supplier<IForgeRegistry<T>> r) {
+            super(cls, e -> e.isJsonNull() ? null : r.get().getValue(new ResourceLocation(e.getAsString())),
                     p -> {
                         String str = p.readUtf();
                         if (str.length() == 0)
                             return null;
-                        return r.getValue(new ResourceLocation(p.readUtf()));
+                        return r.get().getValue(new ResourceLocation(p.readUtf()));
                     },
                     (p, t) -> p.writeUtf(t == null ? "" : t.getRegistryName().toString()));
         }

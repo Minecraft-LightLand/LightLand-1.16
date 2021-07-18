@@ -1,6 +1,7 @@
 package com.hikarishima.lightland.event.forge;
 
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.Hand;
 import net.minecraftforge.event.entity.player.AttackEntityEvent;
 import net.minecraftforge.event.entity.player.CriticalHitEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
@@ -9,16 +10,16 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.BiConsumer;
 
+@SuppressWarnings("unused")
 public class ItemUseEventHandler {
 
     public static final List<ItemClickHandler> LIST = new ArrayList<>();
 
-    public static <T extends PlayerEvent> void execute(ItemStack stack, T event, BiConsumer<ItemClickHandler, T> cons) {
+    public static <T extends PlayerEvent> void execute(ItemStack stack, T event, TriCon<T> cons) {
         for (ItemClickHandler handler : LIST)
             if (handler.predicate(stack, event.getClass(), event))
-                cons.accept(handler, event);
+                cons.accept(handler, stack, event);
     }
 
     @SubscribeEvent
@@ -38,7 +39,7 @@ public class ItemUseEventHandler {
 
     @SubscribeEvent
     public void onPlayerRightClickEmpty(PlayerInteractEvent.RightClickEmpty event) {
-        execute(event.getItemStack(), event, ItemClickHandler::onPlayerRightClickEmpty);
+        execute(event.getPlayer().getItemInHand(event.getHand() == Hand.MAIN_HAND ? Hand.OFF_HAND : Hand.MAIN_HAND), event, ItemClickHandler::onPlayerRightClickEmpty);
     }
 
     @SubscribeEvent
@@ -60,33 +61,39 @@ public class ItemUseEventHandler {
 
         boolean predicate(ItemStack stack, Class<? extends PlayerEvent> cls, PlayerEvent event);
 
-        default void onPlayerLeftClickEmpty(PlayerInteractEvent.LeftClickEmpty event) {
+        default void onPlayerLeftClickEmpty(ItemStack stack, PlayerInteractEvent.LeftClickEmpty event) {
 
         }
 
-        default void onPlayerLeftClickBlock(PlayerInteractEvent.LeftClickBlock event) {
+        default void onPlayerLeftClickBlock(ItemStack stack, PlayerInteractEvent.LeftClickBlock event) {
 
         }
 
-        default void onPlayerLeftClickEntity(AttackEntityEvent event) {
+        default void onPlayerLeftClickEntity(ItemStack stack, AttackEntityEvent event) {
 
         }
 
-        default void onCriticalHit(CriticalHitEvent event) {
+        default void onCriticalHit(ItemStack stack, CriticalHitEvent event) {
 
         }
 
-        default void onPlayerRightClickEmpty(PlayerInteractEvent.RightClickEmpty event) {
+        default void onPlayerRightClickEmpty(ItemStack stack, PlayerInteractEvent.RightClickEmpty event) {
 
         }
 
-        default void onPlayerRightClickBlock(PlayerInteractEvent.RightClickBlock event) {
+        default void onPlayerRightClickBlock(ItemStack stack, PlayerInteractEvent.RightClickBlock event) {
 
         }
 
-        default void onPlayerRightClickEntity(PlayerInteractEvent.EntityInteract event) {
+        default void onPlayerRightClickEntity(ItemStack stack, PlayerInteractEvent.EntityInteract event) {
 
         }
+
+    }
+
+    public interface TriCon<T> {
+
+        void accept(ItemClickHandler handler, ItemStack stack, T event);
 
     }
 

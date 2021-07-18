@@ -35,7 +35,7 @@
     },
     "item.lightland": {
         "magic_book": "Magic Book (not finished)",
-        "arcane_sowrd": "Arcane Sword",
+        "arcane_sword": "Arcane Sword",
         "arcane_axe": "Arcane Axe"
     },
     "itemGroup.lightland": "Light Land",

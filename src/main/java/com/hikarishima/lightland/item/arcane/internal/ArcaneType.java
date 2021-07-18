@@ -32,9 +32,11 @@ public class ArcaneType extends NamedEntry<ArcaneType> {
         type.setRegistryName(LightLand.MODID, str);
         return type;
     }
+
     public enum Weapon {
         SWORD, AXE
     }
+
     public enum Hit {
         LIGHT, CRITICAL, NONE
     }

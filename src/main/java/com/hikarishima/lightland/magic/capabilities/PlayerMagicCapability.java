@@ -23,6 +23,7 @@ public class PlayerMagicCapability implements ICapabilitySerializable<CompoundNB
         this.w = w;
         if (w == null)
             LogManager.getLogger().error("world not present in entity");
+        handler.world = w;
     }
 
     @Nonnull
@@ -43,7 +44,7 @@ public class PlayerMagicCapability implements ICapabilitySerializable<CompoundNB
     @Override
     public void deserializeNBT(CompoundNBT compoundNBT) {
         MagicHandler.STORAGE.readNBT(MagicHandler.CAPABILITY, handler, null, compoundNBT);
-        handler.init(w);
+        handler.init();
     }
 
 }

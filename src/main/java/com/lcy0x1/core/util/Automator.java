@@ -2,7 +2,10 @@ package com.lcy0x1.core.util;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.*;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
+import net.minecraftforge.registries.IForgeRegistry;
+import net.minecraftforge.registries.IForgeRegistryEntry;
 
 import java.lang.reflect.Array;
 import java.lang.reflect.Field;
@@ -11,6 +14,7 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.function.Supplier;
 
 /**
  * Capable of handing primitive types, array, BlockPos, ItemStack, inheritance
@@ -54,9 +58,10 @@ public class Automator {
                 SerialClass.SerialField sf = f.getAnnotation(SerialClass.SerialField.class);
                 if (sf == null || !pred.test(sf))
                     continue;
-                Object fa = fromTagRaw(tag.get(f.getName()), f.getType(), pred);
-                if (fa != null || !f.getType().isPrimitive())
-                    f.set(obj, fa);
+                INBT itag = tag.get(f.getName());
+                f.setAccessible(true);
+                if (itag != null)
+                    f.set(obj, fromTagRaw(itag, f.getType(), f.get(obj), pred));
             }
             cls = cls.getSuperclass();
         }
@@ -64,7 +69,7 @@ public class Automator {
     }
 
     @SuppressWarnings({"unchecked", "rawtypes"})
-    public static Object fromTagRaw(INBT tag, Class<?> cls, Predicate<SerialClass.SerialField> pred) throws Exception {
+    public static Object fromTagRaw(INBT tag, Class<?> cls, Object def, Predicate<SerialClass.SerialField> pred) throws Exception {
         if (tag == null)
             if (cls == ItemStack.class)
                 return ItemStack.EMPTY;
@@ -78,7 +83,7 @@ public class Automator {
             Class<?> com = cls.getComponentType();
             Object ans = Array.newInstance(com, n);
             for (int i = 0; i < n; i++) {
-                Array.set(ans, i, fromTagRaw(list.get(i), com, pred));
+                Array.set(ans, i, fromTagRaw(list.get(i), com, null, pred));
             }
             return ans;
         }
@@ -86,7 +91,7 @@ public class Automator {
             return Enum.valueOf((Class) cls, tag.getAsString());
         }
         if (cls.getAnnotation(SerialClass.class) != null)
-            return fromTag((CompoundNBT) tag, cls, null, pred);
+            return fromTag((CompoundNBT) tag, cls, def, pred);
         throw new Exception("unsupported class " + cls);
     }
 
@@ -99,6 +104,7 @@ public class Automator {
                 SerialClass.SerialField sf = f.getAnnotation(SerialClass.SerialField.class);
                 if (sf == null || !pred.test(sf))
                     continue;
+                f.setAccessible(true);
                 if (f.get(obj) != null)
                     tag.put(f.getName(), toTagRaw(f.getType(), f.get(obj), pred));
             }
@@ -140,6 +146,14 @@ public class Automator {
                 MAP.put(c, this);
         }
 
+    }
+
+    public static class RegistryClassHandler<T extends IForgeRegistryEntry<T>> extends ClassHandler<StringNBT, T> {
+
+        public RegistryClassHandler(Class<T> cls, Supplier<IForgeRegistry<T>> sup) {
+            super(cls, s -> s.getAsString().length() == 0 ? null : sup.get().getValue(new ResourceLocation(s.getAsString())),
+                    t -> t == null ? StringNBT.valueOf("") : StringNBT.valueOf(t.getRegistryName().toString()));
+        }
     }
 
 }

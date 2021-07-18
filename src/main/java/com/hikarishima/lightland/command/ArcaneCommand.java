@@ -8,6 +8,7 @@ import com.hikarishima.lightland.item.arcane.internal.ArcaneItemCraftHelper;
 import com.hikarishima.lightland.item.arcane.internal.ArcaneItemUseHelper;
 import com.hikarishima.lightland.item.arcane.internal.ArcaneType;
 import com.hikarishima.lightland.magic.MagicRegistry;
+import com.hikarishima.lightland.magic.capabilities.MagicAbility;
 import com.hikarishima.lightland.magic.capabilities.MagicHandler;
 import com.mojang.authlib.GameProfile;
 import com.mojang.brigadier.Command;
@@ -46,7 +47,7 @@ public class ArcaneCommand {
                 .executes(withPlayer((context, e) -> {
                     ArcaneType type = context.getArgument("type", ArcaneType.class);
                     MagicHandler magic = MagicHandler.get(e);
-                    magic.unlockArcaneType(type);
+                    magic.magicAbility.unlockArcaneType(type);
                     return 1;
                 })));
 
@@ -55,7 +56,7 @@ public class ArcaneCommand {
                     MagicHandler magic = MagicHandler.get(e);
                     List<ITextComponent> comps = new ArrayList<>();
                     for (ArcaneType type : MagicRegistry.ARCANE_TYPE.getValues()) {
-                        boolean bool = magic.isArcaneTypeUnlocked(type);
+                        boolean bool = magic.magicAbility.isArcaneTypeUnlocked(type);
                         ITextComponent lock = Translator.get(bool ? ID_LIST_UNLOCKED : ID_LIST_LOCKED);
                         comps.add(Translator.get(ID_LIST_ENTRY, type, lock));
                     }
@@ -64,26 +65,18 @@ public class ArcaneCommand {
                     return 1;
                 })));
 
-        dispatcher.register(getPlayer("arcane", "set_max_mana")
+        dispatcher.register(getPlayer("arcane", "give_mana")
                 .then(Commands.argument("number", IntegerArgumentType.integer()))
                 .executes(withPlayer((context, e) -> {
-                    MagicHandler.get(e).arcane_mana_max = context.getArgument("number", Integer.class);
-                    send(context, ACTION_SUCCESS);
-                    return 1;
-                })));
-
-        dispatcher.register(getPlayer("arcane", "set_mana")
-                .then(Commands.argument("number", IntegerArgumentType.integer()))
-                .executes(withPlayer((context, e) -> {
-                    MagicHandler.get(e).arcane_mana = context.getArgument("number", Integer.class);
+                    MagicHandler.get(e).magicAbility.giveArcaneMana(context.getArgument("number", Integer.class));
                     send(context, ACTION_SUCCESS);
                     return 1;
                 })));
 
         dispatcher.register(getPlayer("arcane", "get_mana")
                 .executes(withPlayer((context, e) -> {
-                    MagicHandler magic = MagicHandler.get(e);
-                    send(context, Translator.get(ID_GET_ARCANE_MANA, magic.arcane_mana, magic.arcane_mana_max));
+                    MagicAbility magic = MagicHandler.get(e).magicAbility;
+                    send(context, Translator.get(ID_GET_ARCANE_MANA, magic.getArcaneMana(), magic.getMaxArcaneMana()));
                     return 1;
                 })));
 
@@ -123,6 +116,7 @@ public class ArcaneCommand {
 
     private static LiteralArgumentBuilder<CommandSource> getPlayer(String cls, String act) {
         LiteralArgumentBuilder<CommandSource> c = Commands.literal("lightland");
+        
         c = c.then(Commands.literal(cls));
         c = c.then(Commands.literal(act));
         c = c.requires(e -> e.hasPermission(2));

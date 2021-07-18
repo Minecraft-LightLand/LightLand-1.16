@@ -1,10 +1,5 @@
 package com.hikarishima.lightland.magic.capabilities;
 
-import com.hikarishima.lightland.item.arcane.internal.ArcaneType;
-import com.hikarishima.lightland.magic.MagicElement;
-import com.hikarishima.lightland.magic.MagicProduct;
-import com.hikarishima.lightland.magic.MagicProductType;
-import com.hikarishima.lightland.recipe.IMagicRecipe;
 import com.lcy0x1.core.util.Automator;
 import com.lcy0x1.core.util.ExceptionHandler;
 import com.lcy0x1.core.util.NBTObj;
@@ -13,17 +8,12 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.INBT;
 import net.minecraft.util.Direction;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.common.capabilities.CapabilityManager;
 
 import javax.annotation.Nullable;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 @SerialClass
 public class MagicHandler {
@@ -31,117 +21,51 @@ public class MagicHandler {
     public static final Storage STORAGE = new Storage();
     @CapabilityInject(MagicHandler.class)
     public static Capability<MagicHandler> CAPABILITY = null;
-    private final Map<MagicProductType<?, ?>, Map<ResourceLocation, MagicProduct<?, ?>>> product_cache = new HashMap<>();
-    private final Map<ResourceLocation, IMagicRecipe<?>> recipe_cache = new HashMap<>();
+
     @SerialClass.SerialField
     public State state = State.PREINJECT;
     @SerialClass.SerialField
-    public CompoundNBT masteries = new CompoundNBT();
+    public AbilityPoints abilityPoints = new AbilityPoints(this);
     @SerialClass.SerialField
-    public CompoundNBT products = new CompoundNBT();
+    public MagicAbility magicAbility = new MagicAbility(this);
     @SerialClass.SerialField
-    public int magic_mana, magic_mana_max, arcane_mana, arcane_mana_max;
-    @SerialClass.SerialField
-    public CompoundNBT arcane_type = new CompoundNBT();
+    public MagicHolder magicHolder = new MagicHolder(this);
     public World world;
-    private NBTObj product_manager, arcane_manager;
 
     public static void register() {
         CapabilityManager.INSTANCE.register(MagicHandler.class, STORAGE, MagicHandler::new);
     }
 
     public static MagicHandler get(PlayerEntity e) {
-        return e.getCapability(CAPABILITY).resolve().get();
+        return e.getCapability(CAPABILITY).resolve().get().check();
     }
 
-    public int getElementalMastery(MagicElement elem) {
-        return masteries.getInt(elem.getRegistryName().toString());
-    }
 
-    public void setElementalMastery(World w, MagicElement elem, int lv) {
-        if (lv <= getElementalMastery(elem))
-            return;
-        masteries.putInt(elem.getRegistryName().toString(), lv);
-        checkUnlocks();
-    }
-
-    public void init(World world) {
-        this.world = world;
+    protected void init() {
         if (state == null) {
             state = State.PREINIT;
-            masteries = new CompoundNBT();
-            products = new CompoundNBT();
-            arcane_type = new CompoundNBT();
+            abilityPoints = new AbilityPoints(this);
+            magicAbility = new MagicAbility(this);
+            magicHolder = new MagicHolder(this);
         }
-        if (state == State.PREINIT) {
+        if (state != State.ACTIVE) {
             state = State.ACTIVE;
         }
-        product_manager = new NBTObj(products);
-        arcane_manager = new NBTObj(arcane_type);
-        checkUnlocks();
+        magicHolder.product_manager = new NBTObj(magicHolder.products);
+        magicAbility.arcane_manager = new NBTObj(magicAbility.arcane_type);
+        magicHolder.checkUnlocks();
     }
 
-    private void checkUnlocks() {
-        List<IMagicRecipe<?>> list = IMagicRecipe.getAll(world);
-        for (IMagicRecipe<?> r : list) {
-            recipe_cache.put(r.id, r);
-        }
-        for (IMagicRecipe<?> r : list) {
-            if (isUnlocked(r))
-                getProduct(r).setUnlock();
-        }
-    }
-
-    private boolean isUnlocked(IMagicRecipe<?> r) {
-        for (IMagicRecipe.ElementalMastery elem : r.elemental_mastery)
-            if (getElementalMastery(elem.element) < elem.level)
-                return false;
-        for (ResourceLocation rl : r.predecessor) {
-            MagicProduct<?, ?> prod = getProduct(recipe_cache.get(rl));
-            if (prod != null && !prod.usable())
-                return false;
-        }
-        return true;
-    }
-
-    public IMagicRecipe<?> getRecipe(ResourceLocation rl) {
-        return recipe_cache.get(rl);
-    }
-
-    private MagicProduct<?, ?> getProduct(IMagicRecipe<?> r) {
-        if (r == null)
-            return null;
-        MagicProductType<?, ?> type = r.product_type.getAsType();
-        Map<ResourceLocation, MagicProduct<?, ?>> submap;
-        if (!product_cache.containsKey(type))
-            product_cache.put(type, submap = new HashMap<>());
-        else submap = product_cache.get(type);
-        if (submap.containsKey(r.product_id))
-            return submap.get(r.product_id);
-        NBTObj nbt = product_manager.getSub(type.getRegistryName().toString()).getSub(r.product_id.toString());
-        MagicProduct<?, ?> ans = type.fac.get(this, nbt, r.product_id, r);
-        submap.put(r.product_id, ans);
-        return ans;
-    }
-
-    public boolean isArcaneTypeUnlocked(ArcaneType type) {
-        return arcane_manager.getSub(type.getRegistryName().toString()).tag.getInt("level") > 0;
-    }
-
-    public void giveArcaneMana(int mana) {
-        arcane_mana = MathHelper.clamp(arcane_mana + mana, 0, arcane_mana_max);
-    }
-
-    public void unlockArcaneType(ArcaneType type) {
-        if (!isArcaneTypeUnlocked(type))
-            arcane_manager.getSub(type.getRegistryName().toString()).tag.putInt("level", 1);
+    protected MagicHandler check() {
+        if (state != State.ACTIVE)
+            init();
+        return this;
     }
 
     @SerialClass.OnInject
     public void onInject() {
         if (state == State.PREINJECT)
             state = State.PREINIT;
-        product_manager = new NBTObj(products);
     }
 
     public enum State {

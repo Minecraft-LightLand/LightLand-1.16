@@ -15,6 +15,7 @@ public class MazeGen {
     private final List<State> STATE_LIST = new ArrayList<>();
     private final MazeConfig config;
     private final Debugger debug;
+
     public MazeGen(int rad, Random ra, MazeConfig conf, Debugger deb) {
         config = conf;
         debug = deb;

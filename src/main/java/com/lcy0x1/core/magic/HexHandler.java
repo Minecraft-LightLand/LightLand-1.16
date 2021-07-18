@@ -659,6 +659,7 @@ public class HexHandler {
         Queue<Arrow> head = new ArrayDeque<>();
         private Arrow[] in;
         private Map<CalcCell, Map<Direction, FlowChart.Flow>> flowmap;
+
         public Calc() throws HexException {
             ccell = new CalcCell[cells.length][];
             boolean[][] used = new boolean[cells.length][];

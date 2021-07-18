@@ -47,7 +47,7 @@ public class DisEnchantContainer extends Container implements PacketHandler.Seri
             product = null;
         } else if (msg.type == MsgType.SET_PRODUCT) {
             ResourceLocation rl = new ResourceLocation(msg.str[0]);
-            product = handler.getRecipe(rl);
+            product = handler.magicHolder.getRecipe(rl);
         }
     }
 

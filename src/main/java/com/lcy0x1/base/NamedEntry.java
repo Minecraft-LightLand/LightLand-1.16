@@ -25,4 +25,8 @@ public class NamedEntry<T extends NamedEntry<T>> extends ForgeRegistryEntry<T> {
         return desc;
     }
 
+    public String getID() {
+        return getRegistryName().toString();
+    }
+
 }

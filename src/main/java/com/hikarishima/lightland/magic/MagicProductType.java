@@ -15,6 +15,7 @@ public class MagicProductType<I extends IForgeRegistryEntry<I>, P extends MagicP
     public final Function<ResourceLocation, I> getter;
     public final Function<I, String> namer;
     public final I icon;
+
     public MagicProductType(Class<P> cls, MagicFactory<I, P> fac,
                             Function<ResourceLocation, I> getter, Function<I, String> namer, I icon) {
         this.cls = cls;

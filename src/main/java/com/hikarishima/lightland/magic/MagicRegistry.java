@@ -5,6 +5,10 @@ import com.hikarishima.lightland.item.arcane.internal.Arcane;
 import com.hikarishima.lightland.item.arcane.internal.ArcaneType;
 import com.hikarishima.lightland.magic.products.EnchantmentMagic;
 import com.hikarishima.lightland.magic.products.PotionMagic;
+import com.hikarishima.lightland.magic.profession.ArcaneProfession;
+import com.hikarishima.lightland.magic.profession.MagicianProfession;
+import com.hikarishima.lightland.magic.profession.Profession;
+import com.hikarishima.lightland.magic.profession.SpellCasterProfession;
 import com.lcy0x1.base.NamedEntry;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.Enchantments;
@@ -16,27 +20,32 @@ import net.minecraftforge.registries.ForgeRegistryEntry;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.RegistryBuilder;
 
+@SuppressWarnings("unused")
 public class MagicRegistry {
 
-    public static IForgeRegistry<MagicElement> ELEMENT;
-    public static IForgeRegistry<MPTRaw> PRODUCT_TYPE;
-    public static IForgeRegistry<ArcaneType> ARCANE_TYPE;
-    public static IForgeRegistry<Arcane> ARCANE;
-    public static MagicElement ELEM_EARTH = reg("earth", new MagicElement());
-    public static MagicElement ELEM_AIR = reg("air", new MagicElement());
-    public static MagicElement ELEM_WATER = reg("water", new MagicElement());
-    public static MagicElement ELEM_FIRE = reg("fire", new MagicElement());
-    public static MagicElement ELEM_VOID = reg("quint", new MagicElement());
-    public static MagicProductType<Enchantment, EnchantmentMagic> MPT_ENCH =
+    public static final MagicElement ELEM_EARTH = reg("earth", new MagicElement());
+    public static final MagicElement ELEM_AIR = reg("air", new MagicElement());
+    public static final MagicElement ELEM_WATER = reg("water", new MagicElement());
+    public static final MagicElement ELEM_FIRE = reg("fire", new MagicElement());
+    public static final MagicElement ELEM_VOID = reg("quint", new MagicElement());
+    public static final ArcaneProfession PROF_ARCANE = reg("arcane", new ArcaneProfession());
+    public static final MagicianProfession PROF_MAGIC = reg("magic", new MagicianProfession());
+    public static final SpellCasterProfession PROF_SPELL = reg("spell", new SpellCasterProfession());
+    public static final MagicProductType<Enchantment, EnchantmentMagic> MPT_ENCH =
             reg("enchantment", new MagicProductType<>(
                     EnchantmentMagic.class, EnchantmentMagic::new,
                     ForgeRegistries.ENCHANTMENTS::getValue, Enchantment::getDescriptionId,
                     Enchantments.ALL_DAMAGE_PROTECTION));
-    public static MagicProductType<Effect, PotionMagic> MPT_EFF =
+    public static final MagicProductType<Effect, PotionMagic> MPT_EFF =
             reg("effect", new MagicProductType<>(
                     PotionMagic.class, PotionMagic::new,
                     ForgeRegistries.POTIONS::getValue, Effect::getDescriptionId,
                     Effects.MOVEMENT_SPEED));
+    public static IForgeRegistry<MagicElement> ELEMENT;
+    public static IForgeRegistry<MPTRaw> PRODUCT_TYPE;
+    public static IForgeRegistry<ArcaneType> ARCANE_TYPE;
+    public static IForgeRegistry<Arcane> ARCANE;
+    public static IForgeRegistry<Profession> PROFESSION;
 
     public static void createRegistries() {
         ELEMENT = new RegistryBuilder<MagicElement>()
@@ -54,6 +63,10 @@ public class MagicRegistry {
         ARCANE = new RegistryBuilder<Arcane>()
                 .setName(new ResourceLocation(LightLand.MODID, "arcane"))
                 .setType(Arcane.class).create();
+
+        PROFESSION = new RegistryBuilder<Profession>()
+                .setName(new ResourceLocation(LightLand.MODID, "profession"))
+                .setType(Profession.class).create();
 
     }
 

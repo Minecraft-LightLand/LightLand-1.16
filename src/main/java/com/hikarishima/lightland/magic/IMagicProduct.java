@@ -8,6 +8,7 @@ public class IMagicProduct<I extends IForgeRegistryEntry<I>, P extends MagicProd
     public final MagicProductType<I, P> type;
     public final ResourceLocation rl;
     public final I item;
+
     public IMagicProduct(MagicProductType<I, P> type, ResourceLocation rl) {
         this.type = type;
         this.rl = rl;

@@ -12,7 +12,7 @@ public class ArcaneItemCraftHelper {
 
     public static Arcane getArcaneOnItem(ItemStack stack, ArcaneType type) {
         CompoundNBT tag = stack.getOrCreateTagElement("arcane");
-        String s = type.getRegistryName().toString();
+        String s = type.getID();
         if (!tag.contains(s))
             return null;
         String str = tag.getString(s);
@@ -30,8 +30,8 @@ public class ArcaneItemCraftHelper {
     }
 
     public static void setArcaneOnItem(ItemStack stack, Arcane arcane) {
-        String s = arcane.type.getRegistryName().toString();
-        String str = arcane.getRegistryName().toString();
+        String s = arcane.type.getID();
+        String str = arcane.getID();
         stack.getOrCreateTagElement("arcane").putString(s, str);
     }
 

@@ -34,18 +34,18 @@ public class ArcaneItemUseHelper implements ItemUseEventHandler.ItemClickHandler
     public static boolean executeArcane(
             PlayerEntity player, MagicHandler magic,
             ItemStack stack, ArcaneType type, LivingEntity target) {
-        if (!magic.isArcaneTypeUnlocked(type))
+        if (!magic.magicAbility.isArcaneTypeUnlocked(type))
             return false;
         CompoundNBT tag = stack.getTagElement("arcane");
-        if (tag == null || !tag.contains(type.getRegistryName().toString()))
+        if (tag == null || !tag.contains(type.getID()))
             return false;
-        String str = tag.getString(type.getRegistryName().toString());
+        String str = tag.getString(type.getID());
         ResourceLocation rl = new ResourceLocation(str);
         Arcane arcane = MagicRegistry.ARCANE.getValue(rl);
-        if (arcane == null || arcane.cost > magic.arcane_mana)
+        if (arcane == null || arcane.cost > magic.magicAbility.getArcaneMana())
             return false;
         if (arcane.activate(player, magic, stack, target)) {
-            magic.magic_mana -= arcane.cost;
+            magic.magicAbility.giveArcaneMana(-arcane.cost);
             return true;
         }
         return false;
@@ -60,8 +60,7 @@ public class ArcaneItemUseHelper implements ItemUseEventHandler.ItemClickHandler
         return stack.getOrCreateTagElement("arcane").getBoolean("charged");
     }
 
-    private static void handleLeftClickEvent(PlayerInteractEvent event, LivingEntity target) {
-        ItemStack stack = event.getItemStack();
+    private static void handleLeftClickEvent(ItemStack stack, PlayerInteractEvent event, LivingEntity target) {
         PlayerEntity player = event.getPlayer();
         MagicHandler magic = MagicHandler.get(player);
         if (stack.getItem() instanceof ArcaneAxe) {
@@ -78,15 +77,15 @@ public class ArcaneItemUseHelper implements ItemUseEventHandler.ItemClickHandler
         }
     }
 
-    private static void handleRightClickEvent(PlayerInteractEvent event) {
-        if (event.getItemStack().getItem() instanceof ArcaneAxe) {
-            rightClickAxe(event.getItemStack());
+    private static void handleRightClickEvent(ItemStack stack, PlayerInteractEvent event) {
+        if (stack.getItem() instanceof ArcaneAxe) {
+            rightClickAxe(stack);
             event.setCanceled(true);
             event.setCancellationResult(ActionResultType.SUCCESS);
-        } else if (event.getItemStack().getItem() instanceof ArcaneSword) {
+        } else if (stack.getItem() instanceof ArcaneSword) {
             if (executeArcane(event.getPlayer(),
                     MagicHandler.get(event.getPlayer()),
-                    event.getItemStack(), ArcaneType.ALKAID, event.getEntityLiving())) {
+                    stack, ArcaneType.ALKAID, event.getEntityLiving())) {
                 event.setCanceled(true);
                 event.setCancellationResult(ActionResultType.SUCCESS);
             }
@@ -99,29 +98,28 @@ public class ArcaneItemUseHelper implements ItemUseEventHandler.ItemClickHandler
     }
 
     @Override
-    public void onPlayerLeftClickEmpty(PlayerInteractEvent.LeftClickEmpty event) {
-        handleLeftClickEvent(event, null);
+    public void onPlayerLeftClickEmpty(ItemStack stack, PlayerInteractEvent.LeftClickEmpty event) {
+        handleLeftClickEvent(stack, event, null);
     }
 
     @Override
-    public void onPlayerLeftClickBlock(PlayerInteractEvent.LeftClickBlock event) {
-        handleLeftClickEvent(event, null);
+    public void onPlayerLeftClickBlock(ItemStack stack, PlayerInteractEvent.LeftClickBlock event) {
+        handleLeftClickEvent(stack, event, null);
     }
 
     @Override
-    public void onPlayerLeftClickEntity(AttackEntityEvent event) {
+    public void onPlayerLeftClickEntity(ItemStack stack, AttackEntityEvent event) {
         float charge = event.getPlayer().getAttackStrengthScale(0.5f);
         if (event.getEntityLiving() != null && charge > 0.9f) {
-            MagicHandler.get(event.getPlayer()).giveArcaneMana(1);
+            MagicHandler.get(event.getPlayer()).magicAbility.giveArcaneMana(1);
         }
     }
 
     @Override
-    public void onCriticalHit(CriticalHitEvent event) {
+    public void onCriticalHit(ItemStack stack, CriticalHitEvent event) {
 
         PlayerEntity player = event.getPlayer();
         MagicHandler magic = MagicHandler.get(player);
-        ItemStack stack = player.getMainHandItem();
         Entity e = event.getTarget();
         LivingEntity le = e instanceof LivingEntity ? (LivingEntity) e : null;
         ArcaneType type = null;
@@ -137,18 +135,18 @@ public class ArcaneItemUseHelper implements ItemUseEventHandler.ItemClickHandler
     }
 
     @Override
-    public void onPlayerRightClickEmpty(PlayerInteractEvent.RightClickEmpty event) {
-        handleRightClickEvent(event);
+    public void onPlayerRightClickEmpty(ItemStack stack, PlayerInteractEvent.RightClickEmpty event) {
+        handleRightClickEvent(stack, event);
     }
 
     @Override
-    public void onPlayerRightClickBlock(PlayerInteractEvent.RightClickBlock event) {
-        handleRightClickEvent(event);
+    public void onPlayerRightClickBlock(ItemStack stack, PlayerInteractEvent.RightClickBlock event) {
+        handleRightClickEvent(stack, event);
     }
 
     @Override
-    public void onPlayerRightClickEntity(PlayerInteractEvent.EntityInteract event) {
-        handleRightClickEvent(event);
+    public void onPlayerRightClickEntity(ItemStack stack, PlayerInteractEvent.EntityInteract event) {
+        handleRightClickEvent(stack, event);
     }
 
 }
