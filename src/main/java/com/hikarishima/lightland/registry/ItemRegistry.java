@@ -16,8 +16,8 @@ public class ItemRegistry extends ItemGroup {
     public static final ItemGroup ITEM_GROUP = new ItemRegistry();
 
     public static final MagicBook MAGIC_BOOK = regItem("magic_book", p -> new MagicBook(p.stacksTo(1)));
-    public static final ArcaneSword ARCANE_SWORD = regItem("arcane_sword", p -> new ArcaneSword(ItemTier.GOLD, 5, 1, p));
-    public static final ArcaneAxe ARCANE_AXE = regItem("arcane_axe", p -> new ArcaneAxe(ItemTier.GOLD, 9, 1.6f, p));
+    public static final ArcaneSword ARCANE_SWORD = regItem("arcane_sword", p -> new ArcaneSword(ItemTier.IRON, 5, -2.4f, p.stacksTo(1).setNoRepair()));
+    public static final ArcaneAxe ARCANE_AXE = regItem("arcane_axe", p -> new ArcaneAxe(ItemTier.IRON, 8, -3.1f, p.stacksTo(1).setNoRepair()));
 
     public ItemRegistry() {
         super(LightLand.MODID);

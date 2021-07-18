@@ -1,6 +1,7 @@
 package com.hikarishima.lightland.registry.item;
 
 import com.hikarishima.lightland.magic.arcane.internal.ArcaneItemUseHelper;
+import com.hikarishima.lightland.magic.arcane.internal.IArcaneItem;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.AxeItem;
@@ -11,10 +12,10 @@ import net.minecraft.world.World;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
-public class ArcaneAxe extends AxeItem {
+public class ArcaneAxe extends AxeItem implements IArcaneItem {
 
     public ArcaneAxe(IItemTier tier, float attack, float speed, Properties props) {
-        super(tier, attack, speed, props.defaultDurability(10));
+        super(tier, attack, speed, props);
     }
 
     @ParametersAreNonnullByDefault
@@ -32,4 +33,20 @@ public class ArcaneAxe extends AxeItem {
         return true;
     }
 
+    public boolean showDurabilityBar(ItemStack stack) {
+        return true;
+    }
+
+    public double getDurabilityForDisplay(ItemStack stack) {
+        return 1 - 1.0 * ArcaneItemUseHelper.getArcaneMana(stack) / getMaxMana(stack);
+    }
+
+    public int getRGBDurabilityForDisplay(ItemStack stack) {
+        return 0xFFFFFF;
+    }
+
+    @Override
+    public int getMaxMana(ItemStack stack) {
+        return 10;
+    }
 }

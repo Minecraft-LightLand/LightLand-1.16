@@ -2,17 +2,12 @@ package com.hikarishima.lightland.command;
 
 import com.hikarishima.lightland.config.Translator;
 import com.hikarishima.lightland.magic.MagicRegistry;
-import com.hikarishima.lightland.magic.arcane.internal.Arcane;
-import com.hikarishima.lightland.magic.arcane.internal.ArcaneItemCraftHelper;
-import com.hikarishima.lightland.magic.arcane.internal.ArcaneItemUseHelper;
-import com.hikarishima.lightland.magic.arcane.internal.ArcaneType;
-import com.hikarishima.lightland.magic.capabilities.MagicAbility;
+import com.hikarishima.lightland.magic.arcane.internal.*;
 import com.hikarishima.lightland.magic.capabilities.MagicHandler;
 import com.hikarishima.lightland.registry.item.ArcaneAxe;
 import com.hikarishima.lightland.registry.item.ArcaneSword;
 import com.mojang.authlib.GameProfile;
 import com.mojang.brigadier.Command;
-import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.builder.ArgumentBuilder;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
@@ -102,15 +97,27 @@ public class ArcaneCommand {
         regArcane("give_mana", getPlayer()
                 .then(Commands.argument("number", IntegerArgumentType.integer())
                         .executes(withPlayer((context, e) -> {
-                            MagicHandler.get(e).magicAbility.giveArcaneMana(context.getArgument("number", Integer.class));
+                            ItemStack stack = e.getMainHandItem();
+                            if (!ArcaneItemUseHelper.isArcaneItem(stack)) {
+                                send(context, WRONG_ITEM);
+                                return 0;
+                            }
+                            ArcaneItemUseHelper.addArcaneMana(stack, context.getArgument("number", Integer.class));
                             send(context, ACTION_SUCCESS);
                             return 1;
                         }))));
 
         regArcane("get_mana", getPlayer()
                 .executes(withPlayer((context, e) -> {
-                    MagicAbility magic = MagicHandler.get(e).magicAbility;
-                    send(context, Translator.get(ID_GET_ARCANE_MANA, magic.getArcaneMana(), magic.getMaxArcaneMana()));
+                    ItemStack stack = e.getMainHandItem();
+                    if (!ArcaneItemUseHelper.isArcaneItem(stack)) {
+                        send(context, WRONG_ITEM);
+                        return 0;
+                    }
+                    IArcaneItem item = (IArcaneItem) stack.getItem();
+                    int mana = ArcaneItemUseHelper.getArcaneMana(stack);
+                    int max = item.getMaxMana(stack);
+                    send(context, Translator.get(ID_GET_ARCANE_MANA, mana, max));
                     return 1;
                 })));
 

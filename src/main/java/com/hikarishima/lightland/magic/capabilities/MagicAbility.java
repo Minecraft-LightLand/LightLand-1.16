@@ -14,20 +14,12 @@ public class MagicAbility {
     public CompoundNBT arcane_type = new CompoundNBT();
     public NBTObj arcane_manager;
     @SerialClass.SerialField
-    protected int magic_mana, spell_load, arcane_mana;
+    protected int magic_mana, spell_load;
     @SerialClass.SerialField
     protected int magic_level, spell_level;
 
     MagicAbility(MagicHandler parent) {
         this.parent = parent;
-    }
-
-    public void giveArcaneMana(int mana) {
-        arcane_mana = MathHelper.clamp(arcane_mana + mana, 0, getMaxArcaneMana());
-    }
-
-    public int getArcaneMana() {
-        return arcane_mana;
     }
 
     public void giveMana(int mana) {
@@ -61,15 +53,6 @@ public class MagicAbility {
 
     public int getSpellReduction() {
         return spell_level;
-    }
-
-    public int getMaxArcaneMana() {
-        int ans = 0;
-        for (String str : arcane_type.getAllKeys()) {
-            if (arcane_manager.getSub(str).tag.getInt("level") > 0)
-                ans += 10;
-        }
-        return ans;
     }
 
     public boolean isArcaneTypeUnlocked(ArcaneType type) {

@@ -13,6 +13,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.event.entity.player.AttackEntityEvent;
 import net.minecraftforge.event.entity.player.CriticalHitEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
@@ -31,6 +32,9 @@ public class ArcaneItemUseHelper implements ItemUseEventHandler.ItemClickHandler
         return item instanceof ArcaneSword || item instanceof ArcaneAxe;
     }
 
+    /**
+     * execute in both server and client, specific action side logic handled inside Arcane class
+     */
     public static boolean executeArcane(
             PlayerEntity player, MagicHandler magic,
             ItemStack stack, ArcaneType type, LivingEntity target) {
@@ -42,15 +46,18 @@ public class ArcaneItemUseHelper implements ItemUseEventHandler.ItemClickHandler
         String str = tag.getString(type.getID());
         ResourceLocation rl = new ResourceLocation(str);
         Arcane arcane = MagicRegistry.ARCANE.getValue(rl);
-        if (arcane == null || arcane.cost > magic.magicAbility.getArcaneMana())
+        if (arcane == null || arcane.cost > tag.getInt("mana"))
             return false;
         if (arcane.activate(player, magic, stack, target)) {
-            magic.magicAbility.giveArcaneMana(-arcane.cost);
+            tag.putInt("mana", tag.getInt("mana") - arcane.cost);
             return true;
         }
         return false;
     }
 
+    /**
+     * execute on both server and client (for animation)
+     */
     public static void rightClickAxe(ItemStack stack) {
         CompoundNBT tag = stack.getOrCreateTagElement("arcane");
         tag.putBoolean("charged", !tag.getBoolean("charged"));
@@ -60,6 +67,19 @@ public class ArcaneItemUseHelper implements ItemUseEventHandler.ItemClickHandler
         return stack.getOrCreateTagElement("arcane").getBoolean("charged");
     }
 
+    public static void addArcaneMana(ItemStack stack, int mana) {
+        IArcaneItem item = (IArcaneItem) stack.getItem();
+        CompoundNBT tag = stack.getOrCreateTagElement("arcane");
+        tag.putInt("mana", MathHelper.clamp(tag.getInt("mana") + mana, 0, item.getMaxMana(stack)));
+    }
+
+    public static int getArcaneMana(ItemStack stack) {
+        return stack.getOrCreateTagElement("arcane").getInt("mana");
+    }
+
+    /**
+     * executes on server only, play animation in client
+     */
     private static void handleLeftClickEvent(ItemStack stack, PlayerInteractEvent event, LivingEntity target) {
         PlayerEntity player = event.getPlayer();
         MagicHandler magic = MagicHandler.get(player);
@@ -77,7 +97,10 @@ public class ArcaneItemUseHelper implements ItemUseEventHandler.ItemClickHandler
         }
     }
 
-    private static void handleRightClickEvent(ItemStack stack, PlayerInteractEvent event) {
+    /**
+     * executes on server only, play animation in client
+     */
+    private static void handleRightClickEvent(ItemStack stack, PlayerInteractEvent event, LivingEntity target) {
         boolean cancellable = event.isCancelable();
         if (stack.getItem() instanceof ArcaneAxe) {
             rightClickAxe(stack);
@@ -86,11 +109,15 @@ public class ArcaneItemUseHelper implements ItemUseEventHandler.ItemClickHandler
         } else if (stack.getItem() instanceof ArcaneSword) {
             if (executeArcane(event.getPlayer(),
                     MagicHandler.get(event.getPlayer()),
-                    stack, ArcaneType.ALKAID, event.getEntityLiving())) {
+                    stack, ArcaneType.ALKAID, target)) {
                 if (cancellable) event.setCanceled(true);
                 event.setCancellationResult(ActionResultType.SUCCESS);
             }
         }
+    }
+
+    public static LivingEntity toLiving(Entity e) {
+        return e instanceof LivingEntity ? (LivingEntity) e : null;
     }
 
     @Override
@@ -108,20 +135,28 @@ public class ArcaneItemUseHelper implements ItemUseEventHandler.ItemClickHandler
         handleLeftClickEvent(stack, event, null);
     }
 
+    /**
+     * executes on both server and client side
+     */
     @Override
     public void onPlayerLeftClickEntity(ItemStack stack, AttackEntityEvent event) {
         float charge = event.getPlayer().getAttackStrengthScale(0.5f);
         if (event.getEntityLiving() != null && charge > 0.9f) {
-            MagicHandler.get(event.getPlayer()).magicAbility.giveArcaneMana(1);
+            addArcaneMana(stack, 1);
         }
     }
 
+    /**
+     * executes on server only
+     */
     @Override
     public void onCriticalHit(ItemStack stack, CriticalHitEvent event) {
+        if (event.getPlayer().level.isClientSide())
+            return;
         PlayerEntity player = event.getPlayer();
         MagicHandler magic = MagicHandler.get(player);
         Entity e = event.getTarget();
-        LivingEntity le = e instanceof LivingEntity ? (LivingEntity) e : null;
+        LivingEntity le = toLiving(event.getTarget());
         ArcaneType type = null;
         boolean cr = event.isVanillaCritical();
         if (stack.getItem() instanceof ArcaneAxe) {
@@ -136,17 +171,17 @@ public class ArcaneItemUseHelper implements ItemUseEventHandler.ItemClickHandler
 
     @Override
     public void onPlayerRightClickEmpty(ItemStack stack, PlayerInteractEvent.RightClickEmpty event) {
-        handleRightClickEvent(stack, event);
+        handleRightClickEvent(stack, event, null);
     }
 
     @Override
     public void onPlayerRightClickBlock(ItemStack stack, PlayerInteractEvent.RightClickBlock event) {
-        handleRightClickEvent(stack, event);
+        handleRightClickEvent(stack, event, null);
     }
 
     @Override
     public void onPlayerRightClickEntity(ItemStack stack, PlayerInteractEvent.EntityInteract event) {
-        handleRightClickEvent(stack, event);
+        handleRightClickEvent(stack, event, toLiving(event.getTarget()));
     }
 
 }

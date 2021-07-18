@@ -1,6 +1,7 @@
 package com.hikarishima.lightland.proxy;
 
 import com.hikarishima.lightland.LightLand;
+import com.hikarishima.lightland.event.forge.ItemUseEventHandler;
 import com.hikarishima.lightland.magic.gui.DisEnchantContainer;
 import com.lcy0x1.core.util.SerialClass;
 import com.lcy0x1.core.util.Serializer;
@@ -29,6 +30,7 @@ public class PacketHandler {
 
     public static void registerPackets() {
         reg(IntMsg.class, IntMsg::encode, IntMsg::decode, IntMsg::handle);
+        reg(ItemUseEventHandler.Msg.class, ItemUseEventHandler.Msg::handle);
         reg(DisEnchantContainer.Msg.class, DisEnchantContainer.class);
     }
 
@@ -47,12 +49,16 @@ public class PacketHandler {
         CH.registerMessage(id++, cls, encoder, decoder, handler);
     }
 
-    private static <T extends BaseSerialMsg, C extends SerialMsgCont<T>> void reg(Class<T> cls, Class<C> cont) {
-        reg(cls, (msg, p) -> Serializer.to(p, msg), (p) -> Serializer.from(p, cls, null), (t, s) -> handle(t, cont, s.get()));
+    private static <T extends ContSerialMsg, C extends SerialMsgCont<T>> void reg(Class<T> cls, Class<C> cont) {
+        reg(cls, (t, s) -> handle(t, cont, s.get()));
+    }
+
+    private static <T extends BaseSerialMsg> void reg(Class<T> cls, BiConsumer<T, Supplier<NetworkEvent.Context>> handler) {
+        reg(cls, (msg, p) -> Serializer.to(p, msg), (p) -> Serializer.from(p, cls, null), handler);
     }
 
     @SuppressWarnings("unchecked")
-    private static <T extends BaseSerialMsg, C extends SerialMsgCont<T>> void handle(T msg, Class<C> cls, NetworkEvent.Context ctx) {
+    private static <T extends ContSerialMsg, C extends SerialMsgCont<T>> void handle(T msg, Class<C> cls, NetworkEvent.Context ctx) {
         if (ctx == null)
             return;
         ServerPlayerEntity pl = ctx.getSender();
@@ -70,7 +76,7 @@ public class PacketHandler {
 
     }
 
-    public interface SerialMsgCont<T extends BaseSerialMsg> {
+    public interface SerialMsgCont<T extends ContSerialMsg> {
 
         void handle(T t);
 
@@ -115,15 +121,20 @@ public class PacketHandler {
     @SerialClass
     public static class BaseSerialMsg {
 
+    }
+
+    @SerialClass
+    public static class ContSerialMsg extends BaseSerialMsg {
+
         @SerialClass.SerialField
         public int wid;
 
         @Deprecated
-        public BaseSerialMsg() {
+        public ContSerialMsg() {
 
         }
 
-        public BaseSerialMsg(int wid) {
+        public ContSerialMsg(int wid) {
             this.wid = wid;
         }
 

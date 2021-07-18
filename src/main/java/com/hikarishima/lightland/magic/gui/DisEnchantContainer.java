@@ -62,7 +62,7 @@ public class DisEnchantContainer extends Container implements PacketHandler.Seri
     }
 
     @SerialClass
-    public static class Msg extends PacketHandler.BaseSerialMsg {
+    public static class Msg extends PacketHandler.ContSerialMsg {
 
         @SerialClass.SerialField
         public MsgType type;

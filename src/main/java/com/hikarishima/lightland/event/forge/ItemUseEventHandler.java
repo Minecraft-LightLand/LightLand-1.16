@@ -1,5 +1,8 @@
 package com.hikarishima.lightland.event.forge;
 
+import com.hikarishima.lightland.proxy.PacketHandler;
+import com.lcy0x1.core.util.SerialClass;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Hand;
 import net.minecraftforge.event.entity.player.AttackEntityEvent;
@@ -7,14 +10,21 @@ import net.minecraftforge.event.entity.player.CriticalHitEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.network.NetworkEvent;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Supplier;
 
 @SuppressWarnings("unused")
 public class ItemUseEventHandler {
 
     public static final List<ItemClickHandler> LIST = new ArrayList<>();
+    public static ItemUseEventHandler INSTANCE;
+
+    public ItemUseEventHandler() {
+        INSTANCE = this;
+    }
 
     public static <T extends PlayerEvent> void execute(ItemStack stack, T event, TriCon<T> cons) {
         for (ItemClickHandler handler : LIST)
@@ -39,6 +49,9 @@ public class ItemUseEventHandler {
 
     @SubscribeEvent
     public void onPlayerRightClickEmpty(PlayerInteractEvent.RightClickEmpty event) {
+        if (event.getPlayer().level.isClientSide()) {
+            PacketHandler.send(new Msg(event.getHand() == Hand.MAIN_HAND));
+        }
         execute(event.getPlayer().getItemInHand(event.getHand() == Hand.MAIN_HAND ? Hand.OFF_HAND : Hand.MAIN_HAND), event, ItemClickHandler::onPlayerRightClickEmpty);
     }
 
@@ -94,6 +107,31 @@ public class ItemUseEventHandler {
     public interface TriCon<T> {
 
         void accept(ItemClickHandler handler, ItemStack stack, T event);
+
+    }
+
+    @SerialClass
+    public static class Msg extends PacketHandler.BaseSerialMsg {
+
+        @SerialClass.SerialField
+        public boolean hand;
+
+        public Msg(boolean hand) {
+            this.hand = hand;
+        }
+
+        public Msg() {
+            this(true);
+        }
+
+        public static void handle(Msg msg, Supplier<NetworkEvent.Context> sup) {
+            ServerPlayerEntity pl = sup.get().getSender();
+            if (pl != null) {
+                PlayerInteractEvent.RightClickEmpty event = new PlayerInteractEvent.RightClickEmpty(pl,
+                        msg.hand ? Hand.MAIN_HAND : Hand.OFF_HAND);
+                INSTANCE.onPlayerRightClickEmpty(event);
+            }
+        }
 
     }
 

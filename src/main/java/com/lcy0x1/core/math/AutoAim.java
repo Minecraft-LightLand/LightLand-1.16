@@ -19,6 +19,7 @@ import net.minecraft.world.World;
 import org.apache.logging.log4j.LogManager;
 
 import java.util.Optional;
+import java.util.function.Predicate;
 
 public class AutoAim {
 
@@ -121,7 +122,7 @@ public class AutoAim {
                 RayTraceContext.FluidMode.NONE, player));
     }
 
-    private static EntityRayTraceResult rayTraceEntity(PlayerEntity player, double reach) {
+    public static EntityRayTraceResult rayTraceEntity(PlayerEntity player, double reach, Predicate<Entity> pred) {
         World world = player.level;
         Vector3d pos = new Vector3d(player.getX(), player.getEyeY(), player.getZ());
         Vector3d end = getRayTerm(pos, player.xRot, player.yRot, reach);
@@ -130,6 +131,8 @@ public class AutoAim {
         Entity entity = null;
         Vector3d Vector3d = null;
         for (Entity e : world.getEntities(player, box)) {
+            if (!pred.test(e))
+                continue;
             AxisAlignedBB aabb = e.getBoundingBox().inflate(e.getPickRadius());
             Optional<Vector3d> optional = aabb.clip(pos, end);
             if (aabb.contains(pos)) {
@@ -160,7 +163,7 @@ public class AutoAim {
 
     private static EstiResult setAim(PlayerEntity pl, double velo, double reach, Entity e, double g, double k,
                                      int maxt) {
-        EntityRayTraceResult ertr = rayTraceEntity(pl, reach);
+        EntityRayTraceResult ertr = rayTraceEntity(pl, reach, entity -> true);
         if (ertr != null && ertr.getType() == EntityRayTraceResult.Type.ENTITY) {
             if (ertr.getLocation().distanceTo(pl.position()) < velo)
                 return EstiType.CLOSE;
@@ -168,7 +171,7 @@ public class AutoAim {
             Vector3d mot = ertr.getEntity().getDeltaMovement();
             Vector3d tar = ertr.getLocation();
             Vector3d pos = e.position();
-            Estimator.EstiResult er = new Estimator(g, k, pos, velo, maxt, tar, mot).getAnswer();
+            EstiResult er = new Estimator(g, k, pos, velo, maxt, tar, mot).getAnswer();
             LogManager.getLogger().info("aim status success: " + (er.getType() == EstiType.ZERO));
             if (er.getType() == EstiType.ZERO)
                 return er;
@@ -180,7 +183,7 @@ public class AutoAim {
             LogManager.getLogger().info("targeting block: " + brtr.getLocation());
             Vector3d tar = brtr.getLocation();
             Vector3d pos = e.position();
-            Estimator.EstiResult er = new Estimator(g, k, pos, velo, maxt, tar, Vector3d.ZERO).getAnswer();
+            EstiResult er = new Estimator(g, k, pos, velo, maxt, tar, Vector3d.ZERO).getAnswer();
             LogManager.getLogger().info("aim status success: " + (er.getType() == EstiType.ZERO));
             if (er.getType() == EstiType.ZERO)
                 return er;

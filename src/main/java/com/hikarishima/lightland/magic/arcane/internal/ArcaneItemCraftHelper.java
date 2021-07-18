@@ -24,7 +24,7 @@ public class ArcaneItemCraftHelper {
         CompoundNBT tag = stack.getOrCreateTagElement("arcane");
         List<Arcane> list = new ArrayList<>();
         for (String str : tag.getAllKeys()) {
-            if (str.equals("charged"))
+            if (str.equals("charged") || str.equals("mana"))
                 continue;
             list.add(MagicRegistry.ARCANE.getValue(new ResourceLocation(tag.getString(str))));
         }

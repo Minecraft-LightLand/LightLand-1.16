@@ -23,6 +23,7 @@ import net.minecraftforge.registries.IForgeRegistryEntry;
 public class GenericRegistryEvents {
 
     @SubscribeEvent
+    @SuppressWarnings("unchecked")
     public static void onNewRegistry(RegistryEvent.NewRegistry event) {
         MagicRegistry.createRegistries();
         RegistryBase.process(MagicRegistry.class, IForgeRegistry.class, GenericRegistryEvents::regSerializer);

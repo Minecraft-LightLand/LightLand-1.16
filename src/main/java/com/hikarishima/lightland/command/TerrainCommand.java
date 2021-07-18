@@ -48,8 +48,8 @@ public class TerrainCommand {
                             File file_json = FileIO.getFile("gen_biome.json");
                             FileIO.checkFile(file_img);
                             FileIO.checkFile(file_json);
-                            ExceptionHandler.run(()->{
-                                ImageIO.write(img,"PNG",file_img);
+                            ExceptionHandler.run(() -> {
+                                ImageIO.write(img, "PNG", file_img);
                                 PrintStream stream = new PrintStream(file_json);
                                 stream.println(arr);
                                 stream.close();
