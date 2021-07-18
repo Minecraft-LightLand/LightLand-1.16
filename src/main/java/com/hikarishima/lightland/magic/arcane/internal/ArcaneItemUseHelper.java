@@ -118,7 +118,6 @@ public class ArcaneItemUseHelper implements ItemUseEventHandler.ItemClickHandler
 
     @Override
     public void onCriticalHit(ItemStack stack, CriticalHitEvent event) {
-
         PlayerEntity player = event.getPlayer();
         MagicHandler magic = MagicHandler.get(player);
         Entity e = event.getTarget();
