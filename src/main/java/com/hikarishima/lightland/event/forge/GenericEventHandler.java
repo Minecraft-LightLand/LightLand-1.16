@@ -2,7 +2,11 @@ package com.hikarishima.lightland.event.forge;
 
 import com.hikarishima.lightland.LightLand;
 import com.hikarishima.lightland.command.ArcaneCommand;
+import com.hikarishima.lightland.command.TerrainCommand;
 import com.hikarishima.lightland.magic.capabilities.PlayerMagicCapability;
+import com.mojang.brigadier.builder.LiteralArgumentBuilder;
+import net.minecraft.command.CommandSource;
+import net.minecraft.command.Commands;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.ResourceLocation;
@@ -23,7 +27,10 @@ public class GenericEventHandler {
 
     @SubscribeEvent
     public void onCommandRegister(RegisterCommandsEvent event) {
-        new ArcaneCommand(event.getDispatcher());
+        LiteralArgumentBuilder<CommandSource> lightland = Commands.literal("lightland");
+        new ArcaneCommand(lightland);
+        TerrainCommand.register(lightland);
+        event.getDispatcher().register(lightland);
     }
 
 }

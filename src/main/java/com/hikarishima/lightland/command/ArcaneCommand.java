@@ -40,16 +40,12 @@ public class ArcaneCommand {
     private static final String ID_LIST_UNLOCKED = "chat.list_arcane_type.unlocked";
     private static final String ID_GET_ARCANE_MANA = "chat.show_arcane_mana";
 
-    private final CommandDispatcher<CommandSource> dispatcher;
-    private final LiteralArgumentBuilder<CommandSource> lightland;
     private final LiteralArgumentBuilder<CommandSource> arcane;
 
-    public ArcaneCommand(CommandDispatcher<CommandSource> dispatcher) {
-        this.dispatcher = dispatcher;
-        lightland = Commands.literal("lightland");
+    public ArcaneCommand(LiteralArgumentBuilder<CommandSource> lightland) {
         arcane = Commands.literal("arcane");
         register();
-        complete();
+        lightland.then(arcane);
     }
 
     private static RequiredArgumentBuilder<CommandSource, ?> getPlayer() {
@@ -75,11 +71,6 @@ public class ArcaneCommand {
 
     private static void send(CommandContext<CommandSource> context, ITextComponent comp) {
         context.getSource().getServer().getPlayerList().broadcastMessage(comp, ChatType.CHAT, context.getSource().getEntity().getUUID());
-    }
-
-    public void complete() {
-        lightland.then(arcane);
-        dispatcher.register(lightland);
     }
 
     public void register() {
