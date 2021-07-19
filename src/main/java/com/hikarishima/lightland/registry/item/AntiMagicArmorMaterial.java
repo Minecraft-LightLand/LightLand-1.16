@@ -89,11 +89,11 @@ public class AntiMagicArmorMaterial implements IArmorMaterial {
         return this.knockbackResistance;
     }
 
-    public float getProb(){
+    public float getProb() {
         return prob;
     }
 
-    public float getResist(){
+    public float getResist() {
         return resist;
     }
 

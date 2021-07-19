@@ -14,6 +14,14 @@ import java.util.Map;
 
 public class AntiMagicArmor extends ArmorItem implements ISpecialArmor {
 
+    private final float resist, prob;
+
+    public AntiMagicArmor(AntiMagicArmorMaterial mat, EquipmentSlotType slot, Properties props) {
+        super(mat, slot, props);
+        this.resist = mat.getResist();
+        this.prob = mat.getProb();
+    }
+
     public static boolean disenchant(World w, ItemStack stack, float prob) {
         if (!stack.isEmpty() && stack.isEnchanted() && w.getRandom().nextDouble() < prob) {
             Map<Enchantment, Integer> map = EnchantmentHelper.getEnchantments(stack);
@@ -28,14 +36,6 @@ public class AntiMagicArmor extends ArmorItem implements ISpecialArmor {
             return true;
         }
         return false;
-    }
-
-    private final float resist, prob;
-
-    public AntiMagicArmor(AntiMagicArmorMaterial mat, EquipmentSlotType slot, Properties props) {
-        super(mat, slot, props);
-        this.resist = mat.getResist();
-        this.prob = mat.getProb();
     }
 
     @Override

@@ -16,7 +16,7 @@ import java.lang.reflect.Method;
 public class DamageEventHandler {
 
     @SubscribeEvent
-    public static void onLivingHurtEvent(LivingHurtEvent event) {
+    public void onLivingHurtEvent(LivingHurtEvent event) {
         DamageSource source = event.getSource();
         if (source instanceof MagicDamageSource) {
             MagicDamageSource magic = (MagicDamageSource) source;

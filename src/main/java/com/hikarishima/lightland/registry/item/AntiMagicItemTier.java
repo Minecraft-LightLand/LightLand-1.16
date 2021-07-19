@@ -68,7 +68,7 @@ public class AntiMagicItemTier implements IItemTier {
         return prob;
     }
 
-    public float getPenetrate(){
+    public float getPenetrate() {
         return pen;
     }
 }

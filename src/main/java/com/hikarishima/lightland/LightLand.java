@@ -1,5 +1,6 @@
 package com.hikarishima.lightland;
 
+import com.hikarishima.lightland.event.forge.DamageEventHandler;
 import com.hikarishima.lightland.event.forge.GenericEventHandler;
 import com.hikarishima.lightland.event.forge.ItemUseEventHandler;
 import com.hikarishima.lightland.event.forge.WorldGenEventHandler;
@@ -30,6 +31,7 @@ public class LightLand {
         //MinecraftForge.EVENT_BUS.register(new WorldGenEventHandler());
         MinecraftForge.EVENT_BUS.register(new ItemUseEventHandler());
         MinecraftForge.EVENT_BUS.register(new GenericEventHandler());
+        MinecraftForge.EVENT_BUS.register(new DamageEventHandler());
         PacketHandler.registerPackets();
     }
 

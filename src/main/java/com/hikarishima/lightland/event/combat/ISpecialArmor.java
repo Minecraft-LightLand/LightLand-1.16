@@ -7,7 +7,7 @@ public interface ISpecialArmor {
 
     /**
      * return negative value for reduction
-     * */
+     */
     float modifier(LivingEntity owner, DamageSource source, float original);
 
 }

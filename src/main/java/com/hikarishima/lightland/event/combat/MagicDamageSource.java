@@ -21,32 +21,6 @@ public class MagicDamageSource extends EntityDamageSource {
         super("lightland", e);
     }
 
-    public boolean isBypassArmor() {
-        return true;
-    }
-
-    public boolean isBypassMagic() {
-        return true;
-    }
-
-    public void add(MagicDamageEntry ent) {
-        list.add(ent);
-    }
-
-    public float getDamage(LivingEntity e) {
-        float ans = 0;
-        for (MagicDamageEntry ent : list) {
-            float dmg = ent.damage;
-            if (!ent.bypassArmor)
-                dmg = getDamageAfterArmorAbsorb(e, ent, dmg);
-            if (!ent.bypassMagic)
-                dmg = getDamageAfterMagicAbsorb(e, ent.source, dmg);
-            ent.execute(e);
-            ans += dmg;
-        }
-        return ans;
-    }
-
     public static float getDamageAfterArmorAbsorb(LivingEntity e, MagicDamageEntry ent, float f) {
         float mod = 0;
         for (ItemStack stack : e.getArmorSlots()) {
@@ -71,6 +45,32 @@ public class MagicDamageSource extends EntityDamageSource {
             return (Float) m.invoke(e, ds, f);
         });
         return ans == null ? f : ans;
+    }
+
+    public boolean isBypassArmor() {
+        return true;
+    }
+
+    public boolean isBypassMagic() {
+        return true;
+    }
+
+    public void add(MagicDamageEntry ent) {
+        list.add(ent);
+    }
+
+    public float getDamage(LivingEntity e) {
+        float ans = 0;
+        for (MagicDamageEntry ent : list) {
+            float dmg = ent.damage;
+            if (!ent.bypassArmor)
+                dmg = getDamageAfterArmorAbsorb(e, ent, dmg);
+            if (!ent.bypassMagic)
+                dmg = getDamageAfterMagicAbsorb(e, ent.source, dmg);
+            ent.execute(e);
+            ans += dmg;
+        }
+        return ans;
     }
 
 }
