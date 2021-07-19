@@ -32,7 +32,7 @@ public class DamageEventHandler {
                     MagicDamageSource magic = weapon.getSource(stack, event);
                     if (magic != null) {
                         ExceptionHandler.run(() -> {
-                            Method m = target.getClass().getMethod("actuallyHurt", DamageSource.class, float.class);
+                            Method m = ExceptionHandler.getMethod(target.getClass(), "actuallyHurt", DamageSource.class, float.class);
                             m.invoke(target, magic, 0);
                         });
                         event.setAmount(-1);

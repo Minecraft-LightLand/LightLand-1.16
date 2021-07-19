@@ -31,8 +31,7 @@ public class MagicDamageSource extends EntityDamageSource {
         }
         float dmg = f + mod;
         ExceptionHandler.run(() -> {
-            Method m = e.getClass().getMethod("hurtArmor", DamageSource.class, float.class);
-            m.setAccessible(true);
+            Method m = ExceptionHandler.getMethod(e.getClass(), "hurtArmor", DamageSource.class, float.class);
             m.invoke(e, ent.source, dmg * ent.armorDamageFactor);
         });
         return CombatRules.getDamageAfterAbsorb(dmg, (float) e.getArmorValue(), (float) e.getAttributeValue(Attributes.ARMOR_TOUGHNESS));
@@ -40,8 +39,7 @@ public class MagicDamageSource extends EntityDamageSource {
 
     public static float getDamageAfterMagicAbsorb(LivingEntity e, DamageSource ds, float f) {
         Float ans = ExceptionHandler.get(() -> {
-            Method m = e.getClass().getMethod("getDamageAfterArmorAbsorb", DamageSource.class, float.class);
-            m.setAccessible(true);
+            Method m = ExceptionHandler.getMethod(e.getClass(), "getDamageAfterArmorAbsorb", DamageSource.class, float.class);
             return (Float) m.invoke(e, ds, f);
         });
         return ans == null ? f : ans;

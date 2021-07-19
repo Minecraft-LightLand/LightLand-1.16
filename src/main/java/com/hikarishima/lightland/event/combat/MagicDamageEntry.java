@@ -8,7 +8,6 @@ public class MagicDamageEntry {
     public DamageSource source;
     public float armorDamageFactor = 1;
     public float damage;
-    public float disenchant = 0;
     public boolean bypassArmor = false;
     public boolean bypassMagic = false;
 
@@ -19,11 +18,6 @@ public class MagicDamageEntry {
 
     public MagicDamageEntry setDamageArmor(float factor) {
         this.armorDamageFactor *= factor;
-        return this;
-    }
-
-    public MagicDamageEntry setDisenchantProv(float prob) {
-        this.disenchant += prob;
         return this;
     }
 
