@@ -24,6 +24,7 @@ public abstract class ResourceOrganizer {
         delete(new File("./src/main/resources/assets/"));
         new LangFileOrganizer();
         new ItemFileOrganizer();
+        new ArmorFileOrganizer();
         File f = new File("./src/test/resources");
         for (File fi : f.listFiles()) {
             MODID = fi.getName();

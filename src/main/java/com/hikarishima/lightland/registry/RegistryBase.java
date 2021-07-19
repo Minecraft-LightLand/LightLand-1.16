@@ -13,6 +13,7 @@ public class RegistryBase {
 
     public static final Class<?>[] BIOME_REGISTRIES = {VolcanoBiomeRegistry.class};
 
+    @SuppressWarnings({"unchecked", "rawtypes"})
     public static <T> void process(Class<?> provider, Class<T> reg, Consumer<T> acceptor) {
         ExceptionHandler.run(() -> {
             for (Field f : provider.getDeclaredFields())

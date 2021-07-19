@@ -25,9 +25,9 @@ public class ItemRegistry extends ItemGroup {
     public static final Item ENCHANT_GOLD_INGOT = regItem("enchant_gold_ingot", FoiledItem::new);
     public static final Item ENCHANT_ALLOY_INGOT = regItem("enchant_alloy_ingot", FoiledItem::new);
     public static final Item ENCHANT_LIGHT_INGOT = regItem("enchant_light_ingot", FoiledItem::new);
-    public static final Item ANTI_MAGIC_METAL = regItem("anti_magic_metal", Item::new);
-    public static final Item LIGHT_ALLOY = regItem("light_alloy", Item::new);
-    public static final Item ANTI_MAGIC_ALLOY = regItem("anti_magic_alloy", Item::new);
+    public static final Item ANTI_MAGIC_METAL = regItem("anti_magic_metal_ingot", Item::new);
+    public static final Item LIGHT_ALLOY = regItem("light_alloy_ingot", Item::new);
+    public static final Item ANTI_MAGIC_ALLOY = regItem("anti_magic_alloy_ingot", Item::new);
     public static final AntiMagicArmor[] AMM_ARMOR = regArmor("anti_magic_metal_", (s, p) -> new AntiMagicArmor(AntiMagicArmorMaterial.METAL, s, p), new AntiMagicArmor[4]);
     public static final AntiMagicArmor[] LA_ARMOR = regArmor("light_alloy_", (s, p) -> new AntiMagicArmor(AntiMagicArmorMaterial.LIGHT, s, p), new AntiMagicArmor[4]);
     public static final AntiMagicArmor[] AMA_ARMOR = regArmor("anti_magic_alloy_", (s, p) -> new AntiMagicArmor(AntiMagicArmorMaterial.ALLOY, s, p), new AntiMagicArmor[4]);

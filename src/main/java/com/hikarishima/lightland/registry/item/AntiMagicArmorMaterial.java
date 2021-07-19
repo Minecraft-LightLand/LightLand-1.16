@@ -15,7 +15,7 @@ import java.util.function.Supplier;
 public class AntiMagicArmorMaterial implements IArmorMaterial {
 
     public static final AntiMagicArmorMaterial METAL = new AntiMagicArmorMaterial(
-            "anti_magic", 15, new int[]{2, 5, 6, 2}, 0,
+            "anti_magic_metal", 15, new int[]{2, 5, 6, 2}, 0,
             SoundEvents.ARMOR_EQUIP_IRON, 0.0F, 0.0F,
             () -> Ingredient.of(ItemRegistry.ANTI_MAGIC_METAL), 0.2f, 0.15f);
 
@@ -26,7 +26,7 @@ public class AntiMagicArmorMaterial implements IArmorMaterial {
 
     public static final AntiMagicArmorMaterial ALLOY = new AntiMagicArmorMaterial(
             "anti_magic_alloy", 60, new int[]{3, 6, 8, 3}, 1,
-            SoundEvents.ARMOR_EQUIP_NETHERITE, 2.0F, 2.0F,
+            SoundEvents.ARMOR_EQUIP_NETHERITE, 3.0F, 0.1F,
             () -> Ingredient.of(ItemRegistry.ANTI_MAGIC_ALLOY), 0.5f, 0.25f);
 
     private static final int[] HEALTH_PER_SLOT = new int[]{13, 15, 16, 11};
