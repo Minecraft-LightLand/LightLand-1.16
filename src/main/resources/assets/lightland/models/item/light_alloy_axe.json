@@ -1,7 +1,7 @@
 {
     "parent": "item/generated",
     "textures": {
-        "layer0": "lightland:item/arcane_sword"
+        "layer0": "lightland:item/light_alloy_axe"
     }
 }
 

@@ -27,6 +27,8 @@ public class ItemUseEventHandler {
     }
 
     public static <T extends PlayerEvent> void execute(ItemStack stack, T event, TriCon<T> cons) {
+        if (stack.getItem() instanceof ItemClickHandler && ((ItemClickHandler) stack.getItem()).predicate(stack, event.getClass(), event))
+            cons.accept((ItemClickHandler) stack.getItem(), stack, event);
         for (ItemClickHandler handler : LIST)
             if (handler.predicate(stack, event.getClass(), event))
                 cons.accept(handler, stack, event);

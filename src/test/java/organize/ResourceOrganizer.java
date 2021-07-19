@@ -1,9 +1,6 @@
 package organize;
 
-import com.google.gson.stream.JsonWriter;
-
 import java.io.File;
-import java.io.FileWriter;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -24,15 +21,29 @@ public abstract class ResourceOrganizer {
     public static String MODID;
 
     public static void main(String[] args) throws Exception {
+        delete(new File("./src/main/resources/assets/"));
         new LangFileOrganizer();
         new ItemFileOrganizer();
         File f = new File("./src/test/resources");
         for (File fi : f.listFiles()) {
             MODID = fi.getName();
+            if (!fi.isDirectory())
+                continue;
             for (File fj : fi.listFiles()) {
+                if (!fj.isDirectory())
+                    continue;
                 ResourceOrganizer obj = MAP.get(fj.getName());
                 obj.organize(fj);
             }
+        }
+    }
+
+    public static void delete(File f) throws Exception {
+        if (f.exists()) {
+            if (f.isDirectory())
+                for (File fi : f.listFiles())
+                    delete(fi);
+            f.delete();
         }
     }
 
