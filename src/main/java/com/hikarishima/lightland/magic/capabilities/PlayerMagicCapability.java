@@ -1,6 +1,7 @@
 package com.hikarishima.lightland.magic.capabilities;
 
 import com.lcy0x1.core.util.SerialClass;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.Direction;
 import net.minecraft.world.World;
@@ -15,15 +16,18 @@ import javax.annotation.Nullable;
 @SerialClass
 public class PlayerMagicCapability implements ICapabilitySerializable<CompoundNBT> {
 
+    public final PlayerEntity player;
     public final World w;
     public MagicHandler handler = new MagicHandler();
     public LazyOptional<MagicHandler> lo = LazyOptional.of(() -> this.handler);
 
-    public PlayerMagicCapability(World w) {
+    public PlayerMagicCapability(PlayerEntity player, World w) {
+        this.player = player;
         this.w = w;
         if (w == null)
             LogManager.getLogger().error("world not present in entity");
         handler.world = w;
+        handler.player = player;
     }
 
     @Nonnull

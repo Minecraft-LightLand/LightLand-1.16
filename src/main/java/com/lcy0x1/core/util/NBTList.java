@@ -11,8 +11,6 @@ import java.util.List;
  */
 public class NBTList<T> {
 
-    public final List<T> list = new ArrayList<>();
-
     private final ListNBT tag;
 
     NBTList(NBTObj parent, String key) {
@@ -30,19 +28,6 @@ public class NBTList<T> {
 
     public NBTObj get(int i) {
         return new NBTObj(tag.getCompound(i));
-    }
-
-    public void remove(int i) {
-        if (list.size() > i)
-            list.remove(i);
-        tag.remove(i);
-        tag.set(0, null);
-    }
-
-    public void remove(T t) {
-        int ind = list.indexOf(t);
-        if (ind >= 0)
-            remove(ind);
     }
 
     public int size() {

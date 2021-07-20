@@ -1,26 +1,21 @@
-package com.hikarishima.lightland.registry.item;
+package com.hikarishima.lightland.registry.item.magic;
 
 import com.hikarishima.lightland.magic.arcane.internal.ArcaneItemUseHelper;
 import com.hikarishima.lightland.magic.arcane.internal.IArcaneItem;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.item.AxeItem;
 import net.minecraft.item.IItemTier;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.SwordItem;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
-public class ArcaneAxe extends AxeItem implements IArcaneItem {
+public class ArcaneSword extends SwordItem implements IArcaneItem {
 
-    public ArcaneAxe(IItemTier tier, float attack, float speed, Properties props) {
-        super(tier, attack, speed, props);
-    }
-
-    @ParametersAreNonnullByDefault
-    public boolean isFoil(ItemStack stack) {
-        return ArcaneItemUseHelper.isAxeCharged(stack);
+    public ArcaneSword(IItemTier tier, int attack, float speed, Properties props) {
+        super(tier, attack, speed, props.durability(10));
     }
 
     @ParametersAreNonnullByDefault
@@ -49,4 +44,5 @@ public class ArcaneAxe extends AxeItem implements IArcaneItem {
     public int getMaxMana(ItemStack stack) {
         return 10;
     }
+
 }

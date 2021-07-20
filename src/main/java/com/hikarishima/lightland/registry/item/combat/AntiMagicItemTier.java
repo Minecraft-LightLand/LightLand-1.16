@@ -1,4 +1,4 @@
-package com.hikarishima.lightland.registry.item;
+package com.hikarishima.lightland.registry.item.combat;
 
 import com.hikarishima.lightland.registry.ItemRegistry;
 import mcp.MethodsReturnNonnullByDefault;

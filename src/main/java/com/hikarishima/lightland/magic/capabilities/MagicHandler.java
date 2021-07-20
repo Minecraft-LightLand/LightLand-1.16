@@ -30,6 +30,7 @@ public class MagicHandler {
     public MagicAbility magicAbility = new MagicAbility(this);
     @SerialClass.SerialField
     public MagicHolder magicHolder = new MagicHolder(this);
+    public PlayerEntity player;
     public World world;
 
     public static void register() {
@@ -40,6 +41,9 @@ public class MagicHandler {
         return e.getCapability(CAPABILITY).resolve().get().check();
     }
 
+    public void tick(){
+        magicAbility.tick();
+    }
 
     protected void init() {
         if (state == null) {

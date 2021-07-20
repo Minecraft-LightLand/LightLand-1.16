@@ -1,7 +1,12 @@
 package com.hikarishima.lightland.registry;
 
 import com.hikarishima.lightland.LightLand;
-import com.hikarishima.lightland.registry.item.*;
+import com.hikarishima.lightland.registry.item.FoiledItem;
+import com.hikarishima.lightland.registry.item.combat.*;
+import com.hikarishima.lightland.registry.item.magic.ArcaneAxe;
+import com.hikarishima.lightland.registry.item.magic.ArcaneSword;
+import com.hikarishima.lightland.registry.item.magic.MagicBook;
+import com.hikarishima.lightland.registry.item.magic.MagicScroll;
 import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.Item;
@@ -37,6 +42,9 @@ public class ItemRegistry extends ItemGroup {
     public static final AntiMagicAxe AMM_AXE = regItem("anti_magic_metal_axe", (p) -> new AntiMagicAxe(AntiMagicItemTier.METAL, 8, -3.1f, p.stacksTo(1)));
     public static final AntiMagicAxe LA_AXE = regItem("light_alloy_axe", (p) -> new AntiMagicAxe(AntiMagicItemTier.LIGHT, 8, -2.4f, p.stacksTo(1)));
     public static final AntiMagicAxe AMA_AXE = regItem("anti_magic_alloy_axe", (p) -> new AntiMagicAxe(AntiMagicItemTier.ALLOY, 10, -3f, p.stacksTo(1)));
+    public static final MagicScroll SPELL_CARD = regItem("spell_card", (p) -> new MagicScroll(MagicScroll.ScrollType.CARD, p));
+    public static final MagicScroll SPELL_PARCHMENT = regItem("spell_parchment", (p) -> new MagicScroll(MagicScroll.ScrollType.PARCHMENT, p));
+    public static final MagicScroll SPELL_SCROLL = regItem("spell_scroll", (p) -> new MagicScroll(MagicScroll.ScrollType.SCROLL, p));
 
     public ItemRegistry() {
         super(LightLand.MODID);
@@ -60,4 +68,5 @@ public class ItemRegistry extends ItemGroup {
     public ItemStack makeIcon() {
         return MAGIC_BOOK.getDefaultInstance();
     }
+
 }
