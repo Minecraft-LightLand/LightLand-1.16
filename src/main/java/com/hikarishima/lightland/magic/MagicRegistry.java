@@ -4,15 +4,12 @@ import com.hikarishima.lightland.LightLand;
 import com.hikarishima.lightland.magic.arcane.ArcaneRegistry;
 import com.hikarishima.lightland.magic.arcane.internal.Arcane;
 import com.hikarishima.lightland.magic.arcane.internal.ArcaneType;
-import com.hikarishima.lightland.magic.products.ArcaneMagic;
-import com.hikarishima.lightland.magic.products.EnchantmentMagic;
-import com.hikarishima.lightland.magic.products.PotionMagic;
-import com.hikarishima.lightland.magic.products.SpellMagic;
+import com.hikarishima.lightland.magic.products.*;
 import com.hikarishima.lightland.magic.profession.ArcaneProfession;
 import com.hikarishima.lightland.magic.profession.MagicianProfession;
 import com.hikarishima.lightland.magic.profession.Profession;
 import com.hikarishima.lightland.magic.profession.SpellCasterProfession;
-import com.hikarishima.lightland.magic.spell.Spell;
+import com.hikarishima.lightland.magic.spell.internal.AbstractSpell;
 import com.hikarishima.lightland.magic.spell.SpellRegistry;
 import com.lcy0x1.base.NamedEntry;
 import net.minecraft.enchantment.Enchantment;
@@ -41,7 +38,7 @@ public class MagicRegistry {
     public static IForgeRegistry<MPTRaw> PRODUCT_TYPE;
     public static IForgeRegistry<ArcaneType> ARCANE_TYPE;
     public static IForgeRegistry<Arcane> ARCANE;
-    public static IForgeRegistry<Spell> SPELL;
+    public static IForgeRegistry<AbstractSpell> SPELL;
     public static IForgeRegistry<Profession> PROFESSION;
 
     public static final MagicProductType<Enchantment, EnchantmentMagic> MPT_ENCH =
@@ -54,10 +51,10 @@ public class MagicRegistry {
                     PotionMagic.class, PotionMagic::new,
                     ForgeRegistries.POTIONS::getValue, Effect::getDescriptionId,
                     Effects.MOVEMENT_SPEED));
-    public static final MagicProductType<Spell, SpellMagic> MPT_SPELL =
+    public static final MagicProductType<AbstractSpell, SpellMagic> MPT_SPELL =
             reg("spell", new MagicProductType<>(
                     SpellMagic.class, SpellMagic::new,
-                    (s) -> SPELL.getValue(s), Spell::getDescriptionId,
+                    (s) -> SPELL.getValue(s), AbstractSpell::getDescriptionId,
                     SpellRegistry.EARTH_WALL));
     public static final MagicProductType<Arcane, ArcaneMagic> MPT_ARCANE =
             reg("arcane", new MagicProductType<>(
@@ -82,9 +79,9 @@ public class MagicRegistry {
                 .setName(new ResourceLocation(LightLand.MODID, "arcane"))
                 .setType(Arcane.class).create();
 
-        SPELL = new RegistryBuilder<Spell>()
+        SPELL = new RegistryBuilder<AbstractSpell>()
                 .setName(new ResourceLocation(LightLand.MODID, "spell"))
-                .setType(Spell.class).create();
+                .setType(AbstractSpell.class).create();
 
         PROFESSION = new RegistryBuilder<Profession>()
                 .setName(new ResourceLocation(LightLand.MODID, "profession"))

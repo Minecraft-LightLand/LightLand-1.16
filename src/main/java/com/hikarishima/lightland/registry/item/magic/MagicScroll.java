@@ -1,21 +1,24 @@
 package com.hikarishima.lightland.registry.item.magic;
 
-import com.hikarishima.lightland.event.forge.ItemUseEventHandler;
 import com.hikarishima.lightland.magic.MagicRegistry;
 import com.hikarishima.lightland.magic.capabilities.MagicAbility;
 import com.hikarishima.lightland.magic.capabilities.MagicHandler;
-import com.hikarishima.lightland.magic.spell.Spell;
+import com.hikarishima.lightland.magic.spell.internal.AbstractSpell;
+import com.hikarishima.lightland.magic.spell.internal.ActivationConfig;
+import com.hikarishima.lightland.magic.spell.internal.Spell;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.event.entity.player.PlayerEvent;
 
-public class MagicScroll extends Item implements ItemUseEventHandler.ItemClickHandler {
+public class MagicScroll extends Item {
 
     public enum ScrollType {
         CARD(64), PARCHMENT(16), SCROLL(2);
@@ -54,25 +57,15 @@ public class MagicScroll extends Item implements ItemUseEventHandler.ItemClickHa
         if (id.length() == 0)
             return null;
         ResourceLocation rl = new ResourceLocation(id);
-        return MagicRegistry.SPELL.getValue(rl);
+        AbstractSpell abs = MagicRegistry.SPELL.getValue(rl);
+        if(abs == null)
+            return null;
+        return abs.cast();
     }
 
     public MagicScroll(ScrollType type, Properties props) {
         super(type.apply(props));
     }
-
-    @Override
-    public boolean predicate(ItemStack stack, Class<? extends PlayerEvent> cls, PlayerEvent event) {
-        PlayerEntity player = event.getPlayer();
-        int selected = player.inventory.selected;
-        MagicHandler handler = MagicHandler.get(player);
-        if (handler.magicAbility.getMaxSpellSlot() <= selected)
-            return false;
-        if (player.inventory.getItem(selected) != stack)
-            return false;
-        return handler.magicAbility.getSpellActivation(selected) == 0;
-    }
-
 
     public boolean showDurabilityBar(ItemStack stack) {
         return true;
@@ -98,6 +91,29 @@ public class MagicScroll extends Item implements ItemUseEventHandler.ItemClickHa
 
     public int getRGBDurabilityForDisplay(ItemStack stack) {
         return 0xFFFFFF;
+    }
+
+    public ActionResult<ItemStack> use(World world, PlayerEntity player, Hand hand) {
+        ItemStack stack = player.getItemInHand(hand);
+        int selected = player.inventory.selected;
+        MagicHandler handler = MagicHandler.get(player);
+        if (handler.magicAbility.getMaxSpellSlot() <= selected)
+            return ActionResult.fail(stack);
+        if (player.inventory.getItem(selected) != stack)
+            return ActionResult.fail(stack);
+        if (handler.magicAbility.getSpellActivation(selected) != 0)
+            return ActionResult.fail(stack);
+        // cool down complete, correct slot
+        Spell spell = getSpell(stack);
+        ActivationConfig config = spell.canActivate(world, player);
+        if (config == null)
+            return ActionResult.fail(stack);
+        spell.activate(world, player, config);
+        player.getCooldowns().addCooldown(this, 10);
+        if (!player.abilities.instabuild) {
+            stack.shrink(1);
+        }
+        return ActionResult.sidedSuccess(stack, world.isClientSide());
     }
 
 }

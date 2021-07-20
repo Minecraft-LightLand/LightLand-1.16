@@ -4,6 +4,8 @@ import com.hikarishima.lightland.config.Translator;
 import com.hikarishima.lightland.magic.MagicRegistry;
 import com.hikarishima.lightland.magic.arcane.internal.*;
 import com.hikarishima.lightland.magic.capabilities.MagicHandler;
+import com.hikarishima.lightland.magic.capabilities.ToClientMsg;
+import com.hikarishima.lightland.proxy.PacketHandler;
 import com.hikarishima.lightland.registry.item.magic.ArcaneAxe;
 import com.hikarishima.lightland.registry.item.magic.ArcaneSword;
 import com.mojang.authlib.GameProfile;
@@ -16,7 +18,7 @@ import com.mojang.brigadier.context.CommandContext;
 import net.minecraft.command.CommandSource;
 import net.minecraft.command.Commands;
 import net.minecraft.command.arguments.GameProfileArgument;
-import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.ChatType;
 import net.minecraft.util.text.ITextComponent;
@@ -47,7 +49,7 @@ public class ArcaneCommand {
         return Commands.argument("player", GameProfileArgument.gameProfile());
     }
 
-    private static Command<CommandSource> withPlayer(BiFunction<CommandContext<CommandSource>, PlayerEntity, Integer> then) {
+    private static Command<CommandSource> withPlayer(BiFunction<CommandContext<CommandSource>, ServerPlayerEntity, Integer> then) {
         return (context) -> {
             GameProfileArgument.IProfileProvider profile = context.getArgument("player", GameProfileArgument.IProfileProvider.class);
             if (profile.getNames(context.getSource()).size() != 1) {
@@ -55,7 +57,7 @@ public class ArcaneCommand {
                 return 0;
             }
             GameProfile name = profile.getNames(context.getSource()).iterator().next();
-            PlayerEntity e = context.getSource().getLevel().getPlayerByUUID(name.getId());
+            ServerPlayerEntity e = (ServerPlayerEntity) context.getSource().getLevel().getPlayerByUUID(name.getId());
             if (e == null) {
                 send(context, PLAYER_NOT_FOUND);
                 return 0;
@@ -75,6 +77,7 @@ public class ArcaneCommand {
                             ArcaneType type = context.getArgument("type", ArcaneType.class);
                             MagicHandler magic = MagicHandler.get(e);
                             magic.magicAbility.unlockArcaneType(type);
+                            PacketHandler.toClient(e, new ToClientMsg(ToClientMsg.Action.ARCANE_TYPE, magic));
                             send(context, ACTION_SUCCESS);
                             return 1;
                         }))));
@@ -151,8 +154,6 @@ public class ArcaneCommand {
                     send(context, list.append("]"));
                     return 1;
                 })));
-
-
     }
 
     private <T extends ArgumentBuilder<CommandSource, T>> void regArcane(String act, ArgumentBuilder<CommandSource, T> builder) {

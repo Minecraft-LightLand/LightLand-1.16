@@ -1,5 +1,6 @@
-package com.hikarishima.lightland.magic;
+package com.hikarishima.lightland.magic.products;
 
+import com.hikarishima.lightland.magic.MagicRegistry;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.registries.IForgeRegistryEntry;
 

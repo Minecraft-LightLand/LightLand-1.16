@@ -1,6 +1,5 @@
 package com.hikarishima.lightland.magic.products;
 
-import com.hikarishima.lightland.magic.MagicProduct;
 import com.hikarishima.lightland.magic.MagicRegistry;
 import com.hikarishima.lightland.magic.capabilities.MagicHandler;
 import com.hikarishima.lightland.recipe.IMagicRecipe;

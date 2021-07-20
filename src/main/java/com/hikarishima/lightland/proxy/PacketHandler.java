@@ -2,10 +2,10 @@ package com.hikarishima.lightland.proxy;
 
 import com.hikarishima.lightland.LightLand;
 import com.hikarishima.lightland.event.forge.ItemUseEventHandler;
+import com.hikarishima.lightland.magic.capabilities.ToClientMsg;
 import com.hikarishima.lightland.magic.gui.DisEnchantContainer;
 import com.lcy0x1.core.util.SerialClass;
 import com.lcy0x1.core.util.Serializer;
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.network.NetworkManager;
@@ -17,7 +17,6 @@ import net.minecraftforge.fml.network.NetworkEvent;
 import net.minecraftforge.fml.network.NetworkRegistry;
 import net.minecraftforge.fml.network.simple.SimpleChannel;
 
-import java.util.Objects;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
@@ -31,6 +30,7 @@ public class PacketHandler {
     public static void registerPackets() {
         reg(IntMsg.class, IntMsg::encode, IntMsg::decode, IntMsg::handle);
         reg(ItemUseEventHandler.Msg.class, ItemUseEventHandler.Msg::handle);
+        reg(ToClientMsg.class, ToClientMsg::handle);
         reg(DisEnchantContainer.Msg.class, DisEnchantContainer.class);
     }
 
@@ -38,8 +38,8 @@ public class PacketHandler {
         CH.sendToServer(msg);
     }
 
-    public static <T> void toClient(T msg) {
-        NetworkManager manager = Objects.requireNonNull(Minecraft.getInstance().getConnection()).getConnection();
+    public static <T> void toClient(ServerPlayerEntity player, T msg) {
+        NetworkManager manager = player.connection.getConnection();
         NetworkDirection dir = NetworkDirection.PLAY_TO_CLIENT;
         CH.sendTo(msg, manager, dir);
     }

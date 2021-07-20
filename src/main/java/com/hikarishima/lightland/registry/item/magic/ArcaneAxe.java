@@ -4,9 +4,12 @@ import com.hikarishima.lightland.magic.arcane.internal.ArcaneItemUseHelper;
 import com.hikarishima.lightland.magic.arcane.internal.IArcaneItem;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.AxeItem;
 import net.minecraft.item.IItemTier;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -14,8 +17,11 @@ import javax.annotation.ParametersAreNonnullByDefault;
 
 public class ArcaneAxe extends AxeItem implements IArcaneItem {
 
-    public ArcaneAxe(IItemTier tier, float attack, float speed, Properties props) {
+    private int mana;
+
+    public ArcaneAxe(IItemTier tier, float attack, float speed, Properties props, int mana) {
         super(tier, attack, speed, props);
+        this.mana = mana;
     }
 
     @ParametersAreNonnullByDefault
@@ -47,6 +53,12 @@ public class ArcaneAxe extends AxeItem implements IArcaneItem {
 
     @Override
     public int getMaxMana(ItemStack stack) {
-        return 10;
+        return mana;
     }
+
+    public ActionResult<ItemStack> use(World world, PlayerEntity player, Hand hand) {
+        ItemStack stack = player.getItemInHand(hand);
+        return ActionResult.success(stack);
+    }
+
 }

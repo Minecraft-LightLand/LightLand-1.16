@@ -1,4 +1,4 @@
-package com.hikarishima.lightland.magic;
+package com.hikarishima.lightland.magic.products;
 
 import com.hikarishima.lightland.magic.capabilities.MagicHandler;
 import com.hikarishima.lightland.recipe.IMagicRecipe;
