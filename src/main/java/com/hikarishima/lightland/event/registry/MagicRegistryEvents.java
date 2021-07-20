@@ -6,8 +6,8 @@ import com.hikarishima.lightland.magic.arcane.ArcaneRegistry;
 import com.hikarishima.lightland.magic.arcane.internal.Arcane;
 import com.hikarishima.lightland.magic.arcane.internal.ArcaneType;
 import com.hikarishima.lightland.magic.profession.Profession;
-import com.hikarishima.lightland.magic.spell.internal.AbstractSpell;
 import com.hikarishima.lightland.magic.spell.SpellRegistry;
+import com.hikarishima.lightland.magic.spell.internal.AbstractSpell;
 import com.hikarishima.lightland.registry.RegistryBase;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -38,7 +38,7 @@ public class MagicRegistryEvents {
     }
 
     @SubscribeEvent
-    public static void onSpellRegistry(RegistryEvent.Register<AbstractSpell> event){
+    public static void onSpellRegistry(RegistryEvent.Register<AbstractSpell> event) {
         RegistryBase.process(SpellRegistry.class, AbstractSpell.class, event.getRegistry()::register);
     }
 

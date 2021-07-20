@@ -21,6 +21,23 @@ import java.util.function.Supplier;
 @SerialClass
 public class ToClientMsg extends PacketHandler.BaseSerialMsg {
 
+    public Action action;
+    public CompoundNBT tag;
+    public ToClientMsg(Action action, MagicHandler handler) {
+        this.action = action;
+        this.tag = action.server.apply(handler);
+    }
+
+    public static void handle(ToClientMsg msg, Supplier<NetworkEvent.Context> context) {
+        DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> msg.action.client.accept(msg.tag));
+        context.get().setPacketHandled(true);
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    public static ClientPlayerEntity getPlayer() {
+        return Minecraft.getInstance().player;
+    }
+
     public enum Action {
         DEBUG((m) -> ExceptionHandler.get(() -> Automator.toTag(new CompoundNBT(), MagicHandler.class, m, f -> true)), (tag) -> {
             MagicHandler m = MagicHandler.get(getPlayer());
@@ -50,24 +67,6 @@ public class ToClientMsg extends PacketHandler.BaseSerialMsg {
             this.server = server;
             this.client = client;
         }
-    }
-
-    public Action action;
-    public CompoundNBT tag;
-
-    public ToClientMsg(Action action, MagicHandler handler) {
-        this.action = action;
-        this.tag = action.server.apply(handler);
-    }
-
-    public static void handle(ToClientMsg msg, Supplier<NetworkEvent.Context> context) {
-        DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> msg.action.client.accept(msg.tag));
-        context.get().setPacketHandled(true);
-    }
-
-    @OnlyIn(Dist.CLIENT)
-    public static ClientPlayerEntity getPlayer() {
-        return Minecraft.getInstance().player;
     }
 
 }

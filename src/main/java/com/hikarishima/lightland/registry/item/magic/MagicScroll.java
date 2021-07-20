@@ -4,7 +4,6 @@ import com.hikarishima.lightland.magic.MagicRegistry;
 import com.hikarishima.lightland.magic.capabilities.MagicAbility;
 import com.hikarishima.lightland.magic.capabilities.MagicHandler;
 import com.hikarishima.lightland.magic.spell.internal.AbstractSpell;
-import com.hikarishima.lightland.magic.spell.internal.ActivationConfig;
 import com.hikarishima.lightland.magic.spell.internal.Spell;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.PlayerEntity;
@@ -15,56 +14,28 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
 public class MagicScroll extends Item {
 
-    public enum ScrollType {
-        CARD(64), PARCHMENT(16), SCROLL(2);
-
-        public final int stack;
-
-        ScrollType(int stack) {
-            this.stack = stack;
-        }
-
-        public Properties apply(Properties props) {
-            props.stacksTo(stack);
-            return props;
-        }
+    public MagicScroll(ScrollType type, Properties props) {
+        super(type.apply(props));
     }
 
-    public static void initItemStack(PlayerEntity crafter, Spell spell, ItemStack stack) {
+    public static void initItemStack(PlayerEntity crafter, Spell<?, ?> spell, ItemStack stack) {
         CompoundNBT tag = stack.getOrCreateTagElement("spell");
         tag.putString("user", crafter.getStringUUID());
         tag.putString("spell", spell.getID());
     }
 
-    @OnlyIn(Dist.CLIENT)
-    public static PlayerEntity getCrafterForRender(ItemStack stack) {
-        String id = stack.getOrCreateTagElement("spell").getString("user");
-        if (id.length() == 0)
-            return null;
-        PlayerEntity player = Minecraft.getInstance().player;
-        if (player != null && player.getStringUUID().equals(id))
-            return player;
-        return null;
-    }
-
-    public static Spell getSpell(ItemStack stack) {
+    public static Spell<?, ?> getSpell(ItemStack stack) {
         String id = stack.getOrCreateTagElement("spell").getString("spell");
         if (id.length() == 0)
             return null;
         ResourceLocation rl = new ResourceLocation(id);
         AbstractSpell abs = MagicRegistry.SPELL.getValue(rl);
-        if(abs == null)
+        if (abs == null)
             return null;
         return abs.cast();
-    }
-
-    public MagicScroll(ScrollType type, Properties props) {
-        super(type.apply(props));
     }
 
     public boolean showDurabilityBar(ItemStack stack) {
@@ -72,7 +43,7 @@ public class MagicScroll extends Item {
     }
 
     public double getDurabilityForDisplay(ItemStack stack) {
-        PlayerEntity pl = getCrafterForRender(stack);
+        PlayerEntity pl = Minecraft.getInstance().player;
         if (pl == null)
             return 1;
         MagicAbility ability = MagicHandler.get(pl).magicAbility;
@@ -103,17 +74,29 @@ public class MagicScroll extends Item {
             return ActionResult.fail(stack);
         if (handler.magicAbility.getSpellActivation(selected) != 0)
             return ActionResult.fail(stack);
-        // cool down complete, correct slot
-        Spell spell = getSpell(stack);
-        ActivationConfig config = spell.canActivate(world, player);
-        if (config == null)
+        Spell<?, ?> spell = getSpell(stack);
+        if (spell == null || !spell.attempt(Spell.Type.SCROLL, world, player))
             return ActionResult.fail(stack);
-        spell.activate(world, player, config);
         player.getCooldowns().addCooldown(this, 10);
         if (!player.abilities.instabuild) {
             stack.shrink(1);
         }
         return ActionResult.sidedSuccess(stack, world.isClientSide());
+    }
+
+    public enum ScrollType {
+        CARD(64), PARCHMENT(16), SCROLL(2);
+
+        public final int stack;
+
+        ScrollType(int stack) {
+            this.stack = stack;
+        }
+
+        public Properties apply(Properties props) {
+            props.stacksTo(stack);
+            return props;
+        }
     }
 
 }

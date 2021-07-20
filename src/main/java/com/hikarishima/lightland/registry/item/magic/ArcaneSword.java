@@ -17,7 +17,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 
 public class ArcaneSword extends SwordItem implements IArcaneItem {
 
-    private int mana;
+    private final int mana;
 
     public ArcaneSword(IItemTier tier, int attack, float speed, Properties props, int mana) {
         super(tier, attack, speed, props);

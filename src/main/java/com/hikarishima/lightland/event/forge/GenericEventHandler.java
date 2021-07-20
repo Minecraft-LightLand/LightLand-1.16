@@ -36,7 +36,7 @@ public class GenericEventHandler {
     }
 
     @SubscribeEvent
-    public void onPlayerTick(TickEvent.PlayerTickEvent event){
+    public void onPlayerTick(TickEvent.PlayerTickEvent event) {
         MagicHandler.get(event.player).tick();
     }
 

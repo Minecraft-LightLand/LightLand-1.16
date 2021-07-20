@@ -9,13 +9,18 @@ import net.minecraft.world.World;
 public class DirtWallSpell extends Spell<DirtWallSpell.Config, DirtWallSpell.Activation> {
 
     @Override
-    public Activation canActivate(World world, PlayerEntity player) {
+    public Activation canActivate(Type type, World world, PlayerEntity player) {
         return null;
     }
 
     @Override
-    public Config getConfig() {
+    public Config getConfig(PlayerEntity player, Activation activation) {
         return null;
+    }
+
+    @Override
+    public void activate(World world, PlayerEntity player, Activation activation) {
+
     }
 
     public static class Config extends SpellConfig {

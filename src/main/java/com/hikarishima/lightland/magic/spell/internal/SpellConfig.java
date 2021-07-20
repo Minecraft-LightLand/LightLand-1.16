@@ -1,12 +1,15 @@
 package com.hikarishima.lightland.magic.spell.internal;
 
 import com.hikarishima.lightland.registry.item.magic.MagicScroll;
+import com.lcy0x1.core.util.SerialClass;
 
+@SerialClass
 public class SpellConfig {
 
-    public int duration;
-    public int mana_cost;
-    public int spell_load;
+    @SerialClass.SerialField
+    public int duration, mana_cost, spell_load;
+
+    @SerialClass.SerialField
     public MagicScroll.ScrollType type;
 
 }

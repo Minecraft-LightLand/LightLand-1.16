@@ -2,9 +2,6 @@ package com.lcy0x1.core.util;
 
 import net.minecraft.nbt.ListNBT;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * @author arthur
  * @Date 2020-9-24

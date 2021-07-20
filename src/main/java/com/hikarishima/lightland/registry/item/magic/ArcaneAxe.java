@@ -17,7 +17,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 
 public class ArcaneAxe extends AxeItem implements IArcaneItem {
 
-    private int mana;
+    private final int mana;
 
     public ArcaneAxe(IItemTier tier, float attack, float speed, Properties props, int mana) {
         super(tier, attack, speed, props);

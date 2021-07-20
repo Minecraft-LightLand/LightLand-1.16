@@ -1,7 +1,6 @@
 package com.hikarishima.lightland.magic.spell;
 
 import com.hikarishima.lightland.LightLand;
-import com.hikarishima.lightland.magic.spell.internal.Spell;
 import com.hikarishima.lightland.magic.spell.magic.DirtWallSpell;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 

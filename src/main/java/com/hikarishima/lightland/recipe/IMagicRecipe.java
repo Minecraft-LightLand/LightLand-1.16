@@ -1,8 +1,8 @@
 package com.hikarishima.lightland.recipe;
 
-import com.hikarishima.lightland.magic.products.IMagicProduct;
 import com.hikarishima.lightland.magic.MagicElement;
 import com.hikarishima.lightland.magic.MagicRegistry;
+import com.hikarishima.lightland.magic.products.IMagicProduct;
 import com.lcy0x1.base.BaseRecipe;
 import com.lcy0x1.core.util.SerialClass;
 import net.minecraft.item.ItemStack;

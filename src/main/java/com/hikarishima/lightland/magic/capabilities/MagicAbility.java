@@ -108,4 +108,8 @@ public class MagicAbility {
             return 0;
         return 1.0 * (ACTIVATION - time) / ACTIVATION;
     }
+
+    public int getMana() {
+        return magic_mana;
+    }
 }

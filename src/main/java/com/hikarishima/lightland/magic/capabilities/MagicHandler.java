@@ -1,6 +1,5 @@
 package com.hikarishima.lightland.magic.capabilities;
 
-import com.hikarishima.lightland.proxy.PacketHandler;
 import com.lcy0x1.core.util.Automator;
 import com.lcy0x1.core.util.ExceptionHandler;
 import com.lcy0x1.core.util.NBTObj;
@@ -10,15 +9,11 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.INBT;
 import net.minecraft.util.Direction;
 import net.minecraft.world.World;
-import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.common.capabilities.CapabilityManager;
-import net.minecraftforge.fml.DistExecutor;
-import net.minecraftforge.fml.network.NetworkEvent;
 
 import javax.annotation.Nullable;
-import java.util.function.Supplier;
 
 @SerialClass
 public class MagicHandler {
