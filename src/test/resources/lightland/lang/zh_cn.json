@@ -24,7 +24,8 @@
         "lightland:alkaid": "摇光"
     },
     "lightland:arcane": {
-        "lightland:thunder_axe": "引雷之斧"
+        "lightland:thunder_axe": "引雷之斧",
+        "lightland:thunder_sword": "引雷之剑"
     },
     "item.lightland": {
         "magic_book": "法之书 (not finished)",
@@ -54,7 +55,10 @@
         "anti_magic_alloy_leggings": "轻质硬化斥魔合金护腿",
         "anti_magic_metal_boots": "斥魔靴子",
         "light_alloy_boots": "轻质硬化惰性合金靴子",
-        "anti_magic_alloy_boots": "轻质硬化斥魔合金靴子"
+        "anti_magic_alloy_boots": "轻质硬化斥魔合金靴子",
+        "spell_card": "符文-卡片",
+        "spell_parchment": "符文-羊皮纸",
+        "spell_scroll": "符文-卷轴"
     },
     "itemGroup.lightland": "Light Land",
     "generator.lightland.image_biome": "地图生成器"

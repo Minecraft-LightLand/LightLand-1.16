@@ -45,12 +45,16 @@ public class MagicHandler {
         magicAbility.tick();
     }
 
+    public void reset() {
+        state = State.PREINJECT;
+        abilityPoints = new AbilityPoints(this);
+        magicAbility = new MagicAbility(this);
+        magicHolder = new MagicHolder(this);
+    }
+
     protected void init() {
         if (state == null) {
-            state = State.PREINIT;
-            abilityPoints = new AbilityPoints(this);
-            magicAbility = new MagicAbility(this);
-            magicHolder = new MagicHolder(this);
+            reset();
         }
         if (state != State.ACTIVE) {
             state = State.ACTIVE;

@@ -3,18 +3,20 @@ package com.hikarishima.lightland.registry.item.magic;
 import com.hikarishima.lightland.magic.arcane.internal.ArcaneItemUseHelper;
 import com.hikarishima.lightland.magic.arcane.internal.IArcaneItem;
 import net.minecraft.block.BlockState;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.IItemTier;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.SwordItem;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.ITextComponent;
 import net.minecraft.world.World;
 
+import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
+import java.util.List;
 
+@ParametersAreNonnullByDefault
 public class ArcaneSword extends SwordItem implements IArcaneItem {
 
     private final int mana;
@@ -24,12 +26,14 @@ public class ArcaneSword extends SwordItem implements IArcaneItem {
         this.mana = mana;
     }
 
-    @ParametersAreNonnullByDefault
+    public void appendHoverText(ItemStack stack, @Nullable World world, List<ITextComponent> list, ITooltipFlag flag) {
+        ArcaneAxe.add(stack, list);
+    }
+
     public boolean hurtEnemy(ItemStack stack, LivingEntity target, LivingEntity user) {
         return true;
     }
 
-    @ParametersAreNonnullByDefault
     public boolean mineBlock(ItemStack stack, World w, BlockState state, BlockPos pos, LivingEntity user) {
         return true;
     }
@@ -49,11 +53,6 @@ public class ArcaneSword extends SwordItem implements IArcaneItem {
     @Override
     public int getMaxMana(ItemStack stack) {
         return mana;
-    }
-
-    public ActionResult<ItemStack> use(World world, PlayerEntity player, Hand hand) {
-        ItemStack stack = player.getItemInHand(hand);
-        return ActionResult.success(stack);
     }
 
 }

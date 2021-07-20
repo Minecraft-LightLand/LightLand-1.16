@@ -27,7 +27,7 @@ import net.minecraft.util.text.TextComponent;
 
 import java.util.function.BiFunction;
 
-public class ArcaneCommand {
+public class MagicCommand {
 
     private static final ITextComponent PLAYER_NOT_FOUND = Translator.get("chat.player_not_found");
     private static final ITextComponent ACTION_SUCCESS = Translator.get("chat.action_success");
@@ -38,11 +38,15 @@ public class ArcaneCommand {
     private static final String ID_GET_ARCANE_MANA = "chat.show_arcane_mana";
 
     private final LiteralArgumentBuilder<CommandSource> arcane;
+    private final LiteralArgumentBuilder<CommandSource> magic;
 
-    public ArcaneCommand(LiteralArgumentBuilder<CommandSource> lightland) {
+    public MagicCommand(LiteralArgumentBuilder<CommandSource> lightland) {
         arcane = Commands.literal("arcane");
-        register();
+        magic = Commands.literal("magic");
+        regArcane();
+        regMagic();
         lightland.then(arcane);
+        lightland.then(magic);
     }
 
     private static RequiredArgumentBuilder<CommandSource, ?> getPlayer() {
@@ -70,8 +74,8 @@ public class ArcaneCommand {
         context.getSource().getServer().getPlayerList().broadcastMessage(comp, ChatType.CHAT, context.getSource().getEntity().getUUID());
     }
 
-    public void register() {
-        regArcane("unlock", getPlayer()
+    public void regArcane() {
+        reg(arcane, "unlock", getPlayer()
                 .then(Commands.argument("type", RegistryParser.ARCANE_TYPE)
                         .executes(withPlayer((context, e) -> {
                             ArcaneType type = context.getArgument("type", ArcaneType.class);
@@ -82,7 +86,7 @@ public class ArcaneCommand {
                             return 1;
                         }))));
 
-        regArcane("list", getPlayer()
+        reg(arcane, "list", getPlayer()
                 .executes(withPlayer((context, e) -> {
                     MagicHandler magic = MagicHandler.get(e);
                     TextComponent comps = new StringTextComponent("[");
@@ -97,7 +101,7 @@ public class ArcaneCommand {
                 })));
 
 
-        regArcane("give_mana", getPlayer()
+        reg(arcane, "give_mana", getPlayer()
                 .then(Commands.argument("number", IntegerArgumentType.integer())
                         .executes(withPlayer((context, e) -> {
                             ItemStack stack = e.getMainHandItem();
@@ -110,7 +114,7 @@ public class ArcaneCommand {
                             return 1;
                         }))));
 
-        regArcane("get_mana", getPlayer()
+        reg(arcane, "get_mana", getPlayer()
                 .executes(withPlayer((context, e) -> {
                     ItemStack stack = e.getMainHandItem();
                     if (!ArcaneItemUseHelper.isArcaneItem(stack)) {
@@ -124,7 +128,7 @@ public class ArcaneCommand {
                     return 1;
                 })));
 
-        regArcane("set_arcane", getPlayer()
+        reg(arcane, "set_arcane", getPlayer()
                 .then(Commands.argument("arcane", RegistryParser.ARCANE)
                         .executes(withPlayer((context, e) -> {
                             ItemStack stack = e.getMainHandItem();
@@ -140,7 +144,7 @@ public class ArcaneCommand {
                             return 1;
                         }))));
 
-        regArcane("get_arcane", getPlayer()
+        reg(arcane, "get_arcane", getPlayer()
                 .executes(withPlayer((context, e) -> {
                     ItemStack stack = e.getMainHandItem();
                     if (!ArcaneItemUseHelper.isArcaneItem(stack)) {
@@ -156,8 +160,26 @@ public class ArcaneCommand {
                 })));
     }
 
-    private <T extends ArgumentBuilder<CommandSource, T>> void regArcane(String act, ArgumentBuilder<CommandSource, T> builder) {
-        arcane.then(Commands.literal(act)
+    public void regMagic() {
+        reg(magic, "sync", getPlayer()
+                .executes(withPlayer((context, e) -> {
+                    MagicHandler handler = MagicHandler.get(e);
+                    PacketHandler.toClient(e, new ToClientMsg(ToClientMsg.Action.ALL, handler));
+                    send(context, ACTION_SUCCESS);
+                    return 1;
+                })));
+
+        reg(magic, "debug_sync", getPlayer()
+                .executes(withPlayer((context, e) -> {
+                    MagicHandler handler = MagicHandler.get(e);
+                    PacketHandler.toClient(e, new ToClientMsg(ToClientMsg.Action.DEBUG, handler));
+                    send(context, ACTION_SUCCESS);
+                    return 1;
+                })));
+    }
+
+    private <T extends ArgumentBuilder<CommandSource, T>> void reg(LiteralArgumentBuilder<CommandSource> arg, String act, ArgumentBuilder<CommandSource, T> builder) {
+        arg.then(Commands.literal(act)
                 .requires(e -> e.hasPermission(2))
                 .then(builder));
     }

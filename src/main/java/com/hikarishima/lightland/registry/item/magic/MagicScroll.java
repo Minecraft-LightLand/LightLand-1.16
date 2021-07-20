@@ -5,7 +5,7 @@ import com.hikarishima.lightland.magic.capabilities.MagicAbility;
 import com.hikarishima.lightland.magic.capabilities.MagicHandler;
 import com.hikarishima.lightland.magic.spell.internal.AbstractSpell;
 import com.hikarishima.lightland.magic.spell.internal.Spell;
-import net.minecraft.client.Minecraft;
+import com.hikarishima.lightland.proxy.Proxy;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -43,7 +43,7 @@ public class MagicScroll extends Item {
     }
 
     public double getDurabilityForDisplay(ItemStack stack) {
-        PlayerEntity pl = Minecraft.getInstance().player;
+        PlayerEntity pl = Proxy.getPlayer();
         if (pl == null)
             return 1;
         MagicAbility ability = MagicHandler.get(pl).magicAbility;

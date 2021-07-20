@@ -47,6 +47,7 @@ public class Automator {
         });
         new ClassHandler<IntArrayNBT, UUID>(UUID.class, NBTUtil::loadUUID, NBTUtil::createUUID);
         new ClassHandler<CompoundNBT, CompoundNBT>(CompoundNBT.class, e -> e, e -> e);
+        new ClassHandler<ListNBT, ListNBT>(ListNBT.class, e -> e, e -> e);
     }
 
     public static Object fromTag(CompoundNBT tag, Class<?> cls, Object obj, Predicate<SerialClass.SerialField> pred)

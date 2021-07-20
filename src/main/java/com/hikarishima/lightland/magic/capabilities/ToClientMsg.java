@@ -1,15 +1,13 @@
 package com.hikarishima.lightland.magic.capabilities;
 
 import com.hikarishima.lightland.proxy.PacketHandler;
+import com.hikarishima.lightland.proxy.Proxy;
 import com.lcy0x1.core.util.Automator;
 import com.lcy0x1.core.util.ExceptionHandler;
 import com.lcy0x1.core.util.NBTObj;
 import com.lcy0x1.core.util.SerialClass;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.player.ClientPlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.network.NetworkEvent;
 import org.apache.logging.log4j.LogManager;
@@ -21,8 +19,17 @@ import java.util.function.Supplier;
 @SerialClass
 public class ToClientMsg extends PacketHandler.BaseSerialMsg {
 
+    @SerialClass.SerialField
     public Action action;
+
+    @SerialClass.SerialField
     public CompoundNBT tag;
+
+    @Deprecated
+    public ToClientMsg() {
+
+    }
+
     public ToClientMsg(Action action, MagicHandler handler) {
         this.action = action;
         this.tag = action.server.apply(handler);
@@ -33,28 +40,20 @@ public class ToClientMsg extends PacketHandler.BaseSerialMsg {
         context.get().setPacketHandled(true);
     }
 
-    @OnlyIn(Dist.CLIENT)
-    public static ClientPlayerEntity getPlayer() {
-        return Minecraft.getInstance().player;
-    }
-
     public enum Action {
         DEBUG((m) -> ExceptionHandler.get(() -> Automator.toTag(new CompoundNBT(), MagicHandler.class, m, f -> true)), (tag) -> {
-            MagicHandler m = MagicHandler.get(getPlayer());
+            MagicHandler m = MagicHandler.get(Proxy.getPlayer());
             CompoundNBT comp = ExceptionHandler.get(() -> Automator.toTag(new CompoundNBT(), MagicHandler.class, m, f -> true));
             LogManager.getLogger().info("client: " + comp.toString());
             LogManager.getLogger().info("server: " + tag.toString());
         }),
         ALL((m) -> ExceptionHandler.get(() -> Automator.toTag(new CompoundNBT(), MagicHandler.class, m, f -> true)), (tag) -> {
-            MagicHandler m = MagicHandler.get(getPlayer());
-            m.state = null;
-            m.magicAbility = null;
-            m.magicHolder = null;
-            m.abilityPoints = null;
+            MagicHandler m = MagicHandler.get(Proxy.getPlayer());
+            m.reset();
             ExceptionHandler.run(() -> Automator.fromTag(tag, MagicHandler.class, m, f -> true));
             m.init();
         }), ARCANE_TYPE((m) -> m.magicAbility.arcane_type, (tag) -> {
-            MagicAbility abi = MagicHandler.get(getPlayer()).magicAbility;
+            MagicAbility abi = MagicHandler.get(Proxy.getPlayer()).magicAbility;
             abi.arcane_type = tag;
             abi.arcane_manager = new NBTObj(tag);
         });
