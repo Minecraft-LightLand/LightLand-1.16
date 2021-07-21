@@ -1,0 +1,35 @@
+{
+    "lightland:dirt_wall": {
+        "duration": 20,
+        "mana_cost": 10,
+        "spell_load": 20,
+        "type": "SCROLL",
+        "block": "lightland:temp_dirt",
+        "time": 100,
+        "ry": 1,
+        "rn": 0,
+        "rs": 1
+    },
+    "lightland:stone_slab": {
+        "duration": 20,
+        "mana_cost": 10,
+        "spell_load": 20,
+        "type": "SCROLL",
+        "block": "lightland:temp_cobblestone",
+        "time": 300,
+        "ry": 0,
+        "rn": 2,
+        "rs": 2
+    },
+    "lightland:stone_block": {
+        "duration": 180,
+        "mana_cost": 30,
+        "spell_load": 60,
+        "type": "SCROLL",
+        "block": "lightland:temp_cobblestone",
+        "time": 100,
+        "ry": 1,
+        "rn": 1,
+        "rs": 1
+    }
+}

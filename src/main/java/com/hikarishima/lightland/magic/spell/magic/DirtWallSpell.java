@@ -9,11 +9,9 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.Direction;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
-import net.minecraftforge.registries.ForgeRegistries;
 
 public class DirtWallSpell extends Spell<DirtWallSpell.Config, DirtWallSpell.Activation> {
 
@@ -32,22 +30,21 @@ public class DirtWallSpell extends Spell<DirtWallSpell.Config, DirtWallSpell.Act
         if (world.isClientSide())
             return;
         ServerWorld w = (ServerWorld) world;
-        Block b = ForgeRegistries.BLOCKS.getValue(config.block);
-        if (b == null)
+        if (config.block == null)
             return;
-        BlockState state = b.defaultBlockState();
+        BlockState state = config.block.defaultBlockState();
         BlockPos pos = new BlockPos(act.pos);
-        Direction dk = Direction.fromYRot(player.yRot);
-        Direction dj = Direction.fromYRot(player.yRot + 90);
-        Direction di = Direction.UP;
+        Direction dn = Direction.fromYRot(player.yRot);
+        Direction ds = Direction.fromYRot(player.yRot + 90);
+        Direction dy = Direction.UP;
         BlockPos.Mutable mpos = new BlockPos.Mutable();
-        for (int i = -config.ri; i <= config.ri; i++)
-            for (int j = -config.rj; j <= config.rj; j++)
-                for (int k = -config.rk; k <= config.rk; k++) {
+        for (int y = -config.ry; y <= config.ry; y++)
+            for (int s = -config.rs; s <= config.rs; s++)
+                for (int n = -config.rn; n <= config.rn; n++) {
                     mpos.set(pos);
-                    mpos.move(di, i);
-                    mpos.move(dj, j);
-                    mpos.move(dk, k);
+                    mpos.move(dy, y);
+                    mpos.move(ds, s);
+                    mpos.move(dn, n);
                     TempBlock.putBlock(w, mpos, state, config.time);
                 }
     }
@@ -56,10 +53,10 @@ public class DirtWallSpell extends Spell<DirtWallSpell.Config, DirtWallSpell.Act
     public static class Config extends SpellConfig {
 
         @SerialClass.SerialField
-        public ResourceLocation block;
+        public Block block;
 
         @SerialClass.SerialField
-        public int time, ri, rj, rk;
+        public int time, ry, rs, rn;
 
     }
 

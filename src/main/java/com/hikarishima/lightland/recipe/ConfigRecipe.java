@@ -10,7 +10,7 @@ import java.util.HashMap;
 @SerialClass
 public class ConfigRecipe extends IConfigRecipe<ConfigRecipe> {
 
-    public static final ResourceLocation SPELL = new ResourceLocation(LightLand.MODID, "spell");
+    public static final ResourceLocation SPELL = new ResourceLocation(LightLand.MODID, "config_spell");
     @SerialClass.SerialField(generic = {String.class, Object.class})
     public HashMap<String, Object> map = new HashMap<>();
 

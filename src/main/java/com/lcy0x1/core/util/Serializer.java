@@ -3,6 +3,8 @@ package com.lcy0x1.core.util;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.Ingredient;
@@ -50,6 +52,7 @@ public class Serializer {
         new StringClassHandler<>(ResourceLocation.class, ResourceLocation::new, ResourceLocation::toString);
 
         new RLClassHandler<>(Item.class, () -> ForgeRegistries.ITEMS);
+        new RLClassHandler<>(Block.class, ()-> ForgeRegistries.BLOCKS);
     }
 
     @SuppressWarnings("unchecked")
