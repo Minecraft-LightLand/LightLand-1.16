@@ -40,34 +40,13 @@ public class ItemFileOrganizer extends ResourceOrganizer {
             }
             return;
         }
-        System.out.println("file: " + name + " from " + f.getPath());
         File ti = new File(texture + name + ".png");
         check(ti);
         Files.copy(f, ti);
         write(model + name + ".json", IM.replaceAll("\\^s", name));
     }
 
-    private String readFile(String path) {
-        List<String> list = null;
-        try {
-            list = Files.readLines(new File(path), Charset.defaultCharset());
-        } catch (Exception e) {
-            e.printStackTrace();
-            return "";
-        }
-        String str = "";
-        for (String s : list)
-            str += s + "\n";
-        return str.replaceAll("\\^m", MODID);
-    }
 
-    private void write(String name, String cont) throws Exception {
-        File f = new File(name);
-        check(f);
-        PrintStream ps = new PrintStream(f);
-        ps.println(cont);
-        ps.close();
-    }
 
 
 }

@@ -9,12 +9,16 @@ import net.minecraftforge.registries.IForgeRegistryEntry;
 public class RecipeRegistry {
 
     public static final IRecipeType<IMagicRecipe<?>> RT_MAGIC = IRecipeType.register("lightland:magic");
+    public static final IRecipeType<IConfigRecipe<?>> RT_CONFIG = IRecipeType.register("lightland:config");
 
     public static final BaseRecipe.RecType<DefMagicRecipe, IMagicRecipe<?>, IMagicRecipe.Inv> RSM_DEF =
             reg("magic_default", new BaseRecipe.RecType<>(DefMagicRecipe.class, RT_MAGIC));
 
     public static final BaseRecipe.RecType<ShortMagicRecipe, IMagicRecipe<?>, IMagicRecipe.Inv> RSM_SHORT =
             reg("magic_short", new BaseRecipe.RecType<>(ShortMagicRecipe.class, RT_MAGIC));
+
+    public static final BaseRecipe.RecType<ConfigRecipe, IConfigRecipe<?>, IConfigRecipe.ConfigInv> RSM_CONFIG =
+            reg("config", new BaseRecipe.RecType<>(ConfigRecipe.class, RT_CONFIG));
 
     private static <V extends T, T extends IForgeRegistryEntry<T>> V reg(String name, V v) {
         v.setRegistryName(new ResourceLocation(LightLand.MODID, name));

@@ -63,6 +63,9 @@ public class Serializer {
     }
 
     public static Object fromImpl(JsonObject obj, Class<?> cls, Object ans, SerialClass.SerialField anno) throws Exception {
+        if (cls == Object.class) {
+            cls = Class.forName(obj.get("_class").getAsString());
+        }
         if (cls.getAnnotation(SerialClass.class) == null)
             throw new Exception("invalid class " + cls + " with object " + obj.toString());
         if (ans == null)
@@ -84,6 +87,9 @@ public class Serializer {
     }
 
     public static Object fromImpl(PacketBuffer buf, Class<?> cls, Object ans, SerialClass.SerialField anno) throws Exception {
+        if (cls == Object.class) {
+            cls = Class.forName(buf.readUtf());
+        }
         if (cls.getAnnotation(SerialClass.class) == null)
             throw new Exception("cannot deserialize " + cls);
         if (ans == null)
@@ -181,6 +187,10 @@ public class Serializer {
     }
 
     public static void toImpl(PacketBuffer buf, Class<?> cls, Object obj, SerialClass.SerialField anno) throws Exception {
+        if (cls == Object.class) {
+            cls = obj.getClass();
+            buf.writeUtf(cls.getName());
+        }
         if (cls.getAnnotation(SerialClass.class) == null)
             throw new Exception("cannot serialize " + cls);
         TreeMap<String, Field> map = new TreeMap<>();

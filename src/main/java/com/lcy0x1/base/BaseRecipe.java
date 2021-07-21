@@ -1,6 +1,7 @@
 package com.lcy0x1.base;
 
 import com.lcy0x1.core.util.RecSerializer;
+import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
@@ -9,7 +10,14 @@ import net.minecraft.item.crafting.IRecipeType;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 
-public abstract class BaseRecipe<Rec extends SRec, SRec extends BaseRecipe<?, SRec, Inv>, Inv extends BaseRecipe.RecInv<SRec>>
+import javax.annotation.ParametersAreNonnullByDefault;
+
+@MethodsReturnNonnullByDefault
+@ParametersAreNonnullByDefault
+public abstract class BaseRecipe<
+        Rec extends SRec,
+        SRec extends BaseRecipe<?, SRec, Inv>,
+        Inv extends BaseRecipe.RecInv<SRec>>
         implements IRecipe<Inv> {
 
     private final RecType<Rec, SRec, Inv> factory;

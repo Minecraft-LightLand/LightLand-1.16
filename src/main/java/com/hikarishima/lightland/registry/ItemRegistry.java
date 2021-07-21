@@ -1,6 +1,7 @@
 package com.hikarishima.lightland.registry;
 
 import com.hikarishima.lightland.LightLand;
+import com.hikarishima.lightland.registry.block.TempBlock;
 import com.hikarishima.lightland.registry.item.FoiledItem;
 import com.hikarishima.lightland.registry.item.combat.*;
 import com.hikarishima.lightland.registry.item.magic.ArcaneAxe;
@@ -8,11 +9,14 @@ import com.hikarishima.lightland.registry.item.magic.ArcaneSword;
 import com.hikarishima.lightland.registry.item.magic.MagicBook;
 import com.hikarishima.lightland.registry.item.magic.MagicScroll;
 import mcp.MethodsReturnNonnullByDefault;
+import net.minecraft.block.AbstractBlock;
+import net.minecraft.block.Blocks;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemTier;
+import net.minecraftforge.registries.ForgeRegistryEntry;
 
 import java.util.function.BiFunction;
 import java.util.function.Function;
@@ -46,8 +50,16 @@ public class ItemRegistry extends ItemGroup {
     public static final MagicScroll SPELL_PARCHMENT = regItem("spell_parchment", (p) -> new MagicScroll(MagicScroll.ScrollType.PARCHMENT, p));
     public static final MagicScroll SPELL_SCROLL = regItem("spell_scroll", (p) -> new MagicScroll(MagicScroll.ScrollType.SCROLL, p));
 
+    public static final TempBlock TEMP_DIRT = reg("temp_dirt", new TempBlock(AbstractBlock.Properties.copy(Blocks.DIRT).noDrops()));
+    public static final TempBlock TEMP_COBBLE = reg("temp_cobblestone", new TempBlock(AbstractBlock.Properties.copy(Blocks.COBBLESTONE).noDrops()));
+
     public ItemRegistry() {
         super(LightLand.MODID);
+    }
+
+    private static <V extends T, T extends ForgeRegistryEntry<T>> V reg(String name, V v) {
+        v.setRegistryName(LightLand.MODID, name);
+        return v;
     }
 
     public static <T extends Item> T regItem(String name, Function<Item.Properties, T> func) {

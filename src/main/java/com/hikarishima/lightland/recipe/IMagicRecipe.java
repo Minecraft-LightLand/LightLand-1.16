@@ -5,13 +5,17 @@ import com.hikarishima.lightland.magic.MagicRegistry;
 import com.hikarishima.lightland.magic.products.IMagicProduct;
 import com.lcy0x1.base.BaseRecipe;
 import com.lcy0x1.core.util.SerialClass;
+import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.List;
 
 @SerialClass
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
 public class IMagicRecipe<R extends IMagicRecipe<R>> extends BaseRecipe<R, IMagicRecipe<?>, IMagicRecipe.Inv> {
 
     @SerialClass.SerialField

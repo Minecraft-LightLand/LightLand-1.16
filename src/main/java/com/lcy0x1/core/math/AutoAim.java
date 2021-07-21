@@ -89,7 +89,7 @@ public class AutoAim {
         return getProcessedPPE(config);
     }
 
-    private static Vector3d getRayTerm(Vector3d pos, float pitch, float yaw, double reach) {
+    public static Vector3d getRayTerm(Vector3d pos, float pitch, float yaw, double reach) {
         float f2 = MathHelper.cos(-yaw * ((float) Math.PI / 180F) - (float) Math.PI);
         float f3 = MathHelper.sin(-yaw * ((float) Math.PI / 180F) - (float) Math.PI);
         float f4 = -MathHelper.cos(-pitch * ((float) Math.PI / 180F));
@@ -113,7 +113,7 @@ public class AutoAim {
         return e;
     }
 
-    private static BlockRayTraceResult rayTraceBlock(World worldIn, PlayerEntity player, double reach) {
+    public static BlockRayTraceResult rayTraceBlock(World worldIn, PlayerEntity player, double reach) {
         float f = player.xRot;
         float f1 = player.yRot;
         Vector3d Vector3d = new Vector3d(player.getX(), player.getEyeY(), player.getZ());

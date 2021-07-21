@@ -21,6 +21,7 @@ public class LightLand {
 
     public static final String MODID = "lightland";
     public static final String NETWORK_VERSION = "1";
+    public static boolean generate = false;
 
     public static LightLandWorldType WORLD_TYPE = new LightLandWorldType();
 
@@ -28,7 +29,7 @@ public class LightLand {
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
         bus.addListener(this::setup);
         bus.addListener(this::doClientStuff);
-        //MinecraftForge.EVENT_BUS.register(new WorldGenEventHandler());
+        if (generate) MinecraftForge.EVENT_BUS.register(new WorldGenEventHandler());
         MinecraftForge.EVENT_BUS.register(new ItemUseEventHandler());
         MinecraftForge.EVENT_BUS.register(new GenericEventHandler());
         MinecraftForge.EVENT_BUS.register(new DamageEventHandler());

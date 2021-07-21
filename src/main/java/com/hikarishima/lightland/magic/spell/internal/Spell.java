@@ -10,7 +10,7 @@ public abstract class Spell<C extends SpellConfig, A extends ActivationConfig> e
 
     public abstract C getConfig(PlayerEntity player, A activation);
 
-    public abstract void activate(World world, PlayerEntity player, A activation);
+    public abstract void activate(World world, PlayerEntity player, A activation, C config);
 
     public boolean attempt(Type type, World world, PlayerEntity player) {
         A a = canActivate(type, world, player);
@@ -26,7 +26,7 @@ public abstract class Spell<C extends SpellConfig, A extends ActivationConfig> e
         } else {
             handler.magicAbility.addSpellLoad(c.spell_load);
         }
-        activate(world, player, a);
+        activate(world, player, a, c);
         return true;
     }
 
