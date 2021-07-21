@@ -1,0 +1,32 @@
+{
+    "type": "lightland:magic_default",
+    "product_type": "lightland:spell",
+    "product_id": "lightland:stone_block",
+    "predecessor": [],
+    "elemental_mastery": [
+        {
+            "element": "lightland:earth",
+            "level": 1
+        }
+    ],
+    "screen": {
+        "screen_x": 0,
+        "screen_y": 0
+    },
+    "elements": {
+        "A": "lightland:earth",
+        "B": "lightland:earth",
+        "C": "lightland:earth",
+        "D": "lightland:earth",
+        "E": "lightland:earth",
+        "F": "lightland:earth"
+    },
+    "flows": [
+        "A->B",
+        "B->C",
+        "C->D",
+        "D->E",
+        "E->F",
+        "F->A"
+    ]
+}
