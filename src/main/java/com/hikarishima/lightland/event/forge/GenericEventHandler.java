@@ -5,19 +5,20 @@ import com.hikarishima.lightland.command.MagicCommand;
 import com.hikarishima.lightland.command.TerrainCommand;
 import com.hikarishima.lightland.magic.capabilities.MagicHandler;
 import com.hikarishima.lightland.magic.capabilities.PlayerMagicCapability;
+import com.hikarishima.lightland.magic.capabilities.ToClientMsg;
+import com.hikarishima.lightland.proxy.PacketHandler;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import net.minecraft.command.CommandSource;
 import net.minecraft.command.Commands;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.client.event.ClientPlayerNetworkEvent;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import org.apache.logging.log4j.LogManager;
 
 @SuppressWarnings("unused")
 public class GenericEventHandler {
@@ -45,12 +46,9 @@ public class GenericEventHandler {
 
     @SubscribeEvent
     public void onServerPlayerJoin(PlayerEvent.PlayerLoggedInEvent event) {
-        LogManager.getLogger().info("server player login");
-    }
-
-    @SubscribeEvent
-    public void onClientPlayerJoin(ClientPlayerNetworkEvent.LoggedInEvent event){
-        LogManager.getLogger().info("client plaer login");
+        ServerPlayerEntity e = (ServerPlayerEntity) event.getPlayer();
+        if (e != null)
+            PacketHandler.toClient(e, new ToClientMsg(ToClientMsg.Action.ALL, MagicHandler.get(e)));
     }
 
 }
