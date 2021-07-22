@@ -3,9 +3,6 @@ package organize;
 import com.google.common.io.Files;
 
 import java.io.File;
-import java.io.PrintStream;
-import java.nio.charset.Charset;
-import java.util.List;
 
 public class ItemFileOrganizer extends ResourceOrganizer {
 
@@ -45,8 +42,6 @@ public class ItemFileOrganizer extends ResourceOrganizer {
         Files.copy(f, ti);
         write(model + name + ".json", IM.replaceAll("\\^s", name));
     }
-
-
 
 
 }

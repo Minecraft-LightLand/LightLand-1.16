@@ -3,6 +3,7 @@ package com.hikarishima.lightland.magic.spell.internal;
 import com.hikarishima.lightland.recipe.ConfigRecipe;
 import com.hikarishima.lightland.registry.item.magic.MagicScroll;
 import com.lcy0x1.core.util.SerialClass;
+import net.minecraft.world.World;
 
 @SerialClass
 public class SpellConfig {
@@ -12,8 +13,8 @@ public class SpellConfig {
     @SerialClass.SerialField
     public MagicScroll.ScrollType type;
 
-    public static <C extends SpellConfig> C get(Spell<C, ?> spell, ActivationConfig act) {
-        return ConfigRecipe.getObject(act.world, ConfigRecipe.SPELL, spell.getID());
+    public static <C extends SpellConfig> C get(Spell<C, ?> spell, World world) {
+        return ConfigRecipe.getObject(world, ConfigRecipe.SPELL, spell.getID());
     }
 
 }

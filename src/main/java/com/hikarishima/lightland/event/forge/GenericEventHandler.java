@@ -11,10 +11,13 @@ import net.minecraft.command.Commands;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.client.event.ClientPlayerNetworkEvent;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import org.apache.logging.log4j.LogManager;
 
 @SuppressWarnings("unused")
 public class GenericEventHandler {
@@ -38,6 +41,16 @@ public class GenericEventHandler {
     @SubscribeEvent
     public void onPlayerTick(TickEvent.PlayerTickEvent event) {
         MagicHandler.get(event.player).tick();
+    }
+
+    @SubscribeEvent
+    public void onServerPlayerJoin(PlayerEvent.PlayerLoggedInEvent event) {
+        LogManager.getLogger().info("server player login");
+    }
+
+    @SubscribeEvent
+    public void onClientPlayerJoin(ClientPlayerNetworkEvent.LoggedInEvent event){
+        LogManager.getLogger().info("client plaer login");
     }
 
 }

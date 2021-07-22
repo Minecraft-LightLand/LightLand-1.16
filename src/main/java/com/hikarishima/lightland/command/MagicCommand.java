@@ -5,9 +5,12 @@ import com.hikarishima.lightland.magic.MagicRegistry;
 import com.hikarishima.lightland.magic.arcane.internal.*;
 import com.hikarishima.lightland.magic.capabilities.MagicHandler;
 import com.hikarishima.lightland.magic.capabilities.ToClientMsg;
+import com.hikarishima.lightland.magic.spell.internal.AbstractSpell;
+import com.hikarishima.lightland.magic.spell.internal.Spell;
 import com.hikarishima.lightland.proxy.PacketHandler;
 import com.hikarishima.lightland.registry.item.magic.ArcaneAxe;
 import com.hikarishima.lightland.registry.item.magic.ArcaneSword;
+import com.hikarishima.lightland.registry.item.magic.MagicScroll;
 import com.mojang.authlib.GameProfile;
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
@@ -24,6 +27,7 @@ import net.minecraft.util.text.ChatType;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TextComponent;
+import net.minecraft.world.server.ServerWorld;
 
 import java.util.function.BiFunction;
 
@@ -36,6 +40,7 @@ public class MagicCommand {
     private static final String ID_LIST_LOCKED = "chat.list_arcane_type.locked";
     private static final String ID_LIST_UNLOCKED = "chat.list_arcane_type.unlocked";
     private static final String ID_GET_ARCANE_MANA = "chat.show_arcane_mana";
+    private static final String ID_SPELL_SLOT = "chat.show_spell_slot";
 
     private final LiteralArgumentBuilder<CommandSource> arcane;
     private final LiteralArgumentBuilder<CommandSource> magic;
@@ -176,6 +181,35 @@ public class MagicCommand {
                     send(context, ACTION_SUCCESS);
                     return 1;
                 })));
+
+        reg(magic, "set_spell", getPlayer()
+                .then(Commands.argument("spell", RegistryParser.SPELL)
+                        .executes(withPlayer((context, e) -> {
+                            ItemStack stack = e.getMainHandItem();
+                            Spell<?, ?> spell = context.getArgument("spell", AbstractSpell.class).cast();
+                            ServerWorld world = context.getSource().getLevel();
+                            if (spell == null || stack.isEmpty() ||
+                                    !(stack.getItem() instanceof MagicScroll) ||
+                                    spell.getConfig(world).type != ((MagicScroll) stack.getItem()).type) {
+                                send(context, WRONG_ITEM);
+                                return 0;
+                            }
+                            MagicScroll.initItemStack(spell, stack);
+                            send(context, ACTION_SUCCESS);
+                            return 1;
+                        }))));
+
+        reg(magic, "add_spell_slot", getPlayer()
+                .then(Commands.argument("slot", IntegerArgumentType.integer(0, 10))
+                        .executes(withPlayer((context, e) -> {
+                            MagicHandler handler = MagicHandler.get(e);
+                            int slot = context.getArgument("slot", Integer.class);
+                            handler.magicAbility.spell_level += slot;
+                            PacketHandler.toClient(e, new ToClientMsg(ToClientMsg.Action.MAGIC_ABILITY, handler));
+                            send(context, Translator.get(ID_SPELL_SLOT, handler.magicAbility.getMaxSpellSlot()));
+                            return 1;
+                        }))));
+
     }
 
     private <T extends ArgumentBuilder<CommandSource, T>> void reg(LiteralArgumentBuilder<CommandSource> arg, String act, ArgumentBuilder<CommandSource, T> builder) {

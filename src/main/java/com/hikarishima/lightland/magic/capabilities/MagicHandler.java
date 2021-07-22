@@ -12,6 +12,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.common.capabilities.CapabilityManager;
+import org.apache.logging.log4j.LogManager;
 
 import javax.annotation.Nullable;
 
@@ -19,6 +20,7 @@ import javax.annotation.Nullable;
 public class MagicHandler {
 
     public static final Storage STORAGE = new Storage();
+
     @CapabilityInject(MagicHandler.class)
     public static Capability<MagicHandler> CAPABILITY = null;
 
@@ -62,6 +64,7 @@ public class MagicHandler {
         magicHolder.product_manager = new NBTObj(magicHolder.products);
         magicAbility.arcane_manager = new NBTObj(magicAbility.arcane_type);
         magicHolder.checkUnlocks();
+        LogManager.getLogger().info((world.isClientSide() ? "client" : "server") + " magic handler init");
     }
 
     protected MagicHandler check() {

@@ -21,8 +21,8 @@ public class DirtWallSpell extends Spell<DirtWallSpell.Config, DirtWallSpell.Act
     }
 
     @Override
-    public Config getConfig(PlayerEntity player, Activation activation) {
-        return SpellConfig.get(this, activation);
+    public Config getConfig(World world) {
+        return SpellConfig.get(this, world);
     }
 
     @Override

@@ -11,23 +11,18 @@ import java.util.Map;
 
 public abstract class ResourceOrganizer {
 
-    public enum Type {
-        ASSETS("assets"), DATA("data");
-
-        public final String side;
-
-        Type(String side) {
-            this.side = side;
-        }
-
-        public String toString() {
-            return side;
-        }
-    }
-
     public static final Map<String, ResourceOrganizer> MAP = new HashMap<>();
-
     public static String MODID;
+    public final Type type;
+    public final String folder;
+    public final String target;
+
+    public ResourceOrganizer(Type type, String folder, String target) {
+        this.type = type;
+        this.folder = folder;
+        this.target = target;
+        MAP.put(folder, this);
+    }
 
     public static void main(String[] args) throws Exception {
         delete(new File("./src/main/resources/assets/"));
@@ -70,17 +65,6 @@ public abstract class ResourceOrganizer {
         f.createNewFile();
     }
 
-    public final Type type;
-    public final String folder;
-    public final String target;
-
-    public ResourceOrganizer(Type type, String folder, String target) {
-        this.type = type;
-        this.folder = folder;
-        this.target = target;
-        MAP.put(folder, this);
-    }
-
     public abstract void organize(File f) throws Exception;
 
     public final String getTargetFolder() {
@@ -107,6 +91,20 @@ public abstract class ResourceOrganizer {
         PrintStream ps = new PrintStream(f);
         ps.println(cont);
         ps.close();
+    }
+
+    public enum Type {
+        ASSETS("assets"), DATA("data");
+
+        public final String side;
+
+        Type(String side) {
+            this.side = side;
+        }
+
+        public String toString() {
+            return side;
+        }
     }
 
 }

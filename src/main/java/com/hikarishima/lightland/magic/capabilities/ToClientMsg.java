@@ -56,6 +56,11 @@ public class ToClientMsg extends PacketHandler.BaseSerialMsg {
             MagicAbility abi = MagicHandler.get(Proxy.getPlayer()).magicAbility;
             abi.arcane_type = tag;
             abi.arcane_manager = new NBTObj(tag);
+        }), MAGIC_ABILITY((m) -> ExceptionHandler.get(() -> Automator.toTag(new CompoundNBT(), MagicAbility.class, m.magicAbility, f -> true)), (tag) -> {
+            MagicHandler h = MagicHandler.get(Proxy.getPlayer());
+            h.magicAbility = new MagicAbility(h);
+            h.magicAbility.arcane_manager = new NBTObj(h.magicAbility.arcane_type);
+            ExceptionHandler.run(() -> Automator.fromTag(tag, MagicAbility.class, h.magicAbility, f -> true));
         });
 
         public final Function<MagicHandler, CompoundNBT> server;

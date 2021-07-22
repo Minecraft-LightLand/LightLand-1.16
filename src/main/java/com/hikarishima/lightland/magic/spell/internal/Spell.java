@@ -8,7 +8,7 @@ public abstract class Spell<C extends SpellConfig, A extends ActivationConfig> e
 
     public abstract A canActivate(Type type, World world, PlayerEntity player);
 
-    public abstract C getConfig(PlayerEntity player, A activation);
+    public abstract C getConfig(World world);
 
     public abstract void activate(World world, PlayerEntity player, A activation, C config);
 
@@ -16,7 +16,7 @@ public abstract class Spell<C extends SpellConfig, A extends ActivationConfig> e
         A a = canActivate(type, world, player);
         if (a == null)
             return false;
-        C c = getConfig(player, a);
+        C c = getConfig(player.level);
         MagicHandler handler = MagicHandler.get(player);
         if (type == Type.WAND) {
             if (c.mana_cost > handler.magicAbility.getMana()) {

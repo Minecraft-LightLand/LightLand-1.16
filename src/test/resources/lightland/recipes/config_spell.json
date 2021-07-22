@@ -2,6 +2,7 @@
     "type": "lightland:config",
     "map": {
         "lightland:dirt_wall": {
+            "_class": "com.hikarishima.lightland.magic.spell.magic.DirtWallSpell$Config",
             "duration": 20,
             "mana_cost": 10,
             "spell_load": 20,
@@ -13,6 +14,7 @@
             "rs": 1
         },
         "lightland:stone_slab": {
+            "_class": "com.hikarishima.lightland.magic.spell.magic.DirtWallSpell$Config",
             "duration": 20,
             "mana_cost": 10,
             "spell_load": 20,
@@ -24,6 +26,7 @@
             "rs": 2
         },
         "lightland:stone_block": {
+            "_class": "com.hikarishima.lightland.magic.spell.magic.DirtWallSpell$Config",
             "duration": 180,
             "mana_cost": 30,
             "spell_load": 60,

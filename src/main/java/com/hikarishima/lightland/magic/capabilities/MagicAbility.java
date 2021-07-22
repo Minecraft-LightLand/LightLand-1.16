@@ -22,9 +22,9 @@ public class MagicAbility {
     public ListNBT spell_activation = new ListNBT();
     public NBTObj arcane_manager;
     @SerialClass.SerialField
-    protected int magic_mana, spell_load;
+    public int magic_level, spell_level;
     @SerialClass.SerialField
-    protected int magic_level, spell_level;
+    protected int magic_mana, spell_load;
 
     MagicAbility(MagicHandler parent) {
         this.parent = parent;

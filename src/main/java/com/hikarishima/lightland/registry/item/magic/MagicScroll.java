@@ -1,11 +1,14 @@
 package com.hikarishima.lightland.registry.item.magic;
 
+import com.hikarishima.lightland.config.Translator;
 import com.hikarishima.lightland.magic.MagicRegistry;
 import com.hikarishima.lightland.magic.capabilities.MagicAbility;
 import com.hikarishima.lightland.magic.capabilities.MagicHandler;
 import com.hikarishima.lightland.magic.spell.internal.AbstractSpell;
 import com.hikarishima.lightland.magic.spell.internal.Spell;
 import com.hikarishima.lightland.proxy.Proxy;
+import mcp.MethodsReturnNonnullByDefault;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -13,20 +16,30 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.ITextComponent;
 import net.minecraft.world.World;
 
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
+import java.util.List;
+
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
 public class MagicScroll extends Item {
+
+    public final ScrollType type;
 
     public MagicScroll(ScrollType type, Properties props) {
         super(type.apply(props));
+        this.type = type;
     }
 
-    public static void initItemStack(PlayerEntity crafter, Spell<?, ?> spell, ItemStack stack) {
+    public static void initItemStack(Spell<?, ?> spell, ItemStack stack) {
         CompoundNBT tag = stack.getOrCreateTagElement("spell");
-        tag.putString("user", crafter.getStringUUID());
         tag.putString("spell", spell.getID());
     }
 
+    @Nullable
     public static Spell<?, ?> getSpell(ItemStack stack) {
         String id = stack.getOrCreateTagElement("spell").getString("spell");
         if (id.length() == 0)
@@ -36,6 +49,12 @@ public class MagicScroll extends Item {
         if (abs == null)
             return null;
         return abs.cast();
+    }
+
+    public void appendHoverText(ItemStack stack, @Nullable World world, List<ITextComponent> list, ITooltipFlag flag) {
+        Spell<?, ?> spell = getSpell(stack);
+        if (spell != null)
+            list.add(Translator.get(spell.getDescriptionId()));
     }
 
     public boolean showDurabilityBar(ItemStack stack) {
@@ -61,7 +80,7 @@ public class MagicScroll extends Item {
     }
 
     public int getRGBDurabilityForDisplay(ItemStack stack) {
-        return 0xFFFFFF;
+        return getDurabilityForDisplay(stack) == 0 ? 0xFFFFFF : 0xFF5555;
     }
 
     public ActionResult<ItemStack> use(World world, PlayerEntity player, Hand hand) {
