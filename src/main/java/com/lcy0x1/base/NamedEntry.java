@@ -13,6 +13,8 @@ public class NamedEntry<T extends NamedEntry<T>> extends ForgeRegistryEntry<T> {
 
     private String desc = null;
 
+    private TranslationTextComponent trans = null;
+
     public NamedEntry(Supplier<IForgeRegistry<T>> registry) {
         this.registry = registry;
     }
@@ -27,7 +29,9 @@ public class NamedEntry<T extends NamedEntry<T>> extends ForgeRegistryEntry<T> {
     }
 
     public TranslationTextComponent getDesc() {
-        return new TranslationTextComponent(getDescriptionId());
+        if (trans != null)
+            return trans;
+        return trans = new TranslationTextComponent(getDescriptionId());
     }
 
     public String getID() {

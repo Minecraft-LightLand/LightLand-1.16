@@ -1,3 +1,12 @@
+Version 0.2.0
+    magic:
+        - add Capability for magic system
+        - add Command for magic system (for debug)
+        - add arcane system and test item
+        - add spell system and test item
+        - add magic element and product system
+            - not tested
+
 Version 0.1.0
     terrain:
         - add lava well and lava lake smoke

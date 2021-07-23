@@ -10,8 +10,9 @@
         }
     ],
     "screen": {
-        "screen_x": 0,
-        "screen_y": 0
+        "x": 0,
+        "y": 0
+
     },
     "elements": {
         "A": "lightland:earth",

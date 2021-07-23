@@ -9,6 +9,7 @@ import com.lcy0x1.core.util.SerialClass;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.ResourceLocation;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -69,7 +70,11 @@ public class MagicHolder {
         return recipe_cache.get(rl);
     }
 
-    private MagicProduct<?, ?> getProduct(IMagicRecipe<?> r) {
+    public Collection<IMagicRecipe<?>> listRecipe() {
+        return recipe_cache.values();
+    }
+
+    public MagicProduct<?, ?> getProduct(IMagicRecipe<?> r) {
         if (r == null)
             return null;
         MagicProductType<?, ?> type = r.product_type.getAsType();

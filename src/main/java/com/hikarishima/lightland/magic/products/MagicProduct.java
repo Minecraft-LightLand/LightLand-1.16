@@ -1,6 +1,7 @@
 package com.hikarishima.lightland.magic.products;
 
 import com.hikarishima.lightland.magic.capabilities.MagicHandler;
+import com.hikarishima.lightland.magic.products.info.ProductState;
 import com.hikarishima.lightland.recipe.IMagicRecipe;
 import com.lcy0x1.core.magic.HexHandler;
 import com.lcy0x1.core.util.NBTObj;
@@ -13,7 +14,7 @@ public class MagicProduct<I extends IForgeRegistryEntry<I>, P extends MagicProdu
 
     public final NBTObj tag;
     public final MagicHandler player;
-    private final IMagicRecipe<?> recipe;
+    public final IMagicRecipe<?> recipe;
     private HexHandler best;
 
     public MagicProduct(MagicProductType<I, P> type, MagicHandler player, NBTObj tag, ResourceLocation rl, IMagicRecipe<?> r) {
@@ -57,4 +58,18 @@ public class MagicProduct<I extends IForgeRegistryEntry<I>, P extends MagicProdu
         return getBase().tag.getInt("cost") > UNLOCKED;
     }
 
+    public ProductState getState() {
+        switch (getBase().tag.getInt("cost")) {
+            case LOCKED:
+                return ProductState.LOCKED;
+            case UNLOCKED:
+                return ProductState.UNLOCKED;
+            default:
+                return ProductState.CRAFTED;
+        }
+    }
+
+    public boolean visible() {
+        return true;
+    }
 }

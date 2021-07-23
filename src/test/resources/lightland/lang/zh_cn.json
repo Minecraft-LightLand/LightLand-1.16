@@ -33,10 +33,33 @@
         "lightland:stone_slab": "石阶",
         "lightland:stone_block": "石牢"
     },
+    "lightland:magic_product_type": {
+        "lightland:enchantment": "附魔",
+        "lightland:effect": "药水效果",
+        "lightland:arcane": "奥术",
+        "lightland:spell": "魔法",
+        "lightland:craft": "合成"
+    },
+    "lightland:magic_product": {
+        "lightland:enchantment": {
+            "minecraft:protection": "保护-魔法描述"
+        },
+        "lightland:effect": {},
+        "lightland:arcane": {
+            "lightland:thunder_axe": "引雷之斧-魔法描述",
+            "lightland:thunder_sword": "引雷之剑-魔法描述"
+        },
+        "lightland:spell": {
+            "lightland:dirt_wall": "土墙-魔法描述",
+            "lightland:stone_slab": "石阶-魔法描述",
+            "lightland:stone_block": "石牢-魔法描述"
+        },
+        "lightland:craft": {}
+    },
     "item.lightland": {
-        "magic_book": "法之书 (未完成，勿使用)",
-        "gilded_arcane_sword": "奥术剑",
-        "gilded_arcane_axe": "奥术斧",
+        "magic_book": "法之书",
+        "gilded_arcane_sword": "镀金奥术剑",
+        "gilded_arcane_axe": "镀金奥术斧",
         "enchant_gold_nugget": "蓄魔金粒",
         "enchant_gold_ingot": "蓄魔金锭",
         "enchant_alloy_ingot": "魔导合金",

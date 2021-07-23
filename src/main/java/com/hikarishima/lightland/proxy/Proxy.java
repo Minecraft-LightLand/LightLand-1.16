@@ -6,9 +6,6 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.DistExecutor;
-import net.minecraftforge.fml.loading.FMLEnvironment;
-
-import java.util.function.Supplier;
 
 public class Proxy {
 
@@ -19,23 +16,6 @@ public class Proxy {
 
     public static PlayerEntity getPlayer() {
         return DistExecutor.unsafeRunForDist(() -> Proxy::getClientPlayer, () -> () -> null);
-    }
-
-    public static <T> T getOnServer(Supplier<Supplier<T>> sup) {
-        if (isServer())
-            return sup.get().get();
-        return null;
-    }
-
-    public static void runOnServer(Supplier<Runnable> sup) {
-        if (isServer())
-            sup.get().run();
-    }
-
-    public static boolean isServer() {
-        if (FMLEnvironment.dist == Dist.DEDICATED_SERVER)
-            return true;
-        return Minecraft.getInstance().isLocalServer();
     }
 
 }

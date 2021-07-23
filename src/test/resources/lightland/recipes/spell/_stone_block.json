@@ -2,7 +2,9 @@
     "type": "lightland:magic_default",
     "product_type": "lightland:spell",
     "product_id": "lightland:stone_block",
-    "predecessor": [],
+    "predecessor": [
+        "lightland:spell_stone_slab"
+    ],
     "elemental_mastery": [
         {
             "element": "lightland:earth",
@@ -10,8 +12,8 @@
         }
     ],
     "screen": {
-        "screen_x": 0,
-        "screen_y": 0
+        "x": 2,
+        "y": 0
     },
     "elements": {
         "A": "lightland:earth",

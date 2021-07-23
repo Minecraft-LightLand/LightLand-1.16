@@ -3,6 +3,7 @@ package com.hikarishima.lightland.recipe;
 import com.hikarishima.lightland.magic.MagicElement;
 import com.hikarishima.lightland.magic.MagicRegistry;
 import com.hikarishima.lightland.magic.products.IMagicProduct;
+import com.hikarishima.lightland.magic.products.info.DisplayInfo;
 import com.lcy0x1.base.BaseRecipe;
 import com.lcy0x1.core.util.SerialClass;
 import mcp.MethodsReturnNonnullByDefault;
@@ -27,7 +28,7 @@ public class IMagicRecipe<R extends IMagicRecipe<R>> extends BaseRecipe<R, IMagi
     @SerialClass.SerialField
     public ResourceLocation product_id;
     @SerialClass.SerialField
-    public BookScreen screen;
+    public DisplayInfo screen;
     private MagicElement[] elements;
     private boolean[][] maps;
 
@@ -82,14 +83,5 @@ public class IMagicRecipe<R extends IMagicRecipe<R>> extends BaseRecipe<R, IMagi
         public int level;
 
     }
-
-    @SerialClass
-    public static class BookScreen {
-
-        @SerialClass.SerialField
-        public int screen_x, screen_y;
-
-    }
-
 
 }
