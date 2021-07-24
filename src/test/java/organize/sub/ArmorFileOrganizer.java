@@ -1,6 +1,7 @@
-package organize;
+package organize.sub;
 
 import com.google.common.io.Files;
+import organize.ResourceOrganizer;
 
 import java.io.File;
 

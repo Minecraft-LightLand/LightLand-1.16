@@ -54,6 +54,10 @@ public class MagicProduct<I extends IForgeRegistryEntry<I>, P extends MagicProdu
         getBase().tag.putInt("cost", cost);
     }
 
+    public HexHandler getSolution(){
+        return best;
+    }
+
     public final boolean usable() {
         return getBase().tag.getInt("cost") > UNLOCKED;
     }

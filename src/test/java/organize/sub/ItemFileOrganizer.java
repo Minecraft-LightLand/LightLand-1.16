@@ -1,18 +1,25 @@
-package organize;
+package organize.sub;
 
 import com.google.common.io.Files;
+import organize.ResourceOrganizer;
 
 import java.io.File;
 
-public class RecipeFileOrganizer extends ResourceOrganizer {
+public class ItemFileOrganizer extends ResourceOrganizer {
 
-    public RecipeFileOrganizer() {
-        super(Type.DATA, "recipes", "recipes/");
+    public String texture, model, IM, IM_B;
+
+    public ItemFileOrganizer() {
+        super(Type.ASSETS, "items", "");
     }
 
 
     @Override
     public void organize(File f) throws Exception {
+        texture = getTargetFolder() + "textures/item/";
+        model = getTargetFolder() + "models/item/";
+        IM = readFile(f.getPath() + "/-models/-template/-.json");
+        IM_B = readFile(f.getPath() + "/-models/-template/-block.json");
         process("", f);
     }
 
@@ -31,9 +38,10 @@ public class RecipeFileOrganizer extends ResourceOrganizer {
             }
             return;
         }
-        File ti = new File(getTargetFolder() + name + ".json");
+        File ti = new File(texture + name + ".png");
         check(ti);
         Files.copy(f, ti);
+        write(model + name + ".json", IM.replaceAll("\\^s", name));
     }
 
 

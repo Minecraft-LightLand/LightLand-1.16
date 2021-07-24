@@ -2,6 +2,7 @@ package com.hikarishima.lightland.magic.gui.magic_tree;
 
 import com.google.common.collect.Maps;
 import com.hikarishima.lightland.magic.capabilities.MagicHolder;
+import com.hikarishima.lightland.magic.gui.hex.MagicHexScreen;
 import com.hikarishima.lightland.magic.products.MagicProduct;
 import com.hikarishima.lightland.magic.products.MagicProductType;
 import com.hikarishima.lightland.magic.products.info.TypeConfig;
@@ -164,5 +165,18 @@ public class MagicTreeGui<I extends IForgeRegistryEntry<I>, P extends MagicProdu
 
     public MagicTreeScreen getScreen() {
         return screen;
+    }
+
+    public boolean mouseClicked(int x0, int y0, int mx, int my) {
+        int sx = MathHelper.floor(this.scrollX);
+        int sy = MathHelper.floor(this.scrollY);
+        if (mx > 0 && mx < 234 && my > 0 && my < 113)
+            for (Map.Entry<P, MagicTreeEntry<I, P>> entry : widgets.entrySet()) {
+                if (entry.getValue().isMouseOver(sx, sy, mx, my)) {
+                    Minecraft.getInstance().setScreen(new MagicHexScreen(screen.handler, entry.getKey()));
+                    return true;
+                }
+            }
+        return false;
     }
 }

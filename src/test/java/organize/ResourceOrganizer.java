@@ -1,6 +1,7 @@
 package organize;
 
 import com.google.common.io.Files;
+import organize.sub.*;
 
 import java.io.File;
 import java.io.PrintStream;
@@ -33,6 +34,7 @@ public abstract class ResourceOrganizer {
         new BlockFileOrganizer();
         new ArmorFileOrganizer();
         new RecipeFileOrganizer();
+        new AssetMisc();
         File f = new File("./src/test/resources");
         for (File fi : f.listFiles()) {
             MODID = fi.getName();

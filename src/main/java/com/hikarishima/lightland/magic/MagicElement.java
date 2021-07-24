@@ -12,17 +12,16 @@ public class MagicElement extends NamedEntry<MagicElement> {
         super(() -> MagicRegistry.ELEMENT);
     }
 
-    @OnlyIn(Dist.CLIENT)
-    public ResourceLocation getIcon() {
-        ResourceLocation rl = getRegistryName();
-        return new ResourceLocation(rl.getNamespace(), "textures/" + LightLand.MODID + "/magic/elements/" + rl.getPath());
-
-    }
-
     public String getName() {
         String domain = getRegistryName().getNamespace();
         String name = getRegistryName().getPath();
         return domain + ":" + LightLand.MODID + ".magic_element." + name;
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    public ResourceLocation getIcon() {
+        ResourceLocation rl = getRegistryName();
+        return new ResourceLocation(rl.getNamespace(), "textures/magic_elements/" + rl.getPath() + ".png");
     }
 
 }

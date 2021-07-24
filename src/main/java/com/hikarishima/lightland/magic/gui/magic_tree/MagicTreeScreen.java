@@ -150,8 +150,10 @@ public class MagicTreeScreen extends Screen {
                     break;
                 }
             }
+            if (selected.mouseClicked(i, j, (int) Math.round(mx - i - 9), (int) Math.round(my - j - 18))) {
+                return true;
+            }
         }
-
         return super.mouseClicked(mx, my, button);
     }
 

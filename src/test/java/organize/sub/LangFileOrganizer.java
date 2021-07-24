@@ -1,8 +1,9 @@
-package organize;
+package organize.sub;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import organize.ResourceOrganizer;
 
 import java.io.File;
 import java.io.FileReader;
