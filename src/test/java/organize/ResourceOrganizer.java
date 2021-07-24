@@ -5,7 +5,7 @@ import organize.sub.*;
 
 import java.io.File;
 import java.io.PrintStream;
-import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,6 +26,7 @@ public abstract class ResourceOrganizer {
     }
 
     public static void main(String[] args) throws Exception {
+
         delete(new File("./src/main/resources/assets/"));
         delete(new File("./src/main/resources/data/lightland/loot_tables/"));
         delete(new File("./src/main/resources/data/lightland/recipes/"));
@@ -76,7 +77,7 @@ public abstract class ResourceOrganizer {
     protected String readFile(String path) {
         List<String> list = null;
         try {
-            list = Files.readLines(new File(path), Charset.defaultCharset());
+            list = Files.readLines(new File(path), StandardCharsets.UTF_8);
         } catch (Exception e) {
             e.printStackTrace();
             return "";
@@ -90,7 +91,7 @@ public abstract class ResourceOrganizer {
     protected void write(String name, String cont) throws Exception {
         File f = new File(name);
         check(f);
-        PrintStream ps = new PrintStream(f);
+        PrintStream ps = new PrintStream(f, "UTF-8");
         ps.println(cont);
         ps.close();
     }
