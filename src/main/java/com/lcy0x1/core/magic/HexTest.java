@@ -46,7 +46,7 @@ public class HexTest {
     /**
      * 6F
      */
-    public static HexHandler comp0006F() throws HexException {
+    public static HexHandler comp0006F() throws Exception {
         HexHandler hex = new HexHandler(3);
         HexHandler a = new HexHandler(2);
         HexHandler b = new HexHandler(2);
@@ -108,7 +108,7 @@ public class HexTest {
     /**
      * 1-1-4F
      */
-    public static HexHandler comp0114F() throws HexException {
+    public static HexHandler comp0114F() throws Exception {
         HexHandler hex = new HexHandler(3);
         HexHandler a = new HexHandler(2);
         HexHandler b = new HexHandler(2);
@@ -175,7 +175,7 @@ public class HexTest {
     /**
      * 3F-3F
      */
-    public static HexHandler comp3F3F() throws HexException {
+    public static HexHandler comp3F3F() throws Exception {
         HexHandler hex = new HexHandler(3);
         HexHandler a = new HexHandler(2);
         HexHandler b = new HexHandler(2);
@@ -568,7 +568,7 @@ public class HexTest {
     /**
      * pending: 0013,0014,0024,0222
      */
-    public static void testHex() throws HexException {
+    public static void testHex() throws Exception {
         HexHandler hex = comp3F3F();
         long t0 = System.currentTimeMillis();
         HexHandler.FlowChart calc = hex.getMatrix(true);
@@ -612,7 +612,7 @@ public class HexTest {
                     System.out.println(str);
                 }
             }
-            gs[0].drawImage(map.get(str), r + x, r + y, null);
+            gs[0].drawImage(map.get(str), (int) (r + x), (int) (r + y), null);
         };
         HexRenderer hr = new HexRenderer(renderer);
         hr.hex = hex;

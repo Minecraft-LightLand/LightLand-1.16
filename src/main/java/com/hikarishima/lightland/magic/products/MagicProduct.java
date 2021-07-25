@@ -54,7 +54,7 @@ public class MagicProduct<I extends IForgeRegistryEntry<I>, P extends MagicProdu
         getBase().tag.putInt("cost", cost);
     }
 
-    public HexHandler getSolution(){
+    public HexHandler getSolution() {
         return best;
     }
 

@@ -1,3 +1,8 @@
+TODO List
+- Add Magic Product Unlock
+- Sync Client Magic Product Edit to Server
+- Fix Hex Loop prediction
+
 Version 0.2.0
     magic:
         - add Capability for magic system

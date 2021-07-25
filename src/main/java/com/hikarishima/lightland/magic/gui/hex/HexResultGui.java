@@ -72,5 +72,6 @@ public class HexResultGui extends AbstractGui {
 
     public void tick() {
         tick++;
+        tick %= PERIOD;
     }
 }

@@ -11,7 +11,6 @@ public class RecipeFileOrganizer extends ResourceOrganizer {
         super(Type.DATA, "recipes", "recipes/");
     }
 
-
     @Override
     public void organize(File f) throws Exception {
         process("", f);

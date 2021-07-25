@@ -9,8 +9,8 @@ import java.util.Map.Entry;
 
 public class HexHandler {
 
-    private static final int CORE_LIMIT = 6;
-    private static final int WIDTH = 14, HEIGHT = 12;
+    public static final int CORE_LIMIT = 6;
+    public static final double WIDTH = 2, HEIGHT = Math.sqrt(3);
     public final int radius;
     public final SubHex[] subhex;
     public final SubHexCore[] cores;
@@ -38,7 +38,7 @@ public class HexHandler {
         for (int i = 0; i < list.size(); i++)
             try {
                 cores[i] = new SubHexCore(new HexHandler(list.get(i)));
-            } catch (HexException e) {
+            } catch (Exception e) {
                 throw new RuntimeException(e);
             }
         int k = 1, s = 0;
@@ -60,33 +60,26 @@ public class HexHandler {
         // row number relative to center in rectangular grid
         int row = (int) Math.floor(y / HEIGHT + 0.5);
         // relative y coordinate of the point in rectangular grid
-        double rel_y = y + (0.5 - row) * HEIGHT;
+        double rel_y = y - row * HEIGHT;
         // cell number relative to center in rectangular grid
-        int cell = (int) Math.floor(x / WIDTH + 0.5 + Math.abs(row) * 0.5);
+        int cell = (int) Math.floor(x / WIDTH + 0.5 - Math.abs(row) * 0.5);
         // relative x coordinate of the point in rectangular grid
-        double rel_x = x + (0.5 + Math.abs(row) * 0.5 - cell) * WIDTH;
+        double rel_x = x - (Math.abs(row) * 0.5 + cell) * WIDTH;
 
         double xoff = WIDTH / 4.0;
         double yoff = HEIGHT / 6.0;
 
-        if (rel_x / xoff + rel_y / yoff < 1) {
-            cell += Direction.UPPER_LEFT.getCellOffset(0, row, cell);
-            row--;
-        }
-        if ((WIDTH - rel_x) / xoff + rel_y / yoff < 1) {
-            cell += Direction.UPPER_RIGHT.getCellOffset(0, row, cell);
-            row--;
-        }
-        if (rel_x / xoff + (HEIGHT - rel_y) / yoff < 1) {
-            cell += Direction.UPPER_LEFT.getCellOffset(0, row, cell);
-            row++;
-        }
-        if ((WIDTH - rel_x) / xoff + (HEIGHT - rel_y) / yoff < 1) {
-            cell += Direction.UPPER_RIGHT.getCellOffset(0, row, cell);
-            row++;
-        }
+        Direction dire = rel_y > 0 ?
+                rel_x > 0 ? Direction.LOWER_RIGHT : Direction.LOWER_LEFT :
+                rel_x > 0 ? Direction.UPPER_RIGHT : Direction.UPPER_LEFT;
 
-        return new CellResult(row / 2, cell / 2, null);
+        rel_x = Math.abs(rel_x) - xoff;
+        rel_y = Math.abs(rel_y) - yoff * 2;
+        if (rel_x > 0 && rel_y > 0 && rel_x / xoff + rel_y / yoff > 1) {
+            cell += dire.getCellOffset(0, row, cell);
+            row += dire.dr;
+        }
+        return new CellResult(row, cell, null);
     }
 
     /**
@@ -114,8 +107,11 @@ public class HexHandler {
         if (pos.row % 2 == 0) {
             return ArrowResult.get(trow, tcel, Direction.RIGHT, this);
         }
-        Direction dir = (pos.row < 0) ^ (pos.cell % 2 == 0) ? Direction.LOWER_RIGHT : Direction.LOWER_LEFT;
-        return ArrowResult.get(trow, tcel, dir, this);
+        if (pos.row < 0)
+            return ArrowResult.get(trow, tcel, pos.cell % 2 == 0 ? Direction.LOWER_LEFT : Direction.LOWER_RIGHT, this);
+        if (pos.cell % 2 == 0)
+            return ArrowResult.get(trow, tcel, Direction.LOWER_RIGHT, this);
+        return ArrowResult.get(trow, tcel + 1, Direction.LOWER_LEFT, this);
 
     }
 
@@ -128,7 +124,7 @@ public class HexHandler {
         return getArea() - (4 * radius + 2 - row) * (2 * radius + 1 - row) / 2 + cell;
     }
 
-    public FlowChart getMatrix(boolean withFlow) throws HexException {
+    public FlowChart getMatrix(boolean withFlow) throws HexCalcException {
         return new Calc().getMatrix(withFlow);
     }
 
@@ -139,14 +135,14 @@ public class HexHandler {
     /**
      * get the X position of a cell relative to the center
      */
-    public int getX(int row, int cell) {
+    public double getX(int row, int cell) {
         return (cell - radius) * WIDTH + (radius * 2 + 1 - getCellCount(row)) * WIDTH / 2;
     }
 
     /**
      * get the Y position of a cell relative to the center
      */
-    public int getY(int row, int cell) {
+    public double getY(int row, int cell) {
         return (row - radius) * HEIGHT;
     }
 
@@ -174,21 +170,24 @@ public class HexHandler {
                 data[k >> 1] |= (cells[i][j] & 7) << ((k & 1) * 4);
                 if (subhex[getInd(i, j)] != null) {
                     data[k >> 1] |= 4 << ((k & 1) * 4);
-                    sub[s++] = subhex[getInd(i, j)];
+                    sub[s] = subhex[getInd(i, j)];
                 }
+                s++;
                 k++;
             }
         tag.tag.putByteArray("data", data);
-        byte[] subs = new byte[s];
-        for (int i = 0; i < sub.length; i++) {
-            subs[i] |= sub[i].core.index;
-            subs[i] |= (sub[i].rotation + 6) % 6 << 3;
-            subs[i] |= (sub[i].flip ? 1 : 0) << 6;
-        }
+        byte[] subs = new byte[getArea()];
+        for (int i = 0; i < sub.length; i++)
+            if (sub[i] != null) {
+                subs[i] |= sub[i].core.index;
+                subs[i] |= (sub[i].rotation + 6) % 6 << 3;
+                subs[i] |= (sub[i].flip ? 1 : 0) << 6;
+            }
         tag.tag.putByteArray("subs", subs);
         NBTList<?> list = tag.getList("cores");
         for (SubHexCore core : cores)
-            core.hex.write(list.add());
+            if (core != null)
+                core.hex.write(list.add());
         return tag;
     }
 
@@ -286,7 +285,7 @@ public class HexHandler {
             int dc = dir.getCellOffset(hex.radius, row, cell);
             if (row + dr < 0 || row + dr >= hex.getRowCount())
                 return null;
-            if (cell + dc < 0 || cell + dc >= hex.getCellCount(row))
+            if (cell + dc < 0 || cell + dc >= hex.getCellCount(row + dr))
                 return null;
             return new ArrowResult(row, cell, dir, hex);
         }
@@ -305,20 +304,20 @@ public class HexHandler {
         }
 
         @Override
-        public int getX() {
+        public double getX() {
             int dr = dir.getRowOffset(hex.radius, row, cell);
             int dc = dir.getCellOffset(hex.radius, row, cell);
-            int x0 = hex.getX(row, cell);
-            int x1 = hex.getX(row + dr, cell + dc);
+            double x0 = hex.getX(row, cell);
+            double x1 = hex.getX(row + dr, cell + dc);
             return (x0 + x1) / 2;
         }
 
         @Override
-        public int getY() {
+        public double getY() {
             int dr = dir.getRowOffset(hex.radius, row, cell);
             int dc = dir.getCellOffset(hex.radius, row, cell);
-            int y0 = hex.getY(row, cell);
-            int y1 = hex.getY(row + dr, cell + dc);
+            double y0 = hex.getY(row, cell);
+            double y1 = hex.getY(row + dr, cell + dc);
             return (y0 + y1) / 2;
         }
 
@@ -354,12 +353,12 @@ public class HexHandler {
         }
 
         @Override
-        public int getX() {
+        public double getX() {
             return hex.getX(row, cell);
         }
 
         @Override
-        public int getY() {
+        public double getY() {
             return hex.getY(row, cell);
         }
 
@@ -368,10 +367,6 @@ public class HexHandler {
     public static class HexException extends Exception {
 
         private static final long serialVersionUID = 1L;
-
-        public HexException(Calc.Arrow arrow) {
-            super("full loop at " + arrow.toString());
-        }
 
         public HexException(String str) {
             super(str);
@@ -383,9 +378,9 @@ public class HexHandler {
 
         public abstract ResultType getType();
 
-        public abstract int getX();
+        public abstract double getX();
 
-        public abstract int getY();
+        public abstract double getY();
 
         public enum ResultType {
             CELL, ARROW
@@ -466,11 +461,11 @@ public class HexHandler {
             return subhex[getInd(row, cell)];
         }
 
-        public int getX() {
+        public double getX() {
             return HexHandler.this.getX(row, cell);
         }
 
-        public int getY() {
+        public double getY() {
             return HexHandler.this.getY(row, cell);
         }
 
@@ -482,10 +477,16 @@ public class HexHandler {
             return row % radius == 0 && (cell == 0 || cell == cells[row].length - 1);
         }
 
+        public boolean isCorner(Direction dir) {
+            int nr = row + dir.getRowOffset(radius, row, cell);
+            int nc = cell + dir.getCellOffset(radius, row, cell);
+            return nr % radius == 0 && (nc == 0 || nc == cells[nr].length - 1);
+        }
+
         /**
          * ans[i][j] means input at i will add ans[i][j] to output at j
          */
-        public Frac[][] matrix() throws HexException {
+        public Frac[][] matrix() {
             if (subhex[getInd(row, cell)] != null)
                 return subhex[getInd(row, cell)].getMatrix();
             Frac[][] ans = new Frac[6][];
@@ -544,16 +545,26 @@ public class HexHandler {
             if (isCorner() && val != 0 && val != dir.mask()) {
                 cells[row][cell] = 0;
                 for (Direction d : Direction.values())
-                    if ((val & dir.mask()) != 0) {
+                    if ((val & d.mask()) != 0) {
                         int dr = d.getRowOffset(radius, row, cell);
                         int dc = d.getCellOffset(radius, row, cell);
                         cells[row + dr][cell + dc] ^= d.next(3).mask();
                     }
             }
-            int dr = dir.getRowOffset(radius, row, cell);
-            int dc = dir.getCellOffset(radius, row, cell);
+            int dr = row + dir.getRowOffset(radius, row, cell);
+            int dc = cell + dir.getCellOffset(radius, row, cell);
+            int dval = cells[dr][dc];
+            if (isCorner(dir) && dval != 0 && dval != dir.next(3).mask()) {
+                cells[dr][dc] = 0;
+                for (Direction d : Direction.values())
+                    if ((dval & d.mask()) != 0) {
+                        int xr = d.getRowOffset(radius, dr, dc);
+                        int xc = d.getCellOffset(radius, dr, dc);
+                        cells[dr + xr][dc + xc] ^= d.next(3).mask();
+                    }
+            }
             cells[row][cell] ^= dir.mask();
-            cells[row + dr][cell + dc] ^= dir.next(3).mask();
+            cells[dr][dc] ^= dir.next(3).mask();
         }
 
         public void walk(Direction dir) {
@@ -586,6 +597,27 @@ public class HexHandler {
             return sub != null && sub.isInvalid(this) != 0;
         }
 
+        public Direction getCorner() {
+            if (row == 0)
+                if (cell == 0)
+                    return Direction.UPPER_LEFT;
+                else if (cell == cells[row].length - 1)
+                    return Direction.UPPER_RIGHT;
+                else return null;
+            else if (row == radius)
+                if (cell == 0)
+                    return Direction.LEFT;
+                else if (cell == cells[row].length - 1)
+                    return Direction.RIGHT;
+                else return null;
+            else if (row == radius * 2)
+                if (cell == 0)
+                    return Direction.LOWER_LEFT;
+                else if (cell == cells[row].length - 1)
+                    return Direction.LOWER_RIGHT;
+                else return null;
+            else return null;
+        }
     }
 
     /**
@@ -597,9 +629,9 @@ public class HexHandler {
      * {@code matrix} is the output flow in the diagram <br>
      * {@code flows} is the intermediate flow in the diagram
      */
-    public class FlowChart {
+    public static class FlowChart {
 
-        public final List<Flow> flows = new ArrayList<Flow>();
+        public final List<Flow> flows = new ArrayList<>();
         public final Frac[][] matrix;
 
         public FlowChart(Frac[][] matrix) {
@@ -624,7 +656,7 @@ public class HexHandler {
         public final Frac[][] otho;
         public final int exist, index;
 
-        public SubHexCore(HexHandler hex) throws HexException {
+        public SubHexCore(HexHandler hex) throws HexException, HexCalcException {
             this.hex = hex;
             this.otho = hex.getMatrix(false).matrix;
             int exi = 0;
@@ -660,7 +692,7 @@ public class HexHandler {
         private Arrow[] in;
         private Map<CalcCell, Map<Direction, FlowChart.Flow>> flowmap;
 
-        public Calc() throws HexException {
+        public Calc() throws HexCalcException {
             ccell = new CalcCell[cells.length][];
             boolean[][] used = new boolean[cells.length][];
             for (int i = 0; i < ccell.length; i++) {
@@ -703,22 +735,20 @@ public class HexHandler {
                     if (!used[i][j])
                         ccell[i][j] = null;
 
-            for (int i = 0; i < ccell.length; i++)
-                for (int j = 0; j < ccell[i].length; j++)
-                    if (ccell[i][j] != null)
-                        ccell[i][j].init();
-            for (int i = 0; i < ccell.length; i++)
-                for (int j = 0; j < ccell[i].length; j++)
-                    if (ccell[i][j] != null)
-                        ccell[i][j].remove();
+            for (CalcCell[] calcCells : ccell)
+                for (CalcCell calcCell : calcCells)
+                    if (calcCell != null)
+                        calcCell.init();
+            for (CalcCell[] calcCells : ccell)
+                for (CalcCell calcCell : calcCells)
+                    if (calcCell != null)
+                        calcCell.remove();
         }
 
         /**
          * return a summary of the flow in this diagram
-         *
-         * @throws HexException
          */
-        public FlowChart getMatrix(boolean withFlow) throws HexException {
+        public FlowChart getMatrix(boolean withFlow) throws HexCalcException {
             Frac[][] matrix = new Frac[6][6]; // the input-output matrix
             in = new Arrow[6]; // the input array
             Arrow[] out = new Arrow[6];
@@ -779,7 +809,9 @@ public class HexHandler {
             return ans;
         }
 
-        private void addFlow(FlowChart ans, Arrow next) throws HexException {
+        private void addFlow(FlowChart ans, Arrow next) {
+            if (next == null)
+                return;
             HexHandler hex = HexHandler.this;
             Frac[] formula = new Frac[6];
             for (int i = 0; i < 6; i++)
@@ -794,12 +826,12 @@ public class HexHandler {
                 src = next.dst;
                 dir = dir.next(3);
             }
-            Map<Direction, FlowChart.Flow> sub = null;
+            Map<Direction, FlowChart.Flow> sub;
             if (flowmap.containsKey(src))
                 sub = flowmap.get(src);
             else
                 flowmap.put(src, sub = new HashMap<>());
-            FlowChart.Flow flow = null;
+            FlowChart.Flow flow;
             if (sub.containsKey(dir))
                 flow = sub.get(dir);
             else
@@ -809,6 +841,7 @@ public class HexHandler {
             else
                 flow.backward = formula;
         }
+
 
         /**
          * represents a flow from src to dst
@@ -831,27 +864,27 @@ public class HexHandler {
                 return "from " + src + " to " + dst;
             }
 
-            void clear() throws HexException {
+            void clear() throws HexCalcException {
                 Frac frac = map.remove(this);
                 user.remove(this);
                 if (frac == null)
                     return;
                 if (frac.den == frac.num)
-                    throw new HexException(this);
+                    throw new HexCalcException(this);
                 Frac base = new Frac(frac.den, frac.den - frac.num);
                 for (Frac f : map.values())
                     f.times(base);
 
             }
 
-            void put(Arrow var, Frac frac) throws HexException {
+            void put(Arrow var, Frac frac) {
                 if (map.containsKey(var))
                     frac.add(map.get(var));
                 map.put(var, frac);
                 var.user.add(this);
             }
 
-            void remove() throws HexException {
+            void remove() throws HexCalcException {
                 clear();
                 for (Arrow v : user) {
                     Frac base = v.map.remove(this);
@@ -890,7 +923,7 @@ public class HexHandler {
                 return (origin ? "origin " : "") + "(r = " + row + ", c = " + cell + ")";
             }
 
-            void init() throws HexException {
+            void init() {
                 for (Arrow a : output)
                     if (a != null)
                         pool.add(a);
@@ -917,12 +950,47 @@ public class HexHandler {
                 return ccell[row + nr][cell + nc];
             }
 
-            void remove() throws HexException {
+            void remove() throws HexCalcException {
                 if (origin)
                     return;
                 for (Arrow v : output)
                     if (v != null && !v.dst.origin)
                         v.remove();
+            }
+
+        }
+
+    }
+
+    public static class HexCalcException extends Exception {
+
+        public final Collection<Side> error = new ArrayList<>();
+
+        public HexCalcException(Calc.Arrow arrow) {
+            Queue<Calc.CalcCell> pre = new ArrayDeque<>();
+            Set<Calc.CalcCell> post = new HashSet<>();
+            pre.add(arrow.dst);
+            post.add(arrow.dst);
+            while (!pre.isEmpty()) {
+                Calc.CalcCell first = pre.poll();
+                for (Calc.Arrow a : first.output)
+                    if (a != null) {
+                        //pre.add(a.dst);//FIXME
+                        post.add(a.dst);
+                        error.add(new Side(first, a));
+                    }
+            }
+        }
+
+        public static class Side {
+
+            public int row, cell;
+            public Direction dir;
+
+            private Side(Calc.CalcCell cell, Calc.Arrow arrow) {
+                this.row = cell.row;
+                this.cell = cell.cell;
+                this.dir = arrow.dir;
             }
 
         }

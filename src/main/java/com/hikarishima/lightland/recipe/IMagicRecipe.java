@@ -69,11 +69,11 @@ public class IMagicRecipe<R extends IMagicRecipe<R>> extends BaseRecipe<R, IMagi
         return ItemStack.EMPTY;
     }
 
-    public final MagicElement[] getElements(){
+    public final MagicElement[] getElements() {
         return elements;
     }
 
-    public final boolean[][] getGraph(){
+    public final boolean[][] getGraph() {
         return maps;
     }
 

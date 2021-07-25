@@ -60,7 +60,7 @@ public class HexRenderer {
                             renderErrorNode(color, i);
                 }
         // render flows
-        if (flow != null && flow.flows != null)
+        if (flow != null)
             for (Flow f : flow.flows) {
                 cell.row = f.arrow.row;
                 cell.cell = f.arrow.cell;
@@ -115,8 +115,8 @@ public class HexRenderer {
         for (int i = 0; i < 6; i++) {
             int t0 = (time + i) % 6;
             int t1 = 5 - t0;
-            int x = cell.getX() + dx0;
-            int y = cell.getY() + dy0;
+            double x = cell.getX() + dx0;
+            double y = cell.getY() + dy0;
             if ((forward & 1 << i) != 0)
                 renderer.render(x + dx1 * t0 + dx2, y + dy1 * t0 + dy2, "flow_" + i);
             if ((backward & 1 << i) != 0)
@@ -145,7 +145,7 @@ public class HexRenderer {
 
     public interface Renderer {
 
-        void render(int x, int y, String sprite);
+        void render(double x, double y, String sprite);
 
     }
 

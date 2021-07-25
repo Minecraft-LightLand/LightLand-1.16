@@ -57,7 +57,7 @@ public class Frac implements Comparable<Frac> {
     }
 
     public double getVal() {
-        return num / den;
+        return 1.0 * num / den;
     }
 
     public void times(Frac base) {
