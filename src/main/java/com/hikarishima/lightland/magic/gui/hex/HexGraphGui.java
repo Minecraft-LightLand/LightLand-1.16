@@ -1,7 +1,7 @@
 package com.hikarishima.lightland.magic.gui.hex;
 
 import com.hikarishima.lightland.magic.products.info.ProductState;
-import com.lcy0x1.core.magic.HexHandler;
+import com.lcy0x1.core.magic.*;
 import com.lcy0x1.core.math.Frac;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -44,9 +44,9 @@ public class HexGraphGui extends AbstractGui {
     private double magn = 14;
     private double scrollX, scrollY;
 
-    private HexHandler.FlowChart flow = null;
-    private HexHandler.HexCalcException error = null;
-    private HexHandler.Direction selected = null;
+    private FlowChart flow = null;
+    private HexCalcException error = null;
+    private HexDirection selected = null;
 
     public HexGraphGui(MagicHexScreen screen) {
         this.screen = screen;
@@ -63,7 +63,7 @@ public class HexGraphGui extends AbstractGui {
         RenderSystem.pushMatrix();
         RenderSystem.translated(x0 + scrollX, y0 + scrollY, 0);
 
-        HexHandler.LocateResult hover = graph.getElementOnHex((mx - x0 - scrollX) / magn, (my - y0 - scrollY) / magn);
+        LocateResult hover = graph.getElementOnHex((mx - x0 - scrollX) / magn, (my - y0 - scrollY) / magn);
         renderBG(matrix, hover);
         double width = RADIUS / 4 * magn;
         double length = HexHandler.WIDTH * 3 / 4 * magn;
@@ -76,8 +76,8 @@ public class HexGraphGui extends AbstractGui {
         RenderSystem.disableBlend();
     }
 
-    private void renderBG(MatrixStack matrix, HexHandler.LocateResult hover) {
-        HexHandler.Cell cell = graph.new Cell(0, 0);
+    private void renderBG(MatrixStack matrix, LocateResult hover) {
+        HexCell cell = new HexCell(graph, 0, 0);
         for (cell.row = 0; cell.row < graph.getRowCount(); cell.row++)
             for (cell.cell = 0; cell.cell < graph.getCellCount(cell.row); cell.cell++) {
                 double x = cell.getX() * magn;
@@ -90,7 +90,7 @@ public class HexGraphGui extends AbstractGui {
     }
 
     private void renderPath(MatrixStack matrix, double width, double length) {
-        HexHandler.Cell cell = graph.new Cell(0, 0);
+        HexCell cell = new HexCell(graph, 0, 0);
         for (cell.row = 0; cell.row < graph.getRowCount(); cell.row++)
             for (cell.cell = 0; cell.cell < graph.getCellCount(cell.row); cell.cell++) {
                 double x = cell.getX() * magn;
@@ -98,7 +98,7 @@ public class HexGraphGui extends AbstractGui {
                 double r = RADIUS * magn;
                 int col;
                 for (int i = 0; i < 3; i++) {
-                    HexHandler.Direction dire = HexHandler.Direction.values()[i];
+                    HexDirection dire = HexDirection.values()[i];
                     if (cell.canWalk(dire)) {
                         col = cell.isConnected(dire) ? COL_ENABLED : COL_DISABLED;
                         renderPath(matrix, x, y, HexHandler.WIDTH * magn, i, col, width, length);
@@ -111,12 +111,12 @@ public class HexGraphGui extends AbstractGui {
 
     private void renderFlow(MatrixStack matrix, double width, double length) {
         if (flow != null) {
-            HexHandler.Cell cell = graph.new Cell(0, 0);
+            HexCell cell = new HexCell(graph, 0, 0);
             double[][] vals = new double[graph.getRowCount()][];
             for (cell.row = 0; cell.row < graph.getRowCount(); cell.row++) {
                 vals[cell.row] = new double[graph.getCellCount(cell.row)];
             }
-            for (HexHandler.FlowChart.Flow f : flow.flows) {
+            for (FlowChart.Flow f : flow.flows) {
                 double val;
                 cell.row = f.arrow.row;
                 cell.cell = f.arrow.cell;
@@ -181,8 +181,8 @@ public class HexGraphGui extends AbstractGui {
 
     private void renderError(MatrixStack matrix, double width, double length) {
         if (error != null) {
-            HexHandler.Cell cell = graph.new Cell(0, 0);
-            for (HexHandler.HexCalcException.Side side : error.error) {
+            HexCell cell = new HexCell(graph, 0, 0);
+            for (HexCalcException.Side side : error.error) {
                 cell.row = side.row;
                 cell.cell = side.cell;
                 double x = cell.getX() * magn;
@@ -196,7 +196,7 @@ public class HexGraphGui extends AbstractGui {
         }
     }
 
-    private void updateNodeVal(double[][] vals, HexHandler.Cell cell, HexHandler.Direction dir, double val) {
+    private void updateNodeVal(double[][] vals, HexCell cell, HexDirection dir, double val) {
         vals[cell.row][cell.cell] += cell.isCorner() ? val : val / 2;
         cell.walk(dir);
         vals[cell.row][cell.cell] += cell.isCorner() ? val : val / 2;
@@ -268,7 +268,7 @@ public class HexGraphGui extends AbstractGui {
     }
 
     public boolean mouseClicked(int x0, int y0, double mx, double my, int button) {
-        HexHandler.LocateResult hover = graph.getElementOnHex((mx - x0 - scrollX) / magn, (my - y0 - scrollY) / magn);
+        LocateResult hover = graph.getElementOnHex((mx - x0 - scrollX) / magn, (my - y0 - scrollY) / magn);
         if (click(hover)) {
             flow = null;
             error = null;
@@ -278,18 +278,18 @@ public class HexGraphGui extends AbstractGui {
         return false;
     }
 
-    private boolean click(HexHandler.LocateResult hover) {
+    private boolean click(LocateResult hover) {
         if (hover == null)
             return false;
-        if (hover.getType() == HexHandler.LocateResult.ResultType.ARROW) {
-            HexHandler.ArrowResult res = (HexHandler.ArrowResult) hover;
-            graph.new Cell(res.row, res.cell).toggle(res.dir);
+        if (hover.getType() == LocateResult.ResultType.ARROW) {
+            ArrowResult res = (ArrowResult) hover;
+            new HexCell(graph, res.row, res.cell).toggle(res.dir);
             return true;
-        } else if (hover.getType() == HexHandler.LocateResult.ResultType.CELL) {
-            HexHandler.CellResult res = (HexHandler.CellResult) hover;
-            HexHandler.Cell cell = graph.new Cell(res.row, res.cell);
+        } else if (hover.getType() == LocateResult.ResultType.CELL) {
+            CellResult res = (CellResult) hover;
+            HexCell cell = new HexCell(graph, res.row, res.cell);
             if (flow == null) {
-                for (HexHandler.Direction dire : HexHandler.Direction.values()) {
+                for (HexDirection dire : HexDirection.values()) {
                     if (cell.canWalk(dire) && cell.isConnected(dire))
                         cell.toggle(dire);
                 }
@@ -331,7 +331,7 @@ public class HexGraphGui extends AbstractGui {
         error = null;
         try {
             flow = graph.getMatrix(true);
-        } catch (HexHandler.HexCalcException e) {
+        } catch (HexCalcException e) {
             flow = null;
             error = e;
         } catch (Exception e) {

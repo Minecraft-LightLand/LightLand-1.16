@@ -1,7 +1,17 @@
 TODO List
-- Add Magic Product Unlock
+- Add Magic Product Unlock display in GUI
 - Sync Client Magic Product Edit to Server
 - Fix Hex Loop prediction
+
+- Add Element level up screen
+- Add Ability level up screen
+- Add tutorial screen
+
+Version 0.2.1
+    magic:
+        - add magic tree screen
+        - add magic graph screen
+            - not finished
 
 Version 0.2.0
     magic:
@@ -10,7 +20,6 @@ Version 0.2.0
         - add arcane system and test item
         - add spell system and test item
         - add magic element and product system
-            - not tested
 
 Version 0.1.0
     terrain:
