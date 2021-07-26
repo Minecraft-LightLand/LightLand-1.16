@@ -22,7 +22,7 @@ public class LightLand {
 
     public static final String MODID = "lightland";
     public static final String NETWORK_VERSION = "1";
-    public static boolean generate = true;
+    public static boolean generate = false;
 
     public static LightLandWorldType WORLD_TYPE = new LightLandWorldType();
 
