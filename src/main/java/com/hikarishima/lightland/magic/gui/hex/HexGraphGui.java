@@ -1,5 +1,6 @@
 package com.hikarishima.lightland.magic.gui.hex;
 
+import com.hikarishima.lightland.magic.capabilities.ToServerMsg;
 import com.hikarishima.lightland.magic.products.info.ProductState;
 import com.lcy0x1.core.magic.*;
 import com.lcy0x1.core.math.Frac;
@@ -308,7 +309,6 @@ public class HexGraphGui extends AbstractGui {
     }
 
     public boolean charTyped(char ch) {
-        //TODO set debug only
         if (!Minecraft.getInstance().player.isCreative())
             return false;
         if (ch == 's') {
@@ -322,8 +322,13 @@ public class HexGraphGui extends AbstractGui {
     }
 
     private void save() {
-        if (screen.product.getState() == ProductState.UNLOCKED)
-            screen.product.updateBestSolution(graph, -1);
+        int cost = -1;
+        if (screen.product.getState() == ProductState.CRAFTED) {
+            //TODO check match
+            return;
+        }
+        screen.product.updateBestSolution(graph, cost);
+        ToServerMsg.sendHexUpdate(screen.product);
     }
 
     private void compile() {

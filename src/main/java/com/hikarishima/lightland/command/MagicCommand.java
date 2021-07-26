@@ -1,6 +1,7 @@
 package com.hikarishima.lightland.command;
 
 import com.hikarishima.lightland.config.Translator;
+import com.hikarishima.lightland.magic.MagicElement;
 import com.hikarishima.lightland.magic.MagicRegistry;
 import com.hikarishima.lightland.magic.arcane.internal.*;
 import com.hikarishima.lightland.magic.capabilities.MagicHandler;
@@ -207,6 +208,17 @@ public class MagicCommand {
                             handler.magicAbility.spell_level += slot;
                             PacketHandler.toClient(e, new ToClientMsg(ToClientMsg.Action.MAGIC_ABILITY, handler));
                             send(context, Translator.get(ID_SPELL_SLOT, handler.magicAbility.getMaxSpellSlot()));
+                            return 1;
+                        }))));
+
+        reg(magic, "master_element", getPlayer()
+                .then(Commands.argument("elem", RegistryParser.ELEMENT)
+                        .executes(withPlayer((context, e) -> {
+                            MagicHandler handler = MagicHandler.get(e);
+                            MagicElement elem = context.getArgument("elem", MagicElement.class);
+                            handler.magicHolder.addElementalMastery(elem);
+                            PacketHandler.toClient(e, new ToClientMsg(ToClientMsg.Action.ALL, handler));
+                            send(context, ACTION_SUCCESS);
                             return 1;
                         }))));
 

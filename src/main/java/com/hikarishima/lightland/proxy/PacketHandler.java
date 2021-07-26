@@ -3,6 +3,7 @@ package com.hikarishima.lightland.proxy;
 import com.hikarishima.lightland.LightLand;
 import com.hikarishima.lightland.event.forge.ItemUseEventHandler;
 import com.hikarishima.lightland.magic.capabilities.ToClientMsg;
+import com.hikarishima.lightland.magic.capabilities.ToServerMsg;
 import com.hikarishima.lightland.magic.gui.DisEnchantContainer;
 import com.lcy0x1.core.util.SerialClass;
 import com.lcy0x1.core.util.Serializer;
@@ -31,6 +32,7 @@ public class PacketHandler {
         reg(IntMsg.class, IntMsg::encode, IntMsg::decode, IntMsg::handle);
         reg(ItemUseEventHandler.Msg.class, ItemUseEventHandler.Msg::handle);
         reg(ToClientMsg.class, ToClientMsg::handle);
+        reg(ToServerMsg.class, ToServerMsg::handle);
         reg(DisEnchantContainer.Msg.class, DisEnchantContainer.class);
     }
 

@@ -10,10 +10,8 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.gui.advancements.AdvancementState;
 import net.minecraft.util.IReorderingProcessor;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.*;
 import net.minecraftforge.registries.IForgeRegistryEntry;
 
@@ -42,7 +40,7 @@ public class MagicTreeEntry<I extends IForgeRegistryEntry<I>, P extends MagicPro
         this.title = LanguageMap.getInstance().getVisualOrder(minecraft.font.substrByWidth(Translator.get(product), 163));
         this.x = Math.round(display.getX() * X_SLOT);
         this.y = Math.round(display.getY() * Y_SLOT);
-        int title_width = 29 + minecraft.font.width(this.title);
+        int title_width = Math.max(80, 29 + minecraft.font.width(this.title));
         this.description = LanguageMap.getInstance().getVisualOrder(
                 findOptimalLines(TextComponentUtils.mergeStyles(Translator.getDesc(product).copy(),
                         Style.EMPTY.withColor(display.getFrame().getChatColor())), title_width));
@@ -92,9 +90,10 @@ public class MagicTreeEntry<I extends IForgeRegistryEntry<I>, P extends MagicPro
 
     public void draw(MatrixStack matrix, int x0, int y0) {
         ProductState state = product.getState();
+        int icon_index = state == ProductState.LOCKED ? 1 : 0;
         if (product.visible()) {
             this.minecraft.getTextureManager().bind(WIDGETS_LOCATION);
-            this.blit(matrix, x0 + this.x + 3, y0 + this.y, this.display.getFrame().getTexture(), 128 + state.getIndex() * 26, 26, 26);
+            this.blit(matrix, x0 + this.x + 3, y0 + this.y, this.display.getFrame().getTexture(), 128 + icon_index * 26, 26, 26);
             this.minecraft.getItemRenderer().renderAndDecorateFakeItem(this.display.getIcon(), x0 + this.x + 8, y0 + this.y + 5);
         }
     }
@@ -112,45 +111,21 @@ public class MagicTreeEntry<I extends IForgeRegistryEntry<I>, P extends MagicPro
     }
 
     public void drawHover(MatrixStack matrix, int sx, int sy, float fade, int x0, int y0) {
-        boolean lvt_7_1_ = x0 + sx + this.x + this.width + 26 >= this.tab.getScreen().width;
-        String lvt_8_1_ = null;//this.progress == null ? null : this.progress.getProgressText();
-        int lvt_9_1_ = lvt_8_1_ == null ? 0 : this.minecraft.font.width(lvt_8_1_);
-        int var10000 = 113 - sy - this.y - 26;
-        int var10002 = this.description.size();
-        boolean lvt_10_1_ = var10000 <= 6 + var10002 * 9;
-        float lvt_11_1_ = 0;//this.progress == null ? 0.0F : this.progress.getPercent();
-        int lvt_15_1_ = MathHelper.floor(lvt_11_1_ * (float) this.width);
-        AdvancementState lvt_12_4_;
-        AdvancementState lvt_13_4_;
-        AdvancementState lvt_14_4_;
-        if (lvt_11_1_ >= 1.0F) {
-            lvt_15_1_ = this.width / 2;
-            lvt_12_4_ = AdvancementState.OBTAINED;
-            lvt_13_4_ = AdvancementState.OBTAINED;
-            lvt_14_4_ = AdvancementState.OBTAINED;
-        } else if (lvt_15_1_ < 2) {
-            lvt_15_1_ = this.width / 2;
-            lvt_12_4_ = AdvancementState.UNOBTAINED;
-            lvt_13_4_ = AdvancementState.UNOBTAINED;
-            lvt_14_4_ = AdvancementState.UNOBTAINED;
-        } else if (lvt_15_1_ > this.width - 2) {
-            lvt_15_1_ = this.width / 2;
-            lvt_12_4_ = AdvancementState.OBTAINED;
-            lvt_13_4_ = AdvancementState.OBTAINED;
-            lvt_14_4_ = AdvancementState.UNOBTAINED;
-        } else {
-            lvt_12_4_ = AdvancementState.OBTAINED;
-            lvt_13_4_ = AdvancementState.UNOBTAINED;
-            lvt_14_4_ = AdvancementState.UNOBTAINED;
-        }
+        ProductState state = product.getState();
+        boolean exceed_width = x0 + sx + this.x + this.width + 26 >= this.tab.getScreen().width;
+        int height = 113 - sy - this.y - 26;
+        int desc_size = this.description.size();
+        boolean lvt_10_1_ = height <= 6 + desc_size * 9;
+        int state_index = 1;
+        int icon_index = state == ProductState.LOCKED ? 1 : 0;
 
-        int lvt_16_1_ = this.width - lvt_15_1_;
+        int lvt_16_1_ = this.width - this.width / 2;
         minecraft.getTextureManager().bind(WIDGETS_LOCATION);
         RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
         RenderSystem.enableBlend();
         int lvt_17_1_ = sy + this.y;
         int lvt_18_2_;
-        if (lvt_7_1_) {
+        if (exceed_width) {
             lvt_18_2_ = sx + this.x - this.width + 26 + 6;
         } else {
             lvt_18_2_ = sx + this.x;
@@ -166,20 +141,13 @@ public class MagicTreeEntry<I extends IForgeRegistryEntry<I>, P extends MagicPro
             }
         }
 
-        this.blit(matrix, lvt_18_2_, lvt_17_1_, 0, lvt_12_4_.getIndex() * 26, lvt_15_1_, 26);
-        this.blit(matrix, lvt_18_2_ + lvt_15_1_, lvt_17_1_, 200 - lvt_16_1_, lvt_13_4_.getIndex() * 26, lvt_16_1_, 26);
-        this.blit(matrix, sx + this.x + 3, sy + this.y, this.display.getFrame().getTexture(), 128 + lvt_14_4_.getIndex() * 26, 26, 26);
-        if (lvt_7_1_) {
-            minecraft.font.drawShadow(matrix, this.title, (float) (lvt_18_2_ + 5), (float) (sy + this.y + 9), -1);
-            if (lvt_8_1_ != null) {
-                this.minecraft.font.drawShadow(matrix, lvt_8_1_, (float) (sx + this.x - lvt_9_1_), (float) (sy + this.y + 9), -1);
-            }
-        } else {
-            minecraft.font.drawShadow(matrix, this.title, (float) (sx + this.x + 32), (float) (sy + this.y + 9), -1);
-            if (lvt_8_1_ != null) {
-                minecraft.font.drawShadow(matrix, lvt_8_1_, (float) (sx + this.x + this.width - lvt_9_1_ - 5), (float) (sy + this.y + 9), -1);
-            }
-        }
+        this.blit(matrix, lvt_18_2_, lvt_17_1_, 0, state_index * 26, this.width / 2, 26);
+        this.blit(matrix, lvt_18_2_ + this.width / 2, lvt_17_1_, 200 - lvt_16_1_, state_index * 26, lvt_16_1_, 26);
+
+        // icon
+        this.blit(matrix, sx + this.x + 3, sy + this.y, this.display.getFrame().getTexture(), 128 + icon_index * 26, 26, 26);
+
+        minecraft.font.drawShadow(matrix, this.title, (float) (exceed_width ? lvt_18_2_ + 5 : sx + this.x + 32), (float) (sy + this.y + 9), -1);
 
         FontRenderer fontRenderer = minecraft.font;
         for (int i = 0; i < this.description.size(); ++i) {
@@ -192,27 +160,26 @@ public class MagicTreeEntry<I extends IForgeRegistryEntry<I>, P extends MagicPro
         minecraft.getItemRenderer().renderAndDecorateFakeItem(this.display.getIcon(), sx + this.x + 8, sy + this.y + 5);
     }
 
-    private void render9Sprite(MatrixStack matrix, int p_238691_2_, int p_238691_3_, int p_238691_4_, int p_238691_5_, int p_238691_6_, int p_238691_7_, int p_238691_8_, int p_238691_9_, int p_238691_10_) {
-        this.blit(matrix, p_238691_2_, p_238691_3_, p_238691_9_, p_238691_10_, p_238691_6_, p_238691_6_);
-        this.renderRepeating(matrix, p_238691_2_ + p_238691_6_, p_238691_3_, p_238691_4_ - p_238691_6_ - p_238691_6_, p_238691_6_, p_238691_9_ + p_238691_6_, p_238691_10_, p_238691_7_ - p_238691_6_ - p_238691_6_, p_238691_8_);
-        this.blit(matrix, p_238691_2_ + p_238691_4_ - p_238691_6_, p_238691_3_, p_238691_9_ + p_238691_7_ - p_238691_6_, p_238691_10_, p_238691_6_, p_238691_6_);
-        this.blit(matrix, p_238691_2_, p_238691_3_ + p_238691_5_ - p_238691_6_, p_238691_9_, p_238691_10_ + p_238691_8_ - p_238691_6_, p_238691_6_, p_238691_6_);
-        this.renderRepeating(matrix, p_238691_2_ + p_238691_6_, p_238691_3_ + p_238691_5_ - p_238691_6_, p_238691_4_ - p_238691_6_ - p_238691_6_, p_238691_6_, p_238691_9_ + p_238691_6_, p_238691_10_ + p_238691_8_ - p_238691_6_, p_238691_7_ - p_238691_6_ - p_238691_6_, p_238691_8_);
-        this.blit(matrix, p_238691_2_ + p_238691_4_ - p_238691_6_, p_238691_3_ + p_238691_5_ - p_238691_6_, p_238691_9_ + p_238691_7_ - p_238691_6_, p_238691_10_ + p_238691_8_ - p_238691_6_, p_238691_6_, p_238691_6_);
-        this.renderRepeating(matrix, p_238691_2_, p_238691_3_ + p_238691_6_, p_238691_6_, p_238691_5_ - p_238691_6_ - p_238691_6_, p_238691_9_, p_238691_10_ + p_238691_6_, p_238691_7_, p_238691_8_ - p_238691_6_ - p_238691_6_);
-        this.renderRepeating(matrix, p_238691_2_ + p_238691_6_, p_238691_3_ + p_238691_6_, p_238691_4_ - p_238691_6_ - p_238691_6_, p_238691_5_ - p_238691_6_ - p_238691_6_, p_238691_9_ + p_238691_6_, p_238691_10_ + p_238691_6_, p_238691_7_ - p_238691_6_ - p_238691_6_, p_238691_8_ - p_238691_6_ - p_238691_6_);
-        this.renderRepeating(matrix, p_238691_2_ + p_238691_4_ - p_238691_6_, p_238691_3_ + p_238691_6_, p_238691_6_, p_238691_5_ - p_238691_6_ - p_238691_6_, p_238691_9_ + p_238691_7_ - p_238691_6_, p_238691_10_ + p_238691_6_, p_238691_7_, p_238691_8_ - p_238691_6_ - p_238691_6_);
+    private void render9Sprite(MatrixStack matrix, int x0, int y0, int x1, int y1, int px, int dx, int dy, int tx, int ty) {
+        this.blit(matrix, x0, y0, tx, ty, px, px);
+        this.renderRepeating(matrix, x0 + px, y0, x1 - px - px, px, tx + px, ty, dx - px - px, dy);
+        this.blit(matrix, x0 + x1 - px, y0, tx + dx - px, ty, px, px);
+        this.blit(matrix, x0, y0 + y1 - px, tx, ty + dy - px, px, px);
+        this.renderRepeating(matrix, x0 + px, y0 + y1 - px, x1 - px - px, px, tx + px, ty + dy - px, dx - px - px, dy);
+        this.blit(matrix, x0 + x1 - px, y0 + y1 - px, tx + dx - px, ty + dy - px, px, px);
+        this.renderRepeating(matrix, x0, y0 + px, px, y1 - px - px, tx, ty + px, dx, dy - px - px);
+        this.renderRepeating(matrix, x0 + px, y0 + px, x1 - px - px, y1 - px - px, tx + px, ty + px, dx - px - px, dy - px - px);
+        this.renderRepeating(matrix, x0 + x1 - px, y0 + px, px, y1 - px - px, tx + dx - px, ty + px, dx, dy - px - px);
     }
 
-    private void renderRepeating(MatrixStack matrix, int p_238690_2_, int p_238690_3_, int p_238690_4_, int p_238690_5_, int p_238690_6_, int p_238690_7_, int p_238690_8_, int p_238690_9_) {
-        for (int lvt_10_1_ = 0; lvt_10_1_ < p_238690_4_; lvt_10_1_ += p_238690_8_) {
-            int lvt_11_1_ = p_238690_2_ + lvt_10_1_;
-            int lvt_12_1_ = Math.min(p_238690_8_, p_238690_4_ - lvt_10_1_);
-
-            for (int i = 0; i < p_238690_5_; i += p_238690_9_) {
-                int lvt_14_1_ = p_238690_3_ + i;
-                int lvt_15_1_ = Math.min(p_238690_9_, p_238690_5_ - i);
-                this.blit(matrix, lvt_11_1_, lvt_14_1_, p_238690_6_, p_238690_7_, lvt_12_1_, lvt_15_1_);
+    private void renderRepeating(MatrixStack matrix, int x0, int y0, int nx, int ny, int tx, int ty, int dx, int dy) {
+        for (int ix = 0; ix < nx; ix += dx) {
+            int x = x0 + ix;
+            int mx = Math.min(dx, nx - ix);
+            for (int iy = 0; iy < ny; iy += dy) {
+                int y = y0 + iy;
+                int my = Math.min(dy, ny - iy);
+                this.blit(matrix, x, y, tx, ty, mx, my);
             }
         }
 

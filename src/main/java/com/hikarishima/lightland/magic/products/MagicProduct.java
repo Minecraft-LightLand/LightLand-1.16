@@ -31,7 +31,7 @@ public class MagicProduct<I extends IForgeRegistryEntry<I>, P extends MagicProdu
         }
     }
 
-    protected final NBTObj getBase() {
+    public final NBTObj getBase() {
         return tag.getSub("_base");
     }
 

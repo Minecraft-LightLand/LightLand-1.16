@@ -38,11 +38,19 @@ public class HexHandler {
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
-        int k = 1, s = 0;
+        int k = 0, s = 0;
+        HexCell cell = new HexCell(this, 0, 0);
         for (int i = 0; i < getRowCount(); i++)
             for (int j = 0; j < getCellCount(i); j++) {
+                cell.row = i;
+                cell.cell = j;
                 int val = data[k >> 1] >> ((k & 1) * 4);
-                cells[i][j] = (byte) (val & 7);
+                int dir = (byte) (val & 7);
+                for (int d = 0; d < 3; d++) {
+                    if ((HexDirection.values()[d].mask() & dir) != 0) {
+                        cell.toggle(HexDirection.values()[d]);
+                    }
+                }
                 if ((val & 8) != 0) {
                     byte sval = subs[s++];
                     SubHexCore core = cores[sval & 7];
@@ -50,6 +58,7 @@ public class HexHandler {
                     boolean flip = (sval >> 6 & 1) != 0;
                     subhex[getInd(i, j)] = new SubHex(core, rot, flip);
                 }
+                k++;
             }
     }
 
@@ -161,25 +170,24 @@ public class HexHandler {
         byte[] data = new byte[len];
         SubHex[] sub = new SubHex[getArea()];
         data[0] |= radius & 0xF;
-        int k = 1, s = 0;
+        int k = 0, s = 0;
         for (int i = 0; i < getRowCount(); i++)
             for (int j = 0; j < getCellCount(i); j++) {
                 data[k >> 1] |= (cells[i][j] & 7) << ((k & 1) * 4);
                 if (subhex[getInd(i, j)] != null) {
-                    data[k >> 1] |= 4 << ((k & 1) * 4);
+                    data[k >> 1] |= 8 << ((k & 1) * 4);
                     sub[s] = subhex[getInd(i, j)];
+                    s++;
                 }
-                s++;
                 k++;
             }
         tag.tag.putByteArray("data", data);
-        byte[] subs = new byte[getArea()];
-        for (int i = 0; i < sub.length; i++)
-            if (sub[i] != null) {
-                subs[i] |= sub[i].core.index;
-                subs[i] |= (sub[i].rotation + 6) % 6 << 3;
-                subs[i] |= (sub[i].flip ? 1 : 0) << 6;
-            }
+        byte[] subs = new byte[s];
+        for (int i = 0; i < s; i++) {
+            subs[i] |= sub[i].core.index;
+            subs[i] |= (sub[i].rotation + 6) % 6 << 3;
+            subs[i] |= (sub[i].flip ? 1 : 0) << 6;
+        }
         tag.tag.putByteArray("subs", subs);
         NBTList<?> list = tag.getList("cores");
         for (SubHexCore core : cores)

@@ -172,7 +172,7 @@ public class MagicTreeGui<I extends IForgeRegistryEntry<I>, P extends MagicProdu
         int sy = MathHelper.floor(this.scrollY);
         if (mx > 0 && mx < 234 && my > 0 && my < 113)
             for (Map.Entry<P, MagicTreeEntry<I, P>> entry : widgets.entrySet()) {
-                if (entry.getValue().isMouseOver(sx, sy, mx, my)) {
+                if (entry.getValue().isMouseOver(sx, sy, mx, my) && entry.getKey().unlocked()) {
                     Minecraft.getInstance().setScreen(new MagicHexScreen(screen.handler, entry.getKey()));
                     return true;
                 }

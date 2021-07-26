@@ -1,8 +1,5 @@
 TODO List
-- Add Magic Product Unlock display in GUI
-- Sync Client Magic Product Edit to Server
 - Fix Hex Loop prediction
-
 - Add Element level up screen
 - Add Ability level up screen
 - Add tutorial screen

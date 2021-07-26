@@ -64,7 +64,6 @@ public class MagicHandler {
         magicHolder.product_manager = new NBTObj(magicHolder.products);
         magicAbility.arcane_manager = new NBTObj(magicAbility.arcane_type);
         magicHolder.checkUnlocks();
-        LogManager.getLogger().info((world.isClientSide() ? "client" : "server") + " magic handler init");
     }
 
     protected MagicHandler check() {
