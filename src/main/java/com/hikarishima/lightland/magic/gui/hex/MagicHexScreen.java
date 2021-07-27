@@ -1,7 +1,12 @@
 package com.hikarishima.lightland.magic.gui.hex;
 
 import com.hikarishima.lightland.magic.capabilities.MagicHandler;
+import com.hikarishima.lightland.magic.capabilities.ToServerMsg;
 import com.hikarishima.lightland.magic.products.MagicProduct;
+import com.hikarishima.lightland.magic.products.info.ProductState;
+import com.lcy0x1.core.magic.HexCell;
+import com.lcy0x1.core.magic.HexDirection;
+import com.lcy0x1.core.math.Frac;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.util.text.ITextComponent;
@@ -20,7 +25,7 @@ public class MagicHexScreen extends Screen {
     public final HexResultGui result;
 
     private double accurate_mouse_x, accurate_mouse_y;
-    private boolean isScrolling = false;
+    private boolean isScrolling = false, saved = true;
 
     public MagicHexScreen(MagicHandler handler, MagicProduct<?, ?> product) {
         super(TITLE);
@@ -52,14 +57,15 @@ public class MagicHexScreen extends Screen {
             accurate_mouse_x = mx;
         if (Math.abs(accurate_mouse_y - my) > 1)
             accurate_mouse_y = my;
-        //graph.box.render(matrix, 0, col_bg, WindowBox.RenderType.FILL);
+        graph.box.render(matrix, 0, col_bg, WindowBox.RenderType.FILL);
+        graph.box.startClip(matrix);
         graph.render(matrix, accurate_mouse_x, accurate_mouse_y, partial);
-        //graph.box.render(matrix, 0, col_bg, WindowBox.RenderType.MARGIN_ALL);
+        graph.box.endClip(matrix);
         graph.box.render(matrix, 8, col_m1, WindowBox.RenderType.MARGIN);
         graph.box.render(matrix, 2, col_m0, WindowBox.RenderType.MARGIN);
 
         result.box.render(matrix, 0, col_bg, WindowBox.RenderType.FILL);
-        result.render(matrix, partial);
+        result.render(matrix, accurate_mouse_x, accurate_mouse_y, partial);
         result.box.render(matrix, 8, col_m1, WindowBox.RenderType.MARGIN);
         result.box.render(matrix, 2, col_m0, WindowBox.RenderType.MARGIN);
     }
@@ -68,6 +74,7 @@ public class MagicHexScreen extends Screen {
     public void tick() {
         super.tick();
         result.tick();
+        graph.tick();
     }
 
     public void mouseMoved(double mx, double my) {
@@ -94,6 +101,13 @@ public class MagicHexScreen extends Screen {
     }
 
     @Override
+    public boolean mouseReleased(double x0, double y0, int button) {
+        if (result.mouseReleased(x0, y0, button))
+            return true;
+        return super.mouseReleased(x0, y0, button);
+    }
+
+    @Override
     public boolean mouseClicked(double mx, double my, int button) {
         if (graph.box.isMouseIn(mx, my) && graph.mouseClicked(mx, my, button))
             return true;
@@ -113,4 +127,79 @@ public class MagicHexScreen extends Screen {
             return true;
         return super.charTyped(ch, type);
     }
+
+    protected void updated() {
+        if (product.getState() != ProductState.CRAFTED) {
+            save();
+        }
+    }
+
+    private void save() {
+        int cost = -1;
+        saved = false;
+        boolean pass = test();
+        if (pass) {
+            cost = getCost();
+        }
+        if (product.getState() == ProductState.CRAFTED) {
+            if (!pass)
+                return;
+            if (cost > product.getBase().tag.getInt("cost"))
+                return;
+        }
+        saved = true;
+        product.updateBestSolution(graph.graph, result.data, cost);
+        ToServerMsg.sendHexUpdate(product);
+    }
+
+    private boolean test() {
+        if (graph.flow != null) {
+            boolean wrong = false;
+            HexCell cell = new HexCell(graph.graph, 0, 0);
+            for (int i = 0; i < 6; i++) {
+                graph.wrong_flow[i] = false;
+                cell.toCorner(HexDirection.values()[i]);
+                if (cell.exists() == (result.getElem(i) == null)) {
+                    graph.wrong_flow[i] = true;
+                    wrong = true;
+                }
+            }
+            if (wrong)
+                return false;
+            for (int i = 0; i < 6; i++) {
+                Frac[] arr = graph.flow.matrix[i];
+                if (arr == null)
+                    continue;
+                Frac sample = null;
+                for (int j = 0; j < 6; j++) {
+                    Frac f = arr[j];
+                    if (f == null)
+                        continue;
+                    if (i == j) {
+                        wrong |= graph.wrong_flow[i - 1] = true;
+                        continue;
+                    }
+                    if (sample == null)
+                        sample = f;
+                    else if (!sample.equals(f)) {
+                        wrong |= graph.wrong_flow[i - 1] = true;
+                    }
+                }
+            }
+            return !wrong;
+        }
+        return false;
+    }
+
+    private int getCost() {
+        int cost = 0;
+        HexCell cell = new HexCell(graph.graph, 0, 0);
+        for (cell.row = 0; cell.row < graph.graph.getRowCount(); cell.row++)
+            for (cell.cell = 0; cell.cell < graph.graph.getCellCount(cell.row); cell.cell++) {
+                if (cell.exists())
+                    cost++;
+            }
+        return cost;
+    }
+
 }

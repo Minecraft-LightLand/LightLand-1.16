@@ -114,6 +114,15 @@ public class Automator {
         return tag;
     }
 
+    public static CompoundNBT toTag(CompoundNBT tag, Object obj) {
+        return ExceptionHandler.get(() -> toTag(tag, obj.getClass(), obj, f -> true));
+    }
+
+    @SuppressWarnings("unchecked")
+    public static <T> T fromTag(CompoundNBT tag, Class<?> cls) {
+        return (T) ExceptionHandler.get(() -> fromTag(tag, cls, null, f -> true));
+    }
+
     public static INBT toTagRaw(Class<?> cls, Object obj, Predicate<SerialClass.SerialField> pred) throws Exception {
         if (MAP.containsKey(cls))
             return MAP.get(cls).toTag.apply(obj);

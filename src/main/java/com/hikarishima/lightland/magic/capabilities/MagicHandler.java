@@ -86,7 +86,7 @@ public class MagicHandler {
         @Nullable
         @Override
         public INBT writeNBT(Capability<MagicHandler> capability, MagicHandler obj, Direction direction) {
-            return ExceptionHandler.get(() -> Automator.toTag(new CompoundNBT(), MagicHandler.class, obj, f -> true));
+            return Automator.toTag(new CompoundNBT(), obj);
         }
 
         @Override

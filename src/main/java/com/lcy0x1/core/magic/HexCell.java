@@ -184,4 +184,10 @@ public class HexCell {
             else return null;
         else return null;
     }
+
+    public void toCorner(HexDirection selected) {
+        row = hexHandler.radius;
+        cell = hexHandler.radius;
+        walk(selected, hexHandler.radius);
+    }
 }
