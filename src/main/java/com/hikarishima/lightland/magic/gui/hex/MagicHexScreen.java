@@ -30,16 +30,38 @@ public class MagicHexScreen extends Screen {
         this.result = new HexResultGui(this);
     }
 
+    public void init() {
+        int sw = this.width;
+        int sh = this.height;
+        int w = 300;
+        int h = 200;
+        int x0 = (sw - w) / 2;
+        int y0 = (sh - h) / 2;
+        graph.box.setSize(this, x0, y0, 200, 200, 8);
+        result.box.setSize(this, x0 + 200, y0, 100, 100, 8);
+    }
+
     @Override
     public void render(MatrixStack matrix, int mx, int my, float partial) {
+        int col_bg = 0xFFC0C0C0;
+        int col_m0 = 0xFF808080;
+        int col_m1 = 0xFFFFFFFF;
         super.renderBackground(matrix);
         super.render(matrix, 0, 0, partial);
         if (Math.abs(accurate_mouse_x - mx) > 1)
             accurate_mouse_x = mx;
         if (Math.abs(accurate_mouse_y - my) > 1)
             accurate_mouse_y = my;
-        //result.render(matrix, this.width / 2, this.height / 2, partial);
-        graph.render(matrix, this.width / 2, this.height / 2, accurate_mouse_x, accurate_mouse_y, partial);
+        //graph.box.render(matrix, 0, col_bg, WindowBox.RenderType.FILL);
+        graph.render(matrix, accurate_mouse_x, accurate_mouse_y, partial);
+        //graph.box.render(matrix, 0, col_bg, WindowBox.RenderType.MARGIN_ALL);
+        graph.box.render(matrix, 8, col_m1, WindowBox.RenderType.MARGIN);
+        graph.box.render(matrix, 2, col_m0, WindowBox.RenderType.MARGIN);
+
+        result.box.render(matrix, 0, col_bg, WindowBox.RenderType.FILL);
+        result.render(matrix, partial);
+        result.box.render(matrix, 8, col_m1, WindowBox.RenderType.MARGIN);
+        result.box.render(matrix, 2, col_m0, WindowBox.RenderType.MARGIN);
     }
 
     @Override
@@ -57,29 +79,30 @@ public class MagicHexScreen extends Screen {
 
     public boolean mouseDragged(double x0, double y0, int button, double dx, double dy) {
         if (button != 0) {
-            this.isScrolling = false;
+            isScrolling = false;
             return false;
         } else {
-            if (!this.isScrolling) {
-                this.isScrolling = true;
-            } else {
+            if (graph.box.isMouseIn(x0, y0)) {
+                isScrolling = true;
                 graph.scroll(dx, dy);
+                return true;
+            } else if (result.box.isMouseIn(x0, y0)) {
+                return result.mouseDragged(x0, y0, button, dx, dy);
             }
-
-            return true;
         }
+        return false;
     }
 
     @Override
     public boolean mouseClicked(double mx, double my, int button) {
-        if (graph.mouseClicked(this.width / 2, this.height / 2, mx, my, button))
+        if (graph.box.isMouseIn(mx, my) && graph.mouseClicked(mx, my, button))
             return true;
         return super.mouseClicked(mx, my, button);
     }
 
     @Override
     public boolean mouseScrolled(double mx, double my, double amount) {
-        if (graph.mouseScrolled(mx, my, amount))
+        if (graph.box.isMouseIn(mx, my) && graph.mouseScrolled(mx, my, amount))
             return true;
         return super.mouseScrolled(mx, my, amount);
     }

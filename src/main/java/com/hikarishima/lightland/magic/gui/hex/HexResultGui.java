@@ -11,7 +11,7 @@ import net.minecraft.client.gui.AbstractGui;
 public class HexResultGui extends AbstractGui {
 
     private static final int FLOW_COUNT = 5;
-    private static final float RADIUS = 40, PERIOD = 60, SCALE_NODE = 1f, SCALE_FLOW = 0.5f;
+    private static final float RADIUS = 30, PERIOD = 60, SCALE_NODE = 1f, SCALE_FLOW = 0.5f;
 
     private final Minecraft minecraft = Minecraft.getInstance();
     private final MagicHexScreen screen;
@@ -19,12 +19,16 @@ public class HexResultGui extends AbstractGui {
 
     private int tick = 0;
 
+    final WindowBox box = new WindowBox();
+
     public HexResultGui(MagicHexScreen screen) {
         this.screen = screen;
         this.recipe = screen.product.recipe;
     }
 
-    public void render(MatrixStack matrix, int x0, int y0, float partial) {
+    public void render(MatrixStack matrix, float partial) {
+        float x0 = box.x + box.w / 2f;
+        float y0 = box.y + box.h / 2f;
         float progress = (tick + partial) / PERIOD % 1;
         MagicElement[] elements = recipe.getElements();
         boolean[][] graph = recipe.getGraph();
@@ -73,5 +77,10 @@ public class HexResultGui extends AbstractGui {
     public void tick() {
         tick++;
         tick %= PERIOD;
+    }
+
+    public boolean mouseDragged(double x0, double y0, int button, double dx, double dy) {
+
+        return false;
     }
 }

@@ -59,7 +59,7 @@ public class WorldGenEventHandler {
     @SubscribeEvent
     public void onPotentialSpawns(WorldEvent.PotentialSpawns event) {
         IWorld world = event.getWorld();
-        if(!(world instanceof ServerWorld && ((ServerWorld)world).getChunkSource().generator instanceof LightLandChunkGenerator))
+        if (!(world instanceof ServerWorld && ((ServerWorld) world).getChunkSource().generator instanceof LightLandChunkGenerator))
             return;
         EntityClassification cls = event.getType();
         if (cls == EntityClassification.MONSTER) {
@@ -73,7 +73,7 @@ public class WorldGenEventHandler {
     @SubscribeEvent
     public void doSpecialSpawns(LivingSpawnEvent.SpecialSpawn event) {
         IWorld world = event.getWorld();
-        if(!(world instanceof ServerWorld && ((ServerWorld)world).getChunkSource().generator instanceof LightLandChunkGenerator))
+        if (!(world instanceof ServerWorld && ((ServerWorld) world).getChunkSource().generator instanceof LightLandChunkGenerator))
             return;
         LivingEntity ent = event.getEntityLiving();
         if (!MobSpawn.modifySpawnedEntity(world, ent))
@@ -105,21 +105,21 @@ public class WorldGenEventHandler {
 
     @SubscribeEvent
     public void onServerStarting(FMLServerStartingEvent event) {
-        if(!(event.getServer().overworld().getChunkSource().generator instanceof LightLandChunkGenerator))
+        if (!(event.getServer().overworld().getChunkSource().generator instanceof LightLandChunkGenerator))
             return;
         ((IReloadableResourceManager) event.getServer().getDataPackRegistries().getResourceManager()).registerReloadListener(this::onReload);
     }
 
     @SubscribeEvent
     public void onServerStart(FMLServerStartedEvent event) {
-        if(!(event.getServer().overworld().getChunkSource().generator instanceof LightLandChunkGenerator))
+        if (!(event.getServer().overworld().getChunkSource().generator instanceof LightLandChunkGenerator))
             return;
         ImageBiomeReader.genGradient();
     }
 
     @SubscribeEvent
     public void onServerClosing(FMLServerStoppingEvent event) {
-        if(!(event.getServer().overworld().getChunkSource().generator instanceof LightLandChunkGenerator))
+        if (!(event.getServer().overworld().getChunkSource().generator instanceof LightLandChunkGenerator))
             return;
         ImageBiomeReader.clear();
         ImageRoadReader.clear();

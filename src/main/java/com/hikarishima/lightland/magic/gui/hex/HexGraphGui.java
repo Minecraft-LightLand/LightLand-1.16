@@ -49,6 +49,8 @@ public class HexGraphGui extends AbstractGui {
     private HexCalcException error = null;
     private HexDirection selected = null;
 
+    final WindowBox box = new WindowBox();
+
     public HexGraphGui(MagicHexScreen screen) {
         this.screen = screen;
         graph = screen.product.getSolution();
@@ -57,13 +59,15 @@ public class HexGraphGui extends AbstractGui {
         }
     }
 
-    public void render(MatrixStack matrix, int x0, int y0, double mx, double my, float partial) {
+    public void render(MatrixStack matrix, double mx, double my, float partial) {
+        box.startClip(matrix);
+        double x0 = box.x + box.w / 2d;
+        double y0 = box.y + box.h / 2d;
         RenderSystem.enableBlend();
         RenderSystem.disableTexture();
         RenderSystem.defaultBlendFunc();
         RenderSystem.pushMatrix();
         RenderSystem.translated(x0 + scrollX, y0 + scrollY, 0);
-
         LocateResult hover = graph.getElementOnHex((mx - x0 - scrollX) / magn, (my - y0 - scrollY) / magn);
         renderBG(matrix, hover);
         double width = RADIUS / 4 * magn;
@@ -71,10 +75,10 @@ public class HexGraphGui extends AbstractGui {
         renderPath(matrix, width, length);
         renderFlow(matrix, width, length);
         renderError(matrix, width, length);
-
         RenderSystem.popMatrix();
         RenderSystem.enableTexture();
         RenderSystem.disableBlend();
+        box.endClip(matrix);
     }
 
     private void renderBG(MatrixStack matrix, LocateResult hover) {
@@ -268,13 +272,17 @@ public class HexGraphGui extends AbstractGui {
         WorldVertexBufferUploader.end(builder);
     }
 
-    public boolean mouseClicked(int x0, int y0, double mx, double my, int button) {
-        LocateResult hover = graph.getElementOnHex((mx - x0 - scrollX) / magn, (my - y0 - scrollY) / magn);
-        if (click(hover)) {
-            flow = null;
-            error = null;
-            save();
-            return true;
+    public boolean mouseClicked(double mx, double my, int button) {
+        double x0 = box.x + box.w / 2d;
+        double y0 = box.y + box.h / 2d;
+        if (button == 0) {
+            LocateResult hover = graph.getElementOnHex((mx - x0 - scrollX) / magn, (my - y0 - scrollY) / magn);
+            if (click(hover)) {
+                flow = null;
+                error = null;
+                save();
+                return true;
+            }
         }
         return false;
     }

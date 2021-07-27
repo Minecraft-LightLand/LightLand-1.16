@@ -12,7 +12,6 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.common.capabilities.CapabilityManager;
-import org.apache.logging.log4j.LogManager;
 
 import javax.annotation.Nullable;
 

@@ -96,6 +96,7 @@ public class MagicTreeGui<I extends IForgeRegistryEntry<I>, P extends MagicProdu
         RenderSystem.colorMask(true, true, true, true);
         RenderSystem.translatef(0.0F, 0.0F, 950.0F);
         RenderSystem.depthFunc(515);
+        RenderSystem.disableDepthTest();
         RenderSystem.popMatrix();
     }
 
