@@ -29,10 +29,9 @@ public class GUIDispatcher {
 
         @Override
         public DialogSelector get(PlayerEntity player, Entity target) {
-            if (!(target instanceof PlayerEntity))
-                return null;
-            PlayerEntity npc = (PlayerEntity) target;
-            String name = npc.getStringUUID();
+            //if (!(target instanceof PlayerEntity)) return null;
+            //PlayerEntity npc = (PlayerEntity) target;
+            String name = target.getDisplayName().getContents();
             DefaultDialog def = DefaultDialog.get(player.level);
             return def.getSelector(player.level, name);
         }

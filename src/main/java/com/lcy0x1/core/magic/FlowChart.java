@@ -34,11 +34,11 @@ public class FlowChart {
 
         public boolean flawed() {
             for (Frac fr : forward) {
-                if (fr.den == 0)
+                if (fr != null && fr.den == 0)
                     return true;
             }
             for (Frac fr : backward) {
-                if (fr.den == 0)
+                if (fr != null && fr.den == 0)
                     return true;
             }
             return false;

@@ -79,24 +79,41 @@ public class DialogScreen extends Screen {
 
     public void render(MatrixStack matrix, int mx, int my, float partial) {
         FontRenderer font = Minecraft.getInstance().font;
-        fill(matrix, 0, width, main_box.y - MARGIN, height, 0x80000000);
-        main_box.startClip(matrix);
-        main_box.endClip(matrix);
+        fill(matrix, 0, main_box.y - MARGIN, width, height, 0x80000000);
         for (int i = 0; i < text.size(); i++) {
             font.draw(matrix, text.get(i), MARGIN + MAIN_TEXT_MARGIN, main_box.y + i * LINE_HEIGHT, 0xFFFFFFFF);
         }
         main_box.render(matrix, MARGIN, 0xFFFFFFFF, WindowBox.RenderType.MARGIN);
         main_box.render(matrix, 2, 0xFF606060, WindowBox.RenderType.MARGIN);
         for (WindowBox box : option_box) {
-            box.render(matrix, MARGIN, 0xFFFFFFFF, WindowBox.RenderType.MARGIN);
+            box.render(matrix, MARGIN, box.isMouseIn(mx, my) ? 0xFFFFFF00 : 0xFFFFFFFF, WindowBox.RenderType.MARGIN);
             box.render(matrix, 2, 0xFF606060, WindowBox.RenderType.MARGIN);
         }
         for (int i = 0; i < options.length; i++) {
             IReorderingProcessor option = options[i];
             WindowBox box = option_box[i];
-            font.draw(matrix, option, box.x, box.y, 0xFFFFFFFF);
+            float w = Minecraft.getInstance().font.width(option);
+            font.draw(matrix, option, box.x + (box.w - w) / 2, box.y, 0xFFFFFFFF);
         }
     }
 
+    @Override
+    public boolean mouseClicked(double mx, double my, int button) {
+        if (button == 0) {
+            for (int i = 0; i < option_box.length; i++) {
+                WindowBox box = option_box[i];
+                if (box.isMouseIn(mx, my)) {
+                    if (holder.next(i))
+                        return true;
+                    else Minecraft.getInstance().setScreen(null);
+                }
+            }
+        }
+        return super.mouseClicked(mx, my, button);
+    }
 
+    @Override
+    public boolean isPauseScreen() {
+        return false;
+    }
 }

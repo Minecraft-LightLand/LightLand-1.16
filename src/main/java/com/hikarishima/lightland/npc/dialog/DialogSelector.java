@@ -41,7 +41,7 @@ public class DialogSelector {
             total += ent.weight;
         }
         int sel = r.nextInt(total);
-        for (DialogEntry ent : dialog_list) {
+        for (NextSelector ent : next_selector) {
             sel -= ent.weight;
             if (sel < 0)
                 return getDialogSelector(w, ent.id);

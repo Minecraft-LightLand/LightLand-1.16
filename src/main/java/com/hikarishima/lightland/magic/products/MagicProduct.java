@@ -17,8 +17,6 @@ public class MagicProduct<I extends IForgeRegistryEntry<I>, P extends MagicProdu
     public final NBTObj tag;
     public final MagicHandler player;
     public final IMagicRecipe<?> recipe;
-    private HexHandler best;
-    private HexData data;
 
 
     public MagicProduct(MagicProductType<I, P> type, MagicHandler player, NBTObj tag, ResourceLocation rl, IMagicRecipe<?> r) {
@@ -29,13 +27,6 @@ public class MagicProduct<I extends IForgeRegistryEntry<I>, P extends MagicProdu
         if (tag != null) {
             if (!tag.tag.contains("_base")) {
                 tag.getSub("_base").tag.putInt("cost", LOCKED);
-            }
-            if (tag.tag.contains("hex"))
-                best = new HexHandler(tag.getSub("hex"));
-            if (tag.tag.contains("misc")) {
-                data = Automator.fromTag(tag.getSub("misc").tag, HexData.class);
-            } else {
-                data = new HexData();
             }
         }
     }
@@ -57,7 +48,6 @@ public class MagicProduct<I extends IForgeRegistryEntry<I>, P extends MagicProdu
         int prev = getBase().tag.getInt("cost");
         if (prev >= 0 && (cost < 0 || cost > prev))
             return;
-        best = hex;
         tag.tag.remove("hex");
         Automator.toTag(tag.getSub("misc").tag, data);
         hex.write(tag.getSub("hex"));
@@ -65,7 +55,7 @@ public class MagicProduct<I extends IForgeRegistryEntry<I>, P extends MagicProdu
     }
 
     public HexHandler getSolution() {
-        return best;
+        return new HexHandler(tag.getSub("hex"));
     }
 
     public final boolean usable() {
@@ -88,7 +78,11 @@ public class MagicProduct<I extends IForgeRegistryEntry<I>, P extends MagicProdu
     }
 
     public HexData getMiscData() {
-        return data;
+        if (tag.tag.contains("misc")) {
+            return Automator.fromTag(tag.getSub("misc").tag, HexData.class);
+        } else {
+            return new HexData();
+        }
     }
 
     @SerialClass
