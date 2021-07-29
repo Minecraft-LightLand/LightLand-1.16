@@ -5,6 +5,7 @@ import com.hikarishima.lightland.event.forge.ItemUseEventHandler;
 import com.hikarishima.lightland.magic.capabilities.ToClientMsg;
 import com.hikarishima.lightland.magic.capabilities.ToServerMsg;
 import com.hikarishima.lightland.magic.gui.DisEnchantContainer;
+import com.hikarishima.lightland.npc.option.OptionMessage;
 import com.lcy0x1.core.util.SerialClass;
 import com.lcy0x1.core.util.Serializer;
 import net.minecraft.entity.player.ServerPlayerEntity;
@@ -33,6 +34,7 @@ public class PacketHandler {
         reg(ItemUseEventHandler.Msg.class, ItemUseEventHandler.Msg::handle);
         reg(ToClientMsg.class, ToClientMsg::handle);
         reg(ToServerMsg.class, ToServerMsg::handle);
+        reg(OptionMessage.class, OptionMessage::handle);
         reg(DisEnchantContainer.Msg.class, DisEnchantContainer.class);
     }
 

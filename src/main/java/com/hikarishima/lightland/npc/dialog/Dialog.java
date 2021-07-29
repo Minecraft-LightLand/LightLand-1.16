@@ -1,5 +1,6 @@
 package com.hikarishima.lightland.npc.dialog;
 
+import com.hikarishima.lightland.npc.option.Option;
 import com.hikarishima.lightland.recipe.ConfigRecipe;
 import com.lcy0x1.core.util.SerialClass;
 import net.minecraft.util.text.IFormattableTextComponent;
@@ -35,17 +36,6 @@ public class Dialog {
             ans.add(new StringTextComponent(op.name));
         }
         return ans;
-    }
-
-    @SerialClass
-    public static class Option {
-
-        @SerialClass.SerialField
-        public String name;
-
-        @SerialClass.SerialField
-        public String next;
-
     }
 
 }

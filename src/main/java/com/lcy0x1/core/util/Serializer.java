@@ -89,7 +89,10 @@ public class Serializer {
     }
 
     public static Object fromImpl(PacketBuffer buf, Class<?> cls, Object ans, SerialClass.SerialField anno) throws Exception {
-        if (cls == Object.class) {
+        byte type = buf.readByte();
+        if (type == 0)
+            return null;
+        else if (type == 2) {
             cls = Class.forName(buf.readUtf());
         }
         if (cls.getAnnotation(SerialClass.class) == null)
@@ -189,7 +192,12 @@ public class Serializer {
     }
 
     public static void toImpl(PacketBuffer buf, Class<?> cls, Object obj, SerialClass.SerialField anno) throws Exception {
-        if (cls == Object.class) {
+        if (obj == null)
+            buf.writeByte(0);
+        if (obj.getClass() == cls)
+            buf.writeByte(1);
+        else {
+            buf.writeByte(2);
             cls = obj.getClass();
             buf.writeUtf(cls.getName());
         }

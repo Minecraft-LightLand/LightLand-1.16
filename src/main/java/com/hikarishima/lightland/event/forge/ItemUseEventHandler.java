@@ -141,6 +141,7 @@ public class ItemUseEventHandler {
                         msg.hand ? Hand.MAIN_HAND : Hand.OFF_HAND);
                 INSTANCE.onPlayerRightClickEmpty(event);
             }
+            sup.get().setPacketHandled(true);
         }
 
     }

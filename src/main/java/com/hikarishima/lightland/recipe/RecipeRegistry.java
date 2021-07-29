@@ -10,6 +10,7 @@ public class RecipeRegistry {
 
     public static final IRecipeType<IMagicRecipe<?>> RT_MAGIC = IRecipeType.register("lightland:magic");
     public static final IRecipeType<IConfigRecipe<?>> RT_CONFIG = IRecipeType.register("lightland:config");
+    public static final IRecipeType<ITradeRecipe<?>> RT_TRADE = IRecipeType.register("lightland:trade");
 
     public static final BaseRecipe.RecType<DefMagicRecipe, IMagicRecipe<?>, IMagicRecipe.Inv> RSM_DEF =
             reg("magic_default", new BaseRecipe.RecType<>(DefMagicRecipe.class, RT_MAGIC));
@@ -19,6 +20,9 @@ public class RecipeRegistry {
 
     public static final BaseRecipe.RecType<ConfigRecipe, IConfigRecipe<?>, IConfigRecipe.ConfigInv> RSM_CONFIG =
             reg("config", new BaseRecipe.RecType<>(ConfigRecipe.class, RT_CONFIG));
+
+    public static final BaseRecipe.RecType<TradeRecipe, ITradeRecipe<?>, ITradeRecipe.Inv> RSM_TRADE =
+            reg("trade", new BaseRecipe.RecType<>(TradeRecipe.class, RT_TRADE));
 
     private static <V extends T, T extends IForgeRegistryEntry<T>> V reg(String name, V v) {
         v.setRegistryName(new ResourceLocation(LightLand.MODID, name));
