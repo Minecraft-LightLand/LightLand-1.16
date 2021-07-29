@@ -39,7 +39,7 @@ public class LightLand {
 
     private void setup(final FMLCommonSetupEvent event) {
         MagicHandler.register();
-        WorldGenEventHandler.mod_setup();
+        if (generate) WorldGenEventHandler.mod_setup();
     }
 
     private void doClientStuff(final FMLClientSetupEvent event) {

@@ -8,6 +8,8 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.network.NetworkEvent;
 
+import java.util.HashSet;
+import java.util.Set;
 import java.util.function.BiConsumer;
 import java.util.function.Supplier;
 
@@ -19,8 +21,15 @@ public class ToServerMsg extends PacketHandler.BaseSerialMsg {
             MagicHolder holder = handler.magicHolder;
             String str = tag.getString("product");
             MagicProduct<?, ?> prod = holder.getProduct(holder.getRecipe(new ResourceLocation(str)));
-            prod.tag.tag.put("hex", tag.getCompound("hex"));
-            prod.getBase().tag.putInt("cost", tag.getInt("cost"));
+            CompoundNBT ctag = prod.tag.tag;
+            Set<String> set = new HashSet<>(ctag.getAllKeys());
+            for (String key : set) {
+                ctag.remove(key);
+            }
+            CompoundNBT dtag = tag.getCompound("data");
+            for (String key : dtag.getAllKeys()) {
+                ctag.put(key, dtag.get(key));
+            }
         });
 
         private final BiConsumer<MagicHandler, CompoundNBT> cons;
@@ -33,8 +42,7 @@ public class ToServerMsg extends PacketHandler.BaseSerialMsg {
     public static void sendHexUpdate(MagicProduct<?, ?> prod) {
         CompoundNBT tag = new CompoundNBT();
         tag.putString("product", prod.recipe.id.toString());
-        tag.putInt("cost", prod.getBase().tag.getInt("cost"));
-        tag.put("hex", prod.tag.tag.getCompound("hex"));
+        tag.put("data", prod.tag.tag);
         ToServerMsg msg = new ToServerMsg(Action.HEX, tag);
         PacketHandler.send(msg);
     }

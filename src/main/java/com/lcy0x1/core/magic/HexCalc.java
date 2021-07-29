@@ -17,7 +17,11 @@ class HexCalc {
     private Arrow[] in;
     private Map<CalcCell, Map<HexDirection, FlowChart.Flow>> flowmap;
 
-    public HexCalc(HexHandler hexHandler) throws HexCalcException {
+    /**
+     * complete all calculation in constructor
+     */
+    public HexCalc(HexHandler hexHandler) {
+        // construct calc cell array
         this.hexHandler = hexHandler;
         ccell = new CalcCell[hexHandler.cells.length][];
         boolean[][] used = new boolean[hexHandler.cells.length][];
@@ -28,6 +32,7 @@ class HexCalc {
                 ccell[i][j] = new CalcCell(hexHandler, i, j);
         }
 
+        // corner list
         list = new ArrayList<>();
         list.add(ccell[hexHandler.radius][hexHandler.getCellCount(hexHandler.radius) - 1]);
         list.add(ccell[hexHandler.radius * 2][hexHandler.getCellCount(hexHandler.radius * 2) - 1]);
@@ -38,6 +43,7 @@ class HexCalc {
         for (CalcCell cc : list)
             cc.origin = true;
 
+        // processing queue to add all connected cells
         Queue<CalcCell> queue = new ArrayDeque<>();
         for (CalcCell cc : list)
             if (cc.exists()) {
@@ -56,15 +62,20 @@ class HexCalc {
                 queue.add(cx);
             }
         }
+
+        // delete unused cells
         for (int i = 0; i < used.length; i++)
             for (int j = 0; j < used[i].length; j++)
                 if (!used[i][j])
                     ccell[i][j] = null;
 
+        // construct flow data
         for (CalcCell[] calcCells : ccell)
             for (CalcCell calcCell : calcCells)
                 if (calcCell != null)
                     calcCell.init();
+
+        // reduce flow and complete calculation
         for (CalcCell[] calcCells : ccell)
             for (CalcCell calcCell : calcCells)
                 if (calcCell != null)
@@ -75,6 +86,7 @@ class HexCalc {
      * return a summary of the flow in this diagram
      */
     public FlowChart getMatrix(boolean withFlow) throws HexCalcException {
+        // construct corner flow matrix
         Frac[][] matrix = new Frac[6][6]; // the input-output matrix
         in = new Arrow[6]; // the input array
         Arrow[] out = new Arrow[6];
@@ -98,6 +110,11 @@ class HexCalc {
             }
         }
 
+        FlowChart ans = new FlowChart(matrix);
+        if (!withFlow)
+            return ans;
+
+        // calculate flows from each corner
         // reset counter
         head.clear();
         Set<Arrow> origins = new HashSet<>();
@@ -118,9 +135,6 @@ class HexCalc {
             if (!v.src.origin && !v.dst.origin && v.rely == 0)
                 head.add(v);
 
-        FlowChart ans = new FlowChart(matrix);
-        if (!withFlow)
-            return ans;
         flowmap = new HashMap<>();
         while (head.size() > 0) {
             Arrow next = head.poll();
@@ -131,14 +145,13 @@ class HexCalc {
             addFlow(ans, in[i]);
             addFlow(ans, out[i]);
         }
-
+        HexCalcException.trycatch(ans);
         return ans;
     }
 
     private void addFlow(FlowChart ans, Arrow next) {
         if (next == null)
             return;
-        HexHandler hex = hexHandler;
         Frac[] formula = new Frac[6];
         for (int i = 0; i < 6; i++)
             if (in[i] != null)
@@ -161,20 +174,26 @@ class HexCalc {
         if (sub.containsKey(dir))
             flow = sub.get(dir);
         else
-            sub.put(dir, flow = ans.new Flow(new ArrowResult(src.row, src.cell, dir, hex)));
+            sub.put(dir, flow = ans.new Flow(new ArrowResult(src.row, src.cell, dir, hexHandler)));
         if (src == next.src)
             flow.forward = formula;
         else
             flow.backward = formula;
     }
 
-
     /**
      * represents a flow from src to dst
      */
     class Arrow {
 
+        /**
+         * flow expression as linear sums, to be reduced
+         */
         final Map<Arrow, Frac> map = new HashMap<>();
+
+        /**
+         * dependent of this flow, to be eliminated
+         */
         final Set<Arrow> user = new HashSet<>();
         CalcCell src, dst;
         HexDirection dir;
@@ -190,19 +209,22 @@ class HexCalc {
             return "from " + src + " to " + dst;
         }
 
-        void clear() throws HexCalcException {
+        /**
+         * clear looping flow
+         */
+        void clear() {
             Frac frac = map.remove(this);
             user.remove(this);
             if (frac == null)
                 return;
-            if (frac.den == frac.num)
-                throw new HexCalcException(this);
             Frac base = new Frac(frac.den, frac.den - frac.num);
             for (Frac f : map.values())
                 f.times(base);
-
         }
 
+        /**
+         * attach flow source
+         */
         void put(Arrow var, Frac frac) {
             if (map.containsKey(var))
                 frac.add(map.get(var));
@@ -210,7 +232,10 @@ class HexCalc {
             var.user.add(this);
         }
 
-        void remove() throws HexCalcException {
+        /**
+         * remove this arrow from network
+         */
+        void remove() {
             clear();
             for (Arrow v : user) {
                 Frac base = v.map.remove(this);
@@ -234,6 +259,9 @@ class HexCalc {
         boolean origin;
         Arrow[] input, output;
 
+        /**
+         * construct the output flow
+         */
         CalcCell(HexHandler hex, int row, int cell) {
             super(hex, row, cell);
             output = new Arrow[6];
@@ -249,12 +277,16 @@ class HexCalc {
             return (origin ? "origin " : "") + "(r = " + row + ", c = " + cell + ")";
         }
 
+        /**
+         * connect the input flow
+         */
         void init() {
             for (Arrow a : output)
                 if (a != null)
                     pool.add(a);
             input = new Arrow[6];
             Frac[][] vars = this.matrix();
+            // find input arrows from neighboring cells and attach them to output
             for (int i = 0; i < 6; i++) {
                 HexDirection dir = HexDirection.values()[i];
                 if (vars[i] != null) {
@@ -276,7 +308,10 @@ class HexCalc {
             return ccell[row + nr][cell + nc];
         }
 
-        void remove() throws HexCalcException {
+        /**
+         * finalize all arrows
+         */
+        void remove() {
             if (origin)
                 return;
             for (Arrow v : output)

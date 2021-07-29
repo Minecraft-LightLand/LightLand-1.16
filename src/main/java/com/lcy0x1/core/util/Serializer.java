@@ -65,7 +65,7 @@ public class Serializer {
     }
 
     public static Object fromImpl(JsonObject obj, Class<?> cls, Object ans, SerialClass.SerialField anno) throws Exception {
-        if (cls == Object.class) {
+        if (obj.has("_class")) {
             cls = Class.forName(obj.get("_class").getAsString());
         }
         if (cls.getAnnotation(SerialClass.class) == null)

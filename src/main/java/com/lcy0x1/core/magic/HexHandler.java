@@ -38,7 +38,7 @@ public class HexHandler {
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
-        int k = 0, s = 0;
+        int k = 1, s = 0;
         HexCell cell = new HexCell(this, 0, 0);
         for (int i = 0; i < getRowCount(); i++)
             for (int j = 0; j < getCellCount(i); j++) {
@@ -170,7 +170,7 @@ public class HexHandler {
         byte[] data = new byte[len];
         SubHex[] sub = new SubHex[getArea()];
         data[0] |= radius & 0xF;
-        int k = 0, s = 0;
+        int k = 1, s = 0;
         for (int i = 0; i < getRowCount(); i++)
             for (int j = 0; j < getCellCount(i); j++) {
                 data[k >> 1] |= (cells[i][j] & 7) << ((k & 1) * 4);

@@ -4,7 +4,9 @@ import com.hikarishima.lightland.magic.capabilities.MagicHandler;
 import com.hikarishima.lightland.magic.products.info.ProductState;
 import com.hikarishima.lightland.recipe.IMagicRecipe;
 import com.lcy0x1.core.magic.HexHandler;
+import com.lcy0x1.core.util.Automator;
 import com.lcy0x1.core.util.NBTObj;
+import com.lcy0x1.core.util.SerialClass;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.registries.IForgeRegistryEntry;
 
@@ -15,7 +17,7 @@ public class MagicProduct<I extends IForgeRegistryEntry<I>, P extends MagicProdu
     public final NBTObj tag;
     public final MagicHandler player;
     public final IMagicRecipe<?> recipe;
-    private HexHandler best;
+
 
     public MagicProduct(MagicProductType<I, P> type, MagicHandler player, NBTObj tag, ResourceLocation rl, IMagicRecipe<?> r) {
         super(type, rl);
@@ -26,8 +28,6 @@ public class MagicProduct<I extends IForgeRegistryEntry<I>, P extends MagicProdu
             if (!tag.tag.contains("_base")) {
                 tag.getSub("_base").tag.putInt("cost", LOCKED);
             }
-            if (tag.tag.contains("hex"))
-                best = new HexHandler(tag.getSub("hex"));
         }
     }
 
@@ -44,18 +44,18 @@ public class MagicProduct<I extends IForgeRegistryEntry<I>, P extends MagicProdu
             getBase().tag.putInt("cost", -1);
     }
 
-    public void updateBestSolution(HexHandler hex, int cost) {
+    public void updateBestSolution(HexHandler hex, HexData data, int cost) {
         int prev = getBase().tag.getInt("cost");
         if (prev >= 0 && (cost < 0 || cost > prev))
             return;
-        best = hex;
         tag.tag.remove("hex");
+        Automator.toTag(tag.getSub("misc").tag, data);
         hex.write(tag.getSub("hex"));
         getBase().tag.putInt("cost", cost);
     }
 
     public HexHandler getSolution() {
-        return best;
+        return new HexHandler(tag.getSub("hex"));
     }
 
     public final boolean usable() {
@@ -76,4 +76,21 @@ public class MagicProduct<I extends IForgeRegistryEntry<I>, P extends MagicProdu
     public boolean visible() {
         return true;
     }
+
+    public HexData getMiscData() {
+        if (tag.tag.contains("misc")) {
+            return Automator.fromTag(tag.getSub("misc").tag, HexData.class);
+        } else {
+            return new HexData();
+        }
+    }
+
+    @SerialClass
+    public static class HexData {
+
+        @SerialClass.SerialField
+        public int[] order;
+
+    }
+
 }

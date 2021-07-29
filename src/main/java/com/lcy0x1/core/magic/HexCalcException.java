@@ -1,25 +1,24 @@
 package com.lcy0x1.core.magic;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
 
 public class HexCalcException extends Exception {
 
+    public static void trycatch(FlowChart chart) throws HexCalcException {
+        HexCalcException ans = new HexCalcException();
+        for (FlowChart.Flow f : chart.flows) {
+            if (f.flawed())
+                ans.error.add(new Side(f.arrow));
+        }
+        if (ans.error.size() != 0)
+            throw ans;
+    }
+
     public final Collection<Side> error = new ArrayList<>();
 
-    public HexCalcException(HexCalc.Arrow arrow) {
-        Queue<HexCalc.CalcCell> pre = new ArrayDeque<>();
-        Set<HexCalc.CalcCell> post = new HashSet<>();
-        pre.add(arrow.dst);
-        post.add(arrow.dst);
-        while (!pre.isEmpty()) {
-            HexCalc.CalcCell first = pre.poll();
-            for (HexCalc.Arrow a : first.output)
-                if (a != null) {
-                    //pre.add(a.dst);//FIXME
-                    post.add(a.dst);
-                    error.add(new Side(first, a));
-                }
-        }
+    private HexCalcException() {
+
     }
 
     public static class Side {
@@ -27,9 +26,9 @@ public class HexCalcException extends Exception {
         public int row, cell;
         public HexDirection dir;
 
-        private Side(HexCalc.CalcCell cell, HexCalc.Arrow arrow) {
-            this.row = cell.row;
-            this.cell = cell.cell;
+        private Side(ArrowResult arrow) {
+            this.row = arrow.row;
+            this.cell = arrow.cell;
             this.dir = arrow.dir;
         }
 

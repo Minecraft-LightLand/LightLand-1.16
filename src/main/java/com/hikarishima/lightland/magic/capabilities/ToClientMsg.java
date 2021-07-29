@@ -41,13 +41,13 @@ public class ToClientMsg extends PacketHandler.BaseSerialMsg {
     }
 
     public enum Action {
-        DEBUG((m) -> ExceptionHandler.get(() -> Automator.toTag(new CompoundNBT(), MagicHandler.class, m, f -> true)), (tag) -> {
+        DEBUG((m) -> Automator.toTag(new CompoundNBT(), m), (tag) -> {
             MagicHandler m = MagicHandler.get(Proxy.getPlayer());
             CompoundNBT comp = ExceptionHandler.get(() -> Automator.toTag(new CompoundNBT(), MagicHandler.class, m, f -> true));
             LogManager.getLogger().info("client: " + comp.toString());
             LogManager.getLogger().info("server: " + tag.toString());
         }),
-        ALL((m) -> ExceptionHandler.get(() -> Automator.toTag(new CompoundNBT(), MagicHandler.class, m, f -> true)), (tag) -> {
+        ALL((m) -> Automator.toTag(new CompoundNBT(), m), (tag) -> {
             MagicHandler m = MagicHandler.get(Proxy.getPlayer());
             m.reset();
             ExceptionHandler.run(() -> Automator.fromTag(tag, MagicHandler.class, m, f -> true));
@@ -56,7 +56,7 @@ public class ToClientMsg extends PacketHandler.BaseSerialMsg {
             MagicAbility abi = MagicHandler.get(Proxy.getPlayer()).magicAbility;
             abi.arcane_type = tag;
             abi.arcane_manager = new NBTObj(tag);
-        }), MAGIC_ABILITY((m) -> ExceptionHandler.get(() -> Automator.toTag(new CompoundNBT(), MagicAbility.class, m.magicAbility, f -> true)), (tag) -> {
+        }), MAGIC_ABILITY((m) -> Automator.toTag(new CompoundNBT(), m.magicAbility), (tag) -> {
             MagicHandler h = MagicHandler.get(Proxy.getPlayer());
             h.magicAbility = new MagicAbility(h);
             h.magicAbility.arcane_manager = new NBTObj(h.magicAbility.arcane_type);

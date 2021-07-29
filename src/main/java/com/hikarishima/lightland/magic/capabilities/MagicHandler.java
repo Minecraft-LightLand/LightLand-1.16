@@ -12,7 +12,6 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.common.capabilities.CapabilityManager;
-import org.apache.logging.log4j.LogManager;
 
 import javax.annotation.Nullable;
 
@@ -87,7 +86,7 @@ public class MagicHandler {
         @Nullable
         @Override
         public INBT writeNBT(Capability<MagicHandler> capability, MagicHandler obj, Direction direction) {
-            return ExceptionHandler.get(() -> Automator.toTag(new CompoundNBT(), MagicHandler.class, obj, f -> true));
+            return Automator.toTag(new CompoundNBT(), obj);
         }
 
         @Override

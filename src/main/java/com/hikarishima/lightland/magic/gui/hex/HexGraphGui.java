@@ -1,13 +1,12 @@
 package com.hikarishima.lightland.magic.gui.hex;
 
-import com.hikarishima.lightland.magic.capabilities.ToServerMsg;
-import com.hikarishima.lightland.magic.products.info.ProductState;
+import com.hikarishima.lightland.magic.MagicElement;
+import com.lcy0x1.base.WindowBox;
 import com.lcy0x1.core.magic.*;
 import com.lcy0x1.core.math.Frac;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldVertexBufferUploader;
@@ -16,10 +15,9 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.vector.Matrix4f;
 import org.apache.logging.log4j.LogManager;
 
-import java.util.function.IntConsumer;
+public class HexGraphGui extends AbstractHexGui {
 
-public class HexGraphGui extends AbstractGui {
-
+    private static final int PERIOD = 60;
     private static final double MARGIN = 0.9, RADIUS = 2 / Math.sqrt(3);
     private static final int COL_BG = 0xFF808080;
     private static final int COL_ENABLED = 0xFFFFFFFF;
@@ -41,13 +39,18 @@ public class HexGraphGui extends AbstractGui {
 
     private final MagicHexScreen screen;
 
-    private HexHandler graph;
+    HexHandler graph;
+    FlowChart flow = null;
+    boolean[] wrong_flow = new boolean[6];
+    final WindowBox box = new WindowBox();
+
+    protected HexCalcException error = null;
+    protected HexDirection selected = null;
+
     private double magn = 14;
     private double scrollX, scrollY;
+    private int tick;
 
-    private FlowChart flow = null;
-    private HexCalcException error = null;
-    private HexDirection selected = null;
 
     public HexGraphGui(MagicHexScreen screen) {
         this.screen = screen;
@@ -57,13 +60,14 @@ public class HexGraphGui extends AbstractGui {
         }
     }
 
-    public void render(MatrixStack matrix, int x0, int y0, double mx, double my, float partial) {
+    public void render(MatrixStack matrix, double mx, double my, float partial) {
+        double x0 = box.x + box.w / 2d;
+        double y0 = box.y + box.h / 2d;
         RenderSystem.enableBlend();
         RenderSystem.disableTexture();
         RenderSystem.defaultBlendFunc();
         RenderSystem.pushMatrix();
         RenderSystem.translated(x0 + scrollX, y0 + scrollY, 0);
-
         LocateResult hover = graph.getElementOnHex((mx - x0 - scrollX) / magn, (my - y0 - scrollY) / magn);
         renderBG(matrix, hover);
         double width = RADIUS / 4 * magn;
@@ -71,9 +75,9 @@ public class HexGraphGui extends AbstractGui {
         renderPath(matrix, width, length);
         renderFlow(matrix, width, length);
         renderError(matrix, width, length);
-
-        RenderSystem.popMatrix();
         RenderSystem.enableTexture();
+        renderIcons(matrix);
+        RenderSystem.popMatrix();
         RenderSystem.disableBlend();
     }
 
@@ -167,14 +171,20 @@ public class HexGraphGui extends AbstractGui {
                     renderHex(matrix, x, y, r / 4, col);
                 }
             if (selected != null) {
-                cell.row = graph.radius;
-                cell.cell = graph.radius;
-                while (cell.canWalk(selected))
-                    cell.walk(selected);
+                cell.toCorner(selected);
                 double x = cell.getX() * magn;
                 double y = cell.getY() * magn;
                 double r = RADIUS * magn;
                 renderHex(matrix, x, y, r / 4, COL_HOVER);
+            }
+            for (int i = 0; i < 6; i++) {
+                if (wrong_flow[i]) {
+                    cell.toCorner(HexDirection.values()[i]);
+                    double x = cell.getX() * magn;
+                    double y = cell.getY() * magn;
+                    double r = RADIUS * magn;
+                    renderHex(matrix, x, y, r / 4, COL_ERROR);
+                }
             }
         }
 
@@ -197,6 +207,20 @@ public class HexGraphGui extends AbstractGui {
         }
     }
 
+    private void renderIcons(MatrixStack matrix) {
+        HexCell cell = new HexCell(graph, 0, 0);
+        for (int i = 0; i < 6; i++) {
+            MagicElement elem = screen.result.getElem(i);
+            if (elem == null)
+                continue;
+            Minecraft.getInstance().getTextureManager().bind(elem.getIcon());
+            cell.toCorner(HexDirection.values()[i]);
+            double x = cell.getX() * magn;
+            double y = cell.getY() * magn;
+            drawIcon(matrix, x, y, 1);
+        }
+    }
+
     private void updateNodeVal(double[][] vals, HexCell cell, HexDirection dir, double val) {
         vals[cell.row][cell.cell] += cell.isCorner() ? val : val / 2;
         cell.walk(dir);
@@ -215,34 +239,6 @@ public class HexGraphGui extends AbstractGui {
     public void scroll(double dx, double dy) {
         scrollX += dx;
         scrollY += dy;
-    }
-
-    private void renderHex(MatrixStack matrix, double x, double y, double r, int color) {
-        Matrix4f last = matrix.last().pose();
-        BufferBuilder builder = Tessellator.getInstance().getBuilder();
-        builder.begin(7, DefaultVertexFormats.POSITION_COLOR);
-
-        float ca = (float) (color >> 24 & 255) / 255.0F;
-        float cr = (float) (color >> 16 & 255) / 255.0F;
-        float cg = (float) (color >> 8 & 255) / 255.0F;
-        float cb = (float) (color & 255) / 255.0F;
-        IntConsumer c = i -> {
-            double a = (i + 0.5) * Math.PI / 3;
-            float px = (float) (x + r * Math.cos(a));
-            float py = (float) (y + r * Math.sin(a));
-            builder.vertex(last, px, py, 0).color(cr, cg, cb, ca).endVertex();
-        };
-        c.accept(0);
-        c.accept(3);
-        c.accept(2);
-        c.accept(1);
-        c.accept(0);
-        c.accept(5);
-        c.accept(4);
-        c.accept(3);
-
-        builder.end();
-        WorldVertexBufferUploader.end(builder);
     }
 
     private void renderPath(MatrixStack matrix, double x, double y, double r, int dire, int color, double width, double length) {
@@ -268,13 +264,17 @@ public class HexGraphGui extends AbstractGui {
         WorldVertexBufferUploader.end(builder);
     }
 
-    public boolean mouseClicked(int x0, int y0, double mx, double my, int button) {
-        LocateResult hover = graph.getElementOnHex((mx - x0 - scrollX) / magn, (my - y0 - scrollY) / magn);
-        if (click(hover)) {
-            flow = null;
-            error = null;
-            save();
-            return true;
+    public boolean mouseClicked(double mx, double my, int button) {
+        double x0 = box.x + box.w / 2d;
+        double y0 = box.y + box.h / 2d;
+        if (button == 0) {
+            LocateResult hover = graph.getElementOnHex((mx - x0 - scrollX) / magn, (my - y0 - scrollY) / magn);
+            if (click(hover)) {
+                flow = null;
+                error = null;
+                screen.updated();
+                return true;
+            }
         }
         return false;
     }
@@ -303,6 +303,11 @@ public class HexGraphGui extends AbstractGui {
         return false;
     }
 
+    public void tick() {
+        tick++;
+        tick %= PERIOD;
+    }
+
     public boolean mouseScrolled(double mx, double my, double amount) {
         magn = MathHelper.clamp(magn + amount, 4, 20);
         return true;
@@ -312,23 +317,14 @@ public class HexGraphGui extends AbstractGui {
         if (!Minecraft.getInstance().player.isCreative())
             return false;
         if (ch == 's') {
-            save();
+            screen.updated();
             return true;
         } else if (ch == 'r') {
             compile();
+            screen.updated();
             return true;
         }
         return false;
-    }
-
-    private void save() {
-        int cost = -1;
-        if (screen.product.getState() == ProductState.CRAFTED) {
-            //TODO check match
-            return;
-        }
-        screen.product.updateBestSolution(graph, cost);
-        ToServerMsg.sendHexUpdate(screen.product);
     }
 
     private void compile() {

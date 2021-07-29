@@ -31,6 +31,19 @@ public class FlowChart {
             flows.add(this);
             this.arrow = arrow;
         }
+
+        public boolean flawed() {
+            for (Frac fr : forward) {
+                if (fr != null && fr.den == 0)
+                    return true;
+            }
+            for (Frac fr : backward) {
+                if (fr != null && fr.den == 0)
+                    return true;
+            }
+            return false;
+        }
+
     }
 
 }
