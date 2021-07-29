@@ -1,5 +1,7 @@
 package com.hikarishima.lightland.magic.gui.hex;
 
+import com.hikarishima.lightland.magic.MagicElement;
+import com.lcy0x1.base.WindowBox;
 import com.lcy0x1.core.magic.*;
 import com.lcy0x1.core.math.Frac;
 import com.mojang.blaze3d.matrix.MatrixStack;
@@ -73,8 +75,9 @@ public class HexGraphGui extends AbstractHexGui {
         renderPath(matrix, width, length);
         renderFlow(matrix, width, length);
         renderError(matrix, width, length);
-        RenderSystem.popMatrix();
         RenderSystem.enableTexture();
+        renderIcons(matrix);
+        RenderSystem.popMatrix();
         RenderSystem.disableBlend();
     }
 
@@ -201,6 +204,20 @@ public class HexGraphGui extends AbstractHexGui {
                 renderPath(matrix, x, y, HexHandler.WIDTH * magn, dire, col, width, length);
                 renderHex(matrix, x, y, r / 4, col);
             }
+        }
+    }
+
+    private void renderIcons(MatrixStack matrix) {
+        HexCell cell = new HexCell(graph, 0, 0);
+        for (int i = 0; i < 6; i++) {
+            MagicElement elem = screen.result.getElem(i);
+            if (elem == null)
+                continue;
+            Minecraft.getInstance().getTextureManager().bind(elem.getIcon());
+            cell.toCorner(HexDirection.values()[i]);
+            double x = cell.getX() * magn;
+            double y = cell.getY() * magn;
+            drawIcon(matrix, x, y, 1);
         }
     }
 

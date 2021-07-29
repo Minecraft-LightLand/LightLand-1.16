@@ -151,10 +151,10 @@ public class MagicTreeEntry<I extends IForgeRegistryEntry<I>, P extends MagicPro
 
         FontRenderer fontRenderer = minecraft.font;
         for (int i = 0; i < this.description.size(); ++i) {
-            IReorderingProcessor var22 = this.description.get(i);
-            float var10003 = (float) (lvt_18_2_ + 5);
-            int var10004 = lvt_10_1_ ? lvt_17_1_ + 26 - lvt_19_1_ + 7 : sy + this.y + 9 + 17;
-            fontRenderer.draw(matrix, var22, var10003, (float) (var10004 + i * 9), -5592406);
+            IReorderingProcessor text = this.description.get(i);
+            float x = (float) (lvt_18_2_ + 5);
+            int y = lvt_10_1_ ? lvt_17_1_ + 26 - lvt_19_1_ + 7 : sy + this.y + 9 + 17;
+            fontRenderer.draw(matrix, text, x, (float) (y + i * 9), -5592406);
         }
 
         minecraft.getItemRenderer().renderAndDecorateFakeItem(this.display.getIcon(), sx + this.x + 8, sy + this.y + 5);

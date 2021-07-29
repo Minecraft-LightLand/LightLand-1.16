@@ -1,4 +1,4 @@
-package com.hikarishima.lightland.magic.gui.hex;
+package com.lcy0x1.base;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;

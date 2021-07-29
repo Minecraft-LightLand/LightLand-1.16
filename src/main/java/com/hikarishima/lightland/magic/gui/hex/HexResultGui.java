@@ -3,6 +3,7 @@ package com.hikarishima.lightland.magic.gui.hex;
 import com.hikarishima.lightland.magic.MagicElement;
 import com.hikarishima.lightland.magic.products.MagicProduct;
 import com.hikarishima.lightland.recipe.IMagicRecipe;
+import com.lcy0x1.base.WindowBox;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;

@@ -17,6 +17,8 @@ public class Frac implements Comparable<Frac> {
     }
 
     public static Frac mult(Frac f0, Frac f1) {
+        if (f0.den == 0 || f1.den == 0)
+            return new Frac(1, 0);
         long gcd0 = gcd(f0.num, f1.den);
         long gcd1 = gcd(f1.num, f0.den);
         long num = Math.multiplyExact(f0.num / gcd0, f1.num / gcd1);
@@ -31,6 +33,14 @@ public class Frac implements Comparable<Frac> {
     }
 
     public void add(Frac o) {
+        if (den == 0) {
+            return;
+        }
+        if (o.den == 0) {
+            den = 0;
+            num = 1;
+            return;
+        }
         long gcd = gcd(den, o.den);
         long v0 = Math.multiplyExact(num, o.den / gcd);
         long v1 = Math.multiplyExact(o.num, den / gcd);
@@ -57,10 +67,14 @@ public class Frac implements Comparable<Frac> {
     }
 
     public double getVal() {
+        if (den == 0)
+            return Double.POSITIVE_INFINITY;
         return 1.0 * num / den;
     }
 
     public void times(Frac base) {
+        if (den == 0)
+            return;
         long gcd0 = gcd(num, base.den);
         long gcd1 = gcd(base.num, den);
         num = Math.multiplyExact(num / gcd0, base.num / gcd1);
@@ -74,6 +88,10 @@ public class Frac implements Comparable<Frac> {
     }
 
     private void validate() {
+        if (den == 0) {
+            num = 1;
+            return;
+        }
         long gcd = gcd(num, den);
         num /= gcd;
         den /= gcd;

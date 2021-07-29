@@ -1,0 +1,36 @@
+{
+    "type": "lightland:config",
+    "map": {
+        "default_dialog": {
+            "_class": "com.hikarishima.lightland.npc.dialog.DefaultDialog",
+            "map": {
+                "test_npc": "dialog_selector.test"
+            }
+        },
+        "dialog.test": {
+            "_class": "com.hikarishima.lightland.npc.dialog.Dialog",
+            "text": "测试对话测试对话测试对话测试对话测试对话测试对话测试对话测试对话测试对话测试对话测试对话测试对话测试对话测试对话测试对话测试对话测试对话测试对话测试对话测试对话测试对话测试对话测试对话测试对话测试对话测试对话测试对话测试对话测试对话测试对话测试对话测试对话测试对话测试对话测试对话测试对话测试对话",
+            "next": [
+                {
+                    "name": "(继续对话)",
+                    "next": ""
+                }
+            ]
+        },
+        "dialog_selector.test": {
+            "_class": "com.hikarishima.lightland.npc.dialog.DialogSelector",
+            "dialog_list": [
+                {
+                    "weight": 1,
+                    "id": "dialog.test"
+                }
+            ],
+            "next_selector": [
+                {
+                    "weight": 1,
+                    "id": ""
+                }
+            ]
+        }
+    }
+}

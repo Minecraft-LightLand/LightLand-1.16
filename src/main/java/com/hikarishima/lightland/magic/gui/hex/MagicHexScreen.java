@@ -4,6 +4,7 @@ import com.hikarishima.lightland.magic.capabilities.MagicHandler;
 import com.hikarishima.lightland.magic.capabilities.ToServerMsg;
 import com.hikarishima.lightland.magic.products.MagicProduct;
 import com.hikarishima.lightland.magic.products.info.ProductState;
+import com.lcy0x1.base.WindowBox;
 import com.lcy0x1.core.magic.HexCell;
 import com.lcy0x1.core.magic.HexDirection;
 import com.lcy0x1.core.math.Frac;
