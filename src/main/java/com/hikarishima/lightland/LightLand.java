@@ -5,6 +5,7 @@ import com.hikarishima.lightland.event.forge.GenericEventHandler;
 import com.hikarishima.lightland.event.forge.ItemUseEventHandler;
 import com.hikarishima.lightland.event.forge.WorldGenEventHandler;
 import com.hikarishima.lightland.magic.capabilities.MagicHandler;
+import com.hikarishima.lightland.npc.player.QuestHandler;
 import com.hikarishima.lightland.proxy.PacketHandler;
 import com.hikarishima.lightland.registry.ContainerRegistry;
 import com.hikarishima.lightland.world.LightLandWorldType;
@@ -39,6 +40,7 @@ public class LightLand {
 
     private void setup(final FMLCommonSetupEvent event) {
         MagicHandler.register();
+        QuestHandler.register();
         if (generate) WorldGenEventHandler.mod_setup();
     }
 

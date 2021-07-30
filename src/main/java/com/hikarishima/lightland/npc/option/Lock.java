@@ -7,7 +7,7 @@ import net.minecraft.entity.player.PlayerEntity;
 public class Lock implements IOptionComponent {
 
     public boolean test(PlayerEntity player) {
-        //TODO
+        //TODO quest lock design
         return false;
     }
 

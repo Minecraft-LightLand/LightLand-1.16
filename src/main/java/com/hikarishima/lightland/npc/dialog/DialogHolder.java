@@ -6,7 +6,6 @@ public class DialogHolder {
 
     public final World world;
     public DialogSelector sel;
-
     public Dialog dialog;
 
     public DialogHolder(DialogSelector sel, World world) {

@@ -69,7 +69,7 @@ public class Serializer {
             cls = Class.forName(obj.get("_class").getAsString());
         }
         if (cls.getAnnotation(SerialClass.class) == null)
-            throw new Exception("invalid class " + cls + " with object " + obj.toString());
+            throw new Exception("invalid class " + cls + " with object " + obj);
         if (ans == null)
             ans = cls.newInstance();
         while (cls.getAnnotation(SerialClass.class) != null) {

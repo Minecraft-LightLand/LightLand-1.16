@@ -2,7 +2,6 @@ package com.hikarishima.lightland.config;
 
 import com.hikarishima.lightland.LightLand;
 import com.hikarishima.lightland.magic.products.MagicProduct;
-import net.minecraft.util.text.IFormattableTextComponent;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.registries.IForgeRegistryEntry;

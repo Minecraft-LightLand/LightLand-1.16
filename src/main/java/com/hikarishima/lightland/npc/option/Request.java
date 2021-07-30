@@ -8,7 +8,7 @@ import net.minecraft.item.ItemStack;
 public class Request implements IOptionComponent {
 
     @SerialClass.SerialField
-    public ItemStack[] item;
+    public ItemStack[] items;
 
     @SerialClass.SerialField
     public int vanilla_level;
@@ -16,7 +16,7 @@ public class Request implements IOptionComponent {
     public boolean test(PlayerEntity player) {
         if (player.experienceLevel < vanilla_level)
             return false;
-        for (ItemStack required : item) {
+        for (ItemStack required : items) {
             int count = 0;
             for (int i = 0; i < player.inventory.getContainerSize(); i++) {
                 ItemStack stack = player.inventory.getItem(i);
@@ -36,8 +36,24 @@ public class Request implements IOptionComponent {
 
     public void perform(PlayerEntity player) {
         //TODO sidedness
-        for (ItemStack required : item) {
-            player.inventory.removeItem(required);
+        for (ItemStack required : items) {
+            int count = required.getCount();
+            for (int i = 0; i < player.inventory.getContainerSize(); i++) {
+                ItemStack stack = player.inventory.getItem(i);
+                if (stack.isEmpty())
+                    continue;
+                if (ItemStack.isSame(required, stack) && ItemStack.tagMatches(required, stack)) {
+                    if (count >= stack.getCount()) {
+                        player.inventory.setItem(i, ItemStack.EMPTY);
+                        count -= stack.getCount();
+                        if (count == 0)
+                            break;
+                    } else {
+                        stack.shrink(count);
+                        break;
+                    }
+                }
+            }
         }
         player.experienceLevel -= vanilla_level;
     }

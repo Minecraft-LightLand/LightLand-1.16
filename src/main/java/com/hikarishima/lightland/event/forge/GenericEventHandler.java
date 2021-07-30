@@ -6,6 +6,7 @@ import com.hikarishima.lightland.command.TerrainCommand;
 import com.hikarishima.lightland.magic.capabilities.MagicHandler;
 import com.hikarishima.lightland.magic.capabilities.PlayerMagicCapability;
 import com.hikarishima.lightland.magic.capabilities.ToClientMsg;
+import com.hikarishima.lightland.npc.player.QuestCapability;
 import com.hikarishima.lightland.proxy.PacketHandler;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import net.minecraft.command.CommandSource;
@@ -28,6 +29,8 @@ public class GenericEventHandler {
         if (event.getObject() instanceof PlayerEntity) {
             event.addCapability(new ResourceLocation(LightLand.MODID, "magic"),
                     new PlayerMagicCapability((PlayerEntity) event.getObject(), event.getObject().level));
+            event.addCapability(new ResourceLocation(LightLand.MODID, "quest"),
+                    new QuestCapability((PlayerEntity) event.getObject(), event.getObject().level));
         }
     }
 
@@ -47,8 +50,10 @@ public class GenericEventHandler {
     @SubscribeEvent
     public void onServerPlayerJoin(PlayerEvent.PlayerLoggedInEvent event) {
         ServerPlayerEntity e = (ServerPlayerEntity) event.getPlayer();
-        if (e != null)
+        if (e != null) {
             PacketHandler.toClient(e, new ToClientMsg(ToClientMsg.Action.ALL, MagicHandler.get(e)));
+            //TODO quest packer
+        }
     }
 
 }

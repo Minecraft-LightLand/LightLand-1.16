@@ -12,7 +12,11 @@ public class DialogSelector {
     public static DialogSelector getDialogSelector(World world, String id) {
         if (id == null || id.length() == 0)
             return null;
-        return ConfigRecipe.getObject(world, ConfigRecipe.DIALOG, id);
+        DialogSelector ans = ConfigRecipe.getObject(world, ConfigRecipe.DIALOG, id);
+        if (ans != null) {
+            ans.self_id = id;
+        }
+        return ans;
     }
 
     @SerialClass.SerialField
@@ -20,6 +24,8 @@ public class DialogSelector {
 
     @SerialClass.SerialField
     public NextSelector[] next_selector;
+
+    public String self_id;
 
     public Dialog getDialogSelector(World w, Random r) {
         int total = 0;

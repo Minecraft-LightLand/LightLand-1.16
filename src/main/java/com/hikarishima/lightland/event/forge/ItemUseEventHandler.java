@@ -1,6 +1,6 @@
 package com.hikarishima.lightland.event.forge;
 
-import com.hikarishima.lightland.npc.event.GUIDispatcher;
+import com.hikarishima.lightland.npc.gui.GUIDispatcher;
 import com.hikarishima.lightland.proxy.PacketHandler;
 import com.lcy0x1.core.util.SerialClass;
 import net.minecraft.entity.player.ServerPlayerEntity;

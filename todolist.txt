@@ -1,0 +1,50 @@
+TODO List
+- NPC quest system
+    - Add Lock system
+    - NPC conflict
+
+- Magic System
+    - Add Element level up screen
+    - Add Ability level up screen
+    - Add tutorial screen
+
+- Add ritual craft
+    - core: 4 infinity + 4 mending + diamond
+    - 16 boxes of
+        - ender pearl: infinite teleport wand
+        - rotten meat: infinite zombie summon wand
+        - prismarine shard: throne core
+        - wither rose: wither wand
+        - sugar: speed core
+    - 8 boxes of
+        - pork chop: food core lv 1 (60s)
+        - emerald: emerald splash!
+        - totem of undying: bless of the heaven
+        - bone: infinite skeleton summon wand
+        - coal: infinite furnace
+        - prismarine crystal: prismagic wand
+        - gun powder: explosion bow
+        - string: web wand
+    - 4 boxes of
+        - glowstone: lighting wand
+        - redstone: mechanic wand
+        - spider eye: poison wand
+        - flaming rod: flame wand
+        - sand: desertification wand
+        - obsidian: strengthen wand
+        - crying obsidian: erosion wand
+        - magma ball: fire resistance core
+    - 2 boxes of
+        - slime ball: slime boot
+        - trident: trident bow
+        - iron block: golem wand
+        - gold block: haste core
+        - snow block: stack of blue ice
+        - honey block: anti-poison core
+        - comb: anti-slow core
+    - 1 box of
+        - tear of ghast: regeneration core
+        - star of the nether: power core
+        - turtle egg: attraction core
+        - scute: protection core
+        - food core lv 2 (10s)

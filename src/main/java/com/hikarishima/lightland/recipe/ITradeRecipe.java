@@ -41,5 +41,4 @@ public abstract class ITradeRecipe<R extends ITradeRecipe<R>> extends BaseRecipe
     }
 
 
-
 }

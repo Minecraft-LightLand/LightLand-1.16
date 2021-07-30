@@ -1,9 +1,3 @@
-TODO List
-- Fix Hex Loop prediction
-- Add Element level up screen
-- Add Ability level up screen
-- Add tutorial screen
-
 Version 0.2.1
     magic:
         - add magic tree screen

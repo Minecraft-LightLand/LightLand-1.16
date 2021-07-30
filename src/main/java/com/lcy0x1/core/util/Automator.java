@@ -52,6 +52,8 @@ public class Automator {
 
     public static Object fromTag(CompoundNBT tag, Class<?> cls, Object obj, Predicate<SerialClass.SerialField> pred)
             throws Exception {
+        if (tag.contains("_class"))
+            cls = Class.forName(tag.getString("_class"));
         if (obj == null)
             obj = cls.newInstance();
         while (cls.getAnnotation(SerialClass.class) != null) {
@@ -62,7 +64,7 @@ public class Automator {
                 INBT itag = tag.get(f.getName());
                 f.setAccessible(true);
                 if (itag != null)
-                    f.set(obj, fromTagRaw(itag, f.getType(), f.get(obj), pred));
+                    f.set(obj, fromTagRaw(itag, f.getType(), f.get(obj), sf, pred));
             }
             cls = cls.getSuperclass();
         }
@@ -70,7 +72,7 @@ public class Automator {
     }
 
     @SuppressWarnings({"unchecked", "rawtypes"})
-    public static Object fromTagRaw(INBT tag, Class<?> cls, Object def, Predicate<SerialClass.SerialField> pred) throws Exception {
+    public static Object fromTagRaw(INBT tag, Class<?> cls, Object def, SerialClass.SerialField sfield, Predicate<SerialClass.SerialField> pred) throws Exception {
         if (tag == null)
             if (cls == ItemStack.class)
                 return ItemStack.EMPTY;
@@ -84,9 +86,25 @@ public class Automator {
             Class<?> com = cls.getComponentType();
             Object ans = Array.newInstance(com, n);
             for (int i = 0; i < n; i++) {
-                Array.set(ans, i, fromTagRaw(list.get(i), com, null, pred));
+                Array.set(ans, i, fromTagRaw(list.get(i), com, null, null, pred));
             }
             return ans;
+        }
+        if (Map.class.isAssignableFrom(cls)) {
+            if (def == null)
+                def = cls.newInstance();
+            if (sfield.generic().length != 2)
+                throw new Exception("generic field not correct for map");
+            Class<?> key = sfield.generic()[0];
+            Class<?> val = sfield.generic()[1];
+            if (key != String.class)
+                throw new Exception("non-string key not supported");
+            CompoundNBT ctag = (CompoundNBT) tag;
+            Map map = (Map) def;
+            for (String str : ctag.getAllKeys()) {
+                map.put(str, fromTagRaw(ctag.get(str), val, null, null, pred));
+            }
+            return map;
         }
         if (cls.isEnum()) {
             return Enum.valueOf((Class) cls, tag.getAsString());
@@ -100,6 +118,10 @@ public class Automator {
             throws Exception {
         if (obj == null)
             return tag;
+        if (obj.getClass() != cls) {
+            tag.putString("_class", obj.getClass().getName());
+            cls = obj.getClass();
+        }
         while (cls.getAnnotation(SerialClass.class) != null) {
             for (Field f : cls.getDeclaredFields()) {
                 SerialClass.SerialField sf = f.getAnnotation(SerialClass.SerialField.class);
@@ -107,7 +129,7 @@ public class Automator {
                     continue;
                 f.setAccessible(true);
                 if (f.get(obj) != null)
-                    tag.put(f.getName(), toTagRaw(f.getType(), f.get(obj), pred));
+                    tag.put(f.getName(), toTagRaw(f.getType(), f.get(obj), sf, pred));
             }
             cls = cls.getSuperclass();
         }
@@ -123,7 +145,8 @@ public class Automator {
         return (T) ExceptionHandler.get(() -> fromTag(tag, cls, null, f -> true));
     }
 
-    public static INBT toTagRaw(Class<?> cls, Object obj, Predicate<SerialClass.SerialField> pred) throws Exception {
+    @SuppressWarnings("unchecked")
+    public static INBT toTagRaw(Class<?> cls, Object obj, SerialClass.SerialField sfield, Predicate<SerialClass.SerialField> pred) throws Exception {
         if (MAP.containsKey(cls))
             return MAP.get(cls).toTag.apply(obj);
         if (cls.isArray()) {
@@ -131,9 +154,23 @@ public class Automator {
             int n = Array.getLength(obj);
             Class<?> com = cls.getComponentType();
             for (int i = 0; i < n; i++) {
-                list.add(toTagRaw(com, Array.get(obj, i), pred));
+                list.add(toTagRaw(com, Array.get(obj, i), null, pred));
             }
             return list;
+        }
+        if (Map.class.isAssignableFrom(cls)) {
+            if (sfield.generic().length != 2)
+                throw new Exception("generic field not correct for map");
+            Class<?> key = sfield.generic()[0];
+            Class<?> val = sfield.generic()[1];
+            if (key != String.class)
+                throw new Exception("non-string key not supported");
+            CompoundNBT ctag = new CompoundNBT();
+            Map<String, ?> map = (Map<String, ?>) obj;
+            for (String str : ctag.getAllKeys()) {
+                ctag.put(str, toTagRaw(val, map.get(str), null, pred));
+            }
+            return ctag;
         }
         if (cls.isEnum())
             return StringNBT.valueOf(((Enum<?>) obj).name());

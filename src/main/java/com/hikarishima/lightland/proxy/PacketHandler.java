@@ -5,7 +5,8 @@ import com.hikarishima.lightland.event.forge.ItemUseEventHandler;
 import com.hikarishima.lightland.magic.capabilities.ToClientMsg;
 import com.hikarishima.lightland.magic.capabilities.ToServerMsg;
 import com.hikarishima.lightland.magic.gui.DisEnchantContainer;
-import com.hikarishima.lightland.npc.option.OptionMessage;
+import com.hikarishima.lightland.npc.option.OptionToClient;
+import com.hikarishima.lightland.npc.option.OptionToServer;
 import com.lcy0x1.core.util.SerialClass;
 import com.lcy0x1.core.util.Serializer;
 import net.minecraft.entity.player.ServerPlayerEntity;
@@ -19,6 +20,7 @@ import net.minecraftforge.fml.network.NetworkEvent;
 import net.minecraftforge.fml.network.NetworkRegistry;
 import net.minecraftforge.fml.network.simple.SimpleChannel;
 
+import java.util.Optional;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
@@ -30,12 +32,13 @@ public class PacketHandler {
     private static int id = 0;
 
     public static void registerPackets() {
-        reg(IntMsg.class, IntMsg::encode, IntMsg::decode, IntMsg::handle);
-        reg(ItemUseEventHandler.Msg.class, ItemUseEventHandler.Msg::handle);
-        reg(ToClientMsg.class, ToClientMsg::handle);
-        reg(ToServerMsg.class, ToServerMsg::handle);
-        reg(OptionMessage.class, OptionMessage::handle);
-        reg(DisEnchantContainer.Msg.class, DisEnchantContainer.class);
+        reg(IntMsg.class, IntMsg::encode, IntMsg::decode, IntMsg::handle, NetworkDirection.PLAY_TO_SERVER);
+        reg(ItemUseEventHandler.Msg.class, ItemUseEventHandler.Msg::handle, NetworkDirection.PLAY_TO_SERVER);
+        reg(ToClientMsg.class, ToClientMsg::handle, NetworkDirection.PLAY_TO_CLIENT);
+        reg(ToServerMsg.class, ToServerMsg::handle, NetworkDirection.PLAY_TO_SERVER);
+        reg(OptionToServer.class, OptionToServer::handle, NetworkDirection.PLAY_TO_SERVER);
+        reg(OptionToClient.class, OptionToClient::handle, NetworkDirection.PLAY_TO_CLIENT);
+        reg(DisEnchantContainer.Msg.class, DisEnchantContainer.class, NetworkDirection.PLAY_TO_SERVER);
     }
 
     public static <T> void send(T msg) {
@@ -49,16 +52,16 @@ public class PacketHandler {
     }
 
     private static <T> void reg(Class<T> cls, BiConsumer<T, PacketBuffer> encoder, Function<PacketBuffer, T> decoder,
-                                BiConsumer<T, Supplier<NetworkEvent.Context>> handler) {
-        CH.registerMessage(id++, cls, encoder, decoder, handler);
+                                BiConsumer<T, Supplier<NetworkEvent.Context>> handler, NetworkDirection dire) {
+        CH.registerMessage(id++, cls, encoder, decoder, handler, Optional.of(dire));
     }
 
-    private static <T extends ContSerialMsg, C extends SerialMsgCont<T>> void reg(Class<T> cls, Class<C> cont) {
-        reg(cls, (t, s) -> handle(t, cont, s.get()));
+    private static <T extends ContSerialMsg, C extends SerialMsgCont<T>> void reg(Class<T> cls, Class<C> cont, NetworkDirection dire) {
+        reg(cls, (t, s) -> handle(t, cont, s.get()), dire);
     }
 
-    private static <T extends BaseSerialMsg> void reg(Class<T> cls, BiConsumer<T, Supplier<NetworkEvent.Context>> handler) {
-        reg(cls, (msg, p) -> Serializer.to(p, msg), (p) -> Serializer.from(p, cls, null), handler);
+    private static <T extends BaseSerialMsg> void reg(Class<T> cls, BiConsumer<T, Supplier<NetworkEvent.Context>> handler, NetworkDirection dire) {
+        reg(cls, (msg, p) -> Serializer.to(p, msg), (p) -> Serializer.from(p, cls, null), handler, dire);
     }
 
     @SuppressWarnings("unchecked")

@@ -17,7 +17,11 @@ public class Dialog {
     public static Dialog getDialog(World world, String id) {
         if (id == null || id.length() == 0)
             return null;
-        return ConfigRecipe.getObject(world, ConfigRecipe.DIALOG, id);
+        Dialog ans = ConfigRecipe.getObject(world, ConfigRecipe.DIALOG, id);
+        if (ans != null) {
+            ans.self_id = id;
+        }
+        return ans;
     }
 
     @SerialClass.SerialField
@@ -25,6 +29,8 @@ public class Dialog {
 
     @SerialClass.SerialField
     public Option[] next;
+
+    public String self_id;
 
     public IFormattableTextComponent getText() {
         return new StringTextComponent(text);

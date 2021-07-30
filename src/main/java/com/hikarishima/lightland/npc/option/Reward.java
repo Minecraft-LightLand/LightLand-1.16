@@ -8,7 +8,7 @@ import net.minecraft.item.ItemStack;
 public class Reward implements IOptionComponent {
 
     @SerialClass.SerialField
-    public ItemStack[] item;
+    public ItemStack[] items;
 
     @SerialClass.SerialField
     public int vanilla_exp;
@@ -19,7 +19,7 @@ public class Reward implements IOptionComponent {
     public void perform(PlayerEntity player) {
         //TODO sidedness
         player.giveExperiencePoints(vanilla_exp);
-        for (ItemStack stack : item)
+        for (ItemStack stack : items)
             player.addItem(stack);
     }
 

@@ -20,24 +20,12 @@ public class Option {
     public String next;
 
     @SerialClass.SerialField
-    public Request request = null;
-
-    @SerialClass.SerialField
-    public Reward reward = null;
-
-    @SerialClass.SerialField
-    public Lock lock = null;
-
-    @SerialClass.SerialField
-    public IOptionComponent[] other = null;
+    public IOptionComponent[] components = null;
 
     public List<IOptionComponent> getComponents() {
         List<IOptionComponent> ans = new ArrayList<>();
-        if (request != null) ans.add(request);
-        if (reward != null) ans.add(reward);
-        if (lock != null) ans.add(lock);
-        if (other != null)
-            ans.addAll(Arrays.asList(other));
+        if (components != null)
+            ans.addAll(Arrays.asList(components));
         return ans;
     }
 
@@ -52,10 +40,7 @@ public class Option {
 
     @OnlyIn(Dist.CLIENT)
     public void perform(PlayerEntity player) {
-        PacketHandler.send(new OptionMessage(this));
-        for (IOptionComponent comp : getComponents()) {
-            comp.perform(player);
-        }
+        PacketHandler.send(new OptionToServer(this));
     }
 
 }
