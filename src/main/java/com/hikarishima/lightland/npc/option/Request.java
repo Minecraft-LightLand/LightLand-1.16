@@ -35,7 +35,6 @@ public class Request implements IOptionComponent {
     }
 
     public void perform(PlayerEntity player) {
-        //TODO sidedness
         for (ItemStack required : items) {
             int count = required.getCount();
             for (int i = 0; i < player.inventory.getContainerSize(); i++) {

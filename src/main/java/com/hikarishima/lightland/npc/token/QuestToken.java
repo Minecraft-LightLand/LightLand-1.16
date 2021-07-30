@@ -11,4 +11,10 @@ public abstract class QuestToken {
 
     public PlayerProgress progress;
 
+    public QuestToken init(PlayerProgress prog) {
+        progress = prog;
+        quest_id = prog.quest_id;
+        return this;
+    }
+
 }

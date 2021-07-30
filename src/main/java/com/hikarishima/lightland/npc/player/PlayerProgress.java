@@ -25,9 +25,6 @@ public class PlayerProgress {
         stage_id++;
         if (scene.stage_list.length > stage_id)
             scene.stage_list[stage_id].start(this);
-        else {
-            //TODO complete quest
-        }
     }
 
     @SuppressWarnings("unchecked")

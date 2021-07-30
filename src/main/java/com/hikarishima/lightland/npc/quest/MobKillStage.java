@@ -22,9 +22,6 @@ public class MobKillStage extends IQuestStage {
 
     @Override
     public QuestToken genToken(PlayerProgress progress) {
-        MobKillToken token = new MobKillToken();
-        token.quest_id = progress.quest_id;
-        token.progress = progress;
-        return token;
+        return new MobKillToken().init(progress);
     }
 }

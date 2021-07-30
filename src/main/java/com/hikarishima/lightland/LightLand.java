@@ -1,9 +1,6 @@
 package com.hikarishima.lightland;
 
-import com.hikarishima.lightland.event.forge.DamageEventHandler;
-import com.hikarishima.lightland.event.forge.GenericEventHandler;
-import com.hikarishima.lightland.event.forge.ItemUseEventHandler;
-import com.hikarishima.lightland.event.forge.WorldGenEventHandler;
+import com.hikarishima.lightland.event.forge.*;
 import com.hikarishima.lightland.magic.capabilities.MagicHandler;
 import com.hikarishima.lightland.npc.player.QuestHandler;
 import com.hikarishima.lightland.proxy.PacketHandler;
@@ -35,6 +32,7 @@ public class LightLand {
         MinecraftForge.EVENT_BUS.register(new ItemUseEventHandler());
         MinecraftForge.EVENT_BUS.register(new GenericEventHandler());
         MinecraftForge.EVENT_BUS.register(new DamageEventHandler());
+        MinecraftForge.EVENT_BUS.register(new QuestEventHandler());
         PacketHandler.registerPackets();
     }
 

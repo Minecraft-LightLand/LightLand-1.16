@@ -20,7 +20,10 @@ import net.minecraftforge.common.capabilities.CapabilityManager;
 import org.apache.logging.log4j.LogManager;
 
 import javax.annotation.Nullable;
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 public class QuestHandler {
 
@@ -62,6 +65,7 @@ public class QuestHandler {
     }
 
     public PlayerProgress getProgress(String key) {
+        startQuest(key);
         PlayerProgress ans = progress.get(key);
         ans.player = player;
         ans.handler = this;
@@ -93,6 +97,17 @@ public class QuestHandler {
         if (sel == null)
             return null;
         return new DialogHolder(sel, player.level);
+    }
+
+    @SuppressWarnings("unchecked")
+    public <T extends QuestToken> Collection<T> getTokens(Class<T> cls) {
+        Set<T> ans = new HashSet<>();
+        for (String str : tokens.keySet()) {
+            QuestToken token = getToken(str);
+            if (cls.isInstance(token))
+                ans.add((T) token);
+        }
+        return ans;
     }
 
     public void setDialog(PlayerProgress progress, String npc, String selector) {

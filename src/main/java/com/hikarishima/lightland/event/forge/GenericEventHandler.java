@@ -7,6 +7,8 @@ import com.hikarishima.lightland.magic.capabilities.MagicHandler;
 import com.hikarishima.lightland.magic.capabilities.PlayerMagicCapability;
 import com.hikarishima.lightland.magic.capabilities.ToClientMsg;
 import com.hikarishima.lightland.npc.player.QuestCapability;
+import com.hikarishima.lightland.npc.player.QuestHandler;
+import com.hikarishima.lightland.npc.player.QuestToClient;
 import com.hikarishima.lightland.proxy.PacketHandler;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import net.minecraft.command.CommandSource;
@@ -52,7 +54,7 @@ public class GenericEventHandler {
         ServerPlayerEntity e = (ServerPlayerEntity) event.getPlayer();
         if (e != null) {
             PacketHandler.toClient(e, new ToClientMsg(ToClientMsg.Action.ALL, MagicHandler.get(e)));
-            //TODO quest packer
+            PacketHandler.toClient(e, new QuestToClient(QuestHandler.get(e)));
         }
     }
 

@@ -14,10 +14,8 @@ public class DialogStage extends IQuestStage {
     @Override
     public QuestToken genToken(PlayerProgress progress) {
         DialogToken token = new DialogToken();
-        token.quest_id = progress.quest_id;
         token.stage_id = stage_id;
-        token.progress = progress;
-        return token;
+        return token.init(progress);
     }
 
 }

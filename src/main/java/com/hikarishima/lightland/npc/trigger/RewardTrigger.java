@@ -1,11 +1,11 @@
-package com.hikarishima.lightland.npc.option;
+package com.hikarishima.lightland.npc.trigger;
 
+import com.hikarishima.lightland.npc.player.PlayerProgress;
 import com.lcy0x1.core.util.SerialClass;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 
 @SerialClass
-public class Reward implements IOptionComponent {
+public class RewardTrigger extends QuestTrigger {
 
     @SerialClass.SerialField
     public ItemStack[] items;
@@ -16,10 +16,11 @@ public class Reward implements IOptionComponent {
     @SerialClass.SerialField
     public int lightland_exp;
 
-    public void perform(PlayerEntity player) {
-        player.giveExperiencePoints(vanilla_exp);
+    @Override
+    public void perform(PlayerProgress progress) {
+        progress.player.giveExperiencePoints(vanilla_exp);
         for (ItemStack stack : items)
-            player.addItem(stack);
+            progress.player.addItem(stack);
         // TODO lightland exp
     }
 
