@@ -5,6 +5,7 @@ import com.hikarishima.lightland.proxy.PacketHandler;
 import com.lcy0x1.core.util.Automator;
 import com.lcy0x1.core.util.ExceptionHandler;
 import com.lcy0x1.core.util.SerialClass;
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraftforge.fml.network.NetworkEvent;
@@ -45,7 +46,7 @@ public class QuestToClient extends PacketHandler.BaseSerialMsg {
 
     public static void handle(QuestToClient msg, Supplier<NetworkEvent.Context> ctx) {
         ctx.get().setPacketHandled(true);
-        PlayerEntity pl = ctx.get().getSender();
+        PlayerEntity pl = Minecraft.getInstance().player;
         if (pl != null) {
             QuestHandler q = QuestHandler.get(pl);
             msg.action.cons.accept(q, msg.tag);

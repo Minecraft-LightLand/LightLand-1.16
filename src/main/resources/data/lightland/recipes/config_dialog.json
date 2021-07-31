@@ -247,7 +247,7 @@
                     "components": [
                         {
                             "_class": "com.hikarishima.lightland.npc.option.DialogComplete",
-                            "quest_id": "test_quest",
+                            "quest_id": "quest.test_quest",
                             "stage_id": "stage_1"
                         }
                     ]

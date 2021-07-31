@@ -167,7 +167,7 @@ public class Automator {
                 throw new Exception("non-string key not supported");
             CompoundNBT ctag = new CompoundNBT();
             Map<String, ?> map = (Map<String, ?>) obj;
-            for (String str : ctag.getAllKeys()) {
+            for (String str : map.keySet()) {
                 ctag.put(str, toTagRaw(val, map.get(str), null, pred));
             }
             return ctag;
