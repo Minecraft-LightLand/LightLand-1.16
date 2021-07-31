@@ -1,0 +1,16 @@
+- Terrain Generator (disabled by default)
+- Mob Spawn control (disabled by default)
+- Magic System
+    - Hexagon Magic Graph
+        - Magic Tree
+    - Arcane Magic
+        - Arcane Types
+        - Arcane Mana
+        - Arcane Weapons
+    - Spell Magic
+        - Scroll
+            - Spell Load
+        - Wand
+            - Magic Mana
+- Quest System
+- Commands

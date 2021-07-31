@@ -26,6 +26,7 @@ public class GUIDispatcher {
         }
         if (holder != null) {
             if (player.level.isClientSide()) {
+                //TODO move it to server
                 Minecraft.getInstance().setScreen(new DialogScreen(holder));
             }
             return true;

@@ -90,7 +90,7 @@
                     "components": [
                         {
                             "_class": "com.hikarishima.lightland.npc.option.QuestStart",
-                            "quest_id": "test_quest"
+                            "quest_id": "quest.test_quest"
                         }
                     ]
                 }
@@ -150,6 +150,16 @@
                             "_class": "com.hikarishima.lightland.npc.trigger.SetNPCDialogTrigger",
                             "npc": "测试用NPC一号",
                             "selector": ""
+                        },
+                        {
+                            "_class": "com.hikarishima.lightland.npc.trigger.RewardTrigger",
+                            "items": [
+                                {
+                                    "item": "minecraft:iron_ingot",
+                                    "count": 4
+                                }
+                            ],
+                            "vanilla_exp": 30
                         }
                     ]
                 }
@@ -220,7 +230,7 @@
                     "components": [
                         {
                             "_class": "com.hikarishima.lightland.npc.option.DialogComplete",
-                            "quest_id": "test_quest",
+                            "quest_id": "quest.test_quest",
                             "stage_id": "stage_0"
                         }
                     ]

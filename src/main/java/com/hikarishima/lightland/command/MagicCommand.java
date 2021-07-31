@@ -8,6 +8,8 @@ import com.hikarishima.lightland.magic.capabilities.MagicHandler;
 import com.hikarishima.lightland.magic.capabilities.ToClientMsg;
 import com.hikarishima.lightland.magic.spell.internal.AbstractSpell;
 import com.hikarishima.lightland.magic.spell.internal.Spell;
+import com.hikarishima.lightland.npc.player.QuestHandler;
+import com.hikarishima.lightland.npc.player.QuestToClient;
 import com.hikarishima.lightland.proxy.PacketHandler;
 import com.hikarishima.lightland.registry.item.magic.ArcaneAxe;
 import com.hikarishima.lightland.registry.item.magic.ArcaneSword;
@@ -45,14 +47,18 @@ public class MagicCommand {
 
     private final LiteralArgumentBuilder<CommandSource> arcane;
     private final LiteralArgumentBuilder<CommandSource> magic;
+    private final LiteralArgumentBuilder<CommandSource> quest;
 
     public MagicCommand(LiteralArgumentBuilder<CommandSource> lightland) {
         arcane = Commands.literal("arcane");
         magic = Commands.literal("magic");
+        quest = Commands.literal("quest");
         regArcane();
         regMagic();
+        regQuest();
         lightland.then(arcane);
         lightland.then(magic);
+        lightland.then(quest);
     }
 
     private static RequiredArgumentBuilder<CommandSource, ?> getPlayer() {
@@ -222,6 +228,24 @@ public class MagicCommand {
                             return 1;
                         }))));
 
+    }
+
+    public void regQuest() {
+        reg(quest, "sync", getPlayer()
+                .executes(withPlayer((context, e) -> {
+                    QuestHandler handler = QuestHandler.get(e);
+                    PacketHandler.toClient(e, new QuestToClient(QuestToClient.Action.ALL, handler));
+                    send(context, ACTION_SUCCESS);
+                    return 1;
+                })));
+
+        reg(quest, "debug_sync", getPlayer()
+                .executes(withPlayer((context, e) -> {
+                    QuestHandler handler = QuestHandler.get(e);
+                    PacketHandler.toClient(e, new QuestToClient(QuestToClient.Action.DEBUG, handler));
+                    send(context, ACTION_SUCCESS);
+                    return 1;
+                })));
     }
 
     private <T extends ArgumentBuilder<CommandSource, T>> void reg(LiteralArgumentBuilder<CommandSource> arg, String act, ArgumentBuilder<CommandSource, T> builder) {

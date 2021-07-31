@@ -113,11 +113,13 @@ public class DialogScreen extends Screen {
             for (int i = 0; i < options.length; i++) {
                 WindowBox box = options[i].box;
                 if (options[i].enabled && box.isMouseIn(mx, my)) {
+                    options[i].option.perform(Minecraft.getInstance().player);
                     if (holder.next(i)) {
-                        options[i].option.perform(Minecraft.getInstance().player);
                         updateText();
-                        return true;
-                    } else Minecraft.getInstance().setScreen(null);
+                    } else {
+                        Minecraft.getInstance().setScreen(null);
+                    }
+                    return true;
                 }
             }
         }

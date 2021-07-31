@@ -5,6 +5,7 @@ import com.hikarishima.lightland.npc.token.QuestToken;
 import com.hikarishima.lightland.npc.trigger.QuestTrigger;
 import com.lcy0x1.core.util.SerialClass;
 
+@SerialClass
 public abstract class IQuestStage {
 
     @SerialClass.SerialField

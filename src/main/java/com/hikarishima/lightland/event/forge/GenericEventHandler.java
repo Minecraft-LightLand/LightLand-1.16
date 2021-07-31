@@ -54,7 +54,7 @@ public class GenericEventHandler {
         ServerPlayerEntity e = (ServerPlayerEntity) event.getPlayer();
         if (e != null) {
             PacketHandler.toClient(e, new ToClientMsg(ToClientMsg.Action.ALL, MagicHandler.get(e)));
-            PacketHandler.toClient(e, new QuestToClient(QuestHandler.get(e)));
+            PacketHandler.toClient(e, new QuestToClient(QuestToClient.Action.ALL, QuestHandler.get(e)));
         }
     }
 
