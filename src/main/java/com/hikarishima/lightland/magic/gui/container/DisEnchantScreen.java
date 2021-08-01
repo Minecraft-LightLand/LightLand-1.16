@@ -1,4 +1,4 @@
-package com.hikarishima.lightland.magic.gui;
+package com.hikarishima.lightland.magic.gui.container;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;

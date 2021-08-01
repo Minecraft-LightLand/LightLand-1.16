@@ -8,6 +8,7 @@ import com.hikarishima.lightland.command.TerrainCommand;
 import com.hikarishima.lightland.magic.capabilities.MagicHandler;
 import com.hikarishima.lightland.magic.capabilities.PlayerMagicCapability;
 import com.hikarishima.lightland.magic.capabilities.ToClientMsg;
+import com.hikarishima.lightland.magic.gui.overlay.ManaOverlay;
 import com.hikarishima.lightland.npc.player.QuestCapability;
 import com.hikarishima.lightland.npc.player.QuestHandler;
 import com.hikarishima.lightland.npc.player.QuestToClient;
@@ -19,6 +20,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.TickEvent;
@@ -59,6 +61,13 @@ public class GenericEventHandler {
         if (e != null) {
             PacketHandler.toClient(e, new ToClientMsg(ToClientMsg.Action.ALL, MagicHandler.get(e)));
             PacketHandler.toClient(e, new QuestToClient(QuestToClient.Action.ALL, QuestHandler.get(e)));
+        }
+    }
+
+    @SubscribeEvent
+    public void onRenderGameOverlayEventPre(RenderGameOverlayEvent.Pre event) {
+        if (event.getType() == RenderGameOverlayEvent.ElementType.EXPERIENCE) {
+            ManaOverlay.INSTANCE.render(event.getMatrixStack(), event.getWindow(), event.getPartialTicks());
         }
     }
 

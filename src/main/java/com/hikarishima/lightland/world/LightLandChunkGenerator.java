@@ -385,6 +385,8 @@ public class LightLandChunkGenerator extends ChunkGenerator {
     }
 
     public void fillFromNoise(IWorld world, StructureManager manager, IChunk chunk) {
+        VolcanoBiomeReader.init();
+
         ObjectList<StructurePiece> pieceList = new ObjectArrayList<>(10);
         ObjectList<JigsawJunction> jigsawList = new ObjectArrayList<>(32);
         ChunkPos chunkpos = chunk.getPos();
@@ -454,6 +456,16 @@ public class LightLandChunkGenerator extends ChunkGenerator {
                 ChunkSection chunksection = chunkprimer.getOrCreateSection(15);
                 chunksection.acquire();
 
+                Biome[][] biomes = new Biome[4][4];
+                boolean[][] isLava = new boolean[4][4];
+                for (int bx = 0; bx < 4; bx++)
+                    for (int bz = 0; bz < 4; bz++) {
+                        int ibx = (cpx + icx * this.chunkWidth) / 4 + bx;
+                        int ibz = (cpz + icz * this.chunkWidth) / 4 + bz;
+                        biomes[bx][bz] = this.biomeSource.getNoiseBiome(ibx, 0, ibz);
+                        isLava[bx][bz] = VolcanoBiomeRegistry.isLavaLakeBiome(biomes[bx][bz]);
+                    }
+
                 for (int icy = this.chunkCountY - 1; icy >= 0; --icy) {
                     double d0 = adouble[0][icz][icy];
                     double d1 = adouble[0][icz + 1][icy];
@@ -521,8 +533,7 @@ public class LightLandChunkGenerator extends ChunkGenerator {
                                 pos.set(px, py, pz);
 
                                 if (blockstate != this.defaultBlock && py <= VolcanoBiomeReader.CONFIG.lava_level) {
-                                    Biome biome = this.biomeSource.getNoiseBiome(px / 4, py, pz / 4);
-                                    if (VolcanoBiomeRegistry.isLavaLakeBiome(biome))
+                                    if (isLava[ipx / 4][ipz / 4])
                                         blockstate = Blocks.LAVA.defaultBlockState();
                                 }
                                 if (blockstate != AIR) {

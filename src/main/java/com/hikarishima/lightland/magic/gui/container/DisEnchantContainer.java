@@ -1,4 +1,4 @@
-package com.hikarishima.lightland.magic.gui;
+package com.hikarishima.lightland.magic.gui.container;
 
 import com.hikarishima.lightland.magic.capabilities.MagicHandler;
 import com.hikarishima.lightland.proxy.PacketHandler;
