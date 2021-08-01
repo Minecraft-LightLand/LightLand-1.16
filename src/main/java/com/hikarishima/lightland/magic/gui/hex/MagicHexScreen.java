@@ -90,11 +90,11 @@ public class MagicHexScreen extends Screen {
             isScrolling = false;
             return false;
         } else {
-            if (graph.box.isMouseIn(x0, y0)) {
+            if (graph.box.isMouseIn(x0, y0,0)) {
                 isScrolling = true;
                 graph.scroll(dx, dy);
                 return true;
-            } else if (result.box.isMouseIn(x0, y0)) {
+            } else if (result.box.isMouseIn(x0, y0,0)) {
                 return result.mouseDragged(x0, y0, button, dx, dy);
             }
         }
@@ -110,14 +110,14 @@ public class MagicHexScreen extends Screen {
 
     @Override
     public boolean mouseClicked(double mx, double my, int button) {
-        if (graph.box.isMouseIn(mx, my) && graph.mouseClicked(mx, my, button))
+        if (graph.box.isMouseIn(mx, my,0) && graph.mouseClicked(mx, my, button))
             return true;
         return super.mouseClicked(mx, my, button);
     }
 
     @Override
     public boolean mouseScrolled(double mx, double my, double amount) {
-        if (graph.box.isMouseIn(mx, my) && graph.mouseScrolled(mx, my, amount))
+        if (graph.box.isMouseIn(mx, my,0) && graph.mouseScrolled(mx, my, amount))
             return true;
         return super.mouseScrolled(mx, my, amount);
     }

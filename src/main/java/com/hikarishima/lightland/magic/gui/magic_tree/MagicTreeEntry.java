@@ -5,6 +5,7 @@ import com.hikarishima.lightland.config.Translator;
 import com.hikarishima.lightland.magic.products.MagicProduct;
 import com.hikarishima.lightland.magic.products.info.DisplayInfo;
 import com.hikarishima.lightland.magic.products.info.ProductState;
+import com.lcy0x1.base.TextScreenUtil;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
@@ -21,7 +22,6 @@ public class MagicTreeEntry<I extends IForgeRegistryEntry<I>, P extends MagicPro
 
     private static final float X_SLOT = 28, Y_SLOT = 27;
     private static final ResourceLocation WIDGETS_LOCATION = new ResourceLocation("textures/gui/advancements/widgets.png");
-    private static final int[] TEST_SPLIT_OFFSETS = new int[]{0, 10, -10, 25, -25};
 
     private final Minecraft minecraft = Minecraft.getInstance();
     private final List<IReorderingProcessor> description;
@@ -42,16 +42,12 @@ public class MagicTreeEntry<I extends IForgeRegistryEntry<I>, P extends MagicPro
         this.y = Math.round(display.getY() * Y_SLOT);
         int title_width = Math.max(80, 29 + minecraft.font.width(this.title));
         this.description = LanguageMap.getInstance().getVisualOrder(
-                findOptimalLines(TextComponentUtils.mergeStyles(Translator.getDesc(product).copy(),
+                TextScreenUtil.splitLines(TextComponentUtils.mergeStyles(Translator.getDesc(product).copy(),
                         Style.EMPTY.withColor(display.getFrame().getChatColor())), title_width));
         for (IReorderingProcessor text : this.description) {
             title_width = Math.max(title_width, minecraft.font.width(text));
         }
         this.width = title_width + 8;
-    }
-
-    private static float getMaxWidth(CharacterManager splitter, List<ITextProperties> list) {
-        return (float) list.stream().mapToDouble(splitter::stringWidth).max().orElse(0.0D);
     }
 
     public void drawConnectivity(MatrixStack matrix, int x0, int y0, boolean shadow) {
@@ -191,26 +187,6 @@ public class MagicTreeEntry<I extends IForgeRegistryEntry<I>, P extends MagicPro
 
     int getY() {
         return y;
-    }
-
-    private List<ITextProperties> findOptimalLines(ITextComponent text, int width) {
-        CharacterManager splitter = this.minecraft.font.getSplitter();
-        List<ITextProperties> list = null;
-        float max = 3.4028235E38F;
-        for (int offset : TEST_SPLIT_OFFSETS) {
-            List<ITextProperties> splitLines = splitter.splitLines(text, width - offset, Style.EMPTY);
-            float maxWidth = Math.abs(getMaxWidth(splitter, splitLines) - (float) width);
-            if (maxWidth <= 10.0F) {
-                return splitLines;
-            }
-
-            if (maxWidth < max) {
-                max = maxWidth;
-                list = splitLines;
-            }
-        }
-
-        return list;
     }
 
 }

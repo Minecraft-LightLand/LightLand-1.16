@@ -111,6 +111,22 @@ public class QuestHandler {
         return ans;
     }
 
+    public void reset(String id) {
+        if (id == null || id.length() == 0) {
+            quest_dialog.clear();
+            progress.clear();
+            tokens.clear();
+        } else {
+            if (progress.containsKey(id)) {
+                PlayerProgress prog = getProgress(id);
+                tokens.remove(id);
+                for (String npc : prog.scene.npc_lock)
+                    quest_dialog.remove(npc);
+                progress.remove(id);
+            }
+        }
+    }
+
     public void setDialog(PlayerProgress progress, String npc, String selector) {
         quest_dialog.put(npc, selector);//TODO NPC conflict
     }

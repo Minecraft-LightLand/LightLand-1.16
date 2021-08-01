@@ -8,18 +8,19 @@ import net.minecraft.client.gui.screen.Screen;
 public class WindowBox extends AbstractGui {
 
     private Screen parent;
-    public int x, y, w, h;
+    public int x, y, w, h, margin;
 
     public void setSize(Screen parent, int x, int y, int w, int h, int sh) {
         this.x = x + sh;
         this.y = y + sh;
         this.w = w - sh * 2;
         this.h = h - sh * 2;
+        this.margin = sh;
         this.parent = parent;
     }
 
-    public boolean isMouseIn(double mx, double my) {
-        return mx > x && mx < x + w && my > y && my < y + h;
+    public boolean isMouseIn(double mx, double my, int sh) {
+        return mx > x - sh && mx < x + w + sh && my > y - sh && my < y + h + sh;
     }
 
     public void render(MatrixStack matrix, int sh, int color, RenderType type) {

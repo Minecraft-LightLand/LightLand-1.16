@@ -1,7 +1,9 @@
 package com.hikarishima.lightland.event.forge;
 
 import com.hikarishima.lightland.LightLand;
+import com.hikarishima.lightland.command.ArcaneCommand;
 import com.hikarishima.lightland.command.MagicCommand;
+import com.hikarishima.lightland.command.QuestCommand;
 import com.hikarishima.lightland.command.TerrainCommand;
 import com.hikarishima.lightland.magic.capabilities.MagicHandler;
 import com.hikarishima.lightland.magic.capabilities.PlayerMagicCapability;
@@ -39,7 +41,9 @@ public class GenericEventHandler {
     @SubscribeEvent
     public void onCommandRegister(RegisterCommandsEvent event) {
         LiteralArgumentBuilder<CommandSource> lightland = Commands.literal("lightland");
+        new ArcaneCommand(lightland);
         new MagicCommand(lightland);
+        new QuestCommand(lightland);
         TerrainCommand.register(lightland);
         event.getDispatcher().register(lightland);
     }

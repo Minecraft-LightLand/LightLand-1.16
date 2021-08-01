@@ -11,6 +11,9 @@ public abstract class IQuestStage {
     @SerialClass.SerialField
     public QuestTrigger[] start_triggers, end_triggers;
 
+    @SerialClass.SerialField
+    public String title = "", description = "";
+
     public void start(PlayerProgress progress) {
         if (start_triggers != null)
             for (QuestTrigger trigger : start_triggers) {

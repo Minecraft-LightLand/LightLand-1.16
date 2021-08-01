@@ -23,6 +23,12 @@ public class QuestToClient extends PacketHandler.BaseSerialMsg {
         return new QuestToClient(Action.MOB_KILL, tag);
     }
 
+    public static QuestToClient onReset(String quest_id){
+        CompoundNBT tag = new CompoundNBT();
+        tag.putString("quest_id", quest_id);
+        return new QuestToClient(Action.RESET, tag);
+    }
+
     @SerialClass.SerialField
     public CompoundNBT tag;
 
@@ -59,6 +65,10 @@ public class QuestToClient extends PacketHandler.BaseSerialMsg {
             CompoundNBT ctag = Automator.toTag(new CompoundNBT(), q);
             LogManager.getLogger().info("server quest data: " + tag);
             LogManager.getLogger().info("client quest data: " + ctag);
+        }),
+        RESET((q, tag) -> {
+            String str = tag.getString("quest_id");
+            q.reset(str);
         }),
         MOB_KILL((q, tag) -> {
             MobKillToken token = q.getToken(tag.getString("quest_id"));
