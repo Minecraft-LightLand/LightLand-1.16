@@ -12,7 +12,7 @@ public class MapGrid {
         File out = new File("./doc/grid.png");
         if (!out.exists())
             out.createNewFile();
-        int r0 = 32, r1 = 32;
+        int r0 = 32, r1 = 128;
         BufferedImage ans = new BufferedImage(r0 * r1, r0 * r1, BufferedImage.TYPE_BYTE_INDEXED);
         for (int x0 = 0; x0 < r0; x0++)
             for (int y0 = 0; y0 < r0; y0++) {
