@@ -1,6 +1,8 @@
 package com.hikarishima.lightland.npc.token;
 
 import com.lcy0x1.core.util.SerialClass;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.StringTextComponent;
 
 @SerialClass
 public class DialogToken extends QuestToken {
@@ -12,4 +14,8 @@ public class DialogToken extends QuestToken {
         progress.proceed();
     }
 
+    @Override
+    public ITextComponent getQuestProgressText() {
+        return new StringTextComponent(getDescription());
+    }
 }

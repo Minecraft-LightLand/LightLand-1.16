@@ -6,6 +6,8 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 
 import java.util.HashMap;
+import java.util.Map;
+import java.util.stream.Stream;
 
 @SerialClass
 public class ConfigRecipe extends IConfigRecipe<ConfigRecipe> {
@@ -26,6 +28,12 @@ public class ConfigRecipe extends IConfigRecipe<ConfigRecipe> {
         if (r == null)
             return null;
         return r.get(id);
+    }
+
+    @SuppressWarnings("unchecked")
+    public static <T> Stream<Map.Entry<String, T>> stream(World world, ResourceLocation recipe, Class<T> cls) {
+        ConfigRecipe r = IConfigRecipe.getRecipe(world, ConfigRecipe.class, recipe);
+        return r.map.entrySet().stream().filter(e -> cls.isInstance(e.getValue())).map(e -> (Map.Entry<String, T>) e);
     }
 
     @SuppressWarnings("unchecked")

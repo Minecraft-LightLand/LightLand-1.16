@@ -2,6 +2,7 @@ package com.hikarishima.lightland.npc.gui;
 
 import com.hikarishima.lightland.npc.dialog.DialogHolder;
 import com.hikarishima.lightland.npc.option.Option;
+import com.lcy0x1.base.TextScreenUtil;
 import com.lcy0x1.base.WindowBox;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.client.Minecraft;
@@ -10,14 +11,15 @@ import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.util.IReorderingProcessor;
 import net.minecraft.util.text.*;
 
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.ArrayList;
 import java.util.List;
 
+@ParametersAreNonnullByDefault
 public class DialogScreen extends Screen {
 
     private static final ITextComponent TITLE = new TranslationTextComponent("gui.advancements");
-    private static final int[] TEST_SPLIT_OFFSETS = new int[]{0, 10, -10, 25, -25};
-    private static final int MARGIN = 6, MAIN_TEXT_MARGIN = 20, DARK = 12, LINE_HEIGHT = 9;
+    private static final int MARGIN = 6, MAIN_TEXT_MARGIN = 20, LINE_HEIGHT = 9;
 
     private final DialogHolder holder;
     private final WindowBox main_box = new WindowBox();
@@ -39,7 +41,7 @@ public class DialogScreen extends Screen {
     }
 
     private void updateText() {
-        text = LanguageMap.getInstance().getVisualOrder(splitLines(
+        text = LanguageMap.getInstance().getVisualOrder(TextScreenUtil.splitLines(
                 TextComponentUtils.mergeStyles(holder.dialog.getText(), Style.EMPTY).copy(), text_width));
         IReorderingProcessor[] opttext = LanguageMap.getInstance().getVisualOrder(holder.dialog.getOptionText()).toArray(new IReorderingProcessor[0]);
         int box_height = text_height + 2 * MARGIN;
@@ -62,29 +64,6 @@ public class DialogScreen extends Screen {
         }
     }
 
-    private static List<ITextProperties> splitLines(ITextComponent text, int width) {
-        CharacterManager splitter = Minecraft.getInstance().font.getSplitter();
-        List<ITextProperties> list = null;
-        float max = 3.4028235E38F;
-        for (int offset : TEST_SPLIT_OFFSETS) {
-            List<ITextProperties> splitLines = splitter.splitLines(text, width - offset, Style.EMPTY);
-            float diff = Math.abs(getMaxWidth(splitter, splitLines) - (float) width);
-            if (diff <= 10.0F) {
-                return splitLines;
-            }
-
-            if (diff < max) {
-                max = diff;
-                list = splitLines;
-            }
-        }
-
-        return list;
-    }
-
-    private static float getMaxWidth(CharacterManager splitter, List<ITextProperties> list) {
-        return (float) list.stream().mapToDouble(splitter::stringWidth).max().orElse(0.0D);
-    }
 
     public void render(MatrixStack matrix, int mx, int my, float partial) {
         FontRenderer font = Minecraft.getInstance().font;
@@ -95,7 +74,7 @@ public class DialogScreen extends Screen {
         main_box.render(matrix, MARGIN, 0xFFFFFFFF, WindowBox.RenderType.MARGIN);
         main_box.render(matrix, 2, 0xFF606060, WindowBox.RenderType.MARGIN);
         for (OptionBox box : options) {
-            int col = box.enabled ? box.box.isMouseIn(mx, my) ? 0xFFFFFF00 : 0xFFFFFFFF : 0xFF808080;
+            int col = box.enabled ? box.box.isMouseIn(mx, my, MARGIN) ? 0xFFFFFF00 : 0xFFFFFFFF : 0xFF808080;
             box.box.render(matrix, MARGIN, col, WindowBox.RenderType.MARGIN);
             box.box.render(matrix, 2, 0xFF606060, WindowBox.RenderType.MARGIN);
         }
@@ -112,7 +91,7 @@ public class DialogScreen extends Screen {
         if (button == 0) {
             for (int i = 0; i < options.length; i++) {
                 WindowBox box = options[i].box;
-                if (options[i].enabled && box.isMouseIn(mx, my)) {
+                if (options[i].enabled && box.isMouseIn(mx, my, MARGIN)) {
                     options[i].option.perform(Minecraft.getInstance().player);
                     if (holder.next(i)) {
                         updateText();

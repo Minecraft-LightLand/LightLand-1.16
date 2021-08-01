@@ -1,11 +1,18 @@
 package com.hikarishima.lightland.npc.token;
 
+import com.hikarishima.lightland.config.StringSubstitution;
 import com.hikarishima.lightland.npc.player.QuestToClient;
 import com.hikarishima.lightland.npc.quest.MobKillStage;
 import com.hikarishima.lightland.proxy.PacketHandler;
 import com.lcy0x1.core.util.SerialClass;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
 import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.StringTextComponent;
+import net.minecraftforge.registries.ForgeRegistries;
+
+import java.util.Map;
 
 @SerialClass
 public class MobKillToken extends QuestToken {
@@ -30,4 +37,13 @@ public class MobKillToken extends QuestToken {
             progress.proceed();
     }
 
+    @Override
+    public ITextComponent getQuestProgressText() {
+        MobKillStage stage = progress.getStage();
+        String str = getDescription();
+        EntityType<?> type = ForgeRegistries.ENTITIES.getValue(stage.entity);
+        String name = StringSubstitution.toString(type.getDescription());
+        Map<String, String> map = StringSubstitution.get("entity", name, "count", "" + count, "total", "" + stage.count);
+        return new StringTextComponent(StringSubstitution.format(str, map));
+    }
 }
