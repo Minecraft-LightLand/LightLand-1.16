@@ -1,4 +1,4 @@
-package com.hikarishima.lightland.magic.gui.magic_tree;
+package com.hikarishima.lightland.magic.gui;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.client.gui.AbstractGui;
@@ -10,7 +10,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import java.util.Arrays;
 
 @OnlyIn(Dist.CLIENT)
-enum MagicTreeTabType {
+public enum GuiTabType {
     ABOVE(0, 0, 28, 32, 8),
     BELOW(84, 0, 28, 32, 8),
     LEFT(0, 64, 32, 28, 5),
@@ -23,7 +23,7 @@ enum MagicTreeTabType {
     private final int height;
     private final int max;
 
-    MagicTreeTabType(int tx, int ty, int w, int h, int max) {
+    GuiTabType(int tx, int ty, int w, int h, int max) {
         this.textureX = tx;
         this.textureY = ty;
         this.width = w;

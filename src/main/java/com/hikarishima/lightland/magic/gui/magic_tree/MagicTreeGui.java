@@ -2,6 +2,7 @@ package com.hikarishima.lightland.magic.gui.magic_tree;
 
 import com.google.common.collect.Maps;
 import com.hikarishima.lightland.magic.capabilities.MagicHolder;
+import com.hikarishima.lightland.magic.gui.GuiTabType;
 import com.hikarishima.lightland.magic.gui.hex.MagicHexScreen;
 import com.hikarishima.lightland.magic.products.MagicProduct;
 import com.hikarishima.lightland.magic.products.MagicProductType;
@@ -22,7 +23,7 @@ import java.util.Map;
 public class MagicTreeGui<I extends IForgeRegistryEntry<I>, P extends MagicProduct<I, P>> extends AbstractGui {
 
     private final MagicTreeScreen screen;
-    private final MagicTreeTabType tab = MagicTreeTabType.ABOVE;
+    private final GuiTabType tab = GuiTabType.ABOVE;
     private final int index;
     private final Map<P, MagicTreeEntry<I, P>> widgets = Maps.newLinkedHashMap();
     private final TypeConfig display;

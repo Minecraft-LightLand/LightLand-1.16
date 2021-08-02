@@ -1,6 +1,7 @@
 package com.hikarishima.lightland.magic.gui.ability;
 
 import com.hikarishima.lightland.config.Translator;
+import com.hikarishima.lightland.magic.MagicRegistry;
 import com.hikarishima.lightland.magic.capabilities.MagicHandler;
 import com.hikarishima.lightland.proxy.Proxy;
 import com.mojang.blaze3d.matrix.MatrixStack;
@@ -11,16 +12,19 @@ import javax.annotation.ParametersAreNonnullByDefault;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public class ProfessionScreen extends AbstractAbilityScreen {
+public class ArcaneScreen extends AbstractAbilityScreen {
 
-    public static final ITextComponent TITLE = Translator.get("screen.ability.profession.title");
+    public static final ITextComponent TITLE = Translator.get("screen.ability.arcane.title");
 
     public static boolean canAccess() {
-        return MagicHandler.get(Proxy.getPlayer()).abilityPoints.getProfession() == null;
+        MagicHandler handler = MagicHandler.get(Proxy.getPlayer());
+        return handler.abilityPoints.canLevelArcane() ||
+                MagicRegistry.ARCANE_TYPE.getValues().stream()
+                        .anyMatch(handler.magicAbility::isArcaneTypeUnlocked);
     }
 
-    public ProfessionScreen() {
-        super(AbilityTab.PROFESSION, TITLE);
+    protected ArcaneScreen() {
+        super(AbilityTab.ARCANE, TITLE);
     }
 
     @Override

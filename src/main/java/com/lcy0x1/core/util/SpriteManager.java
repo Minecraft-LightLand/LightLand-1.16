@@ -58,7 +58,7 @@ public class SpriteManager {
      */
     public int getPlInvX() {
         check();
-        return 8;// TODO
+        return 8;
     }
 
     /**
@@ -102,7 +102,7 @@ public class SpriteManager {
 
     public int getWidth() {
         check();
-        return 176;// TODO
+        return 176;
     }
 
     @Override
