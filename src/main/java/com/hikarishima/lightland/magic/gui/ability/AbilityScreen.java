@@ -20,6 +20,7 @@ public class AbilityScreen extends Screen {
 
     @Override
     public void render(MatrixStack matrix, int mx, int my, float partial) {
+        renderBackground(matrix);
         super.render(matrix, mx, my, partial);
 
     }
