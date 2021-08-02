@@ -13,7 +13,9 @@ import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.util.IReorderingProcessor;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.*;
+import net.minecraft.util.text.LanguageMap;
+import net.minecraft.util.text.Style;
+import net.minecraft.util.text.TextComponentUtils;
 import net.minecraftforge.registries.IForgeRegistryEntry;
 
 import java.util.List;

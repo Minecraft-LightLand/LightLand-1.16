@@ -1,6 +1,10 @@
 package com.hikarishima.lightland.magic.capabilities;
 
+import com.hikarishima.lightland.magic.MagicElement;
+import com.hikarishima.lightland.magic.MagicRegistry;
+import com.hikarishima.lightland.magic.arcane.internal.ArcaneType;
 import com.hikarishima.lightland.magic.products.MagicProduct;
+import com.hikarishima.lightland.magic.profession.Profession;
 import com.hikarishima.lightland.proxy.PacketHandler;
 import com.lcy0x1.core.util.SerialClass;
 import net.minecraft.entity.player.ServerPlayerEntity;
@@ -35,6 +39,26 @@ public class ToServerMsg extends PacketHandler.BaseSerialMsg {
         }), DEBUG((handler, tag) -> {
             LogManager.getLogger().info(tag.getString("server"));
             LogManager.getLogger().info(tag.getString("client"));
+        }), LEVEL((handler, tag) -> {
+            AbilityPoints.LevelType.values()[tag.getInt("ordinal")].run.accept(handler);
+        }), PROFESSION((handler, tag) -> {
+            Profession prof = MagicRegistry.PROFESSION.getValue(new ResourceLocation(tag.getString("id")));
+            if (prof == null)
+                return;
+            handler.abilityPoints.setProfession(prof);
+        }), ELEMENTAL((handler, tag) -> {
+            MagicElement elem = MagicRegistry.ELEMENT.getValue(new ResourceLocation(tag.getString("id")));
+            if (elem == null)
+                return;
+            if (handler.abilityPoints.canLevelElement() && handler.magicHolder.addElementalMastery(elem))
+                handler.abilityPoints.levelElement();
+        }), ARCANE((handler, tag) -> {
+            ArcaneType type = MagicRegistry.ARCANE_TYPE.getValue(new ResourceLocation(tag.getString("id")));
+            if (type == null)
+                return;
+            if (handler.abilityPoints.canLevelArcane() && !handler.magicAbility.isArcaneTypeUnlocked(type)) {
+                handler.magicAbility.unlockArcaneType(type, false);
+            }
         });
 
         private final BiConsumer<MagicHandler, CompoundNBT> cons;
@@ -57,6 +81,30 @@ public class ToServerMsg extends PacketHandler.BaseSerialMsg {
         tag.putString("server", s);
         tag.putString("client", c);
         PacketHandler.send(new ToServerMsg(Action.DEBUG, tag));
+    }
+
+    public static void levelUpAbility(AbilityPoints.LevelType type) {
+        CompoundNBT tag = new CompoundNBT();
+        tag.putInt("type", type.ordinal());
+        PacketHandler.send(new ToServerMsg(Action.LEVEL, tag));
+    }
+
+    public static void setProfession(Profession prof) {
+        CompoundNBT tag = new CompoundNBT();
+        tag.putString("id", prof.getID());
+        PacketHandler.send(new ToServerMsg(Action.PROFESSION, tag));
+    }
+
+    public static void addElemMastery(MagicElement elem) {
+        CompoundNBT tag = new CompoundNBT();
+        tag.putString("id", elem.getID());
+        PacketHandler.send(new ToServerMsg(Action.ELEMENTAL, tag));
+    }
+
+    public static void unlockArcaneType(ArcaneType type) {
+        CompoundNBT tag = new CompoundNBT();
+        tag.putString("id", type.getID());
+        PacketHandler.send(new ToServerMsg(Action.ARCANE, tag));
     }
 
     @SerialClass.SerialField

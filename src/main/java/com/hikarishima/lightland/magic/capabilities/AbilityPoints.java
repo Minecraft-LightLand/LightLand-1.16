@@ -39,20 +39,26 @@ public class AbilityPoints {
         return element > 0;
     }
 
-    public void levelArcane() {
+    public boolean levelArcane() {
         if (arcane > 0) arcane--;
         else if (magic > 0) magic--;
         else if (general > 0) general--;
+        else return false;
+        return true;
     }
 
-    public void levelMagic() {
+    public boolean levelMagic() {
         if (magic > 0) magic--;
         else if (general > 0) general--;
+        else return false;
+        return true;
     }
 
-    public void levelBody() {
+    public boolean levelBody() {
         if (body > 0) body--;
         else if (general > 0) general--;
+        else return false;
+        return true;
     }
 
     public void levelElement() {
@@ -74,24 +80,25 @@ public class AbilityPoints {
 
     public enum LevelType {
         HEALTH((h) -> h.abilityPoints.canLevelBody(), (h) -> {
-            h.abilityPoints.levelBody();
-            h.abilityPoints.health++;
+            if (h.abilityPoints.levelBody())
+                h.abilityPoints.health++;
         }),
         STRENGTH((h) -> h.abilityPoints.canLevelBody(), (h) -> {
-            h.abilityPoints.levelBody();
-            h.abilityPoints.strength++;
+            if (h.abilityPoints.levelBody())
+                h.abilityPoints.strength++;
         }),
         SPEED((h) -> h.abilityPoints.canLevelBody(), (h) -> {
-            h.abilityPoints.levelBody();
-            h.abilityPoints.speed++;
+            if (h.abilityPoints.levelBody())
+                h.abilityPoints.speed++;
         }),
         MANA((h) -> h.abilityPoints.canLevelMagic(), (h) -> {
-            h.abilityPoints.levelMagic();
-            //TODO
+            if (h.abilityPoints.levelMagic())
+                h.magicAbility.magic_level++;
         }),
         SPELL((h) -> h.abilityPoints.canLevelMagic(), (h) -> {
-            h.abilityPoints.levelMagic();
-            //TODO
+            if (h.abilityPoints.levelMagic())
+                h.magicAbility.spell_level++;
+
         });
 
         public final Predicate<MagicHandler> check;

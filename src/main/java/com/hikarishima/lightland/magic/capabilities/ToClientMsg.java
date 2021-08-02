@@ -4,7 +4,6 @@ import com.hikarishima.lightland.proxy.PacketHandler;
 import com.hikarishima.lightland.proxy.Proxy;
 import com.lcy0x1.core.util.Automator;
 import com.lcy0x1.core.util.ExceptionHandler;
-import com.lcy0x1.core.util.NBTObj;
 import com.lcy0x1.core.util.SerialClass;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.nbt.CompoundNBT;

@@ -38,12 +38,13 @@ public class MagicHolder {
         return masteries.getInt(elem.getID());
     }
 
-    public void addElementalMastery(MagicElement elem) {
+    public boolean addElementalMastery(MagicElement elem) {
         int current = getElementalMastery(elem);
-        if (current == MAX_ELEMENTAL_MASTERY)
-            return;
+        if (current >= MAX_ELEMENTAL_MASTERY)
+            return false;
         masteries.putInt(elem.getID(), current + 1);
         checkUnlocks();
+        return true;
     }
 
     void checkUnlocks() {

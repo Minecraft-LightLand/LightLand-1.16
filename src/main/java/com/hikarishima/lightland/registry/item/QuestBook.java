@@ -1,6 +1,5 @@
 package com.hikarishima.lightland.registry.item;
 
-import com.hikarishima.lightland.magic.gui.magic_tree.MagicTreeScreen;
 import com.hikarishima.lightland.npc.gui.QuestScreen;
 import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.client.Minecraft;

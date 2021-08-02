@@ -2,7 +2,6 @@ package com.hikarishima.lightland.magic.capabilities;
 
 import com.lcy0x1.core.util.Automator;
 import com.lcy0x1.core.util.ExceptionHandler;
-import com.lcy0x1.core.util.NBTObj;
 import com.lcy0x1.core.util.SerialClass;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
@@ -81,10 +80,10 @@ public class MagicHandler {
         ABILITY((h) -> {
             h.magicAbility = new MagicAbility(h);
             h.abilityPoints = new AbilityPoints(h);
-        }), HOLDER((h)->{
+        }), HOLDER((h) -> {
             h.magicHolder = new MagicHolder(h);
             h.magicHolder.checkUnlocks();
-        }),ALL((h) -> {
+        }), ALL((h) -> {
             ABILITY.cons.accept(h);
             HOLDER.cons.accept(h);
         }), FOR_INJECT((h) -> {

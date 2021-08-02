@@ -29,7 +29,7 @@ public class RegistryParser<T extends IForgeRegistryEntry<T>> implements Argumen
     public static final RegistryParser<ArcaneType> ARCANE_TYPE = new RegistryParser<>(ArcaneType.class, () -> MagicRegistry.ARCANE_TYPE);
     public static final RegistryParser<Arcane> ARCANE = new RegistryParser<>(Arcane.class, () -> MagicRegistry.ARCANE);
     public static final RegistryParser<AbstractSpell> SPELL = new RegistryParser<>(AbstractSpell.class, () -> MagicRegistry.SPELL);
-    public static final RegistryParser<Profession> PROFESSION = new RegistryParser<>(Profession.class, ()->MagicRegistry.PROFESSION);
+    public static final RegistryParser<Profession> PROFESSION = new RegistryParser<>(Profession.class, () -> MagicRegistry.PROFESSION);
 
     public final Class<T> cls;
     public final Supplier<IForgeRegistry<T>> registry;

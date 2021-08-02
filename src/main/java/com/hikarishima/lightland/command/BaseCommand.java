@@ -49,7 +49,7 @@ public abstract class BaseCommand {
 
     private final LiteralArgumentBuilder<CommandSource> base;
 
-    public BaseCommand(LiteralArgumentBuilder<CommandSource> lightland, String id){
+    public BaseCommand(LiteralArgumentBuilder<CommandSource> lightland, String id) {
         base = Commands.literal(id);
         register();
         lightland.then(base);

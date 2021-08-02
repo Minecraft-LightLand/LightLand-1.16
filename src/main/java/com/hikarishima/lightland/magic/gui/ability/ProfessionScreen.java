@@ -16,7 +16,7 @@ public class ProfessionScreen extends Screen {
 
     public static final ITextComponent TITLE = Translator.get("screen.profession.title");
 
-    public boolean canAccess() {
+    public static boolean canAccess() {
         return MagicHandler.get(Proxy.getPlayer()).abilityPoints.getProfession() == null;
     }
 
