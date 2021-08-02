@@ -153,7 +153,7 @@ public class GUIGenerator {
             }
             out.add("side", jside);
             g.dispose();
-            File fx = new File(DST + "container/generated/" + fi.getName().split("\\.")[0] + ".png");
+            File fx = new File(DST + "container/" + fi.getName().split("\\.")[0] + ".png");
             check(fx);
             ImageIO.write(bimg, "PNG", fx);
             write(DST + "coords/" + fi.getName(), out);

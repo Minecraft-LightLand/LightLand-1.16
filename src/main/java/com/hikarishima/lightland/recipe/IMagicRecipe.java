@@ -1,8 +1,10 @@
 package com.hikarishima.lightland.recipe;
 
+import com.google.common.collect.Maps;
 import com.hikarishima.lightland.magic.MagicElement;
 import com.hikarishima.lightland.magic.MagicRegistry;
 import com.hikarishima.lightland.magic.products.IMagicProduct;
+import com.hikarishima.lightland.magic.products.MagicProductType;
 import com.hikarishima.lightland.magic.products.info.DisplayInfo;
 import com.lcy0x1.base.BaseRecipe;
 import com.lcy0x1.core.util.SerialClass;
@@ -10,9 +12,12 @@ import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+import net.minecraftforge.registries.IForgeRegistryEntry;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 @SerialClass
 @ParametersAreNonnullByDefault
@@ -38,6 +43,13 @@ public class IMagicRecipe<R extends IMagicRecipe<R>> extends BaseRecipe<R, IMagi
 
     public static List<IMagicRecipe<?>> getAll(World w) {
         return w.getRecipeManager().getAllRecipesFor(RecipeRegistry.RT_MAGIC);
+    }
+
+    public static <T extends IForgeRegistryEntry<T>> Map<T, IMagicRecipe<?>> getMap(World w, MagicProductType<T, ?> type) {
+        Map<T, IMagicRecipe<?>> ans = Maps.newLinkedHashMap();
+        getAll(w).stream().filter(r -> r.product_type.getAsType() == type)
+                .forEach(r -> Optional.of(type.getter.apply(r.product_id)).ifPresent((t) -> ans.put(t, r)));
+        return ans;
     }
 
     public final IMagicProduct<?, ?> getProduct() {

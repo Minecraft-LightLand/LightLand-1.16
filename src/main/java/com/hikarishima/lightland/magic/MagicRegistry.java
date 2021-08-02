@@ -31,8 +31,8 @@ public class MagicRegistry {
     public static final MagicElement ELEM_VOID = reg("quint", new MagicElement());
 
     public static final ArcaneProfession PROF_ARCANE = reg("arcane", new ArcaneProfession());
-    public static final MagicianProfession PROF_MAGIC = reg("magic", new MagicianProfession());
-    public static final SpellCasterProfession PROF_SPELL = reg("spell", new SpellCasterProfession());
+    public static final MagicianProfession PROF_MAGIC = reg("magician", new MagicianProfession());
+    public static final SpellCasterProfession PROF_SPELL = reg("spell_caster", new SpellCasterProfession());
 
     public static IForgeRegistry<MagicElement> ELEMENT;
     public static IForgeRegistry<MPTRaw> PRODUCT_TYPE;

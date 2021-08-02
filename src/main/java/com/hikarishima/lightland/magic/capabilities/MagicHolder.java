@@ -18,11 +18,15 @@ import java.util.Map;
 public class MagicHolder {
 
     public static final int MAX_ELEMENTAL_MASTERY = 3;
+
     private final Map<MagicProductType<?, ?>, Map<ResourceLocation, MagicProduct<?, ?>>> product_cache = new HashMap<>();
     private final Map<ResourceLocation, IMagicRecipe<?>> recipe_cache = new HashMap<>();
     private final MagicHandler parent;
+
     @SerialClass.SerialField
     public CompoundNBT masteries = new CompoundNBT();
+    @SerialClass.SerialField
+    public CompoundNBT elements = new CompoundNBT();
     @SerialClass.SerialField
     public CompoundNBT products = new CompoundNBT();
 
@@ -87,6 +91,14 @@ public class MagicHolder {
         MagicProduct<?, ?> ans = type.fac.get(parent, nbt, r.product_id, r);
         submap.put(r.product_id, ans);
         return ans;
+    }
+
+    public void addElement(MagicElement elem, Integer val) {
+        elements.putInt(elem.getID(), elements.getInt(elem.getID()) + val);
+    }
+
+    public int getElement(MagicElement elem) {
+        return elements.getInt(elem.getID());
     }
 
 }
