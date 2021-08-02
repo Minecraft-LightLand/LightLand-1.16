@@ -68,6 +68,7 @@ public class GenericEventHandler {
     public void onRenderGameOverlayEventPre(RenderGameOverlayEvent.Pre event) {
         if (event.getType() == RenderGameOverlayEvent.ElementType.EXPERIENCE) {
             ManaOverlay.INSTANCE.render(event.getMatrixStack(), event.getWindow(), event.getPartialTicks());
+            event.setCanceled(true);
         }
     }
 

@@ -5,10 +5,6 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 
-/**
- * @author arthur
- * @Date 2020-9-24
- */
 public class NBTObj {
 
     public static final String BASE = "_base";

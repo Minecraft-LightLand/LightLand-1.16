@@ -6,7 +6,19 @@
         "list_arcane_type.unlocked": "已解锁",
         "list_arcane_type.locked": "未解锁",
         "show_arcane_mana": "奥术能量: %s / %s",
-        "show_spell_slot": "法术槽: %s"
+        "show_spell_slot": "法术槽: %s",
+        "prof.exist": "职业已存在"
+    },
+    "lightland:screen": {
+        "ability": {
+            "title": "能力点数分配"
+        },
+        "profession": {
+            "title": "职业选择"
+        },
+        "disenchant": {
+            "title": "附魔分解台"
+        }
     },
     "lightland:element": {
         "lightland:earth": "地",

@@ -7,8 +7,10 @@ import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.network.NetworkEvent;
+import org.apache.logging.log4j.LogManager;
 
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 import java.util.function.BiConsumer;
 import java.util.function.Supplier;
@@ -28,8 +30,11 @@ public class ToServerMsg extends PacketHandler.BaseSerialMsg {
             }
             CompoundNBT dtag = tag.getCompound("data");
             for (String key : dtag.getAllKeys()) {
-                ctag.put(key, dtag.get(key));
+                ctag.put(key, Objects.requireNonNull(dtag.get(key)));
             }
+        }), DEBUG((handler, tag) -> {
+            LogManager.getLogger().info(tag.getString("server"));
+            LogManager.getLogger().info(tag.getString("client"));
         });
 
         private final BiConsumer<MagicHandler, CompoundNBT> cons;
@@ -45,6 +50,13 @@ public class ToServerMsg extends PacketHandler.BaseSerialMsg {
         tag.put("data", prod.tag.tag);
         ToServerMsg msg = new ToServerMsg(Action.HEX, tag);
         PacketHandler.send(msg);
+    }
+
+    public static void sendDebugInfo(String s, String c) {
+        CompoundNBT tag = new CompoundNBT();
+        tag.putString("server", s);
+        tag.putString("client", c);
+        PacketHandler.send(new ToServerMsg(Action.DEBUG, tag));
     }
 
     @SerialClass.SerialField

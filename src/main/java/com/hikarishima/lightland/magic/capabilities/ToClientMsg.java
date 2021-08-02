@@ -6,11 +6,11 @@ import com.lcy0x1.core.util.Automator;
 import com.lcy0x1.core.util.ExceptionHandler;
 import com.lcy0x1.core.util.NBTObj;
 import com.lcy0x1.core.util.SerialClass;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.network.NetworkEvent;
-import org.apache.logging.log4j.LogManager;
 
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -40,27 +40,36 @@ public class ToClientMsg extends PacketHandler.BaseSerialMsg {
         context.get().setPacketHandled(true);
     }
 
+    public static void reset(ServerPlayerEntity e, MagicHandler.Reset reset) {
+        ToClientMsg msg = new ToClientMsg(Action.RESET, null);
+        msg.tag.putInt("ordinal", reset.ordinal());
+        PacketHandler.toClient(e, msg);
+    }
+
     public enum Action {
         DEBUG((m) -> Automator.toTag(new CompoundNBT(), m), (tag) -> {
             MagicHandler m = MagicHandler.get(Proxy.getPlayer());
             CompoundNBT comp = ExceptionHandler.get(() -> Automator.toTag(new CompoundNBT(), MagicHandler.class, m, f -> true));
-            LogManager.getLogger().info("client: " + comp.toString());
-            LogManager.getLogger().info("server: " + tag.toString());
+            ToServerMsg.sendDebugInfo("server: " + tag, "client: " + comp);
         }),
         ALL((m) -> Automator.toTag(new CompoundNBT(), m), (tag) -> {
             MagicHandler m = MagicHandler.get(Proxy.getPlayer());
-            m.reset();
+            m.reset(MagicHandler.Reset.FOR_INJECT);
             ExceptionHandler.run(() -> Automator.fromTag(tag, MagicHandler.class, m, f -> true));
             m.init();
         }), ARCANE_TYPE((m) -> m.magicAbility.arcane_type, (tag) -> {
             MagicAbility abi = MagicHandler.get(Proxy.getPlayer()).magicAbility;
             abi.arcane_type = tag;
-            abi.arcane_manager = new NBTObj(tag);
         }), MAGIC_ABILITY((m) -> Automator.toTag(new CompoundNBT(), m.magicAbility), (tag) -> {
             MagicHandler h = MagicHandler.get(Proxy.getPlayer());
             h.magicAbility = new MagicAbility(h);
-            h.magicAbility.arcane_manager = new NBTObj(h.magicAbility.arcane_type);
             ExceptionHandler.run(() -> Automator.fromTag(tag, MagicAbility.class, h.magicAbility, f -> true));
+        }), ABILITY_POINT((m) -> Automator.toTag(new CompoundNBT(), m.abilityPoints), (tag) -> {
+            MagicHandler h = MagicHandler.get(Proxy.getPlayer());
+            h.abilityPoints = new AbilityPoints(h);
+            ExceptionHandler.run(() -> Automator.fromTag(tag, AbilityPoints.class, h.abilityPoints, f -> true));
+        }), RESET(m -> new CompoundNBT(), tag -> {
+            MagicHandler.get(Proxy.getPlayer()).reset(MagicHandler.Reset.values()[tag.getInt("ordinal")]);
         });
 
         public final Function<MagicHandler, CompoundNBT> server;

@@ -1,0 +1,18 @@
+{
+    "side": [
+        "arrow_1",
+        "arrow_2"
+    ],
+    "comp": {
+        "main_slot": {
+            "sprite": "slot",
+            "x": 16,
+            "y": 0
+        },
+        "arrow": {
+            "sprite": "arrow_0",
+            "x": 43,
+            "y": 0
+        }
+    }
+}

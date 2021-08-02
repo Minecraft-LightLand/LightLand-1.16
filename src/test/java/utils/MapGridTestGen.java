@@ -4,7 +4,7 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 
-public class MapGrid {
+public class MapGridTestGen {
 
     public static void main(String[] args) throws Exception {
         File file = new File("./doc/map.png");

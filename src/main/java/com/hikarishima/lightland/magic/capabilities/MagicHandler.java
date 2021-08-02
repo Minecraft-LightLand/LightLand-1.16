@@ -14,6 +14,7 @@ import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.common.capabilities.CapabilityManager;
 
 import javax.annotation.Nullable;
+import java.util.function.Consumer;
 
 @SerialClass
 public class MagicHandler {
@@ -46,22 +47,17 @@ public class MagicHandler {
         magicAbility.tick();
     }
 
-    public void reset() {
-        state = State.PREINJECT;
-        abilityPoints = new AbilityPoints(this);
-        magicAbility = new MagicAbility(this);
-        magicHolder = new MagicHolder(this);
+    public void reset(Reset reset) {
+        reset.cons.accept(this);
     }
 
     protected void init() {
         if (state == null) {
-            reset();
+            reset(Reset.FOR_INJECT);
         }
         if (state != State.ACTIVE) {
             state = State.ACTIVE;
         }
-        magicHolder.product_manager = new NBTObj(magicHolder.products);
-        magicAbility.arcane_manager = new NBTObj(magicAbility.arcane_type);
         magicHolder.checkUnlocks();
     }
 
@@ -79,6 +75,30 @@ public class MagicHandler {
 
     public enum State {
         PREINJECT, PREINIT, ACTIVE
+    }
+
+    public enum Reset {
+        ABILITY((h) -> {
+            h.magicAbility = new MagicAbility(h);
+            h.abilityPoints = new AbilityPoints(h);
+        }), HOLDER((h)->{
+            h.magicHolder = new MagicHolder(h);
+            h.magicHolder.checkUnlocks();
+        }),ALL((h) -> {
+            ABILITY.cons.accept(h);
+            HOLDER.cons.accept(h);
+        }), FOR_INJECT((h) -> {
+            h.state = State.PREINJECT;
+            h.magicAbility = new MagicAbility(h);
+            h.abilityPoints = new AbilityPoints(h);
+            h.magicHolder = new MagicHolder(h);
+        });
+
+        final Consumer<MagicHandler> cons;
+
+        Reset(Consumer<MagicHandler> cons) {
+            this.cons = cons;
+        }
     }
 
     public static class Storage implements Capability.IStorage<MagicHandler> {

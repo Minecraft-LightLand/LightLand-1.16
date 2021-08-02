@@ -20,7 +20,6 @@ public class MagicAbility {
     public CompoundNBT arcane_type = new CompoundNBT();
     @SerialClass.SerialField
     public ListNBT spell_activation = new ListNBT();
-    public NBTObj arcane_manager;
     @SerialClass.SerialField
     public int magic_level, spell_level;
     @SerialClass.SerialField
@@ -90,12 +89,12 @@ public class MagicAbility {
     }
 
     public boolean isArcaneTypeUnlocked(ArcaneType type) {
-        return arcane_manager.getSub(type.getID()).tag.getInt("level") > 0;
+        return new NBTObj(arcane_type).getSub(type.getID()).tag.getInt("level") > 0;
     }
 
     public void unlockArcaneType(ArcaneType type) {
         if (!isArcaneTypeUnlocked(type)) {
-            arcane_manager.getSub(type.getID()).tag.putInt("level", 1);
+            new NBTObj(arcane_type).getSub(type.getID()).tag.putInt("level", 1);
             parent.abilityPoints.levelArcane();
         }
     }
@@ -112,4 +111,5 @@ public class MagicAbility {
     public int getMana() {
         return magic_mana;
     }
+
 }

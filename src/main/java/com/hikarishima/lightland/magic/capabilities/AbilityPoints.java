@@ -1,5 +1,6 @@
 package com.hikarishima.lightland.magic.capabilities;
 
+import com.hikarishima.lightland.magic.profession.Profession;
 import com.lcy0x1.core.util.SerialClass;
 
 import java.util.function.Consumer;
@@ -14,6 +15,9 @@ public class AbilityPoints {
 
     @SerialClass.SerialField
     public int health, strength, speed;
+
+    @SerialClass.SerialField
+    public Profession profession = null;
 
     AbilityPoints(MagicHandler parent) {
         this.parent = parent;
@@ -53,6 +57,19 @@ public class AbilityPoints {
 
     public void levelElement() {
         if (element > 0) element--;
+    }
+
+    public Profession getProfession() {
+        return profession;
+    }
+
+    public boolean setProfession(Profession prof) {
+        if (profession != null) {
+            return false;
+        }
+        profession = prof;
+        prof.init(parent);
+        return true;
     }
 
     public enum LevelType {

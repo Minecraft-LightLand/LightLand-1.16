@@ -1,5 +1,6 @@
 package com.hikarishima.lightland.npc.player;
 
+import com.hikarishima.lightland.magic.capabilities.ToServerMsg;
 import com.hikarishima.lightland.npc.token.MobKillToken;
 import com.hikarishima.lightland.proxy.PacketHandler;
 import com.lcy0x1.core.util.Automator;
@@ -23,7 +24,7 @@ public class QuestToClient extends PacketHandler.BaseSerialMsg {
         return new QuestToClient(Action.MOB_KILL, tag);
     }
 
-    public static QuestToClient onReset(String quest_id){
+    public static QuestToClient onReset(String quest_id) {
         CompoundNBT tag = new CompoundNBT();
         tag.putString("quest_id", quest_id);
         return new QuestToClient(Action.RESET, tag);
@@ -63,8 +64,7 @@ public class QuestToClient extends PacketHandler.BaseSerialMsg {
         ALL((q, tag) -> ExceptionHandler.run(() -> Automator.fromTag(tag, QuestHandler.class, q, f -> true))),
         DEBUG((q, tag) -> {
             CompoundNBT ctag = Automator.toTag(new CompoundNBT(), q);
-            LogManager.getLogger().info("server quest data: " + tag);
-            LogManager.getLogger().info("client quest data: " + ctag);
+            ToServerMsg.sendDebugInfo("server quest data: " + tag, "client quest data: " + ctag);
         }),
         RESET((q, tag) -> {
             String str = tag.getString("quest_id");

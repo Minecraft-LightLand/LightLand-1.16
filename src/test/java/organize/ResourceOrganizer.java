@@ -26,10 +26,10 @@ public abstract class ResourceOrganizer {
     }
 
     public static void main(String[] args) throws Exception {
-
         delete(new File("./src/main/resources/assets/"));
         delete(new File("./src/main/resources/data/lightland/loot_tables/"));
         delete(new File("./src/main/resources/data/lightland/recipes/"));
+
         new LangFileOrganizer();
         new ItemFileOrganizer();
         new BlockFileOrganizer();
@@ -43,6 +43,8 @@ public abstract class ResourceOrganizer {
                 continue;
             for (File fj : fi.listFiles()) {
                 if (!fj.isDirectory())
+                    continue;
+                if (fj.getName().equals("gui"))
                     continue;
                 ResourceOrganizer obj = MAP.get(fj.getName());
                 obj.organize(fj);

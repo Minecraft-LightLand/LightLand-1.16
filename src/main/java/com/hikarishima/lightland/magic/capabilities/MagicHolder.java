@@ -25,7 +25,6 @@ public class MagicHolder {
     public CompoundNBT masteries = new CompoundNBT();
     @SerialClass.SerialField
     public CompoundNBT products = new CompoundNBT();
-    protected NBTObj product_manager;
 
     MagicHolder(MagicHandler parent) {
         this.parent = parent;
@@ -84,11 +83,10 @@ public class MagicHolder {
         else submap = product_cache.get(type);
         if (submap.containsKey(r.product_id))
             return submap.get(r.product_id);
-        NBTObj nbt = product_manager.getSub(type.getID()).getSub(r.product_id.toString());
+        NBTObj nbt = new NBTObj(products).getSub(type.getID()).getSub(r.product_id.toString());
         MagicProduct<?, ?> ans = type.fac.get(parent, nbt, r.product_id, r);
         submap.put(r.product_id, ans);
         return ans;
     }
-
 
 }

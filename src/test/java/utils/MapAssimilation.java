@@ -6,7 +6,7 @@ import java.io.File;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class MapProcess {
+public class MapAssimilation {
 
     public static void main(String[] args) throws Exception {
         File file = new File("./doc/old.png");
