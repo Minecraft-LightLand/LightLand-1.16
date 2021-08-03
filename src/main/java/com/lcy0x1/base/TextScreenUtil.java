@@ -1,10 +1,7 @@
 package com.lcy0x1.base;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.util.text.CharacterManager;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.ITextProperties;
-import net.minecraft.util.text.Style;
+import net.minecraft.util.text.*;
 
 import java.util.List;
 

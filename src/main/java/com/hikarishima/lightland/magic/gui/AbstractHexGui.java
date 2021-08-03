@@ -62,10 +62,9 @@ public class AbstractHexGui extends AbstractGui {
         RenderSystem.popMatrix();
     }
 
-    public static void drawElement(MatrixStack matrix, double x, double y, MagicElement elem, int count) {
+    public static void drawElement(MatrixStack matrix, double x, double y, MagicElement elem, String s) {
         Minecraft.getInstance().getTextureManager().bind(elem.getIcon());
         drawIcon(matrix, x, y, 1);
-        String s = "" + count;
         FontRenderer font = Minecraft.getInstance().font;
         font.draw(matrix, s, (float) (x + 19 - 2 - font.width(s)), (float) (y + 6 + 3), 0xFFFFFF);
     }

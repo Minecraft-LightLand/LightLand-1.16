@@ -11,9 +11,20 @@
     },
     "lightland:screen": {
         "ability": {
-            "ability.title": "能力点数分配",
+            "ability": {
+                "title": "能力点数分配",
+                "health": "体力",
+                "strength": "力量",
+                "speed": "速度",
+                "magic": "魔力",
+                "spell": "咒术负载"
+            },
             "profession.title": "职业选择",
-            "elemental.title": "元素精通",
+            "elemental": {
+                "title": "元素精通",
+                "desc.lv": "精通等级:%s",
+                "desc.count": "持有元素:%s"
+            },
             "arcane.title": "奥术领悟"
         },
         "disenchant.title": "附魔分解台"

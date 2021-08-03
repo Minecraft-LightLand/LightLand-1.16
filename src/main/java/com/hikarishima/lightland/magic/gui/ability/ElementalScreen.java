@@ -11,14 +11,19 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.ITextProperties;
+import net.minecraft.util.text.LanguageMap;
 
 import javax.annotation.ParametersAreNonnullByDefault;
+import java.util.ArrayList;
+import java.util.List;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 public class ElementalScreen extends AbstractAbilityScreen {
 
     public static final ITextComponent TITLE = Translator.get("screen.ability.elemental.title");
+    private static final String[] LVSTR = {"-", "I", "II", "III"};
     private static final int RADIUS = 50;
 
     public static boolean canAccess() {
@@ -47,11 +52,6 @@ public class ElementalScreen extends AbstractAbilityScreen {
     }
 
     @Override
-    public boolean mouseClicked(double mx, double my, int button) {
-        return super.mouseClicked(mx, my, button);
-    }
-
-    @Override
     public boolean innerMouseClick(int w, int h, double mx, double my) {
         MagicHandler handler = MagicHandler.get(Proxy.getPlayer());
         if (!handler.abilityPoints.canLevelElement())
@@ -67,9 +67,17 @@ public class ElementalScreen extends AbstractAbilityScreen {
 
     @Override
     public void renderInnerTooltip(MatrixStack matrix, int w, int h, int mx, int my) {
+        MagicHandler handler = MagicHandler.get(Proxy.getPlayer());
         for (ElemType e : ElemType.values()) {
-            if (e.within(mx - w / 2f, my - h / 2f))
-                renderTooltip(matrix, e.elem.getDesc(), mx, my);
+            if (e.within(mx - w / 2f, my - h / 2f)) {
+                int lv = handler.magicHolder.getElementalMastery(e.elem);
+                int count = handler.magicHolder.getElement(e.elem);
+                List<ITextProperties> list = new ArrayList<>();
+                list.add(e.elem.getDesc());
+                list.add(Translator.get("screen.ability.elemental.desc.lv", lv));
+                list.add(Translator.get("screen.ability.elemental.desc.count", count));
+                renderTooltip(matrix, LanguageMap.getInstance().getVisualOrder(list), mx, my);
+            }
         }
     }
 
@@ -91,7 +99,9 @@ public class ElementalScreen extends AbstractAbilityScreen {
         }
 
         public void renderElem(MagicHandler handler, MatrixStack matrix, int mx, int my) {
-            AbstractHexGui.drawElement(matrix, x, y, elem, handler.magicHolder.getElementalMastery(elem));
+            int lv = handler.magicHolder.getElementalMastery(elem);
+            int count = handler.magicHolder.getElement(elem);
+            AbstractHexGui.drawElement(matrix, x, y, elem, LVSTR[lv] + "/" + count);
             if (within(mx, my) && handler.abilityPoints.canLevelElement())
                 fill(matrix, x - 8, y - 8, x + 8, y + 8, 0x80FFFFFF);
         }

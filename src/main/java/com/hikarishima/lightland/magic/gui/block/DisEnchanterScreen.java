@@ -32,7 +32,7 @@ public class DisEnchanterScreen extends ContainerScreen<DisEnchanterContainer> {
             int x = 8 + 18 * 3;
             int y = sm.getComp("main_slot").y;
             for (Map.Entry<MagicElement, Integer> ent : menu.map.entrySet()) {
-                AbstractHexGui.drawElement(matrix, x, y, ent.getKey(), ent.getValue());
+                AbstractHexGui.drawElement(matrix, x, y, ent.getKey(), "" + ent.getValue());
             }
         }
     }
