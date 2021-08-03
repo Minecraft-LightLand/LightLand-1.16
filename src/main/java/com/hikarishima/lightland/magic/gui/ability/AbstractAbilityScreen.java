@@ -51,7 +51,7 @@ public abstract class AbstractAbilityScreen extends Screen {
         this.blit(matrix, x0, y0, 0, 0, 252, 140);
         tm.bind(TABS_LOCATION);
         for (AbilityTab tab : AbilityTab.values()) {
-            tab.type.draw(matrix, this, x0, y0, !tab.pred.getAsBoolean() || this.tab == tab, tab.index);
+            tab.type.draw(matrix, this, x0, y0, this.tab == tab, tab.index);
         }
         RenderSystem.enableRescaleNormal();
         RenderSystem.defaultBlendFunc();
@@ -65,7 +65,10 @@ public abstract class AbstractAbilityScreen extends Screen {
                 renderTooltip(matrix, tab.title, mx, my);
             }
         }
+        RenderSystem.pushMatrix();
+        RenderSystem.translatef((float) (x0 + 9), (float) (y0 + 18), 0.0F);
         renderInnerTooltip(matrix, 234, 113, mx - x0 - 9, my - y0 - 18);
+        RenderSystem.popMatrix();
     }
 
     protected abstract void renderInside(MatrixStack matrix, int w, int h, int mx, int my, float partial);
@@ -81,7 +84,7 @@ public abstract class AbstractAbilityScreen extends Screen {
                     return true;
                 }
             }
-            if (innerMouseClick(117, 56, mx - x0 - 9, my - y0 - 18))
+            if (innerMouseClick(234, 113, mx - x0 - 9, my - y0 - 18))
                 return true;
         }
         return super.mouseClicked(mx, my, button);

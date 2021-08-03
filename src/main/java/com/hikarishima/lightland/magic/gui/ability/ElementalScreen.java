@@ -24,7 +24,7 @@ public class ElementalScreen extends AbstractAbilityScreen {
 
     public static final ITextComponent TITLE = Translator.get("screen.ability.elemental.title");
     private static final String[] LVSTR = {"-", "I", "II", "III"};
-    private static final int RADIUS = 50;
+    private static final int RADIUS = 30;
 
     public static boolean canAccess() {
         MagicHandler handler = MagicHandler.get(Proxy.getPlayer());
@@ -58,8 +58,10 @@ public class ElementalScreen extends AbstractAbilityScreen {
             return false;
         for (ElemType e : ElemType.values()) {
             if (e.within(mx - w / 2f, my - h / 2f)) {
-                if (handler.magicHolder.addElementalMastery(e.elem))
+                if (handler.magicHolder.addElementalMastery(e.elem)) {
                     ToServerMsg.addElemMastery(e.elem);
+                    handler.abilityPoints.levelElement();
+                }
             }
         }
         return false;
@@ -72,10 +74,12 @@ public class ElementalScreen extends AbstractAbilityScreen {
             if (e.within(mx - w / 2f, my - h / 2f)) {
                 int lv = handler.magicHolder.getElementalMastery(e.elem);
                 int count = handler.magicHolder.getElement(e.elem);
+                int rem = handler.abilityPoints.element;
                 List<ITextProperties> list = new ArrayList<>();
                 list.add(e.elem.getDesc());
                 list.add(Translator.get("screen.ability.elemental.desc.lv", lv));
                 list.add(Translator.get("screen.ability.elemental.desc.count", count));
+                list.add(Translator.get("screen.ability.elemental.desc.cost", 1, rem));
                 renderTooltip(matrix, LanguageMap.getInstance().getVisualOrder(list), mx, my);
             }
         }

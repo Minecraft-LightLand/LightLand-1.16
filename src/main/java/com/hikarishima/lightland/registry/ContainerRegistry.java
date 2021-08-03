@@ -11,7 +11,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 public class ContainerRegistry {
 
-    public static final ContainerType<DisEnchanterContainer> CT_DISENCH = getCT("disenchanter", DisEnchanterContainer::new);
+    public static final ContainerType<DisEnchanterContainer> CT_DISENCH = getCT("disenchant", DisEnchanterContainer::new);
 
     public static <T extends Container> ContainerType<T> getCT(String str, ContainerType.IFactory<T> fact) {
         ContainerType<T> ans = new ContainerType<>(fact);

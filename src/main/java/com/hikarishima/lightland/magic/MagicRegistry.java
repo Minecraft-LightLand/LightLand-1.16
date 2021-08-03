@@ -6,10 +6,7 @@ import com.hikarishima.lightland.magic.arcane.internal.ArcaneType;
 import com.hikarishima.lightland.magic.products.MagicProduct;
 import com.hikarishima.lightland.magic.products.MagicProductType;
 import com.hikarishima.lightland.magic.products.instance.*;
-import com.hikarishima.lightland.magic.profession.ArcaneProfession;
-import com.hikarishima.lightland.magic.profession.MagicianProfession;
-import com.hikarishima.lightland.magic.profession.Profession;
-import com.hikarishima.lightland.magic.profession.SpellCasterProfession;
+import com.hikarishima.lightland.magic.profession.*;
 import com.hikarishima.lightland.magic.spell.internal.AbstractSpell;
 import com.lcy0x1.base.NamedEntry;
 import net.minecraft.enchantment.Enchantment;
@@ -33,6 +30,15 @@ public class MagicRegistry {
     public static final ArcaneProfession PROF_ARCANE = reg("arcane", new ArcaneProfession());
     public static final MagicianProfession PROF_MAGIC = reg("magician", new MagicianProfession());
     public static final SpellCasterProfession PROF_SPELL = reg("spell_caster", new SpellCasterProfession());
+    public static final KnightProfession PROF_KNIGHT = reg("knight", new KnightProfession());
+    public static final ShielderProfession PROF_SHIELDER = reg("shielder", new ShielderProfession());
+    public static final BurserkerProfession PROF_BURSERKER = reg("burserker", new BurserkerProfession());
+    public static final ArcherProfession PROF_ARCHER = reg("archer", new ArcherProfession());
+    public static final HunterProfession PROF_HUNTER = reg("hunter", new HunterProfession());
+    public static final AlchemistProfession PROF_ALCHEM = reg("alchemist", new AlchemistProfession());
+    public static final ChemistProfession PROF_CHEM = reg("chemist", new ChemistProfession());
+    public static final TidecallerProfession PROF_TIDE = reg("tidecaller", new TidecallerProfession());
+    public static final AssassinProfession PROF_ASSASSIN = reg("assassin", new AssassinProfession());
 
     public static IForgeRegistry<MagicElement> ELEMENT;
     public static IForgeRegistry<MPTRaw> PRODUCT_TYPE;

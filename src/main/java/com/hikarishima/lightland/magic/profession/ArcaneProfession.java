@@ -12,4 +12,9 @@ public class ArcaneProfession extends Profession {
         handler.abilityPoints.element++;
     }
 
+    @Override
+    public void levelUp(MagicHandler handler) {
+        handler.abilityPoints.general += 2;
+    }
+
 }

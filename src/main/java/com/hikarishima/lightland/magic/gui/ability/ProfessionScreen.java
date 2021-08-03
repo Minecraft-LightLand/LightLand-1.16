@@ -12,18 +12,22 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.ITextProperties;
+import net.minecraft.util.text.LanguageMap;
 
 import javax.annotation.ParametersAreNonnullByDefault;
+import java.util.ArrayList;
+import java.util.List;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 public class ProfessionScreen extends AbstractAbilityScreen {
 
     public static final ITextComponent TITLE = Translator.get("screen.ability.profession.title");
-    private static final int H_DIS = 50, Y_DIS = 50;
+    private static final int H_DIS = 15, Y_DIS = 30;
 
     public static boolean canAccess() {
-        return MagicHandler.get(Proxy.getPlayer()).abilityPoints.getProfession() == null;
+        return true;
     }
 
     public ProfessionScreen() {
@@ -62,17 +66,31 @@ public class ProfessionScreen extends AbstractAbilityScreen {
 
     @Override
     public void renderInnerTooltip(MatrixStack matrix, int w, int h, int mx, int my) {
+        MagicHandler handler = MagicHandler.get(Proxy.getPlayer());
         for (ProfType e : ProfType.values()) {
             if (e.within(mx - w / 2f, my - h / 2f)) {
-                renderTooltip(matrix, e.prof.getDesc(), mx, my);
+                List<ITextProperties> list = new ArrayList<>();
+                list.add(e.prof.getDesc());
+                if (handler.abilityPoints.profession != null)
+                    list.add(Translator.get("screen.ability.profession.desc.exist"));
+                renderTooltip(matrix, LanguageMap.getInstance().getVisualOrder(list), mx, my);
             }
         }
     }
 
     public enum ProfType {
-        MAGICIAN(-H_DIS, -Y_DIS, MagicRegistry.PROF_MAGIC),
-        SPELL_CASTER(-H_DIS, 0, MagicRegistry.PROF_SPELL),
-        ARCANE(-H_DIS, Y_DIS, MagicRegistry.PROF_ARCANE);
+        MAGICIAN(-3 * H_DIS, -Y_DIS, MagicRegistry.PROF_MAGIC),
+        SPELL_CASTER(-3 * H_DIS, 0, MagicRegistry.PROF_SPELL),
+        ARCANE(-3 * H_DIS, Y_DIS, MagicRegistry.PROF_ARCANE),
+        KNIGHT(-H_DIS, -Y_DIS, MagicRegistry.PROF_KNIGHT),
+        BURSERKER(-H_DIS, 0, MagicRegistry.PROF_BURSERKER),
+        SHIELDER(-H_DIS, Y_DIS, MagicRegistry.PROF_SHIELDER),
+        ARCHER(H_DIS, -Y_DIS, MagicRegistry.PROF_ARCHER),
+        HUNTER(H_DIS, 0, MagicRegistry.PROF_HUNTER),
+        ASSASSIN(H_DIS, Y_DIS, MagicRegistry.PROF_ASSASSIN),
+        ALCHEMIST(3 * H_DIS, -Y_DIS, MagicRegistry.PROF_ALCHEM),
+        CHEMIST(3 * H_DIS, 0, MagicRegistry.PROF_CHEM),
+        TIDECALLER(3 * H_DIS, Y_DIS, MagicRegistry.PROF_TIDE);
 
         public final int x, y;
         public final Profession prof;

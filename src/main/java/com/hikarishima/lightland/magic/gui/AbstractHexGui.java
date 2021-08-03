@@ -58,7 +58,7 @@ public class AbstractHexGui extends AbstractGui {
         RenderSystem.pushMatrix();
         RenderSystem.translated(x, y, 0);
         RenderSystem.scaled(1f / scale, 1f / scale, 0);
-        INSTANCE.blit(matrix, -8 * scale, -8 * scale, 0, 0, 16 * scale, 16 * scale);
+        blit(matrix, -8 * scale, -8 * scale, 0, 0, 16 * scale, 16 * scale, 16 * scale, 16 * scale);
         RenderSystem.popMatrix();
     }
 
@@ -66,7 +66,7 @@ public class AbstractHexGui extends AbstractGui {
         Minecraft.getInstance().getTextureManager().bind(elem.getIcon());
         drawIcon(matrix, x, y, 1);
         FontRenderer font = Minecraft.getInstance().font;
-        font.draw(matrix, s, (float) (x + 19 - 2 - font.width(s)), (float) (y + 6 + 3), 0xFFFFFF);
+        font.draw(matrix, s, (float) (x + 11 - 2 - font.width(s)), (float) (y + 1), 0xFFFFFF);
     }
 
 

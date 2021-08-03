@@ -40,7 +40,7 @@ public class ToServerMsg extends PacketHandler.BaseSerialMsg {
             LogManager.getLogger().info(tag.getString("server"));
             LogManager.getLogger().info(tag.getString("client"));
         }), LEVEL((handler, tag) -> {
-            AbilityPoints.LevelType.values()[tag.getInt("ordinal")].run.accept(handler);
+            AbilityPoints.LevelType.values()[tag.getInt("ordinal")].doLevelUp(handler);
         }), PROFESSION((handler, tag) -> {
             Profession prof = MagicRegistry.PROFESSION.getValue(new ResourceLocation(tag.getString("id")));
             if (prof == null)

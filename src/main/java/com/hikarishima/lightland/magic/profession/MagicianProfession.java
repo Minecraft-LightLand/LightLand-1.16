@@ -11,6 +11,13 @@ public class MagicianProfession extends Profession {
         handler.magicHolder.addElementalMastery(MagicRegistry.ELEM_WATER);
         handler.magicHolder.addElementalMastery(MagicRegistry.ELEM_AIR);
         handler.magicHolder.addElementalMastery(MagicRegistry.ELEM_FIRE);
+        handler.magicAbility.magic_level += 3;
+    }
+
+    @Override
+    public void levelUp(MagicHandler handler) {
+        handler.abilityPoints.general++;
+        handler.abilityPoints.magic++;
     }
 
 }

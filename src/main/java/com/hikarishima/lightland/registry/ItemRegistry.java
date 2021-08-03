@@ -2,13 +2,11 @@ package com.hikarishima.lightland.registry;
 
 import com.hikarishima.lightland.LightLand;
 import com.hikarishima.lightland.registry.block.TempBlock;
+import com.hikarishima.lightland.registry.item.AbilityBook;
 import com.hikarishima.lightland.registry.item.FoiledItem;
 import com.hikarishima.lightland.registry.item.QuestBook;
 import com.hikarishima.lightland.registry.item.combat.*;
-import com.hikarishima.lightland.registry.item.magic.ArcaneAxe;
-import com.hikarishima.lightland.registry.item.magic.ArcaneSword;
-import com.hikarishima.lightland.registry.item.magic.MagicBook;
-import com.hikarishima.lightland.registry.item.magic.MagicScroll;
+import com.hikarishima.lightland.registry.item.magic.*;
 import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Blocks;
@@ -30,6 +28,8 @@ public class ItemRegistry extends ItemGroup {
 
     public static final MagicBook MAGIC_BOOK = regItem("magic_book", p -> new MagicBook(p.stacksTo(1)));
     public static final QuestBook QUEST_BOOK = regItem("quest_book", p -> new QuestBook(p.stacksTo(1)));
+    public static final AbilityBook ABILITY_BOOK = regItem("ability_book", p -> new AbilityBook(p.stacksTo(1)));
+    public static final DisEnchanterBook DISENCHANT_BOOK = regItem("disenchant_book", p -> new DisEnchanterBook(p.stacksTo(1)));
     public static final ArcaneSword ARCANE_SWORD_GILDED = regItem("gilded_arcane_sword", p -> new ArcaneSword(ItemTier.IRON, 5, -2.4f, p.stacksTo(1).setNoRepair(), 10));
     public static final ArcaneAxe ARCANE_AXE_GILDED = regItem("gilded_arcane_axe", p -> new ArcaneAxe(ItemTier.IRON, 8, -3.1f, p.stacksTo(1).setNoRepair(), 10));
     public static final Item ENCHANT_GOLD_NUGGET = regItem("enchant_gold_nugget", FoiledItem::new);

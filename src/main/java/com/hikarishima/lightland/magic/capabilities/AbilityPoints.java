@@ -98,15 +98,32 @@ public class AbilityPoints {
         SPELL((h) -> h.abilityPoints.canLevelMagic(), (h) -> {
             if (h.abilityPoints.levelMagic())
                 h.magicAbility.spell_level++;
-
         });
 
-        public final Predicate<MagicHandler> check;
-        public final Consumer<MagicHandler> run;
+        private final Predicate<MagicHandler> check;
+        private final Consumer<MagicHandler> run;
 
         LevelType(Predicate<MagicHandler> check, Consumer<MagicHandler> run) {
             this.check = check;
             this.run = run;
+        }
+
+        public String checkLevelUp(MagicHandler handler) {
+            if (!check.test(handler)) {
+                return "screen.ability.ability.error.no_point";
+            }
+            Profession prof = handler.abilityPoints.getProfession();
+            if (prof == null) {
+                return "screen.ability.ability.error.no_prof";
+            } else {
+                return prof.allowLevel(this, handler);
+            }
+        }
+
+        public void doLevelUp(MagicHandler handler) {
+            if (checkLevelUp(handler) != null)
+                return;
+            run.accept(handler);
         }
 
     }
