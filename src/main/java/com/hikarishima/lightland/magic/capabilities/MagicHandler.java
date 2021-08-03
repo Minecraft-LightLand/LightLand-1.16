@@ -58,6 +58,7 @@ public class MagicHandler {
             state = State.ACTIVE;
         }
         magicHolder.checkUnlocks();
+        abilityPoints.updateAttribute();
     }
 
     protected MagicHandler check() {
@@ -80,6 +81,7 @@ public class MagicHandler {
         ABILITY((h) -> {
             h.magicAbility = new MagicAbility(h);
             h.abilityPoints = new AbilityPoints(h);
+            h.abilityPoints.updateAttribute();
         }), HOLDER((h) -> {
             h.magicHolder = new MagicHolder(h);
             h.magicHolder.checkUnlocks();

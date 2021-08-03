@@ -82,6 +82,7 @@ public class AbilityPoints {
         profession = prof;
         prof.init(parent);
         addExp(0);
+        updateAttribute();
         return true;
     }
 
@@ -94,6 +95,10 @@ public class AbilityPoints {
             level++;
             profession.levelUp(parent);
         }
+    }
+
+    public void updateAttribute() {
+        BodyAttribute.resetModifiers(this, parent.player);
     }
 
     public enum LevelType {
@@ -144,6 +149,7 @@ public class AbilityPoints {
             if (checkLevelUp(handler) != null)
                 return;
             run.accept(handler);
+            handler.abilityPoints.updateAttribute();
         }
 
     }

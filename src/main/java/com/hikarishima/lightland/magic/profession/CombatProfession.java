@@ -2,7 +2,7 @@ package com.hikarishima.lightland.magic.profession;
 
 import com.hikarishima.lightland.magic.capabilities.MagicHandler;
 
-public abstract class CombatProfession extends Profession{
+public abstract class CombatProfession extends Profession {
 
     @Override
     public final void init(MagicHandler handler) {

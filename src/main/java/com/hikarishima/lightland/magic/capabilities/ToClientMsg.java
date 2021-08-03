@@ -67,8 +67,10 @@ public class ToClientMsg extends PacketHandler.BaseSerialMsg {
             MagicHandler h = MagicHandler.get(Proxy.getPlayer());
             h.abilityPoints = new AbilityPoints(h);
             ExceptionHandler.run(() -> Automator.fromTag(tag, AbilityPoints.class, h.abilityPoints, f -> true));
+            h.abilityPoints.updateAttribute();
         }), RESET(m -> new CompoundNBT(), tag -> {
-            MagicHandler.get(Proxy.getPlayer()).reset(MagicHandler.Reset.values()[tag.getInt("ordinal")]);
+            MagicHandler h = MagicHandler.get(Proxy.getPlayer());
+            h.reset(MagicHandler.Reset.values()[tag.getInt("ordinal")]);
         });
 
         public final Function<MagicHandler, CompoundNBT> server;
