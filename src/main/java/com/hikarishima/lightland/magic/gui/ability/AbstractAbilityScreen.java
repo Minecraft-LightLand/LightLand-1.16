@@ -37,7 +37,7 @@ public abstract class AbstractAbilityScreen extends Screen {
         renderBackground(matrix);
         RenderSystem.pushMatrix();
         RenderSystem.translatef((float) (x0 + 9), (float) (y0 + 18), 0.0F);
-        renderInside(matrix, x0, y0, mx, my, partial);
+        renderInside(matrix, 117, 56, mx - x0 - 9, my - y0 - 18, partial);
         RenderSystem.popMatrix();
         RenderSystem.depthFunc(515);
         RenderSystem.disableDepthTest();
@@ -63,9 +63,10 @@ public abstract class AbstractAbilityScreen extends Screen {
                 renderTooltip(matrix, tab.title, mx, my);
             }
         }
+        renderInnerTooltip(matrix, 117, 56, mx - x0 - 9, my - y0 - 18);
     }
 
-    protected abstract void renderInside(MatrixStack matrix, int x0, int y0, int mx, int my, float partial);
+    protected abstract void renderInside(MatrixStack matrix, int w, int h, int mx, int my, float partial);
 
     @Override
     public boolean mouseClicked(double mx, double my, int button) {
@@ -78,9 +79,15 @@ public abstract class AbstractAbilityScreen extends Screen {
                     return true;
                 }
             }
+            if (innerMouseClick(117, 56, mx - x0 - 9, my - y0 - 18))
+                return true;
         }
         return super.mouseClicked(mx, my, button);
     }
+
+    public abstract boolean innerMouseClick(int w, int h, double mx, double my);
+
+    public abstract void renderInnerTooltip(MatrixStack matrix, int w, int h, int mx, int my);
 
     public enum AbilityTab {
         PROFESSION(0, ItemStack.EMPTY, ProfessionScreen::canAccess, ProfessionScreen::new, ProfessionScreen.TITLE),

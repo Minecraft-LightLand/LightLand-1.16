@@ -152,6 +152,7 @@ public class HexResultGui extends AbstractHexGui {
     }
 
     private int within(double mx, double my) {
+        //TODO hex coordinate
         float x0 = box.x + box.w / 2f;
         float y0 = box.y + box.h / 2f;
         for (int i = 0; i < 6; i++) {

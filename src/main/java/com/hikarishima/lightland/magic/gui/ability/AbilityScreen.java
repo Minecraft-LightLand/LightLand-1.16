@@ -18,8 +18,18 @@ public class AbilityScreen extends AbstractAbilityScreen {
     }
 
     @Override
-    protected void renderInside(MatrixStack matrix, int x0, int y0, int mx, int my, float partial) {
+    protected void renderInside(MatrixStack matrix, int w, int h, int mx, int my, float partial) {
         //TODO
+    }
+
+    @Override
+    public boolean innerMouseClick(int w, int h, double mx, double my) {
+        return false;
+    }
+
+    @Override
+    public void renderInnerTooltip(MatrixStack matrix, int w, int h, int mx, int my) {
+
     }
 
 }

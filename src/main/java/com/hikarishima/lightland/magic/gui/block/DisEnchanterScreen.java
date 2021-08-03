@@ -1,6 +1,7 @@
 package com.hikarishima.lightland.magic.gui.block;
 
 import com.hikarishima.lightland.magic.MagicElement;
+import com.hikarishima.lightland.magic.gui.hex.AbstractHexGui;
 import com.hikarishima.lightland.proxy.Proxy;
 import com.lcy0x1.core.util.SpriteManager;
 import com.mojang.blaze3d.matrix.MatrixStack;
@@ -31,7 +32,7 @@ public class DisEnchanterScreen extends ContainerScreen<DisEnchanterContainer> {
             int x = 8 + 18 * 3;
             int y = sm.getComp("main_slot").y;
             for (Map.Entry<MagicElement, Integer> ent : menu.map.entrySet()) {
-                //TODO render
+                AbstractHexGui.drawElement(matrix, x, y, ent.getKey(), ent.getValue());
             }
         }
     }

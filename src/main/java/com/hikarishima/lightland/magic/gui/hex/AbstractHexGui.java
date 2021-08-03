@@ -1,8 +1,11 @@
 package com.hikarishima.lightland.magic.gui.hex;
 
+import com.hikarishima.lightland.magic.MagicElement;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.AbstractGui;
+import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldVertexBufferUploader;
@@ -13,7 +16,9 @@ import java.util.function.IntConsumer;
 
 public class AbstractHexGui extends AbstractGui {
 
-    protected void renderHex(MatrixStack matrix, double x, double y, double r, int color) {
+    public static AbstractHexGui INSTANCE = new AbstractHexGui();
+
+    public void renderHex(MatrixStack matrix, double x, double y, double r, int color) {
         Matrix4f last = matrix.last().pose();
         BufferBuilder builder = Tessellator.getInstance().getBuilder();
         builder.begin(7, DefaultVertexFormats.POSITION_COLOR);
@@ -41,12 +46,20 @@ public class AbstractHexGui extends AbstractGui {
         WorldVertexBufferUploader.end(builder);
     }
 
-    protected void drawIcon(MatrixStack matrix, double x, double y, double scale) {
+    public void drawIcon(MatrixStack matrix, double x, double y, double scale) {
         RenderSystem.pushMatrix();
         RenderSystem.translated(x, y, 0);
         RenderSystem.scaled(1f / 16 * scale, 1f / 16 * scale, 0);
         this.blit(matrix, -128, -128, 0, 0, 256, 256);
         RenderSystem.popMatrix();
+    }
+
+    public static void drawElement(MatrixStack matrix, double x, double y, MagicElement elem, int count) {
+        Minecraft.getInstance().getTextureManager().bind(elem.getIcon());
+        INSTANCE.drawIcon(matrix, x, y, 1);
+        String s = "" + count;
+        FontRenderer font = Minecraft.getInstance().font;
+        font.draw(matrix, s, (float) (x + 19 - 2 - font.width(s)), (float) (y + 6 + 3), 0xFFFFFF);
     }
 
 }
