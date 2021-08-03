@@ -4,12 +4,14 @@ import com.google.common.collect.Maps;
 import com.hikarishima.lightland.magic.MagicRegistry;
 import com.hikarishima.lightland.magic.capabilities.MagicHandler;
 import com.hikarishima.lightland.magic.products.MagicProductType;
+import com.hikarishima.lightland.proxy.Proxy;
 import com.hikarishima.lightland.recipe.IMagicRecipe;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.player.ClientPlayerEntity;
 import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
@@ -27,6 +29,8 @@ public class MagicTreeScreen extends Screen {
     private static final ITextComponent NO_ADVANCEMENTS_LABEL = new TranslationTextComponent("advancements.empty");
     private static final ITextComponent TITLE = new TranslationTextComponent("gui.advancements");
 
+    private static final MagicProductType<?, ?>[] TABS = {MagicRegistry.MPT_CRAFT, MagicRegistry.MPT_EFF, MagicRegistry.MPT_ENCH, MagicRegistry.MPT_SPELL, MagicRegistry.MPT_ARCANE};
+
     public final ClientPlayerEntity player;
     public final MagicHandler handler;
     public final Map<MagicProductType<?, ?>, MagicTreeGui<?, ?>> tabs = Maps.newLinkedHashMap();
@@ -36,15 +40,15 @@ public class MagicTreeScreen extends Screen {
 
     public MagicTreeScreen() {
         super(TITLE);
-        this.player = Minecraft.getInstance().player;
+        this.player = Proxy.getClientPlayer();
         handler = MagicHandler.get(player);
     }
 
     @SuppressWarnings({"unchecked", "rawtypes"})
     public void init() {
         tabs.clear();
-        for (MagicRegistry.MPTRaw type : MagicRegistry.PRODUCT_TYPE.getValues()) {
-            tabs.put(type.getAsType(), new MagicTreeGui(this, type.getAsType(), tabs.size()));
+        for (MagicProductType<?, ?> type : TABS) {
+            tabs.put(type.getAsType(), new MagicTreeGui(this, type, tabs.size()));
         }
         selected = tabs.values().iterator().next();
         for (IMagicRecipe<?> r : handler.magicHolder.listRecipe()) {
@@ -82,10 +86,11 @@ public class MagicTreeScreen extends Screen {
     private void renderWindow(MatrixStack matrix, int x, int y) {
         RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
         RenderSystem.enableBlend();
-        this.minecraft.getTextureManager().bind(WINDOW_LOCATION);
+        TextureManager tm = Minecraft.getInstance().getTextureManager();
+        tm.bind(WINDOW_LOCATION);
         this.blit(matrix, x, y, 0, 0, 252, 140);
         if (this.tabs.size() > 1) {
-            this.minecraft.getTextureManager().bind(TABS_LOCATION);
+            tm.bind(TABS_LOCATION);
             Iterator<MagicTreeGui<?, ?>> iterator;
             iterator = this.tabs.values().iterator();
             while (iterator.hasNext()) {

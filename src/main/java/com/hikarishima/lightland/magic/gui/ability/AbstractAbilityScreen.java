@@ -1,6 +1,7 @@
 package com.hikarishima.lightland.magic.gui.ability;
 
 import com.hikarishima.lightland.magic.gui.GuiTabType;
+import com.hikarishima.lightland.registry.ItemRegistry;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 import mcp.MethodsReturnNonnullByDefault;
@@ -9,6 +10,7 @@ import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 
@@ -37,7 +39,7 @@ public abstract class AbstractAbilityScreen extends Screen {
         renderBackground(matrix);
         RenderSystem.pushMatrix();
         RenderSystem.translatef((float) (x0 + 9), (float) (y0 + 18), 0.0F);
-        renderInside(matrix, 117, 56, mx - x0 - 9, my - y0 - 18, partial);
+        renderInside(matrix, 234, 113, mx - x0 - 9, my - y0 - 18, partial);
         RenderSystem.popMatrix();
         RenderSystem.depthFunc(515);
         RenderSystem.disableDepthTest();
@@ -63,7 +65,7 @@ public abstract class AbstractAbilityScreen extends Screen {
                 renderTooltip(matrix, tab.title, mx, my);
             }
         }
-        renderInnerTooltip(matrix, 117, 56, mx - x0 - 9, my - y0 - 18);
+        renderInnerTooltip(matrix, 234, 113, mx - x0 - 9, my - y0 - 18);
     }
 
     protected abstract void renderInside(MatrixStack matrix, int w, int h, int mx, int my, float partial);
@@ -90,10 +92,10 @@ public abstract class AbstractAbilityScreen extends Screen {
     public abstract void renderInnerTooltip(MatrixStack matrix, int w, int h, int mx, int my);
 
     public enum AbilityTab {
-        PROFESSION(0, ItemStack.EMPTY, ProfessionScreen::canAccess, ProfessionScreen::new, ProfessionScreen.TITLE),
-        ABILITY(1, ItemStack.EMPTY, () -> true, AbilityScreen::new, AbilityScreen.TITLE),
-        ELEMENT(2, ItemStack.EMPTY, ElementalScreen::canAccess, ElementalScreen::new, ElementalScreen.TITLE),
-        ARCANE(3, ItemStack.EMPTY, ArcaneScreen::canAccess, ArcaneScreen::new, ArcaneScreen.TITLE);
+        PROFESSION(0, Items.IRON_SWORD.getDefaultInstance(), ProfessionScreen::canAccess, ProfessionScreen::new, ProfessionScreen.TITLE),
+        ABILITY(1, Items.GOLDEN_APPLE.getDefaultInstance(), () -> true, AbilityScreen::new, AbilityScreen.TITLE),
+        ELEMENT(2, ItemRegistry.MAGIC_BOOK.getDefaultInstance(), ElementalScreen::canAccess, ElementalScreen::new, ElementalScreen.TITLE),
+        ARCANE(3, ItemRegistry.ARCANE_AXE_GILDED.getDefaultInstance(), ArcaneScreen::canAccess, ArcaneScreen::new, ArcaneScreen.TITLE);
 
         public final GuiTabType type = GuiTabType.ABOVE;
         public final int index;

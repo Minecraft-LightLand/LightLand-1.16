@@ -5,7 +5,7 @@ import com.hikarishima.lightland.magic.MagicElement;
 import com.hikarishima.lightland.magic.MagicRegistry;
 import com.hikarishima.lightland.magic.capabilities.MagicHandler;
 import com.hikarishima.lightland.magic.capabilities.ToServerMsg;
-import com.hikarishima.lightland.magic.gui.hex.AbstractHexGui;
+import com.hikarishima.lightland.magic.gui.AbstractHexGui;
 import com.hikarishima.lightland.proxy.Proxy;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -34,8 +34,6 @@ public class ElementalScreen extends AbstractAbilityScreen {
 
     @Override
     protected void renderInside(MatrixStack matrix, int w, int h, int mx, int my, float partial) {
-        //TODO
-        int r = 50;
         fill(matrix, 0, 0, w, h, 0xFF606060);
         RenderSystem.pushMatrix();
         RenderSystem.translatef(w / 2f, h / 2f, 0);

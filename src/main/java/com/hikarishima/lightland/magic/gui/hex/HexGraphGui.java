@@ -1,6 +1,7 @@
 package com.hikarishima.lightland.magic.gui.hex;
 
 import com.hikarishima.lightland.magic.MagicElement;
+import com.hikarishima.lightland.magic.gui.AbstractHexGui;
 import com.lcy0x1.base.WindowBox;
 import com.lcy0x1.core.magic.*;
 import com.lcy0x1.core.math.Frac;

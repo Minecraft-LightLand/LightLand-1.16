@@ -1,7 +1,7 @@
 package com.hikarishima.lightland.magic.gui.block;
 
 import com.hikarishima.lightland.magic.MagicElement;
-import com.hikarishima.lightland.magic.gui.hex.AbstractHexGui;
+import com.hikarishima.lightland.magic.gui.AbstractHexGui;
 import com.hikarishima.lightland.proxy.Proxy;
 import com.lcy0x1.core.util.SpriteManager;
 import com.mojang.blaze3d.matrix.MatrixStack;

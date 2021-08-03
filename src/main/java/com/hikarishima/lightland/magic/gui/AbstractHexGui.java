@@ -1,4 +1,4 @@
-package com.hikarishima.lightland.magic.gui.hex;
+package com.hikarishima.lightland.magic.gui;
 
 import com.hikarishima.lightland.magic.MagicElement;
 import com.mojang.blaze3d.matrix.MatrixStack;
@@ -18,7 +18,7 @@ public class AbstractHexGui extends AbstractGui {
 
     public static AbstractHexGui INSTANCE = new AbstractHexGui();
 
-    public void renderHex(MatrixStack matrix, double x, double y, double r, int color) {
+    public static void renderHex(MatrixStack matrix, double x, double y, double r, int color) {
         Matrix4f last = matrix.last().pose();
         BufferBuilder builder = Tessellator.getInstance().getBuilder();
         builder.begin(7, DefaultVertexFormats.POSITION_COLOR);
@@ -46,20 +46,29 @@ public class AbstractHexGui extends AbstractGui {
         WorldVertexBufferUploader.end(builder);
     }
 
-    public void drawIcon(MatrixStack matrix, double x, double y, double scale) {
+    public static void drawIcon(MatrixStack matrix, double x, double y, double scale) {
         RenderSystem.pushMatrix();
         RenderSystem.translated(x, y, 0);
         RenderSystem.scaled(1f / 16 * scale, 1f / 16 * scale, 0);
-        this.blit(matrix, -128, -128, 0, 0, 256, 256);
+        INSTANCE.blit(matrix, -128, -128, 0, 0, 256, 256);
+        RenderSystem.popMatrix();
+    }
+
+    public static void drawScaled(MatrixStack matrix, double x, double y, int scale) {
+        RenderSystem.pushMatrix();
+        RenderSystem.translated(x, y, 0);
+        RenderSystem.scaled(1f / scale, 1f / scale, 0);
+        INSTANCE.blit(matrix, -8 * scale, -8 * scale, 0, 0, 16 * scale, 16 * scale);
         RenderSystem.popMatrix();
     }
 
     public static void drawElement(MatrixStack matrix, double x, double y, MagicElement elem, int count) {
         Minecraft.getInstance().getTextureManager().bind(elem.getIcon());
-        INSTANCE.drawIcon(matrix, x, y, 1);
+        drawIcon(matrix, x, y, 1);
         String s = "" + count;
         FontRenderer font = Minecraft.getInstance().font;
         font.draw(matrix, s, (float) (x + 19 - 2 - font.width(s)), (float) (y + 6 + 3), 0xFFFFFF);
     }
+
 
 }

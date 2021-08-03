@@ -11,14 +11,12 @@
     },
     "lightland:screen": {
         "ability": {
-            "title": "能力点数分配"
+            "ability.title": "能力点数分配",
+            "profession.title": "职业选择",
+            "elemental.title": "元素精通",
+            "arcane.title": "奥术领悟"
         },
-        "profession": {
-            "title": "职业选择"
-        },
-        "disenchant": {
-            "title": "附魔分解台"
-        }
+        "disenchant.title": "附魔分解台"
     },
     "lightland:element": {
         "lightland:earth": "地",
@@ -35,6 +33,20 @@
         "lightland:alioth": "玉衡",
         "lightland:mizar": "开阳",
         "lightland:alkaid": "摇光"
+    },
+    "lightland:profession": {
+        "magician": "法师",
+        "spell_caster": "咒术师",
+        "arcane": "奥术师",
+        "archer": "弓箭手",
+        "knight": "骑士",
+        "shielder": "重盾",
+        "burserker": "狂战士",
+        "alchemist": "炼金术士",
+        "chemist": "爆破专家",
+        "hunter": "猎人",
+        "tidecaller": "唤潮者",
+        "assassin": "暗杀者"
     },
     "lightland:arcane": {
         "lightland:thunder_axe": "引雷之斧",
