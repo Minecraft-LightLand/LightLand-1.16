@@ -11,12 +11,16 @@ public class SpellCasterProfession extends Profession {
         handler.magicHolder.addElementalMastery(MagicRegistry.ELEM_WATER);
         handler.magicHolder.addElementalMastery(MagicRegistry.ELEM_AIR);
         handler.magicHolder.addElementalMastery(MagicRegistry.ELEM_FIRE);
+        handler.magicAbility.spell_level += 2;
+        handler.abilityPoints.magic++;
+        handler.abilityPoints.general++;
     }
 
     @Override
     public void levelUp(MagicHandler handler) {
         handler.abilityPoints.general++;
         handler.abilityPoints.magic++;
+        handler.abilityPoints.element++;
     }
 
 }

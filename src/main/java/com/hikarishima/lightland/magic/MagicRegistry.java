@@ -7,6 +7,7 @@ import com.hikarishima.lightland.magic.products.MagicProduct;
 import com.hikarishima.lightland.magic.products.MagicProductType;
 import com.hikarishima.lightland.magic.products.instance.*;
 import com.hikarishima.lightland.magic.profession.*;
+import com.hikarishima.lightland.magic.skills.Skill;
 import com.hikarishima.lightland.magic.spell.internal.AbstractSpell;
 import com.lcy0x1.base.NamedEntry;
 import net.minecraft.enchantment.Enchantment;
@@ -46,6 +47,7 @@ public class MagicRegistry {
     public static IForgeRegistry<Arcane> ARCANE;
     public static IForgeRegistry<AbstractSpell> SPELL;
     public static IForgeRegistry<Profession> PROFESSION;
+    public static IForgeRegistry<Skill> SKILL;
 
     public static final MagicProductType<Enchantment, EnchantmentMagic> MPT_ENCH =
             reg("enchantment", new MagicProductType<>(
@@ -92,6 +94,10 @@ public class MagicRegistry {
         PROFESSION = new RegistryBuilder<Profession>()
                 .setName(new ResourceLocation(LightLand.MODID, "profession"))
                 .setType(Profession.class).create();
+
+        SKILL = new RegistryBuilder<Skill>()
+                .setName(new ResourceLocation(LightLand.MODID, "skill"))
+                .setType(Skill.class).create();
 
     }
 

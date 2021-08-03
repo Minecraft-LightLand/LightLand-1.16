@@ -69,7 +69,7 @@ public class AbilityScreen extends AbstractAbilityScreen {
         MagicHandler handler = MagicHandler.get(Proxy.getPlayer());
         for (AbilityType e : AbilityType.values()) {
             if (e.within(mx - w / 2f, my - h / 2f)) {
-                int lv = e.level.apply(handler);
+                int lv = e.type.level.apply(handler);
                 int cost = e.cost.apply(handler.abilityPoints);
                 List<ITextProperties> list = new ArrayList<>();
                 list.add(e.getDesc());
@@ -85,21 +85,19 @@ public class AbilityScreen extends AbstractAbilityScreen {
     }
 
     public enum AbilityType {
-        HEALTH(AbilityPoints.LevelType.HEALTH, e -> e.abilityPoints.health, e -> e.general + e.body, "health", -H_DIS, -Y_DIS),
-        STRENGTH(AbilityPoints.LevelType.STRENGTH, e -> e.abilityPoints.strength, e -> e.general + e.body, "strength", -H_DIS, 0),
-        SPEED(AbilityPoints.LevelType.SPEED, e -> e.abilityPoints.speed, e -> e.general + e.body, "speed", -H_DIS, Y_DIS),
-        MAGIC(AbilityPoints.LevelType.MANA, e -> e.magicAbility.magic_level, e -> e.general + e.magic, "magic", H_DIS, -Y_DIS),
-        SPELL(AbilityPoints.LevelType.SPELL, e -> e.magicAbility.spell_level, e -> e.general + e.magic, "spell", H_DIS, 0);
+        HEALTH(AbilityPoints.LevelType.HEALTH, e -> e.general + e.body, "health", -H_DIS, -Y_DIS),
+        STRENGTH(AbilityPoints.LevelType.STRENGTH, e -> e.general + e.body, "strength", -H_DIS, 0),
+        SPEED(AbilityPoints.LevelType.SPEED, e -> e.general + e.body, "speed", -H_DIS, Y_DIS),
+        MAGIC(AbilityPoints.LevelType.MANA, e -> e.general + e.magic, "magic", H_DIS, -Y_DIS),
+        SPELL(AbilityPoints.LevelType.SPELL, e -> e.general + e.magic, "spell", H_DIS, 0);
 
         public final AbilityPoints.LevelType type;
-        public final Function<MagicHandler, Integer> level;
         public final Function<AbilityPoints, Integer> cost;
         public final String icon;
         public final int x, y;
 
-        AbilityType(AbilityPoints.LevelType type, Function<MagicHandler, Integer> getter, Function<AbilityPoints, Integer> cost, String icon, int x, int y) {
+        AbilityType(AbilityPoints.LevelType type, Function<AbilityPoints, Integer> cost, String icon, int x, int y) {
             this.type = type;
-            this.level = getter;
             this.cost = cost;
             this.icon = icon;
             this.x = x;
