@@ -4,7 +4,6 @@ import com.hikarishima.lightland.magic.capabilities.ToServerMsg;
 import com.hikarishima.lightland.npc.token.MobKillToken;
 import com.hikarishima.lightland.proxy.PacketHandler;
 import com.lcy0x1.core.util.Automator;
-import com.lcy0x1.core.util.ExceptionHandler;
 import com.lcy0x1.core.util.SerialClass;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.PlayerEntity;

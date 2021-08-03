@@ -1,6 +1,5 @@
 package com.hikarishima.lightland.magic.capabilities;
 
-import com.hikarishima.lightland.npc.player.QuestHandler;
 import com.hikarishima.lightland.proxy.Proxy;
 import com.lcy0x1.core.util.Automator;
 import com.lcy0x1.core.util.ExceptionHandler;
@@ -41,17 +40,16 @@ public class MagicHandler {
     @OnlyIn(Dist.CLIENT)
     public static void cacheSet(CompoundNBT tag) {
         ClientPlayerEntity pl = Proxy.getClientPlayer();
-        if (pl != null && pl.getCapability(CAPABILITY).cast().resolve().isPresent()){
+        if (pl != null && pl.getCapability(CAPABILITY).cast().resolve().isPresent()) {
             MagicHandler m = MagicHandler.get(pl);
             m.reset(MagicHandler.Reset.FOR_INJECT);
             ExceptionHandler.run(() -> Automator.fromTag(tag, MagicHandler.class, m, f -> true));
             m.init();
-        }
-        else revive_cache = tag;
+        } else revive_cache = tag;
     }
 
     @OnlyIn(Dist.CLIENT)
-    public static CompoundNBT getCache(){
+    public static CompoundNBT getCache() {
         CompoundNBT tag = revive_cache;
         revive_cache = null;
         return tag;

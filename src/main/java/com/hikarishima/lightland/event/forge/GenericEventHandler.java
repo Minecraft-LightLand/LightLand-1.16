@@ -17,7 +17,6 @@ import com.hikarishima.lightland.proxy.Proxy;
 import com.lcy0x1.core.util.Automator;
 import com.lcy0x1.core.util.ExceptionHandler;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
-import net.minecraft.client.entity.player.ClientPlayerEntity;
 import net.minecraft.command.CommandSource;
 import net.minecraft.command.Commands;
 import net.minecraft.entity.Entity;
@@ -94,11 +93,13 @@ public class GenericEventHandler {
     }
 
     @SubscribeEvent
-    public void onPlayerRespawn(ClientPlayerNetworkEvent.RespawnEvent event){
-        CompoundNBT tag0 = MagicHandler.getCache();
-        ExceptionHandler.run(() -> Automator.fromTag(tag0, MagicHandler.class, MagicHandler.get(event.getNewPlayer()), f -> true));
-        CompoundNBT tag1 = QuestHandler.getCache();
-        ExceptionHandler.run(() -> Automator.fromTag(tag1, QuestHandler.class, QuestHandler.get(event.getNewPlayer()), f -> true));
+    public void onPlayerRespawn(ClientPlayerNetworkEvent.RespawnEvent event) {
+        if (!event.getOldPlayer().isAlive()) {
+            CompoundNBT tag0 = MagicHandler.getCache();
+            ExceptionHandler.run(() -> Automator.fromTag(tag0, MagicHandler.class, MagicHandler.get(event.getNewPlayer()), f -> true));
+            CompoundNBT tag1 = QuestHandler.getCache();
+            ExceptionHandler.run(() -> Automator.fromTag(tag1, QuestHandler.class, QuestHandler.get(event.getNewPlayer()), f -> true));
+        }
     }
 
 }

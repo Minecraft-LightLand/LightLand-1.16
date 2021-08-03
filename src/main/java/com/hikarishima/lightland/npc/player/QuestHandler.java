@@ -56,7 +56,7 @@ public class QuestHandler {
     }
 
     @OnlyIn(Dist.CLIENT)
-    public static CompoundNBT getCache(){
+    public static CompoundNBT getCache() {
         CompoundNBT tag = revive_cache;
         revive_cache = null;
         return tag;
