@@ -36,10 +36,12 @@ public class QuestEventHandler {
 
     @SubscribeEvent
     public void onPlayerTick(TickEvent.PlayerTickEvent event) {
-        QuestHandler parent = QuestHandler.get(event.player);
-        Collection<LocationVisitToken> list = parent.getTokens(LocationVisitToken.class);
-        for (LocationVisitToken token : list) {
-            token.visit(event.player.getPosition(0));
+        if (event.player.isAlive()) {
+            QuestHandler parent = QuestHandler.get(event.player);
+            Collection<LocationVisitToken> list = parent.getTokens(LocationVisitToken.class);
+            for (LocationVisitToken token : list) {
+                token.visit(event.player.getPosition(0));
+            }
         }
     }
 

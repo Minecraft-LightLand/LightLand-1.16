@@ -60,7 +60,7 @@ public class QuestToClient extends PacketHandler.BaseSerialMsg {
     }
 
     public enum Action {
-        ALL((q, tag) -> ExceptionHandler.run(() -> Automator.fromTag(tag, QuestHandler.class, q, f -> true))),
+        ALL((q, tag) -> QuestHandler.cacheSet(tag)),
         DEBUG((q, tag) -> {
             CompoundNBT ctag = Automator.toTag(new CompoundNBT(), q);
             ToServerMsg.sendDebugInfo("server quest data: " + tag, "client quest data: " + ctag);

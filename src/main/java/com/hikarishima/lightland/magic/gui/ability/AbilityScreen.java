@@ -51,8 +51,6 @@ public class AbilityScreen extends AbstractAbilityScreen {
     @Override
     public boolean innerMouseClick(int w, int h, double mx, double my) {
         MagicHandler handler = MagicHandler.get(Proxy.getPlayer());
-        if (!handler.abilityPoints.canLevelElement())
-            return false;
         for (AbilityType e : AbilityType.values()) {
             if (e.within(mx - w / 2f, my - h / 2f)) {
                 if (e.type.checkLevelUp(handler) == null) {

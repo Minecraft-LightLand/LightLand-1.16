@@ -18,6 +18,9 @@ public abstract class Profession extends NamedEntry<Profession> {
 
     public abstract void init(MagicHandler handler);
 
+    /**
+     * only AbilityPoints is allowed to change
+     */
     public abstract void levelUp(MagicHandler handler);
 
     public ResourceLocation getIcon() {

@@ -106,6 +106,17 @@ public class MagicCommand extends BaseCommand {
                             return 1;
                         }))));
 
+        reg("add_exp", getPlayer()
+                .then(Commands.argument("number", IntegerArgumentType.integer(0))
+                        .executes(withPlayer((context, e) -> {
+                            MagicHandler handler = MagicHandler.get(e);
+                            int val = context.getArgument("number", Integer.class);
+                            handler.abilityPoints.addExp(val);
+                            PacketHandler.toClient(e, new ToClientMsg(ToClientMsg.Action.ABILITY_POINT, handler));
+                            send(context, ACTION_SUCCESS);
+                            return 1;
+                        }))));
+
     }
 
 }
