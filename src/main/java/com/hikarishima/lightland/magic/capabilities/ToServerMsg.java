@@ -6,8 +6,13 @@ import com.hikarishima.lightland.magic.arcane.internal.ArcaneType;
 import com.hikarishima.lightland.magic.products.MagicProduct;
 import com.hikarishima.lightland.magic.profession.Profession;
 import com.hikarishima.lightland.proxy.PacketHandler;
+import com.hikarishima.lightland.proxy.Proxy;
+import com.hikarishima.lightland.recipe.IMagicRecipe;
+import com.hikarishima.lightland.registry.item.magic.MagicWand;
 import com.lcy0x1.core.util.SerialClass;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.network.NetworkEvent;
@@ -36,29 +41,48 @@ public class ToServerMsg extends PacketHandler.BaseSerialMsg {
             for (String key : dtag.getAllKeys()) {
                 ctag.put(key, Objects.requireNonNull(dtag.get(key)));
             }
-        }), DEBUG((handler, tag) -> {
+        }),
+        DEBUG((handler, tag) -> {
             LogManager.getLogger().info(tag.getString("server"));
             LogManager.getLogger().info(tag.getString("client"));
-        }), LEVEL((handler, tag) -> {
+        }),
+        LEVEL((handler, tag) -> {
             AbilityPoints.LevelType.values()[tag.getInt("type")].doLevelUp(handler);
-        }), PROFESSION((handler, tag) -> {
+        }),
+        PROFESSION((handler, tag) -> {
             Profession prof = MagicRegistry.PROFESSION.getValue(new ResourceLocation(tag.getString("id")));
             if (prof == null)
                 return;
             handler.abilityPoints.setProfession(prof);
-        }), ELEMENTAL((handler, tag) -> {
+        }),
+        ELEMENTAL((handler, tag) -> {
             MagicElement elem = MagicRegistry.ELEMENT.getValue(new ResourceLocation(tag.getString("id")));
             if (elem == null)
                 return;
             if (handler.abilityPoints.canLevelElement() && handler.magicHolder.addElementalMastery(elem))
                 handler.abilityPoints.levelElement();
-        }), ARCANE((handler, tag) -> {
+        }),
+        ARCANE((handler, tag) -> {
             ArcaneType type = MagicRegistry.ARCANE_TYPE.getValue(new ResourceLocation(tag.getString("id")));
             if (type == null)
                 return;
             if (handler.abilityPoints.canLevelArcane() && !handler.magicAbility.isArcaneTypeUnlocked(type)) {
                 handler.magicAbility.unlockArcaneType(type, false);
             }
+        }),
+        WAND((handler, tag) -> {
+            PlayerEntity player = handler.player;
+            IMagicRecipe<?> recipe = handler.magicHolder.getRecipe(new ResourceLocation(tag.getString("recipe")));
+            if (recipe == null)
+                return;
+            ItemStack stack = player.getMainHandItem();
+            if (!(stack.getItem() instanceof MagicWand)) {
+                stack = player.getOffhandItem();
+            }
+            if (!(stack.getItem() instanceof MagicWand))
+                return;
+            MagicWand wand = (MagicWand) stack.getItem();
+            wand.activate(player, recipe, stack);
         });
 
         private final BiConsumer<MagicHandler, CompoundNBT> cons;
@@ -105,6 +129,13 @@ public class ToServerMsg extends PacketHandler.BaseSerialMsg {
         CompoundNBT tag = new CompoundNBT();
         tag.putString("id", type.getID());
         PacketHandler.send(new ToServerMsg(Action.ARCANE, tag));
+    }
+
+    public static void activateWand(IMagicRecipe<?> recipe) {
+        CompoundNBT tag = new CompoundNBT();
+        tag.putString("recipe", recipe.id.toString());
+        PacketHandler.send(new ToServerMsg(Action.WAND, tag));
+        Action.WAND.cons.accept(MagicHandler.get(Proxy.getPlayer()), tag);
     }
 
     @SerialClass.SerialField

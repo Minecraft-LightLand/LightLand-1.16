@@ -1,5 +1,6 @@
 package com.hikarishima.lightland.magic.products;
 
+import com.hikarishima.lightland.magic.MagicElement;
 import com.hikarishima.lightland.magic.MagicRegistry;
 import com.hikarishima.lightland.magic.capabilities.MagicHandler;
 import com.hikarishima.lightland.magic.products.info.TypeConfig;
@@ -21,14 +22,16 @@ public class MagicProductType<I extends IForgeRegistryEntry<I>, P extends MagicP
     public final Function<ResourceLocation, I> getter;
     public final Function<I, String> namer;
     public final Supplier<IForgeRegistry<I>> registry;
+    public final MagicElement elem;
 
-    public MagicProductType(Class<P> cls, MagicFactory<I, P> fac,
-                            Supplier<IForgeRegistry<I>> registry, Function<I, String> namer) {
+    public MagicProductType(Class<P> cls, MagicFactory<I, P> fac, Supplier<IForgeRegistry<I>> registry,
+                            Function<I, String> namer, MagicElement elem) {
         this.cls = cls;
         this.fac = fac;
         this.getter = (s) -> registry.get().getValue(s);
         this.namer = namer;
         this.registry = registry;
+        this.elem = elem;
     }
 
     public TypeConfig getDisplay() {

@@ -44,7 +44,7 @@ public class MagicHexScreen extends Screen {
         int x0 = (sw - w) / 2;
         int y0 = (sh - h) / 2;
         graph.box.setSize(this, x0, y0, 200, 200, 8);
-        result.box.setSize(this, x0 + 200, y0, 100, 100, 8);
+        result.box.setSize(this, x0 + 200, y0, 100, 200, 8);
     }
 
     @Override

@@ -2,9 +2,11 @@ package com.hikarishima.lightland.registry;
 
 import com.hikarishima.lightland.LightLand;
 import com.hikarishima.lightland.registry.block.TempBlock;
-import com.hikarishima.lightland.registry.item.AbilityBook;
 import com.hikarishima.lightland.registry.item.FoiledItem;
-import com.hikarishima.lightland.registry.item.QuestBook;
+import com.hikarishima.lightland.registry.item.book.AbilityBook;
+import com.hikarishima.lightland.registry.item.book.DisEnchanterBook;
+import com.hikarishima.lightland.registry.item.book.MagicBook;
+import com.hikarishima.lightland.registry.item.book.QuestBook;
 import com.hikarishima.lightland.registry.item.combat.*;
 import com.hikarishima.lightland.registry.item.magic.*;
 import mcp.MethodsReturnNonnullByDefault;
@@ -51,6 +53,8 @@ public class ItemRegistry extends ItemGroup {
     public static final MagicScroll SPELL_CARD = regItem("spell_card", (p) -> new MagicScroll(MagicScroll.ScrollType.CARD, p));
     public static final MagicScroll SPELL_PARCHMENT = regItem("spell_parchment", (p) -> new MagicScroll(MagicScroll.ScrollType.PARCHMENT, p));
     public static final MagicScroll SPELL_SCROLL = regItem("spell_scroll", (p) -> new MagicScroll(MagicScroll.ScrollType.SCROLL, p));
+    public static final MagicWand GILDED_WAND = regItem("gilded_wand", MagicWand::new);
+    public static final RecordPearl RECORD_PEARL = regItem("record_pearl", RecordPearl::new);
 
     public static final TempBlock TEMP_DIRT = reg("temp_dirt", new TempBlock(AbstractBlock.Properties.copy(Blocks.DIRT).noDrops()));
     public static final TempBlock TEMP_COBBLE = reg("temp_cobblestone", new TempBlock(AbstractBlock.Properties.copy(Blocks.COBBLESTONE).noDrops()));

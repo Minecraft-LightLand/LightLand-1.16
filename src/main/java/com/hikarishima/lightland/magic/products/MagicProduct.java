@@ -1,5 +1,6 @@
 package com.hikarishima.lightland.magic.products;
 
+import com.hikarishima.lightland.magic.MagicElement;
 import com.hikarishima.lightland.magic.capabilities.MagicHandler;
 import com.hikarishima.lightland.magic.products.info.ProductState;
 import com.hikarishima.lightland.recipe.IMagicRecipe;
@@ -10,6 +11,9 @@ import com.lcy0x1.core.util.SerialClass;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.registries.IForgeRegistryEntry;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MagicProduct<I extends IForgeRegistryEntry<I>, P extends MagicProduct<I, P>> extends IMagicProduct<I, P> {
 
     public static final int LOCKED = -2, UNLOCKED = -1;
@@ -17,7 +21,6 @@ public class MagicProduct<I extends IForgeRegistryEntry<I>, P extends MagicProdu
     public final NBTObj tag;
     public final MagicHandler player;
     public final IMagicRecipe<?> recipe;
-
 
     public MagicProduct(MagicProductType<I, P> type, MagicHandler player, NBTObj tag, ResourceLocation rl, IMagicRecipe<?> r) {
         super(type, rl);
@@ -85,11 +88,18 @@ public class MagicProduct<I extends IForgeRegistryEntry<I>, P extends MagicProdu
         }
     }
 
+    public boolean matchList(List<MagicElement> elem) {
+        return elem.equals(getMiscData().list);
+    }
+
     @SerialClass
     public static class HexData {
 
         @SerialClass.SerialField
         public int[] order;
+
+        @SerialClass.SerialField(generic = MagicElement.class)
+        public ArrayList<MagicElement> list = new ArrayList<>();
 
     }
 

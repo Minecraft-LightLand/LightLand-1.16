@@ -1,6 +1,7 @@
 package com.hikarishima.lightland.magic.capabilities;
 
 import com.hikarishima.lightland.magic.MagicElement;
+import com.hikarishima.lightland.magic.MagicRegistry;
 import com.hikarishima.lightland.magic.products.MagicProduct;
 import com.hikarishima.lightland.magic.products.MagicProductType;
 import com.hikarishima.lightland.recipe.IMagicRecipe;
@@ -9,10 +10,9 @@ import com.lcy0x1.core.util.SerialClass;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.ResourceLocation;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import javax.annotation.Nullable;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @SerialClass
 public class MagicHolder {
@@ -70,6 +70,7 @@ public class MagicHolder {
         return true;
     }
 
+    @Nullable
     public IMagicRecipe<?> getRecipe(ResourceLocation rl) {
         return recipe_cache.get(rl);
     }
@@ -100,6 +101,21 @@ public class MagicHolder {
 
     public int getElement(MagicElement elem) {
         return elements.getInt(elem.getID());
+    }
+
+    public IMagicRecipe<?> getTree(List<MagicElement> elem) {
+        if (elem.size() == 0) {
+            return null;
+        }
+        MagicElement type = elem.get(0);
+        MagicProductType<?, ?> res = MagicRegistry.PRODUCT_TYPE.getValues().stream()
+                .filter(e -> e.getAsType().elem == type).map(MagicRegistry.MPTRaw::getAsType)
+                .findFirst().orElseThrow(() -> new NoSuchElementException("no matching type"));
+        List<MagicProduct<?, ?>> ans = product_cache.get(res).values().stream()
+                .filter(e -> e.matchList(elem)).collect(Collectors.toList());
+        if (ans.size() == 1)
+            return ans.get(0).recipe;
+        return null;
     }
 
 }

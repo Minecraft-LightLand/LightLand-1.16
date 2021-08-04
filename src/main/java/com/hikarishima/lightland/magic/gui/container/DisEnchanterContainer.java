@@ -123,8 +123,8 @@ public class DisEnchanterContainer extends Container {
             return ItemStack.EMPTY;
         } else {
             ItemStack stack = slots.get(id).getItem();
-            if (slots.get(0).mayPlace(stack)){
-                if (moveItemStackTo(stack, 0, 1, true)){
+            if (slots.get(0).mayPlace(stack)) {
+                if (moveItemStackTo(stack, 0, 1, true)) {
                     return stack;
                 }
             }

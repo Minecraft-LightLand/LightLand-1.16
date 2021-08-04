@@ -143,7 +143,9 @@
         "anti_magic_alloy_boots": "轻质硬化斥魔合金靴子",
         "spell_card": "符文-卡片",
         "spell_parchment": "符文-羊皮纸",
-        "spell_scroll": "符文-卷轴"
+        "spell_scroll": "符文-卷轴",
+        "gilded_wand": "镀金法杖",
+        "record_pearl": "记录宝珠"
     },
     "block.lightland": {
         "temp_dirt": "泥土",

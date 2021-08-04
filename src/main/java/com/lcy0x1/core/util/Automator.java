@@ -10,6 +10,7 @@ import net.minecraftforge.registries.IForgeRegistryEntry;
 import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.function.Function;
@@ -90,6 +91,21 @@ public class Automator {
             }
             return ans;
         }
+        if (List.class.isAssignableFrom(cls)) {
+            ListNBT list = (ListNBT) tag;
+            int n = list.size();
+            if (sfield.generic().length != 1)
+                throw new Exception("generic field not correct for list");
+            Class<?> com = sfield.generic()[0];
+            if (def == null)
+                def = cls.newInstance();
+            List ans = (List<?>) def;
+            ans.clear();
+            for (int i = 0; i < n; i++) {
+                ans.set(i, fromTagRaw(list.get(i), com, null, null, pred));
+            }
+            return ans;
+        }
         if (Map.class.isAssignableFrom(cls)) {
             if (def == null)
                 def = cls.newInstance();
@@ -101,6 +117,7 @@ public class Automator {
                 throw new Exception("non-string key not supported");
             CompoundNBT ctag = (CompoundNBT) tag;
             Map map = (Map) def;
+            map.clear();
             for (String str : ctag.getAllKeys()) {
                 map.put(str, fromTagRaw(ctag.get(str), val, null, null, pred));
             }
@@ -155,6 +172,17 @@ public class Automator {
             Class<?> com = cls.getComponentType();
             for (int i = 0; i < n; i++) {
                 list.add(toTagRaw(com, Array.get(obj, i), null, pred));
+            }
+            return list;
+        }
+        if (List.class.isAssignableFrom(cls)) {
+            if (sfield.generic().length != 1)
+                throw new Exception("generic field not correct for list");
+            ListNBT list = new ListNBT();
+            int n = Array.getLength(obj);
+            Class<?> com = sfield.generic()[0];
+            for (int i = 0; i < n; i++) {
+                list.add(toTagRaw(com, ((List<?>) obj).get(i), null, pred));
             }
             return list;
         }
