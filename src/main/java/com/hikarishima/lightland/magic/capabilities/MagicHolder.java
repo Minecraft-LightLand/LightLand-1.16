@@ -18,14 +18,17 @@ import java.util.Map;
 public class MagicHolder {
 
     public static final int MAX_ELEMENTAL_MASTERY = 3;
+
     private final Map<MagicProductType<?, ?>, Map<ResourceLocation, MagicProduct<?, ?>>> product_cache = new HashMap<>();
     private final Map<ResourceLocation, IMagicRecipe<?>> recipe_cache = new HashMap<>();
     private final MagicHandler parent;
+
     @SerialClass.SerialField
     public CompoundNBT masteries = new CompoundNBT();
     @SerialClass.SerialField
+    public CompoundNBT elements = new CompoundNBT();
+    @SerialClass.SerialField
     public CompoundNBT products = new CompoundNBT();
-    protected NBTObj product_manager;
 
     MagicHolder(MagicHandler parent) {
         this.parent = parent;
@@ -35,12 +38,13 @@ public class MagicHolder {
         return masteries.getInt(elem.getID());
     }
 
-    public void addElementalMastery(MagicElement elem) {
+    public boolean addElementalMastery(MagicElement elem) {
         int current = getElementalMastery(elem);
-        if (current == MAX_ELEMENTAL_MASTERY)
-            return;
+        if (current >= MAX_ELEMENTAL_MASTERY)
+            return false;
         masteries.putInt(elem.getID(), current + 1);
         checkUnlocks();
+        return true;
     }
 
     void checkUnlocks() {
@@ -84,11 +88,18 @@ public class MagicHolder {
         else submap = product_cache.get(type);
         if (submap.containsKey(r.product_id))
             return submap.get(r.product_id);
-        NBTObj nbt = product_manager.getSub(type.getID()).getSub(r.product_id.toString());
+        NBTObj nbt = new NBTObj(products).getSub(type.getID()).getSub(r.product_id.toString());
         MagicProduct<?, ?> ans = type.fac.get(parent, nbt, r.product_id, r);
         submap.put(r.product_id, ans);
         return ans;
     }
 
+    public void addElement(MagicElement elem, Integer val) {
+        elements.putInt(elem.getID(), elements.getInt(elem.getID()) + val);
+    }
+
+    public int getElement(MagicElement elem) {
+        return elements.getInt(elem.getID());
+    }
 
 }

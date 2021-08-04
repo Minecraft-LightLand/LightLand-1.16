@@ -1,17 +1,17 @@
 package com.hikarishima.lightland.npc.player;
 
+import com.hikarishima.lightland.magic.capabilities.ToServerMsg;
 import com.hikarishima.lightland.npc.token.MobKillToken;
 import com.hikarishima.lightland.proxy.PacketHandler;
+import com.hikarishima.lightland.proxy.Proxy;
 import com.lcy0x1.core.util.Automator;
-import com.lcy0x1.core.util.ExceptionHandler;
 import com.lcy0x1.core.util.SerialClass;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraftforge.fml.network.NetworkEvent;
-import org.apache.logging.log4j.LogManager;
 
-import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 @SerialClass
@@ -23,7 +23,7 @@ public class QuestToClient extends PacketHandler.BaseSerialMsg {
         return new QuestToClient(Action.MOB_KILL, tag);
     }
 
-    public static QuestToClient onReset(String quest_id){
+    public static QuestToClient onReset(String quest_id) {
         CompoundNBT tag = new CompoundNBT();
         tag.putString("quest_id", quest_id);
         return new QuestToClient(Action.RESET, tag);
@@ -54,31 +54,33 @@ public class QuestToClient extends PacketHandler.BaseSerialMsg {
         ctx.get().setPacketHandled(true);
         PlayerEntity pl = Minecraft.getInstance().player;
         if (pl != null) {
-            QuestHandler q = QuestHandler.get(pl);
-            msg.action.cons.accept(q, msg.tag);
+            msg.action.cons.accept(msg.tag);
         }
     }
 
     public enum Action {
-        ALL((q, tag) -> ExceptionHandler.run(() -> Automator.fromTag(tag, QuestHandler.class, q, f -> true))),
-        DEBUG((q, tag) -> {
+        ALL(tag -> QuestHandler.cacheSet(tag, false)),
+        CLONE(tag -> QuestHandler.cacheSet(tag, true)),
+        DEBUG((tag) -> {
+            QuestHandler q = QuestHandler.get(Proxy.getPlayer());
             CompoundNBT ctag = Automator.toTag(new CompoundNBT(), q);
-            LogManager.getLogger().info("server quest data: " + tag);
-            LogManager.getLogger().info("client quest data: " + ctag);
+            ToServerMsg.sendDebugInfo("server quest data: " + tag, "client quest data: " + ctag);
         }),
-        RESET((q, tag) -> {
+        RESET((tag) -> {
+            QuestHandler q = QuestHandler.get(Proxy.getPlayer());
             String str = tag.getString("quest_id");
             q.reset(str);
         }),
-        MOB_KILL((q, tag) -> {
+        MOB_KILL((tag) -> {
+            QuestHandler q = QuestHandler.get(Proxy.getPlayer());
             MobKillToken token = q.getToken(tag.getString("quest_id"));
             if (token != null)
                 token.onKill();
         });
 
-        public final BiConsumer<QuestHandler, CompoundNBT> cons;
+        public final Consumer<CompoundNBT> cons;
 
-        Action(BiConsumer<QuestHandler, CompoundNBT> cons) {
+        Action(Consumer<CompoundNBT> cons) {
             this.cons = cons;
         }
 

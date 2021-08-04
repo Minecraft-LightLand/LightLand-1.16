@@ -19,6 +19,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class ImageBiomeReader {
 
@@ -59,7 +60,8 @@ public class ImageBiomeReader {
 
         int val = BIOME.getRGB(x, z) & 0x00FFFFFF;
         if (!CONFIG.map.containsKey(val)) {
-            LogManager.getLogger().error("color " + val + " not mapped. Keyset: " + CONFIG.map.keySet());
+            LogManager.getLogger().error("color " + Integer.toString(val, 16) + " not mapped. Keyset: " +
+                    CONFIG.map.keySet().stream().map(e -> Integer.toString(e, 16)).collect(Collectors.toList()));
             return null;
         }
         return CONFIG.map.get(val);

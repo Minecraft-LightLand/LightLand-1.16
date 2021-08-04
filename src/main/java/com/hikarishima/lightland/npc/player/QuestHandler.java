@@ -6,14 +6,18 @@ import com.hikarishima.lightland.npc.dialog.DialogHolder;
 import com.hikarishima.lightland.npc.dialog.DialogSelector;
 import com.hikarishima.lightland.npc.quest.QuestScene;
 import com.hikarishima.lightland.npc.token.QuestToken;
+import com.hikarishima.lightland.proxy.Proxy;
 import com.lcy0x1.core.util.Automator;
 import com.lcy0x1.core.util.ExceptionHandler;
 import com.lcy0x1.core.util.SerialClass;
+import net.minecraft.client.entity.player.ClientPlayerEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.INBT;
 import net.minecraft.util.Direction;
 import net.minecraft.world.World;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.common.capabilities.CapabilityManager;
@@ -39,6 +43,25 @@ public class QuestHandler {
 
     public static QuestHandler get(PlayerEntity player) {
         return (QuestHandler) player.getCapability(CAPABILITY).cast().resolve().get();
+    }
+
+    private static CompoundNBT revive_cache;
+
+    @OnlyIn(Dist.CLIENT)
+    public static void cacheSet(CompoundNBT tag, boolean force) {
+        ClientPlayerEntity pl = Proxy.getClientPlayer();
+        if (!force && pl != null && pl.getCapability(CAPABILITY).cast().resolve().isPresent())
+            ExceptionHandler.run(() -> Automator.fromTag(tag, QuestHandler.class, get(pl), f -> true));
+        else revive_cache = tag;
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    public static CompoundNBT getCache(PlayerEntity pl) {
+        CompoundNBT tag = revive_cache;
+        revive_cache = null;
+        if (tag == null)
+            tag = Automator.toTag(new CompoundNBT(), get(pl));
+        return tag;
     }
 
     public World world;

@@ -6,6 +6,8 @@ import com.hikarishima.lightland.magic.arcane.ArcaneRegistry;
 import com.hikarishima.lightland.magic.arcane.internal.Arcane;
 import com.hikarishima.lightland.magic.arcane.internal.ArcaneType;
 import com.hikarishima.lightland.magic.profession.Profession;
+import com.hikarishima.lightland.magic.skills.Skill;
+import com.hikarishima.lightland.magic.skills.SkillRegistry;
 import com.hikarishima.lightland.magic.spell.SpellRegistry;
 import com.hikarishima.lightland.magic.spell.internal.AbstractSpell;
 import com.hikarishima.lightland.registry.RegistryBase;
@@ -45,6 +47,11 @@ public class MagicRegistryEvents {
     @SubscribeEvent
     public static void onProfessionRegistry(RegistryEvent.Register<Profession> event) {
         RegistryBase.process(MagicRegistry.class, Profession.class, event.getRegistry()::register);
+    }
+
+    @SubscribeEvent
+    public static void onSkillRegistry(RegistryEvent.Register<Skill> event) {
+        RegistryBase.process(SkillRegistry.class, Skill.class, event.getRegistry()::register);
     }
 
 }

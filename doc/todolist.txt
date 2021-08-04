@@ -1,6 +1,4 @@
-TODO List
 - NPC quest system
-    - Add Lock system
     - NPC conflict
 
 - Magic System

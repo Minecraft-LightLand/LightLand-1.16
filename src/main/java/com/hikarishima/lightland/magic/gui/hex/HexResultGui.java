@@ -1,6 +1,7 @@
 package com.hikarishima.lightland.magic.gui.hex;
 
 import com.hikarishima.lightland.magic.MagicElement;
+import com.hikarishima.lightland.magic.gui.AbstractHexGui;
 import com.hikarishima.lightland.magic.products.MagicProduct;
 import com.hikarishima.lightland.recipe.IMagicRecipe;
 import com.lcy0x1.base.WindowBox;
@@ -152,6 +153,7 @@ public class HexResultGui extends AbstractHexGui {
     }
 
     private int within(double mx, double my) {
+        //TODO hex coordinate
         float x0 = box.x + box.w / 2f;
         float y0 = box.y + box.h / 2f;
         for (int i = 0; i < 6; i++) {

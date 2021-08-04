@@ -6,9 +6,48 @@
         "list_arcane_type.unlocked": "已解锁",
         "list_arcane_type.locked": "未解锁",
         "show_arcane_mana": "奥术能量: %s / %s",
-        "show_spell_slot": "法术槽: %s"
+        "show_spell_slot": "法术槽: %s",
+        "prof.exist": "职业已存在"
     },
-    "lightland:element": {
+    "lightland:screen": {
+        "ability": {
+            "ability": {
+                "title": "能力点数分配",
+                "desc": {
+                    "lv": "能力等级:%s",
+                    "cost": "升级消耗:%s/%s"
+                },
+                "error": {
+                    "no_point": "对应点数不足",
+                    "no_prof": "需要先选定职业",
+                    "max_reached":"已达到最大值",
+                    "prof_max":"已达到当前职业等级上限"
+                },
+                "health": "体力",
+                "strength": "力量",
+                "speed": "速度",
+                "magic": "魔力",
+                "spell": "咒术负载"
+            },
+            "profession": {
+                "title": "职业选择",
+                "desc": {
+                    "exist": "已存在职业，无法更换"
+                }
+            },
+            "elemental": {
+                "title": "元素精通",
+                "desc.lv": "精通等级:%s",
+                "desc.count": "持有元素:%s",
+                "desc.cost": "消耗%s/%s精通点数"
+            },
+            "arcane.title": "奥术领悟"
+        }
+    },
+    "lightland:container": {
+        "disenchant": "附魔分解台"
+    },
+    "lightland:magic_element": {
         "lightland:earth": "地",
         "lightland:water": "水",
         "lightland:air": "风",
@@ -23,6 +62,20 @@
         "lightland:alioth": "玉衡",
         "lightland:mizar": "开阳",
         "lightland:alkaid": "摇光"
+    },
+    "lightland:profession": {
+        "lightland:magician": "法师",
+        "lightland:spell_caster": "咒术师",
+        "lightland:arcane": "奥术师",
+        "lightland:archer": "弓箭手",
+        "lightland:knight": "骑士",
+        "lightland:shielder": "重盾",
+        "lightland:burserker": "狂战士",
+        "lightland:alchemist": "炼金术士",
+        "lightland:chemist": "爆破专家",
+        "lightland:hunter": "猎人",
+        "lightland:tidecaller": "唤潮者",
+        "lightland:assassin": "暗杀者"
     },
     "lightland:arcane": {
         "lightland:thunder_axe": "引雷之斧",
@@ -57,8 +110,10 @@
         "lightland:craft": {}
     },
     "item.lightland": {
-        "magic_book": "法之书",
+        "magic_book": "魔导书",
         "quest_book": "任务书",
+        "ability_book": "职业书",
+        "disenchant_book": "卸魔书",
         "gilded_arcane_sword": "镀金奥术剑",
         "gilded_arcane_axe": "镀金奥术斧",
         "enchant_gold_nugget": "蓄魔金粒",

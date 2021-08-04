@@ -75,8 +75,10 @@ public class Serializer {
         while (cls.getAnnotation(SerialClass.class) != null) {
             for (Field f : cls.getDeclaredFields()) {
                 if (f.getAnnotation(SerialClass.SerialField.class) != null) {
-                    if (obj.has(f.getName()))
+                    if (obj.has(f.getName())) {
+                        f.setAccessible(true);
                         f.set(ans, fromRaw(obj.get(f.getName()), f.getType(), null, f.getAnnotation(SerialClass.SerialField.class)));
+                    }
                 }
             }
             cls = cls.getSuperclass();

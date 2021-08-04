@@ -4,7 +4,6 @@ import com.hikarishima.lightland.LightLand;
 import com.hikarishima.lightland.event.forge.ItemUseEventHandler;
 import com.hikarishima.lightland.magic.capabilities.ToClientMsg;
 import com.hikarishima.lightland.magic.capabilities.ToServerMsg;
-import com.hikarishima.lightland.magic.gui.DisEnchantContainer;
 import com.hikarishima.lightland.npc.option.OptionToClient;
 import com.hikarishima.lightland.npc.option.OptionToServer;
 import com.hikarishima.lightland.npc.player.QuestToClient;
@@ -40,7 +39,6 @@ public class PacketHandler {
         reg(OptionToServer.class, OptionToServer::handle, NetworkDirection.PLAY_TO_SERVER);
         reg(OptionToClient.class, OptionToClient::handle, NetworkDirection.PLAY_TO_CLIENT);
         reg(QuestToClient.class, QuestToClient::handle, NetworkDirection.PLAY_TO_CLIENT);
-        reg(DisEnchantContainer.Msg.class, DisEnchantContainer.class, NetworkDirection.PLAY_TO_SERVER);
     }
 
     public static <T> void send(T msg) {

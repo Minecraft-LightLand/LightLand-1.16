@@ -1,5 +1,6 @@
 package com.hikarishima.lightland.npc.trigger;
 
+import com.hikarishima.lightland.magic.capabilities.MagicHandler;
 import com.hikarishima.lightland.npc.player.PlayerProgress;
 import com.lcy0x1.core.util.SerialClass;
 import net.minecraft.item.ItemStack;
@@ -21,7 +22,7 @@ public class RewardTrigger extends QuestTrigger {
         progress.player.giveExperiencePoints(vanilla_exp);
         for (ItemStack stack : items)
             progress.player.addItem(stack);
-        // TODO lightland exp
+        MagicHandler.get(progress.player).abilityPoints.addExp(lightland_exp);
     }
 
 }

@@ -2,7 +2,6 @@ package com.hikarishima.lightland.npc.token;
 
 import com.hikarishima.lightland.npc.player.PlayerProgress;
 import com.lcy0x1.core.util.SerialClass;
-import net.minecraft.util.text.IFormattableTextComponent;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 
@@ -24,7 +23,7 @@ public abstract class QuestToken {
         return new StringTextComponent(progress.getStage().title);
     }
 
-    public String getDescription(){
+    public String getDescription() {
         return progress.getStage().description;
     }
 

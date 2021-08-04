@@ -33,7 +33,7 @@ public class ArcaneCommand extends BaseCommand {
                         .executes(withPlayer((context, e) -> {
                             ArcaneType type = context.getArgument("type", ArcaneType.class);
                             MagicHandler magic = MagicHandler.get(e);
-                            magic.magicAbility.unlockArcaneType(type);
+                            magic.magicAbility.unlockArcaneType(type, true);
                             PacketHandler.toClient(e, new ToClientMsg(ToClientMsg.Action.ARCANE_TYPE, magic));
                             send(context, ACTION_SUCCESS);
                             return 1;

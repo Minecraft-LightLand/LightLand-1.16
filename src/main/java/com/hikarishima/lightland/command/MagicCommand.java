@@ -4,6 +4,7 @@ import com.hikarishima.lightland.config.Translator;
 import com.hikarishima.lightland.magic.MagicElement;
 import com.hikarishima.lightland.magic.capabilities.MagicHandler;
 import com.hikarishima.lightland.magic.capabilities.ToClientMsg;
+import com.hikarishima.lightland.magic.profession.Profession;
 import com.hikarishima.lightland.magic.spell.internal.AbstractSpell;
 import com.hikarishima.lightland.magic.spell.internal.Spell;
 import com.hikarishima.lightland.proxy.PacketHandler;
@@ -18,6 +19,7 @@ import net.minecraft.world.server.ServerWorld;
 public class MagicCommand extends BaseCommand {
 
     private static final String ID_SPELL_SLOT = "chat.show_spell_slot";
+    private static final String ID_PROF_EXIST = "chat.prof.exist";
 
     public MagicCommand(LiteralArgumentBuilder<CommandSource> lightland) {
         super(lightland, "magic");
@@ -75,6 +77,42 @@ public class MagicCommand extends BaseCommand {
                             MagicElement elem = context.getArgument("elem", MagicElement.class);
                             handler.magicHolder.addElementalMastery(elem);
                             PacketHandler.toClient(e, new ToClientMsg(ToClientMsg.Action.ALL, handler));
+                            send(context, ACTION_SUCCESS);
+                            return 1;
+                        }))));
+
+        reg("set_profession", getPlayer()
+                .then(Commands.argument("profession", RegistryParser.PROFESSION)
+                        .executes(withPlayer((context, e) -> {
+                            MagicHandler handler = MagicHandler.get(e);
+                            Profession prof = context.getArgument("profession", Profession.class);
+                            if (handler.abilityPoints.setProfession(prof)) {
+                                PacketHandler.toClient(e, new ToClientMsg(ToClientMsg.Action.ALL, handler));
+                                send(context, ACTION_SUCCESS);
+                            } else {
+                                send(context, Translator.get(ID_PROF_EXIST));
+                            }
+                            return 1;
+                        }))));
+
+        reg("reset", getPlayer()
+                .then(Commands.argument("type", EnumParser.getParser(MagicHandler.Reset.class))
+                        .executes(withPlayer((context, e) -> {
+                            MagicHandler handler = MagicHandler.get(e);
+                            MagicHandler.Reset r = context.getArgument("type", MagicHandler.Reset.class);
+                            handler.reset(r);
+                            ToClientMsg.reset(e, r);
+                            send(context, ACTION_SUCCESS);
+                            return 1;
+                        }))));
+
+        reg("add_exp", getPlayer()
+                .then(Commands.argument("number", IntegerArgumentType.integer(0))
+                        .executes(withPlayer((context, e) -> {
+                            MagicHandler handler = MagicHandler.get(e);
+                            int val = context.getArgument("number", Integer.class);
+                            handler.abilityPoints.addExp(val);
+                            PacketHandler.toClient(e, new ToClientMsg(ToClientMsg.Action.ABILITY_POINT, handler));
                             send(context, ACTION_SUCCESS);
                             return 1;
                         }))));

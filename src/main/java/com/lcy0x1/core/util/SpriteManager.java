@@ -25,15 +25,15 @@ public class SpriteManager {
     private final String name;
     private final ResourceLocation coords, texture;
     @SerialClass.SerialField
-    private final int height = 0;
+    private int height = 0;
     @SerialClass.SerialField(generic = {String.class, Rect.class})
     private HashMap<String, Rect> side, comp;
     private boolean loaded = false;
 
     public SpriteManager(String mod, String str) {
         name = mod + ":" + str;
-        coords = new ResourceLocation(mod, "/textures/gui/coords/" + str + ".json");
-        texture = new ResourceLocation(mod, "/textures/gui/container/" + str + ".png");
+        coords = new ResourceLocation(mod, "textures/gui/coords/" + str + ".json");
+        texture = new ResourceLocation(mod, "textures/gui/container/" + str + ".png");
         check();
     }
 
@@ -58,7 +58,7 @@ public class SpriteManager {
      */
     public int getPlInvX() {
         check();
-        return 8;// TODO
+        return 8;
     }
 
     /**
@@ -102,7 +102,7 @@ public class SpriteManager {
 
     public int getWidth() {
         check();
-        return 176;// TODO
+        return 176;
     }
 
     @Override
@@ -236,6 +236,7 @@ public class SpriteManager {
          */
         public void start(MatrixStack mat) {
             RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+            scr.renderBackground(mat);
             scr.getMinecraft().getTextureManager().bind(texture);
             scr.blit(mat, x, y, 0, 0, w, h);
         }

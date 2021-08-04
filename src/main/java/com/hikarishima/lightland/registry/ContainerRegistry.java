@@ -1,8 +1,8 @@
 package com.hikarishima.lightland.registry;
 
 import com.hikarishima.lightland.LightLand;
-import com.hikarishima.lightland.magic.gui.DisEnchantContainer;
-import com.hikarishima.lightland.magic.gui.DisEnchantScreen;
+import com.hikarishima.lightland.magic.gui.container.DisEnchanterContainer;
+import com.hikarishima.lightland.magic.gui.container.DisEnchanterScreen;
 import net.minecraft.client.gui.ScreenManager;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.ContainerType;
@@ -11,7 +11,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 public class ContainerRegistry {
 
-    public static ContainerType<DisEnchantContainer> CT_MAGIC_BOOK = getCT("magic_book", DisEnchantContainer::new);
+    public static final ContainerType<DisEnchanterContainer> CT_DISENCH = getCT("disenchant", DisEnchanterContainer::new);
 
     public static <T extends Container> ContainerType<T> getCT(String str, ContainerType.IFactory<T> fact) {
         ContainerType<T> ans = new ContainerType<>(fact);
@@ -21,7 +21,7 @@ public class ContainerRegistry {
 
     @OnlyIn(Dist.CLIENT)
     public static void registerScreens() {
-        ScreenManager.register(CT_MAGIC_BOOK, DisEnchantScreen::new);
+        ScreenManager.register(CT_DISENCH, DisEnchanterScreen::new);
     }
 
 }

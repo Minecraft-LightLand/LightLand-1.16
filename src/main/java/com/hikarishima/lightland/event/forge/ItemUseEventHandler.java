@@ -114,6 +114,7 @@ public class ItemUseEventHandler {
 
     }
 
+    @FunctionalInterface
     public interface TriCon<T> {
 
         void accept(ItemClickHandler handler, ItemStack stack, T event);
