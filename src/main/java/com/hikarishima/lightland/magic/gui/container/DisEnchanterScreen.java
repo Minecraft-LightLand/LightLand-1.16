@@ -1,4 +1,4 @@
-package com.hikarishima.lightland.magic.gui.block;
+package com.hikarishima.lightland.magic.gui.container;
 
 import com.hikarishima.lightland.magic.MagicElement;
 import com.hikarishima.lightland.magic.gui.AbstractHexGui;

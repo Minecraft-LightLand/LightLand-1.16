@@ -81,25 +81,23 @@ public class GenericEventHandler {
 
     @SubscribeEvent
     public void onPlayerClone(PlayerEvent.Clone event) {
-        if (event.isWasDeath()) {
-            CompoundNBT tag0 = Automator.toTag(new CompoundNBT(), MagicHandler.get(event.getOriginal()));
-            ExceptionHandler.run(() -> Automator.fromTag(tag0, MagicHandler.class, MagicHandler.get(event.getPlayer()), f -> true));
-            CompoundNBT tag1 = Automator.toTag(new CompoundNBT(), QuestHandler.get(event.getOriginal()));
-            ExceptionHandler.run(() -> Automator.fromTag(tag1, QuestHandler.class, QuestHandler.get(event.getPlayer()), f -> true));
-            ServerPlayerEntity e = (ServerPlayerEntity) event.getPlayer();
-            PacketHandler.toClient(e, new ToClientMsg(ToClientMsg.Action.ALL, MagicHandler.get(e)));
-            PacketHandler.toClient(e, new QuestToClient(QuestToClient.Action.ALL, QuestHandler.get(e)));
-        }
+        CompoundNBT tag0 = Automator.toTag(new CompoundNBT(), MagicHandler.get(event.getOriginal()));
+        ExceptionHandler.run(() -> Automator.fromTag(tag0, MagicHandler.class, MagicHandler.get(event.getPlayer()), f -> true));
+        MagicHandler.get(event.getPlayer()).abilityPoints.updateAttribute();
+        CompoundNBT tag1 = Automator.toTag(new CompoundNBT(), QuestHandler.get(event.getOriginal()));
+        ExceptionHandler.run(() -> Automator.fromTag(tag1, QuestHandler.class, QuestHandler.get(event.getPlayer()), f -> true));
+        ServerPlayerEntity e = (ServerPlayerEntity) event.getPlayer();
+        PacketHandler.toClient(e, new ToClientMsg(ToClientMsg.Action.CLONE, MagicHandler.get(e)));
+        PacketHandler.toClient(e, new QuestToClient(QuestToClient.Action.CLONE, QuestHandler.get(e)));
     }
 
     @SubscribeEvent
     public void onPlayerRespawn(ClientPlayerNetworkEvent.RespawnEvent event) {
-        if (!event.getOldPlayer().isAlive()) {
-            CompoundNBT tag0 = MagicHandler.getCache();
-            ExceptionHandler.run(() -> Automator.fromTag(tag0, MagicHandler.class, MagicHandler.get(event.getNewPlayer()), f -> true));
-            CompoundNBT tag1 = QuestHandler.getCache();
-            ExceptionHandler.run(() -> Automator.fromTag(tag1, QuestHandler.class, QuestHandler.get(event.getNewPlayer()), f -> true));
-        }
+        CompoundNBT tag0 = MagicHandler.getCache(event.getOldPlayer());
+        ExceptionHandler.run(() -> Automator.fromTag(tag0, MagicHandler.class, MagicHandler.get(event.getNewPlayer()), f -> true));
+        MagicHandler.get(event.getNewPlayer()).abilityPoints.updateAttribute();
+        CompoundNBT tag1 = QuestHandler.getCache(event.getOldPlayer());
+        ExceptionHandler.run(() -> Automator.fromTag(tag1, QuestHandler.class, QuestHandler.get(event.getNewPlayer()), f -> true));
     }
 
 }

@@ -50,7 +50,7 @@ public class BodyAttribute {
         ATK_SPEED("lightland.atk_speed", Attributes.ATTACK_SPEED,
                 AttributeModifier.Operation.MULTIPLY_TOTAL, a -> exp(1.05, a.strength) + exp(1.05, a.speed)),
         MOVE_SPEED("lightland.move_speed", Attributes.MOVEMENT_SPEED,
-                AttributeModifier.Operation.ADDITION, a -> exp(1.1, a.speed)),
+                AttributeModifier.Operation.MULTIPLY_TOTAL, a -> exp(1.1, a.speed)),
         FLY_SPEED("lightland.fly_speed", Attributes.FLYING_SPEED,
                 AttributeModifier.Operation.MULTIPLY_TOTAL, a -> exp(1.1, a.speed));
 

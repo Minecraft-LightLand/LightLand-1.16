@@ -1,8 +1,8 @@
 package com.hikarishima.lightland.registry;
 
 import com.hikarishima.lightland.LightLand;
-import com.hikarishima.lightland.magic.gui.block.DisEnchanterContainer;
-import com.hikarishima.lightland.magic.gui.block.DisEnchanterScreen;
+import com.hikarishima.lightland.magic.gui.container.DisEnchanterContainer;
+import com.hikarishima.lightland.magic.gui.container.DisEnchanterScreen;
 import net.minecraft.client.gui.ScreenManager;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.ContainerType;

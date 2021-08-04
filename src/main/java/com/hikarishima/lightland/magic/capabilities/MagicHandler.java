@@ -38,9 +38,9 @@ public class MagicHandler {
     private static CompoundNBT revive_cache;
 
     @OnlyIn(Dist.CLIENT)
-    public static void cacheSet(CompoundNBT tag) {
+    public static void cacheSet(CompoundNBT tag, boolean force) {
         ClientPlayerEntity pl = Proxy.getClientPlayer();
-        if (pl != null && pl.getCapability(CAPABILITY).cast().resolve().isPresent()) {
+        if (!force && pl != null && pl.getCapability(CAPABILITY).cast().resolve().isPresent()) {
             MagicHandler m = MagicHandler.get(pl);
             m.reset(MagicHandler.Reset.FOR_INJECT);
             ExceptionHandler.run(() -> Automator.fromTag(tag, MagicHandler.class, m, f -> true));
@@ -49,9 +49,11 @@ public class MagicHandler {
     }
 
     @OnlyIn(Dist.CLIENT)
-    public static CompoundNBT getCache() {
+    public static CompoundNBT getCache(PlayerEntity pl) {
         CompoundNBT tag = revive_cache;
         revive_cache = null;
+        if (tag == null)
+            tag = Automator.toTag(new CompoundNBT(), get(pl));
         return tag;
     }
 

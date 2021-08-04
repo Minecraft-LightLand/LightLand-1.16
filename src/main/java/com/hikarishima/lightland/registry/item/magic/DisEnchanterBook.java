@@ -1,7 +1,7 @@
 package com.hikarishima.lightland.registry.item.magic;
 
 import com.hikarishima.lightland.config.Translator;
-import com.hikarishima.lightland.magic.gui.block.DisEnchanterContainer;
+import com.hikarishima.lightland.magic.gui.container.DisEnchanterContainer;
 import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;

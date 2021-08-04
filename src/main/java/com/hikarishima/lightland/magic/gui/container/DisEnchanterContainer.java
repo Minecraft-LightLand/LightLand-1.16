@@ -1,4 +1,4 @@
-package com.hikarishima.lightland.magic.gui.block;
+package com.hikarishima.lightland.magic.gui.container;
 
 import com.google.common.collect.Maps;
 import com.hikarishima.lightland.LightLand;

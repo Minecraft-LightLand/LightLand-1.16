@@ -48,17 +48,19 @@ public class QuestHandler {
     private static CompoundNBT revive_cache;
 
     @OnlyIn(Dist.CLIENT)
-    public static void cacheSet(CompoundNBT tag) {
+    public static void cacheSet(CompoundNBT tag, boolean force) {
         ClientPlayerEntity pl = Proxy.getClientPlayer();
-        if (pl != null && pl.getCapability(CAPABILITY).cast().resolve().isPresent())
+        if (!force && pl != null && pl.getCapability(CAPABILITY).cast().resolve().isPresent())
             ExceptionHandler.run(() -> Automator.fromTag(tag, QuestHandler.class, get(pl), f -> true));
         else revive_cache = tag;
     }
 
     @OnlyIn(Dist.CLIENT)
-    public static CompoundNBT getCache() {
+    public static CompoundNBT getCache(PlayerEntity pl) {
         CompoundNBT tag = revive_cache;
         revive_cache = null;
+        if (tag == null)
+            tag = Automator.toTag(new CompoundNBT(), get(pl));
         return tag;
     }
 

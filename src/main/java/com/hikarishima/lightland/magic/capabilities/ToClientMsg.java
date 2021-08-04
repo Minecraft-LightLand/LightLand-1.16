@@ -51,7 +51,8 @@ public class ToClientMsg extends PacketHandler.BaseSerialMsg {
             CompoundNBT comp = ExceptionHandler.get(() -> Automator.toTag(new CompoundNBT(), MagicHandler.class, m, f -> true));
             ToServerMsg.sendDebugInfo("server: " + tag, "client: " + comp);
         }),
-        ALL((m) -> Automator.toTag(new CompoundNBT(), m), MagicHandler::cacheSet),
+        ALL((m) -> Automator.toTag(new CompoundNBT(), m), tag -> MagicHandler.cacheSet(tag, false)),
+        CLONE((m) -> Automator.toTag(new CompoundNBT(), m), tag -> MagicHandler.cacheSet(tag, true)),
         ARCANE_TYPE((m) -> m.magicAbility.arcane_type, (tag) -> {
             MagicAbility abi = MagicHandler.get(Proxy.getPlayer()).magicAbility;
             abi.arcane_type = tag;
