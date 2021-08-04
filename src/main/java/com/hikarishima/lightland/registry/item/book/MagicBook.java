@@ -1,6 +1,6 @@
-package com.hikarishima.lightland.registry.item;
+package com.hikarishima.lightland.registry.item.book;
 
-import com.hikarishima.lightland.npc.gui.QuestScreen;
+import com.hikarishima.lightland.magic.gui.magic_tree.MagicTreeScreen;
 import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.PlayerEntity;
@@ -15,9 +15,9 @@ import javax.annotation.ParametersAreNonnullByDefault;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public class QuestBook extends Item {
+public class MagicBook extends Item {
 
-    public QuestBook(Properties props) {
+    public MagicBook(Properties props) {
         super(props);
     }
 
@@ -25,7 +25,7 @@ public class QuestBook extends Item {
         ItemStack stack = player.getItemInHand(hand);
         if (world.isClientSide()) {
             player.playSound(SoundEvents.BOOK_PAGE_TURN, 1.0f, 1.0f);
-            Minecraft.getInstance().setScreen(new QuestScreen());
+            Minecraft.getInstance().setScreen(new MagicTreeScreen());
         }
         return ActionResult.success(stack);
     }

@@ -19,20 +19,22 @@ public class DisEnchanterScreen extends ContainerScreen<DisEnchanterContainer> {
     public DisEnchanterScreen(DisEnchanterContainer cont, PlayerInventory plInv, ITextComponent title) {
         super(cont, plInv, title);
         this.imageHeight = DisEnchanterContainer.MANAGER.getHeight();
+        this.inventoryLabelY = DisEnchanterContainer.MANAGER.getPlInvY() - 11;
     }
 
     @Override
     protected void renderBg(MatrixStack matrix, float partial, int mx, int my) {
+        mx -= getGuiLeft();
+        my -= getGuiTop();
         SpriteManager sm = DisEnchanterContainer.MANAGER;
         SpriteManager.ScreenRenderer sr = sm.getRenderer(this);
         sr.start(matrix);
-        if (!menu.slot.isEmpty())
-            sr.draw(matrix, "arrow", sm.within("arrow", mx, my) ? "arrow_2" : "arrow_1");
         if (!menu.map.isEmpty()) {
-            int x = 8 + 18 * 3;
-            int y = sm.getComp("main_slot").y;
+            sr.draw(matrix, "arrow", sm.within("arrow", mx, my) ? "arrow_2" : "arrow_1");
+            int x = 8 + 9 + 18 * 2 + getGuiLeft();
+            int y = sm.getComp("main_slot").y + getGuiTop() + 9;
             for (Map.Entry<MagicElement, Integer> ent : menu.map.entrySet()) {
-                AbstractHexGui.drawElement(matrix, x, y, ent.getKey(), "" + ent.getValue());
+                AbstractHexGui.drawElement(matrix, x += 18, y, ent.getKey(), "" + ent.getValue());
             }
         }
     }
@@ -40,7 +42,7 @@ public class DisEnchanterScreen extends ContainerScreen<DisEnchanterContainer> {
     @Override
     public boolean mouseClicked(double mx, double my, int button) {
         SpriteManager sm = DisEnchanterContainer.MANAGER;
-        if (!menu.slot.isEmpty() && sm.within("arrow", mx, my)) {
+        if (!menu.slot.isEmpty() && sm.within("arrow", mx-getGuiLeft(), my-getGuiTop())) {
             if (menu.clickMenuButton(Proxy.getClientPlayer(), 0)) {
                 Minecraft.getInstance().gameMode.handleInventoryButtonClick(this.menu.containerId, 0);
             }
@@ -48,4 +50,5 @@ public class DisEnchanterScreen extends ContainerScreen<DisEnchanterContainer> {
         }
         return super.mouseClicked(mx, my, button);
     }
+
 }

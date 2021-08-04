@@ -18,6 +18,7 @@ import net.minecraft.inventory.Inventory;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Map;
@@ -44,7 +45,7 @@ public class DisEnchanterContainer extends Container {
         this.plInv = plInv;
         MANAGER.getSlot("main_slot", (x, y) -> new Slot(slot, 0, x, y) {
             public boolean mayPlace(ItemStack stack) {
-                return stack.isEnchanted();
+                return stack.isEnchanted() || stack.getItem() == Items.ENCHANTED_BOOK;
             }
 
             public int getMaxStackSize() {
@@ -71,12 +72,17 @@ public class DisEnchanterContainer extends Container {
     @Override
     public boolean clickMenuButton(PlayerEntity pl, int btn) {
         ItemStack stack = slot.getItem(0);
-        if (stack.isEnchanted()) {
+        if (stack.isEnchanted() || stack.getItem() == Items.ENCHANTED_BOOK) {
             Map<Enchantment, Integer> enchs = EnchantmentHelper.getEnchantments(stack);
             enchs.entrySet().removeIf((e) -> e.getValue() > 0 && ench_map.containsKey(e.getKey()));
-            EnchantmentHelper.setEnchantments(enchs, stack);
             MagicHolder h = MagicHandler.get(plInv.player).magicHolder;
             map.forEach(h::addElement);
+            if (stack.getItem() == Items.ENCHANTED_BOOK) {
+                slot.setItem(0, Items.BOOK.getDefaultInstance());
+            } else {
+                EnchantmentHelper.setEnchantments(enchs, stack);
+            }
+            broadcastChanges();
             slotsChanged(slot);
             return true;
         }
@@ -87,7 +93,7 @@ public class DisEnchanterContainer extends Container {
     public void slotsChanged(IInventory inv) {
         ItemStack stack = inv.getItem(0);
         map.clear();
-        if (stack.isEnchanted()) {
+        if (stack.isEnchanted() || stack.getItem() == Items.ENCHANTED_BOOK) {
             for (Map.Entry<Enchantment, Integer> e : EnchantmentHelper.getEnchantments(stack).entrySet()) {
                 if (e.getValue() > 0) {
                     Enchantment ench = e.getKey();
@@ -104,5 +110,25 @@ public class DisEnchanterContainer extends Container {
             }
         }
         super.slotsChanged(inv);
+    }
+
+    @Override
+    public ItemStack quickMoveStack(PlayerEntity pl, int id) {
+        if (id == 0) {
+            ItemStack stack = slot.getItem(0);
+            if (moveItemStackTo(stack, 1, 37, true)) {
+                slotsChanged(slot);
+                return stack;
+            }
+            return ItemStack.EMPTY;
+        } else {
+            ItemStack stack = slots.get(id).getItem();
+            if (slots.get(0).mayPlace(stack)){
+                if (moveItemStackTo(stack, 0, 1, true)){
+                    return stack;
+                }
+            }
+            return ItemStack.EMPTY;
+        }
     }
 }

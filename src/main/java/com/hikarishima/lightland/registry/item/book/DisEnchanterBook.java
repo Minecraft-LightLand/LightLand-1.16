@@ -1,4 +1,4 @@
-package com.hikarishima.lightland.registry.item.magic;
+package com.hikarishima.lightland.registry.item.book;
 
 import com.hikarishima.lightland.config.Translator;
 import com.hikarishima.lightland.magic.gui.container.DisEnchanterContainer;

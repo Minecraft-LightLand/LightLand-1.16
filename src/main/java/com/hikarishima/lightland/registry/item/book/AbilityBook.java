@@ -1,4 +1,4 @@
-package com.hikarishima.lightland.registry.item;
+package com.hikarishima.lightland.registry.item.book;
 
 import com.hikarishima.lightland.magic.gui.ability.AbilityScreen;
 import mcp.MethodsReturnNonnullByDefault;
