@@ -6,6 +6,7 @@ import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Container;
+import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -20,12 +21,13 @@ import javax.annotation.ParametersAreNonnullByDefault;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public class DisEnchanterBook extends Item implements INamedContainerProvider {
+public class ContainerBook extends Item implements INamedContainerProvider {
 
-    public static final ITextComponent TITLE = Translator.getContainer("disenchant");
+    private final ContainerType<?> cont;
 
-    public DisEnchanterBook(Properties props) {
+    public ContainerBook(Properties props, ContainerType<?> cont) {
         super(props);
+        this.cont = cont;
     }
 
     public ActionResult<ItemStack> use(World world, PlayerEntity player, Hand hand) {
@@ -40,12 +42,12 @@ public class DisEnchanterBook extends Item implements INamedContainerProvider {
 
     @Override
     public ITextComponent getDisplayName() {
-        return TITLE;
+        return Translator.getContainer(cont.getRegistryName().getPath());
     }
 
     @Nullable
     @Override
     public Container createMenu(int wid, PlayerInventory plInv, PlayerEntity pl) {
-        return new DisEnchanterContainer(wid, plInv);
+        return cont.create(wid, plInv);
     }
 }

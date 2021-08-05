@@ -1,12 +1,13 @@
 package com.hikarishima.lightland.registry;
 
 import com.hikarishima.lightland.LightLand;
+import com.hikarishima.lightland.magic.gui.ability.ProfessionScreen;
+import com.hikarishima.lightland.magic.gui.magic_tree.MagicTreeScreen;
+import com.hikarishima.lightland.npc.gui.QuestScreen;
 import com.hikarishima.lightland.registry.block.TempBlock;
 import com.hikarishima.lightland.registry.item.FoiledItem;
-import com.hikarishima.lightland.registry.item.book.AbilityBook;
-import com.hikarishima.lightland.registry.item.book.DisEnchanterBook;
-import com.hikarishima.lightland.registry.item.book.MagicBook;
-import com.hikarishima.lightland.registry.item.book.QuestBook;
+import com.hikarishima.lightland.registry.item.book.ScreenBook;
+import com.hikarishima.lightland.registry.item.book.ContainerBook;
 import com.hikarishima.lightland.registry.item.combat.*;
 import com.hikarishima.lightland.registry.item.magic.*;
 import mcp.MethodsReturnNonnullByDefault;
@@ -28,10 +29,13 @@ public class ItemRegistry extends ItemGroup {
 
     public static final ItemGroup ITEM_GROUP = new ItemRegistry();
 
-    public static final MagicBook MAGIC_BOOK = regItem("magic_book", p -> new MagicBook(p.stacksTo(1)));
-    public static final QuestBook QUEST_BOOK = regItem("quest_book", p -> new QuestBook(p.stacksTo(1)));
-    public static final AbilityBook ABILITY_BOOK = regItem("ability_book", p -> new AbilityBook(p.stacksTo(1)));
-    public static final DisEnchanterBook DISENCHANT_BOOK = regItem("disenchant_book", p -> new DisEnchanterBook(p.stacksTo(1)));
+    public static final ScreenBook MAGIC_BOOK = regItem("magic_book", p -> new ScreenBook(p,()-> MagicTreeScreen::new));
+    public static final ScreenBook QUEST_BOOK = regItem("quest_book", p -> new ScreenBook(p,()-> QuestScreen::new));
+    public static final ScreenBook ABILITY_BOOK = regItem("ability_book", p -> new ScreenBook(p,()-> ProfessionScreen::new));
+    public static final ContainerBook DISENCHANT_BOOK = regItem("disenchant_book", p -> new ContainerBook(p, ContainerRegistry.CT_DISENCH));
+    public static final ContainerBook MAGIC_CRAFT_BOOK = regItem("magic_craft_book", p -> new ContainerBook(p, ContainerRegistry.CT_MAGIC_CRAFT));
+    public static final ContainerBook SPELL_CRAFT_BOOK = regItem("spell_craft_book", p -> new ContainerBook(p, ContainerRegistry.CT_SPELL_CRAFT));
+    public static final ContainerBook ARCANE_INJECT_BOOK = regItem("arcane_inject_book", p -> new ContainerBook(p, ContainerRegistry.CT_ARCANE_INJECT));
     public static final ArcaneSword ARCANE_SWORD_GILDED = regItem("gilded_arcane_sword", p -> new ArcaneSword(ItemTier.IRON, 5, -2.4f, p.stacksTo(1).setNoRepair(), 10));
     public static final ArcaneAxe ARCANE_AXE_GILDED = regItem("gilded_arcane_axe", p -> new ArcaneAxe(ItemTier.IRON, 8, -3.1f, p.stacksTo(1).setNoRepair(), 10));
     public static final Item ENCHANT_GOLD_NUGGET = regItem("enchant_gold_nugget", FoiledItem::new);

@@ -83,7 +83,7 @@ public class ToServerMsg extends PacketHandler.BaseSerialMsg {
             if (!(stack.getItem() instanceof MagicWand))
                 return;
             MagicWand wand = (MagicWand) stack.getItem();
-            wand.activate(player, recipe, stack);
+            wand.setMagic(recipe, stack);
         });
 
         private final BiConsumer<MagicHandler, CompoundNBT> cons;

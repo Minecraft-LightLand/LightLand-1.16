@@ -8,7 +8,10 @@ import com.hikarishima.lightland.magic.capabilities.MagicHandler;
 import com.hikarishima.lightland.magic.capabilities.MagicHolder;
 import com.hikarishima.lightland.recipe.IMagicRecipe;
 import com.hikarishima.lightland.registry.ContainerRegistry;
+import com.hikarishima.lightland.registry.ItemRegistry;
+import com.lcy0x1.base.PredSlot;
 import com.lcy0x1.core.util.SpriteManager;
+import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.player.PlayerEntity;
@@ -24,12 +27,13 @@ import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Map;
 
 @ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
 public class DisEnchanterContainer extends Container {
 
     public static final SpriteManager MANAGER = new SpriteManager(LightLand.MODID, "disenchanter");
 
     protected final PlayerInventory plInv;
-    protected final IInventory slot = new Inventory(1) {
+    protected final IInventory slot = new Inventory(3) {
         @Override
         public void setChanged() {
             super.setChanged();
@@ -43,15 +47,12 @@ public class DisEnchanterContainer extends Container {
     public DisEnchanterContainer(int wid, PlayerInventory plInv) {
         super(ContainerRegistry.CT_DISENCH, wid);
         this.plInv = plInv;
-        MANAGER.getSlot("main_slot", (x, y) -> new Slot(slot, 0, x, y) {
-            public boolean mayPlace(ItemStack stack) {
-                return stack.isEnchanted() || stack.getItem() == Items.ENCHANTED_BOOK;
-            }
-
-            public int getMaxStackSize() {
-                return 1;
-            }
-        }, this::addSlot);
+        MANAGER.getSlot("main_slot", (x, y) -> new PredSlot(slot, 0, x, y,
+                stack -> stack.isEnchanted() || stack.getItem() == Items.ENCHANTED_BOOK), this::addSlot);
+        MANAGER.getSlot("gold_slot", (x, y) -> new PredSlot(slot, 1, x, y,
+                stack -> stack.getItem() == Items.GOLD_NUGGET), this::addSlot);
+        MANAGER.getSlot("ench_slot", (x, y) -> new PredSlot(slot, 2, x, y,
+                stack -> false), this::addSlot);
 
         int x = MANAGER.getPlInvX();
         int y = MANAGER.getPlInvY();
@@ -74,7 +75,14 @@ public class DisEnchanterContainer extends Container {
         ItemStack stack = slot.getItem(0);
         if (stack.isEnchanted() || stack.getItem() == Items.ENCHANTED_BOOK) {
             Map<Enchantment, Integer> enchs = EnchantmentHelper.getEnchantments(stack);
-            enchs.entrySet().removeIf((e) -> e.getValue() > 0 && ench_map.containsKey(e.getKey()));
+            int[] arr = new int[1];
+            enchs.entrySet().removeIf((e) -> {
+                if (e.getValue() > 0 && ench_map.containsKey(e.getKey())) {
+                    arr[0] += e.getValue();
+                    return true;
+                }
+                return false;
+            });
             MagicHolder h = MagicHandler.get(plInv.player).magicHolder;
             map.forEach(h::addElement);
             if (stack.getItem() == Items.ENCHANTED_BOOK) {
@@ -82,6 +90,19 @@ public class DisEnchanterContainer extends Container {
             } else {
                 EnchantmentHelper.setEnchantments(enchs, stack);
             }
+            ItemStack res = slot.getItem(2);
+            if (arr[0] > 64)
+                arr[0] = 64;
+            if (!res.isEmpty() && 64 - res.getCount() < arr[0])
+                arr[0] = 64 - res.getCount();
+            ItemStack gold = slot.getItem(1);
+            if (gold.getCount() <= arr[0]) {
+                arr[0] = gold.getCount();
+                slot.setItem(1, ItemStack.EMPTY);
+            } else gold.shrink(arr[0]);
+            if (res.isEmpty()) {
+                slot.setItem(2, new ItemStack(ItemRegistry.ENCHANT_GOLD_NUGGET, arr[0]));
+            } else res.grow(arr[0]);
             broadcastChanges();
             slotsChanged(slot);
             return true;
@@ -114,21 +135,24 @@ public class DisEnchanterContainer extends Container {
 
     @Override
     public ItemStack quickMoveStack(PlayerEntity pl, int id) {
-        if (id == 0) {
-            ItemStack stack = slot.getItem(0);
-            if (moveItemStackTo(stack, 1, 37, true)) {
+        ItemStack stack = slots.get(id).getItem();
+        if (id < 3) {
+            if (moveItemStackTo(stack, 3, 39, true)) {
                 slotsChanged(slot);
                 return stack;
             }
-            return ItemStack.EMPTY;
         } else {
-            ItemStack stack = slots.get(id).getItem();
             if (slots.get(0).mayPlace(stack)) {
                 if (moveItemStackTo(stack, 0, 1, true)) {
                     return stack;
                 }
             }
-            return ItemStack.EMPTY;
+            if (slots.get(1).mayPlace(stack)) {
+                if (moveItemStackTo(stack, 1, 2, true)) {
+                    return stack;
+                }
+            }
         }
+        return ItemStack.EMPTY;
     }
 }

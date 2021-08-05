@@ -1,3 +1,11 @@
+Version 0.2.2
+    profession:
+        - add profession book
+        - add record pearl
+    magic:
+        - complete magic graph screen
+        - add magic wand
+
 Version 0.2.1
     magic:
         - add magic tree screen
