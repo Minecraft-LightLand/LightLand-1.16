@@ -16,6 +16,10 @@ public class IMagicProduct<I extends IForgeRegistryEntry<I>, P extends MagicProd
         this.item = type.getter.apply(rl);
     }
 
+    public String getDescriptionID() {
+        return type.namer.apply(item);
+    }
+
     public static IMagicProduct<?, ?> getInstance(MagicRegistry.MPTRaw type, ResourceLocation rl) {
         return type.getAsType().fac.get(null, null, rl, null);
     }

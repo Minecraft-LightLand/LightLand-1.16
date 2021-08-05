@@ -7,8 +7,6 @@ import com.lcy0x1.core.util.ExceptionHandler;
 import com.lcy0x1.core.util.SerialClass;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.network.NetworkEvent;
 
 import java.util.function.Consumer;
@@ -35,7 +33,9 @@ public class ToClientMsg extends PacketHandler.BaseSerialMsg {
     }
 
     public static void handle(ToClientMsg msg, Supplier<NetworkEvent.Context> context) {
-        DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> msg.action.client.accept(msg.tag));
+        if (!Proxy.getClientPlayer().isAlive())
+            return;
+        msg.action.client.accept(msg.tag);
         context.get().setPacketHandled(true);
     }
 
@@ -60,11 +60,12 @@ public class ToClientMsg extends PacketHandler.BaseSerialMsg {
             MagicHandler h = MagicHandler.get(Proxy.getPlayer());
             h.magicAbility = new MagicAbility(h);
             ExceptionHandler.run(() -> Automator.fromTag(tag, MagicAbility.class, h.magicAbility, f -> true));
+            h.reInit();
         }), ABILITY_POINT((m) -> Automator.toTag(new CompoundNBT(), m.abilityPoints), (tag) -> {
             MagicHandler h = MagicHandler.get(Proxy.getPlayer());
             h.abilityPoints = new AbilityPoints(h);
             ExceptionHandler.run(() -> Automator.fromTag(tag, AbilityPoints.class, h.abilityPoints, f -> true));
-            h.abilityPoints.updateAttribute();
+            h.reInit();
         }), RESET(m -> new CompoundNBT(), tag -> {
             MagicHandler h = MagicHandler.get(Proxy.getPlayer());
             h.reset(MagicHandler.Reset.values()[tag.getInt("ordinal")]);

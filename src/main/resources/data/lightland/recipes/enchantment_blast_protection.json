@@ -1,0 +1,25 @@
+{
+    "type": "lightland:magic_default",
+    "product_type": "lightland:enchantment",
+    "product_id": "minecraft:blast_protection",
+    "predecessor": [],
+    "elemental_mastery": [
+        {
+            "element": "lightland:water",
+            "level": 1
+        }
+    ],
+    "screen": {
+        "x": 1,
+        "y": -1
+    },
+    "elements": {
+        "A": "lightland:earth",
+        "B": "lightland:earth",
+        "C": "lightland:earth",
+        "D": "lightland:water"
+    },
+    "flows": [
+        "ABC<->D"
+    ]
+}

@@ -9,7 +9,7 @@ public class ArcaneProfession extends Profession {
     public void init(MagicHandler handler) {
         handler.abilityPoints.arcane += 2;
         handler.abilityPoints.general += 2;
-        handler.magicHolder.addElementalMastery(MagicRegistry.ELEM_VOID);
+        handler.magicHolder.addElementalMastery(MagicRegistry.ELEM_QUINT);
         handler.abilityPoints.element++;
     }
 

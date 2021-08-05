@@ -9,8 +9,8 @@ public abstract class AbstractSpell extends NamedEntry<AbstractSpell> {
         super(() -> MagicRegistry.SPELL);
     }
 
-    public Spell cast() {
-        return (Spell) this;
+    public Spell<?, ?> cast() {
+        return (Spell<?, ?>) this;
     }
 
 }

@@ -86,11 +86,11 @@ public class ElementalScreen extends AbstractAbilityScreen {
 
 
     public enum ElemType {
-        E(0, -RADIUS, MagicRegistry.ELEM_EARTH),
+        E(0, RADIUS, MagicRegistry.ELEM_EARTH),
         W(-RADIUS, 0, MagicRegistry.ELEM_WATER),
-        A(0, RADIUS, MagicRegistry.ELEM_AIR),
+        A(0, -RADIUS, MagicRegistry.ELEM_AIR),
         F(RADIUS, 0, MagicRegistry.ELEM_FIRE),
-        Q(0, 0, MagicRegistry.ELEM_VOID);
+        Q(0, 0, MagicRegistry.ELEM_QUINT);
 
         public final int x, y;
         public final MagicElement elem;

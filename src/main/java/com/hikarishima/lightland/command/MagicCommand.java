@@ -50,7 +50,7 @@ public class MagicCommand extends BaseCommand {
                             ServerWorld world = context.getSource().getLevel();
                             if (spell == null || stack.isEmpty() ||
                                     !(stack.getItem() instanceof MagicScroll) ||
-                                    spell.getConfig(world).type != ((MagicScroll) stack.getItem()).type) {
+                                    spell.getConfig(world, e).type != ((MagicScroll) stack.getItem()).type) {
                                 send(context, WRONG_ITEM);
                                 return 0;
                             }

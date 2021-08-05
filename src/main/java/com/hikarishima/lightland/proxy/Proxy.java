@@ -1,5 +1,6 @@
 package com.hikarishima.lightland.proxy;
 
+import com.hikarishima.lightland.magic.capabilities.MagicHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.player.ClientPlayerEntity;
 import net.minecraft.client.world.ClientWorld;
@@ -38,4 +39,9 @@ public class Proxy {
         return server.overworld();
     }
 
+    public static int getMargin(PlayerEntity player) {
+        if (player.level.isClientSide())
+            return 0;
+        return MagicHandler.get(player).magicAbility.getManaRestoration() * 5;
+    }
 }

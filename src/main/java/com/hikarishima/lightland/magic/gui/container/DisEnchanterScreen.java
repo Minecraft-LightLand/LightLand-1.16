@@ -42,7 +42,7 @@ public class DisEnchanterScreen extends ContainerScreen<DisEnchanterContainer> {
     @Override
     public boolean mouseClicked(double mx, double my, int button) {
         SpriteManager sm = DisEnchanterContainer.MANAGER;
-        if (!menu.slot.isEmpty() && sm.within("arrow", mx-getGuiLeft(), my-getGuiTop())) {
+        if (!menu.slot.isEmpty() && sm.within("arrow", mx - getGuiLeft(), my - getGuiTop())) {
             if (menu.clickMenuButton(Proxy.getClientPlayer(), 0)) {
                 Minecraft.getInstance().gameMode.handleInventoryButtonClick(this.menu.containerId, 0);
             }

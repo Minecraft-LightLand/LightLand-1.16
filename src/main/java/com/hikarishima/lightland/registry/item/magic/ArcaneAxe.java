@@ -13,6 +13,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.AxeItem;
 import net.minecraft.item.IItemTier;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextFormatting;
@@ -51,6 +52,9 @@ public class ArcaneAxe extends AxeItem implements IArcaneItem {
     }
 
     public boolean isFoil(ItemStack stack) {
+        CompoundNBT tag = stack.getTag();
+        if (tag != null && tag.getBoolean("foil"))
+            return true;
         return ArcaneItemUseHelper.isAxeCharged(stack);
     }
 

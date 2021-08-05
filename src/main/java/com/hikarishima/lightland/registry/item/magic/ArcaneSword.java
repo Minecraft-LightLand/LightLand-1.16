@@ -8,6 +8,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.IItemTier;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.SwordItem;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.world.World;
@@ -28,6 +29,14 @@ public class ArcaneSword extends SwordItem implements IArcaneItem {
 
     public void appendHoverText(ItemStack stack, @Nullable World world, List<ITextComponent> list, ITooltipFlag flag) {
         ArcaneAxe.add(stack, list);
+    }
+
+    @Override
+    public boolean isFoil(ItemStack stack) {
+        CompoundNBT tag = stack.getTag();
+        if (tag != null && tag.getBoolean("foil"))
+            return true;
+        return super.isFoil(stack);
     }
 
     public boolean hurtEnemy(ItemStack stack, LivingEntity target, LivingEntity user) {

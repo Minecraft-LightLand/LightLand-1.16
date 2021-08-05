@@ -1,5 +1,7 @@
 package com.hikarishima.lightland.magic.gui.hex;
 
+import com.hikarishima.lightland.magic.MagicElement;
+import com.hikarishima.lightland.magic.MagicRegistry;
 import com.hikarishima.lightland.magic.capabilities.MagicHandler;
 import com.hikarishima.lightland.magic.capabilities.ToServerMsg;
 import com.hikarishima.lightland.magic.products.MagicProduct;
@@ -14,6 +16,7 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 
 import javax.annotation.ParametersAreNonnullByDefault;
+import java.util.List;
 
 @ParametersAreNonnullByDefault
 public class MagicHexScreen extends Screen {
@@ -44,7 +47,7 @@ public class MagicHexScreen extends Screen {
         int x0 = (sw - w) / 2;
         int y0 = (sh - h) / 2;
         graph.box.setSize(this, x0, y0, 200, 200, 8);
-        result.box.setSize(this, x0 + 200, y0, 100, 100, 8);
+        result.box.setSize(this, x0 + 200, y0, 100, 200, 8);
     }
 
     @Override
@@ -130,9 +133,7 @@ public class MagicHexScreen extends Screen {
     }
 
     protected void updated() {
-        if (product.getState() != ProductState.CRAFTED) {
-            save();
-        }
+        save();
     }
 
     private void save() {
@@ -145,7 +146,7 @@ public class MagicHexScreen extends Screen {
         if (product.getState() == ProductState.CRAFTED) {
             if (!pass)
                 return;
-            if (cost > product.getBase().tag.getInt("cost"))
+            if (cost > product.getCost())
                 return;
         }
         saved = true;
@@ -203,4 +204,27 @@ public class MagicHexScreen extends Screen {
         return cost;
     }
 
+    @Override
+    public boolean keyPressed(int key, int scan, int modifier) {
+        List<MagicElement> list = result.data.list;
+        if (key == 259 && list.size() > 1) {
+            list.remove(list.size() - 1);
+            updated();
+            return true;
+        }
+        if (key == 'W' || key == 'A' || key == 'S' || key == 'D' || key == ' ') {
+            if (list.size() < 4) {
+                MagicElement elem;
+                if (key == 'W') elem = MagicRegistry.ELEM_AIR;
+                else if (key == 'A') elem = MagicRegistry.ELEM_WATER;
+                else if (key == 'S') elem = MagicRegistry.ELEM_EARTH;
+                else if (key == 'D') elem = MagicRegistry.ELEM_FIRE;
+                else elem = MagicRegistry.ELEM_QUINT;
+                list.add(elem);
+                updated();
+                return true;
+            }
+        }
+        return super.keyPressed(key, scan, modifier);
+    }
 }

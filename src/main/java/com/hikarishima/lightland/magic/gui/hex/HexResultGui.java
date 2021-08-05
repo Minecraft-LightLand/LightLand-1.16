@@ -49,7 +49,7 @@ public class HexResultGui extends AbstractHexGui {
 
         RenderSystem.disableTexture();
         float x0 = box.x + box.w / 2f;
-        float y0 = box.y + box.h / 2f;
+        float y0 = box.y + box.w / 2f;
         int hover = within(mx, my);
         for (int i = 0; i < 6; i++) {
             double ri = i * Math.PI / 3;
@@ -90,6 +90,14 @@ public class HexResultGui extends AbstractHexGui {
             double yi = getY(i);
             drawIcon(matrix, xi, yi, SCALE_NODE);
         }
+
+        for (int i = 0; i < data.list.size(); i++) {
+            MagicElement elem = data.list.get(i);
+            minecraft.getTextureManager().bind(elem.getIcon());
+            double xi = box.x + box.w / 2d - 27 + i * 18;
+            double yi = box.y + box.w + 18;
+            drawIcon(matrix, xi, yi, SCALE_NODE);
+        }
     }
 
     MagicElement getElem(int i) {
@@ -108,7 +116,7 @@ public class HexResultGui extends AbstractHexGui {
         if (isDragging && selected == i)
             return sele_y;
         double ri = i * Math.PI / 3;
-        float y0 = box.y + box.h / 2f;
+        float y0 = box.y + box.w / 2f;
         return y0 + RADIUS * Math.sin(ri);
     }
 
@@ -155,7 +163,7 @@ public class HexResultGui extends AbstractHexGui {
     private int within(double mx, double my) {
         //TODO hex coordinate
         float x0 = box.x + box.w / 2f;
-        float y0 = box.y + box.h / 2f;
+        float y0 = box.y + box.w / 2f;
         for (int i = 0; i < 6; i++) {
             double ri = i * Math.PI / 3;
             double xi = x0 + RADIUS * Math.cos(ri);

@@ -2,9 +2,7 @@
     - NPC conflict
 
 - Magic System
-    - Add Element level up screen
-    - Add Ability level up screen
-    - Add tutorial screen
+    - add tutorial screen
 
 - Add ritual craft
     - core: 4 infinity + 4 mending + diamond

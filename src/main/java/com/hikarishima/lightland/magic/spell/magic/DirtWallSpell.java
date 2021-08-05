@@ -16,17 +16,17 @@ import net.minecraft.world.server.ServerWorld;
 public class DirtWallSpell extends Spell<DirtWallSpell.Config, DirtWallSpell.Activation> {
 
     @Override
-    public Activation canActivate(Type type, World world, PlayerEntity player) {
+    protected Activation canActivate(Type type, World world, PlayerEntity player) {
         return new Activation(player, world);
     }
 
     @Override
-    public Config getConfig(World world) {
-        return SpellConfig.get(this, world);
+    public Config getConfig(World world, PlayerEntity player) {
+        return SpellConfig.get(this, world, player);
     }
 
     @Override
-    public void activate(World world, PlayerEntity player, Activation act, Config config) {
+    protected void activate(World world, PlayerEntity player, Activation act, Config config) {
         if (world.isClientSide())
             return;
         ServerWorld w = (ServerWorld) world;

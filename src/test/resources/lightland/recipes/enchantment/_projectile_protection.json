@@ -1,0 +1,25 @@
+{
+    "type": "lightland:magic_default",
+    "product_type": "lightland:enchantment",
+    "product_id": "minecraft:projectile_protection",
+    "predecessor": [],
+    "elemental_mastery": [
+        {
+            "element": "lightland:air",
+            "level": 1
+        }
+    ],
+    "screen": {
+        "x": -1,
+        "y": -1
+    },
+    "elements": {
+        "A": "lightland:air",
+        "B": "lightland:air",
+        "C": "lightland:air",
+        "D": "lightland:quint"
+    },
+    "flows": [
+        "ABC<->D"
+    ]
+}

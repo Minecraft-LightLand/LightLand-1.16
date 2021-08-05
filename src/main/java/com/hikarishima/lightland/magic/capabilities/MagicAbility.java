@@ -2,6 +2,7 @@ package com.hikarishima.lightland.magic.capabilities;
 
 import com.hikarishima.lightland.magic.arcane.internal.ArcaneType;
 import com.hikarishima.lightland.magic.spell.internal.AbstractSpell;
+import com.hikarishima.lightland.proxy.Proxy;
 import com.hikarishima.lightland.registry.item.magic.MagicScroll;
 import com.lcy0x1.core.util.NBTObj;
 import com.lcy0x1.core.util.SerialClass;
@@ -21,7 +22,7 @@ public class MagicAbility {
     @SerialClass.SerialField
     public ListNBT spell_activation = new ListNBT();
     @SerialClass.SerialField
-    public int magic_level, spell_level;
+    public int magic_level, spell_level, tick;
     @SerialClass.SerialField
     protected int magic_mana, spell_load;
 
@@ -30,7 +31,7 @@ public class MagicAbility {
     }
 
     public void giveMana(int mana) {
-        magic_mana = MathHelper.clamp(magic_mana + mana, 0, getMaxMana());
+        magic_mana = MathHelper.clamp(magic_mana + mana, -Proxy.getMargin(parent.player), getMaxMana());
     }
 
     public void addSpellLoad(int load) {
@@ -38,8 +39,12 @@ public class MagicAbility {
     }
 
     public void tick() {
-        magic_mana = MathHelper.clamp(magic_mana + getManaRestoration(), 0, getMaxMana());
-        spell_load = Math.max(spell_load - getSpellReduction(), 0);
+        tick++;
+        if (tick % 20 == 0) {
+            magic_mana = MathHelper.clamp(magic_mana + getManaRestoration(), 0, getMaxMana());
+            spell_load = Math.max(spell_load - getSpellReduction(), 0);
+            tick = 0;
+        }
         for (int i = 0; i < getMaxSpellSlot(); i++) {
             ItemStack stack = parent.player.inventory.getItem(i);
             if (spell_activation.size() == i)
@@ -82,6 +87,10 @@ public class MagicAbility {
 
     public int getMaxSpellEndurance() {
         return spell_level * 100;
+    }
+
+    public int getSpellLoad() {
+        return spell_load;
     }
 
     public int getSpellReduction() {

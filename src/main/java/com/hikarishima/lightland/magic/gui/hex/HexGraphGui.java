@@ -59,6 +59,8 @@ public class HexGraphGui extends AbstractHexGui {
         if (graph == null) {
             graph = new HexHandler(3);
         }
+        if (screen.product.usable())
+            compile();
     }
 
     public void render(MatrixStack matrix, double mx, double my, float partial) {
@@ -218,7 +220,7 @@ public class HexGraphGui extends AbstractHexGui {
             cell.toCorner(HexDirection.values()[i]);
             double x = cell.getX() * magn;
             double y = cell.getY() * magn;
-            drawIcon(matrix, x, y, 1);
+            drawIcon(matrix, x, y, magn / 10);
         }
     }
 

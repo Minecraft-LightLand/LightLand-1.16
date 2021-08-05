@@ -26,7 +26,7 @@ public class MagicRegistry {
     public static final MagicElement ELEM_AIR = reg("air", new MagicElement());
     public static final MagicElement ELEM_WATER = reg("water", new MagicElement());
     public static final MagicElement ELEM_FIRE = reg("fire", new MagicElement());
-    public static final MagicElement ELEM_VOID = reg("quint", new MagicElement());
+    public static final MagicElement ELEM_QUINT = reg("quint", new MagicElement());
 
     public static final ArcaneProfession PROF_ARCANE = reg("arcane", new ArcaneProfession());
     public static final MagicianProfession PROF_MAGIC = reg("magician", new MagicianProfession());
@@ -50,25 +50,20 @@ public class MagicRegistry {
     public static IForgeRegistry<Skill> SKILL;
 
     public static final MagicProductType<Enchantment, EnchantmentMagic> MPT_ENCH =
-            reg("enchantment", new MagicProductType<>(
-                    EnchantmentMagic.class, EnchantmentMagic::new,
-                    () -> ForgeRegistries.ENCHANTMENTS, Enchantment::getDescriptionId));
+            reg("enchantment", new MagicProductType<>(EnchantmentMagic.class, EnchantmentMagic::new,
+                    () -> ForgeRegistries.ENCHANTMENTS, Enchantment::getDescriptionId, ELEM_AIR));
     public static final MagicProductType<Effect, PotionMagic> MPT_EFF =
-            reg("effect", new MagicProductType<>(
-                    PotionMagic.class, PotionMagic::new,
-                    () -> ForgeRegistries.POTIONS, Effect::getDescriptionId));
+            reg("effect", new MagicProductType<>(PotionMagic.class, PotionMagic::new,
+                    () -> ForgeRegistries.POTIONS, Effect::getDescriptionId, ELEM_WATER));
     public static final MagicProductType<Arcane, ArcaneMagic> MPT_ARCANE =
-            reg("arcane", new MagicProductType<>(
-                    ArcaneMagic.class, ArcaneMagic::new,
-                    () -> ARCANE, Arcane::getDescriptionId));
+            reg("arcane", new MagicProductType<>(ArcaneMagic.class, ArcaneMagic::new,
+                    () -> ARCANE, Arcane::getDescriptionId, ELEM_QUINT));
     public static final MagicProductType<AbstractSpell, SpellMagic> MPT_SPELL =
-            reg("spell", new MagicProductType<>(
-                    SpellMagic.class, SpellMagic::new,
-                    () -> SPELL, AbstractSpell::getDescriptionId));
+            reg("spell", new MagicProductType<>(SpellMagic.class, SpellMagic::new,
+                    () -> SPELL, AbstractSpell::getDescriptionId, ELEM_FIRE));
     public static final MagicProductType<Item, CraftMagic> MPT_CRAFT =
-            reg("craft", new MagicProductType<>(
-                    CraftMagic.class, CraftMagic::new,
-                    () -> ForgeRegistries.ITEMS, Item::getDescriptionId));
+            reg("craft", new MagicProductType<>(CraftMagic.class, CraftMagic::new,
+                    () -> ForgeRegistries.ITEMS, Item::getDescriptionId, ELEM_EARTH));
 
     public static void createRegistries() {
         ELEMENT = new RegistryBuilder<MagicElement>()

@@ -1,5 +1,6 @@
 package com.hikarishima.lightland.magic.products;
 
+import com.hikarishima.lightland.magic.MagicElement;
 import com.hikarishima.lightland.magic.capabilities.MagicHandler;
 import com.hikarishima.lightland.magic.products.info.ProductState;
 import com.hikarishima.lightland.recipe.IMagicRecipe;
@@ -10,6 +11,9 @@ import com.lcy0x1.core.util.SerialClass;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.registries.IForgeRegistryEntry;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MagicProduct<I extends IForgeRegistryEntry<I>, P extends MagicProduct<I, P>> extends IMagicProduct<I, P> {
 
     public static final int LOCKED = -2, UNLOCKED = -1;
@@ -17,7 +21,6 @@ public class MagicProduct<I extends IForgeRegistryEntry<I>, P extends MagicProdu
     public final NBTObj tag;
     public final MagicHandler player;
     public final IMagicRecipe<?> recipe;
-
 
     public MagicProduct(MagicProductType<I, P> type, MagicHandler player, NBTObj tag, ResourceLocation rl, IMagicRecipe<?> r) {
         super(type, rl);
@@ -31,12 +34,16 @@ public class MagicProduct<I extends IForgeRegistryEntry<I>, P extends MagicProdu
         }
     }
 
-    public final NBTObj getBase() {
+    protected final NBTObj getBase() {
         return tag.getSub("_base");
     }
 
     public final boolean unlocked() {
         return getBase().tag.getInt("cost") > -2;
+    }
+
+    public final int getCost() {
+        return getBase().tag.getInt("cost");
     }
 
     public final void setUnlock() {
@@ -55,6 +62,8 @@ public class MagicProduct<I extends IForgeRegistryEntry<I>, P extends MagicProdu
     }
 
     public HexHandler getSolution() {
+        if (!tag.tag.contains("hex"))
+            return new HexHandler(3);
         return new HexHandler(tag.getSub("hex"));
     }
 
@@ -78,11 +87,30 @@ public class MagicProduct<I extends IForgeRegistryEntry<I>, P extends MagicProdu
     }
 
     public HexData getMiscData() {
+        HexData data;
         if (tag.tag.contains("misc")) {
-            return Automator.fromTag(tag.getSub("misc").tag, HexData.class);
+            data = Automator.fromTag(tag.getSub("misc").tag, HexData.class);
         } else {
-            return new HexData();
+            data = new HexData();
         }
+        if (data.list.size() == 0)
+            data.list.add(type.elem);
+        else if (data.list.get(0) != type.elem)
+            data.list.set(0, type.elem);
+        return data;
+    }
+
+    public boolean matchList(List<MagicElement> elem) {
+        return elem.equals(getMiscData().list);
+    }
+
+    public CodeState logged(MagicHandler handler) {
+        if (!usable())
+            return null;
+        List<MagicElement> list = getMiscData().list;
+        if (list.size() < 4)
+            return CodeState.SHORT;
+        return handler.magicHolder.getTree(getMiscData().list) == recipe ? CodeState.FINE : CodeState.REPEAT;
     }
 
     @SerialClass
@@ -91,6 +119,13 @@ public class MagicProduct<I extends IForgeRegistryEntry<I>, P extends MagicProdu
         @SerialClass.SerialField
         public int[] order;
 
+        @SerialClass.SerialField(generic = MagicElement.class)
+        public ArrayList<MagicElement> list = new ArrayList<>();
+
+    }
+
+    public enum CodeState {
+        SHORT, REPEAT, FINE
     }
 
 }
