@@ -28,8 +28,11 @@ public class MagicHexScreen extends Screen {
     public final HexGraphGui graph;
     public final HexResultGui result;
 
+    public HexStatus.Save save = HexStatus.Save.YES;
+    public HexStatus.Compile compile = HexStatus.Compile.EDITING;
+
     private double accurate_mouse_x, accurate_mouse_y;
-    private boolean isScrolling = false, saved = true;
+    private boolean isScrolling = false;
 
     public MagicHexScreen(MagicHandler handler, MagicProduct<?, ?> product) {
         super(TITLE);
@@ -138,7 +141,7 @@ public class MagicHexScreen extends Screen {
 
     private void save() {
         int cost = -1;
-        saved = false;
+        save = HexStatus.Save.NO;
         boolean pass = test();
         if (pass) {
             cost = getCost();
@@ -149,13 +152,17 @@ public class MagicHexScreen extends Screen {
             if (cost > product.getCost())
                 return;
         }
-        saved = true;
+        save = HexStatus.Save.YES;
         product.updateBestSolution(graph.graph, result.data, cost);
         ToServerMsg.sendHexUpdate(product);
     }
 
     private boolean test() {
+        compile = HexStatus.Compile.EDITING;
+        if (graph.error != null)
+            compile = HexStatus.Compile.ERROR;
         if (graph.flow != null) {
+            compile = HexStatus.Compile.FAILED;
             boolean wrong = false;
             HexCell cell = new HexCell(graph.graph, 0, 0);
             for (int i = 0; i < 6; i++) {
@@ -188,6 +195,8 @@ public class MagicHexScreen extends Screen {
                     }
                 }
             }
+            if (!wrong)
+                compile = HexStatus.Compile.COMPLETE;
             return !wrong;
         }
         return false;

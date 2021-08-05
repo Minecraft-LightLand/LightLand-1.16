@@ -9,6 +9,7 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.FontRenderer;
 
 import java.util.Arrays;
 
@@ -98,6 +99,11 @@ public class HexResultGui extends AbstractHexGui {
             double yi = box.y + box.w + 18;
             drawIcon(matrix, xi, yi, SCALE_NODE);
         }
+        float hi = box.y + box.w + 36;
+        FontRenderer font = minecraft.font;
+        font.draw(matrix, screen.save.getDesc(), box.x + 9, hi, screen.save.getColor());
+        font.draw(matrix, screen.compile.getDesc(), box.x + 9, hi + 9, screen.compile.getColor());
+
     }
 
     MagicElement getElem(int i) {

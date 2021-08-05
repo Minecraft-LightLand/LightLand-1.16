@@ -43,11 +43,11 @@
             },
             "arcane": {
                 "title": "奥术领悟",
-                "cost":"解锁消耗:%s/%s",
-                "activate":{
-                    "light":"使用方式:左键",
-                    "critical":"使用方式:跳劈",
-                    "none":"使用方式:右键"
+                "cost": "解锁消耗:%s/%s",
+                "activate": {
+                    "light": "使用方式:左键",
+                    "critical": "使用方式:跳劈",
+                    "none": "使用方式:右键"
                 }
             }
         },
@@ -65,6 +65,18 @@
             "tree": {
                 "repeat": "法术编码重复",
                 "short": "法术编码缺失"
+            }
+        },
+        "hex": {
+            "save": {
+                "yes": "",
+                "no": ""
+            },
+            "compile": {
+                "complete": "",
+                "failed": "",
+                "editing": "",
+                "error": ""
             }
         }
     },
