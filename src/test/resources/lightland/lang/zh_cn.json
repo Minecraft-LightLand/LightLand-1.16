@@ -20,8 +20,8 @@
                 "error": {
                     "no_point": "对应点数不足",
                     "no_prof": "需要先选定职业",
-                    "max_reached":"已达到最大值",
-                    "prof_max":"已达到当前职业等级上限"
+                    "max_reached": "已达到最大值",
+                    "prof_max": "已达到当前职业等级上限"
                 },
                 "health": "体力",
                 "strength": "力量",
@@ -41,7 +41,31 @@
                 "desc.count": "持有元素:%s",
                 "desc.cost": "消耗%s/%s精通点数"
             },
-            "arcane.title": "奥术领悟"
+            "arcane": {
+                "title": "奥术领悟",
+                "cost":"解锁消耗:%s/%s",
+                "activate":{
+                    "light":"使用方式:左键",
+                    "critical":"使用方式:跳劈",
+                    "none":"使用方式:右键"
+                }
+            }
+        },
+        "magic_tree": {
+            "status": {
+                "locked": "未解锁",
+                "unlocked": "已解锁",
+                "crafted": "可使用"
+            },
+            "elem": {
+                "pre": "需要元素精通:",
+                "post": " Lv.%s"
+            },
+            "cost": "法术复杂度:%s",
+            "tree": {
+                "repeat": "法术编码重复",
+                "short": "法术编码缺失"
+            }
         }
     },
     "lightland:container": {
@@ -92,22 +116,6 @@
         "lightland:arcane": "奥术",
         "lightland:spell": "魔法",
         "lightland:craft": "合成"
-    },
-    "lightland:magic_product": {
-        "lightland:enchantment": {
-            "minecraft:protection": "保护-魔法描述"
-        },
-        "lightland:effect": {},
-        "lightland:arcane": {
-            "lightland:thunder_axe": "引雷之斧-魔法描述",
-            "lightland:thunder_sword": "引雷之剑-魔法描述"
-        },
-        "lightland:spell": {
-            "lightland:dirt_wall": "土墙-魔法描述",
-            "lightland:stone_slab": "石阶-魔法描述",
-            "lightland:stone_block": "石牢-魔法描述"
-        },
-        "lightland:craft": {}
     },
     "item.lightland": {
         "magic_book": "魔导书",

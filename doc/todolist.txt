@@ -2,11 +2,7 @@
     - NPC conflict
 
 - Magic System
-    - add magic wand gui
-    - add mana display
-    - add record pearl
     - add tutorial screen
-    - add arcane screen
 
 - Add ritual craft
     - core: 4 infinity + 4 mending + diamond

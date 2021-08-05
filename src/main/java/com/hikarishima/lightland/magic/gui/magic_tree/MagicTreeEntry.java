@@ -2,10 +2,11 @@ package com.hikarishima.lightland.magic.gui.magic_tree;
 
 import com.google.common.collect.Lists;
 import com.hikarishima.lightland.config.Translator;
+import com.hikarishima.lightland.magic.MagicElement;
+import com.hikarishima.lightland.magic.gui.AbstractHexGui;
 import com.hikarishima.lightland.magic.products.MagicProduct;
 import com.hikarishima.lightland.magic.products.info.DisplayInfo;
 import com.hikarishima.lightland.magic.products.info.ProductState;
-import com.lcy0x1.base.TextScreenUtil;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
@@ -14,8 +15,6 @@ import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.util.IReorderingProcessor;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.LanguageMap;
-import net.minecraft.util.text.Style;
-import net.minecraft.util.text.TextComponentUtils;
 import net.minecraftforge.registries.IForgeRegistryEntry;
 
 import java.util.List;
@@ -32,6 +31,7 @@ public class MagicTreeEntry<I extends IForgeRegistryEntry<I>, P extends MagicPro
     private final MagicTreeGui<I, P> tab;
     private final IReorderingProcessor title;
     private final int x, y, width;
+    private final MagicProduct.CodeState logged;
 
     protected List<MagicTreeEntry<I, P>> parents = Lists.newArrayList();
 
@@ -43,13 +43,12 @@ public class MagicTreeEntry<I extends IForgeRegistryEntry<I>, P extends MagicPro
         this.x = Math.round(display.getX() * X_SLOT);
         this.y = Math.round(display.getY() * Y_SLOT);
         int title_width = Math.max(80, 29 + minecraft.font.width(this.title));
-        this.description = LanguageMap.getInstance().getVisualOrder(
-                TextScreenUtil.splitLines(TextComponentUtils.mergeStyles(Translator.getDesc(product).copy(),
-                        Style.EMPTY.withColor(display.getFrame().getChatColor())), title_width));
+        this.description = LanguageMap.getInstance().getVisualOrder(Translator.getDesc(product));
         for (IReorderingProcessor text : this.description) {
             title_width = Math.max(title_width, minecraft.font.width(text));
         }
         this.width = title_width + 8;
+        this.logged = product.logged(tab.getScreen().handler);
     }
 
     public void drawConnectivity(MatrixStack matrix, int x0, int y0, boolean shadow) {
@@ -111,9 +110,9 @@ public class MagicTreeEntry<I extends IForgeRegistryEntry<I>, P extends MagicPro
     public void drawHover(MatrixStack matrix, int sx, int sy, float fade, int x0, int y0) {
         ProductState state = product.getState();
         boolean exceed_width = x0 + sx + this.x + this.width + 26 >= this.tab.getScreen().width;
-        int height = 113 - sy - this.y - 26;
+        int remaining_y = 113 - sy - this.y - 26;
         int desc_size = this.description.size();
-        boolean lvt_10_1_ = height <= 6 + desc_size * 9;
+        boolean draw_up = remaining_y <= 6 + desc_size * 9;
         int state_index = 1;
         int icon_index = state == ProductState.LOCKED ? 1 : 0;
 
@@ -129,13 +128,13 @@ public class MagicTreeEntry<I extends IForgeRegistryEntry<I>, P extends MagicPro
             lvt_18_2_ = sx + this.x;
         }
 
-        int var10001 = this.description.size();
-        int lvt_19_1_ = 32 + var10001 * 9;
+        int height = 32 + desc_size * 9;
+        if (logged == MagicProduct.CodeState.FINE) height += 18;
         if (!this.description.isEmpty()) {
-            if (lvt_10_1_) {
-                this.render9Sprite(matrix, lvt_18_2_, lvt_17_1_ + 26 - lvt_19_1_, this.width, lvt_19_1_, 10, 200, 26, 0, 52);
+            if (draw_up) {
+                this.render9Sprite(matrix, lvt_18_2_, lvt_17_1_ + 26 - height, this.width, height, 10, 200, 26, 0, 52);
             } else {
-                this.render9Sprite(matrix, lvt_18_2_, lvt_17_1_, this.width, lvt_19_1_, 10, 200, 26, 0, 52);
+                this.render9Sprite(matrix, lvt_18_2_, lvt_17_1_, this.width, height, 10, 200, 26, 0, 52);
             }
         }
 
@@ -148,11 +147,19 @@ public class MagicTreeEntry<I extends IForgeRegistryEntry<I>, P extends MagicPro
         minecraft.font.drawShadow(matrix, this.title, (float) (exceed_width ? lvt_18_2_ + 5 : sx + this.x + 32), (float) (sy + this.y + 9), -1);
 
         FontRenderer fontRenderer = minecraft.font;
-        for (int i = 0; i < this.description.size(); ++i) {
+        for (int i = 0; i < desc_size; ++i) {
             IReorderingProcessor text = this.description.get(i);
             float x = (float) (lvt_18_2_ + 5);
-            int y = lvt_10_1_ ? lvt_17_1_ + 26 - lvt_19_1_ + 7 : sy + this.y + 9 + 17;
+            int y = draw_up ? lvt_17_1_ + 26 - height + 7 : sy + this.y + 9 + 17;
             fontRenderer.draw(matrix, text, x, (float) (y + i * 9), -5592406);
+        }
+        if (logged == MagicProduct.CodeState.FINE) {
+            List<MagicElement> elem_list = product.getMiscData().list;
+            for (int i = 0; i < elem_list.size(); i++) {
+                float x = (float) (lvt_18_2_ + 5);
+                int y = draw_up ? lvt_17_1_ + 26 - height + 7 : sy + this.y + 9 + 17;
+                AbstractHexGui.drawElement(matrix, x + i * 18 + 9, y + desc_size * 9 + 9, elem_list.get(i), "");
+            }
         }
 
         minecraft.getItemRenderer().renderAndDecorateFakeItem(this.display.getIcon(), sx + this.x + 8, sy + this.y + 5);

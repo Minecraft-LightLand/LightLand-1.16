@@ -2,7 +2,11 @@ package com.hikarishima.lightland.magic.arcane.internal;
 
 import com.hikarishima.lightland.LightLand;
 import com.hikarishima.lightland.magic.MagicRegistry;
+import com.hikarishima.lightland.registry.ItemRegistry;
 import com.lcy0x1.base.NamedEntry;
+import net.minecraft.item.ItemStack;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 /**
  * 天枢，天璇，天玑，天权，玉衡，开阳，摇光
@@ -21,16 +25,27 @@ public class ArcaneType extends NamedEntry<ArcaneType> {
     public final Hit hit;
     public final Mana mana;
 
+    private final ItemStack stack;
+
     public ArcaneType(Weapon weapon, Hit hit, Mana mana) {
         super(() -> MagicRegistry.ARCANE_TYPE);
         this.weapon = weapon;
         this.hit = hit;
         this.mana = mana;
+        stack = (weapon == Weapon.AXE ? ItemRegistry.ARCANE_AXE_GILDED : ItemRegistry.ARCANE_SWORD_GILDED).getDefaultInstance();
+        if (mana == Mana.ACTIVE) {
+            stack.getOrCreateTag().putBoolean("foil", true);
+        }
     }
 
     private static ArcaneType reg(String str, ArcaneType type) {
         type.setRegistryName(LightLand.MODID, str);
         return type;
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    public ItemStack getStack() {
+        return stack;
     }
 
     public enum Weapon {

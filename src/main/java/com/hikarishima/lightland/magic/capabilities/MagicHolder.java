@@ -111,6 +111,8 @@ public class MagicHolder {
         MagicProductType<?, ?> res = MagicRegistry.PRODUCT_TYPE.getValues().stream()
                 .filter(e -> e.getAsType().elem == type).map(MagicRegistry.MPTRaw::getAsType)
                 .findFirst().orElseThrow(() -> new NoSuchElementException("no matching type"));
+        if (!product_cache.containsKey(res))
+            return null;
         List<MagicProduct<?, ?>> ans = product_cache.get(res).values().stream()
                 .filter(e -> e.usable() && e.matchList(elem)).collect(Collectors.toList());
         if (ans.size() == 1)

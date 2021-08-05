@@ -146,7 +146,7 @@ public class MagicHexScreen extends Screen {
         if (product.getState() == ProductState.CRAFTED) {
             if (!pass)
                 return;
-            if (cost > product.getBase().tag.getInt("cost"))
+            if (cost > product.getCost())
                 return;
         }
         saved = true;
@@ -207,7 +207,7 @@ public class MagicHexScreen extends Screen {
     @Override
     public boolean keyPressed(int key, int scan, int modifier) {
         List<MagicElement> list = result.data.list;
-        if (key == 259 && list.size() > 0) {
+        if (key == 259 && list.size() > 1) {
             list.remove(list.size() - 1);
             updated();
             return true;

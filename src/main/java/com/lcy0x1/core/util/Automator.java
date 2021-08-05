@@ -9,6 +9,7 @@ import net.minecraftforge.registries.IForgeRegistryEntry;
 
 import java.lang.reflect.Array;
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -67,6 +68,10 @@ public class Automator {
                 if (itag != null)
                     f.set(obj, fromTagRaw(itag, f.getType(), f.get(obj), sf, pred));
             }
+            for (Method m : cls.getDeclaredMethods()){
+                if(m.getAnnotation(SerialClass.OnInject.class)!=null)
+                    m.invoke(obj);
+            }
             cls = cls.getSuperclass();
         }
         return obj;
@@ -101,8 +106,8 @@ public class Automator {
                 def = cls.newInstance();
             List ans = (List<?>) def;
             ans.clear();
-            for (int i = 0; i < n; i++) {
-                ans.set(i, fromTagRaw(list.get(i), com, null, null, pred));
+            for (INBT inbt : list) {
+                ans.add(fromTagRaw(inbt, com, null, null, pred));
             }
             return ans;
         }
@@ -179,7 +184,7 @@ public class Automator {
             if (sfield.generic().length != 1)
                 throw new Exception("generic field not correct for list");
             ListNBT list = new ListNBT();
-            int n = Array.getLength(obj);
+            int n = ((List<?>)obj).size();
             Class<?> com = sfield.generic()[0];
             for (int i = 0; i < n; i++) {
                 list.add(toTagRaw(com, ((List<?>) obj).get(i), null, pred));

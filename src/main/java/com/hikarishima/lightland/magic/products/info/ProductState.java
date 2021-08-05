@@ -6,4 +6,8 @@ public enum ProductState {
     public int getIndex() {
         return ordinal();
     }
+
+    public String toString() {
+        return name().toLowerCase();
+    }
 }

@@ -41,6 +41,7 @@ public class ToServerMsg extends PacketHandler.BaseSerialMsg {
             for (String key : dtag.getAllKeys()) {
                 ctag.put(key, Objects.requireNonNull(dtag.get(key)));
             }
+            holder.checkUnlocks();
         }),
         DEBUG((handler, tag) -> {
             LogManager.getLogger().info(tag.getString("server"));
@@ -97,6 +98,7 @@ public class ToServerMsg extends PacketHandler.BaseSerialMsg {
         tag.putString("product", prod.recipe.id.toString());
         tag.put("data", prod.tag.tag);
         ToServerMsg msg = new ToServerMsg(Action.HEX, tag);
+        MagicHandler.get(Proxy.getClientPlayer()).magicHolder.checkUnlocks();
         PacketHandler.send(msg);
     }
 
@@ -134,8 +136,8 @@ public class ToServerMsg extends PacketHandler.BaseSerialMsg {
     public static void activateWand(IMagicRecipe<?> recipe) {
         CompoundNBT tag = new CompoundNBT();
         tag.putString("recipe", recipe.id.toString());
-        PacketHandler.send(new ToServerMsg(Action.WAND, tag));
         Action.WAND.cons.accept(MagicHandler.get(Proxy.getPlayer()), tag);
+        PacketHandler.send(new ToServerMsg(Action.WAND, tag));
     }
 
     @SerialClass.SerialField
@@ -155,7 +157,7 @@ public class ToServerMsg extends PacketHandler.BaseSerialMsg {
 
     public static void handle(ToServerMsg msg, Supplier<NetworkEvent.Context> ctx) {
         ServerPlayerEntity player = ctx.get().getSender();
-        if (player == null)
+        if (player == null || !player.isAlive())
             return;
         MagicHandler handler = MagicHandler.get(player);
         msg.action.cons.accept(handler, msg.tag);

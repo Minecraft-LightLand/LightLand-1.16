@@ -36,7 +36,7 @@ public class RecordPearl extends Item {
             CompoundNBT tag = stack.getTagElement("magic_cap");
             handler.reset(MagicHandler.Reset.FOR_INJECT);
             ExceptionHandler.run(() -> Automator.fromTag(tag, MagicHandler.class, handler, f -> true));
-            handler.abilityPoints.updateAttribute();
+            handler.reInit();
             stack.removeTagKey("magic_cap");
             return ActionResult.success(stack);
         } else {

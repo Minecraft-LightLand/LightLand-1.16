@@ -90,6 +90,14 @@ public class HexResultGui extends AbstractHexGui {
             double yi = getY(i);
             drawIcon(matrix, xi, yi, SCALE_NODE);
         }
+
+        for (int i = 0; i < data.list.size(); i++) {
+            MagicElement elem = data.list.get(i);
+            minecraft.getTextureManager().bind(elem.getIcon());
+            double xi = box.x + box.w / 2d - 27 + i * 18;
+            double yi = box.y + box.w + 18;
+            drawIcon(matrix, xi, yi, SCALE_NODE);
+        }
     }
 
     MagicElement getElem(int i) {

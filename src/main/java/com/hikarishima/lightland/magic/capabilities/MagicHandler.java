@@ -81,13 +81,18 @@ public class MagicHandler {
             reset(Reset.FOR_INJECT);
         }
         if (state != State.ACTIVE) {
+            magicHolder.checkUnlocks();
+            abilityPoints.updateAttribute();
             state = State.ACTIVE;
         }
-        magicHolder.checkUnlocks();
-        abilityPoints.updateAttribute();
     }
 
-    protected MagicHandler check() {
+    public void reInit() {
+        state = State.PREINIT;
+        check();
+    }
+
+    private MagicHandler check() {
         if (state != State.ACTIVE)
             init();
         return this;
@@ -95,7 +100,7 @@ public class MagicHandler {
 
     @SerialClass.OnInject
     public void onInject() {
-        if (state == State.PREINJECT)
+        if (state == State.PREINJECT || state == State.ACTIVE)
             state = State.PREINIT;
     }
 

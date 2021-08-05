@@ -1,0 +1,30 @@
+{
+    "type": "lightland:magic_default",
+    "product_type": "lightland:enchantment",
+    "product_id": "minecraft:feather_falling",
+    "predecessor": [],
+    "elemental_mastery": [
+        {
+            "element": "lightland:air",
+            "level": 1
+        }
+    ],
+    "screen": {
+        "x": 0,
+        "y": -1
+    },
+    "elements": {
+        "A": "lightland:air",
+        "B": "lightland:air",
+        "C": "lightland:air",
+        "D": "lightland:air",
+        "E": "lightland:earth",
+        "F": "lightland:water"
+    },
+    "flows": [
+        "AB->E",
+        "CD->F",
+        "E->CD",
+        "F->AB"
+    ]
+}

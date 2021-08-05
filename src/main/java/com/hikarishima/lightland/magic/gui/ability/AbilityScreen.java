@@ -77,7 +77,6 @@ public class AbilityScreen extends AbstractAbilityScreen {
                 if (lvup != null)
                     list.add(Translator.get(lvup).withStyle(TextFormatting.RED));
                 renderTooltip(matrix, LanguageMap.getInstance().getVisualOrder(list), mx, my);
-                renderTooltip(matrix, e.getDesc(), mx, my);
             }
         }
     }

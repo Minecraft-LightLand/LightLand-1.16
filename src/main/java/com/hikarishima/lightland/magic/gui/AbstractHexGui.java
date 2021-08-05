@@ -3,6 +3,7 @@ package com.hikarishima.lightland.magic.gui;
 import com.hikarishima.lightland.magic.MagicElement;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
+import net.minecraft.advancements.FrameType;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.gui.FontRenderer;
@@ -10,6 +11,7 @@ import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldVertexBufferUploader;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.vector.Matrix4f;
 
 import java.util.function.IntConsumer;
@@ -17,6 +19,9 @@ import java.util.function.IntConsumer;
 public class AbstractHexGui extends AbstractGui {
 
     public static AbstractHexGui INSTANCE = new AbstractHexGui();
+
+    private static final ResourceLocation WIDGETS_LOCATION = new ResourceLocation("textures/gui/advancements/widgets.png");
+
 
     public static void renderHex(MatrixStack matrix, double x, double y, double r, int color) {
         Matrix4f last = matrix.last().pose();
@@ -68,6 +73,11 @@ public class AbstractHexGui extends AbstractGui {
         FontRenderer font = Minecraft.getInstance().font;
         font.draw(matrix, s, (float) (x + 11 - 2 - font.width(s)), (float) (y + 1), 0x404040);
         font.draw(matrix, s, (float) (x + 11 - 3 - font.width(s)), (float) (y), 0xFFFFFF);
+    }
+
+    public static void drawFrame(MatrixStack matrix, FrameType type, boolean unlocked, int x, int y) {
+        Minecraft.getInstance().getTextureManager().bind(WIDGETS_LOCATION);
+        INSTANCE.blit(matrix, x - 8 - 5, y - 8 - 5, type.getTexture(), 128 + (unlocked ? 0 : 1) * 26, 26, 26);
     }
 
 

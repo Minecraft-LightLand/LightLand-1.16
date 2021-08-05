@@ -2,6 +2,7 @@ package com.hikarishima.lightland.magic.capabilities;
 
 import com.hikarishima.lightland.magic.arcane.internal.ArcaneType;
 import com.hikarishima.lightland.magic.spell.internal.AbstractSpell;
+import com.hikarishima.lightland.proxy.Proxy;
 import com.hikarishima.lightland.registry.item.magic.MagicScroll;
 import com.lcy0x1.core.util.NBTObj;
 import com.lcy0x1.core.util.SerialClass;
@@ -30,7 +31,7 @@ public class MagicAbility {
     }
 
     public void giveMana(int mana) {
-        magic_mana = MathHelper.clamp(magic_mana + mana, 0, getMaxMana());
+        magic_mana = MathHelper.clamp(magic_mana + mana, -Proxy.getMargin(parent.player), getMaxMana());
     }
 
     public void addSpellLoad(int load) {
