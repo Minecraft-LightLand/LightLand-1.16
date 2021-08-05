@@ -1,3 +1,13 @@
+Version 0.2.4
+    magic:
+        - add more hx graphs
+        - add cost display
+
+Version 0.2.3
+    magic:
+        - fix magic hex bug
+        - add save/compile display
+
 Version 0.2.2
     profession:
         - add profession book

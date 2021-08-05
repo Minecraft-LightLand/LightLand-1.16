@@ -74,7 +74,7 @@ public class DefMagicRecipe extends IMagicRecipe<DefMagicRecipe> {
             chars[i] = ent.getKey().charAt(0);
             i++;
         }
-        boolean[][] bools = new boolean[n][n];
+        boolean[][] bools = new boolean[6][6];
         for (String flow : flows) {
             if (flow.contains("<->")) {
                 String[] strs = flow.split("<->");

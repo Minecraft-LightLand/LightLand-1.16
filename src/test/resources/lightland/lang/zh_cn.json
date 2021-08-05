@@ -69,15 +69,16 @@
         },
         "hex": {
             "save": {
-                "yes": "",
-                "no": ""
+                "yes": "已保存",
+                "no": "未保存"
             },
             "compile": {
-                "complete": "",
-                "failed": "",
-                "editing": "",
-                "error": ""
-            }
+                "complete": "已完成",
+                "failed": "连接错误",
+                "editing": "编辑中",
+                "error": "非法连接"
+            },
+            "cost": "复杂度:%s"
         }
     },
     "lightland:container": {

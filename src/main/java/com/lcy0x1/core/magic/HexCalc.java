@@ -106,7 +106,7 @@ class HexCalc {
             for (int j = 0; j < 6; j++) {
                 if (in[j] == null)
                     continue;
-                matrix[i][j] = out[i].map.get(in[j]);
+                matrix[j][i] = out[i].map.get(in[j]);
             }
         }
 

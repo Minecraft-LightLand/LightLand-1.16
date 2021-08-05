@@ -71,8 +71,8 @@ public class AbstractHexGui extends AbstractGui {
         Minecraft.getInstance().getTextureManager().bind(elem.getIcon());
         drawIcon(matrix, x, y, 1);
         FontRenderer font = Minecraft.getInstance().font;
-        font.draw(matrix, s, (float) (x + 11 - 2 - font.width(s)), (float) (y + 1), 0x404040);
-        font.draw(matrix, s, (float) (x + 11 - 3 - font.width(s)), (float) (y), 0xFFFFFF);
+        font.draw(matrix, s, (float) (x + 11 - 1 - font.width(s)), (float) (y + 2), 0x404040);
+        font.draw(matrix, s, (float) (x + 11 - 2 - font.width(s)), (float) (y + 1), 0xFFFFFF);
     }
 
     public static void drawFrame(MatrixStack matrix, FrameType type, boolean unlocked, int x, int y) {

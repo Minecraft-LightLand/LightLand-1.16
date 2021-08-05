@@ -31,8 +31,8 @@ public class DisEnchanterScreen extends ContainerScreen<DisEnchanterContainer> {
         sr.start(matrix);
         if (!menu.map.isEmpty()) {
             sr.draw(matrix, "arrow", sm.within("arrow", mx, my) ? "arrow_2" : "arrow_1");
-            int x = 8 + 9 + 18 * 2 + getGuiLeft();
-            int y = sm.getComp("main_slot").y + getGuiTop() + 9;
+            int x = 8 + 8 + 18 * 2 + getGuiLeft();
+            int y = sm.getComp("main_slot").y + getGuiTop() + 8;
             for (Map.Entry<MagicElement, Integer> ent : menu.map.entrySet()) {
                 AbstractHexGui.drawElement(matrix, x += 18, y, ent.getKey(), "" + ent.getValue());
             }

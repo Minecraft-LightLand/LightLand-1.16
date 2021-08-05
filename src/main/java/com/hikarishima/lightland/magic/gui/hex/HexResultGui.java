@@ -1,5 +1,6 @@
 package com.hikarishima.lightland.magic.gui.hex;
 
+import com.hikarishima.lightland.config.Translator;
 import com.hikarishima.lightland.magic.MagicElement;
 import com.hikarishima.lightland.magic.gui.AbstractHexGui;
 import com.hikarishima.lightland.magic.products.MagicProduct;
@@ -29,6 +30,7 @@ public class HexResultGui extends AbstractHexGui {
     private int tick = 0;
     private boolean isDragging = false;
 
+    int cost = 0;
     final MagicProduct.HexData data;
     final WindowBox box = new WindowBox();
 
@@ -103,7 +105,7 @@ public class HexResultGui extends AbstractHexGui {
         FontRenderer font = minecraft.font;
         font.draw(matrix, screen.save.getDesc(), box.x + 9, hi, screen.save.getColor());
         font.draw(matrix, screen.compile.getDesc(), box.x + 9, hi + 9, screen.compile.getColor());
-
+        font.draw(matrix, Translator.get("screen.hex.cost", cost), box.x + 9, hi + 18, 0xFF000000);
     }
 
     MagicElement getElem(int i) {

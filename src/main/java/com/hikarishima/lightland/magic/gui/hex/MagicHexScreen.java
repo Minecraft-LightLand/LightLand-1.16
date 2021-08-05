@@ -51,6 +51,10 @@ public class MagicHexScreen extends Screen {
         int y0 = (sh - h) / 2;
         graph.box.setSize(this, x0, y0, 200, 200, 8);
         result.box.setSize(this, x0 + 200, y0, 100, 200, 8);
+        if (product.usable()) {
+            graph.compile();
+            updated();
+        }
     }
 
     @Override
@@ -140,20 +144,17 @@ public class MagicHexScreen extends Screen {
     }
 
     private void save() {
-        int cost = -1;
         save = HexStatus.Save.NO;
         boolean pass = test();
-        if (pass) {
-            cost = getCost();
-        }
+        getCost();
         if (product.getState() == ProductState.CRAFTED) {
             if (!pass)
                 return;
-            if (cost > product.getCost())
+            if (result.cost > product.getCost())
                 return;
         }
         save = HexStatus.Save.YES;
-        product.updateBestSolution(graph.graph, result.data, cost);
+        product.updateBestSolution(graph.graph, result.data, pass ? result.cost : -1);
         ToServerMsg.sendHexUpdate(product);
     }
 
@@ -185,13 +186,46 @@ public class MagicHexScreen extends Screen {
                     if (f == null)
                         continue;
                     if (i == j) {
-                        wrong |= graph.wrong_flow[i - 1] = true;
-                        continue;
+                        wrong |= graph.wrong_flow[i] = true;
+                        break;
                     }
                     if (sample == null)
                         sample = f;
                     else if (!sample.equals(f)) {
-                        wrong |= graph.wrong_flow[i - 1] = true;
+                        wrong |= graph.wrong_flow[i] = true;
+                        break;
+                    }
+                }
+            }
+            if (wrong)
+                return false;
+            boolean[][] map = product.recipe.getGraph();
+            for (int i = 0; i < 6; i++) {
+                Frac[] arr = graph.flow.matrix[i];
+                int i0 = result.data.order[i];
+                boolean[] bar = map[i0];
+                int rec = 0;
+                for (int j = 0; j < 6; j++)
+                    if (bar[result.data.order[j]])
+                        rec++;
+                Frac b = rec == 0 ? null : new Frac(1, rec);
+                for (int j = 0; j < 6; j++) {
+                    Frac f = arr[j];
+                    if (!bar[result.data.order[j]]) {
+                        if (f != null) {
+                            wrong |= graph.wrong_flow[i] = true;
+                            break;
+                        }
+                        continue;
+                    }
+                    if ((f == null) != (b == null)) {
+                        wrong |= graph.wrong_flow[i] = true;
+                        break;
+                    }
+                    if (f == null)
+                        continue;
+                    if (!f.equals(b)) {
+                        wrong |= graph.wrong_flow[i] = true;
                     }
                 }
             }
@@ -202,15 +236,14 @@ public class MagicHexScreen extends Screen {
         return false;
     }
 
-    private int getCost() {
-        int cost = 0;
+    private void getCost() {
+        result.cost = 0;
         HexCell cell = new HexCell(graph.graph, 0, 0);
         for (cell.row = 0; cell.row < graph.graph.getRowCount(); cell.row++)
             for (cell.cell = 0; cell.cell < graph.graph.getCellCount(cell.row); cell.cell++) {
                 if (cell.exists())
-                    cost++;
+                    result.cost++;
             }
-        return cost;
     }
 
     @Override

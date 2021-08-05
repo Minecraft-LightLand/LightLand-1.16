@@ -59,8 +59,6 @@ public class HexGraphGui extends AbstractHexGui {
         if (graph == null) {
             graph = new HexHandler(3);
         }
-        if (screen.product.usable())
-            compile();
     }
 
     public void render(MatrixStack matrix, double mx, double my, float partial) {
@@ -326,11 +324,21 @@ public class HexGraphGui extends AbstractHexGui {
             compile();
             screen.updated();
             return true;
+        } else if (ch == '=' && graph.radius < 7) {
+            setRadius(graph.radius + 1);
+            flow = null;
+            error = null;
+            screen.updated();
+        } else if (ch == '-' && graph.radius > 3) {
+            setRadius(graph.radius - 1);
+            flow = null;
+            error = null;
+            screen.updated();
         }
         return false;
     }
 
-    private void compile() {
+    void compile() {
         flow = null;
         error = null;
         try {
