@@ -2,7 +2,6 @@ package com.hikarishima.lightland.registry.item.magic;
 
 import com.hikarishima.lightland.magic.MagicRegistry;
 import com.hikarishima.lightland.magic.capabilities.MagicHandler;
-import com.hikarishima.lightland.magic.products.IMagicProduct;
 import com.hikarishima.lightland.magic.products.MagicProduct;
 import com.hikarishima.lightland.magic.spell.internal.Spell;
 import com.hikarishima.lightland.recipe.IMagicRecipe;
@@ -41,8 +40,10 @@ public class MagicWand extends Item {
 
     public void activate(PlayerEntity player, IMagicRecipe<?> recipe, ItemStack stack) {
         MagicHandler handler = MagicHandler.get(player);
-        IMagicProduct<?, ?> p = handler.magicHolder.getProduct(recipe);
-        if (p != null && p.type == MagicRegistry.MPT_SPELL) {
+        MagicProduct<?, ?> p = handler.magicHolder.getProduct(recipe);
+        if (p == null || !p.usable())
+            return;
+        if (p.type == MagicRegistry.MPT_SPELL) {
             Spell<?, ?> sp = (Spell<?, ?>) p.item;
             sp.attempt(Spell.Type.WAND, player.level, player);
         } else stack.getOrCreateTag().putString("recipe", recipe.id.toString());

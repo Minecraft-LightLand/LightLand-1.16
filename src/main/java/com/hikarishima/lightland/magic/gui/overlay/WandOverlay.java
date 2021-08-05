@@ -31,7 +31,7 @@ public class WandOverlay extends AbstractOverlay {
             ELEM.clear();
         }
         if (key == 'W' || key == 'A' || key == 'S' || key == 'D' || key == ' ') {
-            if (action == 1 && ELEM.size() < 6) {
+            if (action == 1 && ELEM.size() < 4) {
                 MagicElement elem;
                 if (key == 'W') elem = MagicRegistry.ELEM_AIR;
                 else if (key == 'A') elem = MagicRegistry.ELEM_WATER;
@@ -56,7 +56,7 @@ public class WandOverlay extends AbstractOverlay {
         ItemStack stack = player.getItemInHand(Hand.MAIN_HAND);
         if (!(stack.getItem() instanceof MagicWand))
             return false;
-        int x = width / 2 - 45;
+        int x = width / 2 - 27;
         int y = height / 2;
         for (MagicElement elem : ELEM) {
             AbstractHexGui.drawElement(matrix, x, y + 60, elem, "");

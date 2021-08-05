@@ -112,7 +112,7 @@ public class MagicHolder {
                 .filter(e -> e.getAsType().elem == type).map(MagicRegistry.MPTRaw::getAsType)
                 .findFirst().orElseThrow(() -> new NoSuchElementException("no matching type"));
         List<MagicProduct<?, ?>> ans = product_cache.get(res).values().stream()
-                .filter(e -> e.matchList(elem)).collect(Collectors.toList());
+                .filter(e -> e.usable() && e.matchList(elem)).collect(Collectors.toList());
         if (ans.size() == 1)
             return ans.get(0).recipe;
         return null;
