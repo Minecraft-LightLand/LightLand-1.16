@@ -22,9 +22,10 @@ public class ManaOverlay extends AbstractOverlay {
             renderBar(x0, y0, f1, s1, 0, 0x80FF20);
         }
         y0 += dy;
-        if (handler.magicAbility.getMaxSpellEndurance() > 0) {
-            float f2 = handler.magicAbility.getSpellLoad() % handler.magicAbility.getMaxSpellEndurance();
-            String s2 = "" + (handler.magicAbility.getSpellLoad() / handler.magicAbility.getMaxSpellEndurance());
+        int endur = handler.magicAbility.getMaxSpellEndurance();
+        if (endur > 0) {
+            float f2 = 1f * handler.magicAbility.getSpellLoad() / endur % 1;
+            String s2 = "" + (handler.magicAbility.getSpellLoad() / endur);
             renderBar(x0, y0, f2, s2, 0, 0x80FF20);
         }
         return false;

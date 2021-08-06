@@ -19,7 +19,7 @@ public class HexStatus {
             return Translator.get("screen.hex.save." + name().toLowerCase());
         }
 
-        public int getColor(){
+        public int getColor() {
             return col.getColor();
         }
 
@@ -41,7 +41,7 @@ public class HexStatus {
             return Translator.get("screen.hex.compile." + name().toLowerCase());
         }
 
-        public int getColor(){
+        public int getColor() {
             return col.getColor();
         }
 

@@ -36,6 +36,7 @@ public class SpellCraftContainer extends AbstractContainer {
 
     private SpellConfig config = null;
     private int consume = 0, total_cost = 0, available = 0, ench_count = 0, exceed = 0;
+    private boolean changing = false;
 
     public SpellCraftContainer(int wid, PlayerInventory plInv) {
         super(ContainerRegistry.CT_SPELL_CRAFT, wid, plInv, 5, MANAGER);
@@ -48,6 +49,8 @@ public class SpellCraftContainer extends AbstractContainer {
 
     @Override
     public void slotsChanged(IInventory inv) {
+        if (changing)
+            return;
         err = check();
         super.slotsChanged(inv);
     }
@@ -126,6 +129,7 @@ public class SpellCraftContainer extends AbstractContainer {
     @Override
     public boolean clickMenuButton(PlayerEntity pl, int btn) {
         if (err == Error.PASS) {
+            changing = true;
             ItemStack input = slot.getItem(1);
             slot.setItem(1, ItemStack.EMPTY);
             MagicScroll.initItemStack(spell, input);
@@ -140,7 +144,9 @@ public class SpellCraftContainer extends AbstractContainer {
             for (MagicElement elem : map.keySet()) {
                 handler.magicHolder.addElement(elem, -map.get(elem));
             }
+            changing = false;
             slotsChanged(slot);
+            return true;
         }
         return super.clickMenuButton(pl, btn);
     }

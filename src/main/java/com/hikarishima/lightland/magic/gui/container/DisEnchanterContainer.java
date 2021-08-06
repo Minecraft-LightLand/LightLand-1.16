@@ -72,7 +72,6 @@ public class DisEnchanterContainer extends AbstractContainer {
             if (res.isEmpty()) {
                 slot.setItem(2, new ItemStack(ItemRegistry.ENCHANT_GOLD_NUGGET, arr[0]));
             } else res.grow(arr[0]);
-            broadcastChanges();
             slotsChanged(slot);
             return true;
         }

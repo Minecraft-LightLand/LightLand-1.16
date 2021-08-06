@@ -1,17 +1,13 @@
 package com.hikarishima.lightland.magic.gui.container;
 
-import com.hikarishima.lightland.magic.MagicElement;
-import com.hikarishima.lightland.magic.gui.AbstractHexGui;
 import com.hikarishima.lightland.proxy.Proxy;
 import com.lcy0x1.core.util.SpriteManager;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.text.ITextComponent;
 
 import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.Map;
 
 @ParametersAreNonnullByDefault
 public class MagicCraftScreen extends AbstractScreen<MagicCraftContainer> {

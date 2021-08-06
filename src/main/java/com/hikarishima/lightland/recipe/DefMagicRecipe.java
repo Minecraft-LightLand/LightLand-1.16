@@ -107,7 +107,7 @@ public class DefMagicRecipe extends IMagicRecipe<DefMagicRecipe> {
                 if (strs.length != 2 || !flowRegex(chars, strs[0], strs[1], bools, false))
                     LogManager.getLogger().error("illegal side expression " + flow + " in " + this.id);
             } else if (flow.endsWith("|")) {
-                if (!flowRound(chars,flow.substring(0,flow.length()-1),bools))
+                if (!flowRound(chars, flow.substring(0, flow.length() - 1), bools))
                     LogManager.getLogger().error("illegal round expression " + flow + " in " + this.id);
             } else LogManager.getLogger().error("illegal connector " + flow + " in " + this.id);
         }

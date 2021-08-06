@@ -1,6 +1,5 @@
 package com.hikarishima.lightland.registry.item.book;
 
-import com.hikarishima.lightland.magic.gui.ability.AbilityScreen;
 import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.Screen;
@@ -30,7 +29,7 @@ public class ScreenBook extends Item {
         ItemStack stack = player.getItemInHand(hand);
         if (world.isClientSide()) {
             player.playSound(SoundEvents.BOOK_PAGE_TURN, 1.0f, 1.0f);
-            Minecraft.getInstance().setScreen((Screen)sup.get().get());
+            Minecraft.getInstance().setScreen((Screen) sup.get().get());
         }
         return ActionResult.success(stack);
     }
