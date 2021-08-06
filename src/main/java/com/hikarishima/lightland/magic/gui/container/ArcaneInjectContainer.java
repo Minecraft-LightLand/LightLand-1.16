@@ -16,35 +16,13 @@ import javax.annotation.ParametersAreNonnullByDefault;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public class ArcaneInjectContainer extends Container {
+public class ArcaneInjectContainer extends AbstractContainer {
 
     public static final SpriteManager MANAGER = new SpriteManager(LightLand.MODID, "arcane_inject");
 
-    protected final PlayerInventory plInv;
-    protected final IInventory slot = new Inventory(1) {
-        @Override
-        public void setChanged() {
-            super.setChanged();
-            slotsChanged(this);
-        }
-    };
-
     public ArcaneInjectContainer(int wid, PlayerInventory plInv) {
-        super(ContainerRegistry.CT_ARCANE_INJECT, wid);
-        this.plInv = plInv;
-
-        int x = MANAGER.getPlInvX();
-        int y = MANAGER.getPlInvY();
-        for (int i = 0; i < 3; ++i)
-            for (int j = 0; j < 9; ++j)
-                this.addSlot(new Slot(plInv, j + i * 9 + 9, x + j * 18, y + i * 18));
-        for (int k = 0; k < 9; ++k)
-            this.addSlot(new Slot(plInv, k, x + k * 18, y + 58));
-    }
-
-    @Override
-    public boolean stillValid(PlayerEntity player) {
-        return player.isAlive();
+        super(ContainerRegistry.CT_ARCANE_INJECT, wid, plInv, 3, MANAGER);
+        //TODO
     }
 
     @Override
@@ -52,8 +30,4 @@ public class ArcaneInjectContainer extends Container {
         super.slotsChanged(inv);
     }
 
-    @Override
-    public ItemStack quickMoveStack(PlayerEntity pl, int id) {
-        return ItemStack.EMPTY;
-    }
 }

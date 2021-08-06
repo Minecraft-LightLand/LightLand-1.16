@@ -79,6 +79,15 @@
                 "error": "非法连接"
             },
             "cost": "复杂度:%s"
+        },
+        "spell_craft": {
+            "error": {
+                "no_spell": "法杖上没有可用法术",
+                "not_unlocked": "法术未解锁",
+                "wrong_scroll": "符文载体类型不对,请使用:",
+                "not_enough_mana": "魔力介质不足:还需要%s个(魔力消耗:%s/%s)",
+                "clear_gold": "请清空副产品栏"
+            }
         }
     },
     "lightland:container": {
@@ -145,6 +154,10 @@
         "gilded_arcane_axe": "镀金奥术斧",
         "enchant_gold_nugget": "蓄魔金粒",
         "enchant_gold_ingot": "蓄魔金锭",
+        "enchant_cookie": "魔力饼干",
+        "enchant_melon": "魔力西瓜片",
+        "enchant_carrot": "魔力金胡萝卜",
+        "enchant_apple": "魔力金苹果",
         "enchant_alloy_ingot": "魔导合金",
         "enchant_light_ingot": "轻质硬化魔导合金",
         "anti_magic_metal_ingot": "斥魔金属",
