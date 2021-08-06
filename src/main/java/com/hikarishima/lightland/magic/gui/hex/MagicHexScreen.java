@@ -153,6 +153,10 @@ public class MagicHexScreen extends Screen {
             if (result.cost > product.getCost())
                 return;
         }
+        forceSave(pass);
+    }
+
+    void forceSave(boolean pass) {
         save = HexStatus.Save.YES;
         product.updateBestSolution(graph.graph, result.data, pass ? result.cost : -1);
         ToServerMsg.sendHexUpdate(product);

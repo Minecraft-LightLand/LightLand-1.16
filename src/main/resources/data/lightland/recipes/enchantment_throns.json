@@ -1,7 +1,7 @@
 {
     "type": "lightland:magic_default",
     "product_type": "lightland:enchantment",
-    "product_id": "minecraft:fire_protection",
+    "product_id": "minecraft:thorns",
     "predecessor": [],
     "elemental_mastery": [
         {
@@ -10,20 +10,20 @@
         }
     ],
     "screen": {
-        "x": -1,
+        "x": 1,
         "y": 0
     },
     "elements": {
-        "A": "lightland:earth",
+        "A": "lightland:quint",
         "B": "lightland:earth",
         "C": "lightland:earth",
         "D": "lightland:fire",
         "E": "lightland:fire",
-        "F": "lightland:quint"
+        "F": "lightland:fire"
     },
     "flows": [
-        "F->ABC",
-        "ABC->DE",
-        "DE->F"
+        "A->BC",
+        "BC->DEF",
+        "DEF->A"
     ]
 }

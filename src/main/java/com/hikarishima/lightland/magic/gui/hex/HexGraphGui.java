@@ -315,12 +315,7 @@ public class HexGraphGui extends AbstractHexGui {
     }
 
     public boolean charTyped(char ch) {
-        if (!Minecraft.getInstance().player.isCreative())
-            return false;
-        if (ch == 's') {
-            screen.updated();
-            return true;
-        } else if (ch == 'r') {
+        if (ch == 'r') {
             compile();
             screen.updated();
             return true;
@@ -329,13 +324,19 @@ public class HexGraphGui extends AbstractHexGui {
             flow = null;
             error = null;
             screen.updated();
-        } else if (ch == '-' && graph.radius > 3) {
+        } else if (ch == '-' && graph.radius > 2) {
             setRadius(graph.radius - 1);
             flow = null;
             error = null;
             screen.updated();
         }
-        return false;
+        if (!Minecraft.getInstance().player.isCreative())
+            return false;
+        if (ch == 'f') {
+            screen.forceSave(false);
+            return true;
+        } else
+            return false;
     }
 
     void compile() {
@@ -349,6 +350,7 @@ public class HexGraphGui extends AbstractHexGui {
         } catch (Exception e) {
             flow = null;
             error = null;
+            screen.compile = HexStatus.Compile.ERROR;
             LogManager.getLogger().throwing(e);
         }
     }

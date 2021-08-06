@@ -1,29 +1,25 @@
 {
     "type": "lightland:magic_default",
     "product_type": "lightland:enchantment",
-    "product_id": "minecraft:fire_protection",
+    "product_id": "minecraft:unbreaking",
     "predecessor": [],
     "elemental_mastery": [
         {
-            "element": "lightland:fire",
+            "element": "lightland:earth",
             "level": 1
         }
     ],
     "screen": {
-        "x": -1,
-        "y": 0
+        "x": 1,
+        "y": 1
     },
     "elements": {
         "A": "lightland:earth",
         "B": "lightland:earth",
         "C": "lightland:earth",
-        "D": "lightland:fire",
-        "E": "lightland:fire",
-        "F": "lightland:quint"
+        "D": "lightland:earth"
     },
     "flows": [
-        "F->ABC",
-        "ABC->DE",
-        "DE->F"
+        "ABCD|"
     ]
 }

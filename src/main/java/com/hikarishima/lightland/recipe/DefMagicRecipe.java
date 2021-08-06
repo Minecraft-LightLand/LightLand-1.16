@@ -61,6 +61,28 @@ public class DefMagicRecipe extends IMagicRecipe<DefMagicRecipe> {
         return true;
     }
 
+    private static boolean flowRound(char[] chars, String str, boolean[][] bools) {
+        int[] i0 = new int[str.length()];
+        for (int i = 0; i < str.length(); i++) {
+            i0[i] = -1;
+            for (int c = 0; c < chars.length; c++) {
+                if (chars[c] == str.charAt(i)) {
+                    i0[i] = c;
+                    break;
+                }
+            }
+            if (i0[i] == -1)
+                return false;
+        }
+        for (int i : i0)
+            for (int j : i0) {
+                if (i == j)
+                    continue;
+                bools[i][j] = true;
+            }
+        return true;
+    }
+
     @SerialClass.OnInject
     public void onInject() {
         int n = elements.size();
@@ -84,6 +106,9 @@ public class DefMagicRecipe extends IMagicRecipe<DefMagicRecipe> {
                 String[] strs = flow.split("->");
                 if (strs.length != 2 || !flowRegex(chars, strs[0], strs[1], bools, false))
                     LogManager.getLogger().error("illegal side expression " + flow + " in " + this.id);
+            } else if (flow.endsWith("|")) {
+                if (!flowRound(chars,flow.substring(0,flow.length()-1),bools))
+                    LogManager.getLogger().error("illegal round expression " + flow + " in " + this.id);
             } else LogManager.getLogger().error("illegal connector " + flow + " in " + this.id);
         }
         register(elems, bools);

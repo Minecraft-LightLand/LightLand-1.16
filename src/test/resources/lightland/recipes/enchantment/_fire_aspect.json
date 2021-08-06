@@ -1,29 +1,29 @@
 {
     "type": "lightland:magic_default",
     "product_type": "lightland:enchantment",
-    "product_id": "minecraft:projectile_protection",
+    "product_id": "minecraft:fire_aspect",
     "predecessor": [],
     "elemental_mastery": [
         {
-            "element": "lightland:air",
+            "element": "lightland:fire",
             "level": 1
         }
     ],
     "screen": {
-        "x": -1,
-        "y": -1
+        "x": -2,
+        "y": -2
     },
     "elements": {
-        "A": "lightland:air",
-        "B": "lightland:air",
+        "A": "lightland:earth",
+        "B": "lightland:earth",
         "C": "lightland:earth",
         "D": "lightland:earth",
-        "E": "lightland:quint",
-        "F": "lightland:quint"
+        "E": "lightland:fire",
+        "F": "lightland:fire"
     },
     "flows": [
-        "AB->CD",
-        "CD->EF",
-        "EF->AB"
+        "ABCD->E",
+        "E->F",
+        "F->ABCD"
     ]
 }

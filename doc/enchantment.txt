@@ -1,0 +1,40 @@
+protection              4
+fire_protection         4
+blast_protection        4
+projectile_protection   4
+feather_falling         4
+throns                  3
+sharpness               5
+smite                   5
+bane_of_arthropods      5
+fire_aspect             2
+knockback               2   *
+sweeping_edge           3   *
+looting                 3   *
+power                   5   *
+punch                   2   *
+flame                   1   *
+infinity                1
+multishot               4   *
+piercing                4   *
+quick_charge            3   *
+mending                 1
+unbreaking              3
+
+
+soul speed              3
+frost walker            2
+aqua affinity           1
+depth strider           3
+respiration             3
+luck_of_the_sea         3
+lure                    3
+efficiency              5
+silk touch              1
+fortune                 3
+curse of vanishing      1
+curse of binding        1
+riptide                 3
+channeling              1
+loyalty                 3
+impaling                5

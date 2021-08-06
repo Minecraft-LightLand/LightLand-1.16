@@ -22,8 +22,8 @@
         "F": "lightland:quint"
     },
     "flows": [
-        "F->DE",
-        "DE->ABC",
-        "ABC->F"
+        "F->ABC",
+        "ABC->DE",
+        "DE->F"
     ]
 }
