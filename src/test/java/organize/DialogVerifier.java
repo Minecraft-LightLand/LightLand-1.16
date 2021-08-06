@@ -1,4 +1,4 @@
-package test;
+package organize;
 
 import com.google.common.collect.Maps;
 import com.google.gson.JsonElement;

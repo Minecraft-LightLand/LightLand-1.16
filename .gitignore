@@ -28,4 +28,5 @@ hs_err_pid*
 /build/
 /logs/
 /doc/hex/
+/doc/ignore/
 .DS_Store

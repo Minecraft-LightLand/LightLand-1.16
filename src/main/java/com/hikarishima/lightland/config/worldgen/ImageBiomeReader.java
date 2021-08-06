@@ -134,7 +134,7 @@ public class ImageBiomeReader {
 
     private static BufferedImage loadOrCreate(File file) {
         return file.exists() ? ExceptionHandler.get(() -> ImageIO.read(file)) :
-                new BufferedImage(BIOME.getWidth(), BIOME.getHeight(), BufferedImage.TYPE_BYTE_GRAY);
+                new BufferedImage(BIOME.getWidth(), BIOME.getHeight(), BufferedImage.TYPE_4BYTE_ABGR);
     }
 
     @SerialClass
