@@ -14,7 +14,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Map;
 
 @ParametersAreNonnullByDefault
-public class ArcaneInjectScreen extends ContainerScreen<ArcaneInjectContainer> {
+public class ArcaneInjectScreen extends AbstractScreen<ArcaneInjectContainer> {
 
     public ArcaneInjectScreen(ArcaneInjectContainer cont, PlayerInventory plInv, ITextComponent title) {
         super(cont, plInv, title);

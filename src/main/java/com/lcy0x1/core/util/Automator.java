@@ -1,9 +1,11 @@
 package com.lcy0x1.core.util;
 
+import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.*;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
+import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.IForgeRegistryEntry;
 
@@ -50,6 +52,7 @@ public class Automator {
         new ClassHandler<IntArrayNBT, UUID>(UUID.class, NBTUtil::loadUUID, NBTUtil::createUUID);
         new ClassHandler<CompoundNBT, CompoundNBT>(CompoundNBT.class, e -> e, e -> e);
         new ClassHandler<ListNBT, ListNBT>(ListNBT.class, e -> e, e -> e);
+        new RegistryClassHandler<>(Block.class, () -> ForgeRegistries.BLOCKS);
     }
 
     public static Object fromTag(CompoundNBT tag, Class<?> cls, Object obj, Predicate<SerialClass.SerialField> pred)

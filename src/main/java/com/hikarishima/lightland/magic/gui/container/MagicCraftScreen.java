@@ -14,7 +14,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Map;
 
 @ParametersAreNonnullByDefault
-public class MagicCraftScreen extends ContainerScreen<MagicCraftContainer> {
+public class MagicCraftScreen extends AbstractScreen<MagicCraftContainer> {
 
     public MagicCraftScreen(MagicCraftContainer cont, PlayerInventory plInv, ITextComponent title) {
         super(cont, plInv, title);

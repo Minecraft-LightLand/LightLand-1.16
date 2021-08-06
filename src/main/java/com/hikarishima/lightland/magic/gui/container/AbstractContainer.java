@@ -54,7 +54,7 @@ public class AbstractContainer extends Container {
     public ItemStack quickMoveStack(PlayerEntity pl, int id) {
         ItemStack stack = slots.get(id).getItem();
         int n = slot.getContainerSize();
-        if (id < 36) {
+        if (id >= 36) {
             moveItemStackTo(stack, 0, 36, true);
         } else {
             moveItemStackTo(stack, 36, 36 + n, true);
@@ -67,4 +67,9 @@ public class AbstractContainer extends Container {
         return player.isAlive();
     }
 
+    @Override
+    public void removed(PlayerEntity player) {
+        clearContainer(player, player.level, slot);
+        super.removed(player);
+    }
 }

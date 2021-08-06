@@ -14,7 +14,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Map;
 
 @ParametersAreNonnullByDefault
-public class DisEnchanterScreen extends ContainerScreen<DisEnchanterContainer> {
+public class DisEnchanterScreen extends AbstractScreen<DisEnchanterContainer> {
 
     public DisEnchanterScreen(DisEnchanterContainer cont, PlayerInventory plInv, ITextComponent title) {
         super(cont, plInv, title);

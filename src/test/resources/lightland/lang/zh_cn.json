@@ -86,8 +86,11 @@
                 "not_unlocked": "法术未解锁",
                 "wrong_scroll": "符文载体类型不对,请使用:",
                 "not_enough_mana": "魔力介质不足:还需要%s个(魔力消耗:%s/%s)",
-                "clear_gold": "请清空副产品栏"
-            }
+                "clear_gold": "请清空副产品栏",
+                "elem": "元素不足",
+                "pass": "魔力溢出:%s"
+            },
+            "elem_cost":"消耗/拥有数量:%s/%s"
         }
     },
     "lightland:container": {

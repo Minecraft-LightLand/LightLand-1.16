@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "bab",
+    "bab",
+    "bab"
+  ],
+  "key": {
+    "b": {
+      "item": "lightland:enchant_gold_ingot"
+    },
+    "a": {
+      "item": "minecraft:paper"
+    }
+  },
+  "result": {
+    "item": "lightland:spell_card",
+    "count": 16
+  }
+}
