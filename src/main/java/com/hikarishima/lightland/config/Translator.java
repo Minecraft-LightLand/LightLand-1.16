@@ -9,6 +9,8 @@ import net.minecraft.util.text.IFormattableTextComponent;
 import net.minecraft.util.text.ITextProperties;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.registries.IForgeRegistryEntry;
 
 import java.util.ArrayList;
@@ -28,6 +30,7 @@ public class Translator {
         return new TranslationTextComponent(product.type.namer.apply(product.item));
     }
 
+    @OnlyIn(Dist.CLIENT)
     public static List<ITextProperties> getDesc(MagicProduct<?, ?> product) {
         MagicHandler h = MagicHandler.get(Proxy.getClientPlayer());
         List<ITextProperties> list = new ArrayList<>();

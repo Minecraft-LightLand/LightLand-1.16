@@ -14,22 +14,20 @@ public class ArcaneInjectScreen extends AbstractScreen<ArcaneInjectContainer> {
 
     public ArcaneInjectScreen(ArcaneInjectContainer cont, PlayerInventory plInv, ITextComponent title) {
         super(cont, plInv, title);
-        this.imageHeight = ArcaneInjectContainer.MANAGER.getHeight();
-        this.inventoryLabelY = ArcaneInjectContainer.MANAGER.getPlInvY() - 11;
     }
 
     @Override
     protected void renderBg(MatrixStack matrix, float partial, int mx, int my) {
         mx -= getGuiLeft();
         my -= getGuiTop();
-        SpriteManager sm = ArcaneInjectContainer.MANAGER;
+        SpriteManager sm = menu.sm;
         SpriteManager.ScreenRenderer sr = sm.getRenderer(this);
         sr.start(matrix);
     }
 
     @Override
     public boolean mouseClicked(double mx, double my, int button) {
-        SpriteManager sm = ArcaneInjectContainer.MANAGER;
+        SpriteManager sm = menu.sm;
         if (!menu.slot.isEmpty() && sm.within("arrow", mx - getGuiLeft(), my - getGuiTop())) {
             if (menu.clickMenuButton(Proxy.getClientPlayer(), 0)) {
                 Minecraft.getInstance().gameMode.handleInventoryButtonClick(this.menu.containerId, 0);

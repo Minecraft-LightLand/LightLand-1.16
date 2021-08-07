@@ -20,15 +20,13 @@ public class SpellCraftScreen extends AbstractScreen<SpellCraftContainer> {
 
     public SpellCraftScreen(SpellCraftContainer cont, PlayerInventory plInv, ITextComponent title) {
         super(cont, plInv, title);
-        this.imageHeight = SpellCraftContainer.MANAGER.getHeight();
-        this.inventoryLabelY = SpellCraftContainer.MANAGER.getPlInvY() - 11;
     }
 
     @Override
     protected void renderBg(MatrixStack matrix, float partial, int mx, int my) {
         mx -= getGuiLeft();
         my -= getGuiTop();
-        SpriteManager sm = SpellCraftContainer.MANAGER;
+        SpriteManager sm = menu.sm;
         SpriteManager.ScreenRenderer sr = sm.getRenderer(this);
         sr.start(matrix);
         if (menu.err == SpellCraftContainer.Error.PASS)
@@ -51,10 +49,10 @@ public class SpellCraftScreen extends AbstractScreen<SpellCraftContainer> {
     @Override
     protected void renderTooltip(MatrixStack matrix, int mx, int my) {
         super.renderTooltip(matrix, mx, my);
-        if (SpellCraftContainer.MANAGER.within("arrow", mx - getGuiLeft(), my - getGuiTop()) &&
+        if (menu.sm.within("arrow", mx - getGuiLeft(), my - getGuiTop()) &&
                 menu.err != SpellCraftContainer.Error.NO_ITEM)
             renderTooltip(matrix, menu.err.getDesc(menu), mx, my);
-        SpriteManager sm = SpellCraftContainer.MANAGER;
+        SpriteManager sm = menu.sm;
         int x = sm.getComp("output_slot").x + 18 + 8 + getGuiLeft();
         int y = sm.getComp("output_slot").y + 8 + getGuiTop();
         int i = 0;

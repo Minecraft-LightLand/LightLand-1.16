@@ -32,13 +32,13 @@ public class PacketHandler {
     private static int id = 0;
 
     public static void registerPackets() {
-        reg(IntMsg.class, IntMsg::encode, IntMsg::decode, IntMsg::handle, NetworkDirection.PLAY_TO_SERVER);
-        reg(ItemUseEventHandler.Msg.class, ItemUseEventHandler.Msg::handle, NetworkDirection.PLAY_TO_SERVER);
         reg(ToClientMsg.class, ToClientMsg::handle, NetworkDirection.PLAY_TO_CLIENT);
-        reg(ToServerMsg.class, ToServerMsg::handle, NetworkDirection.PLAY_TO_SERVER);
-        reg(OptionToServer.class, OptionToServer::handle, NetworkDirection.PLAY_TO_SERVER);
         reg(OptionToClient.class, OptionToClient::handle, NetworkDirection.PLAY_TO_CLIENT);
         reg(QuestToClient.class, QuestToClient::handle, NetworkDirection.PLAY_TO_CLIENT);
+        reg(IntMsg.class, IntMsg::encode, IntMsg::decode, IntMsg::handle, NetworkDirection.PLAY_TO_SERVER);
+        reg(ItemUseEventHandler.Msg.class, ItemUseEventHandler.Msg::handle, NetworkDirection.PLAY_TO_SERVER);
+        reg(ToServerMsg.class, ToServerMsg::handle, NetworkDirection.PLAY_TO_SERVER);
+        reg(OptionToServer.class, OptionToServer::handle, NetworkDirection.PLAY_TO_SERVER);
     }
 
     public static <T> void send(T msg) {

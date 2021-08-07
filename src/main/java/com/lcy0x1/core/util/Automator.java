@@ -71,8 +71,8 @@ public class Automator {
                 if (itag != null)
                     f.set(obj, fromTagRaw(itag, f.getType(), f.get(obj), sf, pred));
             }
-            for (Method m : cls.getDeclaredMethods()){
-                if(m.getAnnotation(SerialClass.OnInject.class)!=null)
+            for (Method m : cls.getDeclaredMethods()) {
+                if (m.getAnnotation(SerialClass.OnInject.class) != null)
                     m.invoke(obj);
             }
             cls = cls.getSuperclass();
@@ -187,7 +187,7 @@ public class Automator {
             if (sfield.generic().length != 1)
                 throw new Exception("generic field not correct for list");
             ListNBT list = new ListNBT();
-            int n = ((List<?>)obj).size();
+            int n = ((List<?>) obj).size();
             Class<?> com = sfield.generic()[0];
             for (int i = 0; i < n; i++) {
                 list.add(toTagRaw(com, ((List<?>) obj).get(i), null, pred));

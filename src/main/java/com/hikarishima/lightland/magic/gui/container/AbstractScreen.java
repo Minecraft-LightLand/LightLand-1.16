@@ -9,6 +9,8 @@ public abstract class AbstractScreen<T extends AbstractContainer> extends Contai
 
     public AbstractScreen(T cont, PlayerInventory plInv, ITextComponent title) {
         super(cont, plInv, title);
+        this.imageHeight = menu.sm.getHeight();
+        this.inventoryLabelY = menu.sm.getPlInvY() - 11;
     }
 
     @Override

@@ -23,7 +23,7 @@ public class AbstractContainer extends Container {
     protected final PlayerInventory plInv;
     protected final IInventory slot;
 
-    private final SpriteManager sm;
+    final SpriteManager sm;
     private int added = 0;
 
     protected AbstractContainer(@Nullable ContainerType<?> type, int wid, PlayerInventory plInv, int size, SpriteManager manager) {

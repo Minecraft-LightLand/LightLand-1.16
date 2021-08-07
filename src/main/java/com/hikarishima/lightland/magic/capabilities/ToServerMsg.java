@@ -15,6 +15,8 @@ import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.network.NetworkEvent;
 import org.apache.logging.log4j.LogManager;
 
@@ -44,8 +46,8 @@ public class ToServerMsg extends PacketHandler.BaseSerialMsg {
             holder.checkUnlocks();
         }),
         DEBUG((handler, tag) -> {
-            LogManager.getLogger().info(tag.getString("server"));
-            LogManager.getLogger().info(tag.getString("client"));
+            LogManager.getLogger().info("server: " + tag.getCompound("server"));
+            LogManager.getLogger().info("client: " + tag.getCompound("client"));
         }),
         LEVEL((handler, tag) -> {
             AbilityPoints.LevelType.values()[tag.getInt("type")].doLevelUp(handler);
@@ -93,6 +95,7 @@ public class ToServerMsg extends PacketHandler.BaseSerialMsg {
         }
     }
 
+    @OnlyIn(Dist.CLIENT)
     public static void sendHexUpdate(MagicProduct<?, ?> prod) {
         CompoundNBT tag = new CompoundNBT();
         tag.putString("product", prod.recipe.id.toString());
@@ -102,37 +105,43 @@ public class ToServerMsg extends PacketHandler.BaseSerialMsg {
         PacketHandler.send(msg);
     }
 
-    public static void sendDebugInfo(String s, String c) {
+    @OnlyIn(Dist.CLIENT)
+    public static void sendDebugInfo(CompoundNBT s, CompoundNBT c) {
         CompoundNBT tag = new CompoundNBT();
-        tag.putString("server", s);
-        tag.putString("client", c);
+        tag.put("server", s);
+        tag.put("client", c);
         PacketHandler.send(new ToServerMsg(Action.DEBUG, tag));
     }
 
+    @OnlyIn(Dist.CLIENT)
     public static void levelUpAbility(AbilityPoints.LevelType type) {
         CompoundNBT tag = new CompoundNBT();
         tag.putInt("type", type.ordinal());
         PacketHandler.send(new ToServerMsg(Action.LEVEL, tag));
     }
 
+    @OnlyIn(Dist.CLIENT)
     public static void setProfession(Profession prof) {
         CompoundNBT tag = new CompoundNBT();
         tag.putString("id", prof.getID());
         PacketHandler.send(new ToServerMsg(Action.PROFESSION, tag));
     }
 
+    @OnlyIn(Dist.CLIENT)
     public static void addElemMastery(MagicElement elem) {
         CompoundNBT tag = new CompoundNBT();
         tag.putString("id", elem.getID());
         PacketHandler.send(new ToServerMsg(Action.ELEMENTAL, tag));
     }
 
+    @OnlyIn(Dist.CLIENT)
     public static void unlockArcaneType(ArcaneType type) {
         CompoundNBT tag = new CompoundNBT();
         tag.putString("id", type.getID());
         PacketHandler.send(new ToServerMsg(Action.ARCANE, tag));
     }
 
+    @OnlyIn(Dist.CLIENT)
     public static void activateWand(IMagicRecipe<?> recipe) {
         CompoundNBT tag = new CompoundNBT();
         tag.putString("recipe", recipe.id.toString());

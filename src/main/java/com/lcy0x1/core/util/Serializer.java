@@ -43,7 +43,7 @@ public class Serializer {
         new ClassHandler<>(boolean.class, JsonElement::getAsBoolean, PacketBuffer::readBoolean, PacketBuffer::writeBoolean);
         new ClassHandler<>(double.class, JsonElement::getAsDouble, PacketBuffer::readDouble, PacketBuffer::writeDouble);
         new ClassHandler<>(float.class, JsonElement::getAsFloat, PacketBuffer::readFloat, PacketBuffer::writeFloat);
-        new ClassHandler<>(String.class, JsonElement::getAsString, PacketBuffer::readUtf, PacketBuffer::writeUtf);
+        new ClassHandler<>(String.class, JsonElement::getAsString, (p) -> p.readUtf(32767), PacketBuffer::writeUtf);
         new ClassHandler<>(ItemStack.class, (e) -> ShapedRecipe.itemFromJson(e.getAsJsonObject()), PacketBuffer::readItem, PacketBuffer::writeItem);
         new ClassHandler<>(Ingredient.class, Ingredient::fromJson, Ingredient::fromNetwork, (p, o) -> o.toNetwork(p));
         new ClassHandler<>(CompoundNBT.class, (e) -> new CompoundNBT(), PacketBuffer::readAnySizeNbt, PacketBuffer::writeNbt);
@@ -72,6 +72,7 @@ public class Serializer {
             throw new Exception("invalid class " + cls + " with object " + obj);
         if (ans == null)
             ans = cls.newInstance();
+        Class<?> mcls = cls;
         while (cls.getAnnotation(SerialClass.class) != null) {
             for (Field f : cls.getDeclaredFields()) {
                 if (f.getAnnotation(SerialClass.SerialField.class) != null) {
@@ -83,24 +84,22 @@ public class Serializer {
             }
             cls = cls.getSuperclass();
         }
-        cls = ans.getClass();
-        for (Method method : cls.getMethods())
-            if (method.isAnnotationPresent(SerialClass.OnInject.class))
-                method.invoke(ans);
+        cls = mcls;
+        while (cls.getAnnotation(SerialClass.class) != null) {
+            for (Method method : cls.getMethods())
+                if (method.isAnnotationPresent(SerialClass.OnInject.class))
+                    method.invoke(ans);
+            cls = cls.getSuperclass();
+        }
         return ans;
     }
 
     public static Object fromImpl(PacketBuffer buf, Class<?> cls, Object ans, SerialClass.SerialField anno) throws Exception {
-        byte type = buf.readByte();
-        if (type == 0)
-            return null;
-        else if (type == 2) {
-            cls = Class.forName(buf.readUtf());
-        }
         if (cls.getAnnotation(SerialClass.class) == null)
             throw new Exception("cannot deserialize " + cls);
         if (ans == null)
             ans = cls.newInstance();
+        Class<?> mcls = cls;
         while (cls.getAnnotation(SerialClass.class) != null) {
             TreeMap<String, Field> map = new TreeMap<>();
             for (Field f : cls.getDeclaredFields()) {
@@ -113,9 +112,13 @@ public class Serializer {
             }
             cls = cls.getSuperclass();
         }
-        for (Method method : cls.getMethods())
-            if (method.isAnnotationPresent(SerialClass.OnInject.class))
-                method.invoke(ans);
+        cls = mcls;
+        while (cls.getAnnotation(SerialClass.class) != null) {
+            for (Method method : cls.getMethods())
+                if (method.isAnnotationPresent(SerialClass.OnInject.class))
+                    method.invoke(ans);
+            cls = cls.getSuperclass();
+        }
         return ans;
     }
 
@@ -159,6 +162,12 @@ public class Serializer {
 
     @SuppressWarnings({"unchecked", "rawtypes"})
     public static Object fromRaw(PacketBuffer buf, Class<?> cls, Object ans, SerialClass.SerialField anno) throws Exception {
+        byte type = buf.readByte();
+        if (type == 0)
+            return null;
+        else if (type == 2) {
+            cls = Class.forName(buf.readUtf(32767));
+        }
         if (cls.isArray()) {
             int n = buf.readInt();
             Class<?> com = cls.getComponentType();
@@ -183,40 +192,44 @@ public class Serializer {
             return ans;
         }
         if (cls.isEnum())
-            return Enum.valueOf((Class) cls, buf.readUtf());
+            return Enum.valueOf((Class) cls, buf.readUtf(32767));
         if (MAP.containsKey(cls))
             return MAP.get(cls).fromPacket.apply(buf);
         return fromImpl(buf, cls, ans, anno);
     }
 
     public static <T> void to(PacketBuffer buf, T obj) {
-        ExceptionHandler.run(() -> toImpl(buf, obj.getClass(), obj, null));
+        ExceptionHandler.run(() -> toRaw(buf, obj.getClass(), obj, null));
     }
 
     public static void toImpl(PacketBuffer buf, Class<?> cls, Object obj, SerialClass.SerialField anno) throws Exception {
-        if (obj == null)
-            buf.writeByte(0);
-        if (obj.getClass() == cls)
-            buf.writeByte(1);
-        else {
-            buf.writeByte(2);
-            cls = obj.getClass();
-            buf.writeUtf(cls.getName());
-        }
         if (cls.getAnnotation(SerialClass.class) == null)
             throw new Exception("cannot serialize " + cls);
-        TreeMap<String, Field> map = new TreeMap<>();
-        for (Field f : cls.getDeclaredFields()) {
-            if (f.getAnnotation(SerialClass.SerialField.class) != null) {
-                map.put(f.getName(), f);
+        while (cls.getAnnotation(SerialClass.class) != null) {
+            TreeMap<String, Field> map = new TreeMap<>();
+            for (Field f : cls.getDeclaredFields()) {
+                if (f.getAnnotation(SerialClass.SerialField.class) != null) {
+                    map.put(f.getName(), f);
+                }
             }
-        }
-        for (Field f : map.values()) {
-            toRaw(buf, f.getType(), f.get(obj), f.getAnnotation(SerialClass.SerialField.class));
+            for (Field f : map.values()) {
+                toRaw(buf, f.getType(), f.get(obj), f.getAnnotation(SerialClass.SerialField.class));
+            }
+            cls = cls.getSuperclass();
         }
     }
 
     public static void toRaw(PacketBuffer buf, Class<?> cls, Object obj, SerialClass.SerialField anno) throws Exception {
+        if (obj == null) {
+            buf.writeByte(0);
+            return;
+        } else if (obj.getClass() != cls && obj.getClass().isAnnotationPresent(SerialClass.class)) {
+            buf.writeByte(2);
+            cls = obj.getClass();
+            buf.writeUtf(cls.getName());
+        } else {
+            buf.writeByte(1);
+        }
         if (cls.isArray()) {
             int n = Array.getLength(obj);
             buf.writeInt(n);
@@ -270,7 +283,7 @@ public class Serializer {
                     return null;
                 return fj.apply(str);
             }, p -> {
-                String str = p.readUtf();
+                String str = p.readUtf(32767);
                 if (str.length() == 0)
                     return null;
                 return fj.apply(str);
@@ -284,10 +297,10 @@ public class Serializer {
         public RLClassHandler(Class<?> cls, Supplier<IForgeRegistry<T>> r) {
             super(cls, e -> e.isJsonNull() ? null : r.get().getValue(new ResourceLocation(e.getAsString())),
                     p -> {
-                        String str = p.readUtf();
+                        String str = p.readUtf(32767);
                         if (str.length() == 0)
                             return null;
-                        return r.get().getValue(new ResourceLocation(p.readUtf()));
+                        return r.get().getValue(new ResourceLocation(str));
                     },
                     (p, t) -> p.writeUtf(t == null ? "" : t.getRegistryName().toString()));
         }

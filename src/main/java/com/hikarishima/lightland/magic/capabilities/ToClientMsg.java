@@ -49,7 +49,7 @@ public class ToClientMsg extends PacketHandler.BaseSerialMsg {
         DEBUG((m) -> Automator.toTag(new CompoundNBT(), m), (tag) -> {
             MagicHandler m = MagicHandler.get(Proxy.getPlayer());
             CompoundNBT comp = ExceptionHandler.get(() -> Automator.toTag(new CompoundNBT(), MagicHandler.class, m, f -> true));
-            ToServerMsg.sendDebugInfo("server: " + tag, "client: " + comp);
+            ToServerMsg.sendDebugInfo(tag, comp);
         }),
         ALL((m) -> Automator.toTag(new CompoundNBT(), m), tag -> MagicHandler.cacheSet(tag, false)),
         CLONE((m) -> Automator.toTag(new CompoundNBT(), m), tag -> MagicHandler.cacheSet(tag, true)),

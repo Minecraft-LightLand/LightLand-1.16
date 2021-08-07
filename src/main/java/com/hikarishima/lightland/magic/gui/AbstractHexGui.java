@@ -13,6 +13,7 @@ import net.minecraft.client.renderer.WorldVertexBufferUploader;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.vector.Matrix4f;
+import org.lwjgl.opengl.GL11;
 
 import java.util.function.IntConsumer;
 
@@ -26,7 +27,7 @@ public class AbstractHexGui extends AbstractGui {
     public static void renderHex(MatrixStack matrix, double x, double y, double r, int color) {
         Matrix4f last = matrix.last().pose();
         BufferBuilder builder = Tessellator.getInstance().getBuilder();
-        builder.begin(7, DefaultVertexFormats.POSITION_COLOR);
+        builder.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_COLOR);
 
         float ca = (float) (color >> 24 & 255) / 255.0F;
         float cr = (float) (color >> 16 & 255) / 255.0F;

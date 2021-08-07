@@ -17,15 +17,13 @@ public class DisEnchanterScreen extends AbstractScreen<DisEnchanterContainer> {
 
     public DisEnchanterScreen(DisEnchanterContainer cont, PlayerInventory plInv, ITextComponent title) {
         super(cont, plInv, title);
-        this.imageHeight = DisEnchanterContainer.MANAGER.getHeight();
-        this.inventoryLabelY = DisEnchanterContainer.MANAGER.getPlInvY() - 11;
     }
 
     @Override
     protected void renderBg(MatrixStack matrix, float partial, int mx, int my) {
         mx -= getGuiLeft();
         my -= getGuiTop();
-        SpriteManager sm = DisEnchanterContainer.MANAGER;
+        SpriteManager sm = menu.sm;
         SpriteManager.ScreenRenderer sr = sm.getRenderer(this);
         sr.start(matrix);
         if (!menu.map.isEmpty()) {
@@ -40,7 +38,7 @@ public class DisEnchanterScreen extends AbstractScreen<DisEnchanterContainer> {
 
     @Override
     public boolean mouseClicked(double mx, double my, int button) {
-        SpriteManager sm = DisEnchanterContainer.MANAGER;
+        SpriteManager sm = menu.sm;
         if (!menu.slot.isEmpty() && sm.within("arrow", mx - getGuiLeft(), my - getGuiTop())) {
             if (menu.clickMenuButton(Proxy.getClientPlayer(), 0)) {
                 Minecraft.getInstance().gameMode.handleInventoryButtonClick(this.menu.containerId, 0);
