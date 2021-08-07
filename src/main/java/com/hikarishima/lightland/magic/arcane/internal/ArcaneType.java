@@ -3,6 +3,8 @@ package com.hikarishima.lightland.magic.arcane.internal;
 import com.hikarishima.lightland.LightLand;
 import com.hikarishima.lightland.magic.MagicRegistry;
 import com.hikarishima.lightland.registry.ItemRegistry;
+import com.hikarishima.lightland.registry.item.magic.ArcaneAxe;
+import com.hikarishima.lightland.registry.item.magic.ArcaneSword;
 import com.lcy0x1.base.NamedEntry;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
@@ -49,7 +51,17 @@ public class ArcaneType extends NamedEntry<ArcaneType> {
     }
 
     public enum Weapon {
-        SWORD, AXE
+        SWORD(ArcaneSword.class), AXE(ArcaneAxe.class);
+
+        private final Class<?> cls;
+
+        Weapon(Class<?> cls) {
+            this.cls = cls;
+        }
+
+        public boolean isValid(ItemStack stack) {
+            return cls.isInstance(stack.getItem());
+        }
     }
 
     public enum Hit {

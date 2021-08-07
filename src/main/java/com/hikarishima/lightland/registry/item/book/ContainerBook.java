@@ -23,10 +23,12 @@ import javax.annotation.ParametersAreNonnullByDefault;
 public class ContainerBook extends Item implements INamedContainerProvider {
 
     private final ContainerType<?> cont;
+    private final IFac fac;
 
-    public ContainerBook(Properties props, ContainerType<?> cont) {
+    public ContainerBook(Properties props, ContainerType<?> cont, IFac fac) {
         super(props);
         this.cont = cont;
+        this.fac = fac;
     }
 
     public ActionResult<ItemStack> use(World world, PlayerEntity player, Hand hand) {
@@ -47,6 +49,13 @@ public class ContainerBook extends Item implements INamedContainerProvider {
     @Nullable
     @Override
     public Container createMenu(int wid, PlayerInventory plInv, PlayerEntity pl) {
-        return cont.create(wid, plInv);
+        return fac.create(wid, plInv, pl);
     }
+
+    public interface IFac {
+
+        Container create(int wid, PlayerInventory plInv, PlayerEntity pl);
+
+    }
+
 }

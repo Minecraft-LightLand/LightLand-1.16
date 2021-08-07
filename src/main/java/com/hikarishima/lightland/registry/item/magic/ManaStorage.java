@@ -15,6 +15,8 @@ import javax.annotation.ParametersAreNonnullByDefault;
 @MethodsReturnNonnullByDefault
 public class ManaStorage extends FoiledItem {
 
+    public static final int ARCANE_COST = 16;
+
     public final Item container;
     public final int mana;
 

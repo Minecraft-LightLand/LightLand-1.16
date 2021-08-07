@@ -73,7 +73,7 @@ public class SpellCraftScreen extends AbstractScreen<SpellCraftContainer> {
 
     @Override
     public boolean mouseClicked(double mx, double my, int button) {
-        SpriteManager sm = SpellCraftContainer.MANAGER;
+        SpriteManager sm = menu.sm;
         if (menu.err == SpellCraftContainer.Error.PASS && sm.within("arrow", mx - getGuiLeft(), my - getGuiTop())) {
             if (menu.clickMenuButton(Proxy.getClientPlayer(), 0)) {
                 Minecraft.getInstance().gameMode.handleInventoryButtonClick(this.menu.containerId, 0);

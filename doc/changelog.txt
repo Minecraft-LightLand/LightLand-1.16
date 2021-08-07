@@ -1,14 +1,7 @@
-Version 0.2.9
+Version 0.2.7~0.3.0
     server:
-        - fix serializer using wrong subclass
-
-Version 0.2.8
-    server:
-        - fix null from serializer
-
-Version 0.2.7
-    server:
-        - add @OnlyIn(Dist.CLIENT) to client code
+        - fix dedicated server
+        - fix serializer packet
 
 Version 0.2.6
     terrain:
