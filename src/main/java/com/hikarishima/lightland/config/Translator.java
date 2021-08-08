@@ -5,6 +5,7 @@ import com.hikarishima.lightland.magic.capabilities.MagicHandler;
 import com.hikarishima.lightland.magic.products.MagicProduct;
 import com.hikarishima.lightland.proxy.Proxy;
 import com.hikarishima.lightland.recipe.IMagicRecipe;
+import com.lcy0x1.core.magic.HexDirection;
 import net.minecraft.util.text.IFormattableTextComponent;
 import net.minecraft.util.text.ITextProperties;
 import net.minecraft.util.text.TextFormatting;
@@ -28,6 +29,10 @@ public class Translator {
 
     public static <I extends IForgeRegistryEntry<I>, P extends MagicProduct<I, P>> IFormattableTextComponent get(MagicProduct<I, P> product) {
         return new TranslationTextComponent(product.type.namer.apply(product.item));
+    }
+
+    public static IFormattableTextComponent get(HexDirection dire) {
+        return get("screen.hex.dire." + dire.name().toLowerCase());
     }
 
     @OnlyIn(Dist.CLIENT)

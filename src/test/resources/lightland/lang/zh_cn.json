@@ -73,12 +73,20 @@
                 "no": "未保存"
             },
             "compile": {
-                "complete": "已完成",
-                "failed": "连接错误",
-                "editing": "编辑中",
-                "error": "非法连接"
+                "complete": "魔力开始流动",
+                "failed": "魔力流动不均",
+                "editing": "法阵绘制中",
+                "error": "魔力堵塞"
             },
-            "cost": "复杂度:%s"
+            "cost": "复杂度:%s",
+            "dire": {
+                "right": "从左到右:",
+                "left": "从右到左:",
+                "upper_right": "从左下到右上:",
+                "upper_left": "从右下到左上:",
+                "lower_right": "从左上到右下:",
+                "lower_left": "从右上到左下:"
+            }
         },
         "spell_craft": {
             "error": {
@@ -90,22 +98,22 @@
                 "elem": "元素不足",
                 "pass": "魔力溢出:%s"
             },
-            "elem_cost":"消耗/拥有数量:%s/%s"
+            "elem_cost": "消耗/拥有数量:%s/%s"
         },
         "arcane_inject": {
             "error": {
                 "no_spell": "法杖上没有可用奥术",
                 "not_unlocked": "奥术未解锁",
-                "type_not_unlocked":"奥术类型未解锁",
+                "type_not_unlocked": "奥术类型未解锁",
                 "wrong_item.axe": "奥术武器类型不匹配,请使用奥术斧",
                 "wrong_item.sword": "奥术武器类型不匹配,请使用奥术剑",
                 "not_enough_mana": "魔力介质不足:还需要%s个(魔力消耗:%s/%s)",
                 "clear_gold": "请清空副产品栏",
                 "elem": "元素不足",
-                "repeat":"同种类奥术已存在",
+                "repeat": "同种类奥术已存在",
                 "pass": "魔力溢出:%s"
             },
-            "elem_cost":"消耗/拥有数量:%s/%s"
+            "elem_cost": "消耗/拥有数量:%s/%s"
         }
     },
     "lightland:container": {

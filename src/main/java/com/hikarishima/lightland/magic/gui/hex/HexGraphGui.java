@@ -1,5 +1,6 @@
 package com.hikarishima.lightland.magic.gui.hex;
 
+import com.hikarishima.lightland.config.Translator;
 import com.hikarishima.lightland.magic.MagicElement;
 import com.hikarishima.lightland.magic.gui.AbstractHexGui;
 import com.lcy0x1.base.WindowBox;
@@ -14,8 +15,15 @@ import net.minecraft.client.renderer.WorldVertexBufferUploader;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.vector.Matrix4f;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import org.apache.logging.log4j.LogManager;
 
+import java.util.ArrayList;
+import java.util.List;
+
+@OnlyIn(Dist.CLIENT)
 public class HexGraphGui extends AbstractHexGui {
 
     private static final int PERIOD = 60;
@@ -80,6 +88,13 @@ public class HexGraphGui extends AbstractHexGui {
         renderIcons(matrix);
         RenderSystem.popMatrix();
         RenderSystem.disableBlend();
+    }
+
+    public void renderHover(MatrixStack matrix, double mx, double my) {
+        double x0 = box.x + box.w / 2d;
+        double y0 = box.y + box.h / 2d;
+        LocateResult hover = graph.getElementOnHex((mx - x0 - scrollX) / magn, (my - y0 - scrollY) / magn);
+        renderTooltip(matrix, mx, my, hover);
     }
 
     private void renderBG(MatrixStack matrix, LocateResult hover) {
@@ -222,6 +237,20 @@ public class HexGraphGui extends AbstractHexGui {
         }
     }
 
+    private void renderTooltip(MatrixStack matrix, double mx, double my, LocateResult hover) {
+        if (hover == null || hover.getType() != LocateResult.ResultType.ARROW || selected == null || flow == null)
+            return;
+        flow.flows.stream().filter(e -> e.arrow.equals(hover)).findFirst().ifPresent(e -> {
+            List<ITextComponent> list = new ArrayList<>();
+            if (e.forward[selected.ind] != null)
+                list.add(Translator.get(e.arrow.dir).append(e.forward[selected.ind].toString()));
+            if (e.backward[selected.ind] != null)
+                list.add(Translator.get(e.arrow.dir.next(3)).append(e.backward[selected.ind].toString()));
+            if (list.size() > 0)
+                AbstractHexGui.drawHover(matrix, list, mx, my, screen);
+        });
+    }
+
     private void updateNodeVal(double[][] vals, HexCell cell, HexDirection dir, double val) {
         vals[cell.row][cell.cell] += cell.isCorner() ? val : val / 2;
         cell.walk(dir);
@@ -273,6 +302,7 @@ public class HexGraphGui extends AbstractHexGui {
             if (click(hover)) {
                 flow = null;
                 error = null;
+                screen.compile = HexStatus.Compile.EDITING;
                 screen.updated();
                 return true;
             }
@@ -297,7 +327,10 @@ public class HexGraphGui extends AbstractHexGui {
                 }
                 return true;
             } else if (cell.isCorner()) {
-                selected = cell.getCorner();
+                if (selected == cell.getCorner())
+                    selected = null;
+                else
+                    selected = cell.getCorner();
                 return false;
             }
         }
@@ -350,7 +383,6 @@ public class HexGraphGui extends AbstractHexGui {
         } catch (Exception e) {
             flow = null;
             error = null;
-            screen.compile = HexStatus.Compile.ERROR;
             LogManager.getLogger().throwing(e);
         }
     }

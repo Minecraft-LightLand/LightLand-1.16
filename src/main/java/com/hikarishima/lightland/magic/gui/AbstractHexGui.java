@@ -7,22 +7,28 @@ import net.minecraft.advancements.FrameType;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldVertexBufferUploader;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.vector.Matrix4f;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.fml.client.gui.GuiUtils;
 import org.lwjgl.opengl.GL11;
 
+import java.util.List;
 import java.util.function.IntConsumer;
 
+@OnlyIn(Dist.CLIENT)
 public class AbstractHexGui extends AbstractGui {
 
     public static AbstractHexGui INSTANCE = new AbstractHexGui();
 
     private static final ResourceLocation WIDGETS_LOCATION = new ResourceLocation("textures/gui/advancements/widgets.png");
-
 
     public static void renderHex(MatrixStack matrix, double x, double y, double r, int color) {
         Matrix4f last = matrix.last().pose();
@@ -83,6 +89,11 @@ public class AbstractHexGui extends AbstractGui {
     public static void drawFrame(MatrixStack matrix, FrameType type, boolean unlocked, int x, int y) {
         Minecraft.getInstance().getTextureManager().bind(WIDGETS_LOCATION);
         INSTANCE.blit(matrix, x - 8 - 5, y - 8 - 5, type.getTexture(), 128 + (unlocked ? 0 : 1) * 26, 26, 26);
+    }
+
+    public static void drawHover(MatrixStack matrix, List<ITextComponent> list, double mx, double my, Screen screen) {
+        GuiUtils.drawHoveringText(matrix, list, (int) mx, (int) my, screen.width, screen.height, -1, Minecraft.getInstance().font);
+
     }
 
 

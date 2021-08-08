@@ -217,7 +217,7 @@ class HexCalc {
             user.remove(this);
             if (frac == null)
                 return;
-            Frac base = new Frac(frac.den, frac.den - frac.num);
+            Frac base = frac.revert();
             for (Frac f : map.values())
                 f.times(base);
         }

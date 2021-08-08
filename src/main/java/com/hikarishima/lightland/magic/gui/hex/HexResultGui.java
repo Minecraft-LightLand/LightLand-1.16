@@ -11,9 +11,12 @@ import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 import java.util.Arrays;
 
+@OnlyIn(Dist.CLIENT)
 public class HexResultGui extends AbstractHexGui {
 
     private static final int FLOW_COUNT = 5;

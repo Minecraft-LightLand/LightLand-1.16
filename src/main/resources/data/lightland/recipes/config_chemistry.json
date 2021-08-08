@@ -1,0 +1,70 @@
+{
+    "type": "lightland:config",
+    "map": {
+        "pool": {
+            "_class": "com.lcy0x1.core.chem.EquationPool",
+            "objects": {
+                "elem.earth": {
+                    "_class": "com.hikarishima.lightland.magic.chem.ChemElement",
+                    "id": "lightland:earth"
+                },
+                "elem.water": {
+                    "_class": "com.hikarishima.lightland.magic.chem.ChemElement",
+                    "id": "lightland:water"
+                },
+                "elem.air": {
+                    "_class": "com.hikarishima.lightland.magic.chem.ChemElement",
+                    "id": "lightland:air"
+                },
+                "elem.fire": {
+                    "_class": "com.hikarishima.lightland.magic.chem.ChemElement",
+                    "id": "lightland:fire"
+                },
+                "elem.quint": {
+                    "_class": "com.hikarishima.lightland.magic.chem.ChemElement",
+                    "id": "lightland:quint"
+                },
+                "item.sugar": {
+                    "_class": "com.hikarishima.lightland.magic.chem.ChemItem",
+                    "id": "minecraft:sugar"
+                },
+                "item.glow": {
+                    "_class": "com.hikarishima.lightland.magic.chem.ChemItem",
+                    "id": "minecraft:glowstone_dust"
+                },
+                "eff.speed_i": {
+                    "_class": "com.hikarishima.lightland.magic.chem.ChemEffect",
+                    "id": "minecraft:speed",
+                    "lv": 0
+                },
+                "eff.speed_ii": {
+                    "_class": "com.hikarishima.lightland.magic.chem.ChemEffect",
+                    "id": "minecraft:speed",
+                    "lv": 1
+                }
+            },
+            "equations": [
+                {
+                    "in": [
+                        "elem.air",
+                        "item.sugar"
+                    ],
+                    "result": [
+                        "eff.speed_i"
+                    ],
+                    "k": 1
+                },
+                {
+                    "in": [
+                        "eff.speed_i",
+                        "item.glow"
+                    ],
+                    "result": [
+                        "eff.speed_ii"
+                    ],
+                    "k": 1
+                }
+            ]
+        }
+    }
+}

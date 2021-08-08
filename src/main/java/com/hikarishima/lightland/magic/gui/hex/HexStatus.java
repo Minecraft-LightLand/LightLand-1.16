@@ -3,7 +3,10 @@ package com.hikarishima.lightland.magic.gui.hex;
 import com.hikarishima.lightland.config.Translator;
 import net.minecraft.util.text.IFormattableTextComponent;
 import net.minecraft.util.text.TextFormatting;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
+@OnlyIn(Dist.CLIENT)
 public class HexStatus {
 
     public enum Save {

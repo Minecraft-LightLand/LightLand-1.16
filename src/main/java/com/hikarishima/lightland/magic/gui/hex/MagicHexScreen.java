@@ -14,10 +14,13 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.List;
 
+@OnlyIn(Dist.CLIENT)
 @ParametersAreNonnullByDefault
 public class MagicHexScreen extends Screen {
 
@@ -79,6 +82,8 @@ public class MagicHexScreen extends Screen {
         result.render(matrix, accurate_mouse_x, accurate_mouse_y, partial);
         result.box.render(matrix, 8, col_m1, WindowBox.RenderType.MARGIN);
         result.box.render(matrix, 2, col_m0, WindowBox.RenderType.MARGIN);
+
+        graph.renderHover(matrix, mx, my);
     }
 
     @Override

@@ -1,0 +1,35 @@
+{
+  "_class": "com.lcy0x1.core.chem.EquationPool",
+  "objects": {
+    "elem.earth": {},
+    "elem.water": {},
+    "elem.air": {},
+    "elem.fire": {},
+    "elem.quint": {},
+    "item.sugar": {},
+    "eff.speed_i": {},
+    "eff.speed_ii": {}
+  },
+  "equations": [
+    {
+      "in": [
+        "elem.air",
+        "item.sugar"
+      ],
+      "result": [
+        "eff.speed_i"
+      ],
+      "k": 1
+    },
+    {
+      "in": [
+        "eff.speed_i",
+        "elem.quint"
+      ],
+      "result": [
+        "eff.speed_ii"
+      ],
+      "k": 1
+    }
+  ]
+}
