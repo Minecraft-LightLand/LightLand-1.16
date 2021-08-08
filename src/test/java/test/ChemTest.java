@@ -3,11 +3,12 @@ package test;
 import com.google.common.collect.Maps;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
+import com.hikarishima.lightland.LightLand;
+import com.hikarishima.lightland.recipe.ConfigRecipe;
+import com.hikarishima.lightland.recipe.RecipeRegistry;
 import com.lcy0x1.core.chem.EquationPool;
 import com.lcy0x1.core.chem.ReactionPool;
-import com.lcy0x1.core.util.Automator;
-import com.lcy0x1.core.util.Serializer;
-import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.util.ResourceLocation;
 
 import java.io.File;
 import java.io.FileReader;
@@ -16,14 +17,14 @@ import java.util.Map;
 public class ChemTest {
 
     public static void main(String[] args) throws Exception {
-        File file = new File("./src/test/java/test/_test.json");
-        JsonElement je = new JsonParser().parse(new FileReader(file));
-        EquationPool pool = Serializer.from(je, EquationPool.class, null);
+        File f = new File("./src/test/resources/lightland/recipes/config/_chemistry.json");
+        JsonElement elem = new JsonParser().parse(new FileReader(f));
+        ConfigRecipe r = RecipeRegistry.RSM_CONFIG.fromJson(new ResourceLocation(LightLand.MODID, "config_chemistry"), elem.getAsJsonObject());
+        EquationPool pool = r.get("pool");
         Map<String, Integer> map = Maps.newLinkedHashMap();
         //map.put("eff.speed_ii", 1);
-        map.put("elem.air", 1);
-        map.put("elem.quint", 1);
-        map.put("item.sugar", 1);
+        map.put("elem.earth", 2);
+        map.put("item.turtle_shell", 1);
         ReactionPool react = pool.getPool(map);
         test(react.new Evaluator());
         ReactionPool.Evaluator ev = react.new Evaluator();
@@ -32,7 +33,8 @@ public class ChemTest {
         long stop = System.nanoTime();
         System.out.println("step: " + step);
         System.out.println("deviation: " + ev.deviation());
-        System.out.println(Automator.toTag(new CompoundNBT(), ev));
+        ReactionPool.Result result = ev.toResult();
+        result.map.forEach((k, v) -> System.out.println(k + ": " + v));
         System.out.print("time: " + (stop - time) / 1000 + " us");
     }
 

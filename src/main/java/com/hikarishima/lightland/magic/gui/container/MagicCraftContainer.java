@@ -5,7 +5,6 @@ import com.hikarishima.lightland.LightLand;
 import com.hikarishima.lightland.config.Translator;
 import com.hikarishima.lightland.magic.MagicElement;
 import com.hikarishima.lightland.magic.MagicRegistry;
-import com.hikarishima.lightland.magic.arcane.internal.ArcaneItemCraftHelper;
 import com.hikarishima.lightland.magic.capabilities.MagicHandler;
 import com.hikarishima.lightland.magic.products.MagicProduct;
 import com.hikarishima.lightland.registry.ContainerRegistry;

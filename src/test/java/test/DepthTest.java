@@ -27,8 +27,8 @@ public class DepthTest {
                 set[val]++;
                 ans.setRGB(i, j, img.getRGB(i, j));
             }
-        System.out.println(Arrays.stream(set).mapToObj(e -> (Integer) e).collect(Collectors.toList()));
-        System.out.println(Arrays.stream(bin).mapToObj(e -> (Integer) e).collect(Collectors.toList()));
+        System.out.println(Arrays.stream(set).mapToObj(e -> e).collect(Collectors.toList()));
+        System.out.println(Arrays.stream(bin).mapToObj(e -> e).collect(Collectors.toList()));
         File out = new File("./doc/ignore/out.png");
         if (!out.exists())
             out.createNewFile();

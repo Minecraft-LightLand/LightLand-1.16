@@ -15,14 +15,14 @@ public class ReactionPool {
     public final Obj[] objs;
     public final Eq[] eqs;
 
-    ReactionPool(Collection<String> objset, Collection<Equation> eqset, Map<String, AbChemObj> map, Map<String, Integer> count) {
+    ReactionPool(Collection<String> objset, Collection<Equation> eqset, Map<String, Integer> count) {
         n = eqset.size();
         m = objset.size();
         objs = new Obj[m];
         int i = 0;
         Map<String, Obj> imap = Maps.newLinkedHashMap();
         for (String str : objset) {
-            Obj o = new Obj(map.get(str), count.getOrDefault(str, 0), n);
+            Obj o = new Obj(str, count.getOrDefault(str, 0), n);
             imap.put(str, o);
             objs[i] = o;
             i++;
@@ -41,11 +41,11 @@ public class ReactionPool {
 
     public class Obj {
 
-        private final AbChemObj obj;
+        private final String obj;
         private final int init;
         private final int[] coefs;
 
-        private Obj(AbChemObj obj, int init, int n) {
+        private Obj(String obj, int init, int n) {
             this.init = init;
             this.obj = obj;
             this.coefs = new int[n];
@@ -157,10 +157,8 @@ public class ReactionPool {
 
     }
 
-    @SerialClass
     public class Evaluator {
 
-        @SerialClass.SerialField
         private final double[] vector = new double[n];
         private final double[] gradient = new double[n];
         private final double[] diff = new double[n];
@@ -299,9 +297,11 @@ public class ReactionPool {
 
     }
 
+    @SerialClass
     public static class Result {
 
-        public final Map<AbChemObj, Double> map = Maps.newLinkedHashMap();
+        @SerialClass.SerialField(generic = {String.class, Double.class})
+        public final Map<String, Double> map = Maps.newLinkedHashMap();
 
         private Result() {
 

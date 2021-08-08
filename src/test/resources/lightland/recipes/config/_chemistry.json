@@ -198,7 +198,8 @@
                     "_class": "com.hikarishima.lightland.magic.chem.ChemEffect",
                     "id": "minecraft:mining_fatigue",
                     "lv": 0
-                }
+                },
+                "ignore.dust": {}
             },
             "equations": [
                 {
@@ -370,7 +371,7 @@
                     "result": [
                         "eff.nausea"
                     ],
-                    "k": 1
+                    "k": 0.2
                 },
                 {
                     "in": [
@@ -378,7 +379,8 @@
                         "item.blaze_powder"
                     ],
                     "result": [
-                        "item.magma_cream"
+                        "item.magma_cream",
+                        "ignore.dust"
                     ],
                     "k": 0.2
                 },
@@ -401,7 +403,7 @@
                         "eff.slow_falling",
                         "item.bone_meal"
                     ],
-                    "k": 1
+                    "k": 0.2
                 },
                 {
                     "in": [
@@ -411,7 +413,7 @@
                     "result": [
                         "eff.levitation"
                     ],
-                    "k": 1
+                    "k": 0.2
                 },
                 {
                     "in": [
@@ -422,7 +424,7 @@
                         "elem.earth",
                         "item.bone_meal"
                     ],
-                    "k": 1
+                    "k": 0.2
                 },
                 {
                     "in": [
@@ -430,9 +432,10 @@
                         "item.magma_cream"
                     ],
                     "result": [
-                        "item.slime_ball"
+                        "item.slime_ball",
+                        "ignore.dust"
                     ],
-                    "k": 1
+                    "k": 0.2
                 },
                 {
                     "in": [
@@ -443,7 +446,7 @@
                         "item.bone",
                         "item.scute"
                     ],
-                    "k": 1
+                    "k": 0.2
                 },
                 {
                     "in": [
@@ -454,7 +457,7 @@
                         "eff.poison_i",
                         "item.coal"
                     ],
-                    "k": 1
+                    "k": 0.2
                 },
                 {
                     "in": [

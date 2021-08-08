@@ -59,7 +59,7 @@ public class EquationPool {
                 }
             }
         }
-        return new ReactionPool(objset, eqset, objects, objs);
+        return new ReactionPool(objset, eqset, objs);
     }
 
 }
