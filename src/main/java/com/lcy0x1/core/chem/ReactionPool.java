@@ -22,7 +22,7 @@ public class ReactionPool {
         int i = 0;
         Map<String, Obj> imap = Maps.newLinkedHashMap();
         for (String str : objset) {
-            Obj o = new Obj(i, count.getOrDefault(str, 0), n);
+            Obj o = new Obj(map.get(str), count.getOrDefault(str, 0), n);
             imap.put(str, o);
             objs[i] = o;
             i++;
@@ -30,7 +30,7 @@ public class ReactionPool {
         eqs = new Eq[n];
         i = 0;
         for (Equation e : eqset) {
-            eqs[i] = new Eq(e, i, imap);
+            eqs[i] = new Eq(e, imap);
             for (Obj o : eqs[i].in)
                 o.coefs[i] = -1;
             for (Obj o : eqs[i].r)
@@ -41,13 +41,13 @@ public class ReactionPool {
 
     public class Obj {
 
-        private final int ind;
+        private final AbChemObj obj;
         private final int init;
         private final int[] coefs;
 
-        private Obj(int ind, int init, int n) {
-            this.ind = ind;
+        private Obj(AbChemObj obj, int init, int n) {
             this.init = init;
+            this.obj = obj;
             this.coefs = new int[n];
         }
 
@@ -88,14 +88,13 @@ public class ReactionPool {
 
     public class Eq {
 
-        private final int ind;
         private final Obj[] in, r;
         private final double k;
 
         private final double[] vrs;
         private final double[] vis;
 
-        public Eq(Equation equation, int ind, Map<String, Obj> imap) {
+        public Eq(Equation equation, Map<String, Obj> imap) {
             in = new Obj[equation.in.length];
             r = new Obj[equation.result.length];
             for (int i = 0; i < in.length; i++)
@@ -103,7 +102,6 @@ public class ReactionPool {
             for (int i = 0; i < r.length; i++)
                 r[i] = imap.get(equation.result[i]);
             k = equation.k;
-            this.ind = ind;
 
             vrs = new double[r.length];
             vis = new double[in.length];
@@ -263,6 +261,14 @@ public class ReactionPool {
             descent.set((a2 + a0) / 2);
         }
 
+        public Result toResult() {
+            Result result = new Result();
+            for (int i = 0; i < m; i++) {
+                result.map.put(objs[i].obj, objs[i].getValue(vector));
+            }
+            return result;
+        }
+
     }
 
     private class Descent {
@@ -289,6 +295,16 @@ public class ReactionPool {
         private void set(double a) {
             for (int i = 0; i < n; i++)
                 init[i] -= grad[i] * a;
+        }
+
+    }
+
+    public static class Result {
+
+        public final Map<AbChemObj, Double> map = Maps.newLinkedHashMap();
+
+        private Result() {
+
         }
 
     }
