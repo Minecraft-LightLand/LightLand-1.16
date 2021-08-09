@@ -86,9 +86,16 @@ public class Serializer {
         }
         cls = mcls;
         while (cls.getAnnotation(SerialClass.class) != null) {
-            for (Method method : cls.getMethods())
-                if (method.isAnnotationPresent(SerialClass.OnInject.class))
-                    method.invoke(ans);
+            Method m0 = null;
+            for (Method m : cls.getDeclaredMethods()) {
+                if (m.getAnnotation(SerialClass.OnInject.class) != null) {
+                    m0 = m;
+                }
+            }
+            if (m0 != null) {
+                m0.invoke(ans);
+                break;
+            }
             cls = cls.getSuperclass();
         }
         return ans;
@@ -114,9 +121,16 @@ public class Serializer {
         }
         cls = mcls;
         while (cls.getAnnotation(SerialClass.class) != null) {
-            for (Method method : cls.getMethods())
-                if (method.isAnnotationPresent(SerialClass.OnInject.class))
-                    method.invoke(ans);
+            Method m0 = null;
+            for (Method m : cls.getDeclaredMethods()) {
+                if (m.getAnnotation(SerialClass.OnInject.class) != null) {
+                    m0 = m;
+                }
+            }
+            if (m0 != null) {
+                m0.invoke(ans);
+                break;
+            }
             cls = cls.getSuperclass();
         }
         return ans;

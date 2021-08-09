@@ -14,9 +14,9 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
-import java.util.List;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class GUIGenerator {
@@ -139,17 +139,26 @@ public class GUIGenerator {
                 jarr.add(c.name, co);
             }
             out.add("comp", jarr);
-            int dx = 0;
+            int dx = 0, dy = 0;
+            Item pre = null;
             JsonObject jside = new JsonObject();
             for (Item s : side) {
                 JsonObject so = new JsonObject();
-                so.addProperty("x", top.w);
-                so.addProperty("y", dx);
+                if (pre != null) {
+                    if (pre.h == s.h && top.w + dx + pre.w + s.w < 256) {
+                        dx += pre.w;
+                    } else {
+                        dx = 0;
+                        dy += pre.h;
+                    }
+                }
+                so.addProperty("x", top.w + dx);
+                so.addProperty("y", dy);
                 so.addProperty("w", s.w);
                 so.addProperty("h", s.h);
                 jside.add(s.toString(), so);
-                g.drawImage(s.getImg(), top.w, dx, null);
-                dx += s.h;
+                g.drawImage(s.getImg(), top.w + dx, dy, null);
+                pre = s;
             }
             out.add("side", jside);
             g.dispose();

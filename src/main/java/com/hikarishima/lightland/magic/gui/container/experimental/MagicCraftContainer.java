@@ -1,4 +1,4 @@
-package com.hikarishima.lightland.magic.gui.container;
+package com.hikarishima.lightland.magic.gui.container.experimental;
 
 import com.google.common.collect.Maps;
 import com.hikarishima.lightland.LightLand;
@@ -6,6 +6,7 @@ import com.hikarishima.lightland.config.Translator;
 import com.hikarishima.lightland.magic.MagicElement;
 import com.hikarishima.lightland.magic.MagicRegistry;
 import com.hikarishima.lightland.magic.capabilities.MagicHandler;
+import com.hikarishima.lightland.magic.gui.container.AbstractContainer;
 import com.hikarishima.lightland.magic.products.MagicProduct;
 import com.hikarishima.lightland.registry.ContainerRegistry;
 import com.hikarishima.lightland.registry.item.magic.MagicWand;

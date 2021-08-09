@@ -2,7 +2,7 @@
     "type": "lightland:config",
     "map": {
         "pool": {
-            "_class": "com.lcy0x1.core.chem.EquationPool",
+            "_class": "com.hikarishima.lightland.magic.chem.HashEquationPool",
             "objects": {
                 "elem.earth": {
                     "_class": "com.hikarishima.lightland.magic.chem.ChemElement",

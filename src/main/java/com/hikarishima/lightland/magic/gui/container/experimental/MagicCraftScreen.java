@@ -1,9 +1,8 @@
-package com.hikarishima.lightland.magic.gui.container;
+package com.hikarishima.lightland.magic.gui.container.experimental;
 
-import com.hikarishima.lightland.proxy.Proxy;
+import com.hikarishima.lightland.magic.gui.container.AbstractScreen;
 import com.lcy0x1.core.util.SpriteManager;
 import com.mojang.blaze3d.matrix.MatrixStack;
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.text.ITextComponent;
 
@@ -28,10 +27,8 @@ public class MagicCraftScreen extends AbstractScreen<MagicCraftContainer> {
     @Override
     public boolean mouseClicked(double mx, double my, int button) {
         SpriteManager sm = menu.sm;
-        if (!menu.slot.isEmpty() && sm.within("arrow", mx - getGuiLeft(), my - getGuiTop())) {
-            if (menu.clickMenuButton(Proxy.getClientPlayer(), 0)) {
-                Minecraft.getInstance().gameMode.handleInventoryButtonClick(this.menu.containerId, 0);
-            }
+        if (!menu.slot.isEmpty() && sm.within("arrow_input", mx - getGuiLeft(), my - getGuiTop())) {
+            click(0);
             return true;
         }
         return super.mouseClicked(mx, my, button);

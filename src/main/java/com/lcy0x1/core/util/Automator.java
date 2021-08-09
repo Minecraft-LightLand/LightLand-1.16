@@ -61,6 +61,7 @@ public class Automator {
             cls = Class.forName(tag.getString("_class"));
         if (obj == null)
             obj = cls.newInstance();
+        Class<?> mcls = cls;
         while (cls.getAnnotation(SerialClass.class) != null) {
             for (Field f : cls.getDeclaredFields()) {
                 SerialClass.SerialField sf = f.getAnnotation(SerialClass.SerialField.class);
@@ -71,9 +72,19 @@ public class Automator {
                 if (itag != null)
                     f.set(obj, fromTagRaw(itag, f.getType(), f.get(obj), sf, pred));
             }
+            cls = cls.getSuperclass();
+        }
+        cls = mcls;
+        while (cls.getAnnotation(SerialClass.class) != null) {
+            Method m0 = null;
             for (Method m : cls.getDeclaredMethods()) {
-                if (m.getAnnotation(SerialClass.OnInject.class) != null)
-                    m.invoke(obj);
+                if (m.getAnnotation(SerialClass.OnInject.class) != null) {
+                    m0 = m;
+                }
+            }
+            if (m0 != null) {
+                m0.invoke(obj);
+                break;
             }
             cls = cls.getSuperclass();
         }

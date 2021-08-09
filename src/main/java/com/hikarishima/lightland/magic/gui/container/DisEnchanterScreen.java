@@ -2,10 +2,8 @@ package com.hikarishima.lightland.magic.gui.container;
 
 import com.hikarishima.lightland.magic.MagicElement;
 import com.hikarishima.lightland.magic.gui.AbstractHexGui;
-import com.hikarishima.lightland.proxy.Proxy;
 import com.lcy0x1.core.util.SpriteManager;
 import com.mojang.blaze3d.matrix.MatrixStack;
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.text.ITextComponent;
 
@@ -34,15 +32,14 @@ public class DisEnchanterScreen extends AbstractScreen<DisEnchanterContainer> {
                 AbstractHexGui.drawElement(matrix, x += 18, y, ent.getKey(), "" + ent.getValue());
             }
         }
+
     }
 
     @Override
     public boolean mouseClicked(double mx, double my, int button) {
         SpriteManager sm = menu.sm;
         if (!menu.slot.isEmpty() && sm.within("arrow", mx - getGuiLeft(), my - getGuiTop())) {
-            if (menu.clickMenuButton(Proxy.getClientPlayer(), 0)) {
-                Minecraft.getInstance().gameMode.handleInventoryButtonClick(this.menu.containerId, 0);
-            }
+            click(0);
             return true;
         }
         return super.mouseClicked(mx, my, button);

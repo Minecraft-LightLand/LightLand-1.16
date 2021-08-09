@@ -21,10 +21,10 @@ public class ChemTest {
         JsonElement elem = new JsonParser().parse(new FileReader(f));
         ConfigRecipe r = RecipeRegistry.RSM_CONFIG.fromJson(new ResourceLocation(LightLand.MODID, "config_chemistry"), elem.getAsJsonObject());
         EquationPool pool = r.get("pool");
-        Map<String, Integer> map = Maps.newLinkedHashMap();
+        Map<String, Double> map = Maps.newLinkedHashMap();
         //map.put("eff.speed_ii", 1);
-        map.put("elem.earth", 2);
-        map.put("item.turtle_shell", 1);
+        map.put("elem.earth", 2d);
+        map.put("item.turtle_shell", 1d);
         ReactionPool react = pool.getPool(map);
         test(react.new Evaluator());
         ReactionPool.Evaluator ev = react.new Evaluator();

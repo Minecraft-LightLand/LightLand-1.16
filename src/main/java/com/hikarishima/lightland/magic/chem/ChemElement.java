@@ -6,7 +6,7 @@ import com.hikarishima.lightland.magic.capabilities.MagicHandler;
 import com.lcy0x1.core.util.SerialClass;
 
 @SerialClass
-public class ChemElement extends ChemObj<MagicElement> {
+public class ChemElement extends ChemObj<ChemElement, MagicElement> {
 
     public ChemElement() {
         super(State.LIQUID);

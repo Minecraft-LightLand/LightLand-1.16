@@ -20,10 +20,9 @@ import java.util.function.Predicate;
 @ParametersAreNonnullByDefault
 public class AbstractContainer extends Container {
 
-    protected final PlayerInventory plInv;
-    protected final IInventory slot;
-
-    final SpriteManager sm;
+    public final PlayerInventory plInv;
+    public final IInventory slot;
+    public final SpriteManager sm;
     private int added = 0;
 
     protected AbstractContainer(@Nullable ContainerType<?> type, int wid, PlayerInventory plInv, int size, SpriteManager manager) {

@@ -8,7 +8,7 @@ import net.minecraft.item.Item;
 import net.minecraftforge.registries.ForgeRegistries;
 
 @SerialClass
-public class ChemItem extends ChemObj<Item> {
+public class ChemItem extends ChemObj<ChemItem, Item> {
 
     public ChemItem() {
         super(State.SOLID);

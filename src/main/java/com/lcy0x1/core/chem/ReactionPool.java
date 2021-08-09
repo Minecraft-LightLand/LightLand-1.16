@@ -15,14 +15,14 @@ public class ReactionPool {
     public final Obj[] objs;
     public final Eq[] eqs;
 
-    ReactionPool(Collection<String> objset, Collection<Equation> eqset, Map<String, Integer> count) {
+    ReactionPool(Collection<String> objset, Collection<Equation> eqset, Map<String, Double> count) {
         n = eqset.size();
         m = objset.size();
         objs = new Obj[m];
         int i = 0;
         Map<String, Obj> imap = Maps.newLinkedHashMap();
         for (String str : objset) {
-            Obj o = new Obj(str, count.getOrDefault(str, 0), n);
+            Obj o = new Obj(str, count.getOrDefault(str, 0d), n);
             imap.put(str, o);
             objs[i] = o;
             i++;
@@ -42,10 +42,10 @@ public class ReactionPool {
     public class Obj {
 
         private final String obj;
-        private final int init;
+        private final double init;
         private final int[] coefs;
 
-        private Obj(String obj, int init, int n) {
+        private Obj(String obj, double init, int n) {
             this.init = init;
             this.obj = obj;
             this.coefs = new int[n];
@@ -163,6 +163,8 @@ public class ReactionPool {
         private final double[] gradient = new double[n];
         private final double[] diff = new double[n];
 
+        public boolean complete = false;
+
         public Evaluator() {
 
         }
@@ -265,6 +267,21 @@ public class ReactionPool {
                 result.map.put(objs[i].obj, objs[i].getValue(vector));
             }
             return result;
+        }
+
+        public Result complete(double eps, double max_time) {
+            long time = System.nanoTime();
+            do {
+                step();
+                long t1 = System.nanoTime();
+                if (t1 - time > max_time)
+                    break;
+                if (deviation() > eps * eps) {
+                    complete = true;
+                    break;
+                }
+            } while (true);
+            return toResult();
         }
 
     }

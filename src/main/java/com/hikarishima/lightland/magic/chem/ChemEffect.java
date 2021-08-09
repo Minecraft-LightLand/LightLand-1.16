@@ -8,7 +8,7 @@ import net.minecraft.potion.Effect;
 import net.minecraftforge.registries.ForgeRegistries;
 
 @SerialClass
-public class ChemEffect extends ChemObj<Effect> {
+public class ChemEffect extends ChemObj<ChemEffect, Effect> {
 
     @SerialClass.SerialField
     public int lv;

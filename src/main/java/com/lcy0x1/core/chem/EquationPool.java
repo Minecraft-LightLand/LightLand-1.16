@@ -34,7 +34,7 @@ public class EquationPool {
         set.add(eq);
     }
 
-    public ReactionPool getPool(Map<String, Integer> objs) {
+    public ReactionPool getPool(Map<String, Double> objs) {
         Queue<String> queue = new ArrayDeque<>(objs.keySet());
         Set<String> objset = new LinkedHashSet<>(objs.keySet());
         Set<Equation> eqset = new LinkedHashSet<>();

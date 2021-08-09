@@ -9,16 +9,16 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.registries.IForgeRegistryEntry;
 
 @SerialClass
-public abstract class ChemObj<T extends IForgeRegistryEntry<T>> extends AbChemObj {
+public abstract class ChemObj<O extends ChemObj<O, T>, T extends IForgeRegistryEntry<T>> extends AbChemObj {
 
     /**
      * return null if the object is unknown to player
      */
     @OnlyIn(Dist.CLIENT)
-    public static ChemObj<?> cast(MagicHandler handler, AbChemObj obj) {
+    public static ChemObj<?, ?> cast(MagicHandler handler, AbChemObj obj) {
         if (!(obj instanceof ChemObj))
             return null;
-        ChemObj<?> ans = (ChemObj<?>) obj;
+        ChemObj<?, ?> ans = (ChemObj<?, ?>) obj;
         if (ans.known(handler))
             return ans;
         return null;
