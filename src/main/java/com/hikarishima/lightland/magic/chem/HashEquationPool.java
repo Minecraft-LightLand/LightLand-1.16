@@ -7,6 +7,7 @@ import com.lcy0x1.core.chem.EquationPool;
 import com.lcy0x1.core.util.SerialClass;
 import net.minecraft.world.World;
 import net.minecraftforge.registries.IForgeRegistryEntry;
+import org.apache.logging.log4j.LogManager;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Map;
@@ -35,8 +36,19 @@ public class HashEquationPool extends EquationPool {
     public void onInject() {
         super.onInject();
         objects.forEach((k, v) -> {
-            if (v instanceof ChemObj<?, ?>)
-                cache.put(Objects.requireNonNull(((ChemObj<?, ?>) v).get().getRegistryName()).toString(), k);
+            if (v instanceof ChemObj<?, ?>) {
+                IForgeRegistryEntry<?> ent = ((ChemObj<?, ?>) v).get();
+                if (ent == null) {
+                    LogManager.getLogger().error("invalid entry at " + k);
+                    return;
+                }
+                String key = Objects.requireNonNull(ent.getRegistryName()).toString();
+                if (cache.containsKey(key)) {
+                    LogManager.getLogger().error("repeated entry at " + k + " with " + cache.get(key));
+                    return;
+                }
+                cache.put(key, k);
+            }
         });
     }
 

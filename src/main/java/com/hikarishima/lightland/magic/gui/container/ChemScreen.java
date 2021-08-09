@@ -1,19 +1,27 @@
-package com.hikarishima.lightland.magic.gui.container.experimental;
+package com.hikarishima.lightland.magic.gui.container;
 
 import com.google.common.collect.Maps;
+import com.hikarishima.lightland.config.Translator;
 import com.hikarishima.lightland.magic.MagicElement;
 import com.hikarishima.lightland.magic.capabilities.MagicHandler;
-import com.hikarishima.lightland.magic.chem.HashEquationPool;
+import com.hikarishima.lightland.magic.chem.*;
 import com.hikarishima.lightland.magic.gui.AbstractHexGui;
-import com.hikarishima.lightland.magic.gui.container.AbstractScreen;
 import com.hikarishima.lightland.proxy.Proxy;
 import com.lcy0x1.core.chem.ReactionPool;
 import com.lcy0x1.core.util.SpriteManager;
 import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.systems.RenderSystem;
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.item.Item;
+import net.minecraft.item.Items;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.text.TextFormatting;
 
 import javax.annotation.ParametersAreNonnullByDefault;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -41,10 +49,10 @@ public class ChemScreen extends AbstractScreen<ChemContainer> {
         if (!menu.slot.getItem(0).isEmpty()) {
             if (menu.total_item < ChemContainer.MAX_ITEM) {
                 if (sm.within("arrow_input", mx, my))
-                    input = "arrow_left_2";
+                    input = "arrow_in_2";
                 else
-                    input = "arrow_left_1";
-            } else input = "arrow_left_3";
+                    input = "arrow_in_1";
+            } else input = "arrow_in_3";
         }
         if (input != null) {
             sr.draw(matrix, "arrow_input", input);
@@ -52,6 +60,8 @@ public class ChemScreen extends AbstractScreen<ChemContainer> {
         int x = sm.getComp("pot").x;
         int y = sm.getComp("pot").y - 18;
         MagicHandler h = MagicHandler.get(Proxy.getClientPlayer());
+        RenderSystem.pushMatrix();
+        RenderSystem.translated(getGuiLeft(), getGuiTop(), 0);
         for (int i = 0; i < 5; i++) {
             MagicElement e = ChemContainer.ElemType.values()[i].elem;
             boolean can_add = h.magicHolder.getElement(e) > 0 && menu.total_element < ChemContainer.MAX_ELEM;
@@ -60,6 +70,75 @@ public class ChemScreen extends AbstractScreen<ChemContainer> {
             if (mx > x + i * 18 && mx < x + i * 18 + 18 && my > y && my < y + 18)
                 fill(matrix, x + i * 18, y, x + i * 18 + 18, y + 18, 0x80FFFFFF);
         }
+        if (display != null) {
+            HashEquationPool pool = HashEquationPool.getPool(h.world);
+            int i = 0;
+            y += 18 + 9;
+            x += 9;
+            for (Map.Entry<String, Double> ent : display.map.entrySet()) {
+                ChemObj<?, ?> obj = ChemObj.cast(h, pool.objects.get(ent.getKey()));
+                int dx = i % 4 * 18;
+                int dy = i / 4 * 18;
+                if (obj instanceof ChemElement) {
+                    AbstractHexGui.drawElement(matrix, x + dx + 9, y + dy + 9, ((ChemElement) obj).get(), "");
+                } else {
+                    Item item = Items.BARRIER;
+                    if (obj instanceof ChemItem) {
+                        item = ((ChemItem) obj).get();
+                    } else if (obj instanceof ChemEffect) {
+                        item = Items.POTION;
+                    }
+                    Minecraft.getInstance().getItemRenderer().renderAndDecorateFakeItem(item.getDefaultInstance(), x + dx, y + dy);
+                }
+                i++;
+            }
+        }
+        RenderSystem.popMatrix();
+    }
+
+    @Override
+    protected void renderTooltip(MatrixStack matrix, int mx, int my) {
+        SpriteManager sm = menu.sm;
+        MagicHandler h = MagicHandler.get(Proxy.getClientPlayer());
+        int x = sm.getComp("pot").x + getGuiLeft();
+        int y = sm.getComp("pot").y - 18 + getGuiTop();
+        for (int i = 0; i < 5; i++) {
+            if (mx > x + i * 18 && mx < x + i * 18 + 18 && my > y && my < y + 18) {
+                MagicElement e = ChemContainer.ElemType.values()[i].elem;
+                int has = h.magicHolder.getElement(e);
+                int cur = menu.total_element;
+                int max = ChemContainer.MAX_ELEM;
+                int num = menu.elems.getOrDefault(e, 0);
+                List<ITextComponent> list = new ArrayList<>();
+                list.add(Translator.get(has == 0, "screen.chemistry.has", has));
+                list.add(Translator.get(false, "screen.chemistry.in_use", num));
+                list.add(Translator.get(cur >= max, "screen.chemistry.current", cur, max));
+                renderComponentTooltip(matrix, list, mx, my);
+            }
+        }
+        if (display != null) {
+            HashEquationPool pool = HashEquationPool.getPool(h.world);
+            int i = 0;
+            y += 18 + 9;
+            x += 9;
+            for (Map.Entry<String, Double> ent : display.map.entrySet()) {
+                int dx = i % 4 * 18;
+                int dy = i / 4 * 18;
+                if (mx > x + dx && mx < x + dx + 18 && my > y + dy && my < y + dy + 18) {
+                    ChemObj<?, ?> obj = ChemObj.cast(h, pool.objects.get(ent.getKey()));
+                    ITextComponent text = obj != null ? obj.getDesc() :
+                            new StringTextComponent("???").withStyle(TextFormatting.ITALIC);
+                    List<ITextComponent> list = new ArrayList<>();
+                    list.add(text);
+                    double val = ent.getValue();
+                    val = Math.round(val * 100) / 100d;
+                    list.add(Translator.get("screen.chemistry.value", val));
+                    renderComponentTooltip(matrix, list, mx, my);
+                }
+                i++;
+            }
+        }
+        super.renderTooltip(matrix, mx, my);
     }
 
     @Override
@@ -88,37 +167,6 @@ public class ChemScreen extends AbstractScreen<ChemContainer> {
             }
         }
         return super.mouseClicked(mx, my, button);
-    }
-
-    @Override
-    public boolean keyPressed(int key, int scan, int modifier) {
-        if (menu.plInv.player.isCreative()) {
-            if (key == 'W' || key == 'A' || key == 'S' || key == 'D' || key == ' ') {
-                int btn;
-                if (key == 'W') btn = 2;
-                else if (key == 'A') btn = 1;
-                else if (key == 'S') btn = 0;
-                else if (key == 'D') btn = 3;
-                else btn = 4;
-                if (click(btn)) {
-                    process(false);
-                }
-                return true;
-            }
-            if (key == 'E') {
-                if (click(ChemContainer.ADD)) {
-                    process(false);
-                }
-                return true;
-            }
-            if (key == 'C') {
-                if (click(ChemContainer.CLEAR)) {
-                    process(true);
-                }
-                return true;
-            }
-        }
-        return super.keyPressed(key, scan, modifier);
     }
 
     private void process(boolean clear) {

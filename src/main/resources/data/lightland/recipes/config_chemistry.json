@@ -26,7 +26,7 @@
                 },
                 "item.turtle_shell": {
                     "_class": "com.hikarishima.lightland.magic.chem.ChemItem",
-                    "id": "minecraft:turtle_shell"
+                    "id": "minecraft:turtle_helmet"
                 },
                 "item.golden_carrot": {
                     "_class": "com.hikarishima.lightland.magic.chem.ChemItem",
@@ -99,7 +99,7 @@
                 },
                 "eff.slow_iv": {
                     "_class": "com.hikarishima.lightland.magic.chem.ChemEffect",
-                    "id": "minecraft:resistance",
+                    "id": "minecraft:slowness",
                     "lv": 3
                 },
                 "eff.night_vision": {

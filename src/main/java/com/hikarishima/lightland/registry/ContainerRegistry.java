@@ -2,8 +2,8 @@ package com.hikarishima.lightland.registry;
 
 import com.hikarishima.lightland.LightLand;
 import com.hikarishima.lightland.magic.gui.container.*;
-import com.hikarishima.lightland.magic.gui.container.experimental.ChemContainer;
-import com.hikarishima.lightland.magic.gui.container.experimental.ChemScreen;
+import com.hikarishima.lightland.magic.gui.container.ChemContainer;
+import com.hikarishima.lightland.magic.gui.container.ChemScreen;
 import com.hikarishima.lightland.magic.gui.container.experimental.MagicCraftContainer;
 import com.hikarishima.lightland.magic.gui.container.experimental.MagicCraftScreen;
 import net.minecraft.client.gui.ScreenManager;

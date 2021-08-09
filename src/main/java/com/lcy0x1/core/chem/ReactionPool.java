@@ -170,6 +170,8 @@ public class ReactionPool {
         }
 
         public void step() {
+            if (n == 0)
+                return;
             Arrays.fill(gradient, 0);
             for (int i = 0; i < n; i++) {
                 diff[i] = eqs[i].getValue(vector);
@@ -270,6 +272,8 @@ public class ReactionPool {
         }
 
         public Result complete(double eps, double max_time) {
+            if (n == 0)
+                return toResult();
             long time = System.nanoTime();
             do {
                 step();

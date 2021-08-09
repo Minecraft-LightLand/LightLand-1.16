@@ -1,4 +1,4 @@
-package com.hikarishima.lightland.magic.gui.container.experimental;
+package com.hikarishima.lightland.magic.gui.container;
 
 import com.google.common.collect.Maps;
 import com.hikarishima.lightland.LightLand;
@@ -24,7 +24,7 @@ import java.util.Map;
 public class ChemContainer extends AbstractContainer {
 
     public static final SpriteManager MANAGER = new SpriteManager(LightLand.MODID, "chemistry");
-    public static final int ADD = 5, CLEAR = 6, OUT = 7, MAX_ELEM = 4, MAX_ITEM = 16;
+    public static final int ADD = 5, CLEAR = 6, OUT = 7, MAX_ELEM = 8, MAX_ITEM = 8;
 
     protected Map<MagicElement, Integer> elems = Maps.newLinkedHashMap();
     protected Map<Item, Integer> items = Maps.newLinkedHashMap();
@@ -33,7 +33,7 @@ public class ChemContainer extends AbstractContainer {
     protected String temp = null;
 
     public ChemContainer(int wid, PlayerInventory plInv) {
-        super(ContainerRegistry.CT_MAGIC_CRAFT, wid, plInv, 4, MANAGER);
+        super(ContainerRegistry.CT_CHEM, wid, plInv, 4, MANAGER);
         addSlot("input_in_slot", stack -> HashEquationPool.getChemObj(plInv.player.level, stack.getItem()) != null);
         addSlot("input_out_slot", stack -> false);
         addSlot("output_in_slot", stack -> false);
@@ -57,11 +57,12 @@ public class ChemContainer extends AbstractContainer {
         if (btn == 5 && total_item < MAX_ITEM) {
             ItemStack stack = slot.getItem(0);
             if (!stack.isEmpty()) {
-                items.put(stack.getItem(), items.getOrDefault(stack.getItem(), 0) + 1);
-                stack.shrink(1);
+                Item item = stack.getItem();
+                items.put(stack.getItem(), items.getOrDefault(item, 0) + 1);
                 total_item++;
                 if (pl.level.isClientSide())
-                    temp = HashEquationPool.getPool(pl.level).cache.get(stack.getItem().getRegistryName().toString());
+                    temp = HashEquationPool.getPool(pl.level).cache.get(item.getRegistryName().toString());
+                stack.shrink(1);
                 return true;
             }
         }

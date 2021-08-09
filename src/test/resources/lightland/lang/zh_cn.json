@@ -114,13 +114,20 @@
                 "pass": "魔力溢出:%s"
             },
             "elem_cost": "消耗/拥有数量:%s/%s"
+        },
+        "chemistry": {
+            "current": "已加入元素总数:%s/%s",
+            "in_use": "已加入数量:%s",
+            "has": "持有数量:%s",
+            "value": "浓度:%s"
         }
     },
     "lightland:container": {
         "disenchant": "附魔分解台",
         "magic_craft": "魔法合成台",
         "spell_craft": "符文合成台",
-        "arcane_inject": "奥术注魔台"
+        "arcane_inject": "奥术注魔台",
+        "chemistry": "炼药锅"
     },
     "lightland:magic_element": {
         "lightland:earth": "地",

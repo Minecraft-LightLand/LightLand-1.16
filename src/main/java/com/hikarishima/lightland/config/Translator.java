@@ -27,6 +27,13 @@ public class Translator {
         return new TranslationTextComponent(LightLand.MODID + ":" + str, objs);
     }
 
+    public static IFormattableTextComponent get(boolean red, String str, Object... objs) {
+        TranslationTextComponent ans = new TranslationTextComponent(LightLand.MODID + ":" + str, objs);
+        if (red)
+            ans.withStyle(TextFormatting.RED);
+        return ans;
+    }
+
     public static <I extends IForgeRegistryEntry<I>, P extends MagicProduct<I, P>> IFormattableTextComponent get(MagicProduct<I, P> product) {
         return new TranslationTextComponent(product.type.namer.apply(product.item));
     }
@@ -60,4 +67,11 @@ public class Translator {
         return list;
     }
 
+    private static final String[] NUMBERS = {"0", "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X", "XI", "XII"};
+
+    public static String getNumber(int i) {
+        if (i < 0 || i >= NUMBERS.length)
+            return "" + i;
+        return NUMBERS[i];
+    }
 }
