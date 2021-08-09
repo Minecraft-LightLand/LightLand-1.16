@@ -7,6 +7,7 @@ import com.hikarishima.lightland.magic.capabilities.MagicHandler;
 import com.hikarishima.lightland.magic.spell.internal.AbstractSpell;
 import com.hikarishima.lightland.magic.spell.internal.Spell;
 import com.hikarishima.lightland.proxy.Proxy;
+import com.hikarishima.lightland.registry.ItemRegistry;
 import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.PlayerEntity;
@@ -22,6 +23,7 @@ import net.minecraft.world.World;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.List;
+import java.util.function.Supplier;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
@@ -104,17 +106,25 @@ public class MagicScroll extends Item {
     }
 
     public enum ScrollType {
-        CARD(64), PARCHMENT(16), SCROLL(2);
+        CARD(64, () -> ItemRegistry.SPELL_CARD),
+        PARCHMENT(16, () -> ItemRegistry.SPELL_PARCHMENT),
+        SCROLL(2, () -> ItemRegistry.SPELL_SCROLL);
 
         public final int stack;
+        private final Supplier<MagicScroll> item;
 
-        ScrollType(int stack) {
+        ScrollType(int stack, Supplier<MagicScroll> item) {
             this.stack = stack;
+            this.item = item;
         }
 
         public Properties apply(Properties props) {
             props.stacksTo(stack);
             return props;
+        }
+
+        public MagicScroll toItem() {
+            return item.get();
         }
     }
 

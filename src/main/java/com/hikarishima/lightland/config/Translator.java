@@ -5,10 +5,13 @@ import com.hikarishima.lightland.magic.capabilities.MagicHandler;
 import com.hikarishima.lightland.magic.products.MagicProduct;
 import com.hikarishima.lightland.proxy.Proxy;
 import com.hikarishima.lightland.recipe.IMagicRecipe;
+import com.lcy0x1.core.magic.HexDirection;
 import net.minecraft.util.text.IFormattableTextComponent;
 import net.minecraft.util.text.ITextProperties;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.registries.IForgeRegistryEntry;
 
 import java.util.ArrayList;
@@ -24,10 +27,22 @@ public class Translator {
         return new TranslationTextComponent(LightLand.MODID + ":" + str, objs);
     }
 
+    public static IFormattableTextComponent get(boolean red, String str, Object... objs) {
+        TranslationTextComponent ans = new TranslationTextComponent(LightLand.MODID + ":" + str, objs);
+        if (red)
+            ans.withStyle(TextFormatting.RED);
+        return ans;
+    }
+
     public static <I extends IForgeRegistryEntry<I>, P extends MagicProduct<I, P>> IFormattableTextComponent get(MagicProduct<I, P> product) {
         return new TranslationTextComponent(product.type.namer.apply(product.item));
     }
 
+    public static IFormattableTextComponent get(HexDirection dire) {
+        return get("screen.hex.dire." + dire.name().toLowerCase());
+    }
+
+    @OnlyIn(Dist.CLIENT)
     public static List<ITextProperties> getDesc(MagicProduct<?, ?> product) {
         MagicHandler h = MagicHandler.get(Proxy.getClientPlayer());
         List<ITextProperties> list = new ArrayList<>();
@@ -52,4 +67,11 @@ public class Translator {
         return list;
     }
 
+    private static final String[] NUMBERS = {"0", "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X", "XI", "XII"};
+
+    public static String getNumber(int i) {
+        if (i < 0 || i >= NUMBERS.length)
+            return "" + i;
+        return NUMBERS[i];
+    }
 }

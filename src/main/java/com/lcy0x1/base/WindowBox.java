@@ -25,7 +25,7 @@ public class WindowBox extends AbstractGui {
 
     public void render(MatrixStack matrix, int sh, int color, RenderType type) {
         if (type == RenderType.FILL) {
-            fill(matrix, x, y, x + w, y + h, color);
+            fill(matrix, x - sh, y - sh, x + w + sh, y + h + sh, color);
         } else if (type == RenderType.MARGIN) {
             fill(matrix, x - sh, y - sh, x + w + sh, y, color);
             fill(matrix, x - sh, y + h, x + w + sh, y + h + sh, color);
@@ -37,6 +37,10 @@ public class WindowBox extends AbstractGui {
             fill(matrix, 0, y, x, y + h, color);
             fill(matrix, x + w, y, parent.width, y + h, color);
         }
+    }
+
+    public void blit(MatrixStack matrix, int sh, int tx, int ty) {
+        blit(matrix, x - sh, y - sh, tx, ty, w + 2 * sh, h + 2 * sh);
     }
 
     public void startClip(MatrixStack matrix) {

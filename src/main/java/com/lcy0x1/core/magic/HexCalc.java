@@ -106,7 +106,7 @@ class HexCalc {
             for (int j = 0; j < 6; j++) {
                 if (in[j] == null)
                     continue;
-                matrix[i][j] = out[i].map.get(in[j]);
+                matrix[j][i] = out[i].map.get(in[j]);
             }
         }
 
@@ -217,7 +217,7 @@ class HexCalc {
             user.remove(this);
             if (frac == null)
                 return;
-            Frac base = new Frac(frac.den, frac.den - frac.num);
+            Frac base = frac.revert();
             for (Frac f : map.values())
                 f.times(base);
         }

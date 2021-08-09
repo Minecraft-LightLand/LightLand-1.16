@@ -6,12 +6,16 @@ import com.hikarishima.lightland.magic.capabilities.MagicHandler;
 import com.hikarishima.lightland.magic.capabilities.ToServerMsg;
 import com.hikarishima.lightland.magic.gui.AbstractHexGui;
 import com.hikarishima.lightland.magic.gui.ability.ElementalScreen;
+import com.hikarishima.lightland.magic.products.IMagicProduct;
+import com.hikarishima.lightland.magic.products.MagicProduct;
 import com.hikarishima.lightland.proxy.Proxy;
 import com.hikarishima.lightland.recipe.IMagicRecipe;
 import com.hikarishima.lightland.registry.item.magic.MagicWand;
 import net.minecraft.client.entity.player.ClientPlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Hand;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,6 +60,9 @@ public class WandOverlay extends AbstractOverlay {
         ItemStack stack = player.getItemInHand(Hand.MAIN_HAND);
         if (!(stack.getItem() instanceof MagicWand))
             return false;
+        MagicWand wand = (MagicWand) stack.getItem();
+        if (wand.getData(player, stack) != null)
+            return false;
         int x = width / 2 - 27;
         int y = height / 2;
         for (MagicElement elem : ELEM) {
@@ -65,24 +72,32 @@ public class WandOverlay extends AbstractOverlay {
         for (ElementalScreen.ElemType e : ElementalScreen.ElemType.values()) {
             AbstractHexGui.drawElement(matrix, width / 2f + e.x, height / 2f + e.y, e.elem, "");
         }
-        //TODO preview
+        IMagicProduct<?, ?> p = preview();
+        if (p != null) {
+            y = height / 2 + 40;
+            ITextComponent text = new TranslationTextComponent(p.getDescriptionID());
+            x = (width - font.width(text)) / 2;
+            font.draw(matrix, text, x, y, 0xFFFFFFFF);
+        }
         return true;
     }
 
-    private static IMagicRecipe<?> preview() {
+    private static MagicProduct<?, ?> preview() {
         ClientPlayerEntity player = Proxy.getClientPlayer();
         if (player == null || !player.isAlive())
             return null;
         MagicHandler handler = MagicHandler.get(player);
-        if (handler == null)
-            return null;
-        return handler.magicHolder.getTree(ELEM);
+        IMagicRecipe<?> r = handler.magicHolder.getTree(ELEM);
+        MagicProduct<?, ?> p = handler.magicHolder.getProduct(r);
+        if (p != null && p.usable())
+            return p;
+        return null;
     }
 
     private static void execute() {
-        IMagicRecipe<?> r = preview();
-        if (r != null)
-            ToServerMsg.activateWand(r);
+        MagicProduct<?, ?> p = preview();
+        if (p != null)
+            ToServerMsg.activateWand(p.recipe);
     }
 
 }

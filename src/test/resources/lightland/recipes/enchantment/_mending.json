@@ -1,0 +1,26 @@
+{
+    "type": "lightland:magic_default",
+    "product_type": "lightland:enchantment",
+    "product_id": "minecraft:mending",
+    "predecessor": [],
+    "elemental_mastery": [
+        {
+            "element": "lightland:quint",
+            "level": 1
+        }
+    ],
+    "screen": {
+        "x": 0,
+        "y": 1
+    },
+    "elements": {
+        "A": "lightland:quint",
+        "B": "lightland:earth",
+        "C": "lightland:water",
+        "D": "lightland:air",
+        "E": "lightland:fire"
+    },
+    "flows": [
+        "ABCDE|"
+    ]
+}

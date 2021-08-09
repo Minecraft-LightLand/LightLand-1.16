@@ -16,10 +16,14 @@
     "elements": {
         "A": "lightland:air",
         "B": "lightland:air",
-        "C": "lightland:air",
-        "D": "lightland:quint"
+        "C": "lightland:earth",
+        "D": "lightland:earth",
+        "E": "lightland:quint",
+        "F": "lightland:quint"
     },
     "flows": [
-        "ABC<->D"
+        "AB->CD",
+        "CD->EF",
+        "EF->AB"
     ]
 }

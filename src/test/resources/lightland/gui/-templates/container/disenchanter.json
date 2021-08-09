@@ -9,10 +9,20 @@
             "x": 16,
             "y": 0
         },
+        "gold_slot": {
+            "sprite": "slot",
+            "x": 16,
+            "y": 18
+        },
         "arrow": {
             "sprite": "arrow_0",
             "x": 43,
-            "y": 0
+            "y": 9
+        },
+        "ench_slot": {
+            "sprite": "slot",
+            "x": 70,
+            "y": 18
         }
     }
 }

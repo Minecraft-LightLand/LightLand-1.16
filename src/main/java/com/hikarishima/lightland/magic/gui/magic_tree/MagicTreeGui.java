@@ -134,13 +134,12 @@ public class MagicTreeGui<I extends IForgeRegistryEntry<I>, P extends MagicProdu
 
     public void scroll(double dx, double dy) {
         if (this.maxX - this.minX > 234) {
-            this.scrollX = MathHelper.clamp(this.scrollX + dx, -(this.maxX - 234), 0.0D);
+            this.scrollX = MathHelper.clamp(this.scrollX + dx, 234 - maxX, -minX);
         }
-
+        double pre = this.scrollY;
         if (this.maxY - this.minY > 113) {
-            this.scrollY = MathHelper.clamp(this.scrollY + dy, -(this.maxY - 113), 0.0D);
+            this.scrollY = MathHelper.clamp(this.scrollY + dy, 113 - maxY, -minY);
         }
-
     }
 
     @SuppressWarnings("unchecked")

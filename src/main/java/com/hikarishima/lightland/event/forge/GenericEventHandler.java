@@ -26,6 +26,8 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.ClientPlayerNetworkEvent;
 import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
@@ -73,6 +75,7 @@ public class GenericEventHandler {
         }
     }
 
+    @OnlyIn(Dist.CLIENT)
     @SubscribeEvent
     public void keyEvent(InputEvent.KeyInputEvent event) {
         if (Minecraft.getInstance().screen == null && Proxy.getClientPlayer() != null && WandOverlay.has_magic_wand) {
@@ -80,6 +83,7 @@ public class GenericEventHandler {
         }
     }
 
+    @OnlyIn(Dist.CLIENT)
     @SubscribeEvent
     public void onRenderGameOverlayEventPre(RenderGameOverlayEvent.Pre event) {
         if (!Proxy.getClientPlayer().isAlive())
@@ -106,6 +110,7 @@ public class GenericEventHandler {
         PacketHandler.toClient(e, new QuestToClient(QuestToClient.Action.CLONE, QuestHandler.get(e)));
     }
 
+    @OnlyIn(Dist.CLIENT)
     @SubscribeEvent
     public void onPlayerRespawn(ClientPlayerNetworkEvent.RespawnEvent event) {
         CompoundNBT tag0 = MagicHandler.getCache(event.getOldPlayer());

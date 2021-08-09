@@ -120,8 +120,8 @@ public class ImageBiomeReader {
                     biome = ForgeRegistries.BIOMES.getValue(new ResourceLocation("minecraft:deep_ocean"));
                 int depth = MathHelper.clamp(Math.round((biome.getDepth() + 4) * 16), 0, 255);
                 int scale = MathHelper.clamp(Math.round(biome.getScale() * 512), 0, 255);
-                img_depth.setRGB(x, z, depth << 16 | depth << 8 | depth);
-                img_scale.setRGB(x, z, scale << 16 | scale << 8 | scale);
+                img_depth.setRGB(x, z, 0xFF000000 | depth << 16 | depth << 8 | depth);
+                img_scale.setRGB(x, z, 0xFF000000 | scale << 16 | scale << 8 | scale);
             }
         FileIO.checkFile(file_depth);
         FileIO.checkFile(file_scale);
@@ -134,7 +134,7 @@ public class ImageBiomeReader {
 
     private static BufferedImage loadOrCreate(File file) {
         return file.exists() ? ExceptionHandler.get(() -> ImageIO.read(file)) :
-                new BufferedImage(BIOME.getWidth(), BIOME.getHeight(), BufferedImage.TYPE_BYTE_GRAY);
+                new BufferedImage(BIOME.getWidth(), BIOME.getHeight(), BufferedImage.TYPE_4BYTE_ABGR);
     }
 
     @SerialClass

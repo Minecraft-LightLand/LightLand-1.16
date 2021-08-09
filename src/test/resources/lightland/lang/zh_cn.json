@@ -43,11 +43,11 @@
             },
             "arcane": {
                 "title": "奥术领悟",
-                "cost":"解锁消耗:%s/%s",
-                "activate":{
-                    "light":"使用方式:左键",
-                    "critical":"使用方式:跳劈",
-                    "none":"使用方式:右键"
+                "cost": "解锁消耗:%s/%s",
+                "activate": {
+                    "light": "使用方式:左键",
+                    "critical": "使用方式:跳劈",
+                    "none": "使用方式:右键"
                 }
             }
         },
@@ -66,10 +66,68 @@
                 "repeat": "法术编码重复",
                 "short": "法术编码缺失"
             }
+        },
+        "hex": {
+            "save": {
+                "yes": "已保存",
+                "no": "未保存"
+            },
+            "compile": {
+                "complete": "魔力开始流动",
+                "failed": "魔力流动不均",
+                "editing": "法阵绘制中",
+                "error": "魔力堵塞"
+            },
+            "cost": "复杂度:%s",
+            "dire": {
+                "right": "从左到右:",
+                "left": "从右到左:",
+                "upper_right": "从左下到右上:",
+                "upper_left": "从右下到左上:",
+                "lower_right": "从左上到右下:",
+                "lower_left": "从右上到左下:"
+            }
+        },
+        "spell_craft": {
+            "error": {
+                "no_spell": "法杖上没有可用法术",
+                "not_unlocked": "法术未解锁",
+                "wrong_scroll": "符文载体类型不对,请使用:",
+                "not_enough_mana": "魔力介质不足:还需要%s个(魔力消耗:%s/%s)",
+                "clear_gold": "请清空副产品栏",
+                "elem": "元素不足",
+                "pass": "魔力溢出:%s"
+            },
+            "elem_cost": "消耗/拥有数量:%s/%s"
+        },
+        "arcane_inject": {
+            "error": {
+                "no_spell": "法杖上没有可用奥术",
+                "not_unlocked": "奥术未解锁",
+                "type_not_unlocked": "奥术类型未解锁",
+                "wrong_item.axe": "奥术武器类型不匹配,请使用奥术斧",
+                "wrong_item.sword": "奥术武器类型不匹配,请使用奥术剑",
+                "not_enough_mana": "魔力介质不足:还需要%s个(魔力消耗:%s/%s)",
+                "clear_gold": "请清空副产品栏",
+                "elem": "元素不足",
+                "repeat": "同种类奥术已存在",
+                "pass": "魔力溢出:%s"
+            },
+            "elem_cost": "消耗/拥有数量:%s/%s"
+        },
+        "chemistry": {
+            "current": "已加入元素总数:%s/%s",
+            "in_use": "已加入数量:%s",
+            "has": "持有数量:%s",
+            "value": "浓度:%s"
         }
     },
     "lightland:container": {
-        "disenchant": "附魔分解台"
+        "disenchant": "附魔分解台",
+        "magic_craft": "魔法合成台",
+        "spell_craft": "符文合成台",
+        "arcane_inject": "奥术注魔台",
+        "chemistry": "炼药锅"
     },
     "lightland:magic_element": {
         "lightland:earth": "地",
@@ -122,10 +180,18 @@
         "quest_book": "任务书",
         "ability_book": "职业书",
         "disenchant_book": "卸魔书",
+        "magic_craft_book": "魔法合成书",
+        "spell_craft_book": "符文合成书",
+        "arcane_inject_book": "奥术注魔书",
+        "chemistry_book": "炼金书",
         "gilded_arcane_sword": "镀金奥术剑",
         "gilded_arcane_axe": "镀金奥术斧",
         "enchant_gold_nugget": "蓄魔金粒",
         "enchant_gold_ingot": "蓄魔金锭",
+        "enchant_cookie": "魔力饼干",
+        "enchant_melon": "魔力西瓜片",
+        "enchant_carrot": "魔力金胡萝卜",
+        "enchant_apple": "魔力金苹果",
         "enchant_alloy_ingot": "魔导合金",
         "enchant_light_ingot": "轻质硬化魔导合金",
         "anti_magic_metal_ingot": "斥魔金属",

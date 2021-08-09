@@ -53,8 +53,6 @@ public class MagicProduct<I extends IForgeRegistryEntry<I>, P extends MagicProdu
 
     public void updateBestSolution(HexHandler hex, HexData data, int cost) {
         int prev = getBase().tag.getInt("cost");
-        if (prev >= 0 && (cost < 0 || cost > prev))
-            return;
         tag.tag.remove("hex");
         Automator.toTag(tag.getSub("misc").tag, data);
         hex.write(tag.getSub("hex"));

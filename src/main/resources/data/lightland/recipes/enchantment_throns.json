@@ -1,0 +1,29 @@
+{
+    "type": "lightland:magic_default",
+    "product_type": "lightland:enchantment",
+    "product_id": "minecraft:thorns",
+    "predecessor": [],
+    "elemental_mastery": [
+        {
+            "element": "lightland:fire",
+            "level": 1
+        }
+    ],
+    "screen": {
+        "x": 1,
+        "y": 0
+    },
+    "elements": {
+        "A": "lightland:quint",
+        "B": "lightland:earth",
+        "C": "lightland:earth",
+        "D": "lightland:fire",
+        "E": "lightland:fire",
+        "F": "lightland:fire"
+    },
+    "flows": [
+        "A->BC",
+        "BC->DEF",
+        "DEF->A"
+    ]
+}

@@ -1,9 +1,11 @@
 package com.lcy0x1.core.util;
 
+import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.*;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
+import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.IForgeRegistryEntry;
 
@@ -50,6 +52,7 @@ public class Automator {
         new ClassHandler<IntArrayNBT, UUID>(UUID.class, NBTUtil::loadUUID, NBTUtil::createUUID);
         new ClassHandler<CompoundNBT, CompoundNBT>(CompoundNBT.class, e -> e, e -> e);
         new ClassHandler<ListNBT, ListNBT>(ListNBT.class, e -> e, e -> e);
+        new RegistryClassHandler<>(Block.class, () -> ForgeRegistries.BLOCKS);
     }
 
     public static Object fromTag(CompoundNBT tag, Class<?> cls, Object obj, Predicate<SerialClass.SerialField> pred)
@@ -58,6 +61,7 @@ public class Automator {
             cls = Class.forName(tag.getString("_class"));
         if (obj == null)
             obj = cls.newInstance();
+        Class<?> mcls = cls;
         while (cls.getAnnotation(SerialClass.class) != null) {
             for (Field f : cls.getDeclaredFields()) {
                 SerialClass.SerialField sf = f.getAnnotation(SerialClass.SerialField.class);
@@ -68,9 +72,19 @@ public class Automator {
                 if (itag != null)
                     f.set(obj, fromTagRaw(itag, f.getType(), f.get(obj), sf, pred));
             }
-            for (Method m : cls.getDeclaredMethods()){
-                if(m.getAnnotation(SerialClass.OnInject.class)!=null)
-                    m.invoke(obj);
+            cls = cls.getSuperclass();
+        }
+        cls = mcls;
+        while (cls.getAnnotation(SerialClass.class) != null) {
+            Method m0 = null;
+            for (Method m : cls.getDeclaredMethods()) {
+                if (m.getAnnotation(SerialClass.OnInject.class) != null) {
+                    m0 = m;
+                }
+            }
+            if (m0 != null) {
+                m0.invoke(obj);
+                break;
             }
             cls = cls.getSuperclass();
         }
@@ -184,7 +198,7 @@ public class Automator {
             if (sfield.generic().length != 1)
                 throw new Exception("generic field not correct for list");
             ListNBT list = new ListNBT();
-            int n = ((List<?>)obj).size();
+            int n = ((List<?>) obj).size();
             Class<?> com = sfield.generic()[0];
             for (int i = 0; i < n; i++) {
                 list.add(toTagRaw(com, ((List<?>) obj).get(i), null, pred));

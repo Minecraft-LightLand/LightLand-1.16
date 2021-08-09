@@ -9,6 +9,9 @@ import com.lcy0x1.core.util.SerialClass;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.network.NetworkEvent;
 
 import java.util.function.Consumer;
@@ -52,6 +55,11 @@ public class QuestToClient extends PacketHandler.BaseSerialMsg {
 
     public static void handle(QuestToClient msg, Supplier<NetworkEvent.Context> ctx) {
         ctx.get().setPacketHandled(true);
+        DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> clientHandle(msg, ctx));
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    public static void clientHandle(QuestToClient msg, Supplier<NetworkEvent.Context> ctx) {
         PlayerEntity pl = Minecraft.getInstance().player;
         if (pl != null) {
             msg.action.cons.accept(msg.tag);
@@ -64,7 +72,7 @@ public class QuestToClient extends PacketHandler.BaseSerialMsg {
         DEBUG((tag) -> {
             QuestHandler q = QuestHandler.get(Proxy.getPlayer());
             CompoundNBT ctag = Automator.toTag(new CompoundNBT(), q);
-            ToServerMsg.sendDebugInfo("server quest data: " + tag, "client quest data: " + ctag);
+            ToServerMsg.sendDebugInfo(tag, ctag);
         }),
         RESET((tag) -> {
             QuestHandler q = QuestHandler.get(Proxy.getPlayer());

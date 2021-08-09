@@ -20,15 +20,10 @@
         "B": "lightland:earth",
         "C": "lightland:earth",
         "D": "lightland:earth",
-        "E": "lightland:earth",
-        "F": "lightland:earth"
+        "E": "lightland:fire",
+        "F": "lightland:water"
     },
     "flows": [
-        "A->B",
-        "B->C",
-        "C->D",
-        "D->E",
-        "E->F",
-        "F->A"
+        "ABCD<->EF"
     ]
 }

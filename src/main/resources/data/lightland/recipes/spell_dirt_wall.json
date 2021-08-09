@@ -18,9 +18,16 @@
         "A": "lightland:earth",
         "B": "lightland:earth",
         "C": "lightland:earth",
-        "D": "lightland:water"
+        "D": "lightland:earth",
+        "E": "lightland:earth",
+        "F": "lightland:earth"
     },
     "flows": [
-        "ABC<->D"
+        "A->B",
+        "B->C",
+        "C->D",
+        "D->E",
+        "E->F",
+        "F->A"
     ]
 }

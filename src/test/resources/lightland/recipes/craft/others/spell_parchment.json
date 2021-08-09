@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "bcb",
+    "cac",
+    "bcb"
+  ],
+  "key": {
+    "b": {
+      "item": "lightland:enchant_gold_ingot"
+    },
+    "a": {
+      "item": "minecraft:leather"
+    },
+    "c": {
+      "item": "minecraft:paper"
+    }
+  },
+  "result": {
+    "item": "lightland:spell_parchment",
+    "count": 4
+  }
+}

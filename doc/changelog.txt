@@ -1,3 +1,35 @@
+Version 0.2.7~0.3.0
+    server:
+        - fix dedicated server
+        - fix serializer packet
+
+Version 0.2.6
+    terrain:
+        - fix image generation
+
+Version 0.2.5
+    magic:
+        - add more hex graphs
+        - add spell craft gui
+
+Version 0.2.4
+    magic:
+        - add more hex graphs
+        - add cost display
+
+Version 0.2.3
+    magic:
+        - fix magic hex bug
+        - add save/compile display
+
+Version 0.2.2
+    profession:
+        - add profession book
+        - add record pearl
+    magic:
+        - complete magic graph screen
+        - add magic wand
+
 Version 0.2.1
     magic:
         - add magic tree screen

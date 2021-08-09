@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "bbb",
+    "bab",
+    "bbb"
+  ],
+  "key": {
+    "b": {
+      "item": "lightland:enchant_gold_nugget"
+    },
+    "a": {
+      "item": "minecraft:carrot"
+    }
+  },
+  "result": {
+    "item": "lightland:enchant_carrot"
+  }
+}
