@@ -1,0 +1,94 @@
+{
+    "_class": "organize.json.JsonPartMap",
+    "file": "config_chemistry",
+    "path": "map.pool.objects",
+    "common": {
+        "_class": "com.hikarishima.lightland.magic.chem.ChemEffect"
+    },
+    "map": {
+        "eff.resistance_iii": {
+            "id": "minecraft:resistance",
+            "lv": 2
+        },
+        "eff.slow_iv": {
+            "id": "minecraft:slowness",
+            "lv": 3
+        },
+        "eff.night_vision": {
+            "id": "minecraft:night_vision"
+        },
+        "eff.speed_i": {
+            "id": "minecraft:speed",
+            "lv": 0
+        },
+        "eff.jump_i": {
+            "id": "minecraft:jump_boost",
+            "lv": 0
+        },
+        "eff.slow_falling": {
+            "id": "minecraft:slow_falling"
+        },
+        "eff.instant_health_i": {
+            "id": "minecraft:instant_health",
+            "lv": 0
+        },
+        "eff.poison_i": {
+            "id": "minecraft:poison",
+            "lv": 0
+        },
+        "eff.instant_damage_i": {
+            "id": "minecraft:instant_damage",
+            "lv": 0
+        },
+        "eff.water_breathing": {
+            "id": "minecraft:water_breathing",
+            "lv": 0
+        },
+        "eff.strength_i": {
+            "id": "minecraft:strength",
+            "lv": 0
+        },
+        "eff.fire_resistance": {
+            "id": "minecraft:fire_resistance"
+        },
+        "eff.weakness_i": {
+            "id": "minecraft:weakness",
+            "lv": 0
+        },
+        "eff.slowness_i": {
+            "id": "minecraft:slowness",
+            "lv": 0
+        },
+        "eff.regeneration_i": {
+            "id": "minecraft:regeneration",
+            "lv": 0
+        },
+        "eff.invisibility": {
+            "id": "minecraft:invisibility"
+        },
+        "eff.blindness": {
+            "id": "minecraft:blindness"
+        },
+        "eff.wither_i": {
+            "id": "minecraft:wither",
+            "lv": 0
+        },
+        "eff.glowing": {
+            "id": "minecraft:glowing"
+        },
+        "eff.levitation": {
+            "id": "minecraft:levitation"
+        },
+        "eff.nausea": {
+            "id": "minecraft:nausea"
+        },
+        "eff.haste_i": {
+            "id": "minecraft:haste",
+            "lv": 0
+        },
+        "eff.mining_fatigue_i": {
+            "id": "minecraft:mining_fatigue",
+            "lv": 0
+        }
+    }
+}

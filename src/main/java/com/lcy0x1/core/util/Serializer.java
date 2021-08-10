@@ -43,7 +43,7 @@ public class Serializer {
         new ClassHandler<>(boolean.class, JsonElement::getAsBoolean, PacketBuffer::readBoolean, PacketBuffer::writeBoolean);
         new ClassHandler<>(double.class, JsonElement::getAsDouble, PacketBuffer::readDouble, PacketBuffer::writeDouble);
         new ClassHandler<>(float.class, JsonElement::getAsFloat, PacketBuffer::readFloat, PacketBuffer::writeFloat);
-        new ClassHandler<>(String.class, JsonElement::getAsString, (p) -> p.readUtf(32767), PacketBuffer::writeUtf);
+        new ClassHandler<>(String.class, JsonElement::getAsString, PacketBuffer::readUtf, PacketBuffer::writeUtf);
         new ClassHandler<>(ItemStack.class, (e) -> ShapedRecipe.itemFromJson(e.getAsJsonObject()), PacketBuffer::readItem, PacketBuffer::writeItem);
         new ClassHandler<>(Ingredient.class, Ingredient::fromJson, Ingredient::fromNetwork, (p, o) -> o.toNetwork(p));
         new ClassHandler<>(CompoundNBT.class, (e) -> new CompoundNBT(), PacketBuffer::readAnySizeNbt, PacketBuffer::writeNbt);
@@ -169,6 +169,8 @@ public class Serializer {
         }
         if (cls.isEnum())
             return Enum.valueOf((Class) cls, e.getAsString());
+        if (cls == JsonElement.class)
+            return e;
         if (MAP.containsKey(cls))
             return MAP.get(cls).fromJson.apply(e);
         return fromImpl(e.getAsJsonObject(), cls, ans, anno);
@@ -180,7 +182,7 @@ public class Serializer {
         if (type == 0)
             return null;
         else if (type == 2) {
-            cls = Class.forName(buf.readUtf(32767));
+            cls = Class.forName(buf.readUtf());
         }
         if (cls.isArray()) {
             int n = buf.readInt();
@@ -206,7 +208,7 @@ public class Serializer {
             return ans;
         }
         if (cls.isEnum())
-            return Enum.valueOf((Class) cls, buf.readUtf(32767));
+            return Enum.valueOf((Class) cls, buf.readUtf());
         if (MAP.containsKey(cls))
             return MAP.get(cls).fromPacket.apply(buf);
         return fromImpl(buf, cls, ans, anno);
@@ -297,7 +299,7 @@ public class Serializer {
                     return null;
                 return fj.apply(str);
             }, p -> {
-                String str = p.readUtf(32767);
+                String str = p.readUtf();
                 if (str.length() == 0)
                     return null;
                 return fj.apply(str);
@@ -311,7 +313,7 @@ public class Serializer {
         public RLClassHandler(Class<?> cls, Supplier<IForgeRegistry<T>> r) {
             super(cls, e -> e.isJsonNull() ? null : r.get().getValue(new ResourceLocation(e.getAsString())),
                     p -> {
-                        String str = p.readUtf(32767);
+                        String str = p.readUtf();
                         if (str.length() == 0)
                             return null;
                         return r.get().getValue(new ResourceLocation(str));
