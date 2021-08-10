@@ -6,7 +6,6 @@ import com.hikarishima.lightland.magic.MagicElement;
 import com.hikarishima.lightland.magic.MagicRegistry;
 import com.hikarishima.lightland.magic.capabilities.MagicHandler;
 import com.hikarishima.lightland.magic.chem.HashEquationPool;
-import com.hikarishima.lightland.magic.gui.container.AbstractContainer;
 import com.hikarishima.lightland.registry.ContainerRegistry;
 import com.lcy0x1.core.util.SpriteManager;
 import mcp.MethodsReturnNonnullByDefault;
@@ -15,6 +14,7 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Map;
@@ -36,7 +36,7 @@ public class ChemContainer extends AbstractContainer {
         super(ContainerRegistry.CT_CHEM, wid, plInv, 4, MANAGER);
         addSlot("input_in_slot", stack -> HashEquationPool.getChemObj(plInv.player.level, stack.getItem()) != null);
         addSlot("input_out_slot", stack -> false);
-        addSlot("output_in_slot", stack -> false);
+        addSlot("output_in_slot", stack -> stack.getItem() == Items.GLASS_BOTTLE);
         addSlot("output_out_slot", stack -> false);
     }
 

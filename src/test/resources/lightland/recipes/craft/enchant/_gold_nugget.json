@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "lightland:enchant_gold_ingot"
+    }
+  ],
+  "result": {
+    "item": "lightland:enchant_gold_nugget",
+    "count": 9
+  }
+}

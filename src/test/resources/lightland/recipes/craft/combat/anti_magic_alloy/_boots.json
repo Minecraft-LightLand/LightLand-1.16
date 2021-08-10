@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "b b",
+    "b b"
+  ],
+  "key": {
+    "b": {
+      "item": "lightland:anti_magic_alloy_ingot"
+    }
+  },
+  "result": {
+    "item": "lightland:anti_magic_alloy_boots"
+  }
+}
