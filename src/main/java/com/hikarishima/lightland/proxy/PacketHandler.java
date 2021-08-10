@@ -35,7 +35,6 @@ public class PacketHandler {
         reg(ToClientMsg.class, ToClientMsg::handle, NetworkDirection.PLAY_TO_CLIENT);
         reg(OptionToClient.class, OptionToClient::handle, NetworkDirection.PLAY_TO_CLIENT);
         reg(QuestToClient.class, QuestToClient::handle, NetworkDirection.PLAY_TO_CLIENT);
-        reg(IntMsg.class, IntMsg::encode, IntMsg::decode, IntMsg::handle, NetworkDirection.PLAY_TO_SERVER);
         reg(ItemUseEventHandler.Msg.class, ItemUseEventHandler.Msg::handle, NetworkDirection.PLAY_TO_SERVER);
         reg(ToServerMsg.class, ToServerMsg::handle, NetworkDirection.PLAY_TO_SERVER);
         reg(OptionToServer.class, OptionToServer::handle, NetworkDirection.PLAY_TO_SERVER);
@@ -77,52 +76,10 @@ public class PacketHandler {
         }
     }
 
-    public interface DataCont {
-
-        IIntArray getData();
-
-    }
-
     public interface SerialMsgCont<T extends ContSerialMsg> {
 
         void handle(T t);
 
-    }
-
-    public static class IntMsg {
-
-        private final int wid, ind, val;
-
-        public IntMsg(int id, int index, int value) {
-            wid = id;
-            ind = index;
-            val = value;
-        }
-
-        public static IntMsg decode(PacketBuffer packet) {
-            return new IntMsg(packet.readInt(), packet.readVarInt(), packet.readVarInt());
-        }
-
-        public void encode(PacketBuffer packet) {
-            packet.writeInt(wid);
-            packet.writeVarInt(ind);
-            packet.writeVarInt(val);
-        }
-
-        public void handle(Supplier<NetworkEvent.Context> sup) {
-            NetworkEvent.Context ctx = sup.get();
-            ctx.enqueueWork(() -> this.handle(ctx));
-            ctx.setPacketHandled(true);
-        }
-
-        private void handle(NetworkEvent.Context ctx) {
-            ServerPlayerEntity pl = ctx.getSender();
-            if (pl == null)
-                return;
-            Container c = pl.containerMenu;
-            if (c != null && c.containerId == wid && c instanceof DataCont)
-                ((DataCont) c).getData().set(ind, val);
-        }
     }
 
     @SerialClass

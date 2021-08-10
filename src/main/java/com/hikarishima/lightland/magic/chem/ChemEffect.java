@@ -16,6 +16,9 @@ public class ChemEffect extends ChemObj<ChemEffect, Effect> {
     @SerialClass.SerialField
     public int lv;
 
+    @SerialClass.SerialField
+    public double duration;
+
     public ChemEffect() {
         super(State.LIQUID);
     }
