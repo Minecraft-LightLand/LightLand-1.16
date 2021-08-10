@@ -4,6 +4,8 @@ import com.hikarishima.lightland.LightLand;
 import com.hikarishima.lightland.event.forge.ItemUseEventHandler;
 import com.hikarishima.lightland.magic.capabilities.ToClientMsg;
 import com.hikarishima.lightland.magic.capabilities.ToServerMsg;
+import com.hikarishima.lightland.magic.gui.container.ChemContainer;
+import com.hikarishima.lightland.magic.gui.container.ChemPacket;
 import com.hikarishima.lightland.npc.option.OptionToClient;
 import com.hikarishima.lightland.npc.option.OptionToServer;
 import com.hikarishima.lightland.npc.player.QuestToClient;
@@ -38,6 +40,7 @@ public class PacketHandler {
         reg(ItemUseEventHandler.Msg.class, ItemUseEventHandler.Msg::handle, NetworkDirection.PLAY_TO_SERVER);
         reg(ToServerMsg.class, ToServerMsg::handle, NetworkDirection.PLAY_TO_SERVER);
         reg(OptionToServer.class, OptionToServer::handle, NetworkDirection.PLAY_TO_SERVER);
+        reg(ChemPacket.class, ChemContainer.class, NetworkDirection.PLAY_TO_SERVER);
     }
 
     public static <T> void send(T msg) {

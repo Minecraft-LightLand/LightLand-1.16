@@ -167,7 +167,6 @@ public class ReactionPool {
         public boolean complete = false;
 
         public Evaluator() {
-
         }
 
         public void step() {
@@ -196,6 +195,9 @@ public class ReactionPool {
         }
 
         public double deviation() {
+            for (int i = 0; i < n; i++) {
+                diff[i] = eqs[i].getValue(vector);
+            }
             double ans = 0;
             for (double d : diff)
                 ans += d * d;
@@ -232,7 +234,6 @@ public class ReactionPool {
             }
             while (v1 > v0) {
                 a2 = a1;
-                v2 = v1;
                 a1 = (a0 + a1) / 2;
                 v1 = descent.evaluate(a1);
                 if (Math.abs(a1 - a0) < REVERSAL_CHECK)
@@ -276,16 +277,16 @@ public class ReactionPool {
             if (n == 0)
                 return toResult();
             long time = System.nanoTime();
-            do {
+            while (true) {
+                if (deviation() < eps * eps) {
+                    complete = true;
+                    break;
+                }
                 step();
                 long t1 = System.nanoTime();
                 if (t1 - time > max_time)
                     break;
-                if (deviation() > eps * eps) {
-                    complete = true;
-                    break;
-                }
-            } while (true);
+            }
             return toResult();
         }
 
@@ -325,7 +326,8 @@ public class ReactionPool {
         @SerialClass.SerialField(generic = {String.class, Double.class})
         public final LinkedHashMap<String, Double> map = Maps.newLinkedHashMap();
 
-        private Result() {
+        @Deprecated
+        public Result() {
 
         }
 

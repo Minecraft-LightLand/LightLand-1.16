@@ -104,8 +104,8 @@ public class ChemContainer extends AbstractContainer implements PacketHandler.Se
         if (msg.result != null) {
             HashEquationPool pool = HashEquationPool.getPool(plInv.player.level);
             List<EffectInstance> list = new ArrayList<>();
-            double redstone = msg.result.map.get("minecraft:redstone");
-            double glowstone = msg.result.map.get("minecraft:glowstone_dust");
+            double redstone = msg.result.map.get("item.redstone");
+            double glowstone = msg.result.map.get("item.glowstone_dust");
             msg.result.map.forEach((k, v) -> {
                 AbChemObj obj = pool.objects.get(k);
                 if (obj instanceof ChemEffect) {
@@ -119,7 +119,7 @@ public class ChemContainer extends AbstractContainer implements PacketHandler.Se
                         lv = (int) Math.floor(Math.log(v) / Math.log(2) + 1e-3);
                     }
                     if (glowstone >= 1)
-                        lv++;
+                        lv+=ce.boost;
                     if (redstone >= 1)
                         dur *= 2;
                     list.add(new EffectInstance(eff, dur, lv));

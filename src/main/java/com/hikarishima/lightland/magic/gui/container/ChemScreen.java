@@ -141,8 +141,8 @@ public class ChemScreen extends AbstractScreen<ChemContainer> {
             int i = 0;
             y += 18 + 3;
             x += 9;
-            double redstone = display.map.getOrDefault("minecraft:redstone", 0d);
-            double glowstone = display.map.getOrDefault("minecraft:glowstone_dust", 0d);
+            double redstone = display.map.getOrDefault("item.redstone", 0d);
+            double glowstone = display.map.getOrDefault("item.glowstone_dust", 0d);
             for (Map.Entry<String, Double> ent : display.map.entrySet()) {
                 int dx = i % 4 * 18;
                 int dy = i / 4 * 18;
@@ -170,7 +170,7 @@ public class ChemScreen extends AbstractScreen<ChemContainer> {
                             lv = (int) Math.floor(Math.log(val) / Math.log(2) + 1e-3);
                         }
                         if (glowstone >= 1)
-                            lv++;
+                            lv += eff.boost;
                         text.append(" " + Translator.getNumber(lv + 1));
                     }
                     renderComponentTooltip(matrix, list, mx, my);
@@ -192,7 +192,9 @@ public class ChemScreen extends AbstractScreen<ChemContainer> {
         }
         if (process != null && process.complete && sm.within("arrow_output", mx - getGuiLeft(), my - getGuiTop())) {
             if (click(ChemContainer.OUT)) {
-                PacketHandler.send(new ChemPacket(menu.containerId, display));
+                ChemPacket packet = new ChemPacket(menu.containerId, display);
+                menu.handle(packet);
+                PacketHandler.send(packet);
                 process(true);
             }
             return true;
