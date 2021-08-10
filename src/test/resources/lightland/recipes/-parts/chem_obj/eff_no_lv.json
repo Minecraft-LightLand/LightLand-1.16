@@ -16,19 +16,19 @@
         },
         "eff.fire_resistance": {
             "id": "minecraft:fire_resistance",
-            "duration": 1200
+            "duration": 3600
         },
         "eff.invisibility": {
             "id": "minecraft:invisibility",
-            "duration": 600
+            "duration": 3600
         },
         "eff.slow_falling": {
             "id": "minecraft:slow_falling",
-            "duration": 600
+            "duration":1800
         },
         "eff.glowing": {
             "id": "minecraft:glowing",
-            "duration": 600
+            "duration": 3600
         },
         "eff.levitation": {
             "id": "minecraft:levitation",

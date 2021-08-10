@@ -32,6 +32,34 @@ import java.util.Objects;
 @ParametersAreNonnullByDefault
 public class ChemScreen extends AbstractScreen<ChemContainer> {
 
+    private static int rowSize(int total) {
+        int n = 4;
+        int m = 3;
+        while (true) {
+            if (total <= n * m)
+                return n;
+            n++;
+            m++;
+        }
+    }
+
+    private static int getObjX(int i, int total) {
+        int n = rowSize(total);
+        int m = n - 1;
+        if (i / n < m - 1 || n > 4)
+            return i % n * 18 * 3 / (n - 1);
+        return i % 4 * 18 + (12 - total) % 4 * 9;
+
+    }
+
+    private static int getObjY(int i, int total) {
+        int n = rowSize(total);
+        int m = n - 1;
+        if (m < 3)
+            return i / 4 * 18 + (2 - (total - 1) / 4) * 9;
+        return i / n * 18 * 2 / (m - 1);
+    }
+
     protected ReactionPool.Evaluator process = null;
     protected ReactionPool.Result result = null;
     protected ReactionPool.Result display = null;
@@ -90,10 +118,11 @@ public class ChemScreen extends AbstractScreen<ChemContainer> {
             int i = 0;
             y += 18 + 3;
             x += 9;
+            int total = display.map.size();
             for (Map.Entry<String, Double> ent : display.map.entrySet()) {
                 ChemObj<?, ?> obj = ChemObj.cast(h, pool.objects.get(ent.getKey()));
-                int dx = i % 4 * 18;
-                int dy = i / 4 * 18;
+                int dx = getObjX(i, total);
+                int dy = getObjY(i, total);
                 if (obj instanceof ChemElement) {
                     AbstractHexGui.drawElement(matrix, x + dx + 9, y + dy + 9, ((ChemElement) obj).get(), "");
                 } else {
@@ -143,9 +172,10 @@ public class ChemScreen extends AbstractScreen<ChemContainer> {
             x += 9;
             double redstone = display.map.getOrDefault("item.redstone", 0d);
             double glowstone = display.map.getOrDefault("item.glowstone_dust", 0d);
+            int total = display.map.size();
             for (Map.Entry<String, Double> ent : display.map.entrySet()) {
-                int dx = i % 4 * 18;
-                int dy = i / 4 * 18;
+                int dx = getObjX(i, total);
+                int dy = getObjY(i, total);
                 if (mx > x + dx && mx < x + dx + 18 && my > y + dy && my < y + dy + 18) {
                     ChemObj<?, ?> obj = ChemObj.cast(h, pool.objects.get(ent.getKey()));
                     IFormattableTextComponent text = obj != null ? obj.getDesc() :
@@ -174,6 +204,7 @@ public class ChemScreen extends AbstractScreen<ChemContainer> {
                         text.append(" " + Translator.getNumber(lv + 1));
                     }
                     renderComponentTooltip(matrix, list, mx, my);
+                    break;
                 }
                 i++;
             }
@@ -212,6 +243,12 @@ public class ChemScreen extends AbstractScreen<ChemContainer> {
         return super.mouseClicked(mx, my, button);
     }
 
+    @Override
+    public void tick() {
+        super.tick();
+        innerTick();
+    }
+
     private void process(boolean clear) {
         if (clear) {
             process = null;
@@ -233,12 +270,6 @@ public class ChemScreen extends AbstractScreen<ChemContainer> {
         result = null;
         ReactionPool react = hash.getPool(map);
         process = react.new Evaluator();
-        innerTick();
-    }
-
-    @Override
-    public void tick() {
-        super.tick();
         innerTick();
     }
 

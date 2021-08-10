@@ -118,9 +118,9 @@ public class ChemContainer extends AbstractContainer implements PacketHandler.Se
                             return;
                         lv = (int) Math.floor(Math.log(v) / Math.log(2) + 1e-3);
                     }
-                    if (glowstone >= 1)
-                        lv+=ce.boost;
-                    if (redstone >= 1)
+                    if (glowstone > 0)
+                        lv += ce.boost;
+                    if (redstone > 0)
                         dur *= 2;
                     list.add(new EffectInstance(eff, dur, lv));
                 }

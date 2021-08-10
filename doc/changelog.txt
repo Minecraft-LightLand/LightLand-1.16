@@ -1,3 +1,14 @@
+Version 0.3.2
+    general:
+        - update to forge 36.2.2
+    magic:
+        - improve potion recipes
+        - fix potion bugs
+
+Version 0.3.1
+    magic:
+        - add potion system
+
 Version 0.2.7~0.3.0
     server:
         - fix dedicated server
