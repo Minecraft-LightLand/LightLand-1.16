@@ -5,6 +5,7 @@ import com.hikarishima.lightland.recipe.ConfigRecipe;
 import com.lcy0x1.core.chem.AbChemObj;
 import com.lcy0x1.core.chem.EquationPool;
 import com.lcy0x1.core.util.SerialClass;
+import net.minecraft.potion.Effect;
 import net.minecraft.world.World;
 import net.minecraftforge.registries.IForgeRegistryEntry;
 import org.apache.logging.log4j.LogManager;
@@ -43,7 +44,7 @@ public class HashEquationPool extends EquationPool {
                     return;
                 }
                 String key = Objects.requireNonNull(ent.getRegistryName()).toString();
-                if (cache.containsKey(key)) {
+                if (cache.containsKey(key) && !(ent instanceof Effect)) {
                     LogManager.getLogger().error("repeated entry at " + k + " with " + cache.get(key));
                     return;
                 }

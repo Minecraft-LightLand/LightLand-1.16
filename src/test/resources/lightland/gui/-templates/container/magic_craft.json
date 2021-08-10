@@ -36,6 +36,12 @@
             "sprite": "slot",
             "x": 147,
             "y": 54
+        },
+        "elements_0": {
+            "sprite": "elem_slot",
+            "x": 52,
+            "y": 54,
+            "rx": 5
         }
     }
 }

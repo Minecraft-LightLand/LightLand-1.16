@@ -4,6 +4,7 @@ import com.hikarishima.lightland.magic.capabilities.MagicHandler;
 import com.lcy0x1.core.chem.AbChemObj;
 import com.lcy0x1.core.util.SerialClass;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.IFormattableTextComponent;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -33,7 +34,7 @@ public abstract class ChemObj<O extends ChemObj<O, T>, T extends IForgeRegistryE
 
     public abstract boolean known(MagicHandler handler);
 
-    public abstract ITextComponent getDesc();
+    public abstract IFormattableTextComponent getDesc();
 
     @SerialClass.SerialField
     public ResourceLocation id;

@@ -1,0 +1,19 @@
+{
+    "_class": "organize.json.JsonPartMap",
+    "file": "config_chemistry",
+    "path": "map.pool.objects",
+    "common": {
+        "_class": "com.hikarishima.lightland.magic.chem.ChemEffect",
+        "boost": 1
+    },
+    "map": {
+        "eff.instant_health_i": {
+            "id": "minecraft:instant_health",
+            "lv": 0
+        },
+        "eff.instant_damage_i": {
+            "id": "minecraft:instant_damage",
+            "lv": 0
+        }
+    }
+}

@@ -1,11 +1,13 @@
 package com.hikarishima.lightland.magic.gui.container;
 
 import com.google.common.collect.Maps;
+import com.hikarishima.lightland.LightLand;
 import com.hikarishima.lightland.config.Translator;
 import com.hikarishima.lightland.magic.MagicElement;
 import com.hikarishima.lightland.magic.capabilities.MagicHandler;
 import com.hikarishima.lightland.magic.chem.*;
 import com.hikarishima.lightland.magic.gui.AbstractHexGui;
+import com.hikarishima.lightland.proxy.PacketHandler;
 import com.hikarishima.lightland.proxy.Proxy;
 import com.lcy0x1.core.chem.ReactionPool;
 import com.lcy0x1.core.util.SpriteManager;
@@ -15,6 +17,8 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.Items;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.IFormattableTextComponent;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TextFormatting;
@@ -27,6 +31,34 @@ import java.util.Objects;
 
 @ParametersAreNonnullByDefault
 public class ChemScreen extends AbstractScreen<ChemContainer> {
+
+    private static int rowSize(int total) {
+        int n = 4;
+        int m = 3;
+        while (true) {
+            if (total <= n * m)
+                return n;
+            n++;
+            m++;
+        }
+    }
+
+    private static int getObjX(int i, int total) {
+        int n = rowSize(total);
+        int m = n - 1;
+        if (i / n < m - 1 || n > 4)
+            return i % n * 18 * 3 / (n - 1);
+        return i % 4 * 18 + (12 - total) % 4 * 9;
+
+    }
+
+    private static int getObjY(int i, int total) {
+        int n = rowSize(total);
+        int m = n - 1;
+        if (m < 3)
+            return i / 4 * 18 + (2 - (total - 1) / 4) * 9;
+        return i / n * 18 * 2 / (m - 1);
+    }
 
     protected ReactionPool.Evaluator process = null;
     protected ReactionPool.Result result = null;
@@ -45,7 +77,7 @@ public class ChemScreen extends AbstractScreen<ChemContainer> {
         SpriteManager sm = menu.sm;
         SpriteManager.ScreenRenderer sr = sm.getRenderer(this);
         sr.start(matrix);
-        String input = null;
+        String input = null, output = null;
         if (!menu.slot.getItem(0).isEmpty()) {
             if (menu.total_item < ChemContainer.MAX_ITEM) {
                 if (sm.within("arrow_input", mx, my))
@@ -56,6 +88,17 @@ public class ChemScreen extends AbstractScreen<ChemContainer> {
         }
         if (input != null) {
             sr.draw(matrix, "arrow_input", input);
+        }
+        if (!menu.slot.getItem(2).isEmpty()) {
+            if (process != null && process.complete) {
+                if (sm.within("arrow_output", mx, my))
+                    output = "arrow_out_2";
+                else
+                    output = "arrow_out_1";
+            } else output = "arrow_out_3";
+        }
+        if (output != null) {
+            sr.draw(matrix, "arrow_output", output);
         }
         int x = sm.getComp("pot").x;
         int y = sm.getComp("pot").y - 18;
@@ -73,22 +116,28 @@ public class ChemScreen extends AbstractScreen<ChemContainer> {
         if (display != null) {
             HashEquationPool pool = HashEquationPool.getPool(h.world);
             int i = 0;
-            y += 18 + 9;
+            y += 18 + 3;
             x += 9;
+            int total = display.map.size();
             for (Map.Entry<String, Double> ent : display.map.entrySet()) {
                 ChemObj<?, ?> obj = ChemObj.cast(h, pool.objects.get(ent.getKey()));
-                int dx = i % 4 * 18;
-                int dy = i / 4 * 18;
+                int dx = getObjX(i, total);
+                int dy = getObjY(i, total);
                 if (obj instanceof ChemElement) {
                     AbstractHexGui.drawElement(matrix, x + dx + 9, y + dy + 9, ((ChemElement) obj).get(), "");
                 } else {
-                    Item item = Items.BARRIER;
+                    Item item = null;
                     if (obj instanceof ChemItem) {
                         item = ((ChemItem) obj).get();
                     } else if (obj instanceof ChemEffect) {
                         item = Items.POTION;
                     }
-                    Minecraft.getInstance().getItemRenderer().renderAndDecorateFakeItem(item.getDefaultInstance(), x + dx, y + dy);
+                    if (item == null) {
+                        Minecraft.getInstance().getTextureManager().bind(new ResourceLocation(LightLand.MODID, "textures/unknown.png"));
+                        AbstractHexGui.drawScaled(matrix, x + dx + 8, y + dy + 8, 1);
+                    } else {
+                        Minecraft.getInstance().getItemRenderer().renderAndDecorateFakeItem(item.getDefaultInstance(), x + dx, y + dy);
+                    }
                 }
                 i++;
             }
@@ -119,21 +168,43 @@ public class ChemScreen extends AbstractScreen<ChemContainer> {
         if (display != null) {
             HashEquationPool pool = HashEquationPool.getPool(h.world);
             int i = 0;
-            y += 18 + 9;
+            y += 18 + 3;
             x += 9;
+            double redstone = display.map.getOrDefault("item.redstone", 0d);
+            double glowstone = display.map.getOrDefault("item.glowstone_dust", 0d);
+            int total = display.map.size();
             for (Map.Entry<String, Double> ent : display.map.entrySet()) {
-                int dx = i % 4 * 18;
-                int dy = i / 4 * 18;
+                int dx = getObjX(i, total);
+                int dy = getObjY(i, total);
                 if (mx > x + dx && mx < x + dx + 18 && my > y + dy && my < y + dy + 18) {
                     ChemObj<?, ?> obj = ChemObj.cast(h, pool.objects.get(ent.getKey()));
-                    ITextComponent text = obj != null ? obj.getDesc() :
+                    IFormattableTextComponent text = obj != null ? obj.getDesc() :
                             new StringTextComponent("???").withStyle(TextFormatting.ITALIC);
                     List<ITextComponent> list = new ArrayList<>();
                     list.add(text);
                     double val = ent.getValue();
                     val = Math.round(val * 100) / 100d;
                     list.add(Translator.get("screen.chemistry.value", val));
+                    if (obj instanceof ChemEffect) {
+                        ChemEffect eff = (ChemEffect) obj;
+                        int lv = eff.lv;
+                        if (eff.duration > 0) {
+                            int dur = (int) (eff.duration * val);
+                            if (redstone >= 1)
+                                dur *= 2;
+                            int min = dur / 20 / 60;
+                            int sec = dur / 20 % 60;
+                            String str = min + (sec < 10 ? ":0" : ":") + sec;
+                            list.add(new StringTextComponent(str));
+                        } else {
+                            lv = (int) Math.floor(Math.log(val) / Math.log(2) + 1e-3);
+                        }
+                        if (glowstone >= 1)
+                            lv += eff.boost;
+                        text.append(" " + Translator.getNumber(lv + 1));
+                    }
                     renderComponentTooltip(matrix, list, mx, my);
+                    break;
                 }
                 i++;
             }
@@ -150,8 +221,11 @@ public class ChemScreen extends AbstractScreen<ChemContainer> {
             }
             return true;
         }
-        if (sm.within("arrow_output", mx - getGuiLeft(), my - getGuiTop())) {
+        if (process != null && process.complete && sm.within("arrow_output", mx - getGuiLeft(), my - getGuiTop())) {
             if (click(ChemContainer.OUT)) {
+                ChemPacket packet = new ChemPacket(menu.containerId, display);
+                menu.handle(packet);
+                PacketHandler.send(packet);
                 process(true);
             }
             return true;
@@ -167,6 +241,12 @@ public class ChemScreen extends AbstractScreen<ChemContainer> {
             }
         }
         return super.mouseClicked(mx, my, button);
+    }
+
+    @Override
+    public void tick() {
+        super.tick();
+        innerTick();
     }
 
     private void process(boolean clear) {
@@ -193,12 +273,6 @@ public class ChemScreen extends AbstractScreen<ChemContainer> {
         innerTick();
     }
 
-    @Override
-    public void tick() {
-        super.tick();
-        innerTick();
-    }
-
     private void innerTick() {
         tick++;
         if (process != null && !process.complete) {
@@ -212,4 +286,5 @@ public class ChemScreen extends AbstractScreen<ChemContainer> {
                 display = result;
         }
     }
+
 }

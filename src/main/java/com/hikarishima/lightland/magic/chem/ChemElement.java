@@ -4,7 +4,7 @@ import com.hikarishima.lightland.magic.MagicElement;
 import com.hikarishima.lightland.magic.MagicRegistry;
 import com.hikarishima.lightland.magic.capabilities.MagicHandler;
 import com.lcy0x1.core.util.SerialClass;
-import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.IFormattableTextComponent;
 
 @SerialClass
 public class ChemElement extends ChemObj<ChemElement, MagicElement> {
@@ -26,7 +26,7 @@ public class ChemElement extends ChemObj<ChemElement, MagicElement> {
     }
 
     @Override
-    public ITextComponent getDesc() {
+    public IFormattableTextComponent getDesc() {
         return get().getDesc();
     }
 

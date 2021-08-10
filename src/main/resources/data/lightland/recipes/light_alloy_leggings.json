@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "bbb",
+    "b b",
+    "b b"
+  ],
+  "key": {
+    "b": {
+      "item": "lightland:light_alloy_ingot"
+    }
+  },
+  "result": {
+    "item": "lightland:light_alloy_leggings"
+  }
+}

@@ -5,23 +5,30 @@ import com.hikarishima.lightland.LightLand;
 import com.hikarishima.lightland.magic.MagicElement;
 import com.hikarishima.lightland.magic.MagicRegistry;
 import com.hikarishima.lightland.magic.capabilities.MagicHandler;
+import com.hikarishima.lightland.magic.chem.ChemEffect;
 import com.hikarishima.lightland.magic.chem.HashEquationPool;
-import com.hikarishima.lightland.magic.gui.container.AbstractContainer;
+import com.hikarishima.lightland.proxy.PacketHandler;
 import com.hikarishima.lightland.registry.ContainerRegistry;
+import com.lcy0x1.core.chem.AbChemObj;
 import com.lcy0x1.core.util.SpriteManager;
 import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
+import net.minecraft.potion.Effect;
+import net.minecraft.potion.EffectInstance;
+import net.minecraft.potion.PotionUtils;
 
 import javax.annotation.ParametersAreNonnullByDefault;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public class ChemContainer extends AbstractContainer {
+public class ChemContainer extends AbstractContainer implements PacketHandler.SerialMsgCont<ChemPacket> {
 
     public static final SpriteManager MANAGER = new SpriteManager(LightLand.MODID, "chemistry");
     public static final int ADD = 5, CLEAR = 6, OUT = 7, MAX_ELEM = 8, MAX_ITEM = 8;
@@ -36,7 +43,7 @@ public class ChemContainer extends AbstractContainer {
         super(ContainerRegistry.CT_CHEM, wid, plInv, 4, MANAGER);
         addSlot("input_in_slot", stack -> HashEquationPool.getChemObj(plInv.player.level, stack.getItem()) != null);
         addSlot("input_out_slot", stack -> false);
-        addSlot("output_in_slot", stack -> false);
+        addSlot("output_in_slot", stack -> stack.getItem() == Items.GLASS_BOTTLE);
         addSlot("output_out_slot", stack -> false);
     }
 
@@ -54,7 +61,7 @@ public class ChemContainer extends AbstractContainer {
                 return true;
             }
         }
-        if (btn == 5 && total_item < MAX_ITEM) {
+        if (btn == ADD && total_item < MAX_ITEM) {
             ItemStack stack = slot.getItem(0);
             if (!stack.isEmpty()) {
                 Item item = stack.getItem();
@@ -66,20 +73,62 @@ public class ChemContainer extends AbstractContainer {
                 return true;
             }
         }
-        if (btn == 6) {
+        if (btn == CLEAR) {
             elems.clear();
             items.clear();
             total_element = 0;
             total_item = 0;
             return true;
         }
+        if (btn == OUT) {
+            ItemStack stack = slot.getItem(2);
+            ItemStack out = slot.getItem(3);
+            if (!out.isEmpty())
+                return false;
+            if (!stack.isEmpty()) {
+                ItemStack potion = Items.POTION.getDefaultInstance();
+                total_element = 0;
+                total_item = 0;
+                elems.clear();
+                items.clear();
+                stack.shrink(1);
+                slot.setItem(3, potion);
+                return true;
+            }
+        }
         return super.clickMenuButton(pl, btn);
     }
 
     @Override
-    public void slotsChanged(IInventory inv) {
-
-        super.slotsChanged(inv);
+    public void handle(ChemPacket msg) {
+        if (msg.result != null) {
+            HashEquationPool pool = HashEquationPool.getPool(plInv.player.level);
+            List<EffectInstance> list = new ArrayList<>();
+            double redstone = msg.result.map.get("item.redstone");
+            double glowstone = msg.result.map.get("item.glowstone_dust");
+            msg.result.map.forEach((k, v) -> {
+                AbChemObj obj = pool.objects.get(k);
+                if (obj instanceof ChemEffect) {
+                    ChemEffect ce = (ChemEffect) obj;
+                    Effect eff = ce.get();
+                    int dur = (int) Math.round(ce.duration * v);
+                    int lv = ce.lv;
+                    if (ce.duration == 0) {
+                        if (v < 1)
+                            return;
+                        lv = (int) Math.floor(Math.log(v) / Math.log(2) + 1e-3);
+                    }
+                    if (glowstone > 0)
+                        lv += ce.boost;
+                    if (redstone > 0)
+                        dur *= 2;
+                    list.add(new EffectInstance(eff, dur, lv));
+                }
+            });
+            ItemStack stack = slot.getItem(3);
+            if (!stack.isEmpty())
+                PotionUtils.setCustomEffects(stack, list);
+        }
     }
 
     public enum ElemType {

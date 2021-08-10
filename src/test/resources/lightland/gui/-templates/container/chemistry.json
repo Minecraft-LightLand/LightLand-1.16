@@ -42,6 +42,12 @@
             "sprite": "pot",
             "x": 88,
             "y": 45
+        },
+        "elements": {
+            "sprite": "elem_slot",
+            "x": 52,
+            "y": 0,
+            "rx": 5
         }
     }
 }

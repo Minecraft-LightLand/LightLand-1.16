@@ -34,6 +34,18 @@
             "sprite": "slot",
             "x": 88,
             "y": 18
+        },
+        "elements_0": {
+            "sprite": "elem_slot",
+            "x": 106,
+            "y": 0,
+            "rx": 3
+        },
+        "elements_1": {
+            "sprite": "elem_slot",
+            "x": 106,
+            "y": 18,
+            "rx": 2
         }
     }
 }

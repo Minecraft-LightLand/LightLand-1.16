@@ -1,0 +1,46 @@
+{
+    "_class": "organize.json.JsonPartMap",
+    "file": "config_chemistry",
+    "path": "map.pool.objects",
+    "common": {
+        "_class": "com.hikarishima.lightland.magic.chem.ChemItem"
+    },
+    "map": {
+        "item.turtle_shell": {
+            "id": "minecraft:turtle_helmet"
+        },
+        "item.golden_carrot": {
+            "id": "minecraft:golden_carrot"
+        },
+        "item.sugar": {
+            "id": "minecraft:sugar"
+        },
+        "item.rabbit_foot": {
+            "id": "minecraft:rabbit_foot"
+        },
+        "item.phantom_membrane": {
+            "id": "minecraft:phantom_membrane"
+        },
+        "item.golden_melon": {
+            "id": "minecraft:glistering_melon_slice"
+        },
+        "item.spider_eye": {
+            "id": "minecraft:spider_eye"
+        },
+        "item.pufferfish": {
+            "id": "minecraft:pufferfish"
+        },
+        "item.blaze_powder": {
+            "id": "minecraft:blaze_powder"
+        },
+        "item.magma_cream": {
+            "id": "minecraft:magma_cream"
+        },
+        "item.fermented": {
+            "id": "minecraft:fermented_spider_eye"
+        },
+        "item.ghast_tear": {
+            "id": "minecraft:ghast_tear"
+        }
+    }
+}

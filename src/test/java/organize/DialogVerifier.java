@@ -32,7 +32,7 @@ import java.util.function.BiConsumer;
 public class DialogVerifier {
 
     public static void main(String[] args) throws Exception {
-        File f = new File("./src/test/resources/lightland/recipes/config/_dialog.json");
+        File f = new File("./src/main/resources/data/lightland/recipes/config_dialog.json");
         JsonElement elem = new JsonParser().parse(new FileReader(f));
         ConfigRecipe r = RecipeRegistry.RSM_CONFIG.fromJson(new ResourceLocation(LightLand.MODID, "config_dialog"), elem.getAsJsonObject());
         Map<String, Dialog> dialog_id = getID(r.map, Dialog.class);

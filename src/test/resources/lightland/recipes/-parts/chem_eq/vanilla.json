@@ -1,0 +1,128 @@
+{
+    "_class": "organize.json.JsonPartList",
+    "file": "config_chemistry",
+    "path": "map.pool.equations",
+    "list": [
+        {
+            "in": [
+                "elem.earth",
+                "item.turtle_shell"
+            ],
+            "result": [
+                "eff.resistance_iii",
+                "eff.slow_iv"
+            ],
+            "k": 5
+        },
+        {
+            "in": [
+                "elem.earth",
+                "item.golden_carrot"
+            ],
+            "result": [
+                "eff.night_vision",
+                "eff.night_vision"
+            ],
+            "k": 1
+        },
+        {
+            "in": [
+                "elem.air",
+                "item.sugar"
+            ],
+            "result": [
+                "eff.speed_i",
+                "eff.speed_i"
+            ],
+            "k": 1
+        },
+        {
+            "in": [
+                "elem.air",
+                "item.rabbit_foot"
+            ],
+            "result": [
+                "eff.jump_i",
+                "eff.jump_i"
+            ],
+            "k": 1
+        },
+        {
+            "in": [
+                "elem.air",
+                "item.phantom_membrane"
+            ],
+            "result": [
+                "eff.slow_falling",
+                "eff.slow_falling"
+            ],
+            "k": 1
+        },
+        {
+            "in": [
+                "elem.water",
+                "item.golden_melon"
+            ],
+            "result": [
+                "eff.instant_health_i",
+                "eff.instant_health_i"
+            ],
+            "k": 1
+        },
+        {
+            "in": [
+                "elem.water",
+                "item.spider_eye"
+            ],
+            "result": [
+                "eff.poison_i",
+                "eff.poison_i"
+            ],
+            "k": 1
+        },
+        {
+            "in": [
+                "elem.water",
+                "item.pufferfish"
+            ],
+            "result": [
+                "eff.water_breathing",
+                "eff.water_breathing"
+            ],
+            "k": 1
+        },
+        {
+            "in": [
+                "elem.fire",
+                "item.blaze_powder"
+            ],
+            "result": [
+                "eff.strength_i",
+                "eff.strength_i"
+            ],
+            "k": 1
+        },
+        {
+            "in": [
+                "elem.fire",
+                "item.magma_cream"
+            ],
+            "result": [
+                "eff.fire_resistance",
+                "eff.fire_resistance"
+            ],
+            "k": 1
+        },
+        {
+            "in": [
+                "elem.quint",
+                "item.ghast_tear"
+            ],
+            "result": [
+                "eff.regeneration_i",
+                "eff.regeneration_i"
+            ],
+            "k": 5
+        }
+    ]
+}
