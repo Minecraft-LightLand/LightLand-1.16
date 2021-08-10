@@ -5,6 +5,7 @@ import com.lcy0x1.core.util.SerialClass;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class ReactionPool {
@@ -322,7 +323,7 @@ public class ReactionPool {
     public static class Result {
 
         @SerialClass.SerialField(generic = {String.class, Double.class})
-        public final Map<String, Double> map = Maps.newLinkedHashMap();
+        public final LinkedHashMap<String, Double> map = Maps.newLinkedHashMap();
 
         private Result() {
 

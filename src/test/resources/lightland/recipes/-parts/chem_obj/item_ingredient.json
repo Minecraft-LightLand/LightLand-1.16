@@ -41,21 +41,6 @@
         },
         "item.ghast_tear": {
             "id": "minecraft:ghast_tear"
-        },
-        "item.coal": {
-            "id": "minecraft:coal"
-        },
-        "item.slime_ball": {
-            "id": "minecraft:slime_ball"
-        },
-        "item.bone": {
-            "id": "minecraft:bone"
-        },
-        "item.bone_meal": {
-            "id": "minecraft:bone_meal"
-        },
-        "item.scute": {
-            "id": "minecraft:scute"
         }
     }
 }

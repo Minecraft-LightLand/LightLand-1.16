@@ -3,7 +3,8 @@
     "file": "config_chemistry",
     "path": "map.pool.objects",
     "common": {
-        "_class": "com.hikarishima.lightland.magic.chem.ChemEffect"
+        "_class": "com.hikarishima.lightland.magic.chem.ChemEffect",
+        "boost": 1
     },
     "map": {
         "eff.resistance_iii": {

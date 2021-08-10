@@ -5,7 +5,9 @@ import com.hikarishima.lightland.magic.capabilities.MagicHandler;
 import com.hikarishima.lightland.recipe.IMagicRecipe;
 import com.lcy0x1.core.util.SerialClass;
 import net.minecraft.item.Item;
+import net.minecraft.util.text.IFormattableTextComponent;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.registries.ForgeRegistries;
 
 @SerialClass
@@ -29,7 +31,7 @@ public class ChemItem extends ChemObj<ChemItem, Item> {
     }
 
     @Override
-    public ITextComponent getDesc() {
-        return get().getDescription();
+    public IFormattableTextComponent getDesc() {
+        return new TranslationTextComponent(get().getDescriptionId());
     }
 }

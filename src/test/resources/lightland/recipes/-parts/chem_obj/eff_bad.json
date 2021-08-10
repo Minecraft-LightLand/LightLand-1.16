@@ -3,12 +3,14 @@
     "file": "config_chemistry",
     "path": "map.pool.objects",
     "common": {
-        "_class": "com.hikarishima.lightland.magic.chem.ChemEffect"
+        "_class": "com.hikarishima.lightland.magic.chem.ChemEffect",
+        "boost": 1
     },
     "map": {
         "eff.slow_iv": {
             "id": "minecraft:slowness",
             "lv": 3,
+            "boost": 2,
             "duration": 600
         },
         "eff.slowness_i": {

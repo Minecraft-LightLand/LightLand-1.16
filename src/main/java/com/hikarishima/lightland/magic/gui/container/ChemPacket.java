@@ -10,7 +10,8 @@ public class ChemPacket extends PacketHandler.ContSerialMsg {
     @SerialClass.SerialField
     public ReactionPool.Result result;
 
-    public ChemPacket(int wid) {
+    public ChemPacket(int wid, ReactionPool.Result result) {
         super(wid);
+        this.result = result;
     }
 }

@@ -20,7 +20,9 @@ public class JsonPartMap extends JsonPart {
             dst.add(ent.getKey(), ent.getValue());
             if (common != null) {
                 common.getAsJsonObject().entrySet().forEach(e -> {
-                    ent.getValue().getAsJsonObject().add(e.getKey(), e.getValue());
+                    JsonObject obj = ent.getValue().getAsJsonObject();
+                    if (!obj.has(e.getKey()))
+                        obj.add(e.getKey(), e.getValue());
                 });
             }
         });

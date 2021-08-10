@@ -8,7 +8,7 @@
     "map": {
         "eff.night_vision": {
             "id": "minecraft:night_vision",
-            "duration": 600
+            "duration": 1200
         },
         "eff.water_breathing": {
             "id": "minecraft:water_breathing",
@@ -16,7 +16,7 @@
         },
         "eff.fire_resistance": {
             "id": "minecraft:fire_resistance",
-            "duration": 600
+            "duration": 1200
         },
         "eff.invisibility": {
             "id": "minecraft:invisibility",
@@ -32,15 +32,15 @@
         },
         "eff.levitation": {
             "id": "minecraft:levitation",
-            "duration": 600
+            "duration": 200
         },
         "eff.blindness": {
             "id": "minecraft:blindness",
-            "duration": 600
+            "duration": 200
         },
         "eff.nausea": {
             "id": "minecraft:nausea",
-            "duration": 600
+            "duration": 400
         }
     }
 }

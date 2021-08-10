@@ -1,12 +1,11 @@
 package com.hikarishima.lightland.magic.chem;
 
-import com.hikarishima.lightland.config.Translator;
 import com.hikarishima.lightland.magic.MagicRegistry;
 import com.hikarishima.lightland.magic.capabilities.MagicHandler;
 import com.hikarishima.lightland.recipe.IMagicRecipe;
 import com.lcy0x1.core.util.SerialClass;
 import net.minecraft.potion.Effect;
-import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.IFormattableTextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.registries.ForgeRegistries;
 
@@ -14,10 +13,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 public class ChemEffect extends ChemObj<ChemEffect, Effect> {
 
     @SerialClass.SerialField
-    public int lv;
-
-    @SerialClass.SerialField
-    public double duration;
+    public int lv, boost, duration;
 
     public ChemEffect() {
         super(State.LIQUID);
@@ -37,7 +33,8 @@ public class ChemEffect extends ChemObj<ChemEffect, Effect> {
     }
 
     @Override
-    public ITextComponent getDesc() {
-        return new TranslationTextComponent(get().getDescriptionId()).append(" " + Translator.getNumber(lv + 1));
+    public IFormattableTextComponent getDesc() {
+        return new TranslationTextComponent(get().getDescriptionId());
     }
+
 }
