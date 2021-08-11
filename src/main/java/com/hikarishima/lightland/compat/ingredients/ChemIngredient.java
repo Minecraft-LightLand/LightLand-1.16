@@ -4,7 +4,6 @@ import com.hikarishima.lightland.compat.LightLandJeiPlugin;
 import com.hikarishima.lightland.magic.chem.ChemElement;
 import com.hikarishima.lightland.magic.chem.ChemItem;
 import com.lcy0x1.core.chem.AbChemObj;
-import mezz.jei.api.MethodsReturnNonnullByDefault;
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.ingredients.IIngredientType;
 import net.minecraft.item.ItemStack;
@@ -13,7 +12,6 @@ import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 @ParametersAreNonnullByDefault
-@MethodsReturnNonnullByDefault
 public class ChemIngredient extends Countable {
 
     @Nullable
@@ -35,6 +33,17 @@ public class ChemIngredient extends Countable {
         if (obj instanceof ChemItem || obj instanceof ChemElement)
             return null;
         return new ChemIngredient(obj);
+    }
+
+    @Nullable
+    public static Object as(@Nullable AbChemObj obj) {
+        if (obj == null)
+            return null;
+        if (obj instanceof ChemItem)
+            return asItem(obj);
+        else if (obj instanceof ChemElement)
+            return asElem(obj);
+        else return asChem(obj);
     }
 
     public static IIngredientType<?> getType(AbChemObj obj) {

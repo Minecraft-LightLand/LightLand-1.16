@@ -34,14 +34,14 @@ public class ArcaneInjectScreen extends AbstractScreen<ArcaneInjectContainer> im
         getInfo((ex, ey, w, h, ent) -> {
             int count = ent.getValue();
             int have = Proxy.getHandler().magicHolder.getElement(ent.getKey());
-            AbstractHexGui.drawElement(matrix, ex, ey, ent.getKey(), "" + count, have >= count ? 0xFFFFFF : 0xFF0000);
+            AbstractHexGui.drawElement(matrix, ex + getGuiLeft() + 9, ey + getGuiTop() + 9, ent.getKey(), "" + count, have >= count ? 0xFFFFFF : 0xFF0000);
         });
     }
 
     @Override
     protected void renderTooltip(MatrixStack matrix, int mx, int my) {
         super.renderTooltip(matrix, mx, my);
-        if (menu.sm.within("arrow", mx - getGuiLeft(), my - getGuiTop()) &&
+        if (menu.sm.within("arrow", mx, my) &&
                 menu.err != ArcaneInjectContainer.Error.NO_ITEM)
             renderTooltip(matrix, menu.err.getDesc(menu), mx, my);
         getInfoMouse(mx - getGuiLeft(), my - getGuiTop(), (ex, ey, w, h, ent) -> {
@@ -64,13 +64,13 @@ public class ArcaneInjectScreen extends AbstractScreen<ArcaneInjectContainer> im
 
     @Override
     public void getInfo(Con<Map.Entry<MagicElement, Integer>> con) {
-        int x = menu.sm.getComp("output_slot").x + 18 + 8 + getGuiLeft();
-        int y = menu.sm.getComp("output_slot").y + 8 + getGuiTop();
+        int x = menu.sm.getComp("output_slot").x + 18 - 1;
+        int y = menu.sm.getComp("output_slot").y - 1;
         int i = 0;
         for (Map.Entry<MagicElement, Integer> ent : menu.map.entrySet()) {
             int ex = x + i % 3 * 18;
             int ey = y + i / 3 * 18;
-            con.apply(ex, ey, 16, 16, ent);
+            con.apply(ex, ey, 18, 18, ent);
             i++;
         }
     }

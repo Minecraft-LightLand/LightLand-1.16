@@ -4,8 +4,13 @@ import com.hikarishima.lightland.LightLand;
 import com.hikarishima.lightland.compat.ingredients.*;
 import com.hikarishima.lightland.compat.recipes.ChemRecipeCategory;
 import com.hikarishima.lightland.compat.recipes.DisEnchanterRecipeCategory;
+import com.hikarishima.lightland.compat.screen.ExtraInfoScreen;
 import com.hikarishima.lightland.magic.MagicRegistry;
 import com.hikarishima.lightland.magic.chem.HashEquationPool;
+import com.hikarishima.lightland.magic.gui.container.ArcaneInjectScreen;
+import com.hikarishima.lightland.magic.gui.container.ChemScreen;
+import com.hikarishima.lightland.magic.gui.container.DisEnchanterScreen;
+import com.hikarishima.lightland.magic.gui.container.SpellCraftScreen;
 import com.hikarishima.lightland.proxy.Proxy;
 import com.hikarishima.lightland.recipe.ConfigRecipe;
 import com.hikarishima.lightland.recipe.IMagicRecipe;
@@ -43,6 +48,8 @@ public class LightLandJeiPlugin implements IModPlugin {
 
     public final DisEnchanterRecipeCategory DISENCHANT = new DisEnchanterRecipeCategory();
     public final ChemRecipeCategory CHEM_CATEGORY = new ChemRecipeCategory();
+
+    public final ExtraInfoScreen EXTRA_INFO = new ExtraInfoScreen();
 
     public LightLandJeiPlugin() {
         INSTANCE = this;
@@ -97,6 +104,11 @@ public class LightLandJeiPlugin implements IModPlugin {
 
     @Override
     public void registerGuiHandlers(IGuiHandlerRegistration registration) {
+        ExtraInfoScreen.init();
+        registration.addGuiContainerHandler(DisEnchanterScreen.class, EXTRA_INFO);
+        registration.addGuiContainerHandler(SpellCraftScreen.class, EXTRA_INFO);
+        registration.addGuiContainerHandler(ArcaneInjectScreen.class, EXTRA_INFO);
+        registration.addGuiContainerHandler(ChemScreen.class, EXTRA_INFO);
     }
 
     @Override

@@ -13,7 +13,9 @@ import mezz.jei.api.MethodsReturnNonnullByDefault;
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.gui.IRecipeLayout;
 import mezz.jei.api.gui.drawable.IDrawable;
+import mezz.jei.api.gui.ingredient.IGuiIngredientGroup;
 import mezz.jei.api.helpers.IGuiHelper;
+import mezz.jei.api.ingredients.IIngredientType;
 import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.recipe.category.IRecipeCategory;
 import net.minecraft.enchantment.Enchantment;
@@ -21,17 +23,20 @@ import net.minecraft.enchantment.EnchantmentData;
 import net.minecraft.item.EnchantedBookItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
-import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.ResourceLocation;
 
 import javax.annotation.ParametersAreNonnullByDefault;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @MethodsReturnNonnullByDefault
 @ParametersAreNonnullByDefault
 public class DisEnchanterRecipeCategory implements IRecipeCategory<IMagicRecipe<?>> {
 
-    private static final ResourceLocation BG = new ResourceLocation(LightLand.MODID, "textures/gui/container/disenchant.png");
+    private static final ResourceLocation BG = new ResourceLocation(LightLand.MODID, "textures/jei/background.png");
 
     private final ResourceLocation id;
     private IDrawable background, icon;
@@ -41,7 +46,7 @@ public class DisEnchanterRecipeCategory implements IRecipeCategory<IMagicRecipe<
     }
 
     public DisEnchanterRecipeCategory init(IGuiHelper guiHelper) {
-        background = guiHelper.createDrawable(BG, 0, 0, 174, 18);
+        background = guiHelper.createDrawable(BG, 0, 18, 176, 18);
         icon = guiHelper.createDrawableIngredient(new ItemStack(ItemRegistry.CHEM_BOOK));
         return this;
     }
@@ -75,16 +80,44 @@ public class DisEnchanterRecipeCategory implements IRecipeCategory<IMagicRecipe<
     @Override
     public void setIngredients(IMagicRecipe<?> r, IIngredients list) {
         Enchantment ench = (Enchantment) r.getProduct().item;
-        ItemStack stack = EnchantedBookItem.createForEnchantment(new EnchantmentData(ench, 1));
-        list.setInputIngredients(Lists.newArrayList(Ingredient.of(stack)));
-        list.setInput(VanillaTypes.ITEM, Items.GOLD_NUGGET.getDefaultInstance());
-        list.setOutput(VanillaTypes.ITEM, ItemRegistry.ENCHANT_GOLD_NUGGET.getDefaultInstance());
-        list.setOutputs(LightLandJeiPlugin.INSTANCE.ELEM_TYPE, Countable.collect(Arrays.stream(r.getElements()).map(ElementIngredient::new)));
+        List<ItemStack> l0 = new ArrayList<>();
+        List<ItemStack> l1 = new ArrayList<>();
+        List<ItemStack> l2 = new ArrayList<>();
+        List<ElementIngredient> elem = Countable.collect(Arrays.stream(r.getElements()).map(ElementIngredient::new));
+        for (int i = 1; i <= ench.getMaxLevel(); i++) {
+            l0.add(EnchantedBookItem.createForEnchantment(new EnchantmentData(ench, i)));
+            l1.add(new ItemStack(Items.GOLD_NUGGET, i));
+            l2.add(new ItemStack(ItemRegistry.ENCHANT_GOLD_NUGGET, i));
+        }
+        List<List<ElementIngredient>> l3 = elem.stream().map(e -> {
+            List<ElementIngredient> ans = new ArrayList<>();
+            if (e.count == 0)
+                e.count = 1;
+            for (int i = 1; i <= ench.getMaxLevel(); i++)
+                ans.add(new ElementIngredient(e.elem, e.count * i));
+            return ans;
+        }).collect(Collectors.toList());
+        list.setInputLists(VanillaTypes.ITEM, Lists.newArrayList(l0, l1));
+        list.setOutputLists(VanillaTypes.ITEM, Collections.singletonList(l2));
+        list.setOutputLists(LightLandJeiPlugin.INSTANCE.ELEM_TYPE, l3);
     }
 
     @Override
-    public void setRecipe(IRecipeLayout iRecipeLayout, IMagicRecipe<?> iMagicRecipe, IIngredients iIngredients) {
-        //TODO
+    public void setRecipe(IRecipeLayout layout, IMagicRecipe<?> r, IIngredients list) {
+        set(layout.getItemStacks(), list.getInputs(VanillaTypes.ITEM).get(0), 0, true, 0, 0);
+        set(layout.getItemStacks(), list.getInputs(VanillaTypes.ITEM).get(1), 1, true, 18, 0);
+        set(layout.getItemStacks(), list.getOutputs(VanillaTypes.ITEM).get(0), 2, false, 68, 0);
+        int ind = 3;
+        IIngredientType<ElementIngredient> type = LightLandJeiPlugin.INSTANCE.ELEM_TYPE;
+        for (List<ElementIngredient> e : list.getOutputs(type)) {
+            set(layout.getIngredientsGroup(type), e, ind, false, 69 + ((ind - 2) * 18), 1);
+            ind++;
+        }
+    }
+
+    private static <T> void set(IGuiIngredientGroup<T> group, List<T> t, int ind, boolean bool, int x, int y) {
+        group.init(ind, bool, x, y);
+        group.set(ind, t);
     }
 
 }

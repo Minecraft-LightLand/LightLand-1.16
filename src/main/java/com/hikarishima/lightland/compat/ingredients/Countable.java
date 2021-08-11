@@ -13,10 +13,11 @@ public abstract class Countable {
     public static <T extends Countable> List<T> collect(Stream<T> stream) {
         List<T> list = stream.collect(Collectors.toList());
         LinkedHashMap<T, T> set = new LinkedHashMap<>();
-        for (T t : list)
+        for (T t : list) {
             if (set.containsKey(t))
                 set.get(t).count += t.count;
             else set.put(t, t);
+        }
         return new ArrayList<>(set.values());
     }
 
