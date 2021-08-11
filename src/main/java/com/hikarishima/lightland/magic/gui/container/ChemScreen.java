@@ -13,6 +13,7 @@ import com.lcy0x1.core.chem.ReactionPool;
 import com.lcy0x1.core.util.SpriteManager;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.datafixers.util.Pair;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.Item;
@@ -23,6 +24,7 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TextFormatting;
 
+import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +32,7 @@ import java.util.Map;
 import java.util.Objects;
 
 @ParametersAreNonnullByDefault
-public class ChemScreen extends AbstractScreen<ChemContainer> {
+public class ChemScreen extends AbstractScreen<ChemContainer> implements ExtraInfo.DoubleInfo<Pair<MagicElement, Integer>, Pair<ChemObj<?, ?>, Double>> {
 
     private static int rowSize(int total) {
         int n = 4;
@@ -58,6 +60,25 @@ public class ChemScreen extends AbstractScreen<ChemContainer> {
         if (m < 3)
             return i / 4 * 18 + (2 - (total - 1) / 4) * 9;
         return i / n * 18 * 2 / (m - 1);
+    }
+
+    public static void render(MatrixStack matrix, @Nullable ChemObj<?, ?> obj, int x, int y) {
+        if (obj instanceof ChemElement) {
+            AbstractHexGui.drawElement(matrix, x + 8, y + 8, ((ChemElement) obj).get(), "");
+        } else {
+            Item item = null;
+            if (obj instanceof ChemItem) {
+                item = ((ChemItem) obj).get();
+            } else if (obj instanceof ChemEffect) {
+                item = Items.POTION;
+            }
+            if (item == null) {
+                Minecraft.getInstance().getTextureManager().bind(new ResourceLocation(LightLand.MODID, "textures/unknown.png"));
+                AbstractHexGui.drawScaled(matrix, x + 8, y + 8, 1);
+            } else {
+                Minecraft.getInstance().getItemRenderer().renderAndDecorateFakeItem(item.getDefaultInstance(), x, y);
+            }
+        }
     }
 
     protected ReactionPool.Evaluator process = null;
@@ -100,114 +121,72 @@ public class ChemScreen extends AbstractScreen<ChemContainer> {
         if (output != null) {
             sr.draw(matrix, "arrow_output", output);
         }
-        int x = sm.getComp("pot").x;
-        int y = sm.getComp("pot").y - 18;
-        MagicHandler h = MagicHandler.get(Proxy.getClientPlayer());
+
+        MagicHandler h = Proxy.getHandler();
         RenderSystem.pushMatrix();
         RenderSystem.translated(getGuiLeft(), getGuiTop(), 0);
-        for (int i = 0; i < 5; i++) {
-            MagicElement e = ChemContainer.ElemType.values()[i].elem;
-            boolean can_add = h.magicHolder.getElement(e) > 0 && menu.total_element < ChemContainer.MAX_ELEM;
-            int num = menu.elems.getOrDefault(e, 0);
-            AbstractHexGui.drawElement(matrix, x + 9 + i * 18, y + 9, e, "" + num, can_add ? 0xFFFFFFFF : AbstractHexGui.RED);
-            if (mx > x + i * 18 && mx < x + i * 18 + 18 && my > y && my < y + 18)
-                fill(matrix, x + i * 18, y, x + i * 18 + 18, y + 18, 0x80FFFFFF);
-        }
-        if (display != null) {
-            HashEquationPool pool = HashEquationPool.getPool(h.world);
-            int i = 0;
-            y += 18 + 3;
-            x += 9;
-            int total = display.map.size();
-            for (Map.Entry<String, Double> ent : display.map.entrySet()) {
-                ChemObj<?, ?> obj = ChemObj.cast(h, pool.objects.get(ent.getKey()));
-                int dx = getObjX(i, total);
-                int dy = getObjY(i, total);
-                if (obj instanceof ChemElement) {
-                    AbstractHexGui.drawElement(matrix, x + dx + 9, y + dy + 9, ((ChemElement) obj).get(), "");
-                } else {
-                    Item item = null;
-                    if (obj instanceof ChemItem) {
-                        item = ((ChemItem) obj).get();
-                    } else if (obj instanceof ChemEffect) {
-                        item = Items.POTION;
-                    }
-                    if (item == null) {
-                        Minecraft.getInstance().getTextureManager().bind(new ResourceLocation(LightLand.MODID, "textures/unknown.png"));
-                        AbstractHexGui.drawScaled(matrix, x + dx + 8, y + dy + 8, 1);
-                    } else {
-                        Minecraft.getInstance().getItemRenderer().renderAndDecorateFakeItem(item.getDefaultInstance(), x + dx, y + dy);
-                    }
-                }
-                i++;
-            }
-        }
+        int _mx = mx;
+        int _my = my;
+        getInfoA((x, y, _w, _h, e) -> {
+            boolean can_add = h.magicHolder.getElement(e.getFirst()) > 0 && menu.total_element < ChemContainer.MAX_ELEM;
+            AbstractHexGui.drawElement(matrix, x + 9, y + 9, e.getFirst(), "" + e.getSecond(), can_add ? 0xFFFFFFFF : AbstractHexGui.RED);
+            if (_mx > x && _mx < x + _w && _my > y && _my < y + _h)
+                fill(matrix, x, y, x + _w, y + _h, 0x80FFFFFF);
+        });
+        getInfoB((x, y, _w, _h, e) -> {
+            render(matrix, e.getFirst(), x, y);
+        });
         RenderSystem.popMatrix();
     }
 
     @Override
     protected void renderTooltip(MatrixStack matrix, int mx, int my) {
         SpriteManager sm = menu.sm;
-        MagicHandler h = MagicHandler.get(Proxy.getClientPlayer());
-        int x = sm.getComp("pot").x + getGuiLeft();
-        int y = sm.getComp("pot").y - 18 + getGuiTop();
-        for (int i = 0; i < 5; i++) {
-            if (mx > x + i * 18 && mx < x + i * 18 + 18 && my > y && my < y + 18) {
-                MagicElement e = ChemContainer.ElemType.values()[i].elem;
-                int has = h.magicHolder.getElement(e);
-                int cur = menu.total_element;
-                int max = ChemContainer.MAX_ELEM;
-                int num = menu.elems.getOrDefault(e, 0);
-                List<ITextComponent> list = new ArrayList<>();
-                list.add(Translator.get(has == 0, "screen.chemistry.has", has));
-                list.add(Translator.get(false, "screen.chemistry.in_use", num));
-                list.add(Translator.get(cur >= max, "screen.chemistry.current", cur, max));
-                renderComponentTooltip(matrix, list, mx, my);
-            }
-        }
+        MagicHandler h = Proxy.getHandler();
+        getInfoAMouse(mx - getGuiLeft(), my - getGuiTop(), (x, y, _w, _h, e) -> {
+            int has = h.magicHolder.getElement(e.getFirst());
+            int cur = menu.total_element;
+            int max = ChemContainer.MAX_ELEM;
+            int num = e.getSecond();
+            List<ITextComponent> list = new ArrayList<>();
+            list.add(Translator.get(has == 0, "screen.chemistry.has", has));
+            list.add(Translator.get(false, "screen.chemistry.in_use", num));
+            list.add(Translator.get(cur >= max, "screen.chemistry.current", cur, max));
+            renderComponentTooltip(matrix, list, mx, my);
+        });
+
         if (display != null) {
-            HashEquationPool pool = HashEquationPool.getPool(h.world);
-            int i = 0;
-            y += 18 + 3;
-            x += 9;
             double redstone = display.map.getOrDefault("item.redstone", 0d);
             double glowstone = display.map.getOrDefault("item.glowstone_dust", 0d);
-            int total = display.map.size();
-            for (Map.Entry<String, Double> ent : display.map.entrySet()) {
-                int dx = getObjX(i, total);
-                int dy = getObjY(i, total);
-                if (mx > x + dx && mx < x + dx + 18 && my > y + dy && my < y + dy + 18) {
-                    ChemObj<?, ?> obj = ChemObj.cast(h, pool.objects.get(ent.getKey()));
-                    IFormattableTextComponent text = obj != null ? obj.getDesc() :
-                            new StringTextComponent("???").withStyle(TextFormatting.ITALIC);
-                    List<ITextComponent> list = new ArrayList<>();
-                    list.add(text);
-                    double val = ent.getValue();
-                    val = Math.round(val * 100) / 100d;
-                    list.add(Translator.get("screen.chemistry.value", val));
-                    if (obj instanceof ChemEffect) {
-                        ChemEffect eff = (ChemEffect) obj;
-                        int lv = eff.lv;
-                        if (eff.duration > 0) {
-                            int dur = (int) (eff.duration * val);
-                            if (redstone >= 1)
-                                dur *= 2;
-                            int min = dur / 20 / 60;
-                            int sec = dur / 20 % 60;
-                            String str = min + (sec < 10 ? ":0" : ":") + sec;
-                            list.add(new StringTextComponent(str));
-                        } else {
-                            lv = (int) Math.floor(Math.log(val) / Math.log(2) + 1e-3);
-                        }
-                        if (glowstone >= 1)
-                            lv += eff.boost;
-                        text.append(" " + Translator.getNumber(lv + 1));
+            getInfoBMouse(mx - getGuiLeft(), my - getGuiTop(), (x, y, _w, _h, e) -> {
+                ChemObj<?, ?> obj = e.getFirst();
+                IFormattableTextComponent text = obj != null ? obj.getDesc() :
+                        new StringTextComponent("???").withStyle(TextFormatting.ITALIC);
+                List<ITextComponent> list = new ArrayList<>();
+                list.add(text);
+                double val = e.getSecond();
+                val = Math.round(val * 100) / 100d;
+                list.add(Translator.get("screen.chemistry.value", val));
+                if (obj instanceof ChemEffect) {
+                    ChemEffect eff = (ChemEffect) obj;
+                    int lv = eff.lv;
+                    if (eff.duration > 0) {
+                        int dur = (int) (eff.duration * val);
+                        if (redstone >= 1)
+                            dur *= 2;
+                        int min = dur / 20 / 60;
+                        int sec = dur / 20 % 60;
+                        String str = min + (sec < 10 ? ":0" : ":") + sec;
+                        list.add(new StringTextComponent(str));
+                    } else {
+                        lv = (int) Math.floor(Math.log(val) / Math.log(2) + 1e-3);
                     }
-                    renderComponentTooltip(matrix, list, mx, my);
-                    break;
+                    if (glowstone >= 1)
+                        lv += eff.boost;
+                    text.append(" " + Translator.getNumber(lv + 1));
                 }
-                i++;
-            }
+                renderComponentTooltip(matrix, list, mx, my);
+            });
         }
         super.renderTooltip(matrix, mx, my);
     }
@@ -256,7 +235,7 @@ public class ChemScreen extends AbstractScreen<ChemContainer> {
             display = null;
             return;
         }
-        HashEquationPool hash = HashEquationPool.getPool(menu.plInv.player.level);
+        HashEquationPool hash = Proxy.getPool();
         Map<String, Double> map = Maps.newLinkedHashMap();
         if (result != null) {
             result.map.forEach(map::put);
@@ -268,7 +247,7 @@ public class ChemScreen extends AbstractScreen<ChemContainer> {
         }
         process = null;
         result = null;
-        ReactionPool react = hash.getPool(map);
+        ReactionPool react = hash.getPool(map, menu.env);
         process = react.new Evaluator();
         innerTick();
     }
@@ -287,4 +266,37 @@ public class ChemScreen extends AbstractScreen<ChemContainer> {
         }
     }
 
+    @Override
+    public void getInfoA(Con<Pair<MagicElement, Integer>> con) {
+        int x = menu.sm.getComp("pot").x;
+        int y = menu.sm.getComp("pot").y - 18;
+        for (int i = 0; i < 5; i++) {
+            MagicElement e = ChemContainer.ElemType.values()[i].elem;
+            int num = menu.elems.getOrDefault(e, 0);
+            if (con.apply(x + i * 18, y, 18, 18, Pair.of(e, num)))
+                break;
+        }
+    }
+
+    @Override
+    public void getInfoB(Con<Pair<ChemObj<?, ?>, Double>> con) {
+        if (display != null) {
+            HashEquationPool pool = Proxy.getPool();
+            MagicHandler h = Proxy.getHandler();
+            int x = menu.sm.getComp("pot").x;
+            int y = menu.sm.getComp("pot").y - 18;
+            int i = 0;
+            y += 18 + 3;
+            x += 9;
+            int total = display.map.size();
+            for (Map.Entry<String, Double> ent : display.map.entrySet()) {
+                ChemObj<?, ?> obj = ChemObj.cast(h, pool.objects.get(ent.getKey()));
+                int dx = getObjX(i, total);
+                int dy = getObjY(i, total);
+                if (con.apply(x + dx + 1, y + dy + 1, 16, 16, Pair.of(obj, ent.getValue())))
+                    break;
+                i++;
+            }
+        }
+    }
 }

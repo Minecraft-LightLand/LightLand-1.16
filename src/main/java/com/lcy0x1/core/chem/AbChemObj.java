@@ -8,6 +8,8 @@ public class AbChemObj {
     @SerialClass.SerialField
     public State state = State.LIQUID;
 
+    public String id;
+
     public enum State {
         LIQUID, SOLID
     }

@@ -18,6 +18,7 @@ public class EquationPool {
 
     @SerialClass.OnInject
     public void onInject() {
+        objects.forEach((k, v) -> v.id = k);
         for (Equation eq : equations) {
             for (String s : eq.in)
                 add(s, eq);
@@ -34,7 +35,7 @@ public class EquationPool {
         set.add(eq);
     }
 
-    public ReactionPool getPool(Map<String, Double> objs) {
+    public ReactionPool getPool(Map<String, Double> objs, String env) {
         Queue<String> queue = new ArrayDeque<>(objs.keySet());
         Set<String> objset = new LinkedHashSet<>(objs.keySet());
         Set<Equation> eqset = new LinkedHashSet<>();
@@ -43,7 +44,7 @@ public class EquationPool {
             if (!map.containsKey(str))
                 continue;
             for (Equation e : map.get(str)) {
-                if (eqset.contains(e))
+                if (!env.equals(e.environment) || eqset.contains(e))
                     continue;
                 List<String> lr = Arrays.asList(e.result);
                 List<String> li = Arrays.asList(e.in);

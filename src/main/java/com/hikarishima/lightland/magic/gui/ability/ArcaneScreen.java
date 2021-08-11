@@ -28,7 +28,7 @@ public class ArcaneScreen extends AbstractAbilityScreen {
     public static final ITextComponent TITLE = Translator.get("screen.ability.arcane.title");
 
     public static boolean canAccess() {
-        MagicHandler handler = MagicHandler.get(Proxy.getPlayer());
+        MagicHandler handler = Proxy.getHandler();
         return handler.abilityPoints.canLevelArcane() ||
                 MagicRegistry.ARCANE_TYPE.getValues().stream()
                         .anyMatch(handler.magicAbility::isArcaneTypeUnlocked);
@@ -45,7 +45,7 @@ public class ArcaneScreen extends AbstractAbilityScreen {
         RenderSystem.translatef(w / 2f, h / 2f, 0);
         mx -= w / 2;
         my -= h / 2;
-        MagicHandler handler = MagicHandler.get(Proxy.getPlayer());
+        MagicHandler handler = Proxy.getHandler();
         for (ArcaneEntry e : ArcaneEntry.values()) {
             e.render(handler, matrix, mx, my);
         }
@@ -54,7 +54,7 @@ public class ArcaneScreen extends AbstractAbilityScreen {
 
     @Override
     public boolean innerMouseClick(int w, int h, double mx, double my) {
-        MagicHandler handler = MagicHandler.get(Proxy.getPlayer());
+        MagicHandler handler = Proxy.getHandler();
         if (!canAccess())
             return false;
         for (ArcaneEntry e : ArcaneEntry.values()) {
@@ -71,7 +71,7 @@ public class ArcaneScreen extends AbstractAbilityScreen {
 
     @Override
     public void renderInnerTooltip(MatrixStack matrix, int w, int h, int mx, int my) {
-        MagicHandler handler = MagicHandler.get(Proxy.getPlayer());
+        MagicHandler handler = Proxy.getHandler();
         for (ArcaneEntry e : ArcaneEntry.values()) {
             if (e.within(mx - w / 2f, my - h / 2f)) {
                 int cost = handler.abilityPoints.arcane + handler.abilityPoints.magic + handler.abilityPoints.general;

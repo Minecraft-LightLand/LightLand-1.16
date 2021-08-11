@@ -33,9 +33,11 @@ public class ChemContainer extends AbstractContainer implements PacketHandler.Se
     public static final SpriteManager MANAGER = new SpriteManager(LightLand.MODID, "chemistry");
     public static final int ADD = 5, CLEAR = 6, OUT = 7, MAX_ELEM = 8, MAX_ITEM = 8;
 
+
     protected Map<MagicElement, Integer> elems = Maps.newLinkedHashMap();
     protected Map<Item, Integer> items = Maps.newLinkedHashMap();
     protected int total_element = 0, total_item = 0;
+    protected String env = "potion";
 
     protected String temp = null;
 

@@ -11,7 +11,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Map;
 
 @ParametersAreNonnullByDefault
-public class DisEnchanterScreen extends AbstractScreen<DisEnchanterContainer> {
+public class DisEnchanterScreen extends AbstractScreen<DisEnchanterContainer> implements ExtraInfo<Map.Entry<MagicElement, Integer>> {
 
     public DisEnchanterScreen(DisEnchanterContainer cont, PlayerInventory plInv, ITextComponent title) {
         super(cont, plInv, title);
@@ -26,13 +26,10 @@ public class DisEnchanterScreen extends AbstractScreen<DisEnchanterContainer> {
         sr.start(matrix);
         if (!menu.map.isEmpty()) {
             sr.draw(matrix, "arrow", sm.within("arrow", mx, my) ? "arrow_2" : "arrow_1");
-            int x = 8 + 8 + 18 * 2 + getGuiLeft();
-            int y = sm.getComp("main_slot").y + getGuiTop() + 8;
-            for (Map.Entry<MagicElement, Integer> ent : menu.map.entrySet()) {
-                AbstractHexGui.drawElement(matrix, x += 18, y, ent.getKey(), "" + ent.getValue());
-            }
+            getInfo((x, y, w, h, ent) -> {
+                AbstractHexGui.drawElement(matrix, x, y, ent.getKey(), "" + ent.getValue());
+            });
         }
-
     }
 
     @Override
@@ -45,4 +42,14 @@ public class DisEnchanterScreen extends AbstractScreen<DisEnchanterContainer> {
         return super.mouseClicked(mx, my, button);
     }
 
+    @Override
+    public void getInfo(Con<Map.Entry<MagicElement, Integer>> con) {
+        if (!menu.map.isEmpty()) {
+            int x = 8 + 8 + 18 * 2 + getGuiLeft();
+            int y = menu.sm.getComp("main_slot").y + getGuiTop() + 8;
+            for (Map.Entry<MagicElement, Integer> ent : menu.map.entrySet()) {
+                con.apply(x += 18, y, 16, 16, ent);
+            }
+        }
+    }
 }

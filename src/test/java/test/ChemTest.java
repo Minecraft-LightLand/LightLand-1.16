@@ -25,7 +25,7 @@ public class ChemTest {
         //map.put("eff.speed_ii", 1);
         map.put("elem.earth", 2d);
         map.put("item.turtle_shell", 1d);
-        ReactionPool react = pool.getPool(map);
+        ReactionPool react = pool.getPool(map, "potion");
         test(react.new Evaluator());
         ReactionPool.Evaluator ev = react.new Evaluator();
         long time = System.nanoTime();
