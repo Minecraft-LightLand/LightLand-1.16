@@ -33,6 +33,7 @@ public class LightLand {
         MinecraftForge.EVENT_BUS.register(new GenericEventHandler());
         MinecraftForge.EVENT_BUS.register(new DamageEventHandler());
         MinecraftForge.EVENT_BUS.register(new QuestEventHandler());
+        MinecraftForge.EVENT_BUS.register(new PermissionEventHandler());
         PacketHandler.registerPackets();
     }
 
