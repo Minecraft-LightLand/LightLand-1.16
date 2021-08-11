@@ -1,5 +1,6 @@
 package com.hikarishima.lightland.compat.recipes;
 
+import com.google.common.collect.Lists;
 import com.hikarishima.lightland.LightLand;
 import com.hikarishima.lightland.compat.LightLandJeiPlugin;
 import com.hikarishima.lightland.compat.ingredients.ChemIngredient;
@@ -17,13 +18,13 @@ import mezz.jei.api.gui.drawable.IDrawable;
 import mezz.jei.api.gui.ingredient.IGuiIngredientGroup;
 import mezz.jei.api.gui.ingredient.IGuiItemStackGroup;
 import mezz.jei.api.helpers.IGuiHelper;
+import mezz.jei.api.ingredients.IIngredientType;
 import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.recipe.category.IRecipeCategory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.ResourceLocation;
 
-import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Arrays;
 import java.util.List;
@@ -38,6 +39,7 @@ public class ChemRecipeCategory implements IRecipeCategory<Equation> {
 
     private final ResourceLocation id;
     private IDrawable background, icon;
+
 
     public ChemRecipeCategory() {
         id = new ResourceLocation(LightLand.MODID, "chem");
@@ -89,29 +91,32 @@ public class ChemRecipeCategory implements IRecipeCategory<Equation> {
 
     @Override
     public void setRecipe(IRecipeLayout layout, Equation t, IIngredients list) {
-        HashEquationPool pool = LightLandJeiPlugin.getPool();
         layout.setShapeless();
-        AbChemObj in0 = pool.objects.get(t.in[0]);
-        AbChemObj in1 = pool.objects.get(t.in[1]);
-        AbChemObj r0 = pool.objects.get(t.result[0]);
-        AbChemObj r1 = pool.objects.get(t.result[1]);
+        List<IIngredientType<?>> types = Lists.newArrayList(VanillaTypes.ITEM, LightLandJeiPlugin.INSTANCE.ELEM_TYPE, LightLandJeiPlugin.INSTANCE.CHEM_TYPE);
 
-        set(layout, in0, list, 0, true, 1, 1);
-        set(layout, in1, list, 1, true, 50, 1);
-        set(layout, r0, list, 2, false, 108, 1);
-        set(layout, r1, list, 3, false, 157, 1);
+        int c0 = 0;
+        for (IIngredientType<?> type : types) {
+            c0 = process(layout, type, list, true, c0, 1, 50);
+        }
+        for (IIngredientType<?> type : types) {
+            c0 = process(layout, type, list, false, c0, 108, 157);
+        }
     }
 
-    private static void set(IRecipeLayout layout, @Nullable AbChemObj obj, IIngredients list, int ind, boolean bool, int x, int y) {
-        if (obj == null)
-            return;
-        IGuiIngredientGroup<?> group = layout.getIngredientsGroup(ChemIngredient.getType(obj));
-        if (group instanceof IGuiItemStackGroup) {
-            x--;
-            y--;
+    private static <T> int process(IRecipeLayout layout, IIngredientType<T> type, IIngredients list, boolean input, int ind, int x0, int x1) {
+        for (List<T> l : input ? list.getInputs(type) : list.getOutputs(type)) {
+            IGuiIngredientGroup<T> group = layout.getIngredientsGroup(type);
+            int x = x0 + (x1 - x0) * (input ? ind : ind - 2);
+            int y = 1;
+            if (group instanceof IGuiItemStackGroup) {
+                x--;
+                y--;
+            }
+            group.init(ind, input, x, y);
+            group.set(ind, l);
+            ind++;
         }
-        group.init(ind, bool, x, y);
-        group.set(list);
+        return ind;
     }
 
 }

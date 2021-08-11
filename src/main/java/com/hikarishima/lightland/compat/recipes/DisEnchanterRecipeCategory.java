@@ -91,8 +91,6 @@ public class DisEnchanterRecipeCategory implements IRecipeCategory<IMagicRecipe<
         }
         List<List<ElementIngredient>> l3 = elem.stream().map(e -> {
             List<ElementIngredient> ans = new ArrayList<>();
-            if (e.count == 0)
-                e.count = 1;
             for (int i = 1; i <= ench.getMaxLevel(); i++)
                 ans.add(new ElementIngredient(e.elem, e.count * i));
             return ans;

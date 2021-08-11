@@ -10,6 +10,7 @@ import net.minecraft.item.ItemStack;
 
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
+import java.util.Objects;
 
 @ParametersAreNonnullByDefault
 public class ChemIngredient extends Countable {
@@ -56,6 +57,14 @@ public class ChemIngredient extends Countable {
 
     ChemIngredient(AbChemObj obj) {
         this.obj = obj;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ChemIngredient that = (ChemIngredient) o;
+        return Objects.equals(obj, that.obj);
     }
 
     public int hashCode() {
