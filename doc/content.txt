@@ -12,5 +12,9 @@
             - Spell Load
         - Wand
             - Magic Mana
+    - Alchemistry
+- DamageSource Manipulation
+- Profession System
 - Quest System
 - Commands
+- Permission System

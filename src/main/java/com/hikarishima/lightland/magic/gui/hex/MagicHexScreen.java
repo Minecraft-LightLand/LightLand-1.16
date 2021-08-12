@@ -11,6 +11,7 @@ import com.lcy0x1.core.magic.HexCell;
 import com.lcy0x1.core.magic.HexDirection;
 import com.lcy0x1.core.math.Frac;
 import com.mojang.blaze3d.matrix.MatrixStack;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
@@ -26,6 +27,7 @@ public class MagicHexScreen extends Screen {
 
     private static final ITextComponent TITLE = new TranslationTextComponent("gui.advancements");
 
+    public final Screen parent;
     public final MagicHandler handler;
     public final MagicProduct<?, ?> product;
     public final HexGraphGui graph;
@@ -39,6 +41,7 @@ public class MagicHexScreen extends Screen {
 
     public MagicHexScreen(MagicHandler handler, MagicProduct<?, ?> product) {
         super(TITLE);
+        parent = Minecraft.getInstance().screen;
         this.handler = handler;
         this.product = product;
         this.graph = new HexGraphGui(this);
@@ -278,4 +281,12 @@ public class MagicHexScreen extends Screen {
         }
         return super.keyPressed(key, scan, modifier);
     }
+
+    @Override
+    public void onClose() {
+        if (this.minecraft != null && this.minecraft.screen == this && this.parent != null)
+            this.minecraft.setScreen(this.parent);
+        super.onClose();
+    }
+
 }
