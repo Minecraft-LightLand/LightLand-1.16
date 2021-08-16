@@ -90,7 +90,7 @@ public class ChemScreen extends AbstractScreen<ChemContainer> {
             sr.draw(matrix, "arrow_input", input);
         }
         if (!menu.slot.getItem(2).isEmpty()) {
-            if (process != null && process.complete) {
+            if (process != null && process.isComplete()) {
                 if (sm.within("arrow_output", mx, my))
                     output = "arrow_out_2";
                 else
@@ -221,7 +221,7 @@ public class ChemScreen extends AbstractScreen<ChemContainer> {
             }
             return true;
         }
-        if (process != null && process.complete && sm.within("arrow_output", mx - getGuiLeft(), my - getGuiTop())) {
+        if (process != null && process.isComplete() && sm.within("arrow_output", mx - getGuiLeft(), my - getGuiTop())) {
             if (click(ChemContainer.OUT)) {
                 ChemPacket packet = new ChemPacket(menu.containerId, display);
                 menu.handle(packet);
@@ -269,15 +269,15 @@ public class ChemScreen extends AbstractScreen<ChemContainer> {
         process = null;
         result = null;
         ReactionPool react = hash.getPool(map);
-        process = react.new Evaluator();
+        process = react.newEvaluator();
         innerTick();
     }
 
     private void innerTick() {
         tick++;
-        if (process != null && !process.complete) {
+        if (process != null && !process.isComplete()) {
             result = process.complete(1e-2, 1e7);
-            if (process.complete)
+            if (process.isComplete())
                 tick = 0;
         }
         if (tick % 20 == 0) {
