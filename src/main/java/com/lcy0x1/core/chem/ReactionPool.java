@@ -40,6 +40,10 @@ public class ReactionPool {
         }
     }
 
+    public Evaluator newEvaluator() {
+        return new EvaluatorImpl();
+    }
+
     public class Obj {
 
         private final String obj;
@@ -158,7 +162,19 @@ public class ReactionPool {
 
     }
 
-    public class Evaluator {
+    public interface Evaluator {
+        void step();
+
+        double deviation();
+
+        Result toResult();
+
+        Result complete(double eps, double max_time);
+
+        boolean isComplete();
+    }
+
+    private class EvaluatorImpl implements Evaluator {
 
         private final double[] vector = new double[n];
         private final double[] gradient = new double[n];
@@ -166,9 +182,10 @@ public class ReactionPool {
 
         public boolean complete = false;
 
-        public Evaluator() {
+        public EvaluatorImpl() {
         }
 
+        @Override
         public void step() {
             if (n == 0)
                 return;
@@ -194,6 +211,7 @@ public class ReactionPool {
             descent(max);
         }
 
+        @Override
         public double deviation() {
             for (int i = 0; i < n; i++) {
                 diff[i] = eqs[i].getValue(vector);
@@ -265,6 +283,7 @@ public class ReactionPool {
             descent.set((a2 + a0) / 2);
         }
 
+        @Override
         public Result toResult() {
             Result result = new Result();
             for (int i = 0; i < m; i++) {
@@ -273,6 +292,7 @@ public class ReactionPool {
             return result;
         }
 
+        @Override
         public Result complete(double eps, double max_time) {
             if (n == 0)
                 return toResult();
@@ -290,6 +310,10 @@ public class ReactionPool {
             return toResult();
         }
 
+        @Override
+        public boolean isComplete() {
+            return complete;
+        }
     }
 
     private class Descent {
