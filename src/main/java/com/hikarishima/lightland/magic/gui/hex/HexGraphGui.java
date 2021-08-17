@@ -219,6 +219,11 @@ public class HexGraphGui extends AbstractHexGui {
                 int dire = side.dir.ind;
                 renderPath(matrix, x, y, HexHandler.WIDTH * magn, dire, col, width, length);
                 renderHex(matrix, x, y, r / 4, col);
+                cell.walk(side.dir);
+                x = cell.getX() * magn;
+                y = cell.getY() * magn;
+                renderHex(matrix, x, y, r / 4, col);
+
             }
         }
     }

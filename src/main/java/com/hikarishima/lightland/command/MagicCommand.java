@@ -26,7 +26,7 @@ public class MagicCommand extends BaseCommand {
     }
 
     public void register() {
-        reg("sync", getPlayer()
+        registerCommand("sync", getPlayer()
                 .executes(withPlayer((context, e) -> {
                     MagicHandler handler = MagicHandler.get(e);
                     PacketHandler.toClient(e, new ToClientMsg(ToClientMsg.Action.ALL, handler));
@@ -34,7 +34,7 @@ public class MagicCommand extends BaseCommand {
                     return 1;
                 })));
 
-        reg("debug_sync", getPlayer()
+        registerCommand("debug_sync", getPlayer()
                 .executes(withPlayer((context, e) -> {
                     MagicHandler handler = MagicHandler.get(e);
                     PacketHandler.toClient(e, new ToClientMsg(ToClientMsg.Action.DEBUG, handler));
@@ -42,7 +42,7 @@ public class MagicCommand extends BaseCommand {
                     return 1;
                 })));
 
-        reg("set_spell", getPlayer()
+        registerCommand("set_spell", getPlayer()
                 .then(Commands.argument("spell", RegistryParser.SPELL)
                         .executes(withPlayer((context, e) -> {
                             ItemStack stack = e.getMainHandItem();
@@ -59,7 +59,7 @@ public class MagicCommand extends BaseCommand {
                             return 1;
                         }))));
 
-        reg("add_spell_slot", getPlayer()
+        registerCommand("add_spell_slot", getPlayer()
                 .then(Commands.argument("slot", IntegerArgumentType.integer(0, 10))
                         .executes(withPlayer((context, e) -> {
                             MagicHandler handler = MagicHandler.get(e);
@@ -70,7 +70,7 @@ public class MagicCommand extends BaseCommand {
                             return 1;
                         }))));
 
-        reg("master_element", getPlayer()
+        registerCommand("master_element", getPlayer()
                 .then(Commands.argument("elem", RegistryParser.ELEMENT)
                         .executes(withPlayer((context, e) -> {
                             MagicHandler handler = MagicHandler.get(e);
@@ -81,7 +81,7 @@ public class MagicCommand extends BaseCommand {
                             return 1;
                         }))));
 
-        reg("set_profession", getPlayer()
+        registerCommand("set_profession", getPlayer()
                 .then(Commands.argument("profession", RegistryParser.PROFESSION)
                         .executes(withPlayer((context, e) -> {
                             MagicHandler handler = MagicHandler.get(e);
@@ -95,7 +95,7 @@ public class MagicCommand extends BaseCommand {
                             return 1;
                         }))));
 
-        reg("reset", getPlayer()
+        registerCommand("reset", getPlayer()
                 .then(Commands.argument("type", EnumParser.getParser(MagicHandler.Reset.class))
                         .executes(withPlayer((context, e) -> {
                             MagicHandler handler = MagicHandler.get(e);
@@ -106,7 +106,7 @@ public class MagicCommand extends BaseCommand {
                             return 1;
                         }))));
 
-        reg("add_exp", getPlayer()
+        registerCommand("add_exp", getPlayer()
                 .then(Commands.argument("number", IntegerArgumentType.integer(0))
                         .executes(withPlayer((context, e) -> {
                             MagicHandler handler = MagicHandler.get(e);

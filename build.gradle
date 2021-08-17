@@ -120,6 +120,9 @@ repositories {
         url = "https://dvs1.progwml6.com/files/maven/"
     }
     maven {
+        url 'https://maven.blamejared.com'
+    }
+    maven {
         // location of a maven mirror for JEI files, as a fallback
         name = "ModMaven"
         url = "https://modmaven.k-4u.nl"
@@ -141,6 +144,8 @@ dependencies {
     // at runtime, use the full JEI jar
     runtimeOnly fg.deobf("mezz.jei:jei-${mc_version}:${jei_version}")
 
+
+    compile fg.deobf("net.darkhax.gamestages:GameStages-1.16.5:7.2.8")
 
     // compile 'com.mod-buildcraft:buildcraft:6.0.8:dev'  // adds buildcraft to the dev env
     // compile 'com.googlecode.efficient-java-matrix-library:ejml:0.24' // adds ejml to the dev env
