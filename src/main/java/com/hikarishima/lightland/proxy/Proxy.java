@@ -1,6 +1,7 @@
 package com.hikarishima.lightland.proxy;
 
 import com.hikarishima.lightland.magic.capabilities.MagicHandler;
+import com.hikarishima.lightland.magic.chem.HashEquationPool;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.player.ClientPlayerEntity;
 import net.minecraft.client.world.ClientWorld;
@@ -19,6 +20,16 @@ public class Proxy {
     @OnlyIn(Dist.CLIENT)
     public static ClientPlayerEntity getClientPlayer() {
         return Minecraft.getInstance().player;
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    public static MagicHandler getHandler() {
+        return MagicHandler.get(getClientPlayer());
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    public static HashEquationPool getPool() {
+        return HashEquationPool.getPool(getClientWorld());
     }
 
     public static PlayerEntity getPlayer() {

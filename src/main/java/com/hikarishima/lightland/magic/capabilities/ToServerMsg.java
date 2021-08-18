@@ -101,7 +101,7 @@ public class ToServerMsg extends PacketHandler.BaseSerialMsg {
         tag.putString("product", prod.recipe.id.toString());
         tag.put("data", prod.tag.tag);
         ToServerMsg msg = new ToServerMsg(Action.HEX, tag);
-        MagicHandler.get(Proxy.getClientPlayer()).magicHolder.checkUnlocks();
+        Proxy.getHandler().magicHolder.checkUnlocks();
         PacketHandler.send(msg);
     }
 
@@ -145,7 +145,7 @@ public class ToServerMsg extends PacketHandler.BaseSerialMsg {
     public static void activateWand(IMagicRecipe<?> recipe) {
         CompoundNBT tag = new CompoundNBT();
         tag.putString("recipe", recipe.id.toString());
-        Action.WAND.cons.accept(MagicHandler.get(Proxy.getPlayer()), tag);
+        Action.WAND.cons.accept(Proxy.getHandler(), tag);
         PacketHandler.send(new ToServerMsg(Action.WAND, tag));
     }
 

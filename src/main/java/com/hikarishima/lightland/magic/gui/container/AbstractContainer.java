@@ -68,7 +68,8 @@ public class AbstractContainer extends Container {
 
     @Override
     public void removed(PlayerEntity player) {
-        clearContainer(player, player.level, slot);
+        if (!player.level.isClientSide())
+            clearContainer(player, player.level, slot);
         super.removed(player);
     }
 }

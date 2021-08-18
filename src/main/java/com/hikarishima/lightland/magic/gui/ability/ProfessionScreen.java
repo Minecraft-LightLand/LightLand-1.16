@@ -41,7 +41,7 @@ public class ProfessionScreen extends AbstractAbilityScreen {
         RenderSystem.translatef(w / 2f, h / 2f, 0);
         mx -= w / 2;
         my -= h / 2;
-        MagicHandler handler = MagicHandler.get(Proxy.getPlayer());
+        MagicHandler handler = Proxy.getHandler();
         for (ProfType e : ProfType.values()) {
             e.render(handler, matrix, mx, my);
         }
@@ -50,7 +50,7 @@ public class ProfessionScreen extends AbstractAbilityScreen {
 
     @Override
     public boolean innerMouseClick(int w, int h, double mx, double my) {
-        MagicHandler handler = MagicHandler.get(Proxy.getPlayer());
+        MagicHandler handler = Proxy.getHandler();
         if (!canAccess())
             return false;
         for (ProfType e : ProfType.values()) {
@@ -66,7 +66,7 @@ public class ProfessionScreen extends AbstractAbilityScreen {
 
     @Override
     public void renderInnerTooltip(MatrixStack matrix, int w, int h, int mx, int my) {
-        MagicHandler handler = MagicHandler.get(Proxy.getPlayer());
+        MagicHandler handler = Proxy.getHandler();
         for (ProfType e : ProfType.values()) {
             if (e.within(mx - w / 2f, my - h / 2f)) {
                 List<ITextProperties> list = new ArrayList<>();

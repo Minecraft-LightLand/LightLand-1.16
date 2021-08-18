@@ -6,7 +6,6 @@ import com.hikarishima.lightland.recipe.IMagicRecipe;
 import com.lcy0x1.core.util.SerialClass;
 import net.minecraft.item.Item;
 import net.minecraft.util.text.IFormattableTextComponent;
-import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.registries.ForgeRegistries;
 

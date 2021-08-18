@@ -14,7 +14,7 @@ public class QuestCommand extends BaseCommand {
     }
 
     public void register() {
-        reg("sync", getPlayer()
+        registerCommand("sync", getPlayer()
                 .executes(withPlayer((context, e) -> {
                     QuestHandler handler = QuestHandler.get(e);
                     PacketHandler.toClient(e, new QuestToClient(QuestToClient.Action.ALL, handler));
@@ -22,7 +22,7 @@ public class QuestCommand extends BaseCommand {
                     return 1;
                 })));
 
-        reg("debug_sync", getPlayer()
+        registerCommand("debug_sync", getPlayer()
                 .executes(withPlayer((context, e) -> {
                     QuestHandler handler = QuestHandler.get(e);
                     PacketHandler.toClient(e, new QuestToClient(QuestToClient.Action.DEBUG, handler));
@@ -30,7 +30,7 @@ public class QuestCommand extends BaseCommand {
                     return 1;
                 })));
 
-        reg("reset", getPlayer()
+        registerCommand("reset", getPlayer()
                 .then(Commands.argument("quest_id", QuestParser.QUEST)
                         .executes(withPlayer((context, e) -> {
                             QuestHandler handler = QuestHandler.get(e);

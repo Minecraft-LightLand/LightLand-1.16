@@ -47,27 +47,27 @@ public class ToClientMsg extends PacketHandler.BaseSerialMsg {
 
     public enum Action {
         DEBUG((m) -> Automator.toTag(new CompoundNBT(), m), (tag) -> {
-            MagicHandler m = MagicHandler.get(Proxy.getPlayer());
+            MagicHandler m = Proxy.getHandler();
             CompoundNBT comp = ExceptionHandler.get(() -> Automator.toTag(new CompoundNBT(), MagicHandler.class, m, f -> true));
             ToServerMsg.sendDebugInfo(tag, comp);
         }),
         ALL((m) -> Automator.toTag(new CompoundNBT(), m), tag -> MagicHandler.cacheSet(tag, false)),
         CLONE((m) -> Automator.toTag(new CompoundNBT(), m), tag -> MagicHandler.cacheSet(tag, true)),
         ARCANE_TYPE((m) -> m.magicAbility.arcane_type, (tag) -> {
-            MagicAbility abi = MagicHandler.get(Proxy.getPlayer()).magicAbility;
+            MagicAbility abi = Proxy.getHandler().magicAbility;
             abi.arcane_type = tag;
         }), MAGIC_ABILITY((m) -> Automator.toTag(new CompoundNBT(), m.magicAbility), (tag) -> {
-            MagicHandler h = MagicHandler.get(Proxy.getPlayer());
+            MagicHandler h = Proxy.getHandler();
             h.magicAbility = new MagicAbility(h);
             ExceptionHandler.run(() -> Automator.fromTag(tag, MagicAbility.class, h.magicAbility, f -> true));
             h.reInit();
         }), ABILITY_POINT((m) -> Automator.toTag(new CompoundNBT(), m.abilityPoints), (tag) -> {
-            MagicHandler h = MagicHandler.get(Proxy.getPlayer());
+            MagicHandler h = Proxy.getHandler();
             h.abilityPoints = new AbilityPoints(h);
             ExceptionHandler.run(() -> Automator.fromTag(tag, AbilityPoints.class, h.abilityPoints, f -> true));
             h.reInit();
         }), RESET(m -> new CompoundNBT(), tag -> {
-            MagicHandler h = MagicHandler.get(Proxy.getPlayer());
+            MagicHandler h = Proxy.getHandler();
             h.reset(MagicHandler.Reset.values()[tag.getInt("ordinal")]);
         });
 

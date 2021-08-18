@@ -28,7 +28,7 @@ public class ArcaneCommand extends BaseCommand {
     }
 
     public void register() {
-        reg("unlock", getPlayer()
+        registerCommand("unlock", getPlayer()
                 .then(Commands.argument("type", RegistryParser.ARCANE_TYPE)
                         .executes(withPlayer((context, e) -> {
                             ArcaneType type = context.getArgument("type", ArcaneType.class);
@@ -39,7 +39,7 @@ public class ArcaneCommand extends BaseCommand {
                             return 1;
                         }))));
 
-        reg("list", getPlayer()
+        registerCommand("list", getPlayer()
                 .executes(withPlayer((context, e) -> {
                     MagicHandler magic = MagicHandler.get(e);
                     TextComponent comps = new StringTextComponent("[");
@@ -54,7 +54,7 @@ public class ArcaneCommand extends BaseCommand {
                 })));
 
 
-        reg("give_mana", getPlayer()
+        registerCommand("give_mana", getPlayer()
                 .then(Commands.argument("number", IntegerArgumentType.integer())
                         .executes(withPlayer((context, e) -> {
                             ItemStack stack = e.getMainHandItem();
@@ -67,7 +67,7 @@ public class ArcaneCommand extends BaseCommand {
                             return 1;
                         }))));
 
-        reg("get_mana", getPlayer()
+        registerCommand("get_mana", getPlayer()
                 .executes(withPlayer((context, e) -> {
                     ItemStack stack = e.getMainHandItem();
                     if (!ArcaneItemUseHelper.isArcaneItem(stack)) {
@@ -81,7 +81,7 @@ public class ArcaneCommand extends BaseCommand {
                     return 1;
                 })));
 
-        reg("set_arcane", getPlayer()
+        registerCommand("set_arcane", getPlayer()
                 .then(Commands.argument("arcane", RegistryParser.ARCANE)
                         .executes(withPlayer((context, e) -> {
                             ItemStack stack = e.getMainHandItem();
@@ -97,7 +97,7 @@ public class ArcaneCommand extends BaseCommand {
                             return 1;
                         }))));
 
-        reg("get_arcane", getPlayer()
+        registerCommand("get_arcane", getPlayer()
                 .executes(withPlayer((context, e) -> {
                     ItemStack stack = e.getMainHandItem();
                     if (!ArcaneItemUseHelper.isArcaneItem(stack)) {

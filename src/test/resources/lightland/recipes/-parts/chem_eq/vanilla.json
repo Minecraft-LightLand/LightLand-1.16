@@ -2,6 +2,9 @@
     "_class": "organize.json.JsonPartList",
     "file": "config_chemistry",
     "path": "map.pool.equations",
+    "common": {
+        "environment": "potion"
+    },
     "list": [
         {
             "in": [

@@ -44,7 +44,7 @@ public class Translator {
 
     @OnlyIn(Dist.CLIENT)
     public static List<ITextProperties> getDesc(MagicProduct<?, ?> product) {
-        MagicHandler h = MagicHandler.get(Proxy.getClientPlayer());
+        MagicHandler h = Proxy.getHandler();
         List<ITextProperties> list = new ArrayList<>();
         list.add(get("screen.magic_tree.status." + product.getState().toString()));
         if (!product.unlocked()) {

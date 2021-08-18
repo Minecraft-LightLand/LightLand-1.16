@@ -57,7 +57,7 @@ public abstract class BaseCommand {
 
     public abstract void register();
 
-    public <T extends ArgumentBuilder<CommandSource, T>> void reg(String act, ArgumentBuilder<CommandSource, T> builder) {
+    public <T extends ArgumentBuilder<CommandSource, T>> void registerCommand(String act, ArgumentBuilder<CommandSource, T> builder) {
         base.then(Commands.literal(act)
                 .requires(e -> e.hasPermission(2))
                 .then(builder));

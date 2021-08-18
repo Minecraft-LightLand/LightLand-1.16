@@ -6,13 +6,15 @@ import java.io.File;
 
 public class MapMergeGrid {
 
+    public static int[][] colors = new int[128][128];
+
     public static void main(String[] args) throws Exception {
         File file;
-        file = new File("./doc/map.png");
+        file = new File("./doc/ignore/map.png");
         BufferedImage map = ImageIO.read(file);
         int mw = map.getWidth();
         int mh = map.getHeight();
-        file = new File("./doc/fix.png");
+        file = new File("./doc/ignore/fix.png");
         BufferedImage img = ImageIO.read(file);
         int w = img.getWidth();
         int h = img.getHeight();
@@ -24,20 +26,24 @@ public class MapMergeGrid {
                     int x1 = i / mw;
                     int y1 = j / mh;
                     int c0 = getColor(x1, y1);
-                    int c1 = getColor(x1 + 1, y1);
+                    int c1 = getColor(x1 - 1, y1);
                     int c2 = getColor(x1, y1 + 1);
                     int crep = cmap == 0xFFFFFF ? c0 : cmap == 0x000000 ? c1 : c2;
                     img.setRGB(i, j, getMiddle(col, crep) | 0xFF000000);
                 }
             }
-        file = new File("./doc/merge.png");
+        file = new File("./doc/ignore/merge.png");
         if (!file.exists())
             file.createNewFile();
         ImageIO.write(img, "PNG", file);
     }
 
     public static int getColor(int x, int y) {
-        return x % 2 == 0 ? y % 2 == 0 ? 0xFF8080 : 0x80FF80 : y % 2 == 0 ? 0x8080FF : 0x808080;
+        if (colors[x][y] == 0) {
+            colors[x][y] = (int) (Math.random() * 4) + 1;
+        }
+        int a = colors[x][y];
+        return a == 1 ? 0xFF8080 : a == 2 ? 0x80FF80 : a == 3 ? 0x8080FF : 0x808080;
     }
 
     public static int getMiddle(int c0, int c1) {

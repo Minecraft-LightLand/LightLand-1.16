@@ -11,4 +11,7 @@ public class Equation {
     @SerialClass.SerialField
     public double k;
 
+    @SerialClass.SerialField
+    public String environment;
+
 }

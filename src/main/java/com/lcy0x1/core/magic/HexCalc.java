@@ -75,10 +75,17 @@ class HexCalc {
                 if (calcCell != null)
                     calcCell.init();
 
+
+        // reduce redundant cells first
+        for (CalcCell[] calcCells : ccell)
+            for (CalcCell calcCell : calcCells)
+                if (calcCell != null && calcCell.count <= 2)
+                    calcCell.remove();
+
         // reduce flow and complete calculation
         for (CalcCell[] calcCells : ccell)
             for (CalcCell calcCell : calcCells)
-                if (calcCell != null)
+                if (calcCell != null && calcCell.count > 2)
                     calcCell.remove();
     }
 
@@ -256,6 +263,7 @@ class HexCalc {
      */
     class CalcCell extends HexCell {
 
+        int count;
         boolean origin;
         Arrow[] input, output;
 
@@ -267,8 +275,10 @@ class HexCalc {
             output = new Arrow[6];
             for (int i = 0; i < 6; i++) {
                 HexDirection dir = HexDirection.values()[i];
-                if (isConnected(dir))
+                if (isConnected(dir)) {
                     output[i] = new Arrow(this, dir);
+                    count++;
+                }
             }
         }
 

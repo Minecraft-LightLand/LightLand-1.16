@@ -11,7 +11,8 @@ public class ChemPacket extends PacketHandler.ContSerialMsg {
     public ReactionPool.Result result;
 
     @Deprecated
-    public ChemPacket(){}
+    public ChemPacket() {
+    }
 
     public ChemPacket(int wid, ReactionPool.Result result) {
         super(wid);

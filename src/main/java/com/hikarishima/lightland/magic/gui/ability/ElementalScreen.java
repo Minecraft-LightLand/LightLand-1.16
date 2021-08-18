@@ -26,7 +26,7 @@ public class ElementalScreen extends AbstractAbilityScreen {
     private static final int RADIUS = 30;
 
     public static boolean canAccess() {
-        MagicHandler handler = MagicHandler.get(Proxy.getPlayer());
+        MagicHandler handler = Proxy.getHandler();
         return handler.abilityPoints.canLevelElement() ||
                 MagicRegistry.ELEMENT.getValues().stream()
                         .anyMatch(e -> handler.magicHolder.getElementalMastery(e) > 0);
@@ -43,7 +43,7 @@ public class ElementalScreen extends AbstractAbilityScreen {
         RenderSystem.translatef(w / 2f, h / 2f, 0);
         mx -= w / 2;
         my -= h / 2;
-        MagicHandler handler = MagicHandler.get(Proxy.getPlayer());
+        MagicHandler handler = Proxy.getHandler();
         for (ElemType e : ElemType.values()) {
             e.renderElem(handler, matrix, mx, my);
         }
@@ -52,7 +52,7 @@ public class ElementalScreen extends AbstractAbilityScreen {
 
     @Override
     public boolean innerMouseClick(int w, int h, double mx, double my) {
-        MagicHandler handler = MagicHandler.get(Proxy.getPlayer());
+        MagicHandler handler = Proxy.getHandler();
         if (!handler.abilityPoints.canLevelElement())
             return false;
         for (ElemType e : ElemType.values()) {
@@ -68,7 +68,7 @@ public class ElementalScreen extends AbstractAbilityScreen {
 
     @Override
     public void renderInnerTooltip(MatrixStack matrix, int w, int h, int mx, int my) {
-        MagicHandler handler = MagicHandler.get(Proxy.getPlayer());
+        MagicHandler handler = Proxy.getHandler();
         for (ElemType e : ElemType.values()) {
             if (e.within(mx - w / 2f, my - h / 2f)) {
                 int lv = handler.magicHolder.getElementalMastery(e.elem);
