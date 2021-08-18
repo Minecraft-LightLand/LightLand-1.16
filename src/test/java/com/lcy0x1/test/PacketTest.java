@@ -1,4 +1,4 @@
-package test;
+package com.lcy0x1.test;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;

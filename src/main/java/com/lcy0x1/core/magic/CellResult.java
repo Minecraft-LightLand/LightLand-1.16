@@ -1,8 +1,11 @@
 package com.lcy0x1.core.magic;
 
+import lombok.Getter;
+
+@Getter
 public class CellResult extends LocateResult {
 
-    public final int row, cell;
+    private final int row, cell;
     private final HexHandler hex;
 
     CellResult(int row, int cell, HexHandler hex) {

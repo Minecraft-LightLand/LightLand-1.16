@@ -19,13 +19,13 @@ public class ChemVerifier {
         JsonObject obj = elem.getAsJsonObject().get("map").getAsJsonObject().get("pool").getAsJsonObject();
         obj.remove("_class");
         EquationPool pool = Serializer.from(obj, EquationPool.class, null);
-        for (Equation e : pool.equations) {
+        for (Equation e : pool.getEquations()) {
             for (String s : e.in) {
-                if (!pool.objects.containsKey(s))
+                if (!pool.getObjects().containsKey(s))
                     LogManager.getLogger().error(s + " not found");
             }
             for (String s : e.result) {
-                if (!pool.objects.containsKey(s))
+                if (!pool.getObjects().containsKey(s))
                     LogManager.getLogger().error(s + " not found");
             }
         }

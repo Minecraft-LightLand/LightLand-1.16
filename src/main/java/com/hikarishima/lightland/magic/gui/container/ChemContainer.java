@@ -106,10 +106,10 @@ public class ChemContainer extends AbstractContainer implements PacketHandler.Se
         if (msg.result != null) {
             HashEquationPool pool = HashEquationPool.getPool(plInv.player.level);
             List<EffectInstance> list = new ArrayList<>();
-            double redstone = msg.result.map.get("item.redstone");
-            double glowstone = msg.result.map.get("item.glowstone_dust");
-            msg.result.map.forEach((k, v) -> {
-                AbChemObj obj = pool.objects.get(k);
+            double redstone = msg.result.getMap().get("item.redstone");
+            double glowstone = msg.result.getMap().get("item.glowstone_dust");
+            msg.result.getMap().forEach((k, v) -> {
+                AbChemObj obj = pool.getObjects().get(k);
                 if (obj instanceof ChemEffect) {
                     ChemEffect ce = (ChemEffect) obj;
                     Effect eff = ce.get();
