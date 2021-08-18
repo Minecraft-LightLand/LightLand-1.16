@@ -247,7 +247,7 @@ public class ChemScreen extends AbstractScreen<ChemContainer> implements ExtraIn
         }
         process = null;
         result = null;
-        ReactionPool react = hash.getPool(map.env);
+        ReactionPool react = hash.getPool(map, menu.env);
         process = react.newEvaluator();
         innerTick();
     }
