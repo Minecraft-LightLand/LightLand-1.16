@@ -1,7 +1,8 @@
 package com.hikarishima.lightland.magic.gui.ability;
 
-import com.hikarishima.lightland.LightLand;
-import com.hikarishima.lightland.config.Translator;
+import com.hikarishima.lightland.magic.LightLandMagic;
+import com.hikarishima.lightland.magic.MagicProxy;
+import com.hikarishima.lightland.magic.Translator;
 import com.hikarishima.lightland.magic.capabilities.AbilityPoints;
 import com.hikarishima.lightland.magic.capabilities.MagicHandler;
 import com.hikarishima.lightland.magic.capabilities.ToServerMsg;
@@ -40,7 +41,7 @@ public class AbilityScreen extends AbstractAbilityScreen {
         RenderSystem.translatef(w / 2f, h / 2f, 0);
         mx -= w / 2;
         my -= h / 2;
-        MagicHandler handler = Proxy.getHandler();
+        MagicHandler handler = MagicProxy.getHandler();
         for (AbilityType e : AbilityType.values()) {
             e.render(handler, matrix, mx, my);
         }
@@ -50,7 +51,7 @@ public class AbilityScreen extends AbstractAbilityScreen {
 
     @Override
     public boolean innerMouseClick(int w, int h, double mx, double my) {
-        MagicHandler handler = Proxy.getHandler();
+        MagicHandler handler = MagicProxy.getHandler();
         for (AbilityType e : AbilityType.values()) {
             if (e.within(mx - w / 2f, my - h / 2f)) {
                 if (e.type.checkLevelUp(handler) == null) {
@@ -64,7 +65,7 @@ public class AbilityScreen extends AbstractAbilityScreen {
 
     @Override
     public void renderInnerTooltip(MatrixStack matrix, int w, int h, int mx, int my) {
-        MagicHandler handler = Proxy.getHandler();
+        MagicHandler handler = MagicProxy.getHandler();
         for (AbilityType e : AbilityType.values()) {
             if (e.within(mx - w / 2f, my - h / 2f)) {
                 int lv = e.type.level.apply(handler);
@@ -102,9 +103,9 @@ public class AbilityScreen extends AbstractAbilityScreen {
         }
 
         public void render(MagicHandler handler, MatrixStack matrix, int mx, int my) {
-            Minecraft.getInstance().getTextureManager().bind(new ResourceLocation(LightLand.MODID, "textures/ability/" + icon + ".png"));
+            Minecraft.getInstance().getTextureManager().bind(new ResourceLocation(LightLandMagic.MODID, "textures/ability/" + icon + ".png"));
             AbstractHexGui.drawScaled(matrix, x, y, 2);
-            if (within(mx, my) && type.checkLevelUp(Proxy.getHandler()) == null)
+            if (within(mx, my) && type.checkLevelUp(MagicProxy.getHandler()) == null)
                 fill(matrix, x - 8, y - 8, x + 8, y + 8, 0x80FFFFFF);
         }
 

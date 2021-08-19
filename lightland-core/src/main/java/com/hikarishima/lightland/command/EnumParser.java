@@ -1,7 +1,6 @@
 package com.hikarishima.lightland.command;
 
 import com.google.common.collect.Maps;
-import com.hikarishima.lightland.config.Translator;
 import com.lcy0x1.core.util.ExceptionHandler;
 import com.mojang.brigadier.StringReader;
 import com.mojang.brigadier.arguments.ArgumentType;
@@ -11,6 +10,7 @@ import com.mojang.brigadier.exceptions.DynamicCommandExceptionType;
 import com.mojang.brigadier.suggestion.Suggestions;
 import com.mojang.brigadier.suggestion.SuggestionsBuilder;
 import net.minecraft.command.ISuggestionProvider;
+import net.minecraft.util.text.TranslationTextComponent;
 
 import java.util.Arrays;
 import java.util.List;
@@ -42,7 +42,7 @@ public class EnumParser<T extends Enum<T>> implements ArgumentType<T> {
         String str = reader.readUnquotedString();
         T val = ExceptionHandler.ignore(() -> Enum.valueOf(cls, str));
         if (val == null) {
-            throw new DynamicCommandExceptionType((obj) -> Translator.get("argument.invalid_id", obj)).createWithContext(reader, str);
+            throw new DynamicCommandExceptionType((obj) -> new TranslationTextComponent("lightland:argument.invalid_id", obj)).createWithContext(reader, str);
         }
         return val;
     }

@@ -1,8 +1,9 @@
 package com.hikarishima.lightland.magic.gui.container;
 
 import com.google.common.collect.Maps;
-import com.hikarishima.lightland.LightLand;
-import com.hikarishima.lightland.config.Translator;
+import com.hikarishima.lightland.magic.LightLandMagic;
+import com.hikarishima.lightland.magic.MagicProxy;
+import com.hikarishima.lightland.magic.Translator;
 import com.hikarishima.lightland.magic.MagicElement;
 import com.hikarishima.lightland.magic.capabilities.MagicHandler;
 import com.hikarishima.lightland.magic.chem.*;
@@ -73,7 +74,7 @@ public class ChemScreen extends AbstractScreen<ChemContainer> implements ExtraIn
                 item = Items.POTION;
             }
             if (item == null) {
-                Minecraft.getInstance().getTextureManager().bind(new ResourceLocation(LightLand.MODID, "textures/unknown.png"));
+                Minecraft.getInstance().getTextureManager().bind(new ResourceLocation(LightLandMagic.MODID, "textures/unknown.png"));
                 AbstractHexGui.drawScaled(matrix, x + 8, y + 8, 1);
             } else {
                 Minecraft.getInstance().getItemRenderer().renderAndDecorateFakeItem(item.getDefaultInstance(), x, y);
@@ -122,7 +123,7 @@ public class ChemScreen extends AbstractScreen<ChemContainer> implements ExtraIn
             sr.draw(matrix, "arrow_output", output);
         }
 
-        MagicHandler h = Proxy.getHandler();
+        MagicHandler h = MagicProxy.getHandler();
         RenderSystem.pushMatrix();
         RenderSystem.translated(getGuiLeft(), getGuiTop(), 0);
         int _mx = mx;
@@ -142,7 +143,7 @@ public class ChemScreen extends AbstractScreen<ChemContainer> implements ExtraIn
     @Override
     protected void renderTooltip(MatrixStack matrix, int mx, int my) {
         SpriteManager sm = menu.sm;
-        MagicHandler h = Proxy.getHandler();
+        MagicHandler h = MagicProxy.getHandler();
         getInfoAMouse(mx - getGuiLeft(), my - getGuiTop(), (x, y, _w, _h, e) -> {
             int has = h.magicHolder.getElement(e.getFirst());
             int cur = menu.total_element;
@@ -235,7 +236,7 @@ public class ChemScreen extends AbstractScreen<ChemContainer> implements ExtraIn
             display = null;
             return;
         }
-        HashEquationPool hash = Proxy.getPool();
+        HashEquationPool hash = MagicProxy.getPool();
         Map<String, Double> map = Maps.newLinkedHashMap();
         if (result != null) {
             result.getMap().forEach(map::put);
@@ -281,8 +282,8 @@ public class ChemScreen extends AbstractScreen<ChemContainer> implements ExtraIn
     @Override
     public void getInfoB(Con<Pair<ChemObj<?, ?>, Double>> con) {
         if (display != null) {
-            HashEquationPool pool = Proxy.getPool();
-            MagicHandler h = Proxy.getHandler();
+            HashEquationPool pool = MagicProxy.getPool();
+            MagicHandler h = MagicProxy.getHandler();
             int x = menu.sm.getComp("pot").x;
             int y = menu.sm.getComp("pot").y - 18;
             int i = 0;

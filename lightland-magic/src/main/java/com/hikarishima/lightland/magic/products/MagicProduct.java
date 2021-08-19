@@ -3,7 +3,7 @@ package com.hikarishima.lightland.magic.products;
 import com.hikarishima.lightland.magic.MagicElement;
 import com.hikarishima.lightland.magic.capabilities.MagicHandler;
 import com.hikarishima.lightland.magic.products.info.ProductState;
-import com.hikarishima.lightland.recipe.IMagicRecipe;
+import com.hikarishima.lightland.magic.recipe.IMagicRecipe;
 import com.lcy0x1.core.magic.HexHandler;
 import com.lcy0x1.core.util.Automator;
 import com.lcy0x1.core.util.NBTObj;

@@ -1,6 +1,5 @@
 package com.hikarishima.lightland.magic;
 
-import com.hikarishima.lightland.LightLand;
 import com.lcy0x1.base.NamedEntry;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
@@ -15,7 +14,7 @@ public class MagicElement extends NamedEntry<MagicElement> {
     public String getName() {
         String domain = getRegistryName().getNamespace();
         String name = getRegistryName().getPath();
-        return domain + ":" + LightLand.MODID + ".magic_element." + name;
+        return domain + ":" + LightLandMagic.MODID + ".magic_element." + name;
     }
 
     @OnlyIn(Dist.CLIENT)

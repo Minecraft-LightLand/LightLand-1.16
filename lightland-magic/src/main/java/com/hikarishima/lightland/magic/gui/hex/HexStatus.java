@@ -1,6 +1,6 @@
 package com.hikarishima.lightland.magic.gui.hex;
 
-import com.hikarishima.lightland.config.Translator;
+import com.hikarishima.lightland.magic.Translator;
 import net.minecraft.util.text.IFormattableTextComponent;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.api.distmarker.Dist;

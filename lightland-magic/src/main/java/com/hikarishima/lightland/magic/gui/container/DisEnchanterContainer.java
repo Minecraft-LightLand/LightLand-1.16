@@ -1,13 +1,14 @@
 package com.hikarishima.lightland.magic.gui.container;
 
 import com.google.common.collect.Maps;
-import com.hikarishima.lightland.LightLand;
+import com.hikarishima.lightland.magic.LightLandMagic;
 import com.hikarishima.lightland.magic.MagicElement;
 import com.hikarishima.lightland.magic.MagicRegistry;
 import com.hikarishima.lightland.magic.capabilities.MagicHandler;
 import com.hikarishima.lightland.magic.capabilities.MagicHolder;
-import com.hikarishima.lightland.recipe.IMagicRecipe;
-import com.hikarishima.lightland.registry.ContainerRegistry;
+import com.hikarishima.lightland.magic.recipe.IMagicRecipe;
+import com.hikarishima.lightland.magic.registry.MagicContainerRegistry;
+import com.hikarishima.lightland.magic.registry.MagicItemRegistry;
 import com.hikarishima.lightland.registry.ItemRegistry;
 import com.lcy0x1.core.util.SpriteManager;
 import mcp.MethodsReturnNonnullByDefault;
@@ -26,13 +27,13 @@ import java.util.Map;
 @MethodsReturnNonnullByDefault
 public class DisEnchanterContainer extends AbstractContainer {
 
-    public static final SpriteManager MANAGER = new SpriteManager(LightLand.MODID, "disenchanter");
+    public static final SpriteManager MANAGER = new SpriteManager(LightLandMagic.MODID, "disenchanter");
 
     protected final Map<MagicElement, Integer> map = Maps.newLinkedHashMap();
     protected final Map<Enchantment, IMagicRecipe<?>> ench_map;
 
     public DisEnchanterContainer(int wid, PlayerInventory plInv) {
-        super(ContainerRegistry.CT_DISENCH, wid, plInv, 3, MANAGER);
+        super(MagicContainerRegistry.CT_DISENCH, wid, plInv, 3, MANAGER);
         addSlot("main_slot", stack -> stack.isEnchanted() || stack.getItem() == Items.ENCHANTED_BOOK);
         addSlot("gold_slot", stack -> stack.getItem() == Items.GOLD_NUGGET);
         addSlot("ench_slot", stack -> false);
@@ -70,7 +71,7 @@ public class DisEnchanterContainer extends AbstractContainer {
                 slot.setItem(1, ItemStack.EMPTY);
             } else gold.shrink(arr[0]);
             if (res.isEmpty()) {
-                slot.setItem(2, new ItemStack(ItemRegistry.ENCHANT_GOLD_NUGGET, arr[0]));
+                slot.setItem(2, new ItemStack(MagicItemRegistry.ENCHANT_GOLD_NUGGET, arr[0]));
             } else res.grow(arr[0]);
             slotsChanged(slot);
             return true;

@@ -1,7 +1,6 @@
 package com.hikarishima.lightland.config;
 
 import com.hikarishima.lightland.LightLand;
-import com.hikarishima.lightland.world.mobspawn.IMobLevel;
 import com.lcy0x1.core.util.ExceptionHandler;
 import net.minecraftforge.fml.loading.FMLPaths;
 
@@ -18,7 +17,7 @@ public class FileIO {
         if (!file.exists()) {
             ExceptionHandler.run(() -> {
                 String jar_path = "/data/" + LightLand.MODID + "/default_config/" + name;
-                InputStream is = IMobLevel.class.getResourceAsStream(jar_path);
+                InputStream is = FileIO.class.getResourceAsStream(jar_path);
                 if (!file.getParentFile().exists())
                     file.getParentFile().mkdirs();
                 file.createNewFile();

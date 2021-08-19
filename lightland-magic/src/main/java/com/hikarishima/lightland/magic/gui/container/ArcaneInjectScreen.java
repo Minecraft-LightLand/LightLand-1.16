@@ -1,6 +1,7 @@
 package com.hikarishima.lightland.magic.gui.container;
 
-import com.hikarishima.lightland.config.Translator;
+import com.hikarishima.lightland.magic.MagicProxy;
+import com.hikarishima.lightland.magic.Translator;
 import com.hikarishima.lightland.magic.MagicElement;
 import com.hikarishima.lightland.magic.gui.AbstractHexGui;
 import com.hikarishima.lightland.proxy.Proxy;
@@ -33,7 +34,7 @@ public class ArcaneInjectScreen extends AbstractScreen<ArcaneInjectContainer> im
             sr.draw(matrix, "arrow", "arrow_3");
         getInfo((ex, ey, w, h, ent) -> {
             int count = ent.getValue();
-            int have = Proxy.getHandler().magicHolder.getElement(ent.getKey());
+            int have = MagicProxy.getHandler().magicHolder.getElement(ent.getKey());
             AbstractHexGui.drawElement(matrix, ex + getGuiLeft() + 9, ey + getGuiTop() + 9, ent.getKey(), "" + count, have >= count ? 0xFFFFFF : 0xFF0000);
         });
     }
@@ -46,7 +47,7 @@ public class ArcaneInjectScreen extends AbstractScreen<ArcaneInjectContainer> im
             renderTooltip(matrix, menu.err.getDesc(menu), mx, my);
         getInfoMouse(mx - getGuiLeft(), my - getGuiTop(), (ex, ey, w, h, ent) -> {
             int count = ent.getValue();
-            int have = Proxy.getHandler().magicHolder.getElement(ent.getKey());
+            int have = MagicProxy.getHandler().magicHolder.getElement(ent.getKey());
             IFormattableTextComponent text = Translator.get(have < count, "screen.spell_craft.elem_cost", count, have);
             renderTooltip(matrix, text, mx, my);
         });

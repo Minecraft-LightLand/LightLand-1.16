@@ -1,14 +1,15 @@
 package com.hikarishima.lightland.magic.capabilities;
 
 import com.hikarishima.lightland.magic.MagicElement;
+import com.hikarishima.lightland.magic.MagicProxy;
 import com.hikarishima.lightland.magic.MagicRegistry;
 import com.hikarishima.lightland.magic.arcane.internal.ArcaneType;
 import com.hikarishima.lightland.magic.products.MagicProduct;
 import com.hikarishima.lightland.magic.profession.Profession;
 import com.hikarishima.lightland.proxy.PacketHandler;
 import com.hikarishima.lightland.proxy.Proxy;
-import com.hikarishima.lightland.recipe.IMagicRecipe;
-import com.hikarishima.lightland.registry.item.magic.MagicWand;
+import com.hikarishima.lightland.magic.recipe.IMagicRecipe;
+import com.hikarishima.lightland.magic.registry.item.magic.MagicWand;
 import com.lcy0x1.core.util.SerialClass;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
@@ -101,7 +102,7 @@ public class ToServerMsg extends PacketHandler.BaseSerialMsg {
         tag.putString("product", prod.recipe.id.toString());
         tag.put("data", prod.tag.tag);
         ToServerMsg msg = new ToServerMsg(Action.HEX, tag);
-        Proxy.getHandler().magicHolder.checkUnlocks();
+        MagicProxy.getHandler().magicHolder.checkUnlocks();
         PacketHandler.send(msg);
     }
 
@@ -145,7 +146,7 @@ public class ToServerMsg extends PacketHandler.BaseSerialMsg {
     public static void activateWand(IMagicRecipe<?> recipe) {
         CompoundNBT tag = new CompoundNBT();
         tag.putString("recipe", recipe.id.toString());
-        Action.WAND.cons.accept(Proxy.getHandler(), tag);
+        Action.WAND.cons.accept(MagicProxy.getHandler(), tag);
         PacketHandler.send(new ToServerMsg(Action.WAND, tag));
     }
 

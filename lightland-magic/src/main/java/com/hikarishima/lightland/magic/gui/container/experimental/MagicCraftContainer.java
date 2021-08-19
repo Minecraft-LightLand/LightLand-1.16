@@ -1,16 +1,16 @@
 package com.hikarishima.lightland.magic.gui.container.experimental;
 
 import com.google.common.collect.Maps;
-import com.hikarishima.lightland.LightLand;
-import com.hikarishima.lightland.config.Translator;
+import com.hikarishima.lightland.magic.LightLandMagic;
+import com.hikarishima.lightland.magic.Translator;
 import com.hikarishima.lightland.magic.MagicElement;
 import com.hikarishima.lightland.magic.MagicRegistry;
 import com.hikarishima.lightland.magic.capabilities.MagicHandler;
 import com.hikarishima.lightland.magic.gui.container.AbstractContainer;
 import com.hikarishima.lightland.magic.products.MagicProduct;
-import com.hikarishima.lightland.registry.ContainerRegistry;
-import com.hikarishima.lightland.registry.item.magic.MagicWand;
-import com.hikarishima.lightland.registry.item.magic.ManaStorage;
+import com.hikarishima.lightland.magic.registry.MagicContainerRegistry;
+import com.hikarishima.lightland.magic.registry.item.magic.MagicWand;
+import com.hikarishima.lightland.magic.registry.item.magic.ManaStorage;
 import com.lcy0x1.core.util.SpriteManager;
 import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.entity.player.PlayerEntity;
@@ -27,7 +27,7 @@ import java.util.Map;
 @MethodsReturnNonnullByDefault
 public class MagicCraftContainer extends AbstractContainer {
 
-    public static final SpriteManager MANAGER = new SpriteManager(LightLand.MODID, "magic_craft");
+    public static final SpriteManager MANAGER = new SpriteManager(LightLandMagic.MODID, "magic_craft");
 
     protected Error err = Error.NO_ITEM;
     protected Item product;
@@ -37,7 +37,7 @@ public class MagicCraftContainer extends AbstractContainer {
     private boolean changing = false;
 
     public MagicCraftContainer(int wid, PlayerInventory plInv) {
-        super(ContainerRegistry.CT_MAGIC_CRAFT, wid, plInv, 13, MANAGER);
+        super(MagicContainerRegistry.CT_MAGIC_CRAFT, wid, plInv, 13, MANAGER);
         addSlot("wand_slot", stack -> stack.getItem() instanceof MagicWand);
         addSlot("ench_slot", stack -> stack.getItem() instanceof ManaStorage);
         addSlot("gold_slot", stack -> false);

@@ -5,7 +5,7 @@ import com.hikarishima.lightland.magic.MagicRegistry;
 import com.hikarishima.lightland.magic.capabilities.MagicHandler;
 import com.hikarishima.lightland.magic.products.MagicProductType;
 import com.hikarishima.lightland.proxy.Proxy;
-import com.hikarishima.lightland.recipe.IMagicRecipe;
+import com.hikarishima.lightland.magic.recipe.IMagicRecipe;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;

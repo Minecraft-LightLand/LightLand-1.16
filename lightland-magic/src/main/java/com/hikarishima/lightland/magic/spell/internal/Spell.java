@@ -1,5 +1,6 @@
 package com.hikarishima.lightland.magic.spell.internal;
 
+import com.hikarishima.lightland.magic.MagicProxy;
 import com.hikarishima.lightland.magic.capabilities.MagicHandler;
 import com.hikarishima.lightland.magic.capabilities.ToClientMsg;
 import com.hikarishima.lightland.proxy.PacketHandler;
@@ -32,7 +33,7 @@ public abstract class Spell<C extends SpellConfig, A extends ActivationConfig> e
         C c = getConfig(player.level, player);
         MagicHandler handler = MagicHandler.get(player);
         if (type == Type.WAND) {
-            int margin = Proxy.getMargin(player);
+            int margin = MagicProxy.getMargin(player);
             if (c.mana_cost - margin > handler.magicAbility.getMana()) {
                 return false;
             }

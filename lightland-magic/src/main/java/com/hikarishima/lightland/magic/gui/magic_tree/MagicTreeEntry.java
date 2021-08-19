@@ -1,7 +1,7 @@
 package com.hikarishima.lightland.magic.gui.magic_tree;
 
 import com.google.common.collect.Lists;
-import com.hikarishima.lightland.config.Translator;
+import com.hikarishima.lightland.magic.Translator;
 import com.hikarishima.lightland.magic.MagicElement;
 import com.hikarishima.lightland.magic.gui.AbstractHexGui;
 import com.hikarishima.lightland.magic.products.MagicProduct;

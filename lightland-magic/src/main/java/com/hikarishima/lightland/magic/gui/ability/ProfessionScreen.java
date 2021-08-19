@@ -1,6 +1,7 @@
 package com.hikarishima.lightland.magic.gui.ability;
 
-import com.hikarishima.lightland.config.Translator;
+import com.hikarishima.lightland.magic.MagicProxy;
+import com.hikarishima.lightland.magic.Translator;
 import com.hikarishima.lightland.magic.MagicRegistry;
 import com.hikarishima.lightland.magic.capabilities.MagicHandler;
 import com.hikarishima.lightland.magic.capabilities.ToServerMsg;
@@ -41,7 +42,7 @@ public class ProfessionScreen extends AbstractAbilityScreen {
         RenderSystem.translatef(w / 2f, h / 2f, 0);
         mx -= w / 2;
         my -= h / 2;
-        MagicHandler handler = Proxy.getHandler();
+        MagicHandler handler = MagicProxy.getHandler();
         for (ProfType e : ProfType.values()) {
             e.render(handler, matrix, mx, my);
         }
@@ -50,7 +51,7 @@ public class ProfessionScreen extends AbstractAbilityScreen {
 
     @Override
     public boolean innerMouseClick(int w, int h, double mx, double my) {
-        MagicHandler handler = Proxy.getHandler();
+        MagicHandler handler = MagicProxy.getHandler();
         if (!canAccess())
             return false;
         for (ProfType e : ProfType.values()) {
@@ -66,7 +67,7 @@ public class ProfessionScreen extends AbstractAbilityScreen {
 
     @Override
     public void renderInnerTooltip(MatrixStack matrix, int w, int h, int mx, int my) {
-        MagicHandler handler = Proxy.getHandler();
+        MagicHandler handler = MagicProxy.getHandler();
         for (ProfType e : ProfType.values()) {
             if (e.within(mx - w / 2f, my - h / 2f)) {
                 List<ITextProperties> list = new ArrayList<>();

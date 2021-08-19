@@ -1,6 +1,7 @@
 package com.hikarishima.lightland.magic.gui.ability;
 
 import com.hikarishima.lightland.magic.gui.GuiTabType;
+import com.hikarishima.lightland.magic.registry.MagicItemRegistry;
 import com.hikarishima.lightland.registry.ItemRegistry;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -97,8 +98,8 @@ public abstract class AbstractAbilityScreen extends Screen {
     public enum AbilityTab {
         PROFESSION(0, Items.IRON_SWORD.getDefaultInstance(), ProfessionScreen::canAccess, ProfessionScreen::new, ProfessionScreen.TITLE),
         ABILITY(1, Items.GOLDEN_APPLE.getDefaultInstance(), () -> true, AbilityScreen::new, AbilityScreen.TITLE),
-        ELEMENT(2, ItemRegistry.MAGIC_BOOK.getDefaultInstance(), ElementalScreen::canAccess, ElementalScreen::new, ElementalScreen.TITLE),
-        ARCANE(3, ItemRegistry.ARCANE_AXE_GILDED.getDefaultInstance(), ArcaneScreen::canAccess, ArcaneScreen::new, ArcaneScreen.TITLE);
+        ELEMENT(2, MagicItemRegistry.MAGIC_BOOK.getDefaultInstance(), ElementalScreen::canAccess, ElementalScreen::new, ElementalScreen.TITLE),
+        ARCANE(3, MagicItemRegistry.ARCANE_AXE_GILDED.getDefaultInstance(), ArcaneScreen::canAccess, ArcaneScreen::new, ArcaneScreen.TITLE);
 
         public final GuiTabType type = GuiTabType.ABOVE;
         public final int index;

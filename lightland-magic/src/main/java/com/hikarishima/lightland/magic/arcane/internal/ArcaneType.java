@@ -1,10 +1,11 @@
 package com.hikarishima.lightland.magic.arcane.internal;
 
-import com.hikarishima.lightland.LightLand;
+import com.hikarishima.lightland.magic.LightLandMagic;
 import com.hikarishima.lightland.magic.MagicRegistry;
+import com.hikarishima.lightland.magic.registry.MagicItemRegistry;
 import com.hikarishima.lightland.registry.ItemRegistry;
-import com.hikarishima.lightland.registry.item.magic.ArcaneAxe;
-import com.hikarishima.lightland.registry.item.magic.ArcaneSword;
+import com.hikarishima.lightland.magic.registry.item.magic.ArcaneAxe;
+import com.hikarishima.lightland.magic.registry.item.magic.ArcaneSword;
 import com.lcy0x1.base.NamedEntry;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
@@ -34,14 +35,14 @@ public class ArcaneType extends NamedEntry<ArcaneType> {
         this.weapon = weapon;
         this.hit = hit;
         this.mana = mana;
-        stack = (weapon == Weapon.AXE ? ItemRegistry.ARCANE_AXE_GILDED : ItemRegistry.ARCANE_SWORD_GILDED).getDefaultInstance();
+        stack = (weapon == Weapon.AXE ? MagicItemRegistry.ARCANE_AXE_GILDED : MagicItemRegistry.ARCANE_SWORD_GILDED).getDefaultInstance();
         if (mana == Mana.ACTIVE) {
             stack.getOrCreateTag().putBoolean("foil", true);
         }
     }
 
     private static ArcaneType reg(String str, ArcaneType type) {
-        type.setRegistryName(LightLand.MODID, str);
+        type.setRegistryName(LightLandMagic.MODID, str);
         return type;
     }
 

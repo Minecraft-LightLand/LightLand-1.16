@@ -1,6 +1,5 @@
 package com.hikarishima.lightland.command;
 
-import com.hikarishima.lightland.config.Translator;
 import com.mojang.authlib.GameProfile;
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.builder.ArgumentBuilder;
@@ -13,14 +12,20 @@ import net.minecraft.command.arguments.GameProfileArgument;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.util.text.ChatType;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.function.BiFunction;
+import java.util.function.Consumer;
 
 public abstract class BaseCommand {
 
-    public static final ITextComponent ACTION_SUCCESS = Translator.get("chat.action_success");
-    public static final ITextComponent PLAYER_NOT_FOUND = Translator.get("chat.player_not_found");
-    public static final ITextComponent WRONG_ITEM = Translator.get("chat.wrong_item");
+    public static final ITextComponent ACTION_SUCCESS = new TranslationTextComponent("lightland:chat.action_success");
+    public static final ITextComponent PLAYER_NOT_FOUND = new TranslationTextComponent("lightland:chat.player_not_found");
+    public static final ITextComponent WRONG_ITEM = new TranslationTextComponent("lightland:chat.wrong_item");
+
+    public static final List<Consumer<LiteralArgumentBuilder<CommandSource>>> LIST = new ArrayList<>();
 
     public static RequiredArgumentBuilder<CommandSource, ?> getPlayer() {
         return Commands.argument("player", GameProfileArgument.gameProfile());

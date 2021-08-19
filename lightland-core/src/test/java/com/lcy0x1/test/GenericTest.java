@@ -1,8 +1,5 @@
 package com.lcy0x1.test;
 
-import com.hikarishima.lightland.magic.spell.magic.DirtWallSpell;
-import net.minecraft.world.biome.BiomeColors;
-
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;

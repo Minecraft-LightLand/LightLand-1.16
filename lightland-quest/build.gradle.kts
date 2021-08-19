@@ -78,7 +78,7 @@ configure<UserDevExtension> {
       property("forge.logging.console.level", "debug")
 
       mods {
-        create("examplemod") {
+        create("lightland-quest") {
           source(sourceSets["main"])
         }
       }

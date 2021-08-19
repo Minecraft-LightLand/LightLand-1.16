@@ -3,7 +3,7 @@ package com.hikarishima.lightland.magic.spell.magic;
 import com.hikarishima.lightland.magic.spell.internal.ActivationConfig;
 import com.hikarishima.lightland.magic.spell.internal.Spell;
 import com.hikarishima.lightland.magic.spell.internal.SpellConfig;
-import com.hikarishima.lightland.registry.block.TempBlock;
+import com.hikarishima.lightland.magic.registry.block.TempBlock;
 import com.lcy0x1.core.util.SerialClass;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;

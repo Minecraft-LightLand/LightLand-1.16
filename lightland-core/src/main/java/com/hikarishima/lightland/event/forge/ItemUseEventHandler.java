@@ -1,11 +1,9 @@
 package com.hikarishima.lightland.event.forge;
 
-import com.hikarishima.lightland.npc.gui.GUIDispatcher;
 import com.hikarishima.lightland.proxy.PacketHandler;
 import com.lcy0x1.core.util.SerialClass;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
 import net.minecraftforge.event.entity.player.AttackEntityEvent;
 import net.minecraftforge.event.entity.player.CriticalHitEvent;
@@ -67,11 +65,6 @@ public class ItemUseEventHandler {
 
     @SubscribeEvent(priority = EventPriority.NORMAL)
     public void onPlayerRightClickEntity(PlayerInteractEvent.EntityInteract event) {
-        if (GUIDispatcher.onClick(event.getPlayer(), event.getTarget())) {
-            event.setCanceled(true);
-            event.setCancellationResult(ActionResultType.SUCCESS);
-            return;
-        }
         execute(event.getItemStack(), event, ItemClickHandler::onPlayerRightClickEntity);
     }
 

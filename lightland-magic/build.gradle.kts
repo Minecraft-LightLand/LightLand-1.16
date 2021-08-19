@@ -78,7 +78,7 @@ configure<UserDevExtension> {
       property("forge.logging.console.level", "debug")
 
       mods {
-        create("examplemod") {
+        create("lightland-magic") {
           source(sourceSets["main"])
         }
       }
@@ -146,7 +146,7 @@ tasks.getByName("jar") {
   manifest {
     @Suppress("SpellCheckingInspection")
     attributes(mapOf(
-      "Specification-Title" to "lightland",
+      "Specification-Title" to "lightland-magic",
       "Specification-Vendor" to "hikarishima",
       "Specification-Version" to "1", // We are version 1 of ourselves
       "Implementation-Title" to project.name,

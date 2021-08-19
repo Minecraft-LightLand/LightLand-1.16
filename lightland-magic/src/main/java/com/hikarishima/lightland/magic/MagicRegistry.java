@@ -1,6 +1,5 @@
 package com.hikarishima.lightland.magic;
 
-import com.hikarishima.lightland.LightLand;
 import com.hikarishima.lightland.magic.arcane.internal.Arcane;
 import com.hikarishima.lightland.magic.arcane.internal.ArcaneType;
 import com.hikarishima.lightland.magic.products.MagicProduct;
@@ -67,37 +66,37 @@ public class MagicRegistry {
 
     public static void createRegistries() {
         ELEMENT = new RegistryBuilder<MagicElement>()
-                .setName(new ResourceLocation(LightLand.MODID, "magic_element"))
+                .setName(new ResourceLocation(LightLandMagic.MODID, "magic_element"))
                 .setType(MagicElement.class).create();
 
         PRODUCT_TYPE = new RegistryBuilder<MPTRaw>()
-                .setName(new ResourceLocation(LightLand.MODID, "magic_product_type"))
+                .setName(new ResourceLocation(LightLandMagic.MODID, "magic_product_type"))
                 .setType(MPTRaw.class).create();
 
         ARCANE_TYPE = new RegistryBuilder<ArcaneType>()
-                .setName(new ResourceLocation(LightLand.MODID, "arcane_type"))
+                .setName(new ResourceLocation(LightLandMagic.MODID, "arcane_type"))
                 .setType(ArcaneType.class).create();
 
         ARCANE = new RegistryBuilder<Arcane>()
-                .setName(new ResourceLocation(LightLand.MODID, "arcane"))
+                .setName(new ResourceLocation(LightLandMagic.MODID, "arcane"))
                 .setType(Arcane.class).create();
 
         SPELL = new RegistryBuilder<AbstractSpell>()
-                .setName(new ResourceLocation(LightLand.MODID, "spell"))
+                .setName(new ResourceLocation(LightLandMagic.MODID, "spell"))
                 .setType(AbstractSpell.class).create();
 
         PROFESSION = new RegistryBuilder<Profession>()
-                .setName(new ResourceLocation(LightLand.MODID, "profession"))
+                .setName(new ResourceLocation(LightLandMagic.MODID, "profession"))
                 .setType(Profession.class).create();
 
         SKILL = new RegistryBuilder<Skill>()
-                .setName(new ResourceLocation(LightLand.MODID, "skill"))
+                .setName(new ResourceLocation(LightLandMagic.MODID, "skill"))
                 .setType(Skill.class).create();
 
     }
 
     private static <V extends T, T extends ForgeRegistryEntry<T>> V reg(String name, V v) {
-        v.setRegistryName(LightLand.MODID, name);
+        v.setRegistryName(LightLandMagic.MODID, name);
         return v;
     }
 

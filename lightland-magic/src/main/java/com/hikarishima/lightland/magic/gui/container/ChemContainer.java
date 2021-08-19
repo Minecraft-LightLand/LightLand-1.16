@@ -1,14 +1,14 @@
 package com.hikarishima.lightland.magic.gui.container;
 
 import com.google.common.collect.Maps;
-import com.hikarishima.lightland.LightLand;
+import com.hikarishima.lightland.magic.LightLandMagic;
 import com.hikarishima.lightland.magic.MagicElement;
 import com.hikarishima.lightland.magic.MagicRegistry;
 import com.hikarishima.lightland.magic.capabilities.MagicHandler;
 import com.hikarishima.lightland.magic.chem.ChemEffect;
 import com.hikarishima.lightland.magic.chem.HashEquationPool;
 import com.hikarishima.lightland.proxy.PacketHandler;
-import com.hikarishima.lightland.registry.ContainerRegistry;
+import com.hikarishima.lightland.magic.registry.MagicContainerRegistry;
 import com.lcy0x1.core.chem.AbChemObj;
 import com.lcy0x1.core.util.SpriteManager;
 import mcp.MethodsReturnNonnullByDefault;
@@ -30,7 +30,7 @@ import java.util.Map;
 @MethodsReturnNonnullByDefault
 public class ChemContainer extends AbstractContainer implements PacketHandler.SerialMsgCont<ChemPacket> {
 
-    public static final SpriteManager MANAGER = new SpriteManager(LightLand.MODID, "chemistry");
+    public static final SpriteManager MANAGER = new SpriteManager(LightLandMagic.MODID, "chemistry");
     public static final int ADD = 5, CLEAR = 6, OUT = 7, MAX_ELEM = 8, MAX_ITEM = 8;
 
 
@@ -42,7 +42,7 @@ public class ChemContainer extends AbstractContainer implements PacketHandler.Se
     protected String temp = null;
 
     public ChemContainer(int wid, PlayerInventory plInv) {
-        super(ContainerRegistry.CT_CHEM, wid, plInv, 4, MANAGER);
+        super(MagicContainerRegistry.CT_CHEM, wid, plInv, 4, MANAGER);
         addSlot("input_in_slot", stack -> HashEquationPool.getChemObj(plInv.player.level, stack.getItem()) != null);
         addSlot("input_out_slot", stack -> false);
         addSlot("output_in_slot", stack -> stack.getItem() == Items.GLASS_BOTTLE);

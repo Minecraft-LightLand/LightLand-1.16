@@ -1,18 +1,18 @@
 package com.hikarishima.lightland.magic.gui.container;
 
 import com.google.common.collect.Maps;
-import com.hikarishima.lightland.LightLand;
-import com.hikarishima.lightland.config.Translator;
+import com.hikarishima.lightland.magic.LightLandMagic;
+import com.hikarishima.lightland.magic.Translator;
 import com.hikarishima.lightland.magic.MagicElement;
 import com.hikarishima.lightland.magic.MagicRegistry;
 import com.hikarishima.lightland.magic.capabilities.MagicHandler;
 import com.hikarishima.lightland.magic.products.MagicProduct;
 import com.hikarishima.lightland.magic.spell.internal.Spell;
 import com.hikarishima.lightland.magic.spell.internal.SpellConfig;
-import com.hikarishima.lightland.registry.ContainerRegistry;
-import com.hikarishima.lightland.registry.item.magic.MagicScroll;
-import com.hikarishima.lightland.registry.item.magic.MagicWand;
-import com.hikarishima.lightland.registry.item.magic.ManaStorage;
+import com.hikarishima.lightland.magic.registry.MagicContainerRegistry;
+import com.hikarishima.lightland.magic.registry.item.magic.MagicScroll;
+import com.hikarishima.lightland.magic.registry.item.magic.MagicWand;
+import com.hikarishima.lightland.magic.registry.item.magic.ManaStorage;
 import com.lcy0x1.core.util.SpriteManager;
 import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.entity.player.PlayerEntity;
@@ -28,7 +28,7 @@ import java.util.Map;
 @MethodsReturnNonnullByDefault
 public class SpellCraftContainer extends AbstractContainer {
 
-    public static final SpriteManager MANAGER = new SpriteManager(LightLand.MODID, "spell_craft");
+    public static final SpriteManager MANAGER = new SpriteManager(LightLandMagic.MODID, "spell_craft");
 
     protected Error err = Error.NO_ITEM;
     protected Spell<?, ?> spell = null;
@@ -39,7 +39,7 @@ public class SpellCraftContainer extends AbstractContainer {
     private boolean changing = false;
 
     public SpellCraftContainer(int wid, PlayerInventory plInv) {
-        super(ContainerRegistry.CT_SPELL_CRAFT, wid, plInv, 5, MANAGER);
+        super(MagicContainerRegistry.CT_SPELL_CRAFT, wid, plInv, 5, MANAGER);
         addSlot("wand_slot", stack -> stack.getItem() instanceof MagicWand);
         addSlot("input_slot", stack -> stack.getItem() instanceof MagicScroll);
         addSlot("ench_slot", stack -> stack.getItem() instanceof ManaStorage);

@@ -1,6 +1,7 @@
 package com.hikarishima.lightland.magic.gui.ability;
 
-import com.hikarishima.lightland.config.Translator;
+import com.hikarishima.lightland.magic.MagicProxy;
+import com.hikarishima.lightland.magic.Translator;
 import com.hikarishima.lightland.magic.MagicElement;
 import com.hikarishima.lightland.magic.MagicRegistry;
 import com.hikarishima.lightland.magic.capabilities.MagicHandler;
@@ -26,7 +27,7 @@ public class ElementalScreen extends AbstractAbilityScreen {
     private static final int RADIUS = 30;
 
     public static boolean canAccess() {
-        MagicHandler handler = Proxy.getHandler();
+        MagicHandler handler = MagicProxy.getHandler();
         return handler.abilityPoints.canLevelElement() ||
                 MagicRegistry.ELEMENT.getValues().stream()
                         .anyMatch(e -> handler.magicHolder.getElementalMastery(e) > 0);
@@ -43,7 +44,7 @@ public class ElementalScreen extends AbstractAbilityScreen {
         RenderSystem.translatef(w / 2f, h / 2f, 0);
         mx -= w / 2;
         my -= h / 2;
-        MagicHandler handler = Proxy.getHandler();
+        MagicHandler handler = MagicProxy.getHandler();
         for (ElemType e : ElemType.values()) {
             e.renderElem(handler, matrix, mx, my);
         }
@@ -52,7 +53,7 @@ public class ElementalScreen extends AbstractAbilityScreen {
 
     @Override
     public boolean innerMouseClick(int w, int h, double mx, double my) {
-        MagicHandler handler = Proxy.getHandler();
+        MagicHandler handler = MagicProxy.getHandler();
         if (!handler.abilityPoints.canLevelElement())
             return false;
         for (ElemType e : ElemType.values()) {
@@ -68,7 +69,7 @@ public class ElementalScreen extends AbstractAbilityScreen {
 
     @Override
     public void renderInnerTooltip(MatrixStack matrix, int w, int h, int mx, int my) {
-        MagicHandler handler = Proxy.getHandler();
+        MagicHandler handler = MagicProxy.getHandler();
         for (ElemType e : ElemType.values()) {
             if (e.within(mx - w / 2f, my - h / 2f)) {
                 int lv = handler.magicHolder.getElementalMastery(e.elem);
