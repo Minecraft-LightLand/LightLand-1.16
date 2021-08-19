@@ -20,9 +20,10 @@ plugins {
   kotlin("jvm") version "1.5.21"
 }
 
-apply {
-  plugin("net.minecraftforge.gradle")
-}
+apply(plugin = "net.minecraftforge.gradle")
+
+val fg = project.extensions.getByType<net.minecraftforge.gradle.userdev.DependencyManagementExtension>()
+
 // // Only edit below this line, the above code adds and enables the necessary things for Forge to be setup.
 // apply(plugin = "eclipse")
 // apply(plugin = "maven-publish")
@@ -178,14 +179,13 @@ dependencies {
 
   // compile against the JEI API but do not include it at runtime
 
-  println("fg: ${this.javaClass.methods.asList()}")
-
-  // compileOnly(deobf("mezz.jei:jei-${mcVersion}:${jei_version}:api"))
+  val jeiVersion = project.property("jei_version") as String
+  compileOnly(fg.deobf("mezz.jei:jei-$mcVersion:$jeiVersion:api"))
   // at runtime, use the full JEI jar
-  // runtimeOnly(deobf("mezz.jei:jei-${mcVersion}:${jei_version}"))
+  runtimeOnly(fg.deobf("mezz.jei:jei-$mcVersion:$jeiVersion"))
   //
   //
-  // compile(fg.deobf("net.darkhax.gamestages:GameStages-1.16.5:7.2.8"))
+  compile(fg.deobf("net.darkhax.gamestages:GameStages-1.16.5:7.2.8"))
 
   // compile "com.mod-buildcraft:buildcraft:6.0.8:dev"  // adds buildcraft to the dev env
   // compile "com.googlecode.efficient-java-matrix-library:ejml:0.24" // adds ejml to the dev env
