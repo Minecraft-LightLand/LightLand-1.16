@@ -1,6 +1,7 @@
 package com.lcy0x1.core.magic;
 
 import com.lcy0x1.core.math.Frac;
+import lombok.Getter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +15,7 @@ import java.util.List;
  * {@code matrix} is the output flow in the diagram <br>
  * {@code flows} is the intermediate flow in the diagram
  */
+@Getter
 public class FlowChart {
 
     public final List<Flow> flows = new ArrayList<>();

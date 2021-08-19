@@ -1,5 +1,6 @@
 package com.lcy0x1.core.util;
 
+import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -33,6 +34,7 @@ import java.util.function.Supplier;
 public class Serializer {
 
     public static final Map<Class<?>, ClassHandler<?>> MAP = new HashMap<>();
+    public static final Gson gson = new Gson();
 
     static {
         new ClassHandler<>(long.class, JsonElement::getAsLong, PacketBuffer::readLong, PacketBuffer::writeLong, Long.class);
@@ -314,13 +316,13 @@ public class Serializer {
 
         public RLClassHandler(Class<?> cls, Supplier<IForgeRegistry<T>> r) {
             super(cls, e -> e.isJsonNull() ? null : r.get().getValue(new ResourceLocation(e.getAsString())),
-                    p -> {
-                        String str = p.readUtf();
-                        if (str.length() == 0)
-                            return null;
-                        return r.get().getValue(new ResourceLocation(str));
-                    },
-                    (p, t) -> p.writeUtf(t == null ? "" : t.getRegistryName().toString()));
+                p -> {
+                    String str = p.readUtf();
+                    if (str.length() == 0)
+                        return null;
+                    return r.get().getValue(new ResourceLocation(str));
+                },
+                (p, t) -> p.writeUtf(t == null ? "" : t.getRegistryName().toString()));
         }
 
     }

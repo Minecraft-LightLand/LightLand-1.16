@@ -2,10 +2,12 @@ package com.lcy0x1.core.chem;
 
 import com.google.common.collect.Maps;
 import com.lcy0x1.core.util.SerialClass;
+import lombok.Getter;
 
 import java.util.*;
 
 @SerialClass
+@Getter
 public class EquationPool {
 
     @SerialClass.SerialField(generic = {String.class, AbChemObj.class})

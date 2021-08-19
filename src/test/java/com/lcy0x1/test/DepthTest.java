@@ -1,4 +1,4 @@
-package test;
+package com.lcy0x1.test;
 
 import com.hikarishima.lightland.config.worldgen.ImageBiomeReader;
 

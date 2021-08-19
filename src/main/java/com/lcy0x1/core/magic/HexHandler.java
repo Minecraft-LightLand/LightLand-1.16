@@ -101,21 +101,21 @@ public class HexHandler {
 
     public CellResult getCellOnHex(double x, double y) {
         CellResult pos = getCoordinate(x, y);
-        return CellResult.get(pos.row + radius, pos.cell + radius, this);
+        return CellResult.get(pos.getRow() + radius, pos.getCell() + radius, this);
     }
 
     public LocateResult getElementOnHex(double x, double y) {
         CellResult pos = getCoordinate(x * 2, y * 2);
-        int trow = Math.floorDiv(pos.row, 2) + radius;
-        int tcel = Math.floorDiv(pos.cell, 2) + radius;
-        if (pos.row % 2 == 0 && pos.cell % 2 == 0)
+        int trow = Math.floorDiv(pos.getRow(), 2) + radius;
+        int tcel = Math.floorDiv(pos.getCell(), 2) + radius;
+        if (pos.getRow() % 2 == 0 && pos.getCell() % 2 == 0)
             return CellResult.get(trow, tcel, this);
-        if (pos.row % 2 == 0) {
+        if (pos.getRow() % 2 == 0) {
             return ArrowResult.get(trow, tcel, HexDirection.RIGHT, this);
         }
-        if (pos.row < 0)
-            return ArrowResult.get(trow, tcel, pos.cell % 2 == 0 ? HexDirection.LOWER_LEFT : HexDirection.LOWER_RIGHT, this);
-        if (pos.cell % 2 == 0)
+        if (pos.getRow() < 0)
+            return ArrowResult.get(trow, tcel, pos.getCell() % 2 == 0 ? HexDirection.LOWER_LEFT : HexDirection.LOWER_RIGHT, this);
+        if (pos.getCell() % 2 == 0)
             return ArrowResult.get(trow, tcel, HexDirection.LOWER_RIGHT, this);
         return ArrowResult.get(trow, tcel + 1, HexDirection.LOWER_LEFT, this);
 

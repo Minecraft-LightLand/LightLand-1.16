@@ -156,8 +156,8 @@ public class ChemScreen extends AbstractScreen<ChemContainer> implements ExtraIn
         });
 
         if (display != null) {
-            double redstone = display.map.getOrDefault("item.redstone", 0d);
-            double glowstone = display.map.getOrDefault("item.glowstone_dust", 0d);
+            double redstone = display.getMap().getOrDefault("item.redstone", 0d);
+            double glowstone = display.getMap().getOrDefault("item.glowstone_dust", 0d);
             getInfoBMouse(mx - getGuiLeft(), my - getGuiTop(), (x, y, _w, _h, e) -> {
                 ChemObj<?, ?> obj = e.getFirst();
                 IFormattableTextComponent text = obj != null ? obj.getDesc() :
@@ -238,7 +238,7 @@ public class ChemScreen extends AbstractScreen<ChemContainer> implements ExtraIn
         HashEquationPool hash = Proxy.getPool();
         Map<String, Double> map = Maps.newLinkedHashMap();
         if (result != null) {
-            result.map.forEach(map::put);
+            result.getMap().forEach(map::put);
             map.put(menu.temp, map.getOrDefault(menu.temp, 0d) + 1);
             menu.temp = null;
         } else {
@@ -288,9 +288,9 @@ public class ChemScreen extends AbstractScreen<ChemContainer> implements ExtraIn
             int i = 0;
             y += 18 + 3;
             x += 9;
-            int total = display.map.size();
-            for (Map.Entry<String, Double> ent : display.map.entrySet()) {
-                ChemObj<?, ?> obj = ChemObj.cast(h, pool.objects.get(ent.getKey()));
+            int total = display.getMap().size();
+            for (Map.Entry<String, Double> ent : display.getMap().entrySet()) {
+                ChemObj<?, ?> obj = ChemObj.cast(h, pool.getObjects().get(ent.getKey()));
                 int dx = getObjX(i, total);
                 int dy = getObjY(i, total);
                 if (con.apply(x + dx + 1, y + dy + 1, 16, 16, Pair.of(obj, ent.getValue())))

@@ -5,6 +5,7 @@ import com.hikarishima.lightland.recipe.ConfigRecipe;
 import com.lcy0x1.core.chem.AbChemObj;
 import com.lcy0x1.core.chem.EquationPool;
 import com.lcy0x1.core.util.SerialClass;
+import lombok.Getter;
 import net.minecraft.potion.Effect;
 import net.minecraft.world.World;
 import net.minecraftforge.registries.IForgeRegistryEntry;
@@ -16,6 +17,7 @@ import java.util.Objects;
 
 @ParametersAreNonnullByDefault
 @SerialClass
+@Getter
 public class HashEquationPool extends EquationPool {
 
     public static HashEquationPool getPool(World world) {
@@ -25,7 +27,7 @@ public class HashEquationPool extends EquationPool {
     @SuppressWarnings("unchecked")
     public static <O extends ChemObj<O, I>, I extends IForgeRegistryEntry<I>> O getChemObj(World world, I item) {
         HashEquationPool pool = getPool(world);
-        AbChemObj obj = pool.objects.get(pool.cache.get(Objects.requireNonNull(item.getRegistryName()).toString()));
+        AbChemObj obj = pool.getObjects().get(pool.cache.get(Objects.requireNonNull(item.getRegistryName()).toString()));
         if (!(obj instanceof ChemObj))
             return null;
         return (O) obj;
@@ -36,7 +38,7 @@ public class HashEquationPool extends EquationPool {
     @SerialClass.OnInject
     public void onInject() {
         super.onInject();
-        objects.forEach((k, v) -> {
+        getObjects().forEach((k, v) -> {
             if (v instanceof ChemObj<?, ?>) {
                 IForgeRegistryEntry<?> ent = ((ChemObj<?, ?>) v).get();
                 if (ent == null) {

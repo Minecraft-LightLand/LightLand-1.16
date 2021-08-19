@@ -324,7 +324,7 @@ public class HexGraphGui extends AbstractHexGui {
             return true;
         } else if (hover.getType() == LocateResult.ResultType.CELL) {
             CellResult res = (CellResult) hover;
-            HexCell cell = new HexCell(graph, res.row, res.cell);
+            HexCell cell = new HexCell(graph, res.getRow(), res.getCell());
             if (flow == null) {
                 for (HexDirection dire : HexDirection.values()) {
                     if (cell.canWalk(dire) && cell.isConnected(dire))

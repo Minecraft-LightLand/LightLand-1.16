@@ -2,63 +2,119 @@ package com.lcy0x1.core.chem;
 
 import com.google.common.collect.Maps;
 import com.lcy0x1.core.util.SerialClass;
+import lombok.Getter;
+import lombok.extern.log4j.Log4j2;
 
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.LinkedHashMap;
 import java.util.Map;
 
+@Getter
+@Log4j2
 public class ReactionPool {
 
     private static final double LARGE_LIMIT = 1e10, REVERSAL_CHECK = 1e-10, EDGE_CHECK = 1e-3, EPSILON = 1e-6;
 
-    public final int n, m;
-    public final Obj[] objs;
-    public final Eq[] eqs;
+    private final int equationSize, substanceSize;
+    private final SubstanceContent[] substanceContents;
+    private final EquationContent[] equationContents;
+    private final Result EmptyResult;
+    private final Evaluator EmptyEvaluator = new Evaluator() {
+        @Override
+        public void step() {
+        }
 
-    ReactionPool(Collection<String> objset, Collection<Equation> eqset, Map<String, Double> count) {
-        n = eqset.size();
-        m = objset.size();
-        objs = new Obj[m];
+        @Override
+        public double deviation() {
+            return 0;
+        }
+
+        @Override
+        public Result toResult() {
+            return EmptyResult;
+        }
+
+        @Override
+        public Result complete(double eps, double max_time) {
+            return EmptyResult;
+        }
+
+        @Override
+        public boolean isComplete() {
+            return false;
+        }
+    };
+
+    public ReactionPool(Collection<String> substanceSet, Collection<Equation> equationSet, Map<String, Double> count) {
+        equationSize = equationSet.size();
+        substanceSize = substanceSet.size();
+        substanceContents = new SubstanceContent[substanceSize];
         int i = 0;
-        Map<String, Obj> imap = Maps.newLinkedHashMap();
-        for (String str : objset) {
-            Obj o = new Obj(str, count.getOrDefault(str, 0d), n);
-            imap.put(str, o);
-            objs[i] = o;
+        Map<String, SubstanceContent> imap = Maps.newLinkedHashMap();
+        for (String id : substanceSet) {
+            SubstanceContent content = new SubstanceContent(id, count.getOrDefault(id, 0d), equationSize);
+            imap.put(id, content);
+            substanceContents[i] = content;
             i++;
         }
-        eqs = new Eq[n];
+        equationContents = new EquationContent[equationSize];
         i = 0;
-        for (Equation e : eqset) {
-            eqs[i] = new Eq(e, imap);
-            for (Obj o : eqs[i].in)
-                o.coefs[i] = -1;
-            for (Obj o : eqs[i].r)
-                o.coefs[i] = 1;
+        for (Equation e : equationSet) {
+            equationContents[i] = new EquationContent(e, imap);
+            for (SubstanceContent content : equationContents[i].in)
+                content.coefs[i] = -1;
+            for (SubstanceContent content : equationContents[i].r)
+                content.coefs[i] = 1;
             i++;
         }
+        EmptyResult = emptyResult();
     }
 
     public Evaluator newEvaluator() {
-        return new EvaluatorImpl();
+        if (equationSize == 0) {
+            return EmptyEvaluator;
+        } else {
+            return new EvaluatorImpl();
+        }
     }
 
-    public class Obj {
+    public interface Evaluator {
+        void step();
 
-        private final String obj;
+        double deviation();
+
+        Result toResult();
+
+        Result complete(double eps, double max_time);
+
+        boolean isComplete();
+    }
+
+    private Result emptyResult() {
+        final Result result = new Result();
+        for (SubstanceContent substanceContent : substanceContents) {
+            result.map.put(substanceContent.id, .0);
+        }
+        return result;
+    }
+
+    @Log4j2
+    private static class SubstanceContent {
+        private final String id;
         private final double init;
         private final int[] coefs;
 
-        private Obj(String obj, double init, int n) {
+        private SubstanceContent(String id, double init, int substanceSize) {
             this.init = init;
-            this.obj = obj;
-            this.coefs = new int[n];
+            this.id = id;
+            this.coefs = new int[substanceSize];
         }
 
         private double getValue(double[] val) {
+            //noinspection ArrayHashCode
+            //log.debug("{} get value {}{}", this, val.hashCode(), val);
             double value = init;
-            for (int i = 0; i < n; i++)
+            for (int i = 0; i < coefs.length; i++)
                 value += coefs[i] * val[i];
             return value;
         }
@@ -66,12 +122,12 @@ public class ReactionPool {
         private void clearEdge(double[] vec, double[] val) {
             double c = 0;
             double v = init;
-            for (int i = 0; i < n; i++) {
+            for (int i = 0; i < coefs.length; i++) {
                 c += coefs[i] * val[i];
                 v += coefs[i] * vec[i];
             }
             if (v < EDGE_CHECK && c > 0) {
-                for (int i = 0; i < n; i++)
+                for (int i = 0; i < coefs.length; i++)
                     if (coefs[i] * val[i] > 0)
                         val[i] = 0;
             }
@@ -80,7 +136,7 @@ public class ReactionPool {
         private double getMax(double[] vec, double[] val) {
             double c = 0;
             double v = init;
-            for (int i = 0; i < n; i++) {
+            for (int i = 0; i < coefs.length; i++) {
                 c += coefs[i] * val[i];
                 v += coefs[i] * vec[i];
             }
@@ -91,21 +147,23 @@ public class ReactionPool {
 
     }
 
-    public class Eq {
+    private class EquationContent {
 
-        private final Obj[] in, r;
+        private final SubstanceContent[] in, r;
         private final double k;
 
         private final double[] vrs;
         private final double[] vis;
 
-        public Eq(Equation equation, Map<String, Obj> imap) {
-            in = new Obj[equation.in.length];
-            r = new Obj[equation.result.length];
-            for (int i = 0; i < in.length; i++)
+        public EquationContent(Equation equation, Map<String, SubstanceContent> imap) {
+            in = new SubstanceContent[equation.in.length];
+            r = new SubstanceContent[equation.result.length];
+            for (int i = 0; i < in.length; i++) {
                 in[i] = imap.get(equation.in[i]);
-            for (int i = 0; i < r.length; i++)
+            }
+            for (int i = 0; i < r.length; i++) {
                 r[i] = imap.get(equation.result[i]);
+            }
             k = equation.k;
 
             vrs = new double[r.length];
@@ -115,10 +173,10 @@ public class ReactionPool {
         private double getValue(double[] vector) {
             double p0 = k;
             double p1 = 1;
-            for (Obj o : r)
-                p0 *= o.getValue(vector);
-            for (Obj o : in)
-                p1 *= o.getValue(vector);
+            for (SubstanceContent content : r)
+                p0 *= content.getValue(vector);
+            for (SubstanceContent content : in)
+                p1 *= content.getValue(vector);
             return p0 - p1;
         }
 
@@ -140,7 +198,7 @@ public class ReactionPool {
                     pi *= vis[i];
                 else zi++;
             }
-            for (int i = 0; i < n; i++) {
+            for (int i = 0; i < equationSize; i++) {
                 double sum = 0;
                 if (zr <= 1)
                     for (int j = 0; j < r.length; j++) {
@@ -162,23 +220,11 @@ public class ReactionPool {
 
     }
 
-    public interface Evaluator {
-        void step();
-
-        double deviation();
-
-        Result toResult();
-
-        Result complete(double eps, double max_time);
-
-        boolean isComplete();
-    }
-
     private class EvaluatorImpl implements Evaluator {
 
-        private final double[] vector = new double[n];
-        private final double[] gradient = new double[n];
-        private final double[] diff = new double[n];
+        private final double[] vector = new double[equationSize];
+        private final double[] gradient = new double[equationSize];
+        private final double[] diff = new double[equationSize];
 
         public boolean complete = false;
 
@@ -187,34 +233,34 @@ public class ReactionPool {
 
         @Override
         public void step() {
-            if (n == 0)
+            if (equationSize == 0)
                 return;
             Arrays.fill(gradient, 0);
-            for (int i = 0; i < n; i++) {
-                diff[i] = eqs[i].getValue(vector);
-                eqs[i].addGradient(vector, gradient);
+            for (int i = 0; i < equationSize; i++) {
+                diff[i] = equationContents[i].getValue(vector);
+                equationContents[i].addGradient(vector, gradient);
             }
             double len = 0;
-            for (Obj o : objs)
-                o.clearEdge(vector, gradient);
-            for (int i = 0; i < n; i++) {
+            for (SubstanceContent substanceContent : substanceContents)
+                substanceContent.clearEdge(vector, gradient);
+            for (int i = 0; i < equationSize; i++) {
                 len += gradient[i] * gradient[i];
             }
             len = Math.sqrt(len);
-            for (int i = 0; i < n; i++) {
+            for (int i = 0; i < equationSize; i++) {
                 gradient[i] /= len;
             }
             double max = Double.MAX_VALUE;
-            for (Obj o : objs) {
-                max = Math.min(max, o.getMax(vector, gradient));
+            for (SubstanceContent substanceContent : substanceContents) {
+                max = Math.min(max, substanceContent.getMax(vector, gradient));
             }
             descent(max);
         }
 
         @Override
         public double deviation() {
-            for (int i = 0; i < n; i++) {
-                diff[i] = eqs[i].getValue(vector);
+            for (int i = 0; i < equationSize; i++) {
+                diff[i] = equationContents[i].getValue(vector);
             }
             double ans = 0;
             for (double d : diff)
@@ -286,15 +332,15 @@ public class ReactionPool {
         @Override
         public Result toResult() {
             Result result = new Result();
-            for (int i = 0; i < m; i++) {
-                result.map.put(objs[i].obj, objs[i].getValue(vector));
+            for (int i = 0; i < substanceSize; i++) {
+                result.map.put(substanceContents[i].id, substanceContents[i].getValue(vector));
             }
             return result;
         }
 
         @Override
         public Result complete(double eps, double max_time) {
-            if (n == 0)
+            if (equationSize == 0)
                 return toResult();
             long time = System.nanoTime();
             while (true) {
@@ -319,7 +365,7 @@ public class ReactionPool {
     private class Descent {
 
         private final double[] init, grad;
-        private final double[] vec = new double[n];
+        private final double[] vec = new double[equationSize];
 
         private Descent(double[] init, double[] grad) {
             this.init = init;
@@ -327,34 +373,32 @@ public class ReactionPool {
         }
 
         private double evaluate(double val) {
-            for (int i = 0; i < n; i++)
+            for (int i = 0; i < equationSize; i++)
                 vec[i] = init[i] - grad[i] * val;
             double ans = 0;
-            for (Eq eq : eqs) {
-                double v = eq.getValue(vec);
+            for (EquationContent equationContent : equationContents) {
+                double v = equationContent.getValue(vec);
                 ans += v * v;
             }
             return ans;
         }
 
         private void set(double a) {
-            for (int i = 0; i < n; i++)
+            for (int i = 0; i < equationSize; i++)
                 init[i] -= grad[i] * a;
         }
 
     }
 
     @SerialClass
+    @Getter
     public static class Result {
-
         @SerialClass.SerialField(generic = {String.class, Double.class})
-        public LinkedHashMap<String, Double> map = Maps.newLinkedHashMap();
+        private final Map<String, Double> map = Maps.newLinkedHashMap();
 
         @Deprecated
         public Result() {
-
         }
-
     }
 
 }
