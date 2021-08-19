@@ -1,10 +1,16 @@
 import net.minecraftforge.gradle.userdev.UserDevExtension
+import java.text.SimpleDateFormat
+import java.util.*
 
 buildscript {
   repositories {
-    maven(url = "https://nvm.tursom.cn/repository/maven-public/")
+    maven {
+      url = uri("https://maven.minecraftforge.net")
+    }
+    maven {
+      url = uri("https://nvm.tursom.cn/repository/maven-public/")
+    }
     // mavenCentral()
-    // maven(url = "https://maven.minecraftforge.net")
   }
   dependencies {
     classpath("net.minecraftforge.gradle:ForgeGradle:4.1.+") {
@@ -51,7 +57,6 @@ configure<UserDevExtension> {
   //
   // Use non-default mappings at your own risk. they may not always work.
   // Simply re-run your setup task after changing the mappings to update your workspace.
-  // TODO
   mappings(mapOf(
     "channel" to "official",
     "version" to "1.16.5"
@@ -80,10 +85,8 @@ configure<UserDevExtension> {
 
       mods {
         create("examplemod") {
+          source(sourceSets["main"])
         }
-        // examplemod {
-        //   source(sourceSets.main)
-        // }
       }
     }
 
@@ -103,9 +106,9 @@ configure<UserDevExtension> {
       property("forge.logging.console.level", "debug")
 
       mods {
-        // examplemod {
-        //   source(sourceSets.main)
-        // }
+        create("examplemod") {
+          source(sourceSets["main"])
+        }
       }
     }
 
@@ -183,9 +186,9 @@ dependencies {
   compileOnly(fg.deobf("mezz.jei:jei-$mcVersion:$jeiVersion:api"))
   // at runtime, use the full JEI jar
   runtimeOnly(fg.deobf("mezz.jei:jei-$mcVersion:$jeiVersion"))
-  //
-  //
-  compile(fg.deobf("net.darkhax.gamestages:GameStages-1.16.5:7.2.8"))
+
+  // api(fg.deobf("net.darkhax.bookshelf:Bookshelf-$mcVersion:7.2.8"))
+  compileOnly(fg.deobf("net.darkhax.gamestages:GameStages-$mcVersion:7.2.8"))
 
   // compile "com.mod-buildcraft:buildcraft:6.0.8:dev"  // adds buildcraft to the dev env
   // compile "com.googlecode.efficient-java-matrix-library:ejml:0.24" // adds ejml to the dev env
@@ -209,38 +212,40 @@ dependencies {
 }
 
 // Example for how to get properties into the manifest for reading by the runtime..
-// jar {
-//   manifest {
-//     // attributes([
-//     //   "Specification-Title"     : "lightland",
-//     // "Specification-Vendor"    : "hikarishima",
-//     // "Specification-Version"   : "1", // We are version 1 of ourselves
-//     // "Implementation-Title"    : project.name,
-//     // "Implementation-Version"  : "${version}",
-//     // "Implementation-Vendor"   : "hikarishima",
-//     // "Implementation-Timestamp": new Date().format("yyyy-MM-dd"T"HH:mm:ssZ")
-//     // ])
-//   }
-// }
+tasks.getByName("jar") {
+  this as Jar
+  manifest {
+    @Suppress("SpellCheckingInspection")
+    attributes(mapOf(
+      "Specification-Title" to "lightland",
+      "Specification-Vendor" to "hikarishima",
+      "Specification-Version" to "1", // We are version 1 of ourselves
+      "Implementation-Title" to project.name,
+      "Implementation-Version" to archiveVersion.get(),
+      "Implementation-Vendor" to "hikarishima",
+      "Implementation-Timestamp" to SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ").format(Date())
+    ))
+  }
+  finalizedBy("reobfJar")
+}
 
 // Example configuration to allow publishing using the maven-publish task
 // This is the preferred method to reobfuscate your jar file
-// jar.finalizedBy("reobfJar")
 // However if you are in a multi-project build, dev time needs unobfed jar files, so you can delay the obfuscation until publishing by doing
 //publish.dependsOn("reobfJar")
 
-// publishing {
-//   publications {
-//     mavenJava(MavenPublication) {
-//       artifact(sun.tools.jar.resources.jar)
-//     }
-//   }
-//   repositories {
-//     maven {
-//       url = uri("file:///${project.projectDir}/mcmodsrepo")
-//     }
-//   }
-// }
+publishing {
+  publications {
+    create<MavenPublication>("mavenJava") {
+      artifact(tasks.getByName("jar"))
+    }
+  }
+  repositories {
+    maven {
+      url = uri("file:///${project.projectDir}/mcmodsrepo")
+    }
+  }
+}
 
 if (project.gradle.startParameter.taskNames.find { taskName ->
     ":test" in taskName
