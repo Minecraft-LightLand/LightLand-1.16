@@ -2,8 +2,9 @@ import net.minecraftforge.gradle.userdev.UserDevExtension
 
 buildscript {
   repositories {
-    mavenCentral()
-    maven(url = "https://maven.minecraftforge.net")
+    maven(url = "https://nvm.tursom.cn/repository/maven-public/")
+    // mavenCentral()
+    // maven(url = "https://maven.minecraftforge.net")
   }
   dependencies {
     classpath("net.minecraftforge.gradle:ForgeGradle:4.1.+") {
@@ -147,25 +148,28 @@ sourceSets["main"].resources {
 
 repositories {
   maven {
-    // location of the maven that hosts JEI files
-    name = "Progwml6 maven"
-    url = uri("https://dvs1.progwml6.com/files/maven/")
+    url = uri("https://nvm.tursom.cn/repository/maven-public/")
   }
-  maven {
-    url = uri("https://maven.blamejared.com")
-  }
-  maven {
-    // location of a maven mirror for JEI files, as a fallback
-    name = "ModMaven"
-    url = uri("https://modmaven.k-4u.nl")
-  }
+  // maven {
+  //   // location of the maven that hosts JEI files
+  //   name = "Progwml6 maven"
+  //   url = uri("https://dvs1.progwml6.com/files/maven/")
+  // }
+  // maven {
+  //   url = uri("https://maven.blamejared.com")
+  // }
+  // maven {
+  //   // location of a maven mirror for JEI files, as a fallback
+  //   name = "ModMaven"
+  //   url = uri("https://modmaven.k-4u.nl")
+  // }
 }
 
 dependencies {
   // Specify the version of Minecraft to use, If this is any group other then "net.minecraft" it is assumed
   // that the dep is a ForgeGradle "patcher" dependency. And it"s patches will be applied.
   // The userdev artifact is a special name and will get all sorts of transformations applied to it.
-  println(project.property("forge_version"))
+  // println(project.property("forge_version"))
   "minecraft"("net.minecraftforge:forge:${mcVersion}-${forgeVersion}")
 
   // You may put jars on which you depend on in ./libs or you may define them like so..
@@ -174,9 +178,11 @@ dependencies {
 
   // compile against the JEI API but do not include it at runtime
 
-  compileOnly(deobf("mezz.jei:jei-${mcVersion}:${jei_version}:api"))
+  println("fg: ${this}")
+
+  // compileOnly(deobf("mezz.jei:jei-${mcVersion}:${jei_version}:api"))
   // at runtime, use the full JEI jar
-  runtimeOnly(deobf("mezz.jei:jei-${mcVersion}:${jei_version}"))
+  // runtimeOnly(deobf("mezz.jei:jei-${mcVersion}:${jei_version}"))
   //
   //
   // compile(fg.deobf("net.darkhax.gamestages:GameStages-1.16.5:7.2.8"))
