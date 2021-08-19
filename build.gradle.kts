@@ -178,7 +178,7 @@ dependencies {
 
   // compile against the JEI API but do not include it at runtime
 
-  println("fg: ${this}")
+  println("fg: ${this.javaClass.methods.asList()}")
 
   // compileOnly(deobf("mezz.jei:jei-${mcVersion}:${jei_version}:api"))
   // at runtime, use the full JEI jar
