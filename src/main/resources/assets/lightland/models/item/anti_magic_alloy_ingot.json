@@ -1,7 +1,0 @@
-{
-    "parent": "item/generated",
-    "textures": {
-        "layer0": "lightland:item/anti_magic_alloy_ingot"
-    }
-}
-
