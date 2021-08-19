@@ -24,9 +24,9 @@ hs_err_pid*
 
 /out/
 /run/
-/.gradle/
-/build/
-/logs/
+.gradle/
+build/
+logs/
 /doc/hex/
 /doc/ignore/
 .DS_Store
