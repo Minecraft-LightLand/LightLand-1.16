@@ -23,21 +23,10 @@ plugins {
   id("eclipse")
   `maven-publish`
   kotlin("jvm")
+  id("forge-gradle-kts")
 }
 
 apply(plugin = "net.minecraftforge.gradle")
-
-val fg = project.extensions.getByType<net.minecraftforge.gradle.userdev.DependencyManagementExtension>()
-
-// // Only edit below this line, the above code adds and enables the necessary things for Forge to be setup.
-// apply(plugin = "eclipse")
-// apply(plugin = "maven-publish")
-
-version = "1.0"
-group = "com.hikarishima.lightland" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
-// archivesBaseName = "lightland"
-
-// java.toolchain.languageVersion = JavaLanguageVersion.of(8) // Mojang ships Java 8 to end users, so your mod should target Java 8.
 
 val mcVersion get() = project.property("mc_version") as String
 val forgeVersion get() = project.property("forge_version") as String
@@ -182,7 +171,7 @@ dependencies {
   // compile against the JEI API but do not include it at runtime
 
   val jeiVersion = project.property("jei_version") as String
-  compileOnly(fg.deobf("mezz.jei:jei-$mcVersion:$jeiVersion:api"))
+  compileOnly(project.fg.deobf("mezz.jei:jei-$mcVersion:$jeiVersion:api"))
   // at runtime, use the full JEI jar
   runtimeOnly(fg.deobf("mezz.jei:jei-$mcVersion:$jeiVersion"))
 
