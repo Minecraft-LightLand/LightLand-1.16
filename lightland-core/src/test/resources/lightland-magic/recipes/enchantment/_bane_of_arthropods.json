@@ -1,0 +1,30 @@
+{
+    "type": "lightland-magic:magic_default",
+    "product_type": "lightland-magic:enchantment",
+    "product_id": "minecraft:bane_of_arthropods",
+    "predecessor": [],
+    "elemental_mastery": [
+        {
+            "element": "lightland-magic:fire",
+            "level": 1
+        }
+    ],
+    "screen": {
+        "x": 1,
+        "y": -2
+    },
+    "elements": {
+        "A": "lightland-magic:earth",
+        "B": "lightland-magic:earth",
+        "C": "lightland-magic:water",
+        "D": "lightland-magic:water",
+        "E": "lightland-magic:fire",
+        "F": "lightland-magic:fire"
+    },
+    "flows": [
+        "AB->E",
+        "E->F",
+        "F->CD",
+        "CD->AB"
+    ]
+}

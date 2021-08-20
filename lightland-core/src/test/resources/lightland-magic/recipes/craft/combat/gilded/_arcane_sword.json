@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " b ",
+    "bab"
+  ],
+  "key": {
+    "b": {
+      "item": "lightland-magic:enchant_gold_nugget"
+    },
+    "a": {
+      "item": "minecraft:iron_sword"
+    }
+  },
+  "result": {
+    "item": "lightland-magic:gilded_arcane_sword"
+  }
+}

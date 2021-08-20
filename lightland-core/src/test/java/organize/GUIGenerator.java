@@ -22,7 +22,7 @@ import java.util.Map;
 public class GUIGenerator {
 
     public static void main(String[] args) throws IOException {
-        new GUIGenerator().gen();
+        new GUIGenerator("lightland-magic").gen();
     }
 
     private class Comp {
@@ -95,14 +95,19 @@ public class GUIGenerator {
 
     }
 
-    private final String GUI = "./src/test/resources/lightland/gui/";
-    private final String DST = "./src/test/resources/lightland/assets/textures/gui/";
+    private final String GUI, DST, CONT;
+
+    private GUIGenerator(String modid) {
+        GUI = "./lightland/src/test/resources/lightland/gui/";
+        DST = "./lightland/src/test/resources/" + modid + "/assets/textures/gui/";
+        CONT = GUI + "container/" + modid + "/";
+    }
 
     private final Map<String, Item> ITEM_MAP = new HashMap<>();
 
     private void gen() throws IOException {
         readSprites();
-        File f = new File(GUI + "-templates/container/");
+        File f = new File(CONT);
         Item top = ITEM_MAP.get("top");
         Item middle = ITEM_MAP.get("middle");
         Item bottom = ITEM_MAP.get("bottom");

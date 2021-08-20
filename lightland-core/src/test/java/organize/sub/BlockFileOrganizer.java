@@ -16,10 +16,10 @@ public class BlockFileOrganizer extends ResourceOrganizer {
     }
 
     private void init(File f) {
-        texture = "./src/main/resources/" + Type.ASSETS + "/" + MODID + "/textures/block/";
-        model = "./src/main/resources/" + Type.ASSETS + "/" + MODID + "/models/block/";
-        state = "./src/main/resources/" + Type.ASSETS + "/" + MODID + "/blockstates/";
-        loot = "./src/main/resources/" + Type.DATA + "/" + MODID + "/loot_tables/blocks/";
+        texture = getResourceFolder(true) + Type.ASSETS + "/" + MODID + "/textures/block/";
+        model = getResourceFolder(true) + Type.ASSETS + "/" + MODID + "/models/block/";
+        state = getResourceFolder(true) + Type.ASSETS + "/" + MODID + "/blockstates/";
+        loot = getResourceFolder(true) + Type.DATA + "/" + MODID + "/loot_tables/blocks/";
 
         BS = readFile(f.getPath() + "/-blockstate/-.json");
         BM = readFile(f.getPath() + "/-model/-.json");

@@ -1,0 +1,30 @@
+{
+    "type": "lightland:config",
+    "map": {
+        "lightland:enchantment": {
+            "_class": "com.hikarishima.lightland.magic.products.info.TypeConfig",
+            "icon": "minecraft:enchanted_book",
+            "background": "lightland-magic:textures/block/temp_dirt.png"
+        },
+        "lightland:effect": {
+            "_class": "com.hikarishima.lightland.magic.products.info.TypeConfig",
+            "icon": "minecraft:glass_bottle",
+            "background": "lightland-magic:textures/block/temp_dirt.png"
+        },
+        "lightland:arcane": {
+            "_class": "com.hikarishima.lightland.magic.products.info.TypeConfig",
+            "icon": "lightland-magic:gilded_arcane_axe",
+            "background": "lightland-magic:textures/block/temp_dirt.png"
+        },
+        "lightland:spell": {
+            "_class": "com.hikarishima.lightland.magic.products.info.TypeConfig",
+            "icon": "lightland-magic:spell_card",
+            "background": "lightland-magic:textures/block/temp_dirt.png"
+        },
+        "lightland:craft": {
+            "_class": "com.hikarishima.lightland.magic.products.info.TypeConfig",
+            "icon": "minecraft:crafting_table",
+            "background": "lightland-magic:textures/block/temp_dirt.png"
+        }
+    }
+}

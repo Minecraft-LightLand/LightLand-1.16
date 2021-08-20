@@ -15,13 +15,13 @@ license="All rights reserved"
 # A list of mods - how many allowed here is determined by the individual mod loader
 [[mods]] #mandatory
 # The modid of the mod
-modId="lightland-magic" #mandatory
+modId="lightland-terrain" #mandatory
 # The version number of the mod - there's a few well known ${} variables useable here or just hardcode it
 # ${file.jarVersion} will substitute the value of the Implementation-Version as read from the mod's JAR file metadata
 # see the associated build.gradle script for how to populate this completely automatically during a build
 version="${file.jarVersion}" #mandatory
  # A display name for the mod
-displayName="Lightland Magic" #mandatory
+displayName="Lightland Terrain" #mandatory
 # A URL to query for updates for this mod. See the JSON update specification https://mcforge.readthedocs.io/en/latest/gettingstarted/autoupdate/
 #updateJSONURL="https://change.me.example.invalid/updates.json" #optional
 # A URL for the "homepage" for this mod, displayed in the mod UI
@@ -37,6 +37,17 @@ description='''
 Light Land is a mod that adds RPG elements to MC
 '''
 # A dependency - use the . to indicate dependency for a specific modid. Dependencies are optional.
+[[dependencies.lightland]] #optional
+    # the modid of the dependency
+    modId="lightland-core" #mandatory
+    # Does this dependency have to exist - if not, ordering below must be specified
+    mandatory=true #mandatory
+    # The version range of the dependency
+    versionRange="[1,)" #mandatory
+    # An ordering relationship for the dependency - BEFORE or AFTER required if the relationship is not mandatory
+    ordering="NONE"
+    # Side this dependency is applied on - BOTH, CLIENT or SERVER
+    side="BOTH"
 [[dependencies.lightland]] #optional
     # the modid of the dependency
     modId="forge" #mandatory

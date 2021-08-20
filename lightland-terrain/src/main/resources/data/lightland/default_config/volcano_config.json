@@ -1,0 +1,17 @@
+{
+    "lava_level": 140,
+    "side_count": 8,
+    "max": 5,
+    "step": 0.5,
+    "scale": 0.1,
+    "lava_well": {
+        "size": 2.2,
+        "height": 3.5,
+        "slope": 1.75,
+        "delta_size": 0.8,
+        "delta_height": 1,
+        "delta_slope": 0.5,
+        "chance": 0.2,
+        "lava_lake_chance": 0.05
+    }
+}

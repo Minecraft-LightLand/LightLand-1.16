@@ -14,7 +14,7 @@ public class ArmorFileOrganizer extends ResourceOrganizer {
     @Override
     public void organize(File f) throws Exception {
         for (File fi : f.listFiles()) {
-            File ti = new File("./src/main/resources/assets/minecraft/" + target + fi.getName());
+            File ti = new File(getResourceFolder(true) + "minecraft/" + target + fi.getName());
             check(ti);
             Files.copy(fi, ti);
         }

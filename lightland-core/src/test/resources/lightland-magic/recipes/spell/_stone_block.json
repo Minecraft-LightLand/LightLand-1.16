@@ -1,0 +1,29 @@
+{
+    "type": "lightland-magic:magic_default",
+    "product_type": "lightland-magic:spell",
+    "product_id": "lightland-magic:stone_block",
+    "predecessor": [
+        "lightland-magic:spell_stone_slab"
+    ],
+    "elemental_mastery": [
+        {
+            "element": "lightland-magic:earth",
+            "level": 1
+        }
+    ],
+    "screen": {
+        "x": 2,
+        "y": 0
+    },
+    "elements": {
+        "A": "lightland-magic:earth",
+        "B": "lightland-magic:earth",
+        "C": "lightland-magic:earth",
+        "D": "lightland-magic:earth",
+        "E": "lightland-magic:fire",
+        "F": "lightland-magic:water"
+    },
+    "flows": [
+        "ABCD<->EF"
+    ]
+}

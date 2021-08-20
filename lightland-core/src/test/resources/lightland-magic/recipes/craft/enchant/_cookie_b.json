@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "lightland-magic:enchant_cookie",
+  "pattern": [
+    "bbb",
+    "bab",
+    "bbb"
+  ],
+  "key": {
+    "a": {
+      "item": "lightland-magic:enchant_gold_nugget"
+    },
+    "b": {
+      "item": "minecraft:cookie"
+    }
+  },
+  "result": {
+    "item": "lightland-magic:enchant_cookie",
+    "count": 8
+  }
+}

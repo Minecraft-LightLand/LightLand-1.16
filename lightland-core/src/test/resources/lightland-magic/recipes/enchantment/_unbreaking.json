@@ -1,0 +1,25 @@
+{
+    "type": "lightland-magic:magic_default",
+    "product_type": "lightland-magic:enchantment",
+    "product_id": "minecraft:unbreaking",
+    "predecessor": [],
+    "elemental_mastery": [
+        {
+            "element": "lightland-magic:earth",
+            "level": 1
+        }
+    ],
+    "screen": {
+        "x": 1,
+        "y": 1
+    },
+    "elements": {
+        "A": "lightland-magic:earth",
+        "B": "lightland-magic:earth",
+        "C": "lightland-magic:earth",
+        "D": "lightland-magic:earth"
+    },
+    "flows": [
+        "ABCD|"
+    ]
+}

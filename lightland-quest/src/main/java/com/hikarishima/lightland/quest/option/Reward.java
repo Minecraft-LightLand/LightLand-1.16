@@ -1,6 +1,6 @@
 package com.hikarishima.lightland.quest.option;
 
-import com.hikarishima.lightland.magic.IMagicHandler;
+import com.hikarishima.lightland.magic.capabilities.MagicHandler;
 import com.lcy0x1.core.util.SerialClass;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -21,10 +21,7 @@ public class Reward implements IOptionComponent {
         player.giveExperiencePoints(vanilla_exp);
         for (ItemStack stack : items)
             player.addItem(stack);
-        final IMagicHandler magicHandler = IMagicHandler.get(player);
-        if (magicHandler != null) {
-            magicHandler.getAbilityPoints().addExp(lightland_exp);
-        }
+        MagicHandler.get(player).abilityPoints.addExp(lightland_exp);
     }
 
 }

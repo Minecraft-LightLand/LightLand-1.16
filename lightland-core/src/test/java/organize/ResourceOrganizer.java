@@ -73,7 +73,11 @@ public abstract class ResourceOrganizer {
     public abstract void organize(File f) throws Exception;
 
     public final String getTargetFolder() {
-        return "./src/main/resources/" + type + "/" + MODID + "/" + target;
+        return getResourceFolder(true) + type + "/" + MODID + "/" + target;
+    }
+
+    public final String getResourceFolder(boolean main) {
+        return (main ? "./" + MODID + "/src/main/resources/" : "./lightland/src/test/resources/");
     }
 
     protected String readFile(String path) {

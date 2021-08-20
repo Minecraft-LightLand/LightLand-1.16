@@ -1,0 +1,29 @@
+{
+    "type": "lightland-magic:magic_default",
+    "product_type": "lightland-magic:enchantment",
+    "product_id": "minecraft:fire_aspect",
+    "predecessor": [],
+    "elemental_mastery": [
+        {
+            "element": "lightland-magic:fire",
+            "level": 1
+        }
+    ],
+    "screen": {
+        "x": -2,
+        "y": -2
+    },
+    "elements": {
+        "A": "lightland-magic:earth",
+        "B": "lightland-magic:earth",
+        "C": "lightland-magic:earth",
+        "D": "lightland-magic:earth",
+        "E": "lightland-magic:fire",
+        "F": "lightland-magic:fire"
+    },
+    "flows": [
+        "ABCD->E",
+        "E->F",
+        "F->ABCD"
+    ]
+}

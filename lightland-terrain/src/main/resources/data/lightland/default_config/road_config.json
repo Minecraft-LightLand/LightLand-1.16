@@ -1,0 +1,78 @@
+{
+    "debug": false,
+    "roads": [
+        {
+            "color": "FFFFFF",
+            "type": "NONE"
+        },
+        {
+            "color": "000000",
+            "type": "RURAL"
+        },
+        {
+            "color": "808080",
+            "type": "VILLAGE"
+        },
+        {
+            "color": "A0A0A0",
+            "type": "COMMERCIAL"
+        }
+    ],
+    "materials": [
+        {
+            "entries": [
+                {
+                    "block": "minecraft:cobblestone",
+                    "weight": 100
+                },
+                {
+                    "block": "minecraft:gravel",
+                    "weight": 100
+                },
+                {
+                    "weight": 200
+                }
+            ]
+        },
+        {
+            "base_block": "minecraft:grassblock",
+            "entries": [
+                {
+                    "block": "minecraft:coarsedirt",
+                    "weight": 100
+                },
+                {
+                    "block": "minecraft:gravel",
+                    "weight": 100
+                },
+                {
+                    "block": "minecraft:dirt_path",
+                    "weight": 100
+                },
+                {
+                    "weight": 100
+                }
+            ]
+        },
+        {
+            "base_block": "minecraft:sand",
+            "entries": [
+                {
+                    "block": "minecraft:cobblestone",
+                    "weight": 100
+                },
+                {
+                    "block": "minecraft:gravel",
+                    "weight": 100
+                },
+                {
+                    "block": "minecraft:clay",
+                    "weight": 100
+                },
+                {
+                    "weight": 100
+                }
+            ]
+        }
+    ]
+}

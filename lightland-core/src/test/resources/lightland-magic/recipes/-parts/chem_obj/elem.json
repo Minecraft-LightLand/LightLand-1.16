@@ -1,0 +1,25 @@
+{
+    "_class": "organize.json.JsonPartMap",
+    "file": "config_chemistry",
+    "path": "map.pool.objects",
+    "common": {
+        "_class": "com.hikarishima.lightland.magic.chem.ChemElement"
+    },
+    "map": {
+        "elem.earth": {
+            "id": "lightland-magic:earth"
+        },
+        "elem.water": {
+            "id": "lightland-magic:water"
+        },
+        "elem.air": {
+            "id": "lightland-magic:air"
+        },
+        "elem.fire": {
+            "id": "lightland-magic:fire"
+        },
+        "elem.quint": {
+            "id": "lightland-magic:quint"
+        }
+    }
+}
