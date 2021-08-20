@@ -98,8 +98,8 @@ public class GUIGenerator {
     private final String GUI, DST, CONT;
 
     private GUIGenerator(String modid) {
-        GUI = "./lightland/src/test/resources/lightland/gui/";
-        DST = "./lightland/src/test/resources/" + modid + "/assets/textures/gui/";
+        GUI = "./lightland-core/src/test/resources/lightland-core/gui/";
+        DST = "./lightland-core/src/test/resources/" + modid + "/assets/textures/gui/";
         CONT = GUI + "container/" + modid + "/";
     }
 

@@ -1,5 +1,5 @@
 {
-    "type": "lightland:config",
+    "type": "lightland-core:config",
     "map": {
         "pool": {
             "_class": "com.hikarishima.lightland.magic.chem.HashEquationPool",

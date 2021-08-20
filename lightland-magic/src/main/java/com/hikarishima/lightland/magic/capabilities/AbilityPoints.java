@@ -1,6 +1,5 @@
 package com.hikarishima.lightland.magic.capabilities;
 
-import com.hikarishima.lightland.magic.IAbilityPoints;
 import com.hikarishima.lightland.magic.profession.Profession;
 import com.lcy0x1.core.util.SerialClass;
 
@@ -9,7 +8,7 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 
 @SerialClass
-public class AbilityPoints implements IAbilityPoints {
+public class AbilityPoints {
 
     public static final int MAX_LV = 20;
 
@@ -87,7 +86,6 @@ public class AbilityPoints implements IAbilityPoints {
         return true;
     }
 
-    @Override
     public void addExp(int xp) {
         if (xp < 0)
             return;

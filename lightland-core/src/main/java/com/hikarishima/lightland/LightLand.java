@@ -19,7 +19,7 @@ import net.minecraftforge.fml.network.NetworkDirection;
 @Mod("lightland")
 public class LightLand {
 
-    public static final String MODID = "lightland";
+    public static final String MODID = "lightland-core";
     public static final String NETWORK_VERSION = "1";
 
     public LightLand() {

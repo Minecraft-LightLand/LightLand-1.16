@@ -2,7 +2,6 @@ package com.hikarishima.lightland.magic;
 
 import com.hikarishima.lightland.command.BaseCommand;
 import com.hikarishima.lightland.magic.capabilities.MagicHandler;
-import com.hikarishima.lightland.magic.capabilities.MagicHandlerFactory;
 import com.hikarishima.lightland.magic.capabilities.ToClientMsg;
 import com.hikarishima.lightland.magic.capabilities.ToServerMsg;
 import com.hikarishima.lightland.magic.command.ArcaneCommand;
@@ -30,7 +29,6 @@ public class LightLandMagic {
     public static final String MODID = "lightland-magic";
 
     public LightLandMagic() {
-        IMagicHandlerFactory.factory.setFactory(new MagicHandlerFactory());
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
         bus.addListener(this::setup);
         bus.addListener(this::doClientStuff);

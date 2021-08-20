@@ -1,6 +1,5 @@
 package com.hikarishima.lightland.magic.capabilities;
 
-import com.hikarishima.lightland.magic.IMagicHandler;
 import com.hikarishima.lightland.proxy.Proxy;
 import com.lcy0x1.core.util.Automator;
 import com.lcy0x1.core.util.ExceptionHandler;
@@ -23,7 +22,7 @@ import java.util.function.Consumer;
 
 @SerialClass
 @Getter
-public class MagicHandler implements IMagicHandler {
+public class MagicHandler {
 
     public static final Storage STORAGE = new Storage();
 

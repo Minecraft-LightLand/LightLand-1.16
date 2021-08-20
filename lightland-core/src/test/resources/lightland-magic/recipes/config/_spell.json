@@ -1,5 +1,5 @@
 {
-    "type": "lightland:config",
+    "type": "lightland-core:config",
     "map": {
         "lightland:dirt_wall": {
             "_class": "com.hikarishima.lightland.magic.spell.magic.DirtWallSpell$Config",

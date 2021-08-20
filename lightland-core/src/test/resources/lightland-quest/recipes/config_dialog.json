@@ -1,0 +1,11 @@
+{
+    "type": "lightland-core:config",
+    "map": {
+        "default_dialog": {
+            "_class": "com.hikarishima.lightland.quest.dialog.DefaultDialog",
+            "map": {
+                "测试用NPC一号": "dialog_selector.test"
+            }
+        }
+    }
+}

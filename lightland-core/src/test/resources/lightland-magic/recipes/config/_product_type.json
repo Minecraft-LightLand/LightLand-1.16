@@ -1,5 +1,5 @@
 {
-    "type": "lightland:config",
+    "type": "lightland-core:config",
     "map": {
         "lightland:enchantment": {
             "_class": "com.hikarishima.lightland.magic.products.info.TypeConfig",
