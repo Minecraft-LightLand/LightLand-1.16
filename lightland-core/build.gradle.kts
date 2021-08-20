@@ -214,7 +214,7 @@ tasks.getByName("jar") {
       "Implementation-Timestamp" to SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ").format(Date())
     ))
   }
-  finalizedBy("reobfJar")
+  // finalizedBy("reobfJar")
 }
 
 // Example configuration to allow publishing using the maven-publish task
@@ -246,3 +246,4 @@ if (project.gradle.startParameter.taskNames.find { taskName ->
     processTestResources { enabled = false }
   }
 }
+
