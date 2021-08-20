@@ -214,6 +214,7 @@ tasks.getByName("jar") {
       "Implementation-Timestamp" to SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ").format(Date())
     ))
   }
+  // dependsOn("disableReobfJar")
   // finalizedBy("reobfJar")
 }
 
@@ -247,3 +248,15 @@ if (project.gradle.startParameter.taskNames.find { taskName ->
   }
 }
 
+// tasks.create("disableReobfJar") {
+//   try {
+//     tasks.getByName("reobfJar").enabled = false
+//   } catch (e: Exception) {
+//   }
+// }
+
+tasks.whenTaskAdded {
+  if (name == "reobfJar") {
+    enabled = false
+  }
+}

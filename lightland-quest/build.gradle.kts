@@ -99,6 +99,7 @@ repositories {
 
 dependencies {
   api(project(":lightland-core"))
+  api(project(":lightland-magic"))
   "minecraft"("net.minecraftforge:forge:${mcVersion}-${forgeVersion}")
 
   compileOnly("org.projectlombok:lombok:1.18.20")
