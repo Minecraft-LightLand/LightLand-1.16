@@ -1,17 +1,18 @@
 package com.hikarishima.lightland.magic;
 
+import com.hikarishima.lightland.command.BaseCommand;
+import com.hikarishima.lightland.magic.capabilities.MagicHandler;
+import com.hikarishima.lightland.magic.capabilities.MagicHandlerFactory;
 import com.hikarishima.lightland.magic.capabilities.ToClientMsg;
 import com.hikarishima.lightland.magic.capabilities.ToServerMsg;
 import com.hikarishima.lightland.magic.command.ArcaneCommand;
-import com.hikarishima.lightland.command.BaseCommand;
 import com.hikarishima.lightland.magic.command.MagicCommand;
-import com.hikarishima.lightland.magic.capabilities.MagicHandler;
 import com.hikarishima.lightland.magic.event.MagicEventHandler;
 import com.hikarishima.lightland.magic.gui.container.ChemContainer;
 import com.hikarishima.lightland.magic.gui.container.ChemPacket;
 import com.hikarishima.lightland.magic.recipe.MagicRecipeRegistry;
-import com.hikarishima.lightland.proxy.PacketHandler;
 import com.hikarishima.lightland.magic.registry.MagicContainerRegistry;
+import com.hikarishima.lightland.proxy.PacketHandler;
 import com.hikarishima.lightland.registry.RegistryBase;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -29,6 +30,7 @@ public class LightLandMagic {
     public static final String MODID = "lightland-magic";
 
     public LightLandMagic() {
+        IMagicHandlerFactory.factory.setFactory(new MagicHandlerFactory());
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
         bus.addListener(this::setup);
         bus.addListener(this::doClientStuff);

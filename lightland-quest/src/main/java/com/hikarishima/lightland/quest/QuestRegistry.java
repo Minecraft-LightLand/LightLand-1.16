@@ -1,6 +1,5 @@
 package com.hikarishima.lightland.quest;
 
-import com.hikarishima.lightland.LightLand;
 import com.hikarishima.lightland.quest.gui.QuestScreen;
 import com.hikarishima.lightland.registry.ItemRegistry;
 import com.hikarishima.lightland.registry.item.ScreenBook;

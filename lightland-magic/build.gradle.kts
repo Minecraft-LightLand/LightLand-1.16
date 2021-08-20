@@ -155,6 +155,9 @@ tasks.getByName("jar") {
       "Implementation-Timestamp" to SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ").format(Date())
     ))
   }
+  from("resources") {
+    include("**")
+  }
   finalizedBy("reobfJar")
 }
 

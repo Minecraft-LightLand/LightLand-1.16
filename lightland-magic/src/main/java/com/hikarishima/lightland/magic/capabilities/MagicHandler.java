@@ -1,9 +1,11 @@
 package com.hikarishima.lightland.magic.capabilities;
 
+import com.hikarishima.lightland.magic.IMagicHandler;
 import com.hikarishima.lightland.proxy.Proxy;
 import com.lcy0x1.core.util.Automator;
 import com.lcy0x1.core.util.ExceptionHandler;
 import com.lcy0x1.core.util.SerialClass;
+import lombok.Getter;
 import net.minecraft.client.entity.player.ClientPlayerEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
@@ -20,7 +22,8 @@ import javax.annotation.Nullable;
 import java.util.function.Consumer;
 
 @SerialClass
-public class MagicHandler {
+@Getter
+public class MagicHandler implements IMagicHandler {
 
     public static final Storage STORAGE = new Storage();
 
