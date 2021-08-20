@@ -1,7 +1,7 @@
 {
     "type": "lightland-core:config",
     "map": {
-        "lightland:dirt_wall": {
+        "lightland-magic:dirt_wall": {
             "_class": "com.hikarishima.lightland.magic.spell.magic.DirtWallSpell$Config",
             "duration": 20,
             "mana_cost": 10,
@@ -13,7 +13,7 @@
             "rn": 0,
             "rs": 1
         },
-        "lightland:stone_slab": {
+        "lightland-magic:stone_slab": {
             "_class": "com.hikarishima.lightland.magic.spell.magic.DirtWallSpell$Config",
             "duration": 20,
             "mana_cost": 10,
@@ -25,7 +25,7 @@
             "rn": 2,
             "rs": 2
         },
-        "lightland:stone_block": {
+        "lightland-magic:stone_block": {
             "_class": "com.hikarishima.lightland.magic.spell.magic.DirtWallSpell$Config",
             "duration": 180,
             "mana_cost": 30,

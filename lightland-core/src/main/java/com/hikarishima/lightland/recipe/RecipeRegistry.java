@@ -8,8 +8,8 @@ import net.minecraftforge.registries.IForgeRegistryEntry;
 
 public class RecipeRegistry {
 
-    public static final IRecipeType<IConfigRecipe<?>> RT_CONFIG = IRecipeType.register("lightland:config");
-    public static final IRecipeType<ITradeRecipe<?>> RT_TRADE = IRecipeType.register("lightland:trade");
+    public static final IRecipeType<IConfigRecipe<?>> RT_CONFIG = IRecipeType.register("lightland-core:config");
+    public static final IRecipeType<ITradeRecipe<?>> RT_TRADE = IRecipeType.register("lightland-core:trade");
 
     public static final BaseRecipe.RecType<ConfigRecipe, IConfigRecipe<?>, IConfigRecipe.ConfigInv> RSM_CONFIG =
             reg("config", new BaseRecipe.RecType<>(ConfigRecipe.class, RT_CONFIG));

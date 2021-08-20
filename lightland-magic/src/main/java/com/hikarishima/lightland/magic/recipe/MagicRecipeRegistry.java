@@ -8,7 +8,7 @@ import net.minecraftforge.registries.IForgeRegistryEntry;
 
 public class MagicRecipeRegistry {
 
-    public static final IRecipeType<IMagicRecipe<?>> RT_MAGIC = IRecipeType.register("lightland:magic");
+    public static final IRecipeType<IMagicRecipe<?>> RT_MAGIC = IRecipeType.register("lightland-magic:magic");
 
     public static final BaseRecipe.RecType<DefMagicRecipe, IMagicRecipe<?>, IMagicRecipe.Inv> RSM_DEF =
             reg("magic_default", new BaseRecipe.RecType<>(DefMagicRecipe.class, RT_MAGIC));

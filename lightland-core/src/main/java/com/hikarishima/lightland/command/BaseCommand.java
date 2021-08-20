@@ -21,9 +21,9 @@ import java.util.function.Consumer;
 
 public abstract class BaseCommand {
 
-    public static final ITextComponent ACTION_SUCCESS = new TranslationTextComponent("lightland:chat.action_success");
-    public static final ITextComponent PLAYER_NOT_FOUND = new TranslationTextComponent("lightland:chat.player_not_found");
-    public static final ITextComponent WRONG_ITEM = new TranslationTextComponent("lightland:chat.wrong_item");
+    public static final ITextComponent ACTION_SUCCESS = new TranslationTextComponent("lightland-core:chat.action_success");
+    public static final ITextComponent PLAYER_NOT_FOUND = new TranslationTextComponent("lightland-core:chat.player_not_found");
+    public static final ITextComponent WRONG_ITEM = new TranslationTextComponent("lightland-core:chat.wrong_item");
 
     public static final List<Consumer<LiteralArgumentBuilder<CommandSource>>> LIST = new ArrayList<>();
 

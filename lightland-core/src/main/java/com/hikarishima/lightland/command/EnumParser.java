@@ -42,7 +42,7 @@ public class EnumParser<T extends Enum<T>> implements ArgumentType<T> {
         String str = reader.readUnquotedString();
         T val = ExceptionHandler.ignore(() -> Enum.valueOf(cls, str));
         if (val == null) {
-            throw new DynamicCommandExceptionType((obj) -> new TranslationTextComponent("lightland:argument.invalid_id", obj)).createWithContext(reader, str);
+            throw new DynamicCommandExceptionType((obj) -> new TranslationTextComponent("lightland-core:argument.invalid_id", obj)).createWithContext(reader, str);
         }
         return val;
     }

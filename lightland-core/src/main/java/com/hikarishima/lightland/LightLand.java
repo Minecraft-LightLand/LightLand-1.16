@@ -16,7 +16,7 @@ import net.minecraftforge.fml.network.NetworkDirection;
 
 // The value here should match an entry in the META-INF/mods.toml file
 @SuppressWarnings("unused")
-@Mod("lightland")
+@Mod("lightland-core")
 public class LightLand {
 
     public static final String MODID = "lightland-core";
