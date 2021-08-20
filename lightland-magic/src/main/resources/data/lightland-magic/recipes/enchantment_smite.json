@@ -1,0 +1,28 @@
+{
+    "type": "lightland-magic:magic_default",
+    "product_type": "lightland-magic:enchantment",
+    "product_id": "minecraft:smite",
+    "predecessor": [],
+    "elemental_mastery": [
+        {
+            "element": "lightland-magic:quint",
+            "level": 1
+        }
+    ],
+    "screen": {
+        "x": -1,
+        "y": -2
+    },
+    "elements": {
+        "A": "lightland-magic:earth",
+        "B": "lightland-magic:earth",
+        "C": "lightland-magic:fire",
+        "D": "lightland-magic:fire",
+        "E": "lightland-magic:quint"
+    },
+    "flows": [
+        "AB->CD",
+        "CD->E",
+        "E->AB"
+    ]
+}

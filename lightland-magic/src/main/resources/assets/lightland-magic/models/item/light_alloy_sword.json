@@ -1,0 +1,7 @@
+{
+    "parent": "item/generated",
+    "textures": {
+        "layer0": "lightland-magic:item/light_alloy_sword"
+    }
+}
+

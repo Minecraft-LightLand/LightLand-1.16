@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "bbb",
+    "bab",
+    " a "
+  ],
+  "key": {
+    "b": {
+      "item": "lightland-magic:enchant_gold_nugget"
+    },
+    "a": {
+      "item": "minecraft:stick"
+    }
+  },
+  "result": {
+    "item": "lightland-magic:gilded_wand"
+  }
+}

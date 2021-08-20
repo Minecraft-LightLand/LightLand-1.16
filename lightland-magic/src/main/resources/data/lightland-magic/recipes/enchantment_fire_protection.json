@@ -1,0 +1,29 @@
+{
+    "type": "lightland-magic:magic_default",
+    "product_type": "lightland-magic:enchantment",
+    "product_id": "minecraft:fire_protection",
+    "predecessor": [],
+    "elemental_mastery": [
+        {
+            "element": "lightland-magic:fire",
+            "level": 1
+        }
+    ],
+    "screen": {
+        "x": -1,
+        "y": 0
+    },
+    "elements": {
+        "A": "lightland-magic:earth",
+        "B": "lightland-magic:earth",
+        "C": "lightland-magic:earth",
+        "D": "lightland-magic:fire",
+        "E": "lightland-magic:fire",
+        "F": "lightland-magic:quint"
+    },
+    "flows": [
+        "F->ABC",
+        "ABC->DE",
+        "DE->F"
+    ]
+}

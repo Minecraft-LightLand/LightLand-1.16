@@ -1,0 +1,27 @@
+{
+    "type": "lightland-magic:magic_default",
+    "product_type": "lightland-magic:enchantment",
+    "product_id": "minecraft:infinity",
+    "predecessor": [],
+    "elemental_mastery": [
+        {
+            "element": "lightland-magic:quint",
+            "level": 1
+        }
+    ],
+    "screen": {
+        "x": -1,
+        "y": 1
+    },
+    "elements": {
+        "A": "lightland-magic:quint",
+        "B": "lightland-magic:quint",
+        "C": "lightland-magic:quint",
+        "D": "lightland-magic:air",
+        "E": "lightland-magic:air",
+        "F": "lightland-magic:air"
+    },
+    "flows": [
+        "ABC<->DEF"
+    ]
+}

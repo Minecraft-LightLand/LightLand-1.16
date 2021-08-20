@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "b",
+    "b",
+    "a"
+  ],
+  "key": {
+    "b": {
+      "item": "lightland-magic:anti_magic_alloy_ingot"
+    },
+    "a": {
+      "item": "minecraft:stick"
+    }
+  },
+  "result": {
+    "item": "lightland-magic:anti_magic_alloy_sword"
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "lightland-magic:magic_book"
+    },
+    {
+      "item": "lightland-magic:enchant_gold_nugget"
+    }
+  ],
+  "result": {
+    "item": "lightland-magic:arcane_inject_book"
+  }
+}

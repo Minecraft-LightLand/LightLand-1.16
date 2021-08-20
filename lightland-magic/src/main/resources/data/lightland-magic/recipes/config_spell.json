@@ -1,0 +1,41 @@
+{
+    "type": "lightland-core:config",
+    "map": {
+        "lightland:dirt_wall": {
+            "_class": "com.hikarishima.lightland.magic.spell.magic.DirtWallSpell$Config",
+            "duration": 20,
+            "mana_cost": 10,
+            "spell_load": 20,
+            "type": "SCROLL",
+            "block": "lightland-magic:temp_dirt",
+            "time": 100,
+            "ry": 1,
+            "rn": 0,
+            "rs": 1
+        },
+        "lightland:stone_slab": {
+            "_class": "com.hikarishima.lightland.magic.spell.magic.DirtWallSpell$Config",
+            "duration": 20,
+            "mana_cost": 10,
+            "spell_load": 20,
+            "type": "SCROLL",
+            "block": "lightland-magic:temp_cobblestone",
+            "time": 300,
+            "ry": 0,
+            "rn": 2,
+            "rs": 2
+        },
+        "lightland:stone_block": {
+            "_class": "com.hikarishima.lightland.magic.spell.magic.DirtWallSpell$Config",
+            "duration": 180,
+            "mana_cost": 30,
+            "spell_load": 60,
+            "type": "SCROLL",
+            "block": "lightland-magic:temp_cobblestone",
+            "time": 100,
+            "ry": 1,
+            "rn": 1,
+            "rs": 1
+        }
+    }
+}

@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "cdc",
+    "aba",
+    "cdc"
+  ],
+  "key": {
+    "b": {
+      "item": "lightland-magic:enchant_gold_nugget"
+    },
+    "a": {
+      "item": "minecraft:leather"
+    },
+    "c": {
+      "item": "minecraft:paper"
+    },
+    "d": {
+      "item": "minecraft:stick"
+    }
+  },
+  "result": {
+    "item": "lightland-magic:spell_scroll"
+  }
+}

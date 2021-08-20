@@ -100,7 +100,7 @@ public class GUIGenerator {
     private GUIGenerator(String modid) {
         GUI = "./lightland-core/src/test/resources/lightland-core/gui/";
         DST = "./lightland-core/src/test/resources/" + modid + "/assets/textures/gui/";
-        CONT = GUI + "container/" + modid + "/";
+        CONT = GUI + "-templates/container/" + modid + "/";
     }
 
     private final Map<String, Item> ITEM_MAP = new HashMap<>();
