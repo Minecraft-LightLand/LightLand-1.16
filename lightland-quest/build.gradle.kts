@@ -23,19 +23,20 @@ plugins {
   id("eclipse")
   `maven-publish`
   kotlin("jvm")
+  id("forge-gradle-kts")
 }
 
 apply(plugin = "net.minecraftforge.gradle")
 
-val fg = project.extensions.getByType<net.minecraftforge.gradle.userdev.DependencyManagementExtension>()
+// val fg = project.extensions.getByType<net.minecraftforge.gradle.userdev.DependencyManagementExtension>()
 
 version = "1.0"
 group = "com.hikarishima" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 
 // java.toolchain.languageVersion = JavaLanguageVersion.of(8) // Mojang ships Java 8 to end users, so your mod should target Java 8.
 
-val mcVersion get() = project.property("mc_version") as String
-val forgeVersion get() = project.property("forge_version") as String
+// val mcVersion get() = project.property("mc_version") as String
+// val forgeVersion get() = project.property("forge_version") as String
 
 println("Java: " + System.getProperty("java.version") + " JVM: " + System.getProperty("java.vm.version") + "(" + System.getProperty(
   "java.vendor") + ") Arch: " + System.getProperty("os.arch"))
@@ -62,8 +63,9 @@ configure<UserDevExtension> {
   // Default run configurations.
   // These can be tweaked, removed, or duplicated as needed.
   runs {
-    create("clientQuest") {
-      workingDirectory(project.file("run"))
+    create("client") {
+      taskName = "runClientQuest"
+      workingDirectory(rootProject.file("run"))
 
       // Recommended logging data for a userdev environment
       // The markers can be changed as needed.
@@ -78,7 +80,7 @@ configure<UserDevExtension> {
       property("forge.logging.console.level", "debug")
 
       mods {
-        create("lightland-quest") {
+        create("examplemod") {
           source(sourceSets["main"])
         }
       }
@@ -98,9 +100,12 @@ repositories {
 }
 
 dependencies {
+  "minecraft"("net.minecraftforge:forge:${mcVersion}-${forgeVersion}")
+
+  compileOnly(project.fg.deobf("mezz.jei:jei-$mcVersion:$jeiVersion:api"))
+  runtimeOnly(fg.deobf("mezz.jei:jei-$mcVersion:$jeiVersion"))
   api(project(":lightland-core"))
   api(project(":lightland-magic"))
-  "minecraft"("net.minecraftforge:forge:${mcVersion}-${forgeVersion}")
 
   compileOnly("org.projectlombok:lombok:1.18.20")
   annotationProcessor("org.projectlombok:lombok:1.18.20")
@@ -116,7 +121,7 @@ tasks.getByName("jar") {
   manifest {
     @Suppress("SpellCheckingInspection")
     attributes(mapOf(
-      "Specification-Title" to "lightland",
+      "Specification-Title" to "lightland-quest",
       "Specification-Vendor" to "hikarishima",
       "Specification-Version" to "1", // We are version 1 of ourselves
       "Implementation-Title" to project.name,

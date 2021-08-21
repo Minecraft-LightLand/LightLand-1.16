@@ -21,9 +21,6 @@ allprojects {
   repositories {
     maven {
       url = uri("https://nvm.tursom.cn/repository/maven-public/")
-      metadataSources {
-        mavenPom()
-      }
     }
   }
 }

@@ -5,11 +5,11 @@ import org.gradle.jvm.toolchain.internal.DefaultJavaLanguageVersion
 
 class ForgeGradleKts : Plugin<Project> {
   override fun apply(target: Project) {
-    target.afterEvaluate {
+    target.afterEvaluate { project ->
       try {
-        (it.extensions.getByName("java") as org.gradle.api.plugins.JavaPluginExtension).apply {
-          toolchain {
-            it.languageVersion.set(DefaultJavaLanguageVersion.of(8))
+        (project.extensions.getByName("java") as org.gradle.api.plugins.JavaPluginExtension).apply {
+          toolchain { java ->
+            java.languageVersion.set(DefaultJavaLanguageVersion.of(8))
           }
         }
       } catch (e: Exception) {
@@ -21,3 +21,7 @@ class ForgeGradleKts : Plugin<Project> {
 val Project.fg
   get() = extensions.getByType(DependencyManagementExtension::class.java)
 
+
+val Project.jeiVersion get() = property("jei_version") as String
+val Project.mcVersion get() = property("mc_version") as String
+val Project.forgeVersion get() = property("forge_version") as String

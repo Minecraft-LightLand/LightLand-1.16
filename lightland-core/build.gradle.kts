@@ -28,11 +28,11 @@ plugins {
 
 apply(plugin = "net.minecraftforge.gradle")
 
-val mcVersion get() = project.property("mc_version") as String
-val forgeVersion get() = project.property("forge_version") as String
+// val mcVersion get() = project.property("mc_version") as String
+// val forgeVersion get() = project.property("forge_version") as String
 
-println("Java: " + System.getProperty("java.version") + " JVM: " + System.getProperty("java.vm.version") + "(" + System.getProperty(
-  "java.vendor") + ") Arch: " + System.getProperty("os.arch"))
+// println("Java: " + System.getProperty("java.version") + " JVM: " + System.getProperty("java.vm.version") + "(" + System.getProperty(
+//   "java.vendor") + ") Arch: " + System.getProperty("os.arch"))
 configure<UserDevExtension> {
   // The mappings can be changed at any time, and must be in the following format.
   // Channel:   Version:
@@ -45,10 +45,7 @@ configure<UserDevExtension> {
   //
   // Use non-default mappings at your own risk. they may not always work.
   // Simply re-run your setup task after changing the mappings to update your workspace.
-  mappings(mapOf(
-    "channel" to "official",
-    "version" to "1.16.5"
-  ))
+  mappings("official", "1.16.5")
   // makeObfSourceJar = false // an Srg named sources jar is made by default. uncomment this to disable.
 
   // accessTransformer = file("src/main/resources/META-INF/accesstransformer.cfg")
@@ -57,7 +54,7 @@ configure<UserDevExtension> {
   // These can be tweaked, removed, or duplicated as needed.
   runs {
     create("client") {
-      workingDirectory(project.file("run"))
+      workingDirectory(rootProject.file("run"))
 
       // Recommended logging data for a userdev environment
       // The markers can be changed as needed.
@@ -79,7 +76,7 @@ configure<UserDevExtension> {
     }
 
     create("server") {
-      workingDirectory(project.file("run"))
+      workingDirectory(rootProject.file("run"))
 
       // Recommended logging data for a userdev environment
       // The markers can be changed as needed.
@@ -101,7 +98,7 @@ configure<UserDevExtension> {
     }
 
     create("data") {
-      workingDirectory(project.file("run"))
+      workingDirectory(rootProject.file("run"))
 
       // Recommended logging data for a userdev environment
       // The markers can be changed as needed.
@@ -231,7 +228,7 @@ publishing {
   }
   repositories {
     maven {
-      url = uri("file:///${project.projectDir}/mcmodsrepo")
+      url = uri("file:///${rootProject.projectDir}/mcmodsrepo")
     }
   }
 }

@@ -4,9 +4,9 @@ import java.util.*
 
 buildscript {
   repositories {
-    maven {
-      url = uri("https://maven.minecraftforge.net")
-    }
+    // maven {
+    //   url = uri("https://maven.minecraftforge.net")
+    // }
     maven {
       url = uri("https://nvm.tursom.cn/repository/maven-public/")
     }
@@ -23,6 +23,7 @@ plugins {
   id("eclipse")
   `maven-publish`
   kotlin("jvm")
+  id("forge-gradle-kts")
 }
 
 apply(plugin = "net.minecraftforge.gradle")
@@ -51,10 +52,7 @@ configure<UserDevExtension> {
   //
   // Use non-default mappings at your own risk. they may not always work.
   // Simply re-run your setup task after changing the mappings to update your workspace.
-  mappings(mapOf(
-    "channel" to "official",
-    "version" to "1.16.5"
-  ))
+  mappings("official", "1.16.5")
   // makeObfSourceJar = false // an Srg named sources jar is made by default. uncomment this to disable.
 
   // accessTransformer = file("src/main/resources/META-INF/accesstransformer.cfg")
@@ -62,7 +60,8 @@ configure<UserDevExtension> {
   // Default run configurations.
   // These can be tweaked, removed, or duplicated as needed.
   runs {
-    create("clientTerrain") {
+    create("client") {
+      taskName = "runClientTerrain"
       workingDirectory(project.file("run"))
 
       // Recommended logging data for a userdev environment
@@ -100,6 +99,9 @@ repositories {
 dependencies {
   api(project(":lightland-core"))
   "minecraft"("net.minecraftforge:forge:${mcVersion}-${forgeVersion}")
+
+  compileOnly(fg.deobf("mezz.jei:jei-$mcVersion:$jeiVersion:api"))
+  runtimeOnly(fg.deobf("mezz.jei:jei-$mcVersion:$jeiVersion"))
 
   compileOnly("org.projectlombok:lombok:1.18.20")
   annotationProcessor("org.projectlombok:lombok:1.18.20")
