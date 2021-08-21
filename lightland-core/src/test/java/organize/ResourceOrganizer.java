@@ -1,6 +1,7 @@
 package organize;
 
 import com.google.common.io.Files;
+import org.junit.Test;
 import organize.sub.*;
 
 import java.io.File;
@@ -25,6 +26,7 @@ public abstract class ResourceOrganizer {
         MAP.put(folder, this);
     }
 
+    @Test
     public static void main(String[] args) throws Exception {
         new LangFileOrganizer();
         new ItemFileOrganizer();
