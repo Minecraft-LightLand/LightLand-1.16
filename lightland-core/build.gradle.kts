@@ -2,22 +2,22 @@ import net.minecraftforge.gradle.userdev.UserDevExtension
 import java.text.SimpleDateFormat
 import java.util.*
 
-buildscript {
-  repositories {
-    maven {
-      url = uri("https://maven.minecraftforge.net")
-    }
-    maven {
-      url = uri("https://nvm.tursom.cn/repository/maven-public/")
-    }
-    // mavenCentral()
-  }
-  dependencies {
-    classpath("net.minecraftforge.gradle:ForgeGradle:4.1.+") {
-      isChanging = true
-    }
-  }
-}
+//buildscript {
+//  repositories {
+//    maven {
+//      url = uri("https://maven.minecraftforge.net")
+//    }
+//    maven {
+//      url = uri("https://nvm.tursom.cn/repository/maven-public/")
+//    }
+//    // mavenCentral()
+//  }
+//  dependencies {
+//    classpath("net.minecraftforge.gradle:ForgeGradle:4.1.+") {
+//      isChanging = true
+//    }
+//  }
+//}
 
 plugins {
   id("eclipse")
@@ -160,6 +160,9 @@ dependencies {
   // The userdev artifact is a special name and will get all sorts of transformations applied to it.
   // println(project.property("forge_version"))
   "minecraft"("net.minecraftforge:forge:${mcVersion}-${forgeVersion}")
+
+  api(kotlin("stdlib"))
+  api(kotlin("reflect"))
 
   // You may put jars on which you depend on in ./libs or you may define them like so..
   // compile "some.group:artifact:version:classifier"

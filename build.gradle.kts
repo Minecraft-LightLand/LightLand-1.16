@@ -28,9 +28,9 @@ allprojects {
 subprojects {
   buildscript {
     repositories {
-      maven {
-        url = uri("https://maven.minecraftforge.net")
-      }
+      //maven {
+      //  url = uri("https://maven.minecraftforge.net")
+      //}
       maven {
         url = uri("https://nvm.tursom.cn/repository/maven-public/")
       }
