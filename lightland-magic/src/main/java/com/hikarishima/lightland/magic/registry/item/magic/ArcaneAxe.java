@@ -5,6 +5,7 @@ import com.hikarishima.lightland.magic.arcane.internal.ArcaneItemCraftHelper;
 import com.hikarishima.lightland.magic.arcane.internal.ArcaneItemUseHelper;
 import com.hikarishima.lightland.magic.arcane.internal.IArcaneItem;
 import com.hikarishima.lightland.magic.capabilities.MagicHandler;
+import com.hikarishima.lightland.magic.registry.item.combat.IArcaneWeapon;
 import com.hikarishima.lightland.proxy.Proxy;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.util.ITooltipFlag;
@@ -25,7 +26,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.List;
 
 @ParametersAreNonnullByDefault
-public class ArcaneAxe extends AxeItem implements IArcaneItem {
+public class ArcaneAxe extends AxeItem implements IArcaneItem, IArcaneWeapon {
 
     private final int mana;
 

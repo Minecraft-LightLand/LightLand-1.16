@@ -24,6 +24,7 @@ hs_err_pid*
 
 /out/
 /run/
+/lightland-*/run/
 .gradle/
 build/
 logs/
