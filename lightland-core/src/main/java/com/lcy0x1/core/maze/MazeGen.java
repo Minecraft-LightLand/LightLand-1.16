@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+@Log4j2
 public class MazeGen {
 
     public final int[][] ans;
@@ -270,7 +271,7 @@ public class MazeGen {
             try {
                 log.debug("[builder] {}", msg);
                 this.wait();
-                System.out.println("[builder] next");
+                log.debug("[builder] next");
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -362,7 +363,7 @@ public class MazeGen {
         private void seg() {
             paths = new int[len()];
             if (loop == 0 && path == 0) {
-                System.out.println("ERROR: all zero");
+                log.warn("ERROR: all zero");
             }
             // debug.showRim(this);
             int[] rarr = randArray(paths.length, rand);
