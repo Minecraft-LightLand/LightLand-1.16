@@ -2,6 +2,7 @@ package com.hikarishima.lightland.magic.registry.item.magic;
 
 import com.hikarishima.lightland.magic.arcane.internal.ArcaneItemUseHelper;
 import com.hikarishima.lightland.magic.arcane.internal.IArcaneItem;
+import com.hikarishima.lightland.magic.registry.item.combat.IArcaneWeapon;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.LivingEntity;
@@ -18,7 +19,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.List;
 
 @ParametersAreNonnullByDefault
-public class ArcaneSword extends SwordItem implements IArcaneItem {
+public class ArcaneSword extends SwordItem implements IArcaneItem, IArcaneWeapon {
 
     private final int mana;
 

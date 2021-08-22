@@ -6,11 +6,14 @@ import com.hikarishima.lightland.magic.capabilities.ToClientMsg;
 import com.hikarishima.lightland.magic.capabilities.ToServerMsg;
 import com.hikarishima.lightland.magic.command.ArcaneCommand;
 import com.hikarishima.lightland.magic.command.MagicCommand;
+import com.hikarishima.lightland.magic.event.ClientRenderEventHandler;
 import com.hikarishima.lightland.magic.event.MagicEventHandler;
 import com.hikarishima.lightland.magic.gui.container.ChemContainer;
 import com.hikarishima.lightland.magic.gui.container.ChemPacket;
 import com.hikarishima.lightland.magic.recipe.MagicRecipeRegistry;
 import com.hikarishima.lightland.magic.registry.MagicContainerRegistry;
+import com.hikarishima.lightland.magic.registry.MagicItemRegistry;
+import com.hikarishima.lightland.magic.registry.VanillaMagicRegistry;
 import com.hikarishima.lightland.proxy.PacketHandler;
 import com.hikarishima.lightland.registry.RegistryBase;
 import net.minecraftforge.common.MinecraftForge;
@@ -33,6 +36,7 @@ public class LightLandMagic {
         bus.addListener(this::setup);
         bus.addListener(this::doClientStuff);
         MinecraftForge.EVENT_BUS.register(new MagicEventHandler());
+        MinecraftForge.EVENT_BUS.register(new ClientRenderEventHandler());
         PacketHandler.reg(ToClientMsg.class, ToClientMsg::handle, NetworkDirection.PLAY_TO_CLIENT);
         PacketHandler.reg(ToServerMsg.class, ToServerMsg::handle, NetworkDirection.PLAY_TO_SERVER);
         PacketHandler.reg(ChemPacket.class, ChemContainer.class, NetworkDirection.PLAY_TO_SERVER);
@@ -40,6 +44,8 @@ public class LightLandMagic {
         BaseCommand.LIST.add(MagicCommand::new);
         RegistryBase.REGISTRIES.add(MagicRecipeRegistry.class);
         RegistryBase.REGISTRIES.add(MagicContainerRegistry.class);
+        RegistryBase.REGISTRIES.add(MagicItemRegistry.class);
+        RegistryBase.REGISTRIES.add(VanillaMagicRegistry.class);
     }
 
     private void setup(final FMLCommonSetupEvent event) {
