@@ -1,5 +1,7 @@
 package com.lcy0x1.core.maze;
 
+import lombok.extern.log4j.Log4j2;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -249,6 +251,7 @@ public class MazeGen {
         return (x + r) + (y + r) * w;
     }
 
+    @Log4j2
     public static class Debugger {
 
         private final boolean skip = true;
@@ -265,7 +268,7 @@ public class MazeGen {
             if (skip)
                 return;
             try {
-                System.out.println("[builder] " + msg);
+                log.debug("[builder] {}", msg);
                 this.wait();
                 System.out.println("[builder] next");
             } catch (InterruptedException e) {
