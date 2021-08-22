@@ -11,11 +11,11 @@ import com.hikarishima.lightland.magic.gui.container.ArcaneInjectScreen;
 import com.hikarishima.lightland.magic.gui.container.ChemScreen;
 import com.hikarishima.lightland.magic.gui.container.DisEnchanterScreen;
 import com.hikarishima.lightland.magic.gui.container.SpellCraftScreen;
+import com.hikarishima.lightland.magic.recipe.MagicRecipeRegistry;
 import com.hikarishima.lightland.magic.registry.MagicItemRegistry;
 import com.hikarishima.lightland.proxy.Proxy;
 import com.hikarishima.lightland.recipe.ConfigRecipe;
 import com.hikarishima.lightland.magic.recipe.IMagicRecipe;
-import com.hikarishima.lightland.registry.ItemRegistry;
 import mcp.MethodsReturnNonnullByDefault;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
@@ -121,7 +121,7 @@ public class LightLandJeiPlugin implements IModPlugin {
     }
 
     public static HashEquationPool getPool() {
-        return Objects.requireNonNull(ConfigRecipe.getObject(Proxy.getWorld(), ConfigRecipe.CHEM, "pool"));
+        return Objects.requireNonNull(ConfigRecipe.getObject(Proxy.getWorld(), MagicRecipeRegistry.CHEM, "pool"));
     }
 
 }

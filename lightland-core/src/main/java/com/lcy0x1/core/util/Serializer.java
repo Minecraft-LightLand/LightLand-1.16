@@ -11,6 +11,7 @@ import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.item.crafting.ShapedRecipe;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.PacketBuffer;
+import net.minecraft.potion.Effect;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.IForgeRegistry;
@@ -22,6 +23,7 @@ import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.UUID;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
@@ -51,9 +53,15 @@ public class Serializer {
         new ClassHandler<>(CompoundNBT.class, (e) -> new CompoundNBT(), PacketBuffer::readAnySizeNbt, PacketBuffer::writeNbt);
 
         new StringClassHandler<>(ResourceLocation.class, ResourceLocation::new, ResourceLocation::toString);
+        new ClassHandler<>(UUID.class, e -> UUID.fromString(e.getAsString()), p -> new UUID(p.readLong(), p.readLong()),
+                (p, e) -> {
+                    p.writeLong(e.getMostSignificantBits());
+                    p.writeLong(e.getLeastSignificantBits());
+                });
 
         new RLClassHandler<>(Item.class, () -> ForgeRegistries.ITEMS);
         new RLClassHandler<>(Block.class, () -> ForgeRegistries.BLOCKS);
+        new RLClassHandler<>(Effect.class, () -> ForgeRegistries.POTIONS);
     }
 
     @SuppressWarnings("unchecked")
@@ -316,13 +324,13 @@ public class Serializer {
 
         public RLClassHandler(Class<?> cls, Supplier<IForgeRegistry<T>> r) {
             super(cls, e -> e.isJsonNull() ? null : r.get().getValue(new ResourceLocation(e.getAsString())),
-                p -> {
-                    String str = p.readUtf();
-                    if (str.length() == 0)
-                        return null;
-                    return r.get().getValue(new ResourceLocation(str));
-                },
-                (p, t) -> p.writeUtf(t == null ? "" : t.getRegistryName().toString()));
+                    p -> {
+                        String str = p.readUtf();
+                        if (str.length() == 0)
+                            return null;
+                        return r.get().getValue(new ResourceLocation(str));
+                    },
+                    (p, t) -> p.writeUtf(t == null ? "" : t.getRegistryName().toString()));
         }
 
     }

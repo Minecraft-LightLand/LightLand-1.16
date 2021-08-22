@@ -1,5 +1,6 @@
 package com.hikarishima.lightland.quest.command;
 
+import com.hikarishima.lightland.quest.QuestRegistry;
 import com.hikarishima.lightland.quest.dialog.Dialog;
 import com.hikarishima.lightland.quest.dialog.DialogSelector;
 import com.hikarishima.lightland.quest.quest.QuestScene;
@@ -41,7 +42,7 @@ public class QuestParser<T> implements ArgumentType<String> {
     @Override
     public <S> CompletableFuture<Suggestions> listSuggestions(CommandContext<S> context, SuggestionsBuilder builder) {
         World world = Proxy.getWorld();
-        Stream<Map.Entry<String, T>> stream = ConfigRecipe.stream(world, ConfigRecipe.DIALOG, cls);
+        Stream<Map.Entry<String, T>> stream = ConfigRecipe.stream(world, QuestRegistry.DIALOG, cls);
         List<String> list = stream.map(Map.Entry::getKey).collect(Collectors.toList());
         list.add(0, ALL);
         return ISuggestionProvider.suggest(list, builder);

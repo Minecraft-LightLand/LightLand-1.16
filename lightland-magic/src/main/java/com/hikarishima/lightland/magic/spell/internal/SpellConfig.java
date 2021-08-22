@@ -3,6 +3,7 @@ package com.hikarishima.lightland.magic.spell.internal;
 import com.hikarishima.lightland.magic.MagicRegistry;
 import com.hikarishima.lightland.magic.capabilities.MagicHandler;
 import com.hikarishima.lightland.magic.products.MagicProduct;
+import com.hikarishima.lightland.magic.recipe.MagicRecipeRegistry;
 import com.hikarishima.lightland.recipe.ConfigRecipe;
 import com.hikarishima.lightland.magic.recipe.IMagicRecipe;
 import com.hikarishima.lightland.magic.registry.item.magic.MagicScroll;
@@ -21,7 +22,7 @@ public class SpellConfig {
     public MagicScroll.ScrollType type;
 
     public static <C extends SpellConfig> C get(Spell<C, ?> spell, World world, PlayerEntity player) {
-        C ans = ConfigRecipe.getObject(world, ConfigRecipe.SPELL, spell.getID());
+        C ans = ConfigRecipe.getObject(world, MagicRecipeRegistry.SPELL, spell.getID());
         if (ans == null)
             return null;
         IMagicRecipe<?> r = IMagicRecipe.getMap(world, MagicRegistry.MPT_SPELL).get(spell);

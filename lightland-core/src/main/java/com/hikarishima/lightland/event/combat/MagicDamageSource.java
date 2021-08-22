@@ -9,6 +9,7 @@ import net.minecraft.util.CombatRules;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EntityDamageSource;
 
+import javax.annotation.Nullable;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,8 +18,26 @@ public class MagicDamageSource extends EntityDamageSource {
 
     private final List<MagicDamageEntry> list = new ArrayList<>();
 
+    private final Entity owner;
+
     public MagicDamageSource(Entity e) {
+        this( e, null);
+    }
+
+    public MagicDamageSource(Entity e, Entity owner) {
         super("lightland", e);
+        this.owner = owner;
+    }
+
+
+    @Nullable
+    public Entity getDirectEntity() {
+        return entity;
+    }
+
+    @Nullable
+    public Entity getEntity() {
+        return owner == null ? entity : owner;
     }
 
     public static float getDamageAfterArmorAbsorb(LivingEntity e, MagicDamageEntry ent, float f) {

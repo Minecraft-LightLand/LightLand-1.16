@@ -1,5 +1,6 @@
 package com.hikarishima.lightland.quest.dialog;
 
+import com.hikarishima.lightland.quest.QuestRegistry;
 import com.hikarishima.lightland.recipe.ConfigRecipe;
 import com.lcy0x1.core.util.SerialClass;
 import net.minecraft.world.World;
@@ -10,7 +11,7 @@ import java.util.HashMap;
 public class DefaultDialog {
 
     public static DefaultDialog get(World world) {
-        return ConfigRecipe.getObject(world, ConfigRecipe.DIALOG, "default_dialog");
+        return ConfigRecipe.getObject(world, QuestRegistry.DIALOG, "default_dialog");
     }
 
     @SerialClass.SerialField(generic = {String.class, String.class})

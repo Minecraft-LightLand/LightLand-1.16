@@ -4,6 +4,7 @@ import com.hikarishima.lightland.magic.MagicElement;
 import com.hikarishima.lightland.magic.MagicRegistry;
 import com.hikarishima.lightland.magic.capabilities.MagicHandler;
 import com.hikarishima.lightland.magic.products.info.TypeConfig;
+import com.hikarishima.lightland.magic.recipe.MagicRecipeRegistry;
 import com.hikarishima.lightland.proxy.Proxy;
 import com.hikarishima.lightland.recipe.ConfigRecipe;
 import com.hikarishima.lightland.magic.recipe.IMagicRecipe;
@@ -35,7 +36,7 @@ public class MagicProductType<I extends IForgeRegistryEntry<I>, P extends MagicP
     }
 
     public TypeConfig getDisplay() {
-        return ConfigRecipe.getObject(Proxy.getPlayer().level, ConfigRecipe.PRODUCT_TYPE_DISPLAY, getID());
+        return ConfigRecipe.getObject(Proxy.getPlayer().level, MagicRecipeRegistry.PRODUCT_TYPE_DISPLAY, getID());
     }
 
     @FunctionalInterface

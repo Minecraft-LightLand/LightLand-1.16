@@ -37,6 +37,9 @@ public class ItemUseEventHandler {
 
     @SubscribeEvent
     public void onPlayerLeftClickEmpty(PlayerInteractEvent.LeftClickEmpty event) {
+        if (event.getPlayer().level.isClientSide()) {
+            PacketHandler.send(new Msg(false, event.getHand() == Hand.MAIN_HAND));
+        }
         execute(event.getItemStack(), event, ItemClickHandler::onPlayerLeftClickEmpty);
     }
 
@@ -53,7 +56,7 @@ public class ItemUseEventHandler {
     @SubscribeEvent
     public void onPlayerRightClickEmpty(PlayerInteractEvent.RightClickEmpty event) {
         if (event.getPlayer().level.isClientSide()) {
-            PacketHandler.send(new Msg(event.getHand() == Hand.MAIN_HAND));
+            PacketHandler.send(new Msg(true, event.getHand() == Hand.MAIN_HAND));
         }
         execute(event.getPlayer().getItemInHand(event.getHand() == Hand.MAIN_HAND ? Hand.OFF_HAND : Hand.MAIN_HAND), event, ItemClickHandler::onPlayerRightClickEmpty);
     }
@@ -118,22 +121,28 @@ public class ItemUseEventHandler {
     public static class Msg extends PacketHandler.BaseSerialMsg {
 
         @SerialClass.SerialField
-        public boolean hand;
+        public boolean hand, right;
 
-        public Msg(boolean hand) {
+        public Msg(boolean right, boolean hand) {
+            this.right = right;
             this.hand = hand;
         }
 
         public Msg() {
-            this(true);
+            this(true, true);
         }
 
         public static void handle(Msg msg, Supplier<NetworkEvent.Context> sup) {
             ServerPlayerEntity pl = sup.get().getSender();
             if (pl != null) {
-                PlayerInteractEvent.RightClickEmpty event = new PlayerInteractEvent.RightClickEmpty(pl,
-                        msg.hand ? Hand.MAIN_HAND : Hand.OFF_HAND);
-                INSTANCE.onPlayerRightClickEmpty(event);
+                if (msg.right) {
+                    PlayerInteractEvent.RightClickEmpty event = new PlayerInteractEvent.RightClickEmpty(pl,
+                            msg.hand ? Hand.MAIN_HAND : Hand.OFF_HAND);
+                    INSTANCE.onPlayerRightClickEmpty(event);
+                } else {
+                    PlayerInteractEvent.LeftClickEmpty event = new PlayerInteractEvent.LeftClickEmpty(pl);
+                    INSTANCE.onPlayerLeftClickEmpty(event);
+                }
             }
             sup.get().setPacketHandled(true);
         }

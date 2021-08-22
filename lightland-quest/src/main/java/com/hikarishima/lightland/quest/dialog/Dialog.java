@@ -1,5 +1,6 @@
 package com.hikarishima.lightland.quest.dialog;
 
+import com.hikarishima.lightland.quest.QuestRegistry;
 import com.hikarishima.lightland.quest.option.Option;
 import com.hikarishima.lightland.recipe.ConfigRecipe;
 import com.lcy0x1.core.util.SerialClass;
@@ -17,7 +18,7 @@ public class Dialog {
     public static Dialog getDialog(World world, String id) {
         if (id == null || id.length() == 0)
             return null;
-        Dialog ans = ConfigRecipe.getObject(world, ConfigRecipe.DIALOG, id);
+        Dialog ans = ConfigRecipe.getObject(world, QuestRegistry.DIALOG, id);
         if (ans != null) {
             ans.self_id = id;
         }
