@@ -24,7 +24,7 @@ public class DamageEventHandler {
             event.setAmount(magic.getDamage(target));
         } else {
             LivingEntity target = event.getEntityLiving();
-            if (source.getDirectEntity() instanceof LivingEntity) {
+            if ((source.getMsgId().equals("player") || source.getMsgId().equals("mob")) && source.getDirectEntity() instanceof LivingEntity) {
                 LivingEntity e = (LivingEntity) source.getDirectEntity();
                 ItemStack stack = e.getMainHandItem();
                 if (stack.getItem() instanceof ISpecialWeapon) {

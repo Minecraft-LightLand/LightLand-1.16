@@ -1,5 +1,6 @@
 package com.hikarishima.lightland.quest.quest;
 
+import com.hikarishima.lightland.quest.QuestRegistry;
 import com.hikarishima.lightland.quest.player.PlayerProgress;
 import com.hikarishima.lightland.quest.player.QuestHandler;
 import com.hikarishima.lightland.recipe.ConfigRecipe;
@@ -11,7 +12,7 @@ import net.minecraft.world.World;
 public class QuestScene {
 
     public static QuestScene get(World world, String id) {
-        return ConfigRecipe.getObject(world, ConfigRecipe.DIALOG, id);
+        return ConfigRecipe.getObject(world, QuestRegistry.DIALOG, id);
     }
 
     public static PlayerProgress generate(PlayerEntity player, QuestHandler handler, String id) {

@@ -11,6 +11,7 @@ import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.item.crafting.ShapedRecipe;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.PacketBuffer;
+import net.minecraft.potion.Effect;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.IForgeRegistry;
@@ -19,9 +20,7 @@ import net.minecraftforge.registries.IForgeRegistryEntry;
 import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
@@ -51,9 +50,15 @@ public class Serializer {
         new ClassHandler<>(CompoundNBT.class, (e) -> new CompoundNBT(), PacketBuffer::readAnySizeNbt, PacketBuffer::writeNbt);
 
         new StringClassHandler<>(ResourceLocation.class, ResourceLocation::new, ResourceLocation::toString);
+        new ClassHandler<>(UUID.class, e -> UUID.fromString(e.getAsString()), p -> new UUID(p.readLong(), p.readLong()),
+                (p, e) -> {
+                    p.writeLong(e.getMostSignificantBits());
+                    p.writeLong(e.getLeastSignificantBits());
+                });
 
         new RLClassHandler<>(Item.class, () -> ForgeRegistries.ITEMS);
         new RLClassHandler<>(Block.class, () -> ForgeRegistries.BLOCKS);
+        new RLClassHandler<>(Effect.class, () -> ForgeRegistries.POTIONS);
     }
 
     @SuppressWarnings("unchecked")
@@ -150,6 +155,17 @@ public class Serializer {
             }
             return ans;
         }
+        if (List.class.isAssignableFrom(cls)) {
+            JsonArray arr = e.getAsJsonArray();
+            Class<?> com = anno.generic()[0];
+            int n = arr.size();
+            if (ans == null) ans = cls.newInstance();
+            List list = (List) ans;
+            for (int i = 0; i < n; i++) {
+                list.add(fromRaw(arr.get(i), com, null, null));
+            }
+            return ans;
+        }
         if (Map.class.isAssignableFrom(cls)) {
             if (ans == null)
                 ans = cls.newInstance();
@@ -193,6 +209,16 @@ public class Serializer {
                 ans = Array.newInstance(com, n);
             for (int i = 0; i < n; i++) {
                 Array.set(ans, i, fromRaw(buf, com, null, anno));
+            }
+            return ans;
+        }
+        if (List.class.isAssignableFrom(cls)) {
+            int n = buf.readInt();
+            Class<?> com = anno.generic()[0];
+            if (ans == null) ans = cls.newInstance();
+            List list = (List) ans;
+            for (int i = 0; i < n; i++) {
+                list.add(fromRaw(buf, com, null, null));
             }
             return ans;
         }
@@ -255,6 +281,13 @@ public class Serializer {
             for (int i = 0; i < n; i++) {
                 toRaw(buf, com, Array.get(obj, i), anno);
             }
+        } else if (List.class.isAssignableFrom(cls)) {
+            List<?> list = (List<?>) obj;
+            buf.writeInt(list.size());
+            Class<?> com = anno.generic()[0];
+            for (Object o : list) {
+                toRaw(buf, com, o, null);
+            }
         } else if (Map.class.isAssignableFrom(cls)) {
             Map<?, ?> map = (Map<?, ?>) obj;
             buf.writeInt(map.size());
@@ -316,13 +349,13 @@ public class Serializer {
 
         public RLClassHandler(Class<?> cls, Supplier<IForgeRegistry<T>> r) {
             super(cls, e -> e.isJsonNull() ? null : r.get().getValue(new ResourceLocation(e.getAsString())),
-                p -> {
-                    String str = p.readUtf();
-                    if (str.length() == 0)
-                        return null;
-                    return r.get().getValue(new ResourceLocation(str));
-                },
-                (p, t) -> p.writeUtf(t == null ? "" : t.getRegistryName().toString()));
+                    p -> {
+                        String str = p.readUtf();
+                        if (str.length() == 0)
+                            return null;
+                        return r.get().getValue(new ResourceLocation(str));
+                    },
+                    (p, t) -> p.writeUtf(t == null ? "" : t.getRegistryName().toString()));
         }
 
     }

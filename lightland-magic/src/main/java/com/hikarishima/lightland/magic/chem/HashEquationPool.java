@@ -1,6 +1,7 @@
 package com.hikarishima.lightland.magic.chem;
 
 import com.google.common.collect.Maps;
+import com.hikarishima.lightland.magic.recipe.MagicRecipeRegistry;
 import com.hikarishima.lightland.recipe.ConfigRecipe;
 import com.lcy0x1.core.chem.AbChemObj;
 import com.lcy0x1.core.chem.EquationPool;
@@ -21,7 +22,7 @@ import java.util.Objects;
 public class HashEquationPool extends EquationPool {
 
     public static HashEquationPool getPool(World world) {
-        return ConfigRecipe.getObject(world, ConfigRecipe.CHEM, "pool");
+        return ConfigRecipe.getObject(world, MagicRecipeRegistry.CHEM, "pool");
     }
 
     @SuppressWarnings("unchecked")

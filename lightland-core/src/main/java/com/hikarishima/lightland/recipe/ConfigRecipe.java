@@ -12,11 +12,6 @@ import java.util.stream.Stream;
 @SerialClass
 public class ConfigRecipe extends IConfigRecipe<ConfigRecipe> {
 
-    public static final ResourceLocation SPELL = new ResourceLocation(LightLand.MODID, "config_spell");
-    public static final ResourceLocation PRODUCT_TYPE_DISPLAY = new ResourceLocation(LightLand.MODID, "config_product_type");
-    public static final ResourceLocation DIALOG = new ResourceLocation(LightLand.MODID, "config_dialog");
-    public static final ResourceLocation CHEM = new ResourceLocation(LightLand.MODID, "config_chemistry");
-
     @SerialClass.SerialField(generic = {String.class, Object.class})
     public HashMap<String, Object> map = new HashMap<>();
 

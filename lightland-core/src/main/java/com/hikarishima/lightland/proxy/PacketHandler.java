@@ -3,6 +3,7 @@ package com.hikarishima.lightland.proxy;
 import com.hikarishima.lightland.LightLand;
 import com.lcy0x1.core.util.SerialClass;
 import com.lcy0x1.core.util.Serializer;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.network.NetworkManager;
@@ -11,6 +12,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.network.NetworkDirection;
 import net.minecraftforge.fml.network.NetworkEvent;
 import net.minecraftforge.fml.network.NetworkRegistry;
+import net.minecraftforge.fml.network.PacketDistributor;
 import net.minecraftforge.fml.network.simple.SimpleChannel;
 
 import java.util.Optional;
@@ -34,8 +36,12 @@ public class PacketHandler {
         CH.sendTo(msg, manager, dir);
     }
 
+    public static <T> void distribute(Entity e, T msg) {
+        CH.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> e), msg);
+    }
+
     public static <T> void reg(Class<T> cls, BiConsumer<T, PacketBuffer> encoder, Function<PacketBuffer, T> decoder,
-                                BiConsumer<T, Supplier<NetworkEvent.Context>> handler, NetworkDirection dire) {
+                               BiConsumer<T, Supplier<NetworkEvent.Context>> handler, NetworkDirection dire) {
         CH.registerMessage(id++, cls, encoder, decoder, handler, Optional.of(dire));
     }
 

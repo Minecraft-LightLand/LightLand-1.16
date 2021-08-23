@@ -1,7 +1,6 @@
 {
     "parent": "item/handheld",
     "textures": {
-        "layer0": "lightland-magic:item/gilded_wand"
+        "layer0": "^m:item/^s"
     }
 }
-

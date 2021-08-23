@@ -12,6 +12,7 @@ import com.hikarishima.lightland.magic.gui.container.ChemContainer;
 import com.hikarishima.lightland.magic.gui.container.ChemPacket;
 import com.hikarishima.lightland.magic.recipe.MagicRecipeRegistry;
 import com.hikarishima.lightland.magic.registry.MagicContainerRegistry;
+import com.hikarishima.lightland.magic.registry.MagicEntityRegistry;
 import com.hikarishima.lightland.magic.registry.MagicItemRegistry;
 import com.hikarishima.lightland.magic.registry.VanillaMagicRegistry;
 import com.hikarishima.lightland.proxy.PacketHandler;
@@ -37,23 +38,27 @@ public class LightLandMagic {
         bus.addListener(this::doClientStuff);
         MinecraftForge.EVENT_BUS.register(new MagicEventHandler());
         MinecraftForge.EVENT_BUS.register(new ClientRenderEventHandler());
-        PacketHandler.reg(ToClientMsg.class, ToClientMsg::handle, NetworkDirection.PLAY_TO_CLIENT);
-        PacketHandler.reg(ToServerMsg.class, ToServerMsg::handle, NetworkDirection.PLAY_TO_SERVER);
-        PacketHandler.reg(ChemPacket.class, ChemContainer.class, NetworkDirection.PLAY_TO_SERVER);
-        BaseCommand.LIST.add(ArcaneCommand::new);
-        BaseCommand.LIST.add(MagicCommand::new);
         RegistryBase.REGISTRIES.add(MagicRecipeRegistry.class);
         RegistryBase.REGISTRIES.add(MagicContainerRegistry.class);
         RegistryBase.REGISTRIES.add(MagicItemRegistry.class);
         RegistryBase.REGISTRIES.add(VanillaMagicRegistry.class);
+        RegistryBase.REGISTRIES.add(MagicEntityRegistry.class);
+        PacketHandler.reg(ToClientMsg.class, ToClientMsg::handle, NetworkDirection.PLAY_TO_CLIENT);
+        PacketHandler.reg(ToServerMsg.class, ToServerMsg::handle, NetworkDirection.PLAY_TO_SERVER);
+        PacketHandler.reg(ChemPacket.class, ChemContainer.class, NetworkDirection.PLAY_TO_SERVER);
+        PacketHandler.reg(ClientRenderEventHandler.EffectToClient.class, ClientRenderEventHandler::handle, NetworkDirection.PLAY_TO_CLIENT);
+        BaseCommand.LIST.add(ArcaneCommand::new);
+        BaseCommand.LIST.add(MagicCommand::new);
     }
 
     private void setup(final FMLCommonSetupEvent event) {
         MagicHandler.register();
+        ClientRenderEventHandler.init();
     }
 
     private void doClientStuff(final FMLClientSetupEvent event) {
         MagicContainerRegistry.registerScreens();
+        MagicEntityRegistry.registerClient();
     }
 
 }

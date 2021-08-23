@@ -86,12 +86,14 @@ public class ArcaneItemUseHelper implements ItemUseEventHandler.ItemClickHandler
         if (stack.getItem() instanceof ArcaneAxe) {
             ArcaneType type = isAxeCharged(stack) ? ArcaneType.DUBHE : ArcaneType.MEGREZ;
             if (executeArcane(player, magic, stack, type, target)) {
-                event.setCanceled(true);
+                if (event.isCancelable())
+                    event.setCanceled(true);
                 event.setCancellationResult(ActionResultType.SUCCESS);
             }
         } else if (stack.getItem() instanceof ArcaneSword) {
             if (executeArcane(player, magic, stack, ArcaneType.ALIOTH, target)) {
-                event.setCanceled(true);
+                if (event.isCancelable())
+                    event.setCanceled(true);
                 event.setCancellationResult(ActionResultType.SUCCESS);
             }
         }
