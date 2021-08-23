@@ -50,7 +50,7 @@
             <AppenderRef ref="File" />
             <AppenderRef ref="ServerGuiConsole" level="INFO" />
         </Logger>
-        <Root level="all">
+        <Root level="debug">
             <AppenderRef ref="FmlSysOut" level="INFO" />
             <AppenderRef ref="ServerGuiConsole" level="INFO" />
             <AppenderRef ref="FmlFile"/>

@@ -1,9 +1,12 @@
 package com.lcy0x1.core.maze;
 
+import lombok.extern.log4j.Log4j2;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+@Log4j2
 public class MazeGen {
 
     public final int[][] ans;
@@ -249,6 +252,7 @@ public class MazeGen {
         return (x + r) + (y + r) * w;
     }
 
+    @Log4j2
     public static class Debugger {
 
         private final boolean skip = true;
@@ -265,9 +269,9 @@ public class MazeGen {
             if (skip)
                 return;
             try {
-                System.out.println("[builder] " + msg);
+                log.debug("[builder] {}", msg);
                 this.wait();
-                System.out.println("[builder] next");
+                log.debug("[builder] next");
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -359,7 +363,7 @@ public class MazeGen {
         private void seg() {
             paths = new int[len()];
             if (loop == 0 && path == 0) {
-                System.out.println("ERROR: all zero");
+                log.warn("ERROR: all zero");
             }
             // debug.showRim(this);
             int[] rarr = randArray(paths.length, rand);

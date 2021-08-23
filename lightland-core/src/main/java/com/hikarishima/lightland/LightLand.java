@@ -5,6 +5,7 @@ import com.hikarishima.lightland.proxy.PacketHandler;
 import com.hikarishima.lightland.recipe.RecipeRegistry;
 import com.hikarishima.lightland.registry.ItemRegistry;
 import com.hikarishima.lightland.registry.RegistryBase;
+import lombok.extern.log4j.Log4j2;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
@@ -14,6 +15,7 @@ import net.minecraftforge.fml.network.NetworkDirection;
 // The value here should match an entry in the META-INF/mods.toml file
 @SuppressWarnings("unused")
 @Mod("lightland-core")
+@Log4j2
 public class LightLand {
 
     public static final String MODID = "lightland-core";
