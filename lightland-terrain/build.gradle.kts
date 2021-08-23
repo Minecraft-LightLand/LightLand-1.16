@@ -43,3 +43,4 @@ publishing {
 }
 
 disableTests()
+excludeReobfJar()

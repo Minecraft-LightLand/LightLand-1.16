@@ -113,9 +113,25 @@ fun Project.useGeneratedResources() {
  * 禁用混淆 jar
  */
 fun Project.excludeReobfJar() {
-    tasks.whenTaskAdded {
-        if (it.name == "reobfJar") {
-            it.enabled = false
+    if (gradle.startParameter.taskNames.find { taskName ->
+            ":reobfJar" in taskName
+        } == null) {
+        tasks.whenTaskAdded {
+            if (it.name == "reobfJar") {
+                it.enabled = false
+                println(it.javaClass)
+            }
+        }
+    } else {
+        tasks.whenTaskAdded {
+            if (it is net.minecraftforge.gradle.patcher.task.TaskReobfuscateJar) {
+                if (it.project == this) {
+                    it.keepPackages()
+                    it.keepData()
+                } else {
+                    it.enabled = false
+                }
+            }
         }
     }
 }

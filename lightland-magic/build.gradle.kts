@@ -27,6 +27,7 @@ dependencies {
 // Example for how to get properties into the manifest for reading by the runtime..
 jar {
     defaultManifest(project)
+    finalizedBy("reobfJar")
 }
 
 publishing {
