@@ -58,15 +58,15 @@ public class SpellComponent {
         public String color;
 
         @SerialClass.SerialField
-        public float width, radius, z;
+        public float width, radius, z, angle;
 
         public void render(RenderHandle handle) {
             float da = (float) Math.PI * 2 * cycle / vertex;
-            float a = 0;
+            float a = angle;
             float w = width / (float) Math.cos(da / 2);
             int col = getColor();
             for (int i = 0; i < vertex; i++) {
-                rect(handle.builder, handle.matrix.last(), a, da, radius, w, z, col);
+                rect(handle, a, da, radius, w, z, col);
                 a += da;
             }
 
@@ -80,21 +80,23 @@ public class SpellComponent {
             return Integer.parseUnsignedInt(str, 16);
         }
 
-        private static void rect(IVertexBuilder builder, MatrixStack.Entry last, float a, float da, float r, float w, float z, int col) {
-            vertex(builder, last, a, r - w / 2, z, col);
-            vertex(builder, last, a, r + w / 2, z, col);
-            vertex(builder, last, a + da, r + w / 2, z, col);
-            vertex(builder, last, a + da, r - w / 2, z, col);
+        private static void rect(RenderHandle handle, float a, float da, float r, float w, float z, int col) {
+            vertex(handle, a, r - w / 2, z, col);
+            vertex(handle, a, r + w / 2, z, col);
+            vertex(handle, a + da, r + w / 2, z, col);
+            vertex(handle, a + da, r - w / 2, z, col);
         }
 
-        private static void vertex(IVertexBuilder builder, MatrixStack.Entry last, float a, float r, float z, int col) {
-            builder.vertex(last.pose(), r * (float) Math.cos(a), r * (float) Math.sin(a), z)
-                    .color(
-                            col >> 16 & 0xff,
-                            col >> 8 & 0xff,
-                            col & 0xff,
-                            col >> 24 & 0xff)
-                    .endVertex();
+        private static void vertex(RenderHandle handle, float a, float r, float z, int col) {
+            int alp = (int) ((col >> 24 & 0xff) * handle.alpha);
+            handle.builder.vertex(handle.matrix.last().pose(),
+                    r * (float) Math.cos(a),
+                    r * (float) Math.sin(a),
+                    z).color(
+                    col >> 16 & 0xff,
+                    col >> 8 & 0xff,
+                    col & 0xff,
+                    alp).endVertex();
         }
 
     }
@@ -115,13 +117,13 @@ public class SpellComponent {
                 _children = children.stream().map(SpellComponent::getFromConfig).collect(Collectors.toList());
             }
             int n = _children.size();
-            float z = z_offset == null ? 0 : z_offset.get(handle.tick);
-            float s = scale == null ? 1 : scale.get(handle.tick);
-            float a = rotation == null ? 0 : rotation.get(handle.tick);
-            double r = radius.get(handle.tick);
+            float z = get(z_offset, handle, 0);
+            float s = get(scale, handle, 1);
+            float a = get(rotation, handle, 0);
+            double r = get(radius, handle, 0);
             float al = handle.alpha;
             if (alpha != null) {
-                handle.alpha *= alpha.get(handle.tick); //TODO
+                handle.alpha *= alpha.get(handle.tick);
             }
             handle.matrix.pushPose();
             handle.matrix.translate(0, 0, z);
@@ -136,6 +138,10 @@ public class SpellComponent {
             }
             handle.matrix.popPose();
             handle.alpha = al;
+        }
+
+        private float get(Value val, RenderHandle handle, float def) {
+            return val == null ? def : val.get(handle.tick);
         }
 
 
