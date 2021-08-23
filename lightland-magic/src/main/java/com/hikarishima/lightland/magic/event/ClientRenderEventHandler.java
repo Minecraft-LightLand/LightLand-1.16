@@ -1,5 +1,6 @@
 package com.hikarishima.lightland.magic.event;
 
+import com.hikarishima.lightland.magic.MagicRenderState;
 import com.hikarishima.lightland.magic.registry.VanillaMagicRegistry;
 import com.hikarishima.lightland.proxy.PacketHandler;
 import com.lcy0x1.core.util.SerialClass;
@@ -116,7 +117,7 @@ public class ClientRenderEventHandler {
         matrix.translate(0, f, 0);
         matrix.mulPose(manager.cameraOrientation());
         MatrixStack.Entry entry = matrix.last();
-        IVertexBuilder ivertexbuilder = buffer.getBuffer(MagicRenderState.getType(MagicRenderState.RL_ENTITY_BODY_ICON));
+        IVertexBuilder ivertexbuilder = buffer.getBuffer(MagicRenderState.get2DIcon(MagicRenderState.RL_ENTITY_BODY_ICON));
         iconVertex(entry, ivertexbuilder, 0.5f, -0.5f, 0, 0, 1);
         iconVertex(entry, ivertexbuilder, -0.5f, -0.5f, 0, 1, 1);
         iconVertex(entry, ivertexbuilder, -0.5f, 0.5f, 0, 1, 0);

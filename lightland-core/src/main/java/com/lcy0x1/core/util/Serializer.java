@@ -20,10 +20,7 @@ import net.minecraftforge.registries.IForgeRegistryEntry;
 import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.TreeMap;
-import java.util.UUID;
+import java.util.*;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
@@ -158,6 +155,17 @@ public class Serializer {
             }
             return ans;
         }
+        if (List.class.isAssignableFrom(cls)) {
+            JsonArray arr = e.getAsJsonArray();
+            Class<?> com = anno.generic()[0];
+            int n = arr.size();
+            if (ans == null) ans = cls.newInstance();
+            List list = (List) ans;
+            for (int i = 0; i < n; i++) {
+                list.add(fromRaw(arr.get(i), com, null, null));
+            }
+            return ans;
+        }
         if (Map.class.isAssignableFrom(cls)) {
             if (ans == null)
                 ans = cls.newInstance();
@@ -201,6 +209,16 @@ public class Serializer {
                 ans = Array.newInstance(com, n);
             for (int i = 0; i < n; i++) {
                 Array.set(ans, i, fromRaw(buf, com, null, anno));
+            }
+            return ans;
+        }
+        if (List.class.isAssignableFrom(cls)) {
+            int n = buf.readInt();
+            Class<?> com = anno.generic()[0];
+            if (ans == null) ans = cls.newInstance();
+            List list = (List) ans;
+            for (int i = 0; i < n; i++) {
+                list.add(fromRaw(buf, com, null, null));
             }
             return ans;
         }
@@ -262,6 +280,13 @@ public class Serializer {
             Class<?> com = cls.getComponentType();
             for (int i = 0; i < n; i++) {
                 toRaw(buf, com, Array.get(obj, i), anno);
+            }
+        } else if (List.class.isAssignableFrom(cls)) {
+            List<?> list = (List<?>) obj;
+            buf.writeInt(list.size());
+            Class<?> com = anno.generic()[0];
+            for (Object o : list) {
+                toRaw(buf, com, o, null);
             }
         } else if (Map.class.isAssignableFrom(cls)) {
             Map<?, ?> map = (Map<?, ?>) obj;

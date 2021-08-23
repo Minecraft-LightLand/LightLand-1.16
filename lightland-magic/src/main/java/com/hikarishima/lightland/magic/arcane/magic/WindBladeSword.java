@@ -28,6 +28,7 @@ public class WindBladeSword extends Arcane {
         float strength = player.getAttackStrengthScale(0.5f);
         if (strength < 0.9f)
             return false;
+        player.resetAttackStrengthTicker();
         World w = player.level;
         if (!w.isClientSide()) {
             WindBladeEntity e = MagicEntityRegistry.ET_WIND_BLADE.create(w);

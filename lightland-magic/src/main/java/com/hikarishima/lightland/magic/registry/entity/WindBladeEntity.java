@@ -1,6 +1,7 @@
 package com.hikarishima.lightland.magic.registry.entity;
 
 import com.hikarishima.lightland.magic.registry.item.combat.IArcaneWeapon;
+import com.lcy0x1.core.util.SerialClass;
 import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -24,7 +25,7 @@ public class WindBladeEntity extends ThrowableEntity implements IEntityAdditiona
 
     private float damage = 3;
     private int last = 200;
-    private float zrot = 0f;
+    public float zrot = 0f;
 
     public WindBladeEntity(EntityType<? extends WindBladeEntity> type, World w) {
         super(type, w);

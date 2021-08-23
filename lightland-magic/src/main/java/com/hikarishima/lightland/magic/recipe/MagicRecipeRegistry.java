@@ -19,6 +19,7 @@ public class MagicRecipeRegistry {
     public static final ResourceLocation SPELL = new ResourceLocation(LightLandMagic.MODID, "config_spell");
     public static final ResourceLocation PRODUCT_TYPE_DISPLAY = new ResourceLocation(LightLandMagic.MODID, "config_product_type");
     public static final ResourceLocation CHEM = new ResourceLocation(LightLandMagic.MODID, "config_chemistry");
+    public static final ResourceLocation SPELL_ENTITY = new ResourceLocation(LightLandMagic.MODID, "config_spell_entity");
 
     private static <V extends T, T extends IForgeRegistryEntry<T>> V reg(String name, V v) {
         v.setRegistryName(new ResourceLocation(LightLandMagic.MODID, name));

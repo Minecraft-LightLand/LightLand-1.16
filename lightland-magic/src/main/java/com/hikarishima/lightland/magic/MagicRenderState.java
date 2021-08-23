@@ -1,6 +1,5 @@
-package com.hikarishima.lightland.magic.event;
+package com.hikarishima.lightland.magic;
 
-import com.hikarishima.lightland.magic.LightLandMagic;
 import net.minecraft.client.renderer.RenderState;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
@@ -13,7 +12,7 @@ public class MagicRenderState extends RenderState {
 
     public static final ResourceLocation RL_ENTITY_BODY_ICON = new ResourceLocation(LightLandMagic.MODID, "textures/arcane_icon.png");
 
-    public static RenderType getType(ResourceLocation rl) {
+    public static RenderType get2DIcon(ResourceLocation rl) {
         return RenderType.create(
                 "entity_body_icon",
                 DefaultVertexFormats.POSITION_TEX,
@@ -24,6 +23,20 @@ public class MagicRenderState extends RenderState {
                         .setTransparencyState(ADDITIVE_TRANSPARENCY)
                         .setDepthTestState(NO_DEPTH_TEST)
                         .setFogState(NO_FOG)
+                        .createCompositeState(false)
+        );
+    }
+
+    public static RenderType getSpell(){
+        return RenderType.create(
+                "spell_blend_notex",
+                DefaultVertexFormats.POSITION_COLOR,
+                7, 256, true, true,
+                RenderType.State.builder()
+                        .setTextureState(RenderState.NO_TEXTURE)
+                        .setAlphaState(RenderState.DEFAULT_ALPHA)
+                        .setCullState(NO_CULL)
+                        .setTransparencyState(TRANSLUCENT_TRANSPARENCY)
                         .createCompositeState(false)
         );
     }
