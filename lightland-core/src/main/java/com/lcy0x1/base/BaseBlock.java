@@ -1,5 +1,9 @@
 package com.lcy0x1.base;
 
+import com.lcy0x1.base.proxy.block.BlockProxy;
+import com.lcy0x1.base.proxy.block.BlockProxyContainer;
+import com.lcy0x1.base.proxy.block.ListBlockProxy;
+import lombok.Getter;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
@@ -23,7 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Supplier;
 
-public class BaseBlock extends Block {
+public class BaseBlock extends Block implements BlockProxyContainer<BaseBlock> {
 
     public static final Power POW = new Power();
     public static final AllDireBlock ALD = new AllDireBlock();
@@ -32,6 +36,9 @@ public class BaseBlock extends Block {
     public static final DirectionProperty HORIZONTAL_FACING = BlockStateProperties.HORIZONTAL_FACING;
     private static BlockImplementor TEMP;
     private BlockImplementor impl;
+
+    @Getter
+    private final BlockProxy<IImpl> proxy = new ListBlockProxy<>();
 
     public BaseBlock(BlockImplementor bimpl) {
         super(handler(bimpl));
@@ -134,6 +141,9 @@ public class BaseBlock extends Block {
 
     @Override
     protected final void createBlockStateDefinition(Builder<Block, BlockState> builder) {
+        proxy.forEachProxy(iImpl -> {
+            iImpl.createBlockStateDefinition(builder);
+        });
         impl = TEMP;
         TEMP = null;
         addImpls(impl);
@@ -148,6 +158,8 @@ public class BaseBlock extends Block {
     }
 
     public interface IImpl {
+        default void createBlockStateDefinition(Builder<Block, BlockState> builder) {
+        }
     }
 
     public interface ILight extends IImpl {
