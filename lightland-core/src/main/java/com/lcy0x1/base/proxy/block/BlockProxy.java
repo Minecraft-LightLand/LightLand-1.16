@@ -29,5 +29,5 @@ public interface BlockProxy<T> {
 
     void forEachProxy(Consumer<T> action);
 
-    boolean forFirstProxy(Function<T, Boolean> action);
+    <R> Result<R> forFirstProxy(Function<T, Result<R>> action);
 }

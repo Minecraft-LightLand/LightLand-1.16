@@ -26,13 +26,14 @@ public class ListBlockProxy<T> implements MutableBlockProxy<T> {
     }
 
     @Override
-    public boolean forFirstProxy(Function<T, Boolean> action) {
+    public <R> Result<R> forFirstProxy(Function<T, Result<R>> action) {
         for (T t : proxyList) {
-            if (action.apply(t)) {
-                return true;
+            Result<R> result = action.apply(t);
+            if (result != null && result.success) {
+                return result;
             }
         }
-        return false;
+        return BlockProxy.failed();
     }
 
     @Override

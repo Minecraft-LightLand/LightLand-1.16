@@ -1,9 +1,6 @@
 package com.lcy0x1.base;
 
-import com.lcy0x1.base.proxy.block.BlockProxy;
-import com.lcy0x1.base.proxy.block.BlockProxyContainer;
-import com.lcy0x1.base.proxy.block.ListBlockProxy;
-import lombok.Getter;
+import com.lcy0x1.base.proxy.block.*;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
@@ -24,10 +21,11 @@ import net.minecraft.world.World;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.function.Supplier;
 
-public class BaseBlock extends Block implements BlockProxyContainer<BaseBlock> {
+public class BaseBlock extends Block implements BlockProxyContainer<BaseBlock.IImpl> {
 
     public static final Power POW = new Power();
     public static final AllDireBlock ALD = new AllDireBlock();
@@ -37,8 +35,7 @@ public class BaseBlock extends Block implements BlockProxyContainer<BaseBlock> {
     private static BlockImplementor TEMP;
     private BlockImplementor impl;
 
-    @Getter
-    private final BlockProxy<IImpl> proxy = new ListBlockProxy<>();
+    private final MutableBlockProxy<IImpl> proxy = new ListBlockProxy<>();
 
     public BaseBlock(BlockImplementor bimpl) {
         super(handler(bimpl));
@@ -46,6 +43,7 @@ public class BaseBlock extends Block implements BlockProxyContainer<BaseBlock> {
 
     public BaseBlock(BlockProp p, IImpl... impl) {
         this(construct(p).addImpls(impl));
+        proxy.addAllProxy(Arrays.asList(impl));
     }
 
     public static BlockImplementor construct(BlockProp bb) {
@@ -140,15 +138,23 @@ public class BaseBlock extends Block implements BlockProxyContainer<BaseBlock> {
     }
 
     @Override
+    @ForEachProxy(type = IState.class)
     protected final void createBlockStateDefinition(Builder<Block, BlockState> builder) {
         proxy.forEachProxy(iImpl -> {
-            iImpl.createBlockStateDefinition(builder);
+            if (iImpl instanceof IState) {
+                ((IState) iImpl).createBlockStateDefinition(this, builder);
+            }
         });
         impl = TEMP;
         TEMP = null;
         addImpls(impl);
         for (IState is : impl.stateList)
             is.fillStateContainer(builder);
+    }
+
+    @Override
+    public BlockProxy<IImpl> getProxy() {
+        return proxy;
     }
 
     public interface IClick extends IImpl {
@@ -158,8 +164,6 @@ public class BaseBlock extends Block implements BlockProxyContainer<BaseBlock> {
     }
 
     public interface IImpl {
-        default void createBlockStateDefinition(Builder<Block, BlockState> builder) {
-        }
     }
 
     public interface ILight extends IImpl {
@@ -178,6 +182,8 @@ public class BaseBlock extends Block implements BlockProxyContainer<BaseBlock> {
 
         void fillStateContainer(Builder<Block, BlockState> builder);
 
+        default void createBlockStateDefinition(Block block, Builder<Block, BlockState> builder) {
+        }
     }
 
     public interface STE extends IImpl, Supplier<TileEntity> {
