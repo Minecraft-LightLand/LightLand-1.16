@@ -1,7 +1,7 @@
-package com.lcy0x1.base.proxy.block;
+package com.lcy0x1.base.proxy;
 
-import com.lcy0x1.base.proxy.block.annotation.ForEachProxy;
-import com.lcy0x1.base.proxy.block.annotation.ForFirstProxy;
+import com.lcy0x1.base.proxy.annotation.ForEachProxy;
+import com.lcy0x1.base.proxy.annotation.ForFirstProxy;
 import net.minecraft.block.Block;
 import net.minecraft.state.StateContainer;
 import net.sf.cglib.proxy.MethodProxy;
@@ -17,20 +17,20 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.function.Predicate;
 
-public interface BlockProxyContainer<T extends Proxy> {
+public interface ProxyContainer<T extends ProxyMethod> {
     Predicate<Object> stateContainerBuilderFilter = o -> o instanceof StateContainer.Builder;
     String[] errMsgSearchList = {"%M", "%B", "%A"};
 
     @NotNull
-    BlockProxy<T> getProxy();
+    Proxy<T> getProxy();
 
     /**
      * will be call when proxy method invoke.
      * 在代理方法被调用时，该方法会被调用
      * 大体流程是
      */
-    default BlockProxy.Result<?> onProxy(Object obj, Method method, Object[] args, MethodProxy proxy) throws Throwable {
-        HandlerCache.OnProxy handler = HandlerCache.INSTANCE.getHandler(method);
+    default Proxy.Result<?> onProxy(Object obj, Method method, Object[] args, MethodProxy proxy) throws Throwable {
+        ProxyContainerHandlerCache.OnProxy handler = ProxyContainerHandlerCache.INSTANCE.getHandler(method);
         if (handler != null) {
             return handler.onProxy(obj, method, args, proxy);
         }
@@ -48,18 +48,18 @@ public interface BlockProxyContainer<T extends Proxy> {
         }
 
         if (handler == null) {
-            handler = HandlerCache.callSuper;
+            handler = ProxyContainerHandlerCache.callSuper;
         }
-        HandlerCache.INSTANCE.setHandler(method, handler);
+        ProxyContainerHandlerCache.INSTANCE.setHandler(method, handler);
 
         return handler.onProxy(obj, method, args, proxy);
     }
 
-    default HandlerCache.OnProxy onForFirstProxy(Object obj, Method method, Object[] args, MethodProxy proxy, ForFirstProxy forFirstProxy) throws Throwable {
+    default ProxyContainerHandlerCache.OnProxy onForFirstProxy(Object obj, Method method, Object[] args, MethodProxy proxy, ForFirstProxy forFirstProxy) throws Throwable {
         final Collection<Class<?>> classes;
         switch (forFirstProxy.type().length) {
             case 0:
-                return HandlerCache.callSuper;
+                return ProxyContainerHandlerCache.callSuper;
             case 1:
                 classes = Collections.singletonList(forFirstProxy.type()[0]);
                 break;
@@ -69,15 +69,15 @@ public interface BlockProxyContainer<T extends Proxy> {
         return (o, m, a, p) -> onForFirstProxy(o, m, a, p, forFirstProxy, classes);
     }
 
-    default BlockProxy.Result<?> onForFirstProxy(Object obj, Method method, Object[] args, MethodProxy proxy, ForFirstProxy forFirstProxy, Collection<Class<?>> classes) throws Throwable {
-        if (!(obj instanceof BlockProxyContainer<?>)) return BlockProxy.Result.failed;
-        final BlockProxyContainer<?> block = (BlockProxyContainer<?>) obj;
+    default Proxy.Result<?> onForFirstProxy(Object obj, Method method, Object[] args, MethodProxy proxy, ForFirstProxy forFirstProxy, Collection<Class<?>> classes) throws Throwable {
+        if (!(obj instanceof ProxyContainer<?>)) return Proxy.Result.failed;
+        final ProxyContainer<?> block = (ProxyContainer<?>) obj;
 
-        final BlockProxy.Result<?> result = block.getProxy().forFirstProxy(p -> {
+        final Proxy.Result<?> result = block.getProxy().forFirstProxy(p -> {
             if (classes.contains(p.getClass()) || Arrays.stream(p.getClass().getInterfaces()).anyMatch(classes::contains)) {
                 return p.onProxy(obj, method, args, proxy);
             } else {
-                return BlockProxy.failed();
+                return Proxy.failed();
             }
         });
 
@@ -108,35 +108,35 @@ public interface BlockProxyContainer<T extends Proxy> {
             errMsg = StringUtils.replaceEach(errMsg, errMsgSearchList, replacementList);
             throw forFirstProxy.errClass().getConstructor(String.class).newInstance(errMsg);
         }
-        return BlockProxy.Result.failed;
+        return Proxy.Result.failed;
     }
 
-    default HandlerCache.OnProxy onForeachProxy(Object obj, Method method, Object[] args, MethodProxy proxy, ForEachProxy forEachProxy) {
-        if (!(obj instanceof BlockProxyContainer<?>)) return HandlerCache.callSuper;
+    default ProxyContainerHandlerCache.OnProxy onForeachProxy(Object obj, Method method, Object[] args, MethodProxy proxy, ForEachProxy forEachProxy) {
+        if (!(obj instanceof ProxyContainer<?>)) return ProxyContainerHandlerCache.callSuper;
         Class<?>[] type = forEachProxy.type();
         Collection<Class<?>> classes;
         switch (type.length) {
             case 0:
-                return HandlerCache.callSuper;
+                return ProxyContainerHandlerCache.callSuper;
             case 1:
                 classes = Collections.singletonList(type[0]);
                 break;
             default:
                 classes = new HashSet<>(Arrays.asList(type));
         }
-        return onForeachProxy((BlockProxyContainer<?>) obj, method, args, proxy, forEachProxy, classes);
+        return onForeachProxy((ProxyContainer<?>) obj, method, args, proxy, forEachProxy, classes);
     }
 
     @Nullable
-    default HandlerCache.OnProxy onForeachProxy(BlockProxyContainer<?> block, Method method, Object[] args, MethodProxy proxy, ForEachProxy forEachProxy, Collection<Class<?>> classes) {
+    default ProxyContainerHandlerCache.OnProxy onForeachProxy(ProxyContainer<?> block, Method method, Object[] args, MethodProxy proxy, ForEachProxy forEachProxy, Collection<Class<?>> classes) {
         return (o, m, a, proxy1) -> {
-            if (!(o instanceof Block)) return BlockProxy.Result.failed;
+            if (!(o instanceof Block)) return Proxy.Result.failed;
             getProxy().forEachProxy(p -> {
                 if (classes.contains(p.getClass()) || Arrays.stream(p.getClass().getInterfaces()).anyMatch(classes::contains)) {
                     p.onProxy(o, m, a, proxy1);
                 }
             });
-            return BlockProxy.failed();
+            return Proxy.failed();
         };
     }
 }

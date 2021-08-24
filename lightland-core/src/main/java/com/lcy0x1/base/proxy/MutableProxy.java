@@ -1,8 +1,8 @@
-package com.lcy0x1.base.proxy.block;
+package com.lcy0x1.base.proxy;
 
 import java.util.Collection;
 
-public interface MutableBlockProxy<T extends Proxy> extends BlockProxy<T> {
+public interface MutableProxy<T extends ProxyMethod> extends Proxy<T> {
     int addProxy(T proxy);
 
     boolean addAllProxy(Collection<T> proxy);

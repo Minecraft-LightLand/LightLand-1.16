@@ -1,6 +1,6 @@
 package example;
 
-import com.lcy0x1.base.proxy.block.BlockProxyInterceptor;
+import com.lcy0x1.base.proxy.ProxyInterceptor;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import net.sf.cglib.proxy.Enhancer;
@@ -25,7 +25,7 @@ public class CGlibExample {
     public void test() {
         Enhancer enhancer = new Enhancer();
         enhancer.setSuperclass(TestClass.class);
-        enhancer.setCallback(new BlockProxyInterceptor());
+        enhancer.setCallback(new ProxyInterceptor());
         TestClass o = (TestClass) enhancer.create(
             new Class[]{int.class, boolean.class},
             new Object[]{0, false}

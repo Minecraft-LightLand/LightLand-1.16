@@ -1,8 +1,8 @@
 package com.lcy0x1.base;
 
+import com.lcy0x1.base.proxy.*;
+import com.lcy0x1.base.proxy.annotation.ForEachProxy;
 import com.lcy0x1.base.proxy.block.*;
-import com.lcy0x1.base.proxy.block.annotation.ForEachProxy;
-import com.lcy0x1.base.proxy.block.handler.*;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
@@ -21,18 +21,15 @@ import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.sf.cglib.proxy.Enhancer;
-import net.sf.cglib.proxy.MethodProxy;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
 import java.util.function.Supplier;
 
-public class BaseBlock extends Block implements BlockProxyContainer<IImpl> {
+public class BaseBlock extends Block implements ProxyContainer<IImpl> {
 
     public static final Power POW = new Power();
     public static final AllDireBlock ALD = new AllDireBlock();
@@ -47,7 +44,7 @@ public class BaseBlock extends Block implements BlockProxyContainer<IImpl> {
 
     static {
         enhancer.setSuperclass(BaseBlock.class);
-        enhancer.setCallback(new BlockProxyInterceptor());
+        enhancer.setCallback(new ProxyInterceptor());
     }
 
     public static BaseBlock newBaseBlock(BlockProp p, IImpl... impl) {
@@ -61,7 +58,7 @@ public class BaseBlock extends Block implements BlockProxyContainer<IImpl> {
     private BlockImplementor impl;
 
     @NotNull
-    private final MutableBlockProxy<IImpl> proxy = new ListBlockProxy<>();
+    private final MutableProxy<IImpl> proxy = new ListProxy<>();
 
     public BaseBlock(BlockImplementor bimpl) {
         super(handler(bimpl));
@@ -175,7 +172,7 @@ public class BaseBlock extends Block implements BlockProxyContainer<IImpl> {
 
     @NotNull
     @Override
-    public BlockProxy<IImpl> getProxy() {
+    public Proxy<IImpl> getProxy() {
         return proxy;
     }
 

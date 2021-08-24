@@ -1,4 +1,4 @@
-package com.lcy0x1.base.proxy.block.handler;
+package com.lcy0x1.base.proxy.block;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.util.math.BlockPos;

@@ -1,4 +1,4 @@
-package com.lcy0x1.base.proxy.block;
+package com.lcy0x1.base.proxy;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -10,11 +10,11 @@ import java.util.List;
 
 @AllArgsConstructor
 @Log4j2
-public class ListBlockProxy<T extends Proxy> implements MutableBlockProxy<T> {
+public class ListProxy<T extends ProxyMethod> implements MutableProxy<T> {
     @NotNull
     private final List<T> proxyList;
 
-    public ListBlockProxy() {
+    public ListProxy() {
         this(new ArrayList<>());
     }
 
@@ -33,7 +33,7 @@ public class ListBlockProxy<T extends Proxy> implements MutableBlockProxy<T> {
                 return result;
             }
         }
-        return BlockProxy.failed();
+        return Proxy.failed();
     }
 
     @Override

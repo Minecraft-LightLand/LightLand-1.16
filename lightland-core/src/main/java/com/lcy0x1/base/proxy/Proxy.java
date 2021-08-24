@@ -1,10 +1,10 @@
-package com.lcy0x1.base.proxy.block;
+package com.lcy0x1.base.proxy;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.ToString;
 
-public interface BlockProxy<T extends Proxy> {
+public interface Proxy<T extends ProxyMethod> {
     @Getter
     @ToString
     @AllArgsConstructor
