@@ -1,0 +1,28 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "bab",
+        "ded",
+        "ccc"
+    ],
+    "key": {
+        "a": {
+            "item": "minecraft:iron_ingot"
+        },
+        "b": {
+            "item": "lightland-magic:enchant_gold_nugget"
+        },
+        "d": {
+            "item": "minecraft:iron_nugget"
+        },
+        "c": {
+            "item": "minecraft:stone_bricks"
+        },
+        "e": {
+            "item": "minecraft:redstone"
+        }
+    },
+    "result": {
+        "item": "lightland-magic:ritual_core"
+    }
+}

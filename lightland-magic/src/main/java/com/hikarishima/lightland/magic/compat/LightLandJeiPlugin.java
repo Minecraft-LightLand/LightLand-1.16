@@ -1,21 +1,22 @@
 package com.hikarishima.lightland.magic.compat;
 
 import com.hikarishima.lightland.magic.LightLandMagic;
+import com.hikarishima.lightland.magic.MagicRegistry;
+import com.hikarishima.lightland.magic.chem.HashEquationPool;
 import com.hikarishima.lightland.magic.compat.ingredients.*;
 import com.hikarishima.lightland.magic.compat.recipes.ChemRecipeCategory;
 import com.hikarishima.lightland.magic.compat.recipes.DisEnchanterRecipeCategory;
+import com.hikarishima.lightland.magic.compat.recipes.MagicCraftRecipeCategory;
 import com.hikarishima.lightland.magic.compat.screen.ExtraInfoScreen;
-import com.hikarishima.lightland.magic.MagicRegistry;
-import com.hikarishima.lightland.magic.chem.HashEquationPool;
 import com.hikarishima.lightland.magic.gui.container.ArcaneInjectScreen;
 import com.hikarishima.lightland.magic.gui.container.ChemScreen;
 import com.hikarishima.lightland.magic.gui.container.DisEnchanterScreen;
 import com.hikarishima.lightland.magic.gui.container.SpellCraftScreen;
+import com.hikarishima.lightland.magic.recipe.IMagicRecipe;
 import com.hikarishima.lightland.magic.recipe.MagicRecipeRegistry;
 import com.hikarishima.lightland.magic.registry.MagicItemRegistry;
 import com.hikarishima.lightland.proxy.Proxy;
 import com.hikarishima.lightland.recipe.ConfigRecipe;
-import com.hikarishima.lightland.magic.recipe.IMagicRecipe;
 import mcp.MethodsReturnNonnullByDefault;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
@@ -49,6 +50,7 @@ public class LightLandJeiPlugin implements IModPlugin {
 
     public final DisEnchanterRecipeCategory DISENCHANT = new DisEnchanterRecipeCategory();
     public final ChemRecipeCategory CHEM_CATEGORY = new ChemRecipeCategory();
+    public final MagicCraftRecipeCategory MAGIC_CRAFT = new MagicCraftRecipeCategory();
 
     public final ExtraInfoScreen EXTRA_INFO = new ExtraInfoScreen();
 
@@ -81,6 +83,7 @@ public class LightLandJeiPlugin implements IModPlugin {
         IGuiHelper helper = registration.getJeiHelpers().getGuiHelper();
         registration.addRecipeCategories(DISENCHANT.init(helper));
         registration.addRecipeCategories(CHEM_CATEGORY.init(helper));
+        registration.addRecipeCategories(MAGIC_CRAFT.init(helper));
     }
 
     @Override
@@ -91,6 +94,7 @@ public class LightLandJeiPlugin implements IModPlugin {
     public void registerRecipes(IRecipeRegistration registration) {
         registration.addRecipes(IMagicRecipe.getMap(Proxy.getWorld(), MagicRegistry.MPT_ENCH).values(), DISENCHANT.getUid());
         registration.addRecipes(Arrays.asList(getPool().equations), CHEM_CATEGORY.getUid());
+        registration.addRecipes(Proxy.getWorld().getRecipeManager().getAllRecipesFor(MagicRecipeRegistry.RT_CRAFT), MAGIC_CRAFT.getUid());
     }
 
     @Override

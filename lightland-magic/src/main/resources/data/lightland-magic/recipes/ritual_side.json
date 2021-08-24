@@ -1,0 +1,25 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+		"bab",
+		"dad",
+		"ccc"
+	],
+	"key": {
+		"a": {
+			"item": "minecraft:iron_ingot"
+		},
+		"b": {
+			"item": "lightland-magic:enchant_gold_nugget"
+		},
+		"c": {
+			"item": "minecraft:stone_bricks"
+		},
+		"d": {
+			"item": "minecraft:iron_nugget"
+		}
+	},
+	"result": {
+		"item": "lightland-magic:ritual_side"
+	}
+}

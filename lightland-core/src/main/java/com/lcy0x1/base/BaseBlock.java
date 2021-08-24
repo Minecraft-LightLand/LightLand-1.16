@@ -1,5 +1,6 @@
 package com.lcy0x1.base;
 
+import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
@@ -9,6 +10,7 @@ import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.state.DirectionProperty;
+import net.minecraft.state.StateContainer;
 import net.minecraft.state.StateContainer.Builder;
 import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.tileentity.TileEntity;
@@ -17,24 +19,35 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 
-import java.lang.reflect.Field;
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Optional;
+import java.util.Random;
 import java.util.function.Supplier;
+import java.util.stream.Stream;
 
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
 public class BaseBlock extends Block {
 
-    public static final Power POW = new Power();
-    public static final AllDireBlock ALD = new AllDireBlock();
-    public static final HorizontalBlock HOR = new HorizontalBlock();
+    public static final IImpl POWER = new Power();
+    public static final IImpl ALL_DIRECTION = new AllDireBlock();
+    public static final IImpl HORIZONTAL = new HorizontalBlock();
+    public static final IImpl TRIGGER = new TriggerBlock(4);
+
     public static final DirectionProperty FACING = BlockStateProperties.FACING;
     public static final DirectionProperty HORIZONTAL_FACING = BlockStateProperties.HORIZONTAL_FACING;
-    private static BlockImplementor TEMP;
+
+    private static final ThreadLocal<BlockImplementor> TEMP = new ThreadLocal<>();
+    private static final ThreadLocal<Block> BLOCK = new ThreadLocal<>();
+
     private BlockImplementor impl;
 
     public BaseBlock(BlockImplementor bimpl) {
         super(handler(bimpl));
+        impl.setBlock(this);
     }
 
     public BaseBlock(BlockProp p, IImpl... impl) {
@@ -46,69 +59,69 @@ public class BaseBlock extends Block {
     }
 
     private static Properties handler(BlockImplementor bi) {
-        if (TEMP != null)
+        if (TEMP.get() != null)
             throw new RuntimeException("concurrency error");
-        TEMP = bi;
+        TEMP.set(bi);
         return bi.props;
     }
 
     @Override
     public final boolean isSignalSource(BlockState bs) {
-        return impl.power != null;
+        return impl.one(IPower.class).isPresent();
     }
 
     @Override
     public final TileEntity createTileEntity(BlockState state, IBlockReader world) {
-        if (impl.ite != null)
-            return impl.ite.createTileEntity(state, world);
-        return null;
+        return impl.one(ITE.class).map(e -> e.createTileEntity(state, world)).orElse(null);
     }
 
     @Override
     public final int getAnalogOutputSignal(BlockState blockState, World worldIn, BlockPos pos) {
-        if (impl.ite == null)
-            return 0;
-        TileEntity te = worldIn.getBlockEntity(pos);
-        return te == null ? 0 : Container.getRedstoneSignalFromBlockEntity(te);
+        return impl.one(ITE.class).map(e -> Optional.ofNullable(worldIn.getBlockEntity(pos))
+                .map(Container::getRedstoneSignalFromBlockEntity).orElse(0)).orElse(0);
     }
 
     @Override
     public final int getLightValue(BlockState bs, IBlockReader w, BlockPos pos) {
-        return impl.light == null ? super.getLightValue(bs, w, pos) : impl.light.getLightValue(bs, w, pos);
+        return impl.one(ILight.class).map(e -> e.getLightValue(bs, w, pos))
+                .orElse(super.getLightValue(bs, w, pos));
     }
 
     @Override
     public final BlockState getStateForPlacement(BlockItemUseContext context) {
-        if (impl.face == null)
-            return defaultBlockState();
-        return impl.face.getStateForPlacement(defaultBlockState(), context);
+        return impl.one(IFace.class)
+                .map(e -> e.getStateForPlacement(defaultBlockState(), context))
+                .orElse(defaultBlockState());
     }
 
     @Override
     public final int getSignal(BlockState bs, IBlockReader r, BlockPos pos, Direction d) {
-        return impl.power == null ? 0 : impl.power.getSignal(bs, r, pos, d);
+        return impl.one(IPower.class)
+                .map(e -> e.getSignal(bs, r, pos, d))
+                .orElse(0);
     }
 
     @Override
     public final boolean hasTileEntity(BlockState state) {
-        return impl.ite != null;
+        return impl.one(ITE.class).isPresent();
     }
 
     @Override
     public final BlockState mirror(BlockState state, Mirror mirrorIn) {
-        if (impl.rotmir != null)
-            return impl.rotmir.mirror(state, mirrorIn);
-        return state;
+        return impl.one(IRotMir.class).map(e -> e.mirror(state, mirrorIn)).orElse(state);
     }
 
     @Override
     public final ActionResultType use(BlockState bs, World w, BlockPos pos, PlayerEntity pl, Hand h, BlockRayTraceResult r) {
-        return impl.click == null ? ActionResultType.PASS : impl.click.onClick(bs, w, pos, pl, h, r);
+        return impl.execute(IClick.class)
+                .map(e -> e.onClick(bs, w, pos, pl, h, r))
+                .filter(e -> e != ActionResultType.PASS)
+                .findFirst().orElse(ActionResultType.PASS);
     }
 
     @Override
     public final void onRemove(BlockState state, World worldIn, BlockPos pos, BlockState newState, boolean isMoving) {
-        if (impl.ite != null && state.getBlock() != newState.getBlock()) {
+        if (impl.one(ITE.class).isPresent() && state.getBlock() != newState.getBlock()) {
             TileEntity tileentity = worldIn.getBlockEntity(pos);
             if (tileentity != null) {
                 if (tileentity instanceof IInventory) {
@@ -118,27 +131,36 @@ public class BaseBlock extends Block {
                 worldIn.removeBlockEntity(pos);
             }
         }
-        for (IRep irep : impl.repList)
-            irep.onReplaced(state, worldIn, pos, newState, isMoving);
+        impl.execute(IRep.class).forEach(e -> e.onReplaced(state, worldIn, pos, newState, isMoving));
     }
 
     @Override
     public final BlockState rotate(BlockState state, Rotation rot) {
-        if (impl.rotmir != null)
-            return impl.rotmir.rotate(state, rot);
-        return state;
-    }
-
-    protected void addImpls(BlockImplementor impl) {
+        return impl.one(IRotMir.class).map(e -> e.rotate(state, rot)).orElse(state);
     }
 
     @Override
     protected final void createBlockStateDefinition(Builder<Block, BlockState> builder) {
-        impl = TEMP;
-        TEMP = null;
-        addImpls(impl);
-        for (IState is : impl.stateList)
-            is.fillStateContainer(builder);
+        impl = TEMP.get();
+        TEMP.set(null);
+        impl.setBlock(this);
+        impl.execute(IState.class).forEach(e -> e.fillStateContainer(builder));
+    }
+
+    @Override
+    public final void neighborChanged(BlockState state, World world, BlockPos pos, Block nei_block, BlockPos nei_pos, boolean moving) {
+        impl.execute(INeighborUpdate.class).forEach(e -> e.neighborChanged(state, world, pos, nei_block, nei_pos, moving));
+        super.neighborChanged(state, world, pos, nei_block, nei_pos, moving);
+    }
+
+    @Override
+    public final void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
+        impl.execute(IRandomTick.class).forEach(e -> e.randomTick(state, world, pos, random));
+    }
+
+    @Override
+    public final void tick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
+        impl.execute(IScheduleTick.class).forEach(e -> e.tick(state, world, pos, random));
     }
 
     public interface IClick extends IImpl {
@@ -148,6 +170,11 @@ public class BaseBlock extends Block {
     }
 
     public interface IImpl {
+
+        default Block getBlock() {
+            return BLOCK.get();
+        }
+
     }
 
     public interface ILight extends IImpl {
@@ -172,6 +199,24 @@ public class BaseBlock extends Block {
 
         @Override
         TileEntity get();
+
+    }
+
+    public interface IRandomTick extends IImpl {
+
+        void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random);
+
+    }
+
+    public interface IScheduleTick extends IImpl {
+
+        void tick(BlockState state, ServerWorld world, BlockPos pos, Random random);
+
+    }
+
+    public interface INeighborUpdate extends IImpl {
+
+        void neighborChanged(BlockState state, World world, BlockPos pos, Block nei_block, BlockPos nei_pos, boolean moving);
 
     }
 
@@ -203,45 +248,35 @@ public class BaseBlock extends Block {
     public static class BlockImplementor {
 
         private final Properties props;
-        private final List<IState> stateList = new ArrayList<>();
-        private final List<IRep> repList = new ArrayList<>();
+        private final ArrayList<IImpl> list = new ArrayList<>();
 
-        private IRotMir rotmir;
-        private IFace face;
-        private ITE ite;
-        private IClick click;
-        private ILight light;
-        private IPower power;
+        private Block block;
 
         public BlockImplementor(Properties p) {
             props = p;
         }
 
-        public BlockImplementor addImpl(IImpl impl) {
-            if (impl instanceof IState)
-                stateList.add((IState) impl);
-            if (impl instanceof IRep)
-                repList.add((IRep) impl);
-            if (impl instanceof STE)
-                impl = new TEPvd((STE) impl);
-            for (Field f : getClass().getDeclaredFields())
-                if (IImpl.class.isAssignableFrom(f.getType()) && f.getType().isAssignableFrom(impl.getClass()))
-                    try {
-                        f.setAccessible(true);
-                        if (f.get(this) != null)
-                            throw new RuntimeException("implementation conflict");
-                        f.set(this, impl);
-                    } catch (Exception e) {
-                        throw new RuntimeException("security error");
-                    }
+        public BlockImplementor addImpls(IImpl... impls) {
+            for (IImpl impl : impls)
+                if (impl instanceof STE)
+                    list.add(new TEPvd((STE) impl));
+                else if (impl != null)
+                    list.add(impl);
             return this;
         }
 
-        public BlockImplementor addImpls(IImpl... impls) {
-            for (IImpl impl : impls)
-                if (impl != null)
-                    addImpl(impl);
-            return this;
+        @SuppressWarnings("unchecked")
+        public <T extends IImpl> Stream<T> execute(Class<T> cls) {
+            BLOCK.set(block);
+            return list.stream().filter(cls::isInstance).map(e -> (T) e);
+        }
+
+        public <T extends IImpl> Optional<T> one(Class<T> cls) {
+            return execute(cls).findFirst();
+        }
+
+        private void setBlock(Block block) {
+            this.block = block;
         }
 
     }
@@ -321,14 +356,43 @@ public class BaseBlock extends Block {
 
         @Override
         public ActionResultType onClick(BlockState bs, World w, BlockPos pos, PlayerEntity pl, Hand h, BlockRayTraceResult r) {
-            if (w.isClientSide())
-                return ActionResultType.SUCCESS;
             TileEntity te = w.getBlockEntity(pos);
-            if (te instanceof INamedContainerProvider)
+            if (w.isClientSide())
+                return te instanceof INamedContainerProvider ? ActionResultType.SUCCESS : ActionResultType.PASS;
+            if (te instanceof INamedContainerProvider) {
                 pl.openMenu((INamedContainerProvider) te);
-            return ActionResultType.SUCCESS;
+                return ActionResultType.SUCCESS;
+            }
+            return ActionResultType.PASS;
         }
 
     }
+
+    public static class TriggerBlock implements INeighborUpdate, IState {
+
+        private final int delay;
+
+        public TriggerBlock(int delay) {
+            this.delay = delay;
+        }
+
+        @Override
+        public void neighborChanged(BlockState state, World world, BlockPos pos, Block nei_block, BlockPos nei_pos, boolean moving) {
+            boolean flag = world.hasNeighborSignal(pos) || world.hasNeighborSignal(pos.above());
+            boolean flag1 = state.getValue(BlockStateProperties.TRIGGERED);
+            if (flag && !flag1) {
+                world.getBlockTicks().scheduleTick(pos, getBlock(), delay);
+                world.setBlock(pos, state.setValue(BlockStateProperties.TRIGGERED, Boolean.TRUE), delay);
+            } else if (!flag && flag1) {
+                world.setBlock(pos, state.setValue(BlockStateProperties.TRIGGERED, Boolean.FALSE), delay);
+            }
+        }
+
+        @Override
+        public void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
+            builder.add(BlockStateProperties.TRIGGERED);
+        }
+    }
+
 
 }

@@ -1,6 +1,7 @@
 package com.hikarishima.lightland.magic.recipe;
 
 import com.hikarishima.lightland.magic.LightLandMagic;
+import com.hikarishima.lightland.magic.registry.block.RitualCore;
 import com.lcy0x1.base.BaseRecipe;
 import net.minecraft.item.crafting.IRecipeType;
 import net.minecraft.util.ResourceLocation;
@@ -9,12 +10,19 @@ import net.minecraftforge.registries.IForgeRegistryEntry;
 public class MagicRecipeRegistry {
 
     public static final IRecipeType<IMagicRecipe<?>> RT_MAGIC = IRecipeType.register("lightland-magic:magic");
+    public static final IRecipeType<IMagicCraftRecipe<?>> RT_CRAFT = IRecipeType.register("lightland-magic:craft");
 
     public static final BaseRecipe.RecType<DefMagicRecipe, IMagicRecipe<?>, IMagicRecipe.Inv> RSM_DEF =
             reg("magic_default", new BaseRecipe.RecType<>(DefMagicRecipe.class, RT_MAGIC));
 
     public static final BaseRecipe.RecType<ShortMagicRecipe, IMagicRecipe<?>, IMagicRecipe.Inv> RSM_SHORT =
             reg("magic_short", new BaseRecipe.RecType<>(ShortMagicRecipe.class, RT_MAGIC));
+
+    public static final BaseRecipe.RecType<ShapedCraftRecipe, IMagicCraftRecipe<?>, RitualCore.Inv> RSM_SHAPED =
+            reg("craft_shaped", new BaseRecipe.RecType<>(ShapedCraftRecipe.class, RT_CRAFT));
+
+    public static final BaseRecipe.RecType<ShapelessCraftRecipe, IMagicCraftRecipe<?>, RitualCore.Inv> RSM_SHAPELESS =
+            reg("craft_shapeless", new BaseRecipe.RecType<>(ShapelessCraftRecipe.class, RT_CRAFT));
 
     public static final ResourceLocation SPELL = new ResourceLocation(LightLandMagic.MODID, "config_spell");
     public static final ResourceLocation PRODUCT_TYPE_DISPLAY = new ResourceLocation(LightLandMagic.MODID, "config_product_type");

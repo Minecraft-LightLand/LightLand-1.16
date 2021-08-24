@@ -1,0 +1,77 @@
+{
+    "type": "lightland-magic:craft_shapeless",
+    "core": {
+        "input": {
+            "item": "minecraft:netherite_ingot"
+        },
+        "output": {
+            "item": "lightland-magic:enchant_light_ingot"
+        }
+    },
+    "side": [
+        {
+            "input": {
+                "item": "minecraft:diamond"
+            },
+            "output": {
+                "item": "lightland-magic:light_alloy_ingot"
+            }
+        },
+        {
+            "input": {
+                "item": "lightland-magic:enchant_alloy_ingot"
+            },
+            "output": {
+                "item": "lightland-magic:light_alloy_ingot"
+            }
+        },
+        {
+            "input": {
+                "item": "minecraft:diamond"
+            },
+            "output": {
+                "item": "lightland-magic:light_alloy_ingot"
+            }
+        },
+        {
+            "input": {
+                "item": "lightland-magic:enchant_alloy_ingot"
+            },
+            "output": {
+                "item": "lightland-magic:light_alloy_ingot"
+            }
+        },
+        {
+            "input": {
+                "item": "minecraft:diamond"
+            },
+            "output": {
+                "item": "lightland-magic:light_alloy_ingot"
+            }
+        },
+        {
+            "input": {
+                "item": "lightland-magic:enchant_alloy_ingot"
+            },
+            "output": {
+                "item": "lightland-magic:light_alloy_ingot"
+            }
+        },
+        {
+            "input": {
+                "item": "minecraft:diamond"
+            },
+            "output": {
+                "item": "lightland-magic:light_alloy_ingot"
+            }
+        },
+        {
+            "input": {
+                "item": "lightland-magic:enchant_alloy_ingot"
+            },
+            "output": {
+                "item": "lightland-magic:light_alloy_ingot"
+            }
+        }
+    ]
+}

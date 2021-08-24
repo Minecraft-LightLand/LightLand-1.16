@@ -1,5 +1,6 @@
 package com.lcy0x1.base;
 
+import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraftforge.common.ToolType;
@@ -8,11 +9,18 @@ public class BlockProp {
 
     public static final BlockProp ORE_0 = new BlockProp(Material.STONE, 3, 3).setTool(ToolType.PICKAXE, 0);
 
+    public static BlockProp copy(Block b){
+        return new BlockProp(AbstractBlock.Properties.copy(b));
+    }
 
     private final Block.Properties props;
 
     private BlockProp(Material mat, float hard, float rest) {
         this(Block.Properties.of(mat), hard, rest);
+    }
+
+    private BlockProp(Block.Properties mat) {
+        props = mat;
     }
 
     private BlockProp(Block.Properties mat, float hard, float rest) {

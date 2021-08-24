@@ -1,0 +1,77 @@
+{
+    "type": "lightland-magic:craft_shapeless",
+    "core": {
+        "input": {
+            "item": "lightland-magic:enchant_light_ingot"
+        },
+        "output": {
+            "item": "lightland-magic:anti_magic_light_ingot"
+        }
+    },
+    "side": [
+        {
+            "input": {
+                "item": "lightland-magic:anti_magic_metal_ingot"
+            },
+            "output": {
+                "item": "minecraft:iron_ingot"
+            }
+        },
+        {
+            "input": {
+                "item": "lightland-magic:anti_magic_metal_ingot"
+            },
+            "output": {
+                "item": "minecraft:iron_ingot"
+            }
+        },
+        {
+            "input": {
+                "item": "lightland-magic:anti_magic_metal_ingot"
+            },
+            "output": {
+                "item": "minecraft:iron_ingot"
+            }
+        },
+        {
+            "input": {
+                "item": "lightland-magic:anti_magic_metal_ingot"
+            },
+            "output": {
+                "item": "minecraft:iron_ingot"
+            }
+        },
+        {
+            "input": {
+                "item": "lightland-magic:anti_magic_metal_ingot"
+            },
+            "output": {
+                "item": "minecraft:iron_ingot"
+            }
+        },
+        {
+            "input": {
+                "item": "lightland-magic:anti_magic_metal_ingot"
+            },
+            "output": {
+                "item": "minecraft:iron_ingot"
+            }
+        },
+        {
+            "input": {
+                "item": "lightland-magic:anti_magic_metal_ingot"
+            },
+            "output": {
+                "item": "minecraft:iron_ingot"
+            }
+        },
+        {
+            "input": {
+                "item": "lightland-magic:anti_magic_metal_ingot"
+            },
+            "output": {
+                "item": "minecraft:iron_ingot"
+            }
+        }
+    ]
+}
