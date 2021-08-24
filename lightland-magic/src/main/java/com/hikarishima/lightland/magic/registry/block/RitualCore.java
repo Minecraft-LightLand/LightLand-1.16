@@ -3,16 +3,22 @@ package com.hikarishima.lightland.magic.registry.block;
 import com.hikarishima.lightland.magic.recipe.IMagicCraftRecipe;
 import com.hikarishima.lightland.magic.recipe.MagicRecipeRegistry;
 import com.hikarishima.lightland.magic.registry.MagicContainerRegistry;
+import com.hikarishima.lightland.magic.registry.item.magic.MagicWand;
 import com.lcy0x1.base.BaseRecipe;
-import com.lcy0x1.base.block.type.IImpl;
+import com.lcy0x1.base.block.mult.IClick;
 import com.lcy0x1.base.block.mult.IScheduleTick;
+import com.lcy0x1.base.block.type.IImpl;
 import com.lcy0x1.core.util.SerialClass;
 import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ActionResultType;
+import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.BlockRayTraceResult;
+import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -25,7 +31,7 @@ import java.util.Random;
 @ParametersAreNonnullByDefault
 public class RitualCore {
 
-    public static class Activate implements IScheduleTick {
+    public static class Activate implements IScheduleTick, IClick {
 
         @Override
         public void tick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
@@ -35,6 +41,20 @@ public class RitualCore {
             }
         }
 
+        @Override
+        public ActionResultType onClick(BlockState bs, World w, BlockPos pos, PlayerEntity pl, Hand h, BlockRayTraceResult r) {
+            if (w.isClientSide()) {
+                return pl.getMainHandItem().getItem() instanceof MagicWand ? ActionResultType.SUCCESS : ActionResultType.PASS;
+            }
+            if (pl.getMainHandItem().getItem() instanceof MagicWand) {
+                TileEntity te = w.getBlockEntity(pos);
+                if (te instanceof TE) {
+                    ((TE) te).activate();
+                }
+                return ActionResultType.SUCCESS;
+            }
+            return ActionResultType.PASS;
+        }
     }
 
     public static final IImpl CLICK = new RitualTE.RitualPlace();
@@ -43,7 +63,7 @@ public class RitualCore {
     @SerialClass
     public static class TE extends RitualTE {
 
-        public static final int[][] POS = {{-1, -1}, {-2, 0}, {-1, 1}, {0, -2}, {0, 2}, {1, -1}, {2, 0}, {1, 1}};
+        public static final int[][] POS = {{-2, -2}, {-3, 0}, {-2, 2}, {0, -3}, {0, 3}, {2, -2}, {3, 0}, {2, 2}};
 
         public TE() {
             super(MagicContainerRegistry.TE_RITUAL_CORE);

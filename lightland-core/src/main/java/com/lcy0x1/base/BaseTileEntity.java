@@ -51,4 +51,18 @@ public class BaseTileEntity extends TileEntity {
         super.onDataPacket(net, pkt);
     }
 
+    public void sync() {
+        if (level != null) {
+            level.sendBlockUpdated(getBlockPos(), getBlockState(), getBlockState(), 3);
+        }
+    }
+
+    @Override
+    public CompoundNBT getUpdateTag() {
+        CompoundNBT ans = super.getUpdateTag();
+        CompoundNBT ser = ExceptionHandler.get(() -> Automator.toTag(new CompoundNBT(), getClass(), this, f -> true));
+        if (ser != null) ans.put("auto-serial", ser);
+        return ans;
+    }
+
 }

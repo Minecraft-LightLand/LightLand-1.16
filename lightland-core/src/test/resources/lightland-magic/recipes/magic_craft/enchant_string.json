@@ -2,7 +2,7 @@
     "type": "lightland-magic:craft_shapeless",
     "core": {
         "input": {
-            "item": "minecraft_string"
+            "item": "minecraft:string"
         },
         "output": {
             "item": "lightland-magic:enchant_string"

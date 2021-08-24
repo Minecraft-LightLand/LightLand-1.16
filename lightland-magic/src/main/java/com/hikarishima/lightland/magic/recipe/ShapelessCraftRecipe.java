@@ -15,6 +15,7 @@ import java.util.stream.Collectors;
 
 @MethodsReturnNonnullByDefault
 @ParametersAreNonnullByDefault
+@SerialClass
 public class ShapelessCraftRecipe extends IMagicCraftRecipe<ShapelessCraftRecipe> {
 
     @SerialClass.SerialField

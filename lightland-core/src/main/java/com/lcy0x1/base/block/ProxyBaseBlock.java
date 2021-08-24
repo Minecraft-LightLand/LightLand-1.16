@@ -47,7 +47,7 @@ public class ProxyBaseBlock extends BaseBlock implements ProxyContainer<ProxyMet
     private static final Class<?>[] CONSTRUCTOR = {BlockProp.class, IImpl[].class};
 
     static {
-        ENHANCER.setSuperclass(BaseBlock.class);
+        ENHANCER.setSuperclass(ProxyBaseBlock.class);
         ENHANCER.setCallback(new ProxyInterceptor());
     }
 
@@ -57,7 +57,7 @@ public class ProxyBaseBlock extends BaseBlock implements ProxyContainer<ProxyMet
 
     private BlockImplementor impl;
 
-    private ProxyBaseBlock(BlockProp p, IImpl... impl) {
+    public ProxyBaseBlock(BlockProp p, IImpl... impl) {
         super(handler(construct(p).addImpls(impl)));
     }
 

@@ -43,38 +43,31 @@ public class RitualTE extends SyncedSingleItemTE {
         return 1;
     }
 
-    public void activate(){
-
+    @Override
+    public void setChanged() {
+        super.setChanged();
+        sync();
     }
 
     public static class RitualPlace implements IClick {
 
         @Override
         public ActionResultType onClick(BlockState bs, World w, BlockPos pos, PlayerEntity pl, Hand h, BlockRayTraceResult r) {
+            if (w.isClientSide()) {
+                return ActionResultType.SUCCESS;
+            }
             TileEntity te = w.getBlockEntity(pos);
             if (te instanceof RitualTE) {
                 RitualTE rte = (RitualTE) te;
                 if (rte.isEmpty()) {
-                    if (pl.getMainHandItem().isEmpty()) {
-                        return ActionResultType.PASS;
-                    } else {
-                        if (!w.isClientSide()) {
-                            rte.setItem(0, pl.getMainHandItem().split(1));
-                        }
-                        return ActionResultType.SUCCESS;
+                    if (!pl.getMainHandItem().isEmpty()) {
+                        rte.setItem(0, pl.getMainHandItem().split(1));
                     }
                 } else {
-                    if (pl.getMainHandItem().isEmpty()) {
-                        if (!w.isClientSide()) {
-                            pl.inventory.placeItemBackInInventory(w, rte.removeItem(0, 1));
-                        }
-                    } else {
-                        rte.activate();
-                    }
-                    return ActionResultType.SUCCESS;
+                    pl.inventory.placeItemBackInInventory(w, rte.removeItem(0, 1));
                 }
             }
-            return ActionResultType.PASS;
+            return ActionResultType.SUCCESS;
         }
     }
 

@@ -5,6 +5,8 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraftforge.common.ToolType;
 
+import java.util.function.Consumer;
+
 public class BlockProp {
 
     public static final BlockProp ORE_0 = new BlockProp(Material.STONE, 3, 3).setTool(ToolType.PICKAXE, 0);
@@ -35,6 +37,11 @@ public class BlockProp {
     private BlockProp setTool(ToolType tool, int level) {
         props.harvestTool(tool);
         props.harvestLevel(level);
+        return this;
+    }
+
+    public BlockProp make(Consumer<AbstractBlock.Properties> cons){
+        cons.accept(props);
         return this;
     }
 

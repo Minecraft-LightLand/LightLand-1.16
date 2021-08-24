@@ -5,7 +5,7 @@
             "item": "lightland-magic:enchant_light_ingot"
         },
         "output": {
-            "item": "lightland-magic:anti_magic_light_ingot"
+            "item": "lightland-magic:anti_magic_alloy_ingot"
         }
     },
     "side": [

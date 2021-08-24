@@ -166,7 +166,7 @@ public class ImplBaseBlock extends BaseBlock {
                     i = new TEPvd((STE) impl);
                 if (i instanceof IMultImpl)
                     list.add((IMultImpl) i);
-                else if (i instanceof IOneImpl) {
+                if (i instanceof IOneImpl) {
                     IOneImpl one = (IOneImpl) i;
                     List<Class<?>> list = new ArrayList<>();
                     addOneImpl(one.getClass(), list);
@@ -177,8 +177,6 @@ public class ImplBaseBlock extends BaseBlock {
                             map.put(cls, one);
                         }
                     }
-                } else {
-                    throw new RuntimeException(i +" implements IImpl directly. It is not allowed.");
                 }
             }
             return this;

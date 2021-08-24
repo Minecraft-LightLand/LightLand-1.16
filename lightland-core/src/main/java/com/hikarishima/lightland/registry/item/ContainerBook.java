@@ -17,15 +17,16 @@ import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
+import java.util.function.Supplier;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 public class ContainerBook extends Item implements INamedContainerProvider {
 
-    private final ContainerType<?> cont;
+    private final Supplier<ContainerType<?>> cont;
     private final IFac fac;
 
-    public ContainerBook(Properties props, ContainerType<?> cont, IFac fac) {
+    public ContainerBook(Properties props, Supplier<ContainerType<?>> cont, IFac fac) {
         super(props);
         this.cont = cont;
         this.fac = fac;
@@ -43,7 +44,7 @@ public class ContainerBook extends Item implements INamedContainerProvider {
 
     @Override
     public ITextComponent getDisplayName() {
-        return new TranslationTextComponent(cont.getRegistryName().getNamespace() + ":container." + cont.getRegistryName().getPath());
+        return new TranslationTextComponent(cont.get().getRegistryName().getNamespace() + ":container." + cont.get().getRegistryName().getPath());
     }
 
     @Nullable

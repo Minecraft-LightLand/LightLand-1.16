@@ -8,6 +8,7 @@ import com.hikarishima.lightland.magic.gui.container.DisEnchanterContainer;
 import com.hikarishima.lightland.magic.gui.container.SpellCraftContainer;
 import com.hikarishima.lightland.magic.gui.magic_tree.MagicTreeScreen;
 import com.hikarishima.lightland.magic.registry.block.RitualCore;
+import com.hikarishima.lightland.magic.registry.block.RitualSide;
 import com.hikarishima.lightland.magic.registry.block.TempBlock;
 import com.hikarishima.lightland.magic.registry.item.combat.*;
 import com.hikarishima.lightland.magic.registry.item.magic.*;
@@ -15,8 +16,8 @@ import com.hikarishima.lightland.registry.ItemRegistry;
 import com.hikarishima.lightland.registry.item.ContainerBook;
 import com.hikarishima.lightland.registry.item.FoiledItem;
 import com.hikarishima.lightland.registry.item.ScreenBook;
-import com.lcy0x1.base.block.BaseBlock;
 import com.lcy0x1.base.BlockProp;
+import com.lcy0x1.base.block.BaseBlock;
 import com.lcy0x1.base.block.BlockProxy;
 import com.lcy0x1.base.block.type.STE;
 import net.minecraft.block.AbstractBlock;
@@ -33,13 +34,19 @@ import java.util.function.Function;
 public class MagicItemRegistry {
 
     private static final int MANA = 256;
+    private static final BlockProp PEDESTAL = BlockProp.copy(Blocks.STONE).make(e -> e.noOcclusion());
+
+    public static final TempBlock TEMP_DIRT = reg("temp_dirt", new TempBlock(AbstractBlock.Properties.copy(Blocks.DIRT).noDrops()));
+    public static final TempBlock TEMP_COBBLE = reg("temp_cobblestone", new TempBlock(AbstractBlock.Properties.copy(Blocks.COBBLESTONE).noDrops()));
+    public static final BaseBlock B_RITUAL_CORE = reg("ritual_core", BaseBlock.newBaseBlock(PEDESTAL, RitualCore.ACTIVATE, RitualCore.CLICK, BlockProxy.TRIGGER, (STE) RitualCore.TE::new));
+    public static final BaseBlock B_RITUAL_SIDE = reg("ritual_side", BaseBlock.newBaseBlock(PEDESTAL, RitualCore.CLICK, (STE) RitualSide.TE::new));
 
     public static final ScreenBook MAGIC_BOOK = regItem("magic_book", p -> new ScreenBook(p, () -> MagicTreeScreen::new));
     public static final ScreenBook ABILITY_BOOK = regItem("ability_book", p -> new ScreenBook(p, () -> ProfessionScreen::new));
-    public static final ContainerBook DISENCHANT_BOOK = regItem("disenchant_book", p -> new ContainerBook(p, MagicContainerRegistry.CT_DISENCH, (a, b, c) -> new DisEnchanterContainer(a, b)));
-    public static final ContainerBook SPELL_CRAFT_BOOK = regItem("spell_craft_book", p -> new ContainerBook(p, MagicContainerRegistry.CT_SPELL_CRAFT, (a, b, c) -> new SpellCraftContainer(a, b)));
-    public static final ContainerBook ARCANE_INJECT_BOOK = regItem("arcane_inject_book", p -> new ContainerBook(p, MagicContainerRegistry.CT_ARCANE_INJECT, (a, b, c) -> new ArcaneInjectContainer(a, b)));
-    public static final ContainerBook CHEM_BOOK = regItem("chemistry_book", p -> new ContainerBook(p, MagicContainerRegistry.CT_CHEM, (a, b, c) -> new ChemContainer(a, b)));
+    public static final ContainerBook DISENCHANT_BOOK = regItem("disenchant_book", p -> new ContainerBook(p, () -> MagicContainerRegistry.CT_DISENCH, (a, b, c) -> new DisEnchanterContainer(a, b)));
+    public static final ContainerBook SPELL_CRAFT_BOOK = regItem("spell_craft_book", p -> new ContainerBook(p, () -> MagicContainerRegistry.CT_SPELL_CRAFT, (a, b, c) -> new SpellCraftContainer(a, b)));
+    public static final ContainerBook ARCANE_INJECT_BOOK = regItem("arcane_inject_book", p -> new ContainerBook(p, () -> MagicContainerRegistry.CT_ARCANE_INJECT, (a, b, c) -> new ArcaneInjectContainer(a, b)));
+    public static final ContainerBook CHEM_BOOK = regItem("chemistry_book", p -> new ContainerBook(p, () -> MagicContainerRegistry.CT_CHEM, (a, b, c) -> new ChemContainer(a, b)));
     public static final ArcaneSword ARCANE_SWORD_GILDED = regItem("gilded_arcane_sword", p -> new ArcaneSword(ItemTier.IRON, 5, -2.4f, p.stacksTo(1).setNoRepair(), 10));
     public static final ArcaneAxe ARCANE_AXE_GILDED = regItem("gilded_arcane_axe", p -> new ArcaneAxe(ItemTier.IRON, 8, -3.1f, p.stacksTo(1).setNoRepair(), 10));
     public static final Item ENCHANT_GOLD_NUGGET = regItem("enchant_gold_nugget", p -> new ManaStorage(p, Items.GOLD_NUGGET, MANA));
@@ -72,14 +79,6 @@ public class MagicItemRegistry {
     public static final Item ENCHANT_CHAIN = regItem("enchant_chain", FoiledItem::new);
     public static final AntiMagicArmor[] CLOTH_ARMOR = regArmor("enchant_cloth_", (s, p) -> new AntiMagicArmor(AntiMagicArmorMaterial.CLOTH, s, p), new AntiMagicArmor[4]);
     public static final AntiMagicArmor[] CLOTH_CHAIN = regArmor("enchant_chain_", (s, p) -> new AntiMagicArmor(AntiMagicArmorMaterial.CHAIN, s, p), new AntiMagicArmor[4]);
-
-    public static final TempBlock TEMP_DIRT = reg("temp_dirt", new TempBlock(AbstractBlock.Properties.copy(Blocks.DIRT).noDrops()));
-    public static final TempBlock TEMP_COBBLE = reg("temp_cobblestone", new TempBlock(AbstractBlock.Properties.copy(Blocks.COBBLESTONE).noDrops()));
-
-    public static final BaseBlock B_RITUAL_CORE = reg("ritual_core", BaseBlock.newBaseBlock(BlockProp.copy(Blocks.STONE),
-            RitualCore.CLICK, BlockProxy.TRIGGER, RitualCore.ACTIVATE, (STE) RitualCore.TE::new));
-    public static final BaseBlock B_RITUAL_SIDE = reg("ritual_side", BaseBlock.newBaseBlock(BlockProp.copy(Blocks.STONE),
-            RitualCore.CLICK, (STE) RitualCore.TE::new));
 
     public static final BlockItem I_RITUAL_CORE = regBlockItem(B_RITUAL_CORE);
     public static final BlockItem I_RITUAL_SIDE = regBlockItem(B_RITUAL_SIDE);
