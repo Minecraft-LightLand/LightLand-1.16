@@ -1,6 +1,8 @@
 package com.lcy0x1.base.proxy.block;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.ToString;
 
 import java.util.function.Consumer;
 import java.util.function.Function;

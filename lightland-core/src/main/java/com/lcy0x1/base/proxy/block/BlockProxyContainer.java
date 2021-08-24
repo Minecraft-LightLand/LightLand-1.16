@@ -9,6 +9,7 @@ import net.minecraft.state.StateContainer;
 import net.sf.cglib.proxy.MethodProxy;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;
@@ -24,23 +25,39 @@ public interface BlockProxyContainer<T> {
     @NotNull
     BlockProxy<T> getProxy();
 
+    /**
+     * will be call when proxy method invoke.
+     */
     default BlockProxy.Result<?> onProxy(Object obj, Method method, Object[] args, MethodProxy proxy) throws Throwable {
+        HandlerCache.OnProxy handler = HandlerCache.INSTANCE.getHandler(method);
+        if (handler != null) {
+            return handler.onProxy(obj, method, args, proxy);
+        }
+
         for (Annotation annotation : method.getAnnotations()) {
             if (annotation instanceof ForEachProxy) {
                 ForEachProxy forEachProxy = (ForEachProxy) annotation;
-                onForeachProxy(obj, method, args, proxy, forEachProxy);
+                handler = onForeachProxy(obj, method, args, proxy, forEachProxy);
                 break;
             } else if (annotation instanceof ForFirstProxy) {
                 final ForFirstProxy forFirstProxy = (ForFirstProxy) annotation;
-                final BlockProxy.Result<?> result = onForFirstProxy(obj, method, args, proxy, forFirstProxy);
-                if (result != null && result.success) {
-                    return result;
-                } else {
-                    break;
-                }
+                handler = (obj1, method1, args1, proxy1) -> {
+                    final BlockProxy.Result<?> result = onForFirstProxy(obj1, method1, args1, proxy1, forFirstProxy);
+                    if (result != null && result.success) {
+                        return result;
+                    } else {
+                        return BlockProxy.of(proxy1.invokeSuper(obj1, args1));
+                    }
+                };
             }
         }
-        return BlockProxy.of(proxy.invokeSuper(obj, args));
+        if (handler == null) {
+            handler = HandlerCache.callSuper;
+        }
+
+        HandlerCache.INSTANCE.setHandler(method, handler);
+
+        return handler.onProxy(obj, method, args, proxy);
     }
 
     default BlockProxy.Result<?> onForFirstProxy(Object obj, Method method, Object[] args, MethodProxy proxy, ForFirstProxy forFirstProxy) throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
@@ -48,8 +65,11 @@ public interface BlockProxyContainer<T> {
         final Block block = (Block) obj;
 
         // todo impl official interfaces
+        // just return when call handled
 
+        // when request not handled
         if (forFirstProxy.must()) {
+            // generate error message
             String errMsg = forFirstProxy.errMsg();
             if (StringUtils.isBlank(errMsg)) {
                 errMsg = "no proxy handled on method %M";
@@ -73,34 +93,40 @@ public interface BlockProxyContainer<T> {
         return BlockProxy.Result.failed;
     }
 
-    default void onForeachProxy(Object obj, Method method, Object[] args, MethodProxy proxy, ForEachProxy forEachProxy) {
-        if (!(obj instanceof Block)) return;
+    default HandlerCache.OnProxy onForeachProxy(Object obj, Method method, Object[] args, MethodProxy proxy, ForEachProxy forEachProxy) {
+        if (!(obj instanceof Block)) return HandlerCache.callSuper;
         Class<?>[] type = forEachProxy.type();
         Collection<Class<?>> classes;
         switch (type.length) {
             case 0:
-                return;
+                return HandlerCache.callSuper;
             case 1:
                 classes = Collections.singletonList(type[0]);
                 break;
             default:
                 classes = new HashSet<>(Arrays.asList(type));
         }
-        onForeachProxy((Block) obj, method, args, proxy, forEachProxy, classes);
+        return onForeachProxy((Block) obj, method, args, proxy, forEachProxy, classes);
     }
 
-    default void onForeachProxy(Block obj, Method method, Object[] args, MethodProxy proxy, ForEachProxy forEachProxy, Collection<Class<?>> classes) {
+    @Nullable
+    default HandlerCache.OnProxy onForeachProxy(Block block, Method method, Object[] args, MethodProxy proxy, ForEachProxy forEachProxy, Collection<Class<?>> classes) {
         if (classes.contains(IState.class)) {
-            getProxy().forEachProxy(p -> {
-                if (p instanceof IState) {
-                    Stream<Object> stream = Arrays.stream(args);
-                    final Optional<Object> stateContainerBuilder = stream.filter(stateContainerBuilderFilter).findFirst();
-                    //noinspection unchecked
-                    stateContainerBuilder.ifPresent(o -> ((IState) p).createBlockStateDefinition(obj,
-                        (StateContainer.Builder<Block, BlockState>) o));
-                }
-            });
+            return (obj, method1, args1, proxy1) -> {
+                if (!(obj instanceof Block)) return BlockProxy.Result.failed;
+                getProxy().forEachProxy(p -> {
+                    if (p instanceof IState) {
+                        Stream<Object> stream = Arrays.stream(args1);
+                        final Optional<Object> stateContainerBuilder = stream.filter(stateContainerBuilderFilter).findFirst();
+                        //noinspection unchecked
+                        stateContainerBuilder.ifPresent(o -> ((IState) p).createBlockStateDefinition((Block) obj,
+                                (StateContainer.Builder<Block, BlockState>) o));
+                    }
+                });
+                return BlockProxy.of(null);
+            };
         }
         // todo impl other official interfaces
+        return null;
     }
 }
