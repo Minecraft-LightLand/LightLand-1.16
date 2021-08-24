@@ -3,6 +3,7 @@ package com.lcy0x1.base;
 import com.google.common.collect.Lists;
 import com.lcy0x1.base.proxy.*;
 import com.lcy0x1.base.proxy.annotation.ForEachProxy;
+import com.lcy0x1.base.proxy.annotation.ForFirstProxy;
 import com.lcy0x1.base.proxy.block.*;
 import com.lcy0x1.core.util.ExceptionHandler;
 import mcp.MethodsReturnNonnullByDefault;
@@ -85,8 +86,9 @@ public class BaseBlock extends Block implements ProxyContainer<ProxyMethod> {
     }
 
     @Override
+    @ForFirstProxy(value = ITE.class, name = "createTileEntity")
     public final TileEntity createTileEntity(BlockState state, IBlockReader world) {
-        return impl.one(ITE.class).map(e -> e.createTileEntity(state, world)).orElse(null);
+        return null;
     }
 
     @Override
@@ -102,10 +104,9 @@ public class BaseBlock extends Block implements ProxyContainer<ProxyMethod> {
     }
 
     @Override
+    @ForFirstProxy(value = IFace.class, name = "getStateForPlacement")
     public final BlockState getStateForPlacement(BlockItemUseContext context) {
-        return impl.one(IFace.class)
-                .map(e -> e.getStateForPlacement(defaultBlockState(), context))
-                .orElse(defaultBlockState());
+        return defaultBlockState();
     }
 
     @Override
@@ -154,11 +155,8 @@ public class BaseBlock extends Block implements ProxyContainer<ProxyMethod> {
     }
 
     @Override
-    @ForEachProxy(value = IState.class)
+    @ForEachProxy(value = IState.class, name = "createBlockStateDefinition")
     protected final void createBlockStateDefinition(Builder<Block, BlockState> builder) {
-        impl = TEMP.get();
-        TEMP.set(null);
-        impl.execute(IState.class).forEach(e -> e.createBlockStateDefinition(builder));
     }
 
     @Override
@@ -180,7 +178,12 @@ public class BaseBlock extends Block implements ProxyContainer<ProxyMethod> {
     @NotNull
     @Override
     public Proxy<ProxyMethod> getProxy() {
-        return impl.proxy;
+        final BlockImplementor blockImplementor = TEMP.get();
+        if (blockImplementor != null) {
+            impl = blockImplementor;
+            TEMP.remove();
+        }
+        return this.impl.proxy;
     }
 
     public static class BlockImplementor implements Proxy<ProxyMethod> {
@@ -211,17 +214,6 @@ public class BaseBlock extends Block implements ProxyContainer<ProxyMethod> {
 
         public <T extends IImpl> Optional<T> one(Class<T> cls) {
             return execute(cls).findFirst();
-        }
-
-        @Override
-        public void forEachProxy(ForEachProxyHandler<ProxyMethod> action) throws Throwable {
-            //TODO
-        }
-
-        @Override
-        public <R> Result<R> forFirstProxy(ForFirstProxyHandler<ProxyMethod, Result<R>> action) throws Throwable {
-            //TODO
-            return null;
         }
 
         @NotNull

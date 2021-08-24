@@ -9,4 +9,6 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ForEachProxy {
     Class<?>[] value() default {};
+
+    String name() default "";
 }

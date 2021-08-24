@@ -1,8 +1,11 @@
 package com.lcy0x1.base.proxy;
 
+import com.lcy0x1.base.proxy.annotation.ForEachProxy;
+import com.lcy0x1.base.proxy.annotation.ForFirstProxy;
 import net.sf.cglib.proxy.MethodProxy;
 import org.jetbrains.annotations.NotNull;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
@@ -36,7 +39,24 @@ public interface ProxyMethod {
             }
         }
         try {
-            selfMethod = getClass().getMethod(method.getName(), method.getParameterTypes());
+            String methodName = method.getName();
+            for (Annotation annotation : method.getAnnotations()) {
+                if (annotation instanceof ForEachProxy) {
+                    final ForEachProxy forEachProxy = (ForEachProxy) annotation;
+                    if (!forEachProxy.name().isEmpty()) {
+                        methodName = forEachProxy.name();
+                        break;
+                    }
+                } else if (annotation instanceof ForFirstProxy) {
+                    final ForFirstProxy forFirstProxy = (ForFirstProxy) annotation;
+                    if (!forFirstProxy.name().isEmpty()) {
+                        methodName = forFirstProxy.name();
+                        break;
+                    }
+                }
+            }
+
+            selfMethod = getClass().getMethod(methodName, method.getParameterTypes());
             selfMethod.setAccessible(true);
             handlerCacheMap.put(method, new Proxy.Result<>(true, selfMethod));
         } catch (Exception e) {
