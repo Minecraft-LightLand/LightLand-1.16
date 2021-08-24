@@ -24,10 +24,7 @@ import net.sf.cglib.proxy.Enhancer;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 import java.util.function.Supplier;
 
 public class BaseBlock extends Block implements ProxyContainer<ProxyMethod> {
@@ -229,14 +226,10 @@ public class BaseBlock extends Block implements ProxyContainer<ProxyMethod> {
             return this;
         }
 
+        @NotNull
         @Override
-        public void forEachProxy(ForEachProxyHandler<IImpl> action) throws Throwable {
-            //TODO
-        }
-
-        @Override
-        public <R> Result<R> forFirstProxy(ForFirstProxyHandler<IImpl, Result<R>> action) throws Throwable {
-            //TODO
+        public Iterator<IImpl> iterator() {
+            // TODO
             return null;
         }
     }
