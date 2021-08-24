@@ -2,14 +2,14 @@ package com.lcy0x1.base.block;
 
 import com.google.common.collect.Lists;
 import com.lcy0x1.base.BlockProp;
+import com.lcy0x1.base.block.impl.TEPvd;
+import com.lcy0x1.base.block.mult.*;
+import com.lcy0x1.base.block.one.*;
 import com.lcy0x1.base.block.type.IImpl;
 import com.lcy0x1.base.block.type.STE;
 import com.lcy0x1.base.proxy.*;
 import com.lcy0x1.base.proxy.annotation.ForEachProxy;
 import com.lcy0x1.base.proxy.annotation.ForFirstProxy;
-import com.lcy0x1.base.block.impl.*;
-import com.lcy0x1.base.block.mult.*;
-import com.lcy0x1.base.block.one.*;
 import com.lcy0x1.core.util.ExceptionHandler;
 import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.block.Block;
@@ -18,11 +18,8 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.inventory.container.Container;
-import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.item.BlockItemUseContext;
-import net.minecraft.state.StateContainer;
 import net.minecraft.state.StateContainer.Builder;
-import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
@@ -38,10 +35,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
-import java.util.function.Supplier;
 import java.util.stream.Stream;
-
-import static com.lcy0x1.base.block.BlockProxy.*;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
@@ -219,33 +213,6 @@ public class ProxyBaseBlock extends BaseBlock implements ProxyContainer<ProxyMet
         public Iterator<ProxyMethod> iterator() {
             // TODO
             return null;
-        }
-
-    }
-
-    private static class TEPvd implements ITE, IClick {
-
-        private final Supplier<? extends TileEntity> f;
-
-        private TEPvd(Supplier<? extends TileEntity> sup) {
-            f = sup;
-        }
-
-        @Override
-        public TileEntity createTileEntity(BlockState state, IBlockReader world) {
-            return f.get();
-        }
-
-        @Override
-        public ActionResultType onClick(BlockState bs, World w, BlockPos pos, PlayerEntity pl, Hand h, BlockRayTraceResult r) {
-            TileEntity te = w.getBlockEntity(pos);
-            if (w.isClientSide())
-                return te instanceof INamedContainerProvider ? ActionResultType.SUCCESS : ActionResultType.PASS;
-            if (te instanceof INamedContainerProvider) {
-                pl.openMenu((INamedContainerProvider) te);
-                return ActionResultType.SUCCESS;
-            }
-            return ActionResultType.PASS;
         }
 
     }

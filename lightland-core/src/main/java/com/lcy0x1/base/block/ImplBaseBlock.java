@@ -1,10 +1,7 @@
 package com.lcy0x1.base.block;
 
 import com.lcy0x1.base.BlockProp;
-import com.lcy0x1.base.block.impl.AllDireBlock;
-import com.lcy0x1.base.block.impl.HorizontalBlock;
-import com.lcy0x1.base.block.impl.Power;
-import com.lcy0x1.base.block.impl.TriggerBlock;
+import com.lcy0x1.base.block.impl.TEPvd;
 import com.lcy0x1.base.block.mult.*;
 import com.lcy0x1.base.block.one.*;
 import com.lcy0x1.base.block.type.IImpl;
@@ -18,11 +15,8 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.inventory.container.Container;
-import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.item.BlockItemUseContext;
-import net.minecraft.state.DirectionProperty;
 import net.minecraft.state.StateContainer;
-import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
@@ -33,7 +27,6 @@ import net.minecraft.world.server.ServerWorld;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.*;
-import java.util.function.Supplier;
 import java.util.stream.Stream;
 
 @ParametersAreNonnullByDefault
@@ -215,33 +208,6 @@ public class ImplBaseBlock extends BaseBlock {
         @SuppressWarnings("unchecked")
         public <T extends IOneImpl> Optional<T> one(Class<T> cls) {
             return Optional.ofNullable((T) map.get(cls));
-        }
-
-    }
-
-    private static class TEPvd implements ITE, IClick {
-
-        private final Supplier<? extends TileEntity> f;
-
-        private TEPvd(Supplier<? extends TileEntity> sup) {
-            f = sup;
-        }
-
-        @Override
-        public TileEntity createTileEntity(BlockState state, IBlockReader world) {
-            return f.get();
-        }
-
-        @Override
-        public ActionResultType onClick(BlockState bs, World w, BlockPos pos, PlayerEntity pl, Hand h, BlockRayTraceResult r) {
-            TileEntity te = w.getBlockEntity(pos);
-            if (w.isClientSide())
-                return te instanceof INamedContainerProvider ? ActionResultType.SUCCESS : ActionResultType.PASS;
-            if (te instanceof INamedContainerProvider) {
-                pl.openMenu((INamedContainerProvider) te);
-                return ActionResultType.SUCCESS;
-            }
-            return ActionResultType.PASS;
         }
 
     }
