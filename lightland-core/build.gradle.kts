@@ -54,6 +54,8 @@ dependencies {
     compileOnly(fg.deobf("net.darkhax.gamestages:GameStages-$mcVersion:7.2.8"))
     lombok
     junit
+
+    implementation("cglib:cglib:3.3.0")
 }
 
 // Example for how to get properties into the manifest for reading by the runtime..

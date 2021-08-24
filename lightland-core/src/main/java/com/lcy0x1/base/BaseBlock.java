@@ -1,5 +1,8 @@
 package com.lcy0x1.base;
 
+import com.lcy0x1.base.proxy.*;
+import com.lcy0x1.base.proxy.annotation.ForEachProxy;
+import com.lcy0x1.base.proxy.block.*;
 import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -20,9 +23,12 @@ import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
+import net.sf.cglib.proxy.Enhancer;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Optional;
 import java.util.Random;
 import java.util.function.Supplier;
@@ -30,7 +36,7 @@ import java.util.stream.Stream;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public class BaseBlock extends Block {
+public class BaseBlock extends Block implements ProxyContainer<IImpl> {
 
     public static final IImpl POWER = new Power();
     public static final IImpl ALL_DIRECTION = new AllDireBlock();
@@ -43,7 +49,27 @@ public class BaseBlock extends Block {
     private static final ThreadLocal<BlockImplementor> TEMP = new ThreadLocal<>();
     private static final ThreadLocal<Block> BLOCK = new ThreadLocal<>();
 
+    private static final Enhancer enhancer = new Enhancer();
+    private static final Class<?>[] construct1 = {BlockProp.class, IImpl[].class};
+    private static final Class<?>[] construct2 = {BlockImplementor.class};
+
+    static {
+        enhancer.setSuperclass(BaseBlock.class);
+        enhancer.setCallback(new ProxyInterceptor());
+    }
+
+    public static BaseBlock newBaseBlock(BlockProp p, IImpl... impl) {
+        return (BaseBlock) enhancer.create(construct1, new Object[]{p, impl});
+    }
+
+    public static BaseBlock newBaseBlock(BlockImplementor bimpl) {
+        return (BaseBlock) enhancer.create(construct2, new Object[]{bimpl});
+    }
+
     private BlockImplementor impl;
+
+    @NotNull
+    private final MutableProxy<IImpl> proxy = new ListProxy<>();
 
     public BaseBlock(BlockImplementor bimpl) {
         super(handler(bimpl));
@@ -52,6 +78,7 @@ public class BaseBlock extends Block {
 
     public BaseBlock(BlockProp p, IImpl... impl) {
         this(construct(p).addImpls(impl));
+        proxy.addAllProxy(Arrays.asList(impl));
     }
 
     public static BlockImplementor construct(BlockProp bb) {
@@ -140,16 +167,17 @@ public class BaseBlock extends Block {
     }
 
     @Override
+    @ForEachProxy(type = IState.class)
     protected final void createBlockStateDefinition(Builder<Block, BlockState> builder) {
         impl = TEMP.get();
         TEMP.set(null);
         impl.setBlock(this);
-        impl.execute(IState.class).forEach(e -> e.fillStateContainer(builder));
+        impl.execute(IState.class).forEach(e -> e.createBlockStateDefinition(builder));
     }
 
     @Override
     public final void neighborChanged(BlockState state, World world, BlockPos pos, Block nei_block, BlockPos nei_pos, boolean moving) {
-        impl.execute(INeighborUpdate.class).forEach(e -> e.neighborChanged(state, world, pos, nei_block, nei_pos, moving));
+        impl.execute(INeighborUpdate.class).forEach(e -> e.neighborChanged(this, state, world, pos, nei_block, nei_pos, moving));
         super.neighborChanged(state, world, pos, nei_block, nei_pos, moving);
     }
 
@@ -163,86 +191,10 @@ public class BaseBlock extends Block {
         impl.execute(IScheduleTick.class).forEach(e -> e.tick(state, world, pos, random));
     }
 
-    public interface IImpl {
-
-        default Block getBlock() {
-            return BLOCK.get();
-        }
-
-    }
-
-    public interface IClick extends IImpl {
-
-        ActionResultType onClick(BlockState bs, World w, BlockPos pos, PlayerEntity pl, Hand h, BlockRayTraceResult r);
-
-    }
-
-    public interface ILight extends IImpl {
-
-        int getLightValue(BlockState bs, IBlockReader w, BlockPos pos);
-
-    }
-
-    public interface IRep extends IImpl {
-
-        void onReplaced(BlockState state, World worldIn, BlockPos pos, BlockState newState, boolean isMoving);
-
-    }
-
-    public interface IState extends IImpl {
-
-        void fillStateContainer(Builder<Block, BlockState> builder);
-
-    }
-
-    public interface IRandomTick extends IImpl {
-
-        void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random);
-
-    }
-
-    public interface IScheduleTick extends IImpl {
-
-        void tick(BlockState state, ServerWorld world, BlockPos pos, Random random);
-
-    }
-
-    public interface INeighborUpdate extends IImpl {
-
-        void neighborChanged(BlockState state, World world, BlockPos pos, Block nei_block, BlockPos nei_pos, boolean moving);
-
-    }
-
-    private interface IFace extends IImpl {
-
-        BlockState getStateForPlacement(BlockState def, BlockItemUseContext context);
-
-    }
-
-    private interface IPower extends IImpl {
-
-        int getSignal(BlockState bs, IBlockReader r, BlockPos pos, Direction d);
-
-    }
-
-    private interface IRotMir extends IImpl {
-
-        BlockState mirror(BlockState state, Mirror mirrorIn);
-
-        BlockState rotate(BlockState state, Rotation rot);
-    }
-
-    private interface ITE extends IImpl {
-
-        TileEntity createTileEntity(BlockState state, IBlockReader world);
-
-    }
-
-    public interface STE extends IImpl, Supplier<TileEntity> {
-
-        @Override
-        TileEntity get();
-
+    @NotNull
+    @Override
+    public Proxy<IImpl> getProxy() {
+        return proxy;
     }
 
     public static class BlockImplementor {
@@ -287,7 +239,7 @@ public class BaseBlock extends Block {
         }
 
         @Override
-        public void fillStateContainer(Builder<Block, BlockState> builder) {
+        public void createBlockStateDefinition(Builder<Block, BlockState> builder) {
             builder.add(FACING);
         }
 
@@ -295,7 +247,6 @@ public class BaseBlock extends Block {
         public BlockState getStateForPlacement(BlockState def, BlockItemUseContext context) {
             return def.setValue(FACING, context.getClickedFace().getOpposite());
         }
-
     }
 
     private static class HorizontalBlock implements IRotMir, IState, IFace {
@@ -304,7 +255,7 @@ public class BaseBlock extends Block {
         }
 
         @Override
-        public void fillStateContainer(Builder<Block, BlockState> builder) {
+        public void createBlockStateDefinition(Builder<Block, BlockState> builder) {
             builder.add(HORIZONTAL_FACING);
         }
 
@@ -330,7 +281,7 @@ public class BaseBlock extends Block {
         }
 
         @Override
-        public void fillStateContainer(Builder<Block, BlockState> builder) {
+        public void createBlockStateDefinition(Builder<Block, BlockState> builder) {
             builder.add(BlockStateProperties.POWER);
         }
 
@@ -377,11 +328,11 @@ public class BaseBlock extends Block {
         }
 
         @Override
-        public void neighborChanged(BlockState state, World world, BlockPos pos, Block nei_block, BlockPos nei_pos, boolean moving) {
+        public void neighborChanged(Block self, BlockState state, World world, BlockPos pos, Block nei_block, BlockPos nei_pos, boolean moving) {
             boolean flag = world.hasNeighborSignal(pos) || world.hasNeighborSignal(pos.above());
             boolean flag1 = state.getValue(BlockStateProperties.TRIGGERED);
             if (flag && !flag1) {
-                world.getBlockTicks().scheduleTick(pos, getBlock(), delay);
+                world.getBlockTicks().scheduleTick(pos, self, delay);
                 world.setBlock(pos, state.setValue(BlockStateProperties.TRIGGERED, Boolean.TRUE), delay);
             } else if (!flag && flag1) {
                 world.setBlock(pos, state.setValue(BlockStateProperties.TRIGGERED, Boolean.FALSE), delay);
@@ -389,10 +340,9 @@ public class BaseBlock extends Block {
         }
 
         @Override
-        public void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
+        public void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder) {
             builder.add(BlockStateProperties.TRIGGERED);
         }
     }
-
-
+    
 }

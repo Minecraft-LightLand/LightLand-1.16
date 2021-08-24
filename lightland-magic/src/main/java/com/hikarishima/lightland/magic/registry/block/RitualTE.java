@@ -1,6 +1,7 @@
 package com.hikarishima.lightland.magic.registry.block;
 
 import com.lcy0x1.base.BaseBlock;
+import com.lcy0x1.base.proxy.block.IClick;
 import com.lcy0x1.core.util.SerialClass;
 import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.block.BlockState;
@@ -47,7 +48,7 @@ public class RitualTE extends SyncedSingleItemTE {
 
     }
 
-    public static class RitualPlace implements BaseBlock.IClick {
+    public static class RitualPlace implements IClick {
 
         @Override
         public ActionResultType onClick(BlockState bs, World w, BlockPos pos, PlayerEntity pl, Hand h, BlockRayTraceResult r) {
