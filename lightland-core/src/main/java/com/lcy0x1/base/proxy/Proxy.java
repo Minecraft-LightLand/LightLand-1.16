@@ -4,10 +4,22 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.ToString;
 
-public interface Proxy<T extends ProxyMethod> {
-    void forEachProxy(ForEachProxyHandler<T> action) throws Throwable;
+public interface Proxy<T extends ProxyMethod> extends Iterable<T> {
+    default void forEachProxy(ForEachProxyHandler<T> action) throws Throwable {
+        for (T t : this) {
+            action.accept(t);
+        }
+    }
 
-    <R> Result<R> forFirstProxy(ForFirstProxyHandler<T, Result<R>> action) throws Throwable;
+    default <R> Result<R> forFirstProxy(ForFirstProxyHandler<T, Result<R>> action) throws Throwable {
+        for (T t : this) {
+            Result<R> result = action.apply(t);
+            if (result != null && result.isSuccess()) {
+                return result;
+            }
+        }
+        return Proxy.failed();
+    }
 
     interface ForEachProxyHandler<T extends ProxyMethod> {
         void accept(T t) throws Throwable;

@@ -57,7 +57,8 @@ public interface ProxyContainer<T extends ProxyMethod> {
         final Collection<Class<?>> classes;
         switch (forFirstProxy.value().length) {
             case 0:
-                return ProxyContainerHandlerCache.callSuper;
+                classes = null;
+                break;
             case 1:
                 classes = Collections.singletonList(forFirstProxy.value()[0]);
                 break;
@@ -70,7 +71,13 @@ public interface ProxyContainer<T extends ProxyMethod> {
     static Proxy.Result<?> onForFirstProxy(Object obj, Method method, Object[] args, MethodProxy proxy, ForFirstProxy forFirstProxy, Collection<Class<?>> classes) throws Throwable {
         if (!(obj instanceof ProxyContainer<?>)) return Proxy.failed();
         final ProxyContainer<?> block = (ProxyContainer<?>) obj;
-        final Proxy.Result<?> result = block.getProxy().forFirstProxy(p -> p.onProxy(obj, method, args, proxy));
+        final Proxy.Result<?> result = block.getProxy().forFirstProxy(p -> {
+            if (classes == null || classes.stream().anyMatch(c -> c.isInstance(p))) {
+                return p.onProxy(obj, method, args, proxy);
+            } else {
+                return Proxy.failed();
+            }
+        });
 
         if (result != null && result.isSuccess()) {
             return result;
@@ -108,7 +115,8 @@ public interface ProxyContainer<T extends ProxyMethod> {
         Collection<Class<?>> classes;
         switch (type.length) {
             case 0:
-                return ProxyContainerHandlerCache.callSuper;
+                classes = null;
+                break;
             case 1:
                 classes = Collections.singletonList(type[0]);
                 break;
@@ -122,7 +130,11 @@ public interface ProxyContainer<T extends ProxyMethod> {
     static ProxyContainerHandlerCache.OnProxy onForeachProxy(ProxyContainer<?> block, Method method, Object[] args, MethodProxy proxy, ForEachProxy forEachProxy, Collection<Class<?>> classes) {
         return (o, m, a, proxy1) -> {
             if (!(o instanceof ProxyContainer<?>)) return Proxy.Result.failed;
-            ((ProxyContainer<?>) o).getProxy().forEachProxy(p -> p.onProxy(o, m, a, proxy1));
+            ((ProxyContainer<?>) o).getProxy().forEachProxy(p -> {
+                if (classes == null || classes.stream().allMatch(c -> c.isInstance(p))) {
+                    p.onProxy(o, m, a, proxy1);
+                }
+            });
             return Proxy.failed();
         };
     }

@@ -29,7 +29,7 @@ import net.sf.cglib.proxy.Enhancer;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
@@ -221,6 +221,13 @@ public class BaseBlock extends Block implements ProxyContainer<ProxyMethod> {
         @Override
         public <R> Result<R> forFirstProxy(ForFirstProxyHandler<ProxyMethod, Result<R>> action) throws Throwable {
             //TODO
+            return null;
+        }
+
+        @NotNull
+        @Override
+        public Iterator<ProxyMethod> iterator() {
+            // TODO
             return null;
         }
 
