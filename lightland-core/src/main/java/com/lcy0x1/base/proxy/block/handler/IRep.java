@@ -5,7 +5,5 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public interface IRep extends IImpl {
-
     void onReplaced(BlockState state, World worldIn, BlockPos pos, BlockState newState, boolean isMoving);
-
 }

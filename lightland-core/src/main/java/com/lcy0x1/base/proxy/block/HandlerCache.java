@@ -11,11 +11,12 @@ import java.util.concurrent.ConcurrentHashMap;
 public class HandlerCache {
     public static final HandlerCache INSTANCE = new HandlerCache();
 
-    interface OnProxy {
+    public interface OnProxy {
         BlockProxy.Result<?> onProxy(Object obj, Method method, Object[] args, MethodProxy proxy) throws Throwable;
     }
 
     public static final OnProxy callSuper = (obj, method, args, proxy) -> BlockProxy.of(proxy.invokeSuper(obj, args));
+    public static final OnProxy empty = (obj, method, args, proxy) -> BlockProxy.failed();
 
     private Map<Method, OnProxy> handlerMap = new ConcurrentHashMap<>();
 

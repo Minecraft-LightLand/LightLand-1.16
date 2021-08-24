@@ -4,10 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.ToString;
 
-import java.util.function.Consumer;
-import java.util.function.Function;
-
-public interface BlockProxy<T> {
+public interface BlockProxy<T extends Proxy> {
     @Getter
     @ToString
     @AllArgsConstructor
@@ -19,6 +16,15 @@ public interface BlockProxy<T> {
         R result;
     }
 
+    static <R> Result<R> of() {
+        return of(null);
+    }
+
+    /**
+     * 返回一个临时使用的 Result<R> 对象
+     * 因为是临时对象，所以不要把这个对象放到任何当前函数堆栈以外的地方
+     * 如果要长期储存对象请 new Result
+     */
     static <R> Result<R> of(R result) {
         //noinspection unchecked
         Result<R> r = (Result<R>) Result.resultThreadLocal.get();
@@ -36,7 +42,16 @@ public interface BlockProxy<T> {
         return (Result<R>) Result.failed;
     }
 
-    void forEachProxy(Consumer<T> action);
 
-    <R> Result<R> forFirstProxy(Function<T, Result<R>> action);
+    interface ForEachProxyHandler<T> {
+        void accept(T t) throws Throwable;
+    }
+
+    void forEachProxy(ForEachProxyHandler<T> action) throws Throwable;
+
+    interface ForFirstProxyHandler<T, R> {
+        R apply(T t) throws Throwable;
+    }
+
+    <R> Result<R> forFirstProxy(ForFirstProxyHandler<T, Result<R>> action) throws Throwable;
 }

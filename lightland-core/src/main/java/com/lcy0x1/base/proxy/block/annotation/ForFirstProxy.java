@@ -1,7 +1,7 @@
 package com.lcy0x1.base.proxy.block.annotation;
 
 public @interface ForFirstProxy {
-    Class<?> type();
+    Class<?>[] type();
 
     /**
      * proxy objs must handle this method

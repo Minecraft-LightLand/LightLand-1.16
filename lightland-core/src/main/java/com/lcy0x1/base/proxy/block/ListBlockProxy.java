@@ -7,12 +7,10 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.function.Consumer;
-import java.util.function.Function;
 
 @AllArgsConstructor
 @Log4j2
-public class ListBlockProxy<T> implements MutableBlockProxy<T> {
+public class ListBlockProxy<T extends Proxy> implements MutableBlockProxy<T> {
     @NotNull
     private final List<T> proxyList;
 
@@ -21,18 +19,14 @@ public class ListBlockProxy<T> implements MutableBlockProxy<T> {
     }
 
     @Override
-    public void forEachProxy(Consumer<T> action) {
+    public void forEachProxy(ForEachProxyHandler<T> action) throws Throwable {
         for (T t : proxyList) {
-            try {
-                action.accept(t);
-            } catch (Exception e) {
-                log.warn("an exception caused on loop proxy", e);
-            }
+            action.accept(t);
         }
     }
 
     @Override
-    public <R> Result<R> forFirstProxy(Function<T, Result<R>> action) {
+    public <R> Result<R> forFirstProxy(ForFirstProxyHandler<T, Result<R>> action) throws Throwable {
         for (T t : proxyList) {
             Result<R> result = action.apply(t);
             if (result != null && result.success) {

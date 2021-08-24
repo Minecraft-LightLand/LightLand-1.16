@@ -20,11 +20,15 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
+import net.sf.cglib.proxy.Enhancer;
+import net.sf.cglib.proxy.MethodProxy;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import java.util.function.Supplier;
 
@@ -36,6 +40,24 @@ public class BaseBlock extends Block implements BlockProxyContainer<IImpl> {
     public static final DirectionProperty FACING = BlockStateProperties.FACING;
     public static final DirectionProperty HORIZONTAL_FACING = BlockStateProperties.HORIZONTAL_FACING;
     private static BlockImplementor TEMP;
+
+    private static final Enhancer enhancer = new Enhancer();
+    private static final Class<?>[] construct1 = {BlockProp.class, IImpl[].class};
+    private static final Class<?>[] construct2 = {BlockImplementor.class};
+
+    static {
+        enhancer.setSuperclass(BaseBlock.class);
+        enhancer.setCallback(new BlockProxyInterceptor());
+    }
+
+    public static BaseBlock newBaseBlock(BlockProp p, IImpl... impl) {
+        return (BaseBlock) enhancer.create(construct1, new Object[]{p, impl});
+    }
+
+    public static BaseBlock newBaseBlock(BlockImplementor bimpl) {
+        return (BaseBlock) enhancer.create(construct2, new Object[]{bimpl});
+    }
+
     private BlockImplementor impl;
 
     @NotNull
@@ -144,11 +166,6 @@ public class BaseBlock extends Block implements BlockProxyContainer<IImpl> {
     @Override
     @ForEachProxy(type = IState.class)
     protected final void createBlockStateDefinition(Builder<Block, BlockState> builder) {
-        proxy.forEachProxy(iImpl -> {
-            if (iImpl instanceof IState) {
-                ((IState) iImpl).createBlockStateDefinition(this, builder);
-            }
-        });
         impl = TEMP;
         TEMP = null;
         addImpls(impl);
@@ -222,7 +239,6 @@ public class BaseBlock extends Block implements BlockProxyContainer<IImpl> {
         public BlockState getStateForPlacement(BlockState def, BlockItemUseContext context) {
             return def.setValue(FACING, context.getClickedFace().getOpposite());
         }
-
     }
 
     private static class HorizontalBlock implements IRotMir, IState, IFace {
