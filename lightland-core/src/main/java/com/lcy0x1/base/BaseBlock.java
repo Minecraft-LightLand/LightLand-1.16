@@ -26,10 +26,11 @@ import org.jetbrains.annotations.NotNull;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import java.util.function.Supplier;
 
-public class BaseBlock extends Block implements ProxyContainer<IImpl> {
+public class BaseBlock extends Block implements ProxyContainer<ProxyMethod> {
 
     public static final Power POW = new Power();
     public static final AllDireBlock ALD = new AllDireBlock();
@@ -41,32 +42,35 @@ public class BaseBlock extends Block implements ProxyContainer<IImpl> {
     private static final Enhancer enhancer = new Enhancer();
     private static final Class<?>[] construct1 = {BlockProp.class, IImpl[].class};
     private static final Class<?>[] construct2 = {BlockImplementor.class};
+    protected static final ThreadLocal<Collection<ProxyMethod>> proxyThreadLocal = new ThreadLocal<>();
 
     static {
         enhancer.setSuperclass(BaseBlock.class);
         enhancer.setCallback(new ProxyInterceptor());
     }
 
-    public static BaseBlock newBaseBlock(BlockProp p, IImpl... impl) {
-        return (BaseBlock) enhancer.create(construct1, new Object[]{p, impl});
-    }
+    @NotNull
+    private final MutableProxy<ProxyMethod> proxy = new ListProxy<>();
 
-    public static BaseBlock newBaseBlock(BlockImplementor bimpl) {
-        return (BaseBlock) enhancer.create(construct2, new Object[]{bimpl});
+    protected BaseBlock(BlockImplementor bimpl) {
+        super(handler(bimpl));
     }
 
     private BlockImplementor impl;
 
-    @NotNull
-    private final MutableProxy<IImpl> proxy = new ListProxy<>();
-
-    public BaseBlock(BlockImplementor bimpl) {
-        super(handler(bimpl));
-    }
-
-    public BaseBlock(BlockProp p, IImpl... impl) {
+    protected BaseBlock(BlockProp p, IImpl... impl) {
         this(construct(p).addImpls(impl));
         proxy.addAllProxy(Arrays.asList(impl));
+    }
+
+    public static BaseBlock newBaseBlock(BlockProp p, IImpl... impl) {
+        proxyThreadLocal.set(Arrays.asList(impl));
+        return (BaseBlock) enhancer.create(construct1, new Object[]{p, impl});
+    }
+
+    public static BaseBlock newBaseBlock(BlockImplementor bimpl) {
+        // todo
+        return (BaseBlock) enhancer.create(construct2, new Object[]{bimpl});
     }
 
     public static BlockImplementor construct(BlockProp bb) {
@@ -161,7 +165,7 @@ public class BaseBlock extends Block implements ProxyContainer<IImpl> {
     }
 
     @Override
-    @ForEachProxy(type = IState.class)
+    @ForEachProxy(value = IState.class)
     protected final void createBlockStateDefinition(Builder<Block, BlockState> builder) {
         impl = TEMP;
         TEMP = null;
@@ -172,11 +176,16 @@ public class BaseBlock extends Block implements ProxyContainer<IImpl> {
 
     @NotNull
     @Override
-    public Proxy<IImpl> getProxy() {
+    public Proxy<ProxyMethod> getProxy() {
+        final Collection<ProxyMethod> proxyMethods = proxyThreadLocal.get();
+        if (proxyMethods != null) {
+            proxy.addAllProxy(proxyMethods);
+            proxyThreadLocal.remove();
+        }
         return proxy;
     }
 
-    public static class BlockImplementor {
+    public static class BlockImplementor implements Proxy<IImpl> {
 
         private final Properties props;
         private final List<IState> stateList = new ArrayList<>();
@@ -220,6 +229,16 @@ public class BaseBlock extends Block implements ProxyContainer<IImpl> {
             return this;
         }
 
+        @Override
+        public void forEachProxy(ForEachProxyHandler<IImpl> action) throws Throwable {
+            //TODO
+        }
+
+        @Override
+        public <R> Result<R> forFirstProxy(ForFirstProxyHandler<IImpl, Result<R>> action) throws Throwable {
+            //TODO
+            return null;
+        }
     }
 
     private static class AllDireBlock implements IFace, IState {
