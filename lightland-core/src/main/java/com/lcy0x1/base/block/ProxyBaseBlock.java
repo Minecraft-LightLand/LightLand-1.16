@@ -36,6 +36,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
@@ -90,9 +91,9 @@ public class ProxyBaseBlock extends BaseBlock implements ProxyContainer<ProxyMet
     }
 
     @Override
+    @ForFirstProxy(value = ILight.class, name = "getLightValue")
     public final int getLightValue(BlockState bs, IBlockReader w, BlockPos pos) {
-        return impl.one(ILight.class).map(e -> e.getLightValue(bs, w, pos))
-                .orElse(super.getLightValue(bs, w, pos));
+        return super.getLightValue(bs, w, pos);
     }
 
     @Override
@@ -102,10 +103,9 @@ public class ProxyBaseBlock extends BaseBlock implements ProxyContainer<ProxyMet
     }
 
     @Override
+    @ForFirstProxy(value = IPower.class, name = "getSignal")
     public final int getSignal(BlockState bs, IBlockReader r, BlockPos pos, Direction d) {
-        return impl.one(IPower.class)
-                .map(e -> e.getSignal(bs, r, pos, d))
-                .orElse(0);
+        return 0;
     }
 
     @Override
@@ -114,16 +114,15 @@ public class ProxyBaseBlock extends BaseBlock implements ProxyContainer<ProxyMet
     }
 
     @Override
+    @ForFirstProxy(value = IRotMir.class, name = "mirror")
     public final BlockState mirror(BlockState state, Mirror mirrorIn) {
-        return impl.one(IRotMir.class).map(e -> e.mirror(state, mirrorIn)).orElse(state);
+        return state;
     }
 
     @Override
+    @ForFirstProxy(value = IClick.class, name = "use")
     public final ActionResultType use(BlockState bs, World w, BlockPos pos, PlayerEntity pl, Hand h, BlockRayTraceResult r) {
-        return impl.execute(IClick.class)
-                .map(e -> e.onClick(bs, w, pos, pl, h, r))
-                .filter(e -> e != ActionResultType.PASS)
-                .findFirst().orElse(ActionResultType.PASS);
+        return ActionResultType.PASS;
     }
 
     @Override
@@ -142,8 +141,9 @@ public class ProxyBaseBlock extends BaseBlock implements ProxyContainer<ProxyMet
     }
 
     @Override
+    @ForFirstProxy(value = IRotMir.class, name = "rotate")
     public final BlockState rotate(BlockState state, Rotation rot) {
-        return impl.one(IRotMir.class).map(e -> e.rotate(state, rot)).orElse(state);
+        return state;
     }
 
     @Override
@@ -158,13 +158,13 @@ public class ProxyBaseBlock extends BaseBlock implements ProxyContainer<ProxyMet
     }
 
     @Override
+    @ForEachProxy(value = IRandomTick.class, name = "randomTick")
     public final void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
-        impl.execute(IRandomTick.class).forEach(e -> e.randomTick(state, world, pos, random));
     }
 
     @Override
+    @ForEachProxy(value = IScheduleTick.class, name = "tick")
     public final void tick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
-        impl.execute(IScheduleTick.class).forEach(e -> e.tick(state, world, pos, random));
     }
 
     @NotNull
@@ -198,10 +198,7 @@ public class ProxyBaseBlock extends BaseBlock implements ProxyContainer<ProxyMet
 
         @SuppressWarnings("unchecked")
         public <T extends IImpl> Stream<T> execute(Class<T> cls) {
-            //FIXME
-            List<ProxyMethod> list = Lists.newArrayList();
-            ExceptionHandler.run(() -> proxy.forEachProxy(list::add));
-            return list.stream().filter(cls::isInstance).map(e -> (T) e);
+            return StreamSupport.stream(proxy.spliterator(),false).filter(cls::isInstance).map(e -> (T) e);
         }
 
         public <T extends IImpl> Optional<T> one(Class<T> cls) {
@@ -211,8 +208,7 @@ public class ProxyBaseBlock extends BaseBlock implements ProxyContainer<ProxyMet
         @NotNull
         @Override
         public Iterator<ProxyMethod> iterator() {
-            // TODO
-            return null;
+            return proxy.iterator();
         }
 
     }
