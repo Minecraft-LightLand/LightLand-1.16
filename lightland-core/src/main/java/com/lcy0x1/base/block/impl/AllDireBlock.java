@@ -1,6 +1,7 @@
 package com.lcy0x1.base.block.impl;
 
 import com.lcy0x1.base.block.BaseBlock;
+import com.lcy0x1.base.block.BlockProxy;
 import com.lcy0x1.base.block.one.IFace;
 import com.lcy0x1.base.block.mult.IState;
 import net.minecraft.block.Block;
@@ -15,11 +16,11 @@ public class AllDireBlock implements IFace, IState {
 
     @Override
     public void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder) {
-        builder.add(BaseBlock.FACING);
+        builder.add(BlockProxy.FACING);
     }
 
     @Override
     public BlockState getStateForPlacement(BlockState def, BlockItemUseContext context) {
-        return def.setValue(BaseBlock.FACING, context.getClickedFace().getOpposite());
+        return def.setValue(BlockProxy.FACING, context.getClickedFace().getOpposite());
     }
 }

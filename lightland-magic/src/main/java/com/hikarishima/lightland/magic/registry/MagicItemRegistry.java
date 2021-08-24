@@ -17,6 +17,7 @@ import com.hikarishima.lightland.registry.item.FoiledItem;
 import com.hikarishima.lightland.registry.item.ScreenBook;
 import com.lcy0x1.base.block.BaseBlock;
 import com.lcy0x1.base.BlockProp;
+import com.lcy0x1.base.block.BlockProxy;
 import com.lcy0x1.base.block.type.STE;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
@@ -76,7 +77,7 @@ public class MagicItemRegistry {
     public static final TempBlock TEMP_COBBLE = reg("temp_cobblestone", new TempBlock(AbstractBlock.Properties.copy(Blocks.COBBLESTONE).noDrops()));
 
     public static final BaseBlock B_RITUAL_CORE = reg("ritual_core", BaseBlock.newBaseBlock(BlockProp.copy(Blocks.STONE),
-            RitualCore.CLICK, BaseBlock.TRIGGER, RitualCore.ACTIVATE, (STE) RitualCore.TE::new));
+            RitualCore.CLICK, BlockProxy.TRIGGER, RitualCore.ACTIVATE, (STE) RitualCore.TE::new));
     public static final BaseBlock B_RITUAL_SIDE = reg("ritual_side", BaseBlock.newBaseBlock(BlockProp.copy(Blocks.STONE),
             RitualCore.CLICK, (STE) RitualCore.TE::new));
 
