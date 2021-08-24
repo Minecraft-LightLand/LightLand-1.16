@@ -27,7 +27,6 @@ public interface ProxyContainer<T extends ProxyMethod> {
     /**
      * will be call when proxy method invoke.
      * 在代理方法被调用时，该方法会被调用
-     * 大体流程是
      */
     default Proxy.Result<?> onProxy(Object obj, Method method, Object[] args, MethodProxy proxy) throws Throwable {
         ProxyContainerHandlerCache.OnProxy handler = ProxyContainerHandlerCache.INSTANCE.getHandler(method);
@@ -70,18 +69,11 @@ public interface ProxyContainer<T extends ProxyMethod> {
     }
 
     default Proxy.Result<?> onForFirstProxy(Object obj, Method method, Object[] args, MethodProxy proxy, ForFirstProxy forFirstProxy, Collection<Class<?>> classes) throws Throwable {
-        if (!(obj instanceof ProxyContainer<?>)) return Proxy.Result.failed;
+        if (!(obj instanceof ProxyContainer<?>)) return Proxy.failed();
         final ProxyContainer<?> block = (ProxyContainer<?>) obj;
+        final Proxy.Result<?> result = block.getProxy().forFirstProxy(p -> p.onProxy(obj, method, args, proxy));
 
-        final Proxy.Result<?> result = block.getProxy().forFirstProxy(p -> {
-            if (classes.contains(p.getClass()) || Arrays.stream(p.getClass().getInterfaces()).anyMatch(classes::contains)) {
-                return p.onProxy(obj, method, args, proxy);
-            } else {
-                return Proxy.failed();
-            }
-        });
-
-        if (result != null && result.success) {
+        if (result != null && result.isSuccess()) {
             return result;
         }
 
@@ -131,11 +123,7 @@ public interface ProxyContainer<T extends ProxyMethod> {
     default ProxyContainerHandlerCache.OnProxy onForeachProxy(ProxyContainer<?> block, Method method, Object[] args, MethodProxy proxy, ForEachProxy forEachProxy, Collection<Class<?>> classes) {
         return (o, m, a, proxy1) -> {
             if (!(o instanceof Block)) return Proxy.Result.failed;
-            getProxy().forEachProxy(p -> {
-                if (classes.contains(p.getClass()) || Arrays.stream(p.getClass().getInterfaces()).anyMatch(classes::contains)) {
-                    p.onProxy(o, m, a, proxy1);
-                }
-            });
+            getProxy().forEachProxy(p -> p.onProxy(o, m, a, proxy1));
             return Proxy.failed();
         };
     }

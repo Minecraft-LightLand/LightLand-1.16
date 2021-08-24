@@ -5,6 +5,18 @@ import lombok.Getter;
 import lombok.ToString;
 
 public interface Proxy<T extends ProxyMethod> {
+    void forEachProxy(ForEachProxyHandler<T> action) throws Throwable;
+
+    <R> Result<R> forFirstProxy(ForFirstProxyHandler<T, Result<R>> action) throws Throwable;
+
+    interface ForEachProxyHandler<T extends ProxyMethod> {
+        void accept(T t) throws Throwable;
+    }
+
+    interface ForFirstProxyHandler<T, R> {
+        R apply(T t) throws Throwable;
+    }
+
     @Getter
     @ToString
     @AllArgsConstructor
@@ -12,8 +24,8 @@ public interface Proxy<T extends ProxyMethod> {
         public static final Result<?> failed = new Result<>(false, null);
         static final ThreadLocal<Result<?>> resultThreadLocal = new ThreadLocal<>();
 
-        boolean success;
-        R result;
+        private boolean success;
+        private R result;
     }
 
     static <R> Result<R> of() {
@@ -41,17 +53,4 @@ public interface Proxy<T extends ProxyMethod> {
         //noinspection unchecked
         return (Result<R>) Result.failed;
     }
-
-
-    interface ForEachProxyHandler<T> {
-        void accept(T t) throws Throwable;
-    }
-
-    void forEachProxy(ForEachProxyHandler<T> action) throws Throwable;
-
-    interface ForFirstProxyHandler<T, R> {
-        R apply(T t) throws Throwable;
-    }
-
-    <R> Result<R> forFirstProxy(ForFirstProxyHandler<T, Result<R>> action) throws Throwable;
 }

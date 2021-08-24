@@ -29,7 +29,7 @@ public class ListProxy<T extends ProxyMethod> implements MutableProxy<T> {
     public <R> Result<R> forFirstProxy(ForFirstProxyHandler<T, Result<R>> action) throws Throwable {
         for (T t : proxyList) {
             Result<R> result = action.apply(t);
-            if (result != null && result.success) {
+            if (result != null && result.isSuccess()) {
                 return result;
             }
         }
