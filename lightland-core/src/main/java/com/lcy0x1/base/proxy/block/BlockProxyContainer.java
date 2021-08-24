@@ -136,7 +136,7 @@ public interface BlockProxyContainer<T extends Proxy> {
                     p.onProxy(o, m, a, proxy1);
                 }
             });
-            return BlockProxy.of(null);
+            return BlockProxy.failed();
         };
     }
 }
