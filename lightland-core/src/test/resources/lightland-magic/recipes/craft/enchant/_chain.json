@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "aba",
+    "bcb",
+    "aba"
+  ],
+  "key": {
+    "a": {
+      "item": "lightland-magic:enchant_string"
+    },
+    "b": {
+      "item": "lightland-magic:enchant_alloy_ingot"
+    },
+    "c": {
+      "item": "lightland-magic:enchant_cloth"
+    }
+  },
+  "result": {
+    "item": "lightland-magic:enchant_chain",
+    "count": 4
+  }
+}

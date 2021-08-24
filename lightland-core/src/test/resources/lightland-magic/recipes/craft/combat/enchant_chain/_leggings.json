@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "bbb",
+    "b b",
+    "b b"
+  ],
+  "key": {
+    "b": {
+      "item": "lightland-magic:enchant_chain_ingot"
+    }
+  },
+  "result": {
+    "item": "lightland-magic:enchant_chain_leggings"
+  }
+}

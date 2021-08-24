@@ -65,6 +65,12 @@ public class MagicItemRegistry {
     public static final Item ENCHANT_MELON = regItem("enchant_melon", p -> new ManaStorage(p.food(Foods.MELON_SLICE), Items.MELON, MANA));
     public static final Item ENCHANT_CARROT = regItem("enchant_carrot", p -> new ManaStorage(p.food(Foods.GOLDEN_CARROT), Items.GOLDEN_CARROT, MANA * 8));
     public static final Item ENCHANT_APPLE = regItem("enchant_apple", p -> new ManaStorage(p.food(Foods.ENCHANTED_GOLDEN_APPLE), Items.GOLDEN_APPLE, MANA * 72));
+    public static final Item ENCHANT_STRING = regItem("enchant_string", FoiledItem::new);
+    public static final Item ENCHANT_CLOTH = regItem("enchant_cloth", FoiledItem::new);
+    public static final Item ENCHANT_CHAIN = regItem("enchant_chain", FoiledItem::new);
+    public static final AntiMagicArmor[] CLOTH_ARMOR = regArmor("enchant_cloth_", (s, p) -> new AntiMagicArmor(AntiMagicArmorMaterial.CLOTH, s, p), new AntiMagicArmor[4]);
+    public static final AntiMagicArmor[] CLOTH_CHAIN = regArmor("enchant_chain_", (s, p) -> new AntiMagicArmor(AntiMagicArmorMaterial.CHAIN, s, p), new AntiMagicArmor[4]);
+
 
     public static final TempBlock TEMP_DIRT = reg("temp_dirt", new TempBlock(AbstractBlock.Properties.copy(Blocks.DIRT).noDrops()));
     public static final TempBlock TEMP_COBBLE = reg("temp_cobblestone", new TempBlock(AbstractBlock.Properties.copy(Blocks.COBBLESTONE).noDrops()));

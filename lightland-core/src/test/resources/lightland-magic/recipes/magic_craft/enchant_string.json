@@ -2,63 +2,63 @@
     "type": "lightland-magic:craft_shapeless",
     "core": {
         "input": {
-            "item": "lightland-magic:enchant_gold_ingot"
+            "item": "minecraft_string"
         },
         "output": {
-            "item": "lightland-magic:enchant_alloy_ingot"
+            "item": "lightland-magic:enchant_string"
         }
     },
     "side": [
         {
             "input": {
-                "item": "minecraft:redstone"
+                "item": "minecraft:glowstone_dust"
             }
         },
         {
             "input": {
-                "item": "minecraft:iron_ingot"
+                "item": "lightland-magic:enchant_gold_nugget"
             },
             "output": {
-                "item": "lightland-magic:anti_magic_metal_ingot"
+                "item": "minecraft:gold_nugget"
             }
         },
         {
             "input": {
-                "item": "minecraft:lapis_lazuli"
+                "item": "minecraft:quartz"
             }
         },
         {
             "input": {
-                "item": "minecraft:iron_ingot"
+                "item": "lightland-magic:enchant_gold_nugget"
             },
             "output": {
-                "item": "lightland-magic:anti_magic_metal_ingot"
+                "item": "minecraft:gold_nugget"
             }
         },
         {
             "input": {
-                "item": "minecraft:iron_ingot"
+                "item": "lightland-magic:enchant_gold_nugget"
             },
             "output": {
-                "item": "lightland-magic:anti_magic_metal_ingot"
+                "item": "minecraft:gold_nugget"
             }
         },
         {
             "input": {
-                "item": "minecraft:lapis_lazuli"
+                "item": "minecraft:quartz"
             }
         },
         {
             "input": {
-                "item": "minecraft:iron_ingot"
+                "item": "lightland-magic:enchant_gold_nugget"
             },
             "output": {
-                "item": "lightland-magic:anti_magic_metal_ingot"
+                "item": "minecraft:gold_nugget"
             }
         },
         {
             "input": {
-                "item": "minecraft:redstone"
+                "item": "minecraft:glowstone_dust"
             }
         }
     ]

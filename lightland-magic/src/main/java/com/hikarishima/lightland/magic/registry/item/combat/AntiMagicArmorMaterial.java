@@ -1,7 +1,6 @@
 package com.hikarishima.lightland.magic.registry.item.combat;
 
 import com.hikarishima.lightland.magic.registry.MagicItemRegistry;
-import com.hikarishima.lightland.registry.ItemRegistry;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.IArmorMaterial;
 import net.minecraft.item.crafting.Ingredient;
@@ -29,6 +28,16 @@ public class AntiMagicArmorMaterial implements IArmorMaterial {
             "anti_magic_alloy", 60, new int[]{3, 6, 8, 3}, 1,
             SoundEvents.ARMOR_EQUIP_NETHERITE, 3.0F, 0.1F,
             () -> Ingredient.of(MagicItemRegistry.ANTI_MAGIC_ALLOY), 0.5f, 0.25f);
+
+    public static final AntiMagicArmorMaterial CLOTH = new AntiMagicArmorMaterial(
+            "enchant_cloth", 15, new int[]{1, 2, 2, 1}, 40,
+            SoundEvents.ARMOR_EQUIP_LEATHER, 2.0F, 0.0F,
+            () -> Ingredient.of(MagicItemRegistry.ENCHANT_CLOTH), 0, 0.15f);
+
+    public static final AntiMagicArmorMaterial CHAIN = new AntiMagicArmorMaterial(
+            "enchant_chain", 30, new int[]{2, 3, 3, 2}, 60,
+            SoundEvents.ARMOR_EQUIP_CHAIN, 3.0F, 0.0F,
+            () -> Ingredient.of(MagicItemRegistry.ENCHANT_CHAIN), 0, 0.25f);
 
     private static final int[] HEALTH_PER_SLOT = new int[]{13, 15, 16, 11};
     private final String name;

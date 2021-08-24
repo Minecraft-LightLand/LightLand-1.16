@@ -11,10 +11,20 @@
     "side": [
         {
             "input": {
+                "item": "minecraft:redstone"
+            }
+        },
+        {
+            "input": {
                 "item": "minecraft:iron_ingot"
             },
             "output": {
                 "item": "lightland-magic:anti_magic_metal_ingot"
+            }
+        },
+        {
+            "input": {
+                "item": "minecraft:lapis_lazuli"
             }
         },
         {
@@ -31,6 +41,11 @@
             },
             "output": {
                 "item": "lightland-magic:anti_magic_metal_ingot"
+            }
+        },
+        {
+            "input": {
+                "item": "minecraft:lapis_lazuli"
             }
         },
         {
@@ -44,21 +59,6 @@
         {
             "input": {
                 "item": "minecraft:redstone"
-            }
-        },
-        {
-            "input": {
-                "item": "minecraft:redstone"
-            }
-        },
-        {
-            "input": {
-                "item": "minecraft:lapis_lazuli"
-            }
-        },
-        {
-            "input": {
-                "item": "minecraft:lapis_lazuli"
             }
         }
     ]
