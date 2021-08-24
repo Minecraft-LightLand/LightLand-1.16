@@ -1,6 +1,8 @@
 package com.lcy0x1.base;
 
 import com.lcy0x1.base.proxy.block.*;
+import com.lcy0x1.base.proxy.block.annotation.ForEachProxy;
+import com.lcy0x1.base.proxy.block.handler.*;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
@@ -18,6 +20,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
+import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -25,7 +28,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.function.Supplier;
 
-public class BaseBlock extends Block implements BlockProxyContainer<BaseBlock.IImpl> {
+public class BaseBlock extends Block implements BlockProxyContainer<IImpl> {
 
     public static final Power POW = new Power();
     public static final AllDireBlock ALD = new AllDireBlock();
@@ -35,6 +38,7 @@ public class BaseBlock extends Block implements BlockProxyContainer<BaseBlock.II
     private static BlockImplementor TEMP;
     private BlockImplementor impl;
 
+    @NotNull
     private final MutableBlockProxy<IImpl> proxy = new ListBlockProxy<>();
 
     public BaseBlock(BlockImplementor bimpl) {
@@ -149,73 +153,13 @@ public class BaseBlock extends Block implements BlockProxyContainer<BaseBlock.II
         TEMP = null;
         addImpls(impl);
         for (IState is : impl.stateList)
-            is.fillStateContainer(builder);
+            is.createBlockStateDefinition(this, builder);
     }
 
+    @NotNull
     @Override
     public BlockProxy<IImpl> getProxy() {
         return proxy;
-    }
-
-    public interface IClick extends IImpl {
-
-        ActionResultType onClick(BlockState bs, World w, BlockPos pos, PlayerEntity pl, Hand h, BlockRayTraceResult r);
-
-    }
-
-    public interface IImpl {
-    }
-
-    public interface ILight extends IImpl {
-
-        int getLightValue(BlockState bs, IBlockReader w, BlockPos pos);
-
-    }
-
-    public interface IRep extends IImpl {
-
-        void onReplaced(BlockState state, World worldIn, BlockPos pos, BlockState newState, boolean isMoving);
-
-    }
-
-    public interface IState extends IImpl {
-
-        void fillStateContainer(Builder<Block, BlockState> builder);
-
-        default void createBlockStateDefinition(Block block, Builder<Block, BlockState> builder) {
-        }
-    }
-
-    public interface STE extends IImpl, Supplier<TileEntity> {
-
-        @Override
-        TileEntity get();
-
-    }
-
-    private interface IFace extends IImpl {
-
-        BlockState getStateForPlacement(BlockState def, BlockItemUseContext context);
-
-    }
-
-    private interface IPower extends IImpl {
-
-        int getSignal(BlockState bs, IBlockReader r, BlockPos pos, Direction d);
-
-    }
-
-    private interface IRotMir extends IImpl {
-
-        BlockState mirror(BlockState state, Mirror mirrorIn);
-
-        BlockState rotate(BlockState state, Rotation rot);
-    }
-
-    private interface ITE extends IImpl {
-
-        TileEntity createTileEntity(BlockState state, IBlockReader world);
-
     }
 
     public static class BlockImplementor {
@@ -270,7 +214,7 @@ public class BaseBlock extends Block implements BlockProxyContainer<BaseBlock.II
         }
 
         @Override
-        public void fillStateContainer(Builder<Block, BlockState> builder) {
+        public void createBlockStateDefinition(Block block, Builder<Block, BlockState> builder) {
             builder.add(FACING);
         }
 
@@ -287,7 +231,7 @@ public class BaseBlock extends Block implements BlockProxyContainer<BaseBlock.II
         }
 
         @Override
-        public void fillStateContainer(Builder<Block, BlockState> builder) {
+        public void createBlockStateDefinition(Block block, Builder<Block, BlockState> builder) {
             builder.add(HORIZONTAL_FACING);
         }
 
@@ -313,7 +257,7 @@ public class BaseBlock extends Block implements BlockProxyContainer<BaseBlock.II
         }
 
         @Override
-        public void fillStateContainer(Builder<Block, BlockState> builder) {
+        public void createBlockStateDefinition(Block block, Builder<Block, BlockState> builder) {
             builder.add(BlockStateProperties.POWER);
         }
 

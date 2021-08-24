@@ -1,6 +1,7 @@
 package com.lcy0x1.base.proxy.block;
 
 import lombok.AllArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -10,6 +11,7 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 
 @AllArgsConstructor
+@Log4j2
 public class ListBlockProxy<T> implements MutableBlockProxy<T> {
     @NotNull
     private final List<T> proxyList;
@@ -21,7 +23,11 @@ public class ListBlockProxy<T> implements MutableBlockProxy<T> {
     @Override
     public void forEachProxy(Consumer<T> action) {
         for (T t : proxyList) {
-            action.accept(t);
+            try {
+                action.accept(t);
+            } catch (Exception e) {
+                log.warn("an exception caused on loop proxy", e);
+            }
         }
     }
 

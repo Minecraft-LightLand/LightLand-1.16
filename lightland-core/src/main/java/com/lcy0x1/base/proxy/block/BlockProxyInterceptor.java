@@ -4,19 +4,15 @@ import net.sf.cglib.proxy.MethodInterceptor;
 import net.sf.cglib.proxy.MethodProxy;
 
 import java.lang.reflect.Method;
-import java.util.Arrays;
 
 public class BlockProxyInterceptor implements MethodInterceptor {
     @Override
     public Object intercept(Object obj, Method method, Object[] args, MethodProxy proxy) throws Throwable {
-        if (obj instanceof BlockProxy<?>) {
-            BlockProxy<?> blockProxy = (BlockProxy<?>) obj;
-            Arrays.stream(method.getAnnotations())
-                .filter(annotation -> annotation instanceof ForEachProxy)
-                .findFirst().ifPresent(annotation -> {
-                    return;
-                });
+        if (obj instanceof BlockProxyContainer<?>) {
+            BlockProxyContainer<?> blockProxy = (BlockProxyContainer<?>) obj;
+            return blockProxy.onProxy(obj, method, args, proxy);
+        } else {
+            return proxy.invokeSuper(obj, args);
         }
-        return proxy.invokeSuper(obj, args);
     }
 }
