@@ -8,7 +8,7 @@ import java.lang.annotation.Target;
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ForFirstProxy {
-    Class<?>[] value();
+    Class<?>[] value() default {};
 
     /**
      * proxy objs must handle this method

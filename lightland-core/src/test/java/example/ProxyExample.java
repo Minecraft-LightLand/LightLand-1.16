@@ -31,7 +31,7 @@ public class ProxyExample implements ProxyContainer<ProxyMethod> {
         return (ProxyExample) enhancer.create(construct, construct);
     }
 
-    @ForEachProxy(GetA.class)
+    @ForEachProxy
     public int getA() {
         return a;
     }

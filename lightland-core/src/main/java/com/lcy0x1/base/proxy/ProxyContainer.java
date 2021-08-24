@@ -27,7 +27,7 @@ public interface ProxyContainer<T extends ProxyMethod> {
      * will be call when proxy method invoke.
      * 在代理方法被调用时，该方法会被调用
      */
-    static Proxy.Result<?> onProxy(Object obj, Method method, Object[] args, MethodProxy proxy) throws Throwable {
+    default Proxy.Result<?> onProxy(Object obj, Method method, Object[] args, MethodProxy proxy) throws Throwable {
         ProxyContainerHandlerCache.OnProxy handler = ProxyContainerHandlerCache.INSTANCE.getHandler(method);
         if (handler != null) {
             return handler.onProxy(obj, method, args, proxy);
