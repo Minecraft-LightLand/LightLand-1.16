@@ -37,6 +37,7 @@ public interface ProxyMethod {
         }
         try {
             selfMethod = getClass().getMethod(method.getName(), method.getParameterTypes());
+            selfMethod.setAccessible(true);
             handlerCacheMap.put(method, new Proxy.Result<>(true, selfMethod));
         } catch (Exception e) {
             handlerCacheMap.put(method, Proxy.failed());

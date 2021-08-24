@@ -29,6 +29,7 @@ import net.sf.cglib.proxy.Enhancer;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.ParametersAreNonnullByDefault;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
@@ -37,7 +38,7 @@ import java.util.stream.Stream;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public class BaseBlock extends Block implements ProxyContainer<IImpl> {
+public class BaseBlock extends Block implements ProxyContainer<ProxyMethod> {
 
     public static final IImpl POWER = new Power();
     public static final IImpl ALL_DIRECTION = new AllDireBlock();
@@ -153,7 +154,7 @@ public class BaseBlock extends Block implements ProxyContainer<IImpl> {
     }
 
     @Override
-    @ForEachProxy(type = IState.class)
+    @ForEachProxy(value = IState.class)
     protected final void createBlockStateDefinition(Builder<Block, BlockState> builder) {
         impl = TEMP.get();
         TEMP.set(null);
@@ -178,14 +179,14 @@ public class BaseBlock extends Block implements ProxyContainer<IImpl> {
 
     @NotNull
     @Override
-    public Proxy<IImpl> getProxy() {
+    public Proxy<ProxyMethod> getProxy() {
         return impl.proxy;
     }
 
-    public static class BlockImplementor {
+    public static class BlockImplementor implements Proxy<ProxyMethod> {
 
         private final Properties props;
-        private final MutableProxy<IImpl> proxy = new ListProxy<>();
+        private final MutableProxy<ProxyMethod> proxy = new ListProxy<>();
 
         public BlockImplementor(Properties p) {
             props = p;
@@ -203,7 +204,7 @@ public class BaseBlock extends Block implements ProxyContainer<IImpl> {
         @SuppressWarnings("unchecked")
         public <T extends IImpl> Stream<T> execute(Class<T> cls) {
             //FIXME
-            List<IImpl> list = Lists.newArrayList();
+            List<ProxyMethod> list = Lists.newArrayList();
             ExceptionHandler.run(() -> proxy.forEachProxy(list::add));
             return list.stream().filter(cls::isInstance).map(e -> (T) e);
         }
@@ -211,6 +212,18 @@ public class BaseBlock extends Block implements ProxyContainer<IImpl> {
         public <T extends IImpl> Optional<T> one(Class<T> cls) {
             return execute(cls).findFirst();
         }
+
+        @Override
+        public void forEachProxy(ForEachProxyHandler<ProxyMethod> action) throws Throwable {
+            //TODO
+        }
+
+        @Override
+        public <R> Result<R> forFirstProxy(ForFirstProxyHandler<ProxyMethod, Result<R>> action) throws Throwable {
+            //TODO
+            return null;
+        }
+
     }
 
     private static class AllDireBlock implements IFace, IState {

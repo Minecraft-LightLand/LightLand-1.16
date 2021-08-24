@@ -2,7 +2,6 @@ package com.lcy0x1.base.proxy;
 
 import com.lcy0x1.base.proxy.annotation.ForEachProxy;
 import com.lcy0x1.base.proxy.annotation.ForFirstProxy;
-import net.minecraft.block.Block;
 import net.minecraft.state.StateContainer;
 import net.sf.cglib.proxy.MethodProxy;
 import org.apache.commons.lang3.StringUtils;
@@ -54,21 +53,21 @@ public interface ProxyContainer<T extends ProxyMethod> {
         return handler.onProxy(obj, method, args, proxy);
     }
 
-    default ProxyContainerHandlerCache.OnProxy onForFirstProxy(Object obj, Method method, Object[] args, MethodProxy proxy, ForFirstProxy forFirstProxy) throws Throwable {
+    static ProxyContainerHandlerCache.OnProxy onForFirstProxy(Object obj, Method method, Object[] args, MethodProxy proxy, ForFirstProxy forFirstProxy) throws Throwable {
         final Collection<Class<?>> classes;
-        switch (forFirstProxy.type().length) {
+        switch (forFirstProxy.value().length) {
             case 0:
                 return ProxyContainerHandlerCache.callSuper;
             case 1:
-                classes = Collections.singletonList(forFirstProxy.type()[0]);
+                classes = Collections.singletonList(forFirstProxy.value()[0]);
                 break;
             default:
-                classes = new HashSet<>(Arrays.asList(forFirstProxy.type()));
+                classes = new HashSet<>(Arrays.asList(forFirstProxy.value()));
         }
         return (o, m, a, p) -> onForFirstProxy(o, m, a, p, forFirstProxy, classes);
     }
 
-    default Proxy.Result<?> onForFirstProxy(Object obj, Method method, Object[] args, MethodProxy proxy, ForFirstProxy forFirstProxy, Collection<Class<?>> classes) throws Throwable {
+    static Proxy.Result<?> onForFirstProxy(Object obj, Method method, Object[] args, MethodProxy proxy, ForFirstProxy forFirstProxy, Collection<Class<?>> classes) throws Throwable {
         if (!(obj instanceof ProxyContainer<?>)) return Proxy.failed();
         final ProxyContainer<?> block = (ProxyContainer<?>) obj;
         final Proxy.Result<?> result = block.getProxy().forFirstProxy(p -> p.onProxy(obj, method, args, proxy));
@@ -103,9 +102,9 @@ public interface ProxyContainer<T extends ProxyMethod> {
         return Proxy.Result.failed;
     }
 
-    default ProxyContainerHandlerCache.OnProxy onForeachProxy(Object obj, Method method, Object[] args, MethodProxy proxy, ForEachProxy forEachProxy) {
+    static ProxyContainerHandlerCache.OnProxy onForeachProxy(Object obj, Method method, Object[] args, MethodProxy proxy, ForEachProxy forEachProxy) {
         if (!(obj instanceof ProxyContainer<?>)) return ProxyContainerHandlerCache.callSuper;
-        Class<?>[] type = forEachProxy.type();
+        Class<?>[] type = forEachProxy.value();
         Collection<Class<?>> classes;
         switch (type.length) {
             case 0:
@@ -120,10 +119,10 @@ public interface ProxyContainer<T extends ProxyMethod> {
     }
 
     @Nullable
-    default ProxyContainerHandlerCache.OnProxy onForeachProxy(ProxyContainer<?> block, Method method, Object[] args, MethodProxy proxy, ForEachProxy forEachProxy, Collection<Class<?>> classes) {
+    static ProxyContainerHandlerCache.OnProxy onForeachProxy(ProxyContainer<?> block, Method method, Object[] args, MethodProxy proxy, ForEachProxy forEachProxy, Collection<Class<?>> classes) {
         return (o, m, a, proxy1) -> {
-            if (!(o instanceof Block)) return Proxy.Result.failed;
-            getProxy().forEachProxy(p -> p.onProxy(o, m, a, proxy1));
+            if (!(o instanceof ProxyContainer<?>)) return Proxy.Result.failed;
+            ((ProxyContainer<?>) o).getProxy().forEachProxy(p -> p.onProxy(o, m, a, proxy1));
             return Proxy.failed();
         };
     }

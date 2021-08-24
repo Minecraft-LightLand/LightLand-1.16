@@ -9,8 +9,7 @@ public class ProxyInterceptor implements MethodInterceptor {
     @Override
     public Object intercept(Object obj, Method method, Object[] args, MethodProxy proxy) throws Throwable {
         if (obj instanceof ProxyContainer<?>) {
-            ProxyContainer<?> blockProxy = (ProxyContainer<?>) obj;
-            final Proxy.Result<?> result = blockProxy.onProxy(obj, method, args, proxy);
+            final Proxy.Result<?> result = ((ProxyContainer<?>) obj).onProxy(obj, method, args, proxy);
             if (result != null && result.isSuccess()) {
                 return result.getResult();
             }
