@@ -163,17 +163,17 @@ public class BaseBlock extends Block {
         impl.execute(IScheduleTick.class).forEach(e -> e.tick(state, world, pos, random));
     }
 
-    public interface IClick extends IImpl {
-
-        ActionResultType onClick(BlockState bs, World w, BlockPos pos, PlayerEntity pl, Hand h, BlockRayTraceResult r);
-
-    }
-
     public interface IImpl {
 
         default Block getBlock() {
             return BLOCK.get();
         }
+
+    }
+
+    public interface IClick extends IImpl {
+
+        ActionResultType onClick(BlockState bs, World w, BlockPos pos, PlayerEntity pl, Hand h, BlockRayTraceResult r);
 
     }
 
@@ -192,13 +192,6 @@ public class BaseBlock extends Block {
     public interface IState extends IImpl {
 
         void fillStateContainer(Builder<Block, BlockState> builder);
-
-    }
-
-    public interface STE extends IImpl, Supplier<TileEntity> {
-
-        @Override
-        TileEntity get();
 
     }
 
@@ -242,6 +235,13 @@ public class BaseBlock extends Block {
     private interface ITE extends IImpl {
 
         TileEntity createTileEntity(BlockState state, IBlockReader world);
+
+    }
+
+    public interface STE extends IImpl, Supplier<TileEntity> {
+
+        @Override
+        TileEntity get();
 
     }
 
