@@ -1,5 +1,6 @@
-package com.lcy0x1.base.proxy.block;
+package com.lcy0x1.base.block.type;
 
+import com.lcy0x1.base.block.type.IImpl;
 import net.minecraft.tileentity.TileEntity;
 
 import java.util.function.Supplier;

@@ -1,6 +1,5 @@
 package example;
 
-import com.lcy0x1.base.proxy.ProxyInterceptor;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import net.sf.cglib.proxy.Enhancer;

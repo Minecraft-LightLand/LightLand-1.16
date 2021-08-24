@@ -1,7 +1,6 @@
 package com.hikarishima.lightland.magic.registry.block;
 
-import com.lcy0x1.base.BaseBlock;
-import com.lcy0x1.base.proxy.block.IClick;
+import com.lcy0x1.base.block.mult.IClick;
 import com.lcy0x1.core.util.SerialClass;
 import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.block.BlockState;
