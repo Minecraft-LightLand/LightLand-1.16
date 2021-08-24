@@ -1,4 +1,6 @@
 package com.lcy0x1.base.block.type;
 
-public interface IImpl {
+import com.lcy0x1.base.proxy.ProxyMethod;
+
+public interface IImpl extends ProxyMethod {
 }

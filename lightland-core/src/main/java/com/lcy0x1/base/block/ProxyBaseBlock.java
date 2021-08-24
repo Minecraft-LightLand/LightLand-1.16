@@ -3,6 +3,7 @@ package com.lcy0x1.base.block;
 import com.google.common.collect.Lists;
 import com.lcy0x1.base.BlockProp;
 import com.lcy0x1.base.block.type.IImpl;
+import com.lcy0x1.base.block.type.STE;
 import com.lcy0x1.base.proxy.*;
 import com.lcy0x1.base.proxy.annotation.ForEachProxy;
 import com.lcy0x1.base.proxy.annotation.ForFirstProxy;
@@ -222,65 +223,6 @@ public class ProxyBaseBlock extends BaseBlock implements ProxyContainer<ProxyMet
 
     }
 
-    private static class AllDireBlock implements IFace, IState {
-
-        private AllDireBlock() {
-        }
-
-        @Override
-        public void createBlockStateDefinition(Builder<Block, BlockState> builder) {
-            builder.add(FACING);
-        }
-
-        @Override
-        public BlockState getStateForPlacement(BlockState def, BlockItemUseContext context) {
-            return def.setValue(FACING, context.getClickedFace().getOpposite());
-        }
-    }
-
-    private static class HorizontalBlock implements IRotMir, IState, IFace {
-
-        private HorizontalBlock() {
-        }
-
-        @Override
-        public void createBlockStateDefinition(Builder<Block, BlockState> builder) {
-            builder.add(HORIZONTAL_FACING);
-        }
-
-        @Override
-        public BlockState getStateForPlacement(BlockState def, BlockItemUseContext context) {
-            return def.setValue(HORIZONTAL_FACING, context.getHorizontalDirection().getOpposite());
-        }
-
-        @Override
-        public BlockState mirror(BlockState state, Mirror mirrorIn) {
-            return state.rotate(mirrorIn.getRotation(state.getValue(HORIZONTAL_FACING)));
-        }
-
-        @Override
-        public BlockState rotate(BlockState state, Rotation rot) {
-            return state.setValue(HORIZONTAL_FACING, rot.rotate(state.getValue(HORIZONTAL_FACING)));
-        }
-    }
-
-    private static class Power implements IState, IPower {
-
-        private Power() {
-        }
-
-        @Override
-        public void createBlockStateDefinition(Builder<Block, BlockState> builder) {
-            builder.add(BlockStateProperties.POWER);
-        }
-
-        @Override
-        public int getSignal(BlockState bs, IBlockReader r, BlockPos pos, Direction d) {
-            return bs.getValue(BlockStateProperties.POWER);
-        }
-
-    }
-
     private static class TEPvd implements ITE, IClick {
 
         private final Supplier<? extends TileEntity> f;
@@ -306,32 +248,6 @@ public class ProxyBaseBlock extends BaseBlock implements ProxyContainer<ProxyMet
             return ActionResultType.PASS;
         }
 
-    }
-
-    public static class TriggerBlock implements INeighborUpdate, IState {
-
-        private final int delay;
-
-        public TriggerBlock(int delay) {
-            this.delay = delay;
-        }
-
-        @Override
-        public void neighborChanged(Block self, BlockState state, World world, BlockPos pos, Block nei_block, BlockPos nei_pos, boolean moving) {
-            boolean flag = world.hasNeighborSignal(pos) || world.hasNeighborSignal(pos.above());
-            boolean flag1 = state.getValue(BlockStateProperties.TRIGGERED);
-            if (flag && !flag1) {
-                world.getBlockTicks().scheduleTick(pos, self, delay);
-                world.setBlock(pos, state.setValue(BlockStateProperties.TRIGGERED, Boolean.TRUE), delay);
-            } else if (!flag && flag1) {
-                world.setBlock(pos, state.setValue(BlockStateProperties.TRIGGERED, Boolean.FALSE), delay);
-            }
-        }
-
-        @Override
-        public void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder) {
-            builder.add(BlockStateProperties.TRIGGERED);
-        }
     }
 
 }

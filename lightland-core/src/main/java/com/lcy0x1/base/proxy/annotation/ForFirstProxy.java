@@ -10,6 +10,8 @@ import java.lang.annotation.Target;
 public @interface ForFirstProxy {
     Class<?>[] value() default {};
 
+    String name() default "";
+
     /**
      * proxy objs must handle this method
      * or will throw an exception
