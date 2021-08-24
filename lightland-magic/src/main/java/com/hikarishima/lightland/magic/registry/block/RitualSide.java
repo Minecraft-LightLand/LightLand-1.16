@@ -11,11 +11,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 
 @MethodsReturnNonnullByDefault
 @ParametersAreNonnullByDefault
-public class RitualSide extends BaseBlock {
-
-    public RitualSide(BlockProp p) {
-        super(p, RitualCore.CLICK, (STE) RitualCore.TE::new);
-    }
+public class RitualSide{
 
     @SerialClass
     public static class TE extends RitualTE {

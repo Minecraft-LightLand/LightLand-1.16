@@ -8,7 +8,6 @@ import com.hikarishima.lightland.magic.gui.container.DisEnchanterContainer;
 import com.hikarishima.lightland.magic.gui.container.SpellCraftContainer;
 import com.hikarishima.lightland.magic.gui.magic_tree.MagicTreeScreen;
 import com.hikarishima.lightland.magic.registry.block.RitualCore;
-import com.hikarishima.lightland.magic.registry.block.RitualSide;
 import com.hikarishima.lightland.magic.registry.block.TempBlock;
 import com.hikarishima.lightland.magic.registry.item.combat.*;
 import com.hikarishima.lightland.magic.registry.item.magic.*;
@@ -16,7 +15,9 @@ import com.hikarishima.lightland.registry.ItemRegistry;
 import com.hikarishima.lightland.registry.item.ContainerBook;
 import com.hikarishima.lightland.registry.item.FoiledItem;
 import com.hikarishima.lightland.registry.item.ScreenBook;
+import com.lcy0x1.base.BaseBlock;
 import com.lcy0x1.base.BlockProp;
+import com.lcy0x1.base.proxy.block.STE;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
@@ -71,12 +72,13 @@ public class MagicItemRegistry {
     public static final AntiMagicArmor[] CLOTH_ARMOR = regArmor("enchant_cloth_", (s, p) -> new AntiMagicArmor(AntiMagicArmorMaterial.CLOTH, s, p), new AntiMagicArmor[4]);
     public static final AntiMagicArmor[] CLOTH_CHAIN = regArmor("enchant_chain_", (s, p) -> new AntiMagicArmor(AntiMagicArmorMaterial.CHAIN, s, p), new AntiMagicArmor[4]);
 
-
     public static final TempBlock TEMP_DIRT = reg("temp_dirt", new TempBlock(AbstractBlock.Properties.copy(Blocks.DIRT).noDrops()));
     public static final TempBlock TEMP_COBBLE = reg("temp_cobblestone", new TempBlock(AbstractBlock.Properties.copy(Blocks.COBBLESTONE).noDrops()));
 
-    public static final RitualCore B_RITUAL_CORE = reg("ritual_core", new RitualCore(BlockProp.copy(Blocks.STONE)));
-    public static final RitualSide B_RITUAL_SIDE = reg("ritual_side", new RitualSide(BlockProp.copy(Blocks.STONE)));
+    public static final BaseBlock B_RITUAL_CORE = reg("ritual_core", BaseBlock.newBaseBlock(BlockProp.copy(Blocks.STONE),
+            RitualCore.CLICK, BaseBlock.TRIGGER, RitualCore.ACTIVATE, (STE) RitualCore.TE::new));
+    public static final BaseBlock B_RITUAL_SIDE = reg("ritual_side", BaseBlock.newBaseBlock(BlockProp.copy(Blocks.STONE),
+            RitualCore.CLICK, (STE) RitualCore.TE::new));
 
     public static final BlockItem I_RITUAL_CORE = regBlockItem(B_RITUAL_CORE);
     public static final BlockItem I_RITUAL_SIDE = regBlockItem(B_RITUAL_SIDE);

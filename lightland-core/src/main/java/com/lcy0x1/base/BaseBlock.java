@@ -1,8 +1,10 @@
 package com.lcy0x1.base;
 
+import com.google.common.collect.Lists;
 import com.lcy0x1.base.proxy.*;
 import com.lcy0x1.base.proxy.annotation.ForEachProxy;
 import com.lcy0x1.base.proxy.block.*;
+import com.lcy0x1.core.util.ExceptionHandler;
 import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -27,8 +29,7 @@ import net.sf.cglib.proxy.Enhancer;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 import java.util.function.Supplier;
@@ -47,38 +48,23 @@ public class BaseBlock extends Block implements ProxyContainer<IImpl> {
     public static final DirectionProperty HORIZONTAL_FACING = BlockStateProperties.HORIZONTAL_FACING;
 
     private static final ThreadLocal<BlockImplementor> TEMP = new ThreadLocal<>();
-    private static final ThreadLocal<Block> BLOCK = new ThreadLocal<>();
 
-    private static final Enhancer enhancer = new Enhancer();
-    private static final Class<?>[] construct1 = {BlockProp.class, IImpl[].class};
-    private static final Class<?>[] construct2 = {BlockImplementor.class};
+    private static final Enhancer ENHANCER = new Enhancer();
+    private static final Class<?>[] CONSTRUCTOR = {BlockProp.class, IImpl[].class};
 
     static {
-        enhancer.setSuperclass(BaseBlock.class);
-        enhancer.setCallback(new ProxyInterceptor());
+        ENHANCER.setSuperclass(BaseBlock.class);
+        ENHANCER.setCallback(new ProxyInterceptor());
     }
 
     public static BaseBlock newBaseBlock(BlockProp p, IImpl... impl) {
-        return (BaseBlock) enhancer.create(construct1, new Object[]{p, impl});
-    }
-
-    public static BaseBlock newBaseBlock(BlockImplementor bimpl) {
-        return (BaseBlock) enhancer.create(construct2, new Object[]{bimpl});
+        return (BaseBlock) ENHANCER.create(CONSTRUCTOR, new Object[]{p, impl});
     }
 
     private BlockImplementor impl;
 
-    @NotNull
-    private final MutableProxy<IImpl> proxy = new ListProxy<>();
-
-    public BaseBlock(BlockImplementor bimpl) {
-        super(handler(bimpl));
-        impl.setBlock(this);
-    }
-
-    public BaseBlock(BlockProp p, IImpl... impl) {
-        this(construct(p).addImpls(impl));
-        proxy.addAllProxy(Arrays.asList(impl));
+    private BaseBlock(BlockProp p, IImpl... impl) {
+        super(handler(construct(p).addImpls(impl)));
     }
 
     public static BlockImplementor construct(BlockProp bb) {
@@ -171,7 +157,6 @@ public class BaseBlock extends Block implements ProxyContainer<IImpl> {
     protected final void createBlockStateDefinition(Builder<Block, BlockState> builder) {
         impl = TEMP.get();
         TEMP.set(null);
-        impl.setBlock(this);
         impl.execute(IState.class).forEach(e -> e.createBlockStateDefinition(builder));
     }
 
@@ -194,15 +179,13 @@ public class BaseBlock extends Block implements ProxyContainer<IImpl> {
     @NotNull
     @Override
     public Proxy<IImpl> getProxy() {
-        return proxy;
+        return impl.proxy;
     }
 
     public static class BlockImplementor {
 
         private final Properties props;
-        private final ArrayList<IImpl> list = new ArrayList<>();
-
-        private Block block;
+        private final MutableProxy<IImpl> proxy = new ListProxy<>();
 
         public BlockImplementor(Properties p) {
             props = p;
@@ -211,26 +194,23 @@ public class BaseBlock extends Block implements ProxyContainer<IImpl> {
         public BlockImplementor addImpls(IImpl... impls) {
             for (IImpl impl : impls)
                 if (impl instanceof STE)
-                    list.add(new TEPvd((STE) impl));
+                    proxy.addProxy(new TEPvd((STE) impl));
                 else if (impl != null)
-                    list.add(impl);
+                    proxy.addProxy(impl);
             return this;
         }
 
         @SuppressWarnings("unchecked")
         public <T extends IImpl> Stream<T> execute(Class<T> cls) {
-            BLOCK.set(block);
+            //FIXME
+            List<IImpl> list = Lists.newArrayList();
+            ExceptionHandler.run(() -> proxy.forEachProxy(list::add));
             return list.stream().filter(cls::isInstance).map(e -> (T) e);
         }
 
         public <T extends IImpl> Optional<T> one(Class<T> cls) {
             return execute(cls).findFirst();
         }
-
-        private void setBlock(Block block) {
-            this.block = block;
-        }
-
     }
 
     private static class AllDireBlock implements IFace, IState {
@@ -344,5 +324,5 @@ public class BaseBlock extends Block implements ProxyContainer<IImpl> {
             builder.add(BlockStateProperties.TRIGGERED);
         }
     }
-    
+
 }

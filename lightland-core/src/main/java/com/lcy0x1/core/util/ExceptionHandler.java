@@ -10,7 +10,7 @@ public class ExceptionHandler {
     public static void run(ExcRun run) {
         try {
             run.get();
-        } catch (Exception e) {
+        } catch (Throwable e) {
             LogManager.getLogger().throwing(Level.ERROR, e);
         }
     }
@@ -18,7 +18,7 @@ public class ExceptionHandler {
     public static <T> T get(ExcSup<T> sup) {
         try {
             return sup.get();
-        } catch (Exception e) {
+        } catch (Throwable e) {
             LogManager.getLogger().throwing(Level.ERROR, e);
             return null;
         }
@@ -27,7 +27,7 @@ public class ExceptionHandler {
     public static <T> T ignore(ExcSup<T> sup) {
         try {
             return sup.get();
-        } catch (Exception e) {
+        } catch (Throwable e) {
             return null;
         }
     }
@@ -44,14 +44,14 @@ public class ExceptionHandler {
     @FunctionalInterface
     public interface ExcRun {
 
-        void get() throws Exception;
+        void get() throws Throwable;
 
     }
 
     @FunctionalInterface
     public interface ExcSup<T> {
 
-        T get() throws Exception;
+        T get() throws Throwable;
 
     }
 

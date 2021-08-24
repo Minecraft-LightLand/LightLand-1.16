@@ -26,7 +26,7 @@ import java.util.Random;
 
 @MethodsReturnNonnullByDefault
 @ParametersAreNonnullByDefault
-public class RitualCore extends BaseBlock {
+public class RitualCore {
 
     public static class Activate implements IScheduleTick {
 
@@ -42,10 +42,6 @@ public class RitualCore extends BaseBlock {
 
     public static final IImpl CLICK = new RitualTE.RitualPlace();
     public static final IImpl ACTIVATE = new Activate();
-
-    public RitualCore(BlockProp p) {
-        super(p, CLICK, TRIGGER, ACTIVATE, (STE) TE::new);
-    }
 
     @SerialClass
     public static class TE extends RitualTE {
