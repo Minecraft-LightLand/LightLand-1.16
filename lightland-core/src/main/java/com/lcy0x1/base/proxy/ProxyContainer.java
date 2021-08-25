@@ -1,5 +1,6 @@
 package com.lcy0x1.base.proxy;
 
+import com.hikarishima.lightland.util.LightLandStringUtils;
 import com.lcy0x1.base.proxy.annotation.ForEachProxy;
 import com.lcy0x1.base.proxy.annotation.ForFirstProxy;
 import net.sf.cglib.proxy.MethodProxy;
@@ -17,40 +18,7 @@ import java.util.HashSet;
 public interface ProxyContainer<T extends ProxyMethod> {
     String[] errMsgSearchList = {"%M", "%B", "%A"};
 
-    @NotNull
-    Proxy<T> getProxy() throws Throwable;
-
-    /**
-     * will be call when proxy method invoke.
-     * 在代理方法被调用时，该方法会被调用
-     */
-    default Proxy.Result<?> onProxy(Method method, Object[] args, MethodProxy proxy) throws Throwable {
-        ProxyContainerHandlerCache.OnProxy handler = ProxyContainerHandlerCache.INSTANCE.getHandler(method);
-        if (handler != null) {
-            return handler.onProxy(this, method, args, proxy);
-        }
-
-        for (Annotation annotation : method.getAnnotations()) {
-            if (annotation instanceof ForEachProxy) {
-                ForEachProxy forEachProxy = (ForEachProxy) annotation;
-                handler = onForeachProxy(this, method, args, proxy, forEachProxy);
-                break;
-            } else if (annotation instanceof ForFirstProxy) {
-                final ForFirstProxy forFirstProxy = (ForFirstProxy) annotation;
-                handler = onForFirstProxy(this, method, args, proxy, forFirstProxy);
-                break;
-            }
-        }
-
-        if (handler == null) {
-            handler = ProxyContainerHandlerCache.callSuper;
-        }
-        ProxyContainerHandlerCache.INSTANCE.setHandler(method, handler);
-
-        return handler.onProxy(this, method, args, proxy);
-    }
-
-    static ProxyContainerHandlerCache.OnProxy onForFirstProxy(Object obj, Method method, Object[] args, MethodProxy proxy, ForFirstProxy forFirstProxy) throws Throwable {
+    static ProxyContainerHandlerCache.OnProxy onForFirstProxy(ForFirstProxy forFirstProxy) throws Throwable {
         final Collection<Class<?>> classes;
         switch (forFirstProxy.value().length) {
             case 0:
@@ -89,14 +57,14 @@ public interface ProxyContainer<T extends ProxyMethod> {
             }
 
             final String[] replacementList = new String[errMsgSearchList.length];
-            // todo use efficient contains
-            if (errMsg.contains(errMsgSearchList[0])) {
+            final boolean[] contains = LightLandStringUtils.contains(errMsg, errMsgSearchList);
+            if (contains[0]) {
                 replacementList[0] = method.toString();
             }
-            if (errMsg.contains(errMsgSearchList[1])) {
+            if (contains[1]) {
                 replacementList[1] = block.toString();
             }
-            if (errMsg.contains(errMsgSearchList[2])) {
+            if (contains[2]) {
                 replacementList[2] = Arrays.toString(args);
             }
 
@@ -120,11 +88,11 @@ public interface ProxyContainer<T extends ProxyMethod> {
             default:
                 classes = new HashSet<>(Arrays.asList(type));
         }
-        return onForeachProxy((ProxyContainer<?>) obj, method, args, proxy, forEachProxy, classes);
+        return onForeachProxy(classes);
     }
 
     @Nullable
-    static ProxyContainerHandlerCache.OnProxy onForeachProxy(ProxyContainer<?> block, Method method, Object[] args, MethodProxy proxy, ForEachProxy forEachProxy, Collection<Class<?>> classes) {
+    static ProxyContainerHandlerCache.OnProxy onForeachProxy(Collection<Class<?>> classes) {
         return (o, m, a, proxy1) -> {
             if (!(o instanceof ProxyContainer<?>)) return Proxy.Result.failed;
             ((ProxyContainer<?>) o).getProxy().forEachProxy(p -> {
@@ -134,5 +102,38 @@ public interface ProxyContainer<T extends ProxyMethod> {
             });
             return Proxy.failed();
         };
+    }
+
+    @NotNull
+    Proxy<? extends T> getProxy() throws Throwable;
+
+    /**
+     * will be call when proxy method invoke.
+     * 在代理方法被调用时，该方法会被调用
+     */
+    default Proxy.Result<?> onProxy(Method method, Object[] args, MethodProxy proxy) throws Throwable {
+        ProxyContainerHandlerCache.OnProxy handler = ProxyContainerHandlerCache.INSTANCE.getHandler(method);
+        if (handler != null) {
+            return handler.onProxy(this, method, args, proxy);
+        }
+
+        for (Annotation annotation : method.getAnnotations()) {
+            if (annotation instanceof ForEachProxy) {
+                ForEachProxy forEachProxy = (ForEachProxy) annotation;
+                handler = onForeachProxy(this, method, args, proxy, forEachProxy);
+                break;
+            } else if (annotation instanceof ForFirstProxy) {
+                final ForFirstProxy forFirstProxy = (ForFirstProxy) annotation;
+                handler = onForFirstProxy(forFirstProxy);
+                break;
+            }
+        }
+
+        if (handler == null) {
+            handler = ProxyContainerHandlerCache.callSuper;
+        }
+        ProxyContainerHandlerCache.INSTANCE.setHandler(method, handler);
+
+        return handler.onProxy(this, method, args, proxy);
     }
 }

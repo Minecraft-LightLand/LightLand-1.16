@@ -38,10 +38,11 @@ import java.util.Random;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
+@SuppressWarnings("deprecation")
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 @Log4j2
-public class ProxyBaseBlock extends BaseBlock implements ProxyContainer<ProxyMethod> {
+public class ProxyBaseBlock extends BaseBlock implements ProxyContainer<IImpl> {
 
     private static final ThreadLocal<BlockImplementor> TEMP = new ThreadLocal<>();
 
@@ -153,9 +154,6 @@ public class ProxyBaseBlock extends BaseBlock implements ProxyContainer<ProxyMet
     @Override
     @ForEachProxy(value = IState.class, name = "createBlockStateDefinition")
     protected void createBlockStateDefinition(Builder<Block, BlockState> builder) {
-        //impl = TEMP.get();
-        //TEMP.remove();
-        //impl.execute(IState.class).forEach(e -> e.createBlockStateDefinition(builder));
     }
 
     @Override
@@ -182,7 +180,7 @@ public class ProxyBaseBlock extends BaseBlock implements ProxyContainer<ProxyMet
 
     @NotNull
     @Override
-    public Proxy<ProxyMethod> getProxy() {
+    public Proxy<? extends IImpl> getProxy() {
         if (impl == null) {
             final BlockImplementor blockImplementor = TEMP.get();
             if (blockImplementor != null) {
@@ -192,13 +190,13 @@ public class ProxyBaseBlock extends BaseBlock implements ProxyContainer<ProxyMet
                 throw new NoProxyFoundException();
             }
         }
-        return impl.proxy;
+        return impl;
     }
 
-    public static class BlockImplementor implements Proxy<ProxyMethod> {
+    public static class BlockImplementor implements Proxy<IImpl> {
 
         private final Properties props;
-        private final MutableProxy<ProxyMethod> proxy = new ListProxy<>();
+        private final MutableProxy<IImpl> proxy = new ListProxy<>();
 
         public BlockImplementor(Properties p) {
             props = p;
@@ -224,7 +222,7 @@ public class ProxyBaseBlock extends BaseBlock implements ProxyContainer<ProxyMet
 
         @NotNull
         @Override
-        public Iterator<ProxyMethod> iterator() {
+        public Iterator<IImpl> iterator() {
             return proxy.iterator();
         }
 
