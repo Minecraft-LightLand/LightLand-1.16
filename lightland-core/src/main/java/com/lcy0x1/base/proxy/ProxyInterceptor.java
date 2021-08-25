@@ -23,13 +23,21 @@ public class ProxyInterceptor implements MethodInterceptor {
         }
     }
 
-    private static boolean isOnProxyMethod(Method method) {
+    private static Class<?>[] getParameterTypes(Method method) {
         try {
-            return Objects.equals(method.getName(), "onProxy") &&
-                    Arrays.equals(parameterTypes, (Class<?>[]) parameterTypesField.get(method));
+            return (Class<?>[]) parameterTypesField.get(method);
         } catch (IllegalAccessException e) {
-            return true;
+            return null;
         }
+    }
+
+    public static boolean equalsMethod(Method method, String name, Class<?>[] parameterTypes) {
+        return Objects.equals(method.getName(), name) &&
+                Arrays.equals(parameterTypes, getParameterTypes(method));
+    }
+
+    private static boolean isOnProxyMethod(Method method) {
+        return equalsMethod(method, "onProxy", parameterTypes);
     }
 
     private static ArrayDeque<Object> getHandleDeque() {

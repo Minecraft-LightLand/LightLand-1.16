@@ -9,6 +9,7 @@ import com.lcy0x1.base.block.type.STE;
 import com.lcy0x1.base.proxy.*;
 import com.lcy0x1.base.proxy.annotation.ForEachProxy;
 import com.lcy0x1.base.proxy.annotation.ForFirstProxy;
+import lombok.extern.log4j.Log4j2;
 import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -39,6 +40,7 @@ import java.util.stream.StreamSupport;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
+@Log4j2
 public class ProxyBaseBlock extends BaseBlock implements ProxyContainer<ProxyMethod> {
 
     private static final ThreadLocal<BlockImplementor> TEMP = new ThreadLocal<>();
@@ -75,59 +77,60 @@ public class ProxyBaseBlock extends BaseBlock implements ProxyContainer<ProxyMet
     }
 
     @Override
-    public final boolean isSignalSource(BlockState bs) {
+    public boolean isSignalSource(BlockState bs) {
         return impl.one(IPower.class).isPresent();
     }
 
     @Override
     @ForFirstProxy(value = ITE.class, name = "createTileEntity")
-    public final TileEntity createTileEntity(BlockState state, IBlockReader world) {
+    public TileEntity createTileEntity(BlockState state, IBlockReader world) {
         return null;
     }
 
     @Override
-    public final int getAnalogOutputSignal(BlockState blockState, World worldIn, BlockPos pos) {
+    public int getAnalogOutputSignal(BlockState blockState, World worldIn, BlockPos pos) {
         return impl.one(ITE.class).map(e -> Optional.ofNullable(worldIn.getBlockEntity(pos))
                 .map(Container::getRedstoneSignalFromBlockEntity).orElse(0)).orElse(0);
     }
 
     @Override
     @ForFirstProxy(value = ILight.class, name = "getLightValue")
-    public final int getLightValue(BlockState bs, IBlockReader w, BlockPos pos) {
+    public int getLightValue(BlockState bs, IBlockReader w, BlockPos pos) {
         return super.getLightValue(bs, w, pos);
     }
 
     @Override
-    public final BlockState getStateForPlacement(BlockItemUseContext context) {
+    public BlockState getStateForPlacement(BlockItemUseContext context) {
         return impl.execute(IPlacement.class).reduce(defaultBlockState(),
                 (state, impl) -> impl.getStateForPlacement(state, context), (a, b) -> a);
     }
 
     @Override
     @ForFirstProxy(value = IPower.class, name = "getSignal")
-    public final int getSignal(BlockState bs, IBlockReader r, BlockPos pos, Direction d) {
+    public int getSignal(BlockState bs, IBlockReader r, BlockPos pos, Direction d) {
         return 0;
     }
 
     @Override
-    public final boolean hasTileEntity(BlockState state) {
+    public boolean hasTileEntity(BlockState state) {
         return impl.one(ITE.class).isPresent();
     }
 
     @Override
     @ForFirstProxy(value = IRotMir.class, name = "mirror")
-    public final BlockState mirror(BlockState state, Mirror mirrorIn) {
+    public BlockState mirror(BlockState state, Mirror mirrorIn) {
         return state;
     }
 
     @Override
-    @ForFirstProxy(value = IClick.class, name = "use")
-    public final ActionResultType use(BlockState bs, World w, BlockPos pos, PlayerEntity pl, Hand h, BlockRayTraceResult r) {
+    @ForFirstProxy(value = IClick.class, name = "onClick")
+    public ActionResultType use(BlockState bs, World w, BlockPos pos, PlayerEntity pl, Hand h, BlockRayTraceResult r) {
+        //log.warn("this class: {}, stack trace: ", getClass(), new Throwable());
         return ActionResultType.PASS;
     }
 
     @Override
-    public final void onRemove(BlockState state, World worldIn, BlockPos pos, BlockState newState, boolean isMoving) {
+    public void onRemove(BlockState state, World worldIn, BlockPos pos, BlockState newState, boolean isMoving) {
         if (impl.one(ITE.class).isPresent() && state.getBlock() != newState.getBlock()) {
             TileEntity tileentity = worldIn.getBlockEntity(pos);
             if (tileentity != null) {
@@ -143,31 +146,32 @@ public class ProxyBaseBlock extends BaseBlock implements ProxyContainer<ProxyMet
 
     @Override
     @ForFirstProxy(value = IRotMir.class, name = "rotate")
-    public final BlockState rotate(BlockState state, Rotation rot) {
+    public BlockState rotate(BlockState state, Rotation rot) {
         return state;
     }
 
     @Override
-    protected final void createBlockStateDefinition(Builder<Block, BlockState> builder) {
-        impl = TEMP.get();
-        TEMP.remove();
-        impl.execute(IState.class).forEach(e -> e.createBlockStateDefinition(builder));
+    @ForEachProxy(value = IState.class, name = "createBlockStateDefinition")
+    protected void createBlockStateDefinition(Builder<Block, BlockState> builder) {
+        //impl = TEMP.get();
+        //TEMP.remove();
+        //impl.execute(IState.class).forEach(e -> e.createBlockStateDefinition(builder));
     }
 
     @Override
-    public final void neighborChanged(BlockState state, World world, BlockPos pos, Block nei_block, BlockPos nei_pos, boolean moving) {
+    public void neighborChanged(BlockState state, World world, BlockPos pos, Block nei_block, BlockPos nei_pos, boolean moving) {
         impl.execute(INeighborUpdate.class).forEach(e -> e.neighborChanged(this, state, world, pos, nei_block, nei_pos, moving));
         super.neighborChanged(state, world, pos, nei_block, nei_pos, moving);
     }
 
     @Override
     @ForEachProxy(value = IRandomTick.class, name = "randomTick")
-    public final void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
+    public void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
     }
 
     @Override
     @ForEachProxy(value = IScheduleTick.class, name = "tick")
-    public final void tick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
+    public void tick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
     }
 
     @OnlyIn(Dist.CLIENT)
@@ -179,6 +183,11 @@ public class ProxyBaseBlock extends BaseBlock implements ProxyContainer<ProxyMet
     @NotNull
     @Override
     public Proxy<ProxyMethod> getProxy() {
+        final BlockImplementor blockImplementor = TEMP.get();
+        if (blockImplementor != null) {
+            this.impl = blockImplementor;
+            TEMP.remove();
+        }
         return this.impl.proxy;
     }
 
@@ -202,7 +211,7 @@ public class ProxyBaseBlock extends BaseBlock implements ProxyContainer<ProxyMet
 
         @SuppressWarnings("unchecked")
         public <T extends IImpl> Stream<T> execute(Class<T> cls) {
-            return StreamSupport.stream(proxy.spliterator(),false).filter(cls::isInstance).map(e -> (T) e);
+            return StreamSupport.stream(proxy.spliterator(), false).filter(cls::isInstance).map(e -> (T) e);
         }
 
         public <T extends IImpl> Optional<T> one(Class<T> cls) {
