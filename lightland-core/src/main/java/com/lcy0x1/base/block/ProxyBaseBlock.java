@@ -148,8 +148,10 @@ public class ProxyBaseBlock extends BaseBlock implements ProxyContainer<ProxyMet
     }
 
     @Override
-    @ForEachProxy(value = IState.class, name = "createBlockStateDefinition")
     protected final void createBlockStateDefinition(Builder<Block, BlockState> builder) {
+        impl = TEMP.get();
+        TEMP.set(null);//TODO do you want to remove it?
+        impl.execute(IState.class).forEach(e -> e.createBlockStateDefinition(builder));
     }
 
     @Override
