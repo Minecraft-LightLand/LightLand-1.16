@@ -10,6 +10,7 @@ apply(plugin = "net.minecraftforge.gradle")
 configureForge {
     runs {
         createClient("clientMagic", project)
+        createServer("serverMagic", project)
     }
 }
 

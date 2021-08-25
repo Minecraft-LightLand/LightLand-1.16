@@ -150,7 +150,7 @@ public class ProxyBaseBlock extends BaseBlock implements ProxyContainer<ProxyMet
     @Override
     protected final void createBlockStateDefinition(Builder<Block, BlockState> builder) {
         impl = TEMP.get();
-        TEMP.set(null);//TODO do you want to remove it?
+        TEMP.remove();
         impl.execute(IState.class).forEach(e -> e.createBlockStateDefinition(builder));
     }
 
@@ -179,11 +179,6 @@ public class ProxyBaseBlock extends BaseBlock implements ProxyContainer<ProxyMet
     @NotNull
     @Override
     public Proxy<ProxyMethod> getProxy() {
-        final BlockImplementor blockImplementor = TEMP.get();
-        if (blockImplementor != null) {
-            impl = blockImplementor;
-            TEMP.remove();
-        }
         return this.impl.proxy;
     }
 

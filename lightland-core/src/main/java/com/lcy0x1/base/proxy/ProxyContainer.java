@@ -24,20 +24,20 @@ public interface ProxyContainer<T extends ProxyMethod> {
      * will be call when proxy method invoke.
      * 在代理方法被调用时，该方法会被调用
      */
-    default Proxy.Result<?> onProxy(Object obj, Method method, Object[] args, MethodProxy proxy) throws Throwable {
+    default Proxy.Result<?> onProxy(Method method, Object[] args, MethodProxy proxy) throws Throwable {
         ProxyContainerHandlerCache.OnProxy handler = ProxyContainerHandlerCache.INSTANCE.getHandler(method);
         if (handler != null) {
-            return handler.onProxy(obj, method, args, proxy);
+            return handler.onProxy(this, method, args, proxy);
         }
 
         for (Annotation annotation : method.getAnnotations()) {
             if (annotation instanceof ForEachProxy) {
                 ForEachProxy forEachProxy = (ForEachProxy) annotation;
-                handler = onForeachProxy(obj, method, args, proxy, forEachProxy);
+                handler = onForeachProxy(this, method, args, proxy, forEachProxy);
                 break;
             } else if (annotation instanceof ForFirstProxy) {
                 final ForFirstProxy forFirstProxy = (ForFirstProxy) annotation;
-                handler = onForFirstProxy(obj, method, args, proxy, forFirstProxy);
+                handler = onForFirstProxy(this, method, args, proxy, forFirstProxy);
                 break;
             }
         }
@@ -47,7 +47,7 @@ public interface ProxyContainer<T extends ProxyMethod> {
         }
         ProxyContainerHandlerCache.INSTANCE.setHandler(method, handler);
 
-        return handler.onProxy(obj, method, args, proxy);
+        return handler.onProxy(this, method, args, proxy);
     }
 
     static ProxyContainerHandlerCache.OnProxy onForFirstProxy(Object obj, Method method, Object[] args, MethodProxy proxy, ForFirstProxy forFirstProxy) throws Throwable {

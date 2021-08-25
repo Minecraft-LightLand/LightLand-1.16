@@ -28,7 +28,7 @@ public interface ProxyMethod {
         return handlerCacheMap;
     }
 
-    static Method getProxyMethod(Class<? extends ProxyMethod> clazz, String name, Class<?>... parameterTypes) {
+    static Method getProxyMethod(Class<?> clazz, String name, Class<?>... parameterTypes) {
         try {
             return clazz.getDeclaredMethod(name, parameterTypes);
         } catch (NoSuchMethodException e) {
