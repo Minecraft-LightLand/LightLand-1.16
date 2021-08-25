@@ -2,7 +2,6 @@ package com.lcy0x1.base.proxy;
 
 import com.lcy0x1.base.proxy.annotation.ForEachProxy;
 import com.lcy0x1.base.proxy.annotation.ForFirstProxy;
-import net.minecraft.state.StateContainer;
 import net.sf.cglib.proxy.MethodProxy;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
@@ -14,10 +13,8 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.function.Predicate;
 
 public interface ProxyContainer<T extends ProxyMethod> {
-    Predicate<Object> stateContainerBuilderFilter = o -> o instanceof StateContainer.Builder;
     String[] errMsgSearchList = {"%M", "%B", "%A"};
 
     @NotNull
