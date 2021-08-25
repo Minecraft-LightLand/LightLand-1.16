@@ -1,6 +1,5 @@
 package com.lcy0x1.base.block;
 
-import com.google.common.collect.Lists;
 import com.lcy0x1.base.BlockProp;
 import com.lcy0x1.base.block.impl.TEPvd;
 import com.lcy0x1.base.block.mult.*;
@@ -10,7 +9,6 @@ import com.lcy0x1.base.block.type.STE;
 import com.lcy0x1.base.proxy.*;
 import com.lcy0x1.base.proxy.annotation.ForEachProxy;
 import com.lcy0x1.base.proxy.annotation.ForFirstProxy;
-import com.lcy0x1.core.util.ExceptionHandler;
 import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -96,7 +94,7 @@ public class ProxyBaseBlock extends BaseBlock implements ProxyContainer<ProxyMet
     }
 
     @Override
-    @ForFirstProxy(value = IFace.class, name = "getStateForPlacement")
+    @ForFirstProxy(value = IPlacement.class, name = "getStateForPlacement")
     public final BlockState getStateForPlacement(BlockItemUseContext context) {
         return defaultBlockState();
     }

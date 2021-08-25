@@ -1,8 +1,7 @@
 package com.lcy0x1.base.block.impl;
 
-import com.lcy0x1.base.block.BaseBlock;
 import com.lcy0x1.base.block.BlockProxy;
-import com.lcy0x1.base.block.one.IFace;
+import com.lcy0x1.base.block.mult.IPlacement;
 import com.lcy0x1.base.block.one.IRotMir;
 import com.lcy0x1.base.block.mult.IState;
 import net.minecraft.block.Block;
@@ -12,7 +11,7 @@ import net.minecraft.state.StateContainer;
 import net.minecraft.util.Mirror;
 import net.minecraft.util.Rotation;
 
-public class HorizontalBlock implements IRotMir, IState, IFace {
+public class HorizontalBlock implements IRotMir, IState, IPlacement {
 
     public HorizontalBlock() {
     }

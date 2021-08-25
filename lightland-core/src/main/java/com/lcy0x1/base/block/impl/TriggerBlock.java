@@ -1,5 +1,6 @@
 package com.lcy0x1.base.block.impl;
 
+import com.lcy0x1.base.block.mult.IDefaultState;
 import com.lcy0x1.base.block.mult.INeighborUpdate;
 import com.lcy0x1.base.block.mult.IState;
 import net.minecraft.block.Block;
@@ -9,7 +10,7 @@ import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class TriggerBlock implements INeighborUpdate, IState {
+public class TriggerBlock implements INeighborUpdate, IState, IDefaultState {
 
     private final int delay;
 
@@ -32,5 +33,10 @@ public class TriggerBlock implements INeighborUpdate, IState {
     @Override
     public void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder) {
         builder.add(BlockStateProperties.TRIGGERED);
+    }
+
+    @Override
+    public BlockState getDefaultState(BlockState state) {
+        return state.setValue(BlockStateProperties.TRIGGERED, false);
     }
 }

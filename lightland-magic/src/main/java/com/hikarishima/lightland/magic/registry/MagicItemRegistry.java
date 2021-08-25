@@ -25,6 +25,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.*;
+import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 
 import java.util.function.BiFunction;
@@ -34,7 +35,7 @@ import java.util.function.Function;
 public class MagicItemRegistry {
 
     private static final int MANA = 256;
-    private static final BlockProp PEDESTAL = BlockProp.copy(Blocks.STONE).make(e -> e.noOcclusion());
+    private static final BlockProp PEDESTAL = BlockProp.copy(Blocks.STONE).make(e -> e.noOcclusion().lightLevel(bs -> bs.getValue(BlockStateProperties.LIT) ? 15 : 7));
 
     public static final TempBlock TEMP_DIRT = reg("temp_dirt", new TempBlock(AbstractBlock.Properties.copy(Blocks.DIRT).noDrops()));
     public static final TempBlock TEMP_COBBLE = reg("temp_cobblestone", new TempBlock(AbstractBlock.Properties.copy(Blocks.COBBLESTONE).noDrops()));

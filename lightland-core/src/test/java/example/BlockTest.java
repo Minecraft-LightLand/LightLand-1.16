@@ -7,7 +7,7 @@ import java.util.List;
 
 public class BlockTest {
 
-    public BlockTest(){
+    public BlockTest() {
 
     }
 
@@ -17,10 +17,7 @@ public class BlockTest {
         for (int i = 0; i < 10; i++) {
             list.add(i);
         }
-        int ans = list.stream().map(e -> {
-            System.out.println(e);
-            return e;
-        }).filter(e -> e > 5).findFirst().orElse(0);
+        String ans = list.stream().reduce("-", (s, i) -> s + i, (a, b) -> null);
         System.out.println("final = " + ans);
     }
 

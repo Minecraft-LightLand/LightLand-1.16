@@ -24,6 +24,8 @@ import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.*;
@@ -39,6 +41,8 @@ public class ImplBaseBlock extends BaseBlock {
 
     protected ImplBaseBlock(BlockProp p, IImpl... impl) {
         super(handler(construct(p).addImpls(impl)));
+        registerDefaultState(this.impl.execute(IDefaultState.class).reduce(defaultBlockState(),
+                (state, def) -> def.getDefaultState(state), (a, b) -> a));
     }
 
     public static BlockImplementor construct(BlockProp bb) {
@@ -76,9 +80,8 @@ public class ImplBaseBlock extends BaseBlock {
 
     @Override
     public final BlockState getStateForPlacement(BlockItemUseContext context) {
-        return impl.one(IFace.class)
-                .map(e -> e.getStateForPlacement(defaultBlockState(), context))
-                .orElse(defaultBlockState());
+        return impl.execute(IPlacement.class).reduce(defaultBlockState(),
+                (state, impl) -> impl.getStateForPlacement(state, context), (a, b) -> a);
     }
 
     @Override
@@ -147,6 +150,12 @@ public class ImplBaseBlock extends BaseBlock {
     @Override
     public final void tick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
         impl.execute(IScheduleTick.class).forEach(e -> e.tick(state, world, pos, random));
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    @Override
+    public void animateTick(BlockState state, World world, BlockPos pos, Random r) {
+        impl.execute(IAnimateTick.class).forEach(e -> e.animateTick(state, world, pos, r));
     }
 
     public static class BlockImplementor {

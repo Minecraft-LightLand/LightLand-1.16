@@ -1,15 +1,14 @@
 package com.lcy0x1.base.block.impl;
 
-import com.lcy0x1.base.block.BaseBlock;
 import com.lcy0x1.base.block.BlockProxy;
-import com.lcy0x1.base.block.one.IFace;
+import com.lcy0x1.base.block.mult.IPlacement;
 import com.lcy0x1.base.block.mult.IState;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.state.StateContainer;
 
-public class AllDireBlock implements IFace, IState {
+public class AllDireBlock implements IPlacement, IState {
 
     public AllDireBlock() {
     }

@@ -3,14 +3,9 @@ package com.hikarishima.lightland.magic.registry.block;
 import com.lcy0x1.base.BaseTileEntity;
 import com.lcy0x1.core.util.SerialClass;
 import mcp.MethodsReturnNonnullByDefault;
-import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.NetworkManager;
-import net.minecraft.network.play.server.SUpdateTileEntityPacket;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.Direction;
 import org.jetbrains.annotations.Nullable;
@@ -31,6 +26,9 @@ public abstract class SyncedSingleItemTE extends BaseTileEntity implements ISide
         super(type);
     }
 
+    public boolean isLocked() {
+        return false;
+    }
 
     @Override
     public int[] getSlotsForFace(Direction dire) {
@@ -39,12 +37,12 @@ public abstract class SyncedSingleItemTE extends BaseTileEntity implements ISide
 
     @Override
     public boolean canPlaceItemThroughFace(int slot, ItemStack stack, @Nullable Direction dire) {
-        return slot == 0;
+        return !isLocked() && slot == 0;
     }
 
     @Override
     public boolean canTakeItemThroughFace(int slot, ItemStack stack, Direction dire) {
-        return slot == 0;
+        return !isLocked() && slot == 0;
     }
 
     @Override
