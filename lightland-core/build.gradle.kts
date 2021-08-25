@@ -56,6 +56,14 @@ dependencies {
     junit
 
     implementation("cglib:cglib:3.3.0")
+    api("cn.tursom:ts-proxy:1.0-SNAPSHOT")
+}
+
+configurations {
+    all {
+        resolutionStrategy.cacheChangingModulesFor(0, TimeUnit.SECONDS)
+        resolutionStrategy.cacheDynamicVersionsFor(0, TimeUnit.SECONDS)
+    }
 }
 
 // Example for how to get properties into the manifest for reading by the runtime..

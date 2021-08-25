@@ -1,14 +1,14 @@
 package com.lcy0x1.base.block;
 
+import cn.tursom.proxy.*;
+import cn.tursom.proxy.annotation.ForEachProxy;
+import cn.tursom.proxy.annotation.ForFirstProxy;
 import com.lcy0x1.base.BlockProp;
 import com.lcy0x1.base.block.impl.TEPvd;
 import com.lcy0x1.base.block.mult.*;
 import com.lcy0x1.base.block.one.*;
 import com.lcy0x1.base.block.type.IImpl;
 import com.lcy0x1.base.block.type.STE;
-import com.lcy0x1.base.proxy.*;
-import com.lcy0x1.base.proxy.annotation.ForEachProxy;
-import com.lcy0x1.base.proxy.annotation.ForFirstProxy;
 import lombok.extern.log4j.Log4j2;
 import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.block.Block;
@@ -189,7 +189,7 @@ public class ProxyBaseBlock extends BaseBlock implements ProxyContainer<ProxyMet
                 impl = blockImplementor;
                 TEMP.remove();
             } else {
-                throw new NoProxyFoundException();
+                throw new RuntimeException("no proxy object get");
             }
         }
         return impl.proxy;
