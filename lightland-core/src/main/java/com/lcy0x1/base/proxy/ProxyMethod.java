@@ -28,6 +28,14 @@ public interface ProxyMethod {
         return handlerCacheMap;
     }
 
+    static Method getProxyMethod(Class<? extends ProxyMethod> clazz, String name, Class<?>... parameterTypes) {
+        try {
+            return clazz.getDeclaredMethod(name, parameterTypes);
+        } catch (NoSuchMethodException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     default Proxy.Result<?> onProxy(Object obj, Method method, Object[] args, MethodProxy proxy) throws Throwable {
         final Method selfMethod;
         final Map<Method, Proxy.Result<Method>> handlerCacheMap = getHandlerCacheMap(getClass());
