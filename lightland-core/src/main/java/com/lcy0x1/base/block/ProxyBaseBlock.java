@@ -25,6 +25,8 @@ import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.sf.cglib.proxy.Enhancer;
 import org.jetbrains.annotations.NotNull;
 
@@ -57,6 +59,8 @@ public class ProxyBaseBlock extends BaseBlock implements ProxyContainer<ProxyMet
 
     public ProxyBaseBlock(BlockProp p, IImpl... impl) {
         super(handler(construct(p).addImpls(impl)));
+        registerDefaultState(this.impl.execute(IDefaultState.class).reduce(defaultBlockState(),
+                (state, def) -> def.getDefaultState(state), (a, b) -> a));
     }
 
     public static BlockImplementor construct(BlockProp bb) {
@@ -94,9 +98,9 @@ public class ProxyBaseBlock extends BaseBlock implements ProxyContainer<ProxyMet
     }
 
     @Override
-    @ForFirstProxy(value = IPlacement.class, name = "getStateForPlacement")
     public final BlockState getStateForPlacement(BlockItemUseContext context) {
-        return defaultBlockState();
+        return impl.execute(IPlacement.class).reduce(defaultBlockState(),
+                (state, impl) -> impl.getStateForPlacement(state, context), (a, b) -> a);
     }
 
     @Override
@@ -162,6 +166,12 @@ public class ProxyBaseBlock extends BaseBlock implements ProxyContainer<ProxyMet
     @Override
     @ForEachProxy(value = IScheduleTick.class, name = "tick")
     public final void tick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    @Override
+    public void animateTick(BlockState state, World world, BlockPos pos, Random r) {
+        impl.execute(IAnimateTick.class).forEach(e -> e.animateTick(state, world, pos, r));
     }
 
     @NotNull
