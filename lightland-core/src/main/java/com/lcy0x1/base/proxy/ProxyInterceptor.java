@@ -5,13 +5,15 @@ import net.sf.cglib.proxy.MethodProxy;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.util.ArrayDeque;
 import java.util.Arrays;
 import java.util.Objects;
 
 public class ProxyInterceptor implements MethodInterceptor {
-    private static final ThreadLocal<ArrayDeque<Object>> HANDLE_DEQUE_THREAD_LOCAL = new ThreadLocal<>();
-    private static final Class<?>[] parameterTypes = {Method.class, Object[].class, MethodProxy.class};
+    private static final ThreadLocal<Object> HANDLE_DEQUE_THREAD_LOCAL = new ThreadLocal<>();
+    private static final String onProxyName = "onProxy";
+    private static final Class<?>[] onProxyParameterTypes = {Method.class, Object[].class, MethodProxy.class};
+    private static final String getHandlerName = "getHandler";
+    private static final Class<?>[] getHandlerParameterTypes = onProxyParameterTypes;
     private static final Field parameterTypesField;
 
     static {
@@ -37,38 +39,24 @@ public class ProxyInterceptor implements MethodInterceptor {
     }
 
     private static boolean isOnProxyMethod(Method method) {
-        return equalsMethod(method, "onProxy", parameterTypes);
+        return equalsMethod(method, onProxyName, onProxyParameterTypes) ||
+                equalsMethod(method, getHandlerName, getHandlerParameterTypes);
     }
 
-    private static ArrayDeque<Object> getHandleDeque() {
-        ArrayDeque<Object> objectArrayDeque = HANDLE_DEQUE_THREAD_LOCAL.get();
-        if (objectArrayDeque == null) {
-            objectArrayDeque = new ArrayDeque<>();
-            HANDLE_DEQUE_THREAD_LOCAL.set(objectArrayDeque);
-        }
-        return objectArrayDeque;
-    }
 
     public static <T> T getHandle() {
         //noinspection unchecked
-        return (T) getHandleDeque().getFirst();
+        return (T) HANDLE_DEQUE_THREAD_LOCAL.get();
     }
 
     public static <T> T getHandle(T type) {
         return getHandle();
     }
 
-    private static void push(Object obj) {
-        getHandleDeque().push(obj);
-    }
-
-    private static void pop() {
-        getHandleDeque().pop();
-    }
-
     @Override
     public Object intercept(Object obj, Method method, Object[] args, MethodProxy proxy) throws Throwable {
-        push(obj);
+        final Object parent = HANDLE_DEQUE_THREAD_LOCAL.get();
+        HANDLE_DEQUE_THREAD_LOCAL.set(obj);
         try {
             if (obj instanceof ProxyContainer<?> && !isOnProxyMethod(method)) {
                 final Proxy.Result<?> result = ((ProxyContainer<?>) obj).onProxy(method, args, proxy);
@@ -78,7 +66,7 @@ public class ProxyInterceptor implements MethodInterceptor {
             }
             return proxy.invokeSuper(obj, args);
         } finally {
-            pop();
+            HANDLE_DEQUE_THREAD_LOCAL.set(parent);
         }
     }
 }

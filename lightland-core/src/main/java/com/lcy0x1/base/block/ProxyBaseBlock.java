@@ -9,6 +9,7 @@ import com.lcy0x1.base.block.type.STE;
 import com.lcy0x1.base.proxy.*;
 import com.lcy0x1.base.proxy.annotation.ForEachProxy;
 import com.lcy0x1.base.proxy.annotation.ForFirstProxy;
+import lombok.Getter;
 import lombok.extern.log4j.Log4j2;
 import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.block.Block;
@@ -194,7 +195,8 @@ public class ProxyBaseBlock extends BaseBlock implements ProxyContainer<IImpl> {
     }
 
     public static class BlockImplementor implements Proxy<IImpl> {
-
+        @Getter
+        private long lastModify = 0;
         private final Properties props;
         private final MutableProxy<IImpl> proxy = new ListProxy<>();
 
@@ -203,6 +205,7 @@ public class ProxyBaseBlock extends BaseBlock implements ProxyContainer<IImpl> {
         }
 
         public BlockImplementor addImpls(IImpl... impls) {
+            lastModify = System.currentTimeMillis();
             for (IImpl impl : impls)
                 if (impl instanceof STE)
                     proxy.addProxy(new TEPvd((STE) impl));
@@ -225,7 +228,6 @@ public class ProxyBaseBlock extends BaseBlock implements ProxyContainer<IImpl> {
         public Iterator<IImpl> iterator() {
             return proxy.iterator();
         }
-
     }
 
 }

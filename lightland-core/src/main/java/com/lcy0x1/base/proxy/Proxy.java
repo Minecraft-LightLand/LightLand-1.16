@@ -1,10 +1,13 @@
 package com.lcy0x1.base.proxy;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.ToString;
+import lombok.*;
 
 public interface Proxy<T extends ProxyMethod> extends Iterable<T> {
+    @SuppressWarnings("unchecked")
+    static <R> Result<R> of() {
+        return (Result<R>) Result.NULL;
+    }
+
     default void forEachProxy(ForEachProxyHandler<T> action) throws Throwable {
         for (T t : this) {
             action.accept(t);
@@ -29,37 +32,35 @@ public interface Proxy<T extends ProxyMethod> extends Iterable<T> {
         R apply(T t) throws Throwable;
     }
 
+    @SuppressWarnings("unchecked")
+    static <R> Result<R> of(R result) {
+        if (Thread.currentThread() == Result.mainThread) {
+            ((Result<R>) Result.main).setResult(result);
+            return (Result<R>) Result.main;
+        }
+        return new Result<>(true, result);
+    }
+
+    static <R> Result<R> alloc(R result) {
+        return new Result<>(true, result);
+    }
+
+    default long getLastModify() {
+        return System.currentTimeMillis();
+    }
+
     @Getter
     @ToString
     @AllArgsConstructor
     class Result<R> {
-        public static final Result<?> failed = new Result<>(false, null);
-        static final ThreadLocal<Result<?>> resultThreadLocal = new ThreadLocal<>();
+        private static final Result<?> failed = new Result<>(false, null);
+        private static final Result<?> main = new Result<>(true, null);
+        private static final Result<?> NULL = new Result<>(true, null);
+        private static final Thread mainThread = Thread.currentThread();
 
         private boolean success;
+        @Setter(AccessLevel.PACKAGE)
         private R result;
-    }
-
-    static <R> Result<R> of() {
-        return of(null);
-    }
-
-    /**
-     * 返回一个临时使用的 Result 对象
-     * 因为是临时对象，所以不要把这个对象放到任何当前函数堆栈以外的地方
-     * 如果要长期储存对象请 new Result
-     */
-    static <R> Result<R> of(R result) {
-        return new Result<>(true, result);
-        ////noinspection unchecked
-        //Result<R> r = (Result<R>) Result.resultThreadLocal.get();
-        //if (r == null) {
-        //    r = new Result<>(true, result);
-        //    Result.resultThreadLocal.set(r);
-        //} else {
-        //    r.result = result;
-        //}
-        //return r;
     }
 
     static <R> Result<R> failed() {

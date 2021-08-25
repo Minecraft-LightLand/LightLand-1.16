@@ -2,6 +2,7 @@ package com.lcy0x1.base.block.mult;
 
 import com.lcy0x1.base.block.type.IMultImpl;
 import com.lcy0x1.base.proxy.Proxy;
+import com.lcy0x1.base.proxy.ProxyContext;
 import com.lcy0x1.base.proxy.ProxyInterceptor;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
@@ -27,8 +28,8 @@ public interface IClick extends IMultImpl {
     ActionResultType onClick(BlockState bs, World w, BlockPos pos, PlayerEntity pl, Hand h, BlockRayTraceResult r);
 
     @Override
-    default Proxy.Result<?> onProxy(Object obj, Method method, Object[] args, MethodProxy proxy) throws Throwable {
-        final Proxy.Result<?> result = IMultImpl.super.onProxy(obj, method, args, proxy);
+    default Proxy.Result<?> onProxy(Object obj, Method method, Object[] args, MethodProxy proxy, ProxyContext context) throws Throwable {
+        final Proxy.Result<?> result = IMultImpl.super.onProxy(obj, method, args, proxy, context);
         log.warn("onProxy: {} {} {}", method, result, ProxyInterceptor.equalsMethod(method, "onClick", parameterTypes));
         if (result != null && result.isSuccess() && ProxyInterceptor.equalsMethod(method, "onClick", parameterTypes)) {
             if (result.getResult() == ActionResultType.PASS) {

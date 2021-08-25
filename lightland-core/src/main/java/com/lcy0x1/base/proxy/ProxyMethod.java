@@ -2,77 +2,110 @@ package com.lcy0x1.base.proxy;
 
 import com.lcy0x1.base.proxy.annotation.ForEachProxy;
 import com.lcy0x1.base.proxy.annotation.ForFirstProxy;
+import lombok.Data;
 import net.sf.cglib.proxy.MethodProxy;
+import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
-import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 
-public interface ProxyMethod {
-
-    Map<Class<? extends ProxyMethod>, Map<Method, Proxy.Result<Method>>> handlerCacheMapMap = new HashMap<>();
-
-    @NotNull
-    static Map<Method, Proxy.Result<Method>> getHandlerCacheMap(@NotNull Class<? extends ProxyMethod> type) {
-        Map<Method, Proxy.Result<Method>> handlerCacheMap = handlerCacheMapMap.get(type);
-        if (handlerCacheMap == null) synchronized (handlerCacheMapMap) {
-            handlerCacheMap = handlerCacheMapMap.get(type);
-            if (handlerCacheMap == null) {
-                handlerCacheMap = new ConcurrentHashMap<>();
-                handlerCacheMapMap.put(type, handlerCacheMap);
-            }
+public interface ProxyMethod extends ProxyMethodHandler {
+    ProxyMethod failed = new ProxyMethod() {
+        @Override
+        public Proxy.Result<?> onProxy(Object obj, Method method, Object[] args, MethodProxy proxy, ProxyContext context) throws Throwable {
+            return Proxy.failed();
         }
-        return handlerCacheMap;
-    }
+    };
+    Map<CacheMapKey, Proxy.Result<? extends ProxyMethodHandler>> handlerCacheMap = new ConcurrentHashMap<>();
 
-    static Method getProxyMethod(Class<?> clazz, String name, Class<?>... parameterTypes) {
-        try {
-            return clazz.getDeclaredMethod(name, parameterTypes);
-        } catch (NoSuchMethodException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    default Proxy.Result<?> onProxy(Object obj, Method method, Object[] args, MethodProxy proxy) throws Throwable {
-        final Method selfMethod;
-        final Map<Method, Proxy.Result<Method>> handlerCacheMap = getHandlerCacheMap(getClass());
-        final Proxy.Result<Method> methodResult = handlerCacheMap.get(method);
+    @Override
+    default Proxy.Result<?> onProxy(Object obj, Method method, Object[] args, MethodProxy proxy, ProxyContext context) throws Throwable {
+        final CacheMapKey key = new CacheMapKey(method, getClass());
+        final Proxy.Result<? extends ProxyMethodHandler> methodResult = handlerCacheMap.get(key);
         if (methodResult != null) {
             if (methodResult.isSuccess()) {
-                return Proxy.of(methodResult.getResult().invoke(this, args));
+                return methodResult.getResult().onProxy(obj, method, args, proxy, context);
             } else {
                 return Proxy.failed();
             }
         }
+        final ProxyMethodHandler handler = getHandler(obj, method, args, proxy, context);
+        if (handler == ProxyMethodHandler.failed) {
+            handlerCacheMap.put(key, Proxy.failed());
+        } else {
+            handlerCacheMap.put(key, Proxy.alloc(handler));
+        }
+        return handler.onProxy(obj, method, args, proxy, context);
+    }
+
+    @SuppressWarnings("unused")
+    @NotNull
+    default ProxyMethodHandler getHandler(Object obj, Method method, Object[] args, MethodProxy proxy, ProxyContext context) throws Throwable {
+        final Method selfMethod;
         try {
-            String methodName = method.getName();
-            for (Annotation annotation : method.getAnnotations()) {
-                if (annotation instanceof ForEachProxy) {
-                    final ForEachProxy forEachProxy = (ForEachProxy) annotation;
-                    if (!forEachProxy.name().isEmpty()) {
-                        methodName = forEachProxy.name();
-                        break;
+            String methodName = context.get(ProxyContext.methodNameKey);
+            if (StringUtils.isEmpty(methodName)) {
+                for (Annotation annotation : method.getAnnotations()) {
+                    if (annotation instanceof ForEachProxy) {
+                        final ForEachProxy forEachProxy = (ForEachProxy) annotation;
+                        if (!forEachProxy.name().isEmpty()) {
+                            methodName = forEachProxy.name();
+                            break;
+                        }
+                    } else if (annotation instanceof ForFirstProxy) {
+                        final ForFirstProxy forFirstProxy = (ForFirstProxy) annotation;
+                        if (!forFirstProxy.name().isEmpty()) {
+                            methodName = forFirstProxy.name();
+                            break;
+                        }
                     }
-                } else if (annotation instanceof ForFirstProxy) {
-                    final ForFirstProxy forFirstProxy = (ForFirstProxy) annotation;
-                    if (!forFirstProxy.name().isEmpty()) {
-                        methodName = forFirstProxy.name();
-                        break;
-                    }
+                }
+                if (methodName == null) {
+                    methodName = method.getName();
                 }
             }
 
             selfMethod = getClass().getMethod(methodName, method.getParameterTypes());
             selfMethod.setAccessible(true);
-            handlerCacheMap.put(method, new Proxy.Result<>(true, selfMethod));
+            return (obj1, method1, args1, proxy1, methodName1) -> Proxy.of(selfMethod.invoke(this, args1));
         } catch (Exception e) {
-            handlerCacheMap.put(method, Proxy.failed());
-            return Proxy.failed();
+            return ProxyMethodHandler.failed;
         }
-        return Proxy.of(selfMethod.invoke(this, args));
     }
 
+    @Data
+    final class CacheMapKey {
+        @NotNull
+        private Method method;
+        @NotNull
+        private Class<? extends ProxyMethod> clazz;
+
+        // hash cache
+        private int hash;
+
+        public CacheMapKey(@NotNull Method method, @NotNull Class<? extends ProxyMethod> clazz) {
+            this.method = method;
+            this.clazz = clazz;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (!(o instanceof CacheMapKey)) return false;
+            CacheMapKey that = (CacheMapKey) o;
+            return clazz == that.clazz && (method == that.method || Objects.equals(method, that.method));
+        }
+
+        @Override
+        public int hashCode() {
+            if (hash != 0) {
+                hash = Objects.hash(method, clazz);
+            }
+            return hash;
+        }
+    }
 }
