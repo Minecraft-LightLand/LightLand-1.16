@@ -3,9 +3,9 @@ package com.lcy0x1.core.magic;
 import java.util.ArrayList;
 import java.util.Collection;
 
-public class HexCalcException extends Exception {
+public class HexCalcException extends RuntimeException {
 
-    public static void trycatch(FlowChart chart) throws HexCalcException {
+    public static void trycatch(FlowChart chart) {
         HexCalcException ans = new HexCalcException();
         for (FlowChart.Flow f : chart.flows) {
             if (f.flawed())

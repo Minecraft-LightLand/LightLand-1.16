@@ -97,7 +97,7 @@ public class HexCell {
         return ans;
     }
 
-    public void set(HexHandler.SubHexCore sub, int i, boolean b) throws HexException {
+    public void set(HexHandler.SubHexCore sub, int i, boolean b) {
         hexHandler.subhex[hexHandler.getInd(row, cell)] = new SubHex(sub, i, b);
     }
 

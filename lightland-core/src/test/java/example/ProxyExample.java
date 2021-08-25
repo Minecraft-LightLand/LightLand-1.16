@@ -6,9 +6,15 @@ import lombok.Getter;
 import net.sf.cglib.proxy.Enhancer;
 import org.junit.Test;
 
+import java.util.Arrays;
+
 public class ProxyExample implements ProxyContainer<ProxyMethod> {
+    public static ProxyExample newProxyTest() {
+        return (ProxyExample) enhancer.create(construct, construct);
+    }
 
     private static final Enhancer enhancer = new Enhancer();
+
     private static final Class<?>[] construct = {};
 
     static {
@@ -16,8 +22,16 @@ public class ProxyExample implements ProxyContainer<ProxyMethod> {
         enhancer.setCallback(new ProxyInterceptor());
     }
 
+    @Test
+    public void test() {
+        final ProxyExample proxyExample = newProxyTest();
+        System.out.println(proxyExample.getA());
+        System.out.println(Arrays.toString(proxyExample.getClass().getDeclaredFields()));
+    }
+
     @Getter
     private final MutableProxy<ProxyMethod> proxy = new ListProxy<>();
+
     private int a;
 
     public ProxyExample() {
@@ -27,18 +41,9 @@ public class ProxyExample implements ProxyContainer<ProxyMethod> {
         });
     }
 
-    public static ProxyExample newProxyTest() {
-        return (ProxyExample) enhancer.create(construct, construct);
-    }
-
     @ForEachProxy
     public int getA() {
         return a;
-    }
-
-    @Test
-    public void test() {
-        System.out.println(newProxyTest().getA());
     }
 
     interface GetA extends ProxyMethod {

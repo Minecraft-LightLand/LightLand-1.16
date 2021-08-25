@@ -18,7 +18,7 @@ public interface ProxyContainer<T extends ProxyMethod> {
     String[] errMsgSearchList = {"%M", "%B", "%A"};
 
     @NotNull
-    Proxy<T> getProxy();
+    Proxy<T> getProxy() throws Throwable;
 
     /**
      * will be call when proxy method invoke.

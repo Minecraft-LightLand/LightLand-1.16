@@ -92,7 +92,7 @@ class HexCalc {
     /**
      * return a summary of the flow in this diagram
      */
-    public FlowChart getMatrix(boolean withFlow) throws HexCalcException {
+    public FlowChart getMatrix(boolean withFlow) {
         // construct corner flow matrix
         Frac[][] matrix = new Frac[6][6]; // the input-output matrix
         in = new Arrow[6]; // the input array

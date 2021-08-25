@@ -33,11 +33,7 @@ public class HexHandler {
         subhex = new SubHex[getArea()];
         cores = new SubHexCore[CORE_LIMIT];
         for (int i = 0; i < list.size(); i++)
-            try {
-                cores[i] = new SubHexCore(new HexHandler(list.get(i)));
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
+            cores[i] = new SubHexCore(new HexHandler(list.get(i)));
         int k = 1, s = 0;
         HexCell cell = new HexCell(this, 0, 0);
         for (int i = 0; i < getRowCount(); i++)
@@ -130,7 +126,7 @@ public class HexHandler {
         return getArea() - (4 * radius + 2 - row) * (2 * radius + 1 - row) / 2 + cell;
     }
 
-    public FlowChart getMatrix(boolean withFlow) throws HexCalcException {
+    public FlowChart getMatrix(boolean withFlow) {
         return new HexCalc(this).getMatrix(withFlow);
     }
 
@@ -202,7 +198,7 @@ public class HexHandler {
         public final Frac[][] otho;
         public final int exist, index;
 
-        public SubHexCore(HexHandler hex) throws HexException, HexCalcException {
+        public SubHexCore(HexHandler hex) {
             this.hex = hex;
             this.otho = hex.getMatrix(false).matrix;
             int exi = 0;

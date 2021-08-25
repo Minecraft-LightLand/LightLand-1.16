@@ -183,12 +183,16 @@ public class ProxyBaseBlock extends BaseBlock implements ProxyContainer<ProxyMet
     @NotNull
     @Override
     public Proxy<ProxyMethod> getProxy() {
-        final BlockImplementor blockImplementor = TEMP.get();
-        if (blockImplementor != null) {
-            this.impl = blockImplementor;
-            TEMP.remove();
+        if (impl == null) {
+            final BlockImplementor blockImplementor = TEMP.get();
+            if (blockImplementor != null) {
+                impl = blockImplementor;
+                TEMP.remove();
+            } else {
+                throw new NoProxyFoundException();
+            }
         }
-        return this.impl.proxy;
+        return impl.proxy;
     }
 
     public static class BlockImplementor implements Proxy<ProxyMethod> {
