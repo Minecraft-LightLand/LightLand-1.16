@@ -84,3 +84,7 @@ publishing {
 
 disableTests()
 excludeReobfJar()
+
+tasks.withType<JavaCompile> {
+    options.encoding = "UTF-8"
+}

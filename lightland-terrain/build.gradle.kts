@@ -10,6 +10,7 @@ apply(plugin = "net.minecraftforge.gradle")
 configureForge {
     runs {
         createClient("clientTerrain", project)
+        createServer("serverTerrain", project)
     }
 }
 
@@ -44,3 +45,7 @@ publishing {
 
 disableTests()
 excludeReobfJar()
+
+tasks.withType<JavaCompile> {
+    options.encoding = "UTF-8"
+}
