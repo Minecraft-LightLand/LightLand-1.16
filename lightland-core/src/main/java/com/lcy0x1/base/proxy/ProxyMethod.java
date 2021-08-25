@@ -1,13 +1,10 @@
 package com.lcy0x1.base.proxy;
 
-import com.lcy0x1.base.proxy.annotation.ForEachProxy;
-import com.lcy0x1.base.proxy.annotation.ForFirstProxy;
 import lombok.Data;
 import net.sf.cglib.proxy.MethodProxy;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 
-import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.Map;
 import java.util.Objects;
@@ -49,24 +46,7 @@ public interface ProxyMethod extends ProxyMethodHandler {
         try {
             String methodName = context.get(ProxyContext.methodNameKey);
             if (StringUtils.isEmpty(methodName)) {
-                for (Annotation annotation : method.getAnnotations()) {
-                    if (annotation instanceof ForEachProxy) {
-                        final ForEachProxy forEachProxy = (ForEachProxy) annotation;
-                        if (!forEachProxy.name().isEmpty()) {
-                            methodName = forEachProxy.name();
-                            break;
-                        }
-                    } else if (annotation instanceof ForFirstProxy) {
-                        final ForFirstProxy forFirstProxy = (ForFirstProxy) annotation;
-                        if (!forFirstProxy.name().isEmpty()) {
-                            methodName = forFirstProxy.name();
-                            break;
-                        }
-                    }
-                }
-                if (methodName == null) {
-                    methodName = method.getName();
-                }
+                methodName = method.getName();
             }
 
             selfMethod = getClass().getMethod(methodName, method.getParameterTypes());
