@@ -7,8 +7,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Method;
+import java.util.Collection;
 import java.util.Map;
-import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 
 public interface ProxyMethod extends ProxyHandler {
@@ -43,6 +43,11 @@ public interface ProxyMethod extends ProxyHandler {
     @SuppressWarnings("unused")
     @NotNull
     default ProxyHandler getHandler(Object obj, Method method, Object[] args, MethodProxy proxy, ProxyContext context) throws Throwable {
+        final Collection<? extends Class<?>> classes = context.get(ProxyContext.classes);
+        if (classes != null && !classes.isEmpty() && classes.stream().noneMatch(c -> c.isInstance(this))) {
+            return ProxyHandler.failed;
+        }
+
         String methodName = context.get(ProxyContext.methodNameKey);
         if (StringUtils.isEmpty(methodName)) {
             methodName = method.getName();
@@ -87,13 +92,15 @@ public interface ProxyMethod extends ProxyHandler {
             if (this == o) return true;
             if (!(o instanceof CacheMapKey)) return false;
             CacheMapKey that = (CacheMapKey) o;
-            return clazz == that.clazz && (method == that.method || Objects.equals(method, that.method));
+            return clazz == that.clazz && method == that.method;
         }
 
         @Override
         public int hashCode() {
             if (hash != 0) {
-                hash = Objects.hash(method, clazz);
+                hash = method.hashCode();
+                hash = hash * 31 ^ clazz.hashCode();
+                //hash = Objects.hash(method, clazz);
             }
             return hash;
         }

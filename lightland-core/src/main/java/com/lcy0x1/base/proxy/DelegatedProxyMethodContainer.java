@@ -16,7 +16,7 @@ public interface DelegatedProxyMethodContainer<T extends ProxyMethod> extends Pr
     }
 
     @Override
-    default <R> Result<? super R> forFirstProxy(ForFirstProxyHandler<? super T, ? extends Result<? super R>> action) throws Throwable {
+    default <R> Result<? extends R> forFirstProxy(ForFirstProxyHandler<? super T, ? extends Result<? extends R>> action) throws Throwable {
         return getProxy().forFirstProxy(action);
     }
 

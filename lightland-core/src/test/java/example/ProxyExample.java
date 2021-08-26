@@ -1,6 +1,9 @@
 package example;
 
-import com.lcy0x1.base.proxy.*;
+import com.lcy0x1.base.proxy.ListProxyMethodContainer;
+import com.lcy0x1.base.proxy.Proxy;
+import com.lcy0x1.base.proxy.ProxyInterceptor;
+import com.lcy0x1.base.proxy.ProxyMethod;
 import com.lcy0x1.base.proxy.annotation.ForEachProxy;
 import com.lcy0x1.base.proxy.annotation.ForFirstProxy;
 import lombok.Getter;
@@ -17,36 +20,31 @@ public class ProxyExample implements Proxy<ProxyMethod> {
         return (ProxyExample) enhancer.create(construct, construct);
     }
 
-    private static final Enhancer enhancer = new Enhancer();
+    private static final Enhancer enhancer = ProxyInterceptor.getEnhancer(ProxyExample.class);
 
     private static final Class<?>[] construct = {};
 
-    static {
-        enhancer.setSuperclass(ProxyExample.class);
-        enhancer.setCallback(new ProxyInterceptor());
-    }
-
     @Getter
-    private final ListProxyMethodContainer<ProxyMethod> proxy = new ListProxyMethodContainer<>();
+    private final ListProxyMethodContainer<ProxyMethod> proxyContainer = new ListProxyMethodContainer<>();
     private final int a = 1;
     final AtomicInteger r = new AtomicInteger();
-    private boolean testPerformance = false;
+    private boolean testPerformance;
 
     public ProxyExample() {
         testPerformance = true;
         for (int i = 0; i < 3; i++) {
-            proxy.addProxy((GetA) () -> {
+            proxyContainer.addProxy((GetA) () -> {
                 if (!testPerformance) {
-                    System.out.println("on proxy get A");
+                    //System.out.println("on proxy get A");
                 }
                 return 0;
             });
-            proxy.addProxy((GetB) () -> {
+            proxyContainer.addProxy((GetB) () -> {
                 System.out.println("on proxy get B");
                 return 3;
             });
         }
-        proxy.addProxy((SetA) a -> {
+        proxyContainer.addProxy((SetA) a -> {
             System.out.println("on set a");
             r.set(a);
         });
@@ -54,7 +52,7 @@ public class ProxyExample implements Proxy<ProxyMethod> {
         final AtomicInteger r = new AtomicInteger();
         int loopTime = 10;
         for (int i = 0; i < loopTime; i++) {
-            proxy.getProxyList().stream().filter(p -> p instanceof GetA).forEach(p -> {
+            proxyContainer.getProxyList().stream().filter(p -> p instanceof GetA).forEach(p -> {
                 r.set(((GetA) p).getA());
             });
             r.set(getA());
@@ -84,7 +82,6 @@ public class ProxyExample implements Proxy<ProxyMethod> {
 
     @Test
     public void test() {
-        Result.of("");
         final ProxyExample proxyExample = newProxyTest();
         System.out.println(proxyExample.getA());
         System.out.println(proxyExample.getB());
@@ -112,7 +109,7 @@ public class ProxyExample implements Proxy<ProxyMethod> {
         int loopTime = 10000000;
 
         for (int i = 0; i < loopTime; i++) {
-            for (ProxyMethod p : proxy) {
+            for (ProxyMethod p : proxyContainer) {
                 if (!(p instanceof GetA)) continue;
                 ((GetA) p).getA();
             }
@@ -121,7 +118,7 @@ public class ProxyExample implements Proxy<ProxyMethod> {
 
         timeStart = System.currentTimeMillis();
         for (int i = 0; i < loopTime; i++) {
-            for (ProxyMethod p : proxy) {
+            for (ProxyMethod p : proxyContainer) {
                 if (!(p instanceof GetA)) continue;
                 ((GetA) p).getA();
             }

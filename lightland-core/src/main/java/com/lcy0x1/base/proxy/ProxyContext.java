@@ -1,68 +1,80 @@
 package com.lcy0x1.base.proxy;
 
+import lombok.Data;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class ProxyContext {
+    private static final AtomicInteger keyIdGenerator = new AtomicInteger();
+
     public static final Key<String> methodNameKey = new Key<>();
     public static final Key<String> block = new Key<>();
     public static final Key<Result<ProxyMethod>> proxyMethod = new Key<>();
-    public static final Key<Boolean> nextProxyMethod = new Key<>();
     public static final Key<Boolean> cacheFirstProxyMethod = new Key<>();
-    private final ProxyContext parent;
-    private final Map<Key<?>, Object> context = new ConcurrentHashMap<>();
-    private final ThreadLocal<ProxyContext> subContextThreadLocal = new ThreadLocal<>();
+    public static final Key<Collection<? extends Class<?>>> classes = new Key<>();
+
+    @Data
+    public static class Key<T> {
+        private final int id = keyIdGenerator.incrementAndGet();
+    }
+
+    @Nullable
+    private ProxyContext parent = null;
+    @Nullable
+    private Object[] context = null;
 
     public ProxyContext() {
         parent = null;
     }
 
-    public ProxyContext(ProxyContext parent) {
+    private ProxyContext(@Nullable Object[] context) {
+        this.context = context;
+    }
+
+    public ProxyContext(@Nullable ProxyContext parent) {
         this.parent = parent;
     }
 
     @NotNull
     public ProxyContext getSubContext() {
-        ProxyContext subContext = subContextThreadLocal.get();
-        if (subContext == null) {
-            subContext = new ProxyContext(this);
-            subContextThreadLocal.set(subContext);
-        }
-
-        subContext.context.clear();
-
-        return subContext;
+        return new ProxyContext(this);
     }
 
+    @SuppressWarnings("unchecked")
     @Nullable
     public <T> T get(@Nullable Key<T> key) {
-        if (key == null) {
+        if (key == null || context == null || key.getId() >= context.length) {
             return null;
         }
-        //noinspection unchecked
 
-        T t = (T) context.get(key);
+        T t = (T) context[key.getId()];
         if (t == null && parent != null) {
             t = parent.get(key);
         }
         return t;
     }
 
+    @SuppressWarnings("unchecked")
     @Nullable
     public <T> T getAndRemove(@Nullable Key<T> key) {
         if (key == null) {
             return null;
         }
-        //noinspection unchecked
+        T t;
+        if (context == null || key.getId() >= context.length) {
+            t = null;
+        } else {
+            t = (T) context[key.getId()];
+        }
 
-        T t = (T) context.get(key);
         if (t == null && parent != null) {
             t = parent.getAndRemove(key);
-        } else {
-            context.remove(key);
+        } else if (context != null) {
+            context[key.getId()] = null;
         }
         return t;
     }
@@ -72,9 +84,35 @@ public class ProxyContext {
         if (key == null) {
             return;
         }
-        context.put(key, value);
+        if (context == null) {
+            context = new Object[keyIdGenerator.get()];
+        } else if (key.getId() >= context.length) {
+            context = Arrays.copyOf(context, keyIdGenerator.get());
+        }
+        context[key.getId()] = value;
     }
 
-    public static class Key<T> {
+    public void clean() {
+        context = null;
+    }
+
+    public ProxyContext snapshot() {
+        if (context != null) {
+            return new ProxyContext(putContext(new Object[context.length]));
+        }
+        if (parent != null) {
+            return parent.snapshot();
+        }
+        return new ProxyContext();
+    }
+
+    private Object[] putContext(Object[] target) {
+        if (parent != null) {
+            parent.putContext(target);
+        }
+        if (context != null) {
+            System.arraycopy(context, 0, target, 0, Math.min(context.length, target.length));
+        }
+        return target;
     }
 }

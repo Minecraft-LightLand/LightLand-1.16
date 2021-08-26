@@ -45,13 +45,8 @@ public class ProxyBaseBlock extends BaseBlock implements Proxy<IImpl> {
 
     private static final ThreadLocal<BlockImplementor> TEMP = new ThreadLocal<>();
 
-    private static final Enhancer ENHANCER = new Enhancer();
+    private static final Enhancer ENHANCER = ProxyInterceptor.getEnhancer(ProxyBaseBlock.class);
     private static final Class<?>[] CONSTRUCTOR = {BlockProp.class, IImpl[].class};
-
-    static {
-        ENHANCER.setSuperclass(ProxyBaseBlock.class);
-        ENHANCER.setCallback(new ProxyInterceptor());
-    }
 
     public static BaseBlock newBaseBlock(BlockProp p, IImpl... impl) {
         return (BaseBlock) ENHANCER.create(CONSTRUCTOR, new Object[]{p, impl});
@@ -62,7 +57,7 @@ public class ProxyBaseBlock extends BaseBlock implements Proxy<IImpl> {
     public ProxyBaseBlock(BlockProp p, IImpl... impl) {
         super(handler(construct(p).addImpls(impl)));
         registerDefaultState(this.impl.execute(IDefaultState.class).reduce(defaultBlockState(),
-                (state, def) -> def.getDefaultState(state), (a, b) -> a));
+            (state, def) -> def.getDefaultState(state), (a, b) -> a));
     }
 
     public static BlockImplementor construct(BlockProp bb) {
@@ -90,7 +85,7 @@ public class ProxyBaseBlock extends BaseBlock implements Proxy<IImpl> {
     @Override
     public int getAnalogOutputSignal(BlockState blockState, World worldIn, BlockPos pos) {
         return impl.one(ITE.class).map(e -> Optional.ofNullable(worldIn.getBlockEntity(pos))
-                .map(Container::getRedstoneSignalFromBlockEntity).orElse(0)).orElse(0);
+            .map(Container::getRedstoneSignalFromBlockEntity).orElse(0)).orElse(0);
     }
 
     @Override
@@ -102,7 +97,7 @@ public class ProxyBaseBlock extends BaseBlock implements Proxy<IImpl> {
     @Override
     public BlockState getStateForPlacement(BlockItemUseContext context) {
         return impl.execute(IPlacement.class).reduce(defaultBlockState(),
-                (state, impl) -> impl.getStateForPlacement(state, context), (a, b) -> a);
+            (state, impl) -> impl.getStateForPlacement(state, context), (a, b) -> a);
     }
 
     @Override
@@ -179,7 +174,7 @@ public class ProxyBaseBlock extends BaseBlock implements Proxy<IImpl> {
 
     @NotNull
     @Override
-    public ProxyMethodContainer<? extends IImpl> getProxy() {
+    public ProxyMethodContainer<? extends IImpl> getProxyContainer() {
         if (impl == null) {
             final BlockImplementor blockImplementor = TEMP.get();
             if (blockImplementor != null) {

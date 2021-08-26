@@ -25,10 +25,10 @@ public class CGlibExample {
     public void test() {
         Enhancer enhancer = new Enhancer();
         enhancer.setSuperclass(TestClass.class);
-        enhancer.setCallback(new ProxyInterceptor());
+        enhancer.setCallback(ProxyInterceptor.INSTANCE);
         TestClass o = (TestClass) enhancer.create(
-                new Class[]{int.class, boolean.class},
-                new Object[]{0, false}
+            new Class[]{int.class, boolean.class},
+            new Object[]{0, false}
         );
         o.getA();
     }

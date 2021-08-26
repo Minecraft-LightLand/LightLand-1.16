@@ -7,9 +7,9 @@ public interface ProxyMethodContainer<T extends ProxyMethod> extends Iterable<T>
         }
     }
 
-    default <R> Result<? super R> forFirstProxy(ForFirstProxyHandler<? super T, ? extends Result<? super R>> action) throws Throwable {
+    default <R> Result<? extends R> forFirstProxy(ForFirstProxyHandler<? super T, ? extends Result<? extends R>> action) throws Throwable {
         for (T t : this) {
-            Result<? super R> result = action.apply(t);
+            Result<? extends R> result = action.apply(t);
             if (result != null && result.isSuccess()) {
                 return result;
             }

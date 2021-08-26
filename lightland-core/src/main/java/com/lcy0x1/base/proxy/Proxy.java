@@ -9,17 +9,15 @@ import org.jetbrains.annotations.NotNull;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashSet;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicLong;
+import java.util.concurrent.atomic.AtomicReference;
 
 public interface Proxy<T extends ProxyMethod> {
     String[] errMsgSearchList = {"%M", "%B", "%A"};
 
     @NotNull
-    ProxyMethodContainer<? extends T> getProxy() throws Throwable;
+    ProxyMethodContainer<? extends T> getProxyContainer() throws Throwable;
 
     /**
      * will be call when proxy method invoke.
@@ -70,6 +68,9 @@ public interface Proxy<T extends ProxyMethod> {
             default:
                 classes = new HashSet<>(Arrays.asList(type));
         }
+        if (classes != null) {
+            proxyContext.put(ProxyContext.classes, classes);
+        }
 
         String methodName = forEachProxy.name();
         if (StringUtils.isEmpty(methodName)) {
@@ -77,18 +78,36 @@ public interface Proxy<T extends ProxyMethod> {
         }
         proxyContext.put(ProxyContext.methodNameKey, methodName);
 
-        return onForeachProxy(classes, proxyContext);
+        return onForeachProxy(proxyContext);
     }
 
     @NotNull
-    static ProxyHandlerCache.OnProxy onForeachProxy(Collection<Class<?>> classes, ProxyContext context) {
+    static ProxyHandlerCache.OnProxy onForeachProxy(ProxyContext context) {
+        final AtomicReference<List<ProxyMethod>> proxyMethodListReference = new AtomicReference<>();
+        final AtomicLong lastModify = new AtomicLong();
         return (o, m, a, proxy1) -> {
             if (!(o instanceof Proxy<?>)) return Result.failed();
-            ((Proxy<?>) o).getProxy().forEachProxy(p -> {
-                if (classes == null || classes.stream().allMatch(c -> c.isInstance(p))) {
-                    p.onProxy(o, m, a, proxy1, context.getSubContext());
+            final ProxyContext subContext = context.getSubContext();
+            Proxy<?> proxy = (Proxy<?>) o;
+            final ProxyMethodContainer<?> proxyContainer = proxy.getProxyContainer();
+            final List<ProxyMethod> proxyMethods = proxyMethodListReference.get();
+            if (lastModify.get() == proxyContainer.getLastModify() && proxyMethods != null) {
+                for (ProxyMethod p : proxyMethods) {
+                    p.onProxy(o, m, a, proxy1, subContext);
+                    subContext.clean();
                 }
-            });
+            } else {
+                lastModify.set(proxyContainer.getLastModify());
+                final List<ProxyMethod> newProxyMethods = new ArrayList<>();
+                proxyContainer.forEachProxy(p -> {
+                    final Result<?> result = p.onProxy(o, m, a, proxy1, subContext);
+                    if (result != null && result.isSuccess()) {
+                        newProxyMethods.add(p);
+                    }
+                    subContext.clean();
+                });
+                proxyMethodListReference.set(newProxyMethods);
+            }
             return Result.failed();
         };
     }
@@ -124,7 +143,7 @@ public interface Proxy<T extends ProxyMethod> {
         ProxyContext context) throws Throwable {
         if (!(obj instanceof Proxy<?>)) return Result.failed();
         final Proxy<?> container = (Proxy<?>) obj;
-        final ProxyMethodContainer<?> containerProxyMethodContainer = container.getProxy();
+        final ProxyMethodContainer<?> containerProxyMethodContainer = container.getProxyContainer();
         final Result<ProxyMethod> proxyMethod = context.get(ProxyContext.proxyMethod);
         Result<?> result = null;
 
@@ -132,6 +151,7 @@ public interface Proxy<T extends ProxyMethod> {
             lastModify.set(containerProxyMethodContainer.getLastModify());
             result = containerProxyMethodContainer.forFirstProxy(p -> {
                 if (classes == null || classes.stream().anyMatch(c -> c.isInstance(p))) {
+                    context.clean();
                     final Result<?> methodResult = p.onProxy(obj, method, args, proxy, context);
                     // check cache config
                     if (forFirstProxy.cache() && !Boolean.FALSE.equals(context.getAndRemove(ProxyContext.cacheFirstProxyMethod))) {

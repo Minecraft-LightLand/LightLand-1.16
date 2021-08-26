@@ -1,6 +1,8 @@
 package com.lcy0x1.base.proxy;
 
 import com.esotericsoftware.reflectasm.MethodAccess;
+import org.jetbrains.annotations.Nullable;
+import sun.misc.Unsafe;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -14,8 +16,24 @@ public class Reflections {
     private static final Field arrayListElementDataField = getField(ArrayList.class, "elementData");
     private static final Field parameterTypesField = getField(Method.class, "parameterTypes");
     private static final Map<Class<?>, Result<MethodAccess>> methodAccessMap = new ConcurrentHashMap<>();
+    private static final Thread mainThread = Thread.currentThread();
+    private static UnsafeReflections unsafe = null;
+
+    static {
+        try {
+            unsafe = new UnsafeReflections();
+        } catch (Exception ignored) {
+        }
+    }
+
+    public static boolean inMainThread() {
+        return Thread.currentThread() == mainThread;
+    }
 
     public static Object[] getElementData(ArrayList<?> arrayList) throws IllegalAccessException {
+        if (unsafe != null) {
+            return unsafe.getElementData(arrayList);
+        }
         if (arrayListElementDataField != null) {
             return (Object[]) arrayListElementDataField.get(arrayList);
         } else {
@@ -24,6 +42,9 @@ public class Reflections {
     }
 
     public static Class<?>[] getParameterTypes(Method method) {
+        if (unsafe != null) {
+            return unsafe.getParameterTypes(method);
+        }
         if (parameterTypesField == null) {
             return null;
         }
@@ -52,6 +73,17 @@ public class Reflections {
         return null;
     }
 
+    public static Object getField(@Nullable Field field, Object receiver) {
+        if (field == null) {
+            return null;
+        }
+        try {
+            return field.get(receiver);
+        } catch (IllegalAccessException ignored) {
+            return null;
+        }
+    }
+
     public static MethodAccess getMethodAccess(Class<?> clazz) {
         if (clazz.getName().indexOf('/') == -1) {
             return getMethodAccessWithCache(clazz);
@@ -78,5 +110,28 @@ public class Reflections {
             methodAccessMap.put(clazz, Result.failed());
         }
         return methodAccess;
+    }
+
+    public static class UnsafeReflections {
+        private final Unsafe theUnsafe = (Unsafe) getField(getField(Unsafe.class, "theUnsafe"), null);
+        private final long parameterTypesOffset = objectFieldOffset(parameterTypesField);
+        private final long arrayListElementDataOffset = objectFieldOffset(arrayListElementDataField);
+
+        public long objectFieldOffset(@Nullable Field field) {
+            if (field == null) {
+                return -1;
+            }
+            return theUnsafe.objectFieldOffset(field);
+        }
+
+        public Class<?>[] getParameterTypes(Method method) {
+            if (parameterTypesOffset < 0) return null;
+            return (Class<?>[]) theUnsafe.getObject(method, parameterTypesOffset);
+        }
+
+        public Object[] getElementData(ArrayList<?> arrayList) {
+            if (arrayListElementDataOffset < 0) return null;
+            return (Object[]) theUnsafe.getObject(arrayList, arrayListElementDataOffset);
+        }
     }
 }
