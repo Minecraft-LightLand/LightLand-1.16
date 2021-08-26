@@ -1,5 +1,6 @@
 package com.hikarishima.lightland.magic.registry.entity;
 
+import com.hikarishima.lightland.magic.spell.internal.ActivationConfig;
 import com.hikarishima.lightland.magic.spell.internal.SpellConfig;
 import com.hikarishima.lightland.magic.spell.render.SpellComponent;
 import com.lcy0x1.base.BaseEntity;
@@ -49,6 +50,13 @@ public class SpellEntity extends BaseEntity {
             pos = AutoAim.getRayTerm(pos, xr, yr, 0.5);
         }
         setData(pos.x, pos.y, pos.z, spell.duration, spell.setup, spell.close, xr, yr);
+    }
+
+    public void setData(ActivationConfig act, SpellConfig.SpellDisplay spell) {
+        Vector3d pos = act.pos;
+        pos = pos.add(0, 1e-3, 0);
+        float xr = -90;
+        setData(pos.x, pos.y, pos.z, spell.duration, spell.setup, spell.close, xr, 0);
     }
 
     public void setAction(Consumer<SpellEntity> cons) {

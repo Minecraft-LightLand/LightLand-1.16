@@ -1,0 +1,28 @@
+{
+  "_class": "organize.json.JsonPartMap",
+  "file": "config_spell",
+  "path": "map",
+  "common": {
+    "_class": "com.hikarishima.lightland.magic.spell.magic.FireArrowSpell$Config"
+  },
+  "map": {
+    "lightland-magic:fire_rain": {
+      "duration": 30,
+      "mana_cost": 25,
+      "spell_load": 50,
+      "type": "SCROLL",
+      "spell_time": {
+        "id": "test.spell",
+        "duration": 80,
+        "setup": 20,
+        "close": 20
+      },
+      "period": 1,
+      "repeat": 2,
+      "damage": 5,
+      "distance": 16,
+      "velocity": 3,
+      "radius": 6
+    }
+  }
+}

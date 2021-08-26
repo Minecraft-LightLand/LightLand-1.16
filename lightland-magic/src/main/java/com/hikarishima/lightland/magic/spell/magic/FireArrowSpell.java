@@ -2,18 +2,19 @@ package com.hikarishima.lightland.magic.spell.magic;
 
 import com.hikarishima.lightland.magic.registry.MagicEntityRegistry;
 import com.hikarishima.lightland.magic.registry.entity.SpellEntity;
-import com.hikarishima.lightland.magic.registry.entity.WindBladeEntity;
 import com.hikarishima.lightland.magic.spell.internal.ActivationConfig;
 import com.hikarishima.lightland.magic.spell.internal.Spell;
 import com.hikarishima.lightland.magic.spell.internal.SpellConfig;
 import com.lcy0x1.core.math.AutoAim;
 import com.lcy0x1.core.util.SerialClass;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
+import net.minecraft.entity.projectile.AbstractArrowEntity;
+import net.minecraft.item.ArrowItem;
+import net.minecraft.item.Items;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
 
-public class WindBladeSpell extends Spell<WindBladeSpell.Config, WindBladeSpell.Activation> {
+public class FireArrowSpell extends Spell<FireArrowSpell.Config, FireArrowSpell.Activation> {
 
     @Override
     protected Activation canActivate(Type type, World world, PlayerEntity player) {
@@ -32,36 +33,37 @@ public class WindBladeSpell extends Spell<WindBladeSpell.Config, WindBladeSpell.
         }
         SpellEntity e = MagicEntityRegistry.ET_SPELL.create(world);
         if (e != null) {
-            e.setData(player, config.spell_time, config.plane);
+            e.setData(activation, config.spell_time);
             e.setAction(spell -> {
                 int t = spell.tickCount - config.spell_time.setup;
                 if (t < 0 || t > config.spell_time.duration - config.spell_time.close)
                     return;
                 if (t % config.period != 0)
                     return;
-                Vector3d target = activation.target == null ? activation.pos :
-                        activation.target.getPosition(1)
-                                .add(0, activation.target.getBbHeight() / 2, 0);
-                for (int offset : config.offset)
-                    addBlade(config.normal, offset, player, world, spell, target, config);
+                for (int i = 0; i < config.repeat; i++) {
+                    Vector3d target = activation.pos;
+                    float angle = (float) (Math.random() * 360);
+                    float radius = (float)(Math.random()*config.radius);
+                    target = AutoAim.getRayTerm(target, 0, angle, radius);
+                    addArrow(target, player, world, config);
+                }
             });
             world.addFreshEntity(e);
         }
     }
 
-    private void addBlade(float noffset, float soffset, PlayerEntity player, World world, SpellEntity spell, Vector3d target, Config config) {
-        WindBladeEntity blade = MagicEntityRegistry.ET_WIND_BLADE.create(world);
-        if (blade != null) {
-            Vector3d pos = spell.getPosition(1);
-            pos = AutoAim.getRayTerm(pos, spell.xRot, spell.yRot, noffset);
-            pos = AutoAim.getRayTerm(pos, spell.xRot, spell.yRot + 90, soffset);
-            blade.setOwner(player);
-            blade.setPos(pos.x, pos.y, pos.z);
-            Vector3d velocity = target.subtract(pos).normalize().scale(config.velocity);
-            blade.setDeltaMovement(velocity);
-            blade.setProperties(config.damage, Math.round(config.distance / config.velocity), 0f, ItemStack.EMPTY);
-            world.addFreshEntity(blade);
-        }
+    private void addArrow(Vector3d target, PlayerEntity player, World world, Config config) {
+        AbstractArrowEntity e = ((ArrowItem) Items.ARROW).createArrow(world, Items.ARROW.getDefaultInstance(), player);
+        e.pickup = AbstractArrowEntity.PickupStatus.DISALLOWED;
+        e.setSecondsOnFire(100);
+        Vector3d pos = target.add(0, config.distance, 0);
+        e.setPos(pos.x, pos.y, pos.z);
+        Vector3d velocity = new Vector3d(0, -config.velocity, 0);
+        e.setDeltaMovement(velocity);
+        e.setCritArrow(true);
+        e.setBaseDamage(config.damage);
+
+        world.addFreshEntity(e);
     }
 
     public static class Activation extends ActivationConfig {
@@ -75,19 +77,13 @@ public class WindBladeSpell extends Spell<WindBladeSpell.Config, WindBladeSpell.
     public static class Config extends SpellConfig {
 
         @SerialClass.SerialField
-        public int period, normal;
+        public int period, repeat;
 
         @SerialClass.SerialField
-        public int[] offset = {0};
-
-        @SerialClass.SerialField
-        public float damage, distance, velocity;
+        public float damage, distance, velocity, radius;
 
         @SerialClass.SerialField
         public SpellDisplay spell_time;
-
-        @SerialClass.SerialField
-        public SpellEntity.SpellPlane plane;
 
     }
 

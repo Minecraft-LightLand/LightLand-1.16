@@ -1,5 +1,6 @@
 package com.hikarishima.lightland.magic.registry.entity;
 
+import com.hikarishima.lightland.magic.arcane.ArcaneRegistry;
 import com.hikarishima.lightland.magic.registry.item.combat.IArcaneWeapon;
 import com.lcy0x1.core.util.SerialClass;
 import mcp.MethodsReturnNonnullByDefault;
@@ -12,6 +13,7 @@ import net.minecraft.network.IPacket;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.EntityRayTraceResult;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
@@ -49,7 +51,13 @@ public class WindBladeEntity extends ThrowableEntity implements IEntityAdditiona
         this.zrot = zrot;
         this.isArcane = !issuer.isEmpty();
         this.issuer = issuer;
-        this.updateRotation();
+
+        Vector3d vector3d = this.getDeltaMovement();
+        float f = MathHelper.sqrt(getHorizontalDistanceSqr(vector3d));
+        this.xRot =  (float)(MathHelper.atan2(vector3d.y, f) * (double)(180F / (float)Math.PI));
+        this.yRot =  (float)(MathHelper.atan2(vector3d.x, vector3d.z) * (double)(180F / (float)Math.PI));
+        this.xRotO = this.xRot;
+        this.yRotO = this.yRot;
     }
 
     @Override
@@ -81,7 +89,7 @@ public class WindBladeEntity extends ThrowableEntity implements IEntityAdditiona
             Entity owner = this.getOwner();
             DamageSource source = DamageSource.indirectMagic(this, owner);
             if (isArcane) {
-                source = IArcaneWeapon.toMagic(issuer, this, owner, source, damage, 200);
+                source = IArcaneWeapon.toMagic(issuer, this, owner, source, damage, ArcaneRegistry.ARCANE_TIME);
             }
             entity.hurt(source, damage);
             if (owner instanceof LivingEntity) {

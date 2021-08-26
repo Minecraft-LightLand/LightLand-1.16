@@ -33,6 +33,7 @@ public class WindBladeSword extends Arcane {
         if (!w.isClientSide()) {
             WindBladeEntity e = MagicEntityRegistry.ET_WIND_BLADE.create(w);
             if (e != null) {
+                e.setOwner(player);
                 e.setPos(player.getX(), player.getEyeY() - 0.5f, player.getZ());
                 e.shootFromRotation(player, player.xRot, player.yRot, 0, velocity, 1);
                 e.setProperties(dmg, Math.round(dist / velocity), (float) (Math.random() * 360f), stack);

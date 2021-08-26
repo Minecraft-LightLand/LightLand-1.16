@@ -3,6 +3,7 @@ package com.hikarishima.lightland.magic.registry.item.combat;
 import com.hikarishima.lightland.event.combat.ISpecialWeapon;
 import com.hikarishima.lightland.event.combat.MagicDamageEntry;
 import com.hikarishima.lightland.event.combat.MagicDamageSource;
+import com.hikarishima.lightland.magic.arcane.ArcaneRegistry;
 import com.hikarishima.lightland.magic.arcane.internal.ArcaneItemUseHelper;
 import com.hikarishima.lightland.magic.arcane.internal.IArcaneItem;
 import com.hikarishima.lightland.magic.registry.VanillaMagicRegistry;
@@ -19,7 +20,7 @@ public interface IArcaneWeapon extends ISpecialWeapon {
     @Nullable
     @Override
     default MagicDamageSource getSource(ItemStack stack, LivingHurtEvent event) {
-        return toMagic(stack, event.getSource().getDirectEntity(), null, event.getSource(), event.getAmount(), 200);
+        return toMagic(stack, event.getSource().getDirectEntity(), null, event.getSource(), event.getAmount(), ArcaneRegistry.ARCANE_TIME);
     }
 
     static MagicDamageSource toMagic(ItemStack stack, Entity entity, Entity owner, DamageSource s, float f, int time) {

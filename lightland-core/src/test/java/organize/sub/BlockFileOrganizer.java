@@ -31,6 +31,25 @@ public class BlockFileOrganizer extends ResourceOrganizer {
         init(f);
         org(new File(f.getPath() + "/default"), true);
         org(new File(f.getPath() + "/no_drop"), false);
+
+        File special = new File(f.getPath() + "/-special");
+        if (special.exists()) {
+            File models = new File(f.getPath() + "/-special/model");
+            File textures = new File(f.getPath() + "/-special/textures");
+            for (File fi : textures.listFiles()) {
+                File ti = new File(texture + fi.getName());
+                check(ti);
+                Files.copy(fi, ti);
+            }
+            for (File fi : models.listFiles()) {
+                File ti = new File(model + fi.getName());
+                check(ti);
+                Files.copy(fi, ti);
+                String name = fi.getName().split("\\.")[0];
+                write(state + name + ".json", BS.replaceAll("\\^s", name));
+                write(loot + name + ".json", BL.replaceAll("\\^s", name));
+            }
+        }
     }
 
     private void org(File f, boolean drop) throws Exception {
@@ -47,4 +66,6 @@ public class BlockFileOrganizer extends ResourceOrganizer {
             if (drop) write(loot + name + ".json", BL.replaceAll("\\^s", name));
         }
     }
+
+
 }

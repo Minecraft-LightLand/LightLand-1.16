@@ -1,5 +1,6 @@
 package com.hikarishima.lightland.magic.event;
 
+import com.hikarishima.lightland.magic.arcane.ArcaneRegistry;
 import com.hikarishima.lightland.magic.registry.VanillaMagicRegistry;
 import net.minecraft.entity.LightLandFakeEntity;
 import net.minecraft.entity.effect.LightningBoltEntity;
@@ -19,7 +20,7 @@ public class MagicDamageEventHandler {
                     event.setCanceled(true);
                     return;
                 }
-                LightLandFakeEntity.addEffect(event.getEntityLiving(), new EffectInstance(VanillaMagicRegistry.ARCANE, 200));
+                LightLandFakeEntity.addEffect(event.getEntityLiving(), new EffectInstance(VanillaMagicRegistry.ARCANE, ArcaneRegistry.ARCANE_TIME));
             }
         }
     }

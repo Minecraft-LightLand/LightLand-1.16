@@ -22,8 +22,7 @@ import java.util.Map;
 
 public class GUIGenerator {
 
-    @Test
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws Exception {
         new GUIGenerator("lightland-magic").gen();
     }
 
@@ -99,7 +98,7 @@ public class GUIGenerator {
 
     private final String GUI, DST, CONT;
 
-    private GUIGenerator(String modid) {
+    GUIGenerator(String modid) {
         GUI = "./lightland-core/src/test/resources/lightland-core/gui/";
         DST = "./lightland-core/src/test/resources/" + modid + "/assets/textures/gui/";
         CONT = GUI + "-templates/container/" + modid + "/";
@@ -107,7 +106,7 @@ public class GUIGenerator {
 
     private final Map<String, Item> ITEM_MAP = new HashMap<>();
 
-    private void gen() throws IOException {
+    void gen() throws IOException {
         readSprites();
         File f = new File(CONT);
         Item top = ITEM_MAP.get("top");
