@@ -32,7 +32,6 @@ import net.sf.cglib.proxy.Enhancer;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.Iterator;
 import java.util.Optional;
 import java.util.Random;
 import java.util.stream.Stream;
@@ -193,10 +192,12 @@ public class ProxyBaseBlock extends BaseBlock implements ProxyContainer<IImpl> {
         return impl;
     }
 
-    public static class BlockImplementor implements Proxy<IImpl> {
+    public static class BlockImplementor implements DelegatedProxy<IImpl> {
         @Getter
         private long lastModify = 0;
         private final Properties props;
+        @NotNull
+        @Getter
         private final MutableProxy<IImpl> proxy = new ListProxy<>();
 
         public BlockImplementor(Properties p) {
@@ -220,12 +221,6 @@ public class ProxyBaseBlock extends BaseBlock implements ProxyContainer<IImpl> {
 
         public <T extends IImpl> Optional<T> one(Class<T> cls) {
             return execute(cls).findFirst();
-        }
-
-        @NotNull
-        @Override
-        public Iterator<IImpl> iterator() {
-            return proxy.iterator();
         }
     }
 
