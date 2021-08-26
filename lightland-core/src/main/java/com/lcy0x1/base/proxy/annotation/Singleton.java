@@ -8,6 +8,11 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Singleton {
+    String[] errMsgTemplate = {
+        "%O", // checked object
+        "%C", // checked Class
+    };
+
     String errMsg() default "";
 
     Class<? extends RuntimeException> errClass() default RuntimeException.class;
