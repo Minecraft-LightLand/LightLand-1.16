@@ -27,7 +27,6 @@ import java.util.function.Supplier;
 @SuppressWarnings("unused")
 public class ClientRenderEventHandler {
 
-    @OnlyIn(Dist.CLIENT)
     private static final Map<UUID, Set<Effect>> map = new HashMap<>();
 
     private static final Set<Effect> TRACKED = new HashSet<>();

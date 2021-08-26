@@ -7,6 +7,8 @@ import com.lcy0x1.core.util.SerialClass;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 import net.minecraft.util.math.vector.Vector3f;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,6 +17,7 @@ import java.util.stream.Collectors;
 @SerialClass
 public class SpellComponent {
 
+    @OnlyIn(Dist.CLIENT)
     public static SpellComponent getFromConfig(String id) {
         return ConfigRecipe.getObject(Proxy.getClientWorld(), MagicRecipeRegistry.SPELL_ENTITY, id);
     }
@@ -25,6 +28,7 @@ public class SpellComponent {
     @SerialClass.SerialField(generic = Layer.class)
     public ArrayList<Layer> layers = new ArrayList<>();
 
+    @OnlyIn(Dist.CLIENT)
     public void render(RenderHandle handle) {
         handle.matrix.pushPose();
         for (Stroke stroke : strokes) {
@@ -42,6 +46,7 @@ public class SpellComponent {
         @SerialClass.SerialField
         public float value, delta, amplitude, period = 300, dt;
 
+        @OnlyIn(Dist.CLIENT)
         public float get(float tick) {
             return value + amplitude * (float) Math.sin((tick - dt) * 2 * Math.PI / period) + delta * tick;
         }
@@ -60,6 +65,7 @@ public class SpellComponent {
         @SerialClass.SerialField
         public float width, radius, z, angle;
 
+        @OnlyIn(Dist.CLIENT)
         public void render(RenderHandle handle) {
             float da = (float) Math.PI * 2 * cycle / vertex;
             float a = angle;
@@ -72,6 +78,7 @@ public class SpellComponent {
 
         }
 
+        @OnlyIn(Dist.CLIENT)
         private int getColor() {
             String str = color;
             if (str.startsWith("0x")) {
@@ -80,6 +87,7 @@ public class SpellComponent {
             return Integer.parseUnsignedInt(str, 16);
         }
 
+        @OnlyIn(Dist.CLIENT)
         private static void rect(RenderHandle handle, float a, float da, float r, float w, float z, int col) {
             vertex(handle, a, r - w / 2, z, col);
             vertex(handle, a, r + w / 2, z, col);
@@ -87,6 +95,7 @@ public class SpellComponent {
             vertex(handle, a + da, r - w / 2, z, col);
         }
 
+        @OnlyIn(Dist.CLIENT)
         private static void vertex(RenderHandle handle, float a, float r, float z, int col) {
             int alp = (int) ((col >> 24 & 0xff) * handle.alpha);
             handle.builder.vertex(handle.matrix.last().pose(),
@@ -112,6 +121,7 @@ public class SpellComponent {
         @SerialClass.SerialField
         public Value z_offset, scale, radius, rotation, alpha;
 
+        @OnlyIn(Dist.CLIENT)
         public void render(RenderHandle handle) {
             if (_children == null) {
                 _children = children.stream().map(SpellComponent::getFromConfig).collect(Collectors.toList());
@@ -140,6 +150,7 @@ public class SpellComponent {
             handle.alpha = al;
         }
 
+        @OnlyIn(Dist.CLIENT)
         private float get(Value val, RenderHandle handle, float def) {
             return val == null ? def : val.get(handle.tick);
         }
@@ -147,6 +158,7 @@ public class SpellComponent {
 
     }
 
+    @OnlyIn(Dist.CLIENT)
     public static class RenderHandle {
 
         public final MatrixStack matrix;
