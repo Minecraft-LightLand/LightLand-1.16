@@ -31,8 +31,8 @@ public class ProxyInterceptor implements MethodInterceptor {
         final Object parent = HANDLE_DEQUE_THREAD_LOCAL.get();
         HANDLE_DEQUE_THREAD_LOCAL.set(obj);
         try {
-            if (obj instanceof ProxyContainer<?> && !isOnProxyMethod(method)) {
-                final Proxy.Result<?> result = ((ProxyContainer<?>) obj).onProxy(method, args, proxy);
+            if (obj instanceof Proxy<?> && !isOnProxyMethod(method)) {
+                final Result<?> result = ((Proxy<?>) obj).onProxy(method, args, proxy);
                 if (result != null && result.isSuccess()) {
                     return result.getResult();
                 }

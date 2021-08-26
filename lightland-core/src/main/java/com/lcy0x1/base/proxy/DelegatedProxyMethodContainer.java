@@ -6,9 +6,9 @@ import java.util.Iterator;
 import java.util.Spliterator;
 import java.util.function.Consumer;
 
-public interface DelegatedProxy<T extends ProxyMethod> extends Proxy<T> {
+public interface DelegatedProxyMethodContainer<T extends ProxyMethod> extends ProxyMethodContainer<T> {
     @NotNull
-    Proxy<T> getProxy();
+    ProxyMethodContainer<T> getProxy();
 
     @Override
     default void forEachProxy(ForEachProxyHandler<T> action) throws Throwable {
@@ -16,7 +16,7 @@ public interface DelegatedProxy<T extends ProxyMethod> extends Proxy<T> {
     }
 
     @Override
-    default <R> Result<R> forFirstProxy(ForFirstProxyHandler<T, Result<R>> action) throws Throwable {
+    default <R> Result<? super R> forFirstProxy(ForFirstProxyHandler<? super T, ? extends Result<? super R>> action) throws Throwable {
         return getProxy().forFirstProxy(action);
     }
 

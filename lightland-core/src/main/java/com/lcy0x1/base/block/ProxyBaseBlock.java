@@ -41,7 +41,7 @@ import java.util.stream.StreamSupport;
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 @Log4j2
-public class ProxyBaseBlock extends BaseBlock implements ProxyContainer<IImpl> {
+public class ProxyBaseBlock extends BaseBlock implements Proxy<IImpl> {
 
     private static final ThreadLocal<BlockImplementor> TEMP = new ThreadLocal<>();
 
@@ -179,7 +179,7 @@ public class ProxyBaseBlock extends BaseBlock implements ProxyContainer<IImpl> {
 
     @NotNull
     @Override
-    public Proxy<? extends IImpl> getProxy() {
+    public ProxyMethodContainer<? extends IImpl> getProxy() {
         if (impl == null) {
             final BlockImplementor blockImplementor = TEMP.get();
             if (blockImplementor != null) {
@@ -192,13 +192,13 @@ public class ProxyBaseBlock extends BaseBlock implements ProxyContainer<IImpl> {
         return impl;
     }
 
-    public static class BlockImplementor implements DelegatedProxy<IImpl> {
+    public static class BlockImplementor implements DelegatedProxyMethodContainer<IImpl> {
         @Getter
         private long lastModify = 0;
         private final Properties props;
         @NotNull
         @Getter
-        private final MutableProxy<IImpl> proxy = new ListProxy<>();
+        private final MutableProxyMethodContainer<IImpl> proxy = new ListProxyMethodContainer<>();
 
         public BlockImplementor(Properties p) {
             props = p;

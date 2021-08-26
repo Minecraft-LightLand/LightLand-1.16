@@ -11,38 +11,38 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 
-public interface ProxyMethod extends ProxyMethodHandler {
+public interface ProxyMethod extends ProxyHandler {
     ProxyMethod failed = new ProxyMethod() {
         @Override
-        public Proxy.Result<?> onProxy(Object obj, Method method, Object[] args, MethodProxy proxy, ProxyContext context) throws Throwable {
-            return Proxy.failed();
+        public Result<?> onProxy(Object obj, Method method, Object[] args, MethodProxy proxy, ProxyContext context) throws Throwable {
+            return Result.failed();
         }
     };
-    Map<CacheMapKey, Proxy.Result<? extends ProxyMethodHandler>> handlerCacheMap = new ConcurrentHashMap<>();
+    Map<CacheMapKey, Result<? extends ProxyHandler>> handlerCacheMap = new ConcurrentHashMap<>();
 
     @Override
-    default Proxy.Result<?> onProxy(Object obj, Method method, Object[] args, MethodProxy proxy, ProxyContext context) throws Throwable {
+    default Result<? extends Object> onProxy(Object obj, Method method, Object[] args, MethodProxy proxy, ProxyContext context) throws Throwable {
         final CacheMapKey key = new CacheMapKey(method, getClass());
-        final Proxy.Result<? extends ProxyMethodHandler> methodResult = handlerCacheMap.get(key);
+        final Result<? extends ProxyHandler> methodResult = handlerCacheMap.get(key);
         if (methodResult != null) {
             if (methodResult.isSuccess()) {
                 return methodResult.getResult().onProxy(obj, method, args, proxy, context);
             } else {
-                return Proxy.failed();
+                return Result.failed();
             }
         }
-        final ProxyMethodHandler handler = getHandler(obj, method, args, proxy, context);
-        if (handler == ProxyMethodHandler.failed) {
-            handlerCacheMap.put(key, Proxy.failed());
+        final ProxyHandler handler = getHandler(obj, method, args, proxy, context);
+        if (handler == ProxyHandler.failed) {
+            handlerCacheMap.put(key, Result.failed());
         } else {
-            handlerCacheMap.put(key, Proxy.alloc(handler));
+            handlerCacheMap.put(key, Result.alloc(handler));
         }
         return handler.onProxy(obj, method, args, proxy, context);
     }
 
     @SuppressWarnings("unused")
     @NotNull
-    default ProxyMethodHandler getHandler(Object obj, Method method, Object[] args, MethodProxy proxy, ProxyContext context) throws Throwable {
+    default ProxyHandler getHandler(Object obj, Method method, Object[] args, MethodProxy proxy, ProxyContext context) throws Throwable {
         String methodName = context.get(ProxyContext.methodNameKey);
         if (StringUtils.isEmpty(methodName)) {
             methodName = method.getName();
@@ -52,7 +52,7 @@ public interface ProxyMethod extends ProxyMethodHandler {
         try {
             final MethodAccess methodAccess = Reflections.getMethodAccess(getClass());
             final int index = methodAccess.getIndex(methodName, method.getParameterTypes());
-            return (obj1, method1, args1, proxy1, context1) -> Proxy.of(methodAccess.invoke(this, index, args1));
+            return (obj1, method1, args1, proxy1, context1) -> Result.of(methodAccess.invoke(this, index, args1));
         } catch (Exception ignored) {
         }
 
@@ -60,11 +60,11 @@ public interface ProxyMethod extends ProxyMethodHandler {
         try {
             final Method declaredMethod = getClass().getDeclaredMethod(methodName, method.getParameterTypes());
             declaredMethod.setAccessible(true);
-            return (obj1, method1, args1, proxy1, context1) -> Proxy.of(declaredMethod.invoke(this, args1));
+            return (obj1, method1, args1, proxy1, context1) -> Result.of(declaredMethod.invoke(this, args1));
         } catch (Exception ignored) {
         }
 
-        return ProxyMethodHandler.failed;
+        return ProxyHandler.failed;
     }
 
     @Data

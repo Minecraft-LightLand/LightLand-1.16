@@ -8,14 +8,14 @@ import java.lang.reflect.Method;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class ProxyContainerHandlerCache {
-    public static final ProxyContainerHandlerCache INSTANCE = new ProxyContainerHandlerCache();
-    public static final OnProxy callSuper = (obj, method, args, proxy) -> Proxy.of(proxy.invokeSuper(obj, args));
-    public static final OnProxy empty = (obj, method, args, proxy) -> Proxy.failed();
+public class ProxyHandlerCache {
+    public static final ProxyHandlerCache INSTANCE = new ProxyHandlerCache();
+    public static final OnProxy callSuper = (obj, method, args, proxy) -> Result.of(proxy.invokeSuper(obj, args));
+    public static final OnProxy empty = (obj, method, args, proxy) -> Result.failed();
     private final Map<Method, OnProxy> handlerMap = new ConcurrentHashMap<>();
 
     public interface OnProxy {
-        Proxy.Result<?> onProxy(Object obj, Method method, Object[] args, MethodProxy proxy) throws Throwable;
+        Result<?> onProxy(Object obj, Method method, Object[] args, MethodProxy proxy) throws Throwable;
     }
 
     @Nullable

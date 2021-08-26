@@ -4,31 +4,20 @@ import lombok.Getter;
 import lombok.extern.log4j.Log4j2;
 import org.jetbrains.annotations.NotNull;
 
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 
 @Log4j2
-public class ListProxy<T extends ProxyMethod> implements MutableProxy<T> {
-    private static Field elementDataField = null;
-
-    static {
-        try {
-            elementDataField = ArrayList.class.getDeclaredField("elementData");
-            elementDataField.setAccessible(true);
-        } catch (Throwable ignored) {
-        }
-    }
-
+public class ListProxyMethodContainer<T extends ProxyMethod> implements MutableProxyMethodContainer<T> {
     @NotNull
     @Getter
     private final ArrayList<T> proxyList;
-    private Object[] elementData;
+    private Object[] elementData = null;
     @Getter
-    private long lastModify = 0;
+    private volatile long lastModify = 0;
 
-    public ListProxy() {
+    public ListProxyMethodContainer() {
         proxyList = new ArrayList<>();
     }
 
@@ -36,13 +25,11 @@ public class ListProxy<T extends ProxyMethod> implements MutableProxy<T> {
     //    this.proxyList = proxyList;
     //}
 
-    protected void modified() {
+    protected synchronized void modified() {
         lastModify = System.currentTimeMillis();
-        if (elementDataField != null) {
-            try {
-                elementData = (Object[]) elementDataField.get(proxyList);
-            } catch (Exception ignored) {
-            }
+        try {
+            elementData = Reflections.getElementData(proxyList);
+        } catch (Exception ignored) {
         }
     }
 
@@ -85,12 +72,14 @@ public class ListProxy<T extends ProxyMethod> implements MutableProxy<T> {
     @SuppressWarnings("unchecked")
     @Override
     public void forEachProxy(ForEachProxyHandler<T> action) throws Throwable {
+        final Object[] elementData = this.elementData;
         if (elementData != null) {
-            for (int i = 0; i < proxyList.size(); i++) {
+            final int size = proxyList.size();
+            for (int i = 0; i < size; i++) {
                 action.accept((T) elementData[i]);
             }
         } else {
-            MutableProxy.super.forEachProxy(action);
+            MutableProxyMethodContainer.super.forEachProxy(action);
         }
     }
 }

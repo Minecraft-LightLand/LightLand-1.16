@@ -12,7 +12,7 @@ import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class ProxyExample implements ProxyContainer<ProxyMethod> {
+public class ProxyExample implements Proxy<ProxyMethod> {
     public static ProxyExample newProxyTest() {
         return (ProxyExample) enhancer.create(construct, construct);
     }
@@ -27,14 +27,18 @@ public class ProxyExample implements ProxyContainer<ProxyMethod> {
     }
 
     @Getter
-    private final ListProxy<ProxyMethod> proxy = new ListProxy<>();
+    private final ListProxyMethodContainer<ProxyMethod> proxy = new ListProxyMethodContainer<>();
     private final int a = 1;
     final AtomicInteger r = new AtomicInteger();
+    private boolean testPerformance = false;
 
     public ProxyExample() {
-        for (int i = 0; i < 100; i++) {
+        testPerformance = true;
+        for (int i = 0; i < 3; i++) {
             proxy.addProxy((GetA) () -> {
-                //System.out.println("on proxy get A");
+                if (!testPerformance) {
+                    System.out.println("on proxy get A");
+                }
                 return 0;
             });
             proxy.addProxy((GetB) () -> {
@@ -64,6 +68,7 @@ public class ProxyExample implements ProxyContainer<ProxyMethod> {
             }
         } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException ignore) {
         }
+        testPerformance = false;
     }
 
     //@Test
@@ -79,7 +84,7 @@ public class ProxyExample implements ProxyContainer<ProxyMethod> {
 
     @Test
     public void test() {
-        Proxy.of("");
+        Result.of("");
         final ProxyExample proxyExample = newProxyTest();
         System.out.println(proxyExample.getA());
         System.out.println(proxyExample.getB());
@@ -101,13 +106,14 @@ public class ProxyExample implements ProxyContainer<ProxyMethod> {
 
     @Test
     public void performanceTest() {
+        testPerformance = true;
         final ProxyExample proxyExample = newProxyTest();
         long timeStart, timeEnd;
-        int loopTime = 1000000;
+        int loopTime = 10000000;
 
         for (int i = 0; i < loopTime; i++) {
             for (ProxyMethod p : proxy) {
-                if(!(p instanceof GetA)) continue;
+                if (!(p instanceof GetA)) continue;
                 ((GetA) p).getA();
             }
             r.set(getA());
@@ -116,7 +122,7 @@ public class ProxyExample implements ProxyContainer<ProxyMethod> {
         timeStart = System.currentTimeMillis();
         for (int i = 0; i < loopTime; i++) {
             for (ProxyMethod p : proxy) {
-                if(!(p instanceof GetA)) continue;
+                if (!(p instanceof GetA)) continue;
                 ((GetA) p).getA();
             }
             r.set(getA());

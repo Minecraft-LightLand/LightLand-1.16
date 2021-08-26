@@ -12,6 +12,8 @@ public @interface ForFirstProxy {
 
     String name() default "";
 
+    boolean cache() default true;
+
     /**
      * proxy objs must handle this method
      * or will throw an exception
