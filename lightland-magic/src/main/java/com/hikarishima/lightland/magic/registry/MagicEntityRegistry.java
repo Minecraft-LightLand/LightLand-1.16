@@ -1,12 +1,13 @@
 package com.hikarishima.lightland.magic.registry;
 
 import com.hikarishima.lightland.magic.LightLandMagic;
-import com.hikarishima.lightland.magic.registry.entity.SpellEntity;
-import com.hikarishima.lightland.magic.registry.entity.SpellEntityRenderer;
-import com.hikarishima.lightland.magic.registry.entity.WindBladeEntity;
-import com.hikarishima.lightland.magic.registry.entity.WindBladeEntityRenderer;
+import com.hikarishima.lightland.magic.registry.entity.*;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.ItemRenderer;
+import net.minecraft.client.renderer.entity.ArrowRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
+import net.minecraft.client.renderer.entity.SpriteRenderer;
+import net.minecraft.client.renderer.entity.TippedArrowRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntityType;
@@ -27,6 +28,14 @@ public class MagicEntityRegistry {
                     .fireImmune().sized(3f, 3f)
                     .updateInterval(20));
 
+    public static final EntityType<FireArrowEntity> ET_FIRE_ARROW = reg("fire_arrow",
+            EntityType.Builder.<FireArrowEntity>of(FireArrowEntity::new, EntityClassification.MISC)
+                    .sized(1f, 1f).clientTrackingRange(4).updateInterval(20));
+
+    public static final EntityType<MagicFireBallEntity> ET_FIRE_BALL = reg("fire_ball",
+            EntityType.Builder.<MagicFireBallEntity>of(MagicFireBallEntity::new, EntityClassification.MISC)
+                    .sized(1f, 1f).clientTrackingRange(4).updateInterval(10));
+
     private static <T extends Entity> EntityType<T> reg(String name, EntityType.Builder<T> v) {
         return reg(name, v.build(name));
     }
@@ -39,8 +48,11 @@ public class MagicEntityRegistry {
     @OnlyIn(Dist.CLIENT)
     public static void registerClient() {
         EntityRendererManager manager = Minecraft.getInstance().getEntityRenderDispatcher();
+        ItemRenderer item = Minecraft.getInstance().getItemRenderer();
         manager.register(ET_WIND_BLADE, new WindBladeEntityRenderer(manager));
         manager.register(ET_SPELL, new SpellEntityRenderer(manager));
+        manager.register(ET_FIRE_ARROW, new TippedArrowRenderer(manager));
+        manager.register(ET_FIRE_BALL,new SpriteRenderer<>(manager, item, 3.0F, true));
     }
 
 }

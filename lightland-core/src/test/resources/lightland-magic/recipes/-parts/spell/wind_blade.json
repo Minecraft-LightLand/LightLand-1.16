@@ -42,7 +42,7 @@
       "damage": 20,
       "normal": 1,
       "distance": 64,
-      "velocity": 6,
+      "velocity": 3.5,
       "plane": "NORMAL"
     }
   }

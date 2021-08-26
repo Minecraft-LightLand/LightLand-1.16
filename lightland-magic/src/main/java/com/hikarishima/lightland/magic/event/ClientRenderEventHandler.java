@@ -27,7 +27,7 @@ import java.util.function.Supplier;
 @SuppressWarnings("unused")
 public class ClientRenderEventHandler {
 
-    private static final Map<UUID, Set<Effect>> map = new HashMap<>();
+    private static final Map<UUID, Set<Effect>> EFFECT_MAP = new HashMap<>();
 
     private static final Set<Effect> TRACKED = new HashSet<>();
 
@@ -40,7 +40,7 @@ public class ClientRenderEventHandler {
     public void onLivingEntityRender(RenderLivingEvent.Post<?, ?> event) {
         LivingEntity entity = event.getEntity();
         LivingRenderer<?, ?> renderer = event.getRenderer();
-        if (map.containsKey(entity.getUUID()) && map.get(entity.getUUID()).contains(VanillaMagicRegistry.ARCANE)) {
+        if (EFFECT_MAP.containsKey(entity.getUUID()) && EFFECT_MAP.get(entity.getUUID()).contains(VanillaMagicRegistry.ARCANE)) {
             renderArcaneIcon(entity, event.getMatrixStack(), event.getBuffers(), renderer.getDispatcher());
         }
     }
@@ -98,10 +98,10 @@ public class ClientRenderEventHandler {
 
     @OnlyIn(Dist.CLIENT)
     private static void handleImpl(EffectToClient eff) {
-        Set<Effect> set = map.get(eff.id);
+        Set<Effect> set = EFFECT_MAP.get(eff.id);
         if (eff.exists) {
             if (set == null) {
-                map.put(eff.id, set = new HashSet<>());
+                EFFECT_MAP.put(eff.id, set = new HashSet<>());
             }
             set.add(eff.eff);
         } else if (set != null) {
@@ -117,16 +117,16 @@ public class ClientRenderEventHandler {
         matrix.mulPose(manager.cameraOrientation());
         MatrixStack.Entry entry = matrix.last();
         IVertexBuilder ivertexbuilder = buffer.getBuffer(MagicRenderState.get2DIcon(MagicRenderState.RL_ENTITY_BODY_ICON));
-        iconVertex(entry, ivertexbuilder, 0.5f, -0.5f, 0, 0, 1);
-        iconVertex(entry, ivertexbuilder, -0.5f, -0.5f, 0, 1, 1);
-        iconVertex(entry, ivertexbuilder, -0.5f, 0.5f, 0, 1, 0);
-        iconVertex(entry, ivertexbuilder, 0.5f, 0.5f, 0, 0, 0);
+        iconVertex(entry, ivertexbuilder, 0.5f, -0.5f, 0, 1);
+        iconVertex(entry, ivertexbuilder, -0.5f, -0.5f, 1, 1);
+        iconVertex(entry, ivertexbuilder, -0.5f, 0.5f, 1, 0);
+        iconVertex(entry, ivertexbuilder, 0.5f, 0.5f, 0, 0);
         matrix.popPose();
     }
 
     @OnlyIn(Dist.CLIENT)
-    private static void iconVertex(MatrixStack.Entry entry, IVertexBuilder builder, float x, float y, float z, float u, float v) {
-        builder.vertex(entry.pose(), x, y, z)
+    private static void iconVertex(MatrixStack.Entry entry, IVertexBuilder builder, float x, float y, float u, float v) {
+        builder.vertex(entry.pose(), x, y, 0)
                 .uv(u, v)
                 .normal(entry.normal(), 0.0F, 1.0F, 0.0F)
                 .endVertex();

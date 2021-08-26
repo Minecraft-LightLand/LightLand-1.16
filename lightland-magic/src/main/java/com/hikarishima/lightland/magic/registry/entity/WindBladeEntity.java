@@ -11,6 +11,7 @@ import net.minecraft.entity.projectile.ThrowableEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.IPacket;
 import net.minecraft.network.PacketBuffer;
+import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.EntityRayTraceResult;
 import net.minecraft.util.math.MathHelper;
@@ -68,6 +69,17 @@ public class WindBladeEntity extends ThrowableEntity implements IEntityAdditiona
         last--;
         if (last <= 0) {
             remove();
+        }
+
+        double vx = velocity.x;
+        double vy = velocity.y;
+        double vz = velocity.z;
+        for(int i = 0; i < 4; ++i) {
+            this.level.addParticle(ParticleTypes.CRIT,
+                    this.getX() + vx * (double)i / 4.0D,
+                    this.getY() + vy * (double)i / 4.0D,
+                    this.getZ() + vz * (double)i / 4.0D,
+                    -vx, -vy + 0.2, -vz);
         }
     }
 

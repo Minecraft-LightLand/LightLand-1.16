@@ -64,11 +64,11 @@ public class RitualCore {
             TileEntity tile = world.getBlockEntity(pos);
             if (!(tile instanceof TE)) return;
             TE te = (TE) tile;
-            //if (!te.isLocked()) return;
+            if (!te.isLocked()) return;
             List<RitualSide.TE> side = te.getSide();
             if (side.size() < 8) return;
             for (RitualSide.TE ste : side) {
-                //if (ste.isEmpty()) continue;
+                if (ste.isEmpty()) continue;
                 BlockPos spos = ste.getBlockPos();
                 world.addParticle(ParticleTypes.ENCHANT,
                         pos.getX() + 0.5,
