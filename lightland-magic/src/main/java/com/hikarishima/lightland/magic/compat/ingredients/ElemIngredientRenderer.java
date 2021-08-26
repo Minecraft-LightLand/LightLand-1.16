@@ -3,7 +3,6 @@ package com.hikarishima.lightland.magic.compat.ingredients;
 import com.hikarishima.lightland.magic.MagicProxy;
 import com.hikarishima.lightland.magic.Translator;
 import com.hikarishima.lightland.magic.gui.AbstractHexGui;
-import com.hikarishima.lightland.proxy.Proxy;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import mezz.jei.api.MethodsReturnNonnullByDefault;
 import mezz.jei.api.ingredients.IIngredientRenderer;

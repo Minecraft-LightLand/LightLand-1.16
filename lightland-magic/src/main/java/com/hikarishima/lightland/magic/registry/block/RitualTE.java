@@ -3,7 +3,6 @@ package com.hikarishima.lightland.magic.registry.block;
 import com.lcy0x1.base.block.mult.IClick;
 import com.lcy0x1.base.block.mult.IDefaultState;
 import com.lcy0x1.base.block.mult.IState;
-import com.lcy0x1.base.block.one.ILight;
 import com.lcy0x1.core.util.SerialClass;
 import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.block.Block;
@@ -19,7 +18,6 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 

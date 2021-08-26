@@ -3,10 +3,10 @@ package com.hikarishima.lightland.magic.spell.internal;
 import com.hikarishima.lightland.magic.MagicRegistry;
 import com.hikarishima.lightland.magic.capabilities.MagicHandler;
 import com.hikarishima.lightland.magic.products.MagicProduct;
-import com.hikarishima.lightland.magic.recipe.MagicRecipeRegistry;
-import com.hikarishima.lightland.recipe.ConfigRecipe;
 import com.hikarishima.lightland.magic.recipe.IMagicRecipe;
+import com.hikarishima.lightland.magic.recipe.MagicRecipeRegistry;
 import com.hikarishima.lightland.magic.registry.item.magic.MagicScroll;
+import com.hikarishima.lightland.recipe.ConfigRecipe;
 import com.lcy0x1.core.util.Automator;
 import com.lcy0x1.core.util.SerialClass;
 import net.minecraft.entity.player.PlayerEntity;
@@ -39,6 +39,17 @@ public class SpellConfig {
 
     public static <C extends SpellConfig> C makeCopy(C config) {
         return Automator.fromTag(Automator.toTag(new CompoundNBT(), config), config.getClass());
+    }
+
+    @SerialClass
+    public static class SpellDisplay {
+
+        @SerialClass.SerialField
+        public String id;
+
+        @SerialClass.SerialField
+        public int duration, setup, close;
+
     }
 
 }

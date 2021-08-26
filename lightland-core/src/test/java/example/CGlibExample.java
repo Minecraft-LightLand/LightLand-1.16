@@ -27,8 +27,8 @@ public class CGlibExample {
         enhancer.setSuperclass(TestClass.class);
         enhancer.setCallback(new ProxyInterceptor());
         TestClass o = (TestClass) enhancer.create(
-            new Class[]{int.class, boolean.class},
-            new Object[]{0, false}
+                new Class[]{int.class, boolean.class},
+                new Object[]{0, false}
         );
         o.getA();
     }

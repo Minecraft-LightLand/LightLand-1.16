@@ -1,9 +1,9 @@
 package com.hikarishima.lightland.quest.token;
 
 import com.hikarishima.lightland.config.StringSubstitution;
+import com.hikarishima.lightland.proxy.PacketHandler;
 import com.hikarishima.lightland.quest.player.QuestToClient;
 import com.hikarishima.lightland.quest.quest.MobKillStage;
-import com.hikarishima.lightland.proxy.PacketHandler;
 import com.lcy0x1.core.util.SerialClass;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;

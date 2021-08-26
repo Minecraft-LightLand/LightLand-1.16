@@ -7,7 +7,6 @@ import com.hikarishima.lightland.magic.registry.MagicItemRegistry;
 import com.hikarishima.lightland.magic.spell.internal.AbstractSpell;
 import com.hikarishima.lightland.magic.spell.internal.Spell;
 import com.hikarishima.lightland.proxy.Proxy;
-import com.hikarishima.lightland.registry.ItemRegistry;
 import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.PlayerEntity;

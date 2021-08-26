@@ -1,16 +1,13 @@
 package com.hikarishima.lightland.event.combat;
 
-import com.lcy0x1.core.util.ExceptionHandler;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.LightLandFakeEntity;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.CombatRules;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EntityDamageSource;
 
 import javax.annotation.Nullable;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,14 +18,13 @@ public class MagicDamageSource extends EntityDamageSource {
     private final Entity owner;
 
     public MagicDamageSource(Entity e) {
-        this( e, null);
+        this(e, e);
     }
 
     public MagicDamageSource(Entity e, Entity owner) {
         super("lightland", e);
         this.owner = owner;
     }
-
 
     @Nullable
     public Entity getDirectEntity() {
@@ -37,7 +33,7 @@ public class MagicDamageSource extends EntityDamageSource {
 
     @Nullable
     public Entity getEntity() {
-        return owner == null ? entity : owner;
+        return owner;
     }
 
     public static float getDamageAfterArmorAbsorb(LivingEntity e, MagicDamageEntry ent, float f) {
@@ -49,19 +45,16 @@ public class MagicDamageSource extends EntityDamageSource {
             }
         }
         float dmg = f + mod;
-        ExceptionHandler.run(() -> {
-            Method m = ExceptionHandler.getMethod(e.getClass(), "hurtArmor", DamageSource.class, float.class);
-            m.invoke(e, ent.source, dmg * ent.armorDamageFactor);
-        });
-        return CombatRules.getDamageAfterAbsorb(dmg, (float) e.getArmorValue(), (float) e.getAttributeValue(Attributes.ARMOR_TOUGHNESS));
+        if (dmg <= 0) {
+            return 0;
+        }
+        if (ent.armorDamageFactor > 1)
+            LightLandFakeEntity.hurtArmor(e, ent.source, dmg * (ent.armorDamageFactor - 1));
+        return LightLandFakeEntity.getDamageAfterArmorAbsorb(e, ent.source, dmg);
     }
 
     public static float getDamageAfterMagicAbsorb(LivingEntity e, DamageSource ds, float f) {
-        Float ans = ExceptionHandler.get(() -> {
-            Method m = ExceptionHandler.getMethod(e.getClass(), "getDamageAfterArmorAbsorb", DamageSource.class, float.class);
-            return (Float) m.invoke(e, ds, f);
-        });
-        return ans == null ? f : ans;
+        return LightLandFakeEntity.getDamageAfterMagicAbsorb(e, ds, f);
     }
 
     public boolean isBypassArmor() {

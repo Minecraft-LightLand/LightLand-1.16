@@ -7,6 +7,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.projectile.ThrowableEntity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.network.IPacket;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.DamageSource;
@@ -23,9 +24,16 @@ import javax.annotation.ParametersAreNonnullByDefault;
 @MethodsReturnNonnullByDefault
 public class WindBladeEntity extends ThrowableEntity implements IEntityAdditionalSpawnData {
 
+    @SerialClass.SerialField
     private float damage = 3;
+    @SerialClass.SerialField
     private int last = 200;
+    @SerialClass.SerialField
+    private boolean isArcane = false;
+    @SerialClass.SerialField
     public float zrot = 0f;
+
+    private ItemStack issuer;
 
     public WindBladeEntity(EntityType<? extends WindBladeEntity> type, World w) {
         super(type, w);
@@ -35,10 +43,13 @@ public class WindBladeEntity extends ThrowableEntity implements IEntityAdditiona
     protected void defineSynchedData() {
     }
 
-    public void setProperties(float damage, int last, float zrot) {
+    public void setProperties(float damage, int last, float zrot, ItemStack issuer) {
         this.damage = damage;
         this.last = last;
         this.zrot = zrot;
+        this.isArcane = !issuer.isEmpty();
+        this.issuer = issuer;
+        this.updateRotation();
     }
 
     @Override
@@ -68,7 +79,11 @@ public class WindBladeEntity extends ThrowableEntity implements IEntityAdditiona
         if (!level.isClientSide) {
             Entity entity = result.getEntity();
             Entity owner = this.getOwner();
-            entity.hurt(IArcaneWeapon.toMagic(this, owner, DamageSource.indirectMagic(this, owner), damage, 200), damage);
+            DamageSource source = DamageSource.indirectMagic(this, owner);
+            if (isArcane) {
+                source = IArcaneWeapon.toMagic(issuer, this, owner, source, damage, 200);
+            }
+            entity.hurt(source, damage);
             if (owner instanceof LivingEntity) {
                 doEnchantDamageEffects((LivingEntity) owner, entity);
             }

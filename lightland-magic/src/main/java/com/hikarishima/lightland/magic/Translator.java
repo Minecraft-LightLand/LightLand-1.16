@@ -1,10 +1,8 @@
 package com.hikarishima.lightland.magic;
 
-import com.hikarishima.lightland.LightLand;
 import com.hikarishima.lightland.magic.capabilities.MagicHandler;
 import com.hikarishima.lightland.magic.products.MagicProduct;
 import com.hikarishima.lightland.magic.recipe.IMagicRecipe;
-import com.hikarishima.lightland.proxy.Proxy;
 import com.lcy0x1.core.magic.HexDirection;
 import net.minecraft.util.text.IFormattableTextComponent;
 import net.minecraft.util.text.ITextProperties;
@@ -20,15 +18,15 @@ import java.util.List;
 public class Translator {
 
     public static IFormattableTextComponent getContainer(String str) {
-        return new TranslationTextComponent(LightLand.MODID + ":container." + str);
+        return new TranslationTextComponent(LightLandMagic.MODID + ":container." + str);
     }
 
     public static IFormattableTextComponent get(String str, Object... objs) {
-        return new TranslationTextComponent(LightLand.MODID + ":" + str, objs);
+        return new TranslationTextComponent(LightLandMagic.MODID + ":" + str, objs);
     }
 
     public static IFormattableTextComponent get(boolean red, String str, Object... objs) {
-        TranslationTextComponent ans = new TranslationTextComponent(LightLand.MODID + ":" + str, objs);
+        TranslationTextComponent ans = new TranslationTextComponent(LightLandMagic.MODID + ":" + str, objs);
         if (red)
             ans.withStyle(TextFormatting.RED);
         return ans;

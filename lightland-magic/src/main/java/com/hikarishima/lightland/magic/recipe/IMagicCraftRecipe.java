@@ -7,10 +7,8 @@ import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.World;
 
 import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.HashMap;
 
 @MethodsReturnNonnullByDefault
 @ParametersAreNonnullByDefault

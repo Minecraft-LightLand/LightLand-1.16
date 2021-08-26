@@ -1,7 +1,7 @@
 package com.hikarishima.lightland.magic.compat.ingredients;
 
-import com.hikarishima.lightland.magic.LightLandMagic;
 import com.hikarishima.lightland.config.StringSubstitution;
+import com.hikarishima.lightland.magic.LightLandMagic;
 import com.hikarishima.lightland.magic.chem.ChemObj;
 import mezz.jei.api.MethodsReturnNonnullByDefault;
 import mezz.jei.api.ingredients.IIngredientHelper;

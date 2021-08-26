@@ -1,7 +1,7 @@
 package com.hikarishima.lightland.magic.gui.hex;
 
-import com.hikarishima.lightland.magic.Translator;
 import com.hikarishima.lightland.magic.MagicElement;
+import com.hikarishima.lightland.magic.Translator;
 import com.hikarishima.lightland.magic.gui.AbstractHexGui;
 import com.hikarishima.lightland.magic.products.MagicProduct;
 import com.hikarishima.lightland.magic.recipe.IMagicRecipe;

@@ -15,7 +15,7 @@ public class GenericEventHandler {
     @SubscribeEvent
     public void onCommandRegister(RegisterCommandsEvent event) {
         LiteralArgumentBuilder<CommandSource> lightland = Commands.literal("lightland");
-        for (Consumer<LiteralArgumentBuilder<CommandSource>> command : BaseCommand.LIST){
+        for (Consumer<LiteralArgumentBuilder<CommandSource>> command : BaseCommand.LIST) {
             command.accept(lightland);
         }
         event.getDispatcher().register(lightland);

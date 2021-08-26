@@ -2,9 +2,9 @@ package com.hikarishima.lightland.magic.gui.container;
 
 import com.google.common.collect.Maps;
 import com.hikarishima.lightland.magic.LightLandMagic;
-import com.hikarishima.lightland.magic.Translator;
 import com.hikarishima.lightland.magic.MagicElement;
 import com.hikarishima.lightland.magic.MagicRegistry;
+import com.hikarishima.lightland.magic.Translator;
 import com.hikarishima.lightland.magic.arcane.internal.Arcane;
 import com.hikarishima.lightland.magic.arcane.internal.ArcaneItemCraftHelper;
 import com.hikarishima.lightland.magic.arcane.internal.ArcaneItemUseHelper;

@@ -1,12 +1,12 @@
 package com.hikarishima.lightland.magic.compat.recipes;
 
 import com.google.common.collect.Lists;
+import com.hikarishima.lightland.config.StringSubstitution;
 import com.hikarishima.lightland.magic.LightLandMagic;
+import com.hikarishima.lightland.magic.Translator;
 import com.hikarishima.lightland.magic.compat.LightLandJeiPlugin;
 import com.hikarishima.lightland.magic.compat.ingredients.Countable;
 import com.hikarishima.lightland.magic.compat.ingredients.ElementIngredient;
-import com.hikarishima.lightland.config.StringSubstitution;
-import com.hikarishima.lightland.magic.Translator;
 import com.hikarishima.lightland.magic.recipe.IMagicRecipe;
 import com.hikarishima.lightland.magic.registry.MagicItemRegistry;
 import mezz.jei.api.MethodsReturnNonnullByDefault;

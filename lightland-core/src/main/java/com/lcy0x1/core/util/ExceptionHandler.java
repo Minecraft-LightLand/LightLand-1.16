@@ -3,8 +3,6 @@ package com.lcy0x1.core.util;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 
-import java.lang.reflect.Method;
-
 public class ExceptionHandler {
 
     public static void run(ExcRun run) {
@@ -30,15 +28,6 @@ public class ExceptionHandler {
         } catch (Throwable e) {
             return null;
         }
-    }
-
-    public static Method getMethod(Class<?> target, String name, Class<?>... cls) {
-        Method m;
-        Class<?>[] t = new Class[]{target};
-        while ((m = ignore(() -> t[0].getDeclaredMethod(name, cls))) == null)
-            t[0] = t[0].getSuperclass();
-        m.setAccessible(true);
-        return m;
     }
 
     @FunctionalInterface

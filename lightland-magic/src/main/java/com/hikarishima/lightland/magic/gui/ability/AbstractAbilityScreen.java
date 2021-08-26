@@ -2,7 +2,6 @@ package com.hikarishima.lightland.magic.gui.ability;
 
 import com.hikarishima.lightland.magic.gui.GuiTabType;
 import com.hikarishima.lightland.magic.registry.MagicItemRegistry;
-import com.hikarishima.lightland.registry.ItemRegistry;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 import mcp.MethodsReturnNonnullByDefault;

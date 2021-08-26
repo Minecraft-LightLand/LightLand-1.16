@@ -7,7 +7,6 @@ import com.hikarishima.lightland.magic.capabilities.AbilityPoints;
 import com.hikarishima.lightland.magic.capabilities.MagicHandler;
 import com.hikarishima.lightland.magic.capabilities.ToServerMsg;
 import com.hikarishima.lightland.magic.gui.AbstractHexGui;
-import com.hikarishima.lightland.proxy.Proxy;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 import mcp.MethodsReturnNonnullByDefault;

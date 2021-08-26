@@ -1,7 +1,5 @@
 package com.hikarishima.lightland.quest.event;
 
-import com.hikarishima.lightland.LightLand;
-import com.hikarishima.lightland.event.forge.ItemUseEventHandler;
 import com.hikarishima.lightland.proxy.PacketHandler;
 import com.hikarishima.lightland.quest.LightLandQuest;
 import com.hikarishima.lightland.quest.gui.GUIDispatcher;

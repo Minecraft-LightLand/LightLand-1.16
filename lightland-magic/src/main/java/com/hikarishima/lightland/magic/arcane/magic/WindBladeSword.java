@@ -35,7 +35,7 @@ public class WindBladeSword extends Arcane {
             if (e != null) {
                 e.setPos(player.getX(), player.getEyeY() - 0.5f, player.getZ());
                 e.shootFromRotation(player, player.xRot, player.yRot, 0, velocity, 1);
-                e.setProperties(dmg, Math.round(dist / velocity), (float) (Math.random() * 360f));
+                e.setProperties(dmg, Math.round(dist / velocity), (float) (Math.random() * 360f), stack);
                 w.addFreshEntity(e);
             }
         }

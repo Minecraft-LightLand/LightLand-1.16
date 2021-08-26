@@ -1,0 +1,49 @@
+{
+  "_class": "organize.json.JsonPartMap",
+  "file": "config_spell",
+  "path": "map",
+  "common": {
+    "_class": "com.hikarishima.lightland.magic.spell.magic.WindBladeSpell$Config"
+  },
+  "map": {
+    "lightland-magic:blade_side": {
+      "duration": 30,
+      "mana_cost": 25,
+      "spell_load": 50,
+      "type": "SCROLL",
+      "spell_time": {
+        "id": "test.spell",
+        "duration": 100,
+        "setup": 30,
+        "close": 30
+      },
+      "period": 4,
+      "damage": 5,
+      "offset": [
+        -1,
+        1
+      ],
+      "distance": 64,
+      "velocity": 3,
+      "plane": "HORIZONTAL"
+    },
+    "lightland-magic:blade_front": {
+      "duration": 30,
+      "mana_cost": 25,
+      "spell_load": 50,
+      "type": "SCROLL",
+      "spell_time": {
+        "id": "test.spell",
+        "duration":60,
+        "setup": 30,
+        "close": 30
+      },
+      "period": 100,
+      "damage": 20,
+      "normal": 1,
+      "distance": 64,
+      "velocity": 6,
+      "plane": "NORMAL"
+    }
+  }
+}

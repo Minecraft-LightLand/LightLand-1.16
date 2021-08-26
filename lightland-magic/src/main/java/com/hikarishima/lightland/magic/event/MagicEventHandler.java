@@ -1,6 +1,5 @@
 package com.hikarishima.lightland.magic.event;
 
-import com.hikarishima.lightland.LightLand;
 import com.hikarishima.lightland.magic.LightLandMagic;
 import com.hikarishima.lightland.magic.capabilities.MagicHandler;
 import com.hikarishima.lightland.magic.capabilities.PlayerMagicCapability;

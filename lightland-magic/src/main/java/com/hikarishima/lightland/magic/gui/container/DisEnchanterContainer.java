@@ -9,7 +9,6 @@ import com.hikarishima.lightland.magic.capabilities.MagicHolder;
 import com.hikarishima.lightland.magic.recipe.IMagicRecipe;
 import com.hikarishima.lightland.magic.registry.MagicContainerRegistry;
 import com.hikarishima.lightland.magic.registry.MagicItemRegistry;
-import com.hikarishima.lightland.registry.ItemRegistry;
 import com.lcy0x1.core.util.SpriteManager;
 import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.enchantment.Enchantment;

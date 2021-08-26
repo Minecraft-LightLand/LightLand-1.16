@@ -20,8 +20,8 @@ public class ThunderSword extends Arcane {
 
     public final float dist;
 
-    public ThunderSword(float dist) {
-        super(ArcaneType.ALKAID, 6);
+    public ThunderSword(int cost, float dist) {
+        super(ArcaneType.ALKAID, cost);
         this.dist = dist;
     }
 

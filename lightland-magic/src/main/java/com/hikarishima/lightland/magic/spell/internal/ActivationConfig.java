@@ -1,6 +1,7 @@
 package com.hikarishima.lightland.magic.spell.internal;
 
 import com.lcy0x1.core.math.AutoAim;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.BlockRayTraceResult;
@@ -15,6 +16,7 @@ public class ActivationConfig {
     public PlayerEntity player;
     public Vector3d pos;
     public Vector3d dire;
+    public Entity target;
 
     public ActivationConfig(World world, PlayerEntity player, double reach) {
         this.world = world;
@@ -27,6 +29,7 @@ public class ActivationConfig {
         EntityRayTraceResult ertr = AutoAim.rayTraceEntity(player, reach, (e) -> e instanceof LivingEntity && e != player);
         if (ertr != null) {
             pos = ertr.getLocation();
+            target = ertr.getEntity();
             return;
         }
         BlockRayTraceResult brtr = AutoAim.rayTraceBlock(world, player, reach);

@@ -1,0 +1,54 @@
+{
+  "_class": "organize.json.JsonPartMap",
+  "file": "config_spell",
+  "path": "map",
+  "common": {
+    "_class": "com.hikarishima.lightland.magic.spell.magic.EvokerFangSpell$Config"
+  },
+  "map": {
+    "lightland-magic:fang_round": {
+      "duration": 30,
+      "mana_cost": 25,
+      "spell_load": 50,
+      "type": "SCROLL",
+      "spell_time": {
+        "id": "test.spell",
+        "duration": 100,
+        "setup": 30,
+        "close": 30
+      },
+      "layers": [
+        {
+          "count": 4,
+          "delay": 30,
+          "angle": 0,
+          "radius": 1
+        },
+        {
+          "count": 8,
+          "delay": 35,
+          "angle": 22.5,
+          "radius": 2
+        },
+        {
+          "count": 12,
+          "delay": 40,
+          "angle": 0,
+          "radius": 3
+        },
+        {
+          "count": 16,
+          "delay": 45,
+          "angle": 11.25,
+          "radius": 4
+        },
+        {
+          "count": 20,
+          "delay": 50,
+          "angle": 0,
+          "radius": 5
+        }
+      ]
+    }
+  }
+}

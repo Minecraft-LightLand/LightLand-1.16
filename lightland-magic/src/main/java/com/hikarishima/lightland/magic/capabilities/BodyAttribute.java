@@ -20,7 +20,7 @@ public class BodyAttribute {
         return Math.pow(e, v) - 1;
     }
 
-    private static UUID getUUIDfromString(String str) {
+    public static UUID getUUIDfromString(String str) {
         int hash = str.hashCode();
         Random r = new Random(hash);
         long l0 = r.nextLong();
@@ -39,19 +39,19 @@ public class BodyAttribute {
     }
 
     public enum Attr {
-        HEALTH("lightland.health", Attributes.MAX_HEALTH,
+        HEALTH("lightland-magic.health", Attributes.MAX_HEALTH,
                 AttributeModifier.Operation.ADDITION, a -> sq(a.health) * 2),
-        ARMOR("lightland.armor", Attributes.ARMOR,
+        ARMOR("lightland-magic.armor", Attributes.ARMOR,
                 AttributeModifier.Operation.ADDITION, a -> sq(a.health)),
-        TOUGH("lightland.toughness", Attributes.ARMOR_TOUGHNESS,
+        TOUGH("lightland-magic.toughness", Attributes.ARMOR_TOUGHNESS,
                 AttributeModifier.Operation.ADDITION, a -> sq(a.health)),
-        DAMAGE("lightland.damage", Attributes.ATTACK_DAMAGE,
+        DAMAGE("lightland-magic.damage", Attributes.ATTACK_DAMAGE,
                 AttributeModifier.Operation.MULTIPLY_TOTAL, a -> exp(1.2, a.strength)),
-        ATK_SPEED("lightland.atk_speed", Attributes.ATTACK_SPEED,
+        ATK_SPEED("lightland-magic.atk_speed", Attributes.ATTACK_SPEED,
                 AttributeModifier.Operation.MULTIPLY_TOTAL, a -> exp(1.05, a.strength) + exp(1.05, a.speed)),
-        MOVE_SPEED("lightland.move_speed", Attributes.MOVEMENT_SPEED,
+        MOVE_SPEED("lightland-magic.move_speed", Attributes.MOVEMENT_SPEED,
                 AttributeModifier.Operation.MULTIPLY_TOTAL, a -> exp(1.1, a.speed)),
-        FLY_SPEED("lightland.fly_speed", Attributes.FLYING_SPEED,
+        FLY_SPEED("lightland-magic.fly_speed", Attributes.FLYING_SPEED,
                 AttributeModifier.Operation.MULTIPLY_TOTAL, a -> exp(1.1, a.speed));
 
         public final String name;

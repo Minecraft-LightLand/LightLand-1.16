@@ -1,4 +1,4 @@
-package com.lcy0x1.base;
+package com.lcy0x1.base.block;
 
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
@@ -11,7 +11,7 @@ public class BlockProp {
 
     public static final BlockProp ORE_0 = new BlockProp(Material.STONE, 3, 3).setTool(ToolType.PICKAXE, 0);
 
-    public static BlockProp copy(Block b){
+    public static BlockProp copy(Block b) {
         return new BlockProp(AbstractBlock.Properties.copy(b));
     }
 
@@ -40,7 +40,7 @@ public class BlockProp {
         return this;
     }
 
-    public BlockProp make(Consumer<AbstractBlock.Properties> cons){
+    public BlockProp make(Consumer<AbstractBlock.Properties> cons) {
         cons.accept(props);
         return this;
     }

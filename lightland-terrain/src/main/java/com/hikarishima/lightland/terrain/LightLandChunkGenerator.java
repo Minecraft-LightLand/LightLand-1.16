@@ -1,7 +1,7 @@
 package com.hikarishima.lightland.terrain;
 
-import com.hikarishima.lightland.terrain.config.ImageRoadReader;
 import com.hikarishima.lightland.terrain.config.ImageBiomeReader;
+import com.hikarishima.lightland.terrain.config.ImageRoadReader;
 import com.hikarishima.lightland.terrain.config.VolcanoBiomeReader;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;

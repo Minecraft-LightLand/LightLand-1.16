@@ -1,8 +1,8 @@
 package com.hikarishima.lightland.quest.gui;
 
+import com.hikarishima.lightland.proxy.Proxy;
 import com.hikarishima.lightland.quest.player.QuestHandler;
 import com.hikarishima.lightland.quest.token.QuestToken;
-import com.hikarishima.lightland.proxy.Proxy;
 import com.lcy0x1.base.TextScreenUtil;
 import com.lcy0x1.base.WindowBox;
 import com.mojang.blaze3d.matrix.MatrixStack;

@@ -49,19 +49,19 @@ public class GenericRegistryEvents {
     }
 
     @SubscribeEvent
-    public static void onEffectRegistry(RegistryEvent.Register<Effect> event){
+    public static void onEffectRegistry(RegistryEvent.Register<Effect> event) {
         for (Class<?> cls : RegistryBase.REGISTRIES)
             RegistryBase.process(cls, Effect.class, event.getRegistry()::register);
     }
 
     @SubscribeEvent
-    public static void onEnchantmentRegistry(RegistryEvent.Register<Enchantment> event){
+    public static void onEnchantmentRegistry(RegistryEvent.Register<Enchantment> event) {
         for (Class<?> cls : RegistryBase.REGISTRIES)
             RegistryBase.process(cls, Enchantment.class, event.getRegistry()::register);
     }
 
     @SubscribeEvent
-    public static void onEntityTypeRegistry(RegistryEvent.Register<EntityType<?>> event){
+    public static void onEntityTypeRegistry(RegistryEvent.Register<EntityType<?>> event) {
         for (Class<?> cls : RegistryBase.REGISTRIES)
             RegistryBase.process(cls, EntityType.class, event.getRegistry()::register);
     }

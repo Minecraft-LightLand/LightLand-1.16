@@ -31,7 +31,7 @@ public class MagnifyFilter<T> implements IFilter<T, T> {
                 int j1 = Math.min(w - 1, j + 1);
                 int k1 = Math.min(h - 1, k + 1);
                 ans[j * 2][k * 2] = map[j][k];
-                ans[j * 2 + 1][k * 2] =IFilter.rand(r, map[j][k], map[j1][k]);
+                ans[j * 2 + 1][k * 2] = IFilter.rand(r, map[j][k], map[j1][k]);
                 ans[j * 2][k * 2 + 1] = IFilter.rand(r, map[j][k], map[j][k1]);
                 ans[j * 2 + 1][k * 2 + 1] = max(map[j][k], map[j1][k], map[j][k1], map[j1][k1]);
             }

@@ -5,7 +5,7 @@ import java.util.Random;
 
 public class SmoothFilter<T> implements IFilter<T, T> {
 
-    public enum Type{
+    public enum Type {
         ALL, SIDE;
     }
 

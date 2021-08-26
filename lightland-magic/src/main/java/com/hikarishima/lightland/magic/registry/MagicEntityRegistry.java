@@ -2,9 +2,9 @@ package com.hikarishima.lightland.magic.registry;
 
 import com.hikarishima.lightland.magic.LightLandMagic;
 import com.hikarishima.lightland.magic.registry.entity.SpellEntity;
+import com.hikarishima.lightland.magic.registry.entity.SpellEntityRenderer;
 import com.hikarishima.lightland.magic.registry.entity.WindBladeEntity;
 import com.hikarishima.lightland.magic.registry.entity.WindBladeEntityRenderer;
-import com.hikarishima.lightland.magic.spell.render.SpellEntityRenderer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.entity.Entity;
@@ -24,7 +24,7 @@ public class MagicEntityRegistry {
     public static final EntityType<SpellEntity> ET_SPELL = reg("spell",
             EntityType.Builder.of(SpellEntity::new, EntityClassification.MISC)
                     .setShouldReceiveVelocityUpdates(false)
-                    .fireImmune().sized(3f, 0.5f)
+                    .fireImmune().sized(3f, 3f)
                     .updateInterval(20));
 
     private static <T extends Entity> EntityType<T> reg(String name, EntityType.Builder<T> v) {

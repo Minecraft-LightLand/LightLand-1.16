@@ -1,6 +1,5 @@
 package com.hikarishima.lightland.recipe;
 
-import com.hikarishima.lightland.LightLand;
 import com.lcy0x1.core.util.SerialClass;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;

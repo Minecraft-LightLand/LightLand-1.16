@@ -1,9 +1,9 @@
 package com.hikarishima.lightland.quest.player;
 
 import com.hikarishima.lightland.magic.capabilities.ToServerMsg;
-import com.hikarishima.lightland.quest.token.MobKillToken;
 import com.hikarishima.lightland.proxy.PacketHandler;
 import com.hikarishima.lightland.proxy.Proxy;
+import com.hikarishima.lightland.quest.token.MobKillToken;
 import com.lcy0x1.core.util.Automator;
 import com.lcy0x1.core.util.SerialClass;
 import net.minecraft.client.Minecraft;

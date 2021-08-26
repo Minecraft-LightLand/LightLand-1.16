@@ -89,11 +89,11 @@ public class AutoAim {
         return getProcessedPPE(config);
     }
 
-    public static Vector3d getRayTerm(Vector3d pos, float pitch, float yaw, double reach) {
-        float f2 = MathHelper.cos(-yaw * ((float) Math.PI / 180F) - (float) Math.PI);
-        float f3 = MathHelper.sin(-yaw * ((float) Math.PI / 180F) - (float) Math.PI);
-        float f4 = -MathHelper.cos(-pitch * ((float) Math.PI / 180F));
-        float f5 = MathHelper.sin(-pitch * ((float) Math.PI / 180F));
+    public static Vector3d getRayTerm(Vector3d pos, float xRot, float yRot, double reach) {
+        float f2 = MathHelper.cos(-yRot * ((float) Math.PI / 180F) - (float) Math.PI);
+        float f3 = MathHelper.sin(-yRot * ((float) Math.PI / 180F) - (float) Math.PI);
+        float f4 = -MathHelper.cos(-xRot * ((float) Math.PI / 180F));
+        float f5 = MathHelper.sin(-xRot * ((float) Math.PI / 180F));
         float f6 = f3 * f4;
         float f7 = f2 * f4;
         return pos.add(f6 * reach, f5 * reach, f7 * reach);
@@ -107,17 +107,17 @@ public class AutoAim {
             e.setDeltaMovement(er.getVec());
             e.setFuse((int) Math.round(er.getT()));
         } else if (er.getType() == EstiType.FAIL)
-            setDire(config.player, config.velo, e);
+            setDire(config.player.xRot, config.player.yRot, config.velo, e);
         else
             return null;
         return e;
     }
 
     public static BlockRayTraceResult rayTraceBlock(World worldIn, PlayerEntity player, double reach) {
-        float f = player.xRot;
-        float f1 = player.yRot;
+        float xRot = player.xRot;
+        float yRot = player.yRot;
         Vector3d Vector3d = new Vector3d(player.getX(), player.getEyeY(), player.getZ());
-        Vector3d Vector3d1 = getRayTerm(Vector3d, f, f1, reach);
+        Vector3d Vector3d1 = getRayTerm(Vector3d, xRot, yRot, reach);
         return worldIn.clip(new RayTraceContext(Vector3d, Vector3d1, RayTraceContext.BlockMode.OUTLINE,
                 RayTraceContext.FluidMode.NONE, player));
     }
@@ -191,12 +191,10 @@ public class AutoAim {
         return EstiType.FAIL;
     }
 
-    private static void setDire(PlayerEntity pl, float velo, Entity ent) {
-        float yaw = pl.yRot;
-        float pitch = pl.xRot;
-        float f = -MathHelper.sin(yaw * ((float) Math.PI / 180F)) * MathHelper.cos(pitch * ((float) Math.PI / 180F));
-        float f1 = -MathHelper.sin(pitch * ((float) Math.PI / 180F));
-        float f2 = MathHelper.cos(yaw * ((float) Math.PI / 180F)) * MathHelper.cos(pitch * ((float) Math.PI / 180F));
+    public static void setDire(float xRot, float yRot, float velo, Entity ent) {
+        float f = -MathHelper.sin(yRot * ((float) Math.PI / 180F)) * MathHelper.cos(xRot * ((float) Math.PI / 180F));
+        float f1 = -MathHelper.sin(xRot * ((float) Math.PI / 180F));
+        float f2 = MathHelper.cos(yRot * ((float) Math.PI / 180F)) * MathHelper.cos(xRot * ((float) Math.PI / 180F));
         Vector3d Vector3d = new Vector3d(f, f1, f2).normalize().scale(velo);
         ent.setDeltaMovement(Vector3d);
         float f3 = MathHelper.sqrt(Entity.getHorizontalDistanceSqr(Vector3d));

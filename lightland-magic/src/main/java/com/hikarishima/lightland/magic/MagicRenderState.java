@@ -27,7 +27,7 @@ public class MagicRenderState extends RenderState {
         );
     }
 
-    public static RenderType getSpell(){
+    public static RenderType getSpell() {
         return RenderType.create(
                 "spell_blend_notex",
                 DefaultVertexFormats.POSITION_COLOR,

@@ -1,7 +1,6 @@
 package com.hikarishima.lightland.magic.registry.item.combat;
 
 import com.hikarishima.lightland.magic.registry.MagicItemRegistry;
-import com.hikarishima.lightland.registry.ItemRegistry;
 import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.item.IItemTier;
 import net.minecraft.item.crafting.Ingredient;

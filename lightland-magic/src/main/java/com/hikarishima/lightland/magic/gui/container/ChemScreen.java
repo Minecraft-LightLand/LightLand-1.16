@@ -2,14 +2,13 @@ package com.hikarishima.lightland.magic.gui.container;
 
 import com.google.common.collect.Maps;
 import com.hikarishima.lightland.magic.LightLandMagic;
+import com.hikarishima.lightland.magic.MagicElement;
 import com.hikarishima.lightland.magic.MagicProxy;
 import com.hikarishima.lightland.magic.Translator;
-import com.hikarishima.lightland.magic.MagicElement;
 import com.hikarishima.lightland.magic.capabilities.MagicHandler;
 import com.hikarishima.lightland.magic.chem.*;
 import com.hikarishima.lightland.magic.gui.AbstractHexGui;
 import com.hikarishima.lightland.proxy.PacketHandler;
-import com.hikarishima.lightland.proxy.Proxy;
 import com.lcy0x1.core.chem.ReactionPool;
 import com.lcy0x1.core.util.SpriteManager;
 import com.mojang.blaze3d.matrix.MatrixStack;

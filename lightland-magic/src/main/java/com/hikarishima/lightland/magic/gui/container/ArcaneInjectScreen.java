@@ -1,10 +1,9 @@
 package com.hikarishima.lightland.magic.gui.container;
 
+import com.hikarishima.lightland.magic.MagicElement;
 import com.hikarishima.lightland.magic.MagicProxy;
 import com.hikarishima.lightland.magic.Translator;
-import com.hikarishima.lightland.magic.MagicElement;
 import com.hikarishima.lightland.magic.gui.AbstractHexGui;
-import com.hikarishima.lightland.proxy.Proxy;
 import com.lcy0x1.core.util.SpriteManager;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.entity.player.PlayerInventory;

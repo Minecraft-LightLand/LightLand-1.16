@@ -3,7 +3,6 @@ package com.hikarishima.lightland.magic.arcane.internal;
 import com.hikarishima.lightland.magic.LightLandMagic;
 import com.hikarishima.lightland.magic.MagicRegistry;
 import com.hikarishima.lightland.magic.registry.MagicItemRegistry;
-import com.hikarishima.lightland.registry.ItemRegistry;
 import com.hikarishima.lightland.magic.registry.item.magic.ArcaneAxe;
 import com.hikarishima.lightland.magic.registry.item.magic.ArcaneSword;
 import com.lcy0x1.base.NamedEntry;

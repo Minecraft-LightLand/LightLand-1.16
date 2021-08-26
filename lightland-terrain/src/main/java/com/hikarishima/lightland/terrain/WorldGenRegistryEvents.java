@@ -1,6 +1,5 @@
 package com.hikarishima.lightland.terrain;
 
-import com.hikarishima.lightland.LightLand;
 import com.hikarishima.lightland.registry.RegistryBase;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.feature.Feature;

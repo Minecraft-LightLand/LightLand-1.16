@@ -8,7 +8,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 
 @MethodsReturnNonnullByDefault
 @ParametersAreNonnullByDefault
-public class RitualSide{
+public class RitualSide {
 
     @SerialClass
     public static class TE extends RitualTE {

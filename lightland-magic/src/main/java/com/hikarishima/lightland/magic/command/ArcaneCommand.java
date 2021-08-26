@@ -1,14 +1,14 @@
 package com.hikarishima.lightland.magic.command;
 
 import com.hikarishima.lightland.command.BaseCommand;
-import com.hikarishima.lightland.magic.Translator;
 import com.hikarishima.lightland.magic.MagicRegistry;
+import com.hikarishima.lightland.magic.Translator;
 import com.hikarishima.lightland.magic.arcane.internal.*;
 import com.hikarishima.lightland.magic.capabilities.MagicHandler;
 import com.hikarishima.lightland.magic.capabilities.ToClientMsg;
-import com.hikarishima.lightland.proxy.PacketHandler;
 import com.hikarishima.lightland.magic.registry.item.magic.ArcaneAxe;
 import com.hikarishima.lightland.magic.registry.item.magic.ArcaneSword;
+import com.hikarishima.lightland.proxy.PacketHandler;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import net.minecraft.command.CommandSource;

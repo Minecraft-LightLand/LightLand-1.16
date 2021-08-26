@@ -2,15 +2,15 @@ package com.hikarishima.lightland.magic.command;
 
 import com.hikarishima.lightland.command.BaseCommand;
 import com.hikarishima.lightland.command.EnumParser;
-import com.hikarishima.lightland.magic.Translator;
 import com.hikarishima.lightland.magic.MagicElement;
+import com.hikarishima.lightland.magic.Translator;
 import com.hikarishima.lightland.magic.capabilities.MagicHandler;
 import com.hikarishima.lightland.magic.capabilities.ToClientMsg;
 import com.hikarishima.lightland.magic.profession.Profession;
+import com.hikarishima.lightland.magic.registry.item.magic.MagicScroll;
 import com.hikarishima.lightland.magic.spell.internal.AbstractSpell;
 import com.hikarishima.lightland.magic.spell.internal.Spell;
 import com.hikarishima.lightland.proxy.PacketHandler;
-import com.hikarishima.lightland.magic.registry.item.magic.MagicScroll;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import net.minecraft.command.CommandSource;

@@ -22,34 +22,34 @@ public class ChemTest {
 
         //noinspection ArraysAsListWithZeroOrOneArgument
         final val pool = new ReactionPool(Arrays.asList(
-            "elem.earth",
-            "item.turtle_shell",
-            "item.X",
-            "eff.resistance_iii",
-            "eff.slow_iv"
+                "elem.earth",
+                "item.turtle_shell",
+                "item.X",
+                "eff.resistance_iii",
+                "eff.slow_iv"
         ), Arrays.asList(
-            new Equation(
-                new String[]{
-                    "elem.earth",
-                    "item.turtle_shell"
-                },
-                new String[]{
-                    "eff.resistance_iii",
-                    "eff.slow_iv"
-                },
-                5,
-                ""),
-            new Equation(
-                new String[]{
-                    "eff.resistance_iii",
-                    "item.turtle_shell"
-                },
-                new String[]{
-                    "eff.resistance_iii",
-                    "item.X"
-                },
-                3,
-                "")
+                new Equation(
+                        new String[]{
+                                "elem.earth",
+                                "item.turtle_shell"
+                        },
+                        new String[]{
+                                "eff.resistance_iii",
+                                "eff.slow_iv"
+                        },
+                        5,
+                        ""),
+                new Equation(
+                        new String[]{
+                                "eff.resistance_iii",
+                                "item.turtle_shell"
+                        },
+                        new String[]{
+                                "eff.resistance_iii",
+                                "item.X"
+                        },
+                        3,
+                        "")
         ), map);
         for (int i = 0; i < 10000; i++) {
             testByReactionPool(pool);

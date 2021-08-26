@@ -3,17 +3,21 @@ package com.hikarishima.lightland.event.forge;
 import com.hikarishima.lightland.event.combat.ISpecialArmor;
 import com.hikarishima.lightland.event.combat.ISpecialWeapon;
 import com.hikarishima.lightland.event.combat.MagicDamageSource;
-import com.lcy0x1.core.util.ExceptionHandler;
+import net.minecraft.entity.LightLandFakeEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
+import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
-import java.lang.reflect.Method;
-
 @SuppressWarnings("unused")
 public class DamageEventHandler {
+
+    @SubscribeEvent
+    public void onLivingAttackEvent(LivingAttackEvent event) {
+
+    }
 
     @SubscribeEvent
     public void onLivingHurtEvent(LivingHurtEvent event) {
@@ -31,10 +35,7 @@ public class DamageEventHandler {
                     ISpecialWeapon weapon = (ISpecialWeapon) stack.getItem();
                     MagicDamageSource magic = weapon.getSource(stack, event);
                     if (magic != null) {
-                        ExceptionHandler.run(() -> {
-                            Method m = ExceptionHandler.getMethod(target.getClass(), "actuallyHurt", DamageSource.class, float.class);
-                            m.invoke(target, magic, 0);
-                        });
+                        LightLandFakeEntity.actuallyHurt(target, magic, 0);
                         event.setAmount(-1);
                         event.setCanceled(true);
                         return;

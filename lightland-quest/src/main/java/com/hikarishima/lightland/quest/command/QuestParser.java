@@ -1,10 +1,10 @@
 package com.hikarishima.lightland.quest.command;
 
+import com.hikarishima.lightland.proxy.Proxy;
 import com.hikarishima.lightland.quest.QuestRegistry;
 import com.hikarishima.lightland.quest.dialog.Dialog;
 import com.hikarishima.lightland.quest.dialog.DialogSelector;
 import com.hikarishima.lightland.quest.quest.QuestScene;
-import com.hikarishima.lightland.proxy.Proxy;
 import com.hikarishima.lightland.recipe.ConfigRecipe;
 import com.mojang.brigadier.StringReader;
 import com.mojang.brigadier.arguments.ArgumentType;

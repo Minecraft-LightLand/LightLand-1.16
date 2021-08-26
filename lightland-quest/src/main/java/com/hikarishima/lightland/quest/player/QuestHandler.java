@@ -2,11 +2,11 @@ package com.hikarishima.lightland.quest.player;
 
 
 import com.google.common.collect.Maps;
+import com.hikarishima.lightland.proxy.Proxy;
 import com.hikarishima.lightland.quest.dialog.DialogHolder;
 import com.hikarishima.lightland.quest.dialog.DialogSelector;
 import com.hikarishima.lightland.quest.quest.QuestScene;
 import com.hikarishima.lightland.quest.token.QuestToken;
-import com.hikarishima.lightland.proxy.Proxy;
 import com.lcy0x1.core.util.Automator;
 import com.lcy0x1.core.util.ExceptionHandler;
 import com.lcy0x1.core.util.SerialClass;

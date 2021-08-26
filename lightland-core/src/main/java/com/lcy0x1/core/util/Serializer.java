@@ -122,6 +122,7 @@ public class Serializer {
                 }
             }
             for (Field f : map.values()) {
+                f.setAccessible(true);
                 f.set(ans, fromRaw(buf, f.getType(), null, f.getAnnotation(SerialClass.SerialField.class)));
             }
             cls = cls.getSuperclass();
@@ -257,6 +258,7 @@ public class Serializer {
                 }
             }
             for (Field f : map.values()) {
+                f.setAccessible(true);
                 toRaw(buf, f.getType(), f.get(obj), f.getAnnotation(SerialClass.SerialField.class));
             }
             cls = cls.getSuperclass();

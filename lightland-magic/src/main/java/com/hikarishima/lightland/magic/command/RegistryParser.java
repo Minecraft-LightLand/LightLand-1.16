@@ -1,8 +1,8 @@
 package com.hikarishima.lightland.magic.command;
 
-import com.hikarishima.lightland.magic.Translator;
 import com.hikarishima.lightland.magic.MagicElement;
 import com.hikarishima.lightland.magic.MagicRegistry;
+import com.hikarishima.lightland.magic.Translator;
 import com.hikarishima.lightland.magic.arcane.internal.Arcane;
 import com.hikarishima.lightland.magic.arcane.internal.ArcaneType;
 import com.hikarishima.lightland.magic.profession.Profession;

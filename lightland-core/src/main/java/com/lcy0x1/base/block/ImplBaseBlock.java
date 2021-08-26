@@ -1,6 +1,5 @@
 package com.lcy0x1.base.block;
 
-import com.lcy0x1.base.BlockProp;
 import com.lcy0x1.base.block.impl.TEPvd;
 import com.lcy0x1.base.block.mult.*;
 import com.lcy0x1.base.block.one.*;

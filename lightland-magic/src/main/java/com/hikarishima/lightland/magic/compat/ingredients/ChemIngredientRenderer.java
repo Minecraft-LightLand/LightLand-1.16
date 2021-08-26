@@ -4,7 +4,6 @@ import com.google.common.collect.Lists;
 import com.hikarishima.lightland.magic.MagicProxy;
 import com.hikarishima.lightland.magic.chem.ChemObj;
 import com.hikarishima.lightland.magic.gui.container.ChemScreen;
-import com.hikarishima.lightland.proxy.Proxy;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import mezz.jei.api.MethodsReturnNonnullByDefault;
 import mezz.jei.api.ingredients.IIngredientRenderer;

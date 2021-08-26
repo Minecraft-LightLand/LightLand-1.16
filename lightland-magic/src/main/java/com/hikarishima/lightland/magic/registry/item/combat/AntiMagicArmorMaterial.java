@@ -17,7 +17,7 @@ public class AntiMagicArmorMaterial implements IArmorMaterial {
     public static final AntiMagicArmorMaterial METAL = new AntiMagicArmorMaterial(
             "anti_magic_metal", 15, new int[]{2, 5, 6, 2}, 0,
             SoundEvents.ARMOR_EQUIP_IRON, 0.0F, 0.0F,
-            () -> Ingredient.of(MagicItemRegistry.ANTI_MAGIC_METAL), 0.2f, 0.15f);
+            () -> Ingredient.of(MagicItemRegistry.ANTI_MAGIC_METAL), 0.2f, 0.12f);
 
     public static final AntiMagicArmorMaterial LIGHT = new AntiMagicArmorMaterial(
             "light_alloy", 37, new int[]{3, 6, 8, 3}, 2,
@@ -27,17 +27,17 @@ public class AntiMagicArmorMaterial implements IArmorMaterial {
     public static final AntiMagicArmorMaterial ALLOY = new AntiMagicArmorMaterial(
             "anti_magic_alloy", 60, new int[]{3, 6, 8, 3}, 1,
             SoundEvents.ARMOR_EQUIP_NETHERITE, 3.0F, 0.1F,
-            () -> Ingredient.of(MagicItemRegistry.ANTI_MAGIC_ALLOY), 0.5f, 0.25f);
+            () -> Ingredient.of(MagicItemRegistry.ANTI_MAGIC_ALLOY), 0f, 0.25f);
 
     public static final AntiMagicArmorMaterial CLOTH = new AntiMagicArmorMaterial(
-            "enchant_cloth", 15, new int[]{1, 2, 2, 1}, 40,
-            SoundEvents.ARMOR_EQUIP_LEATHER, 2.0F, 0.0F,
+            "enchant_cloth", 15, new int[]{2, 3, 3, 2}, 40,
+            SoundEvents.ARMOR_EQUIP_LEATHER, 10.0F, 0.0F,
             () -> Ingredient.of(MagicItemRegistry.ENCHANT_CLOTH), 0, 0.15f);
 
     public static final AntiMagicArmorMaterial CHAIN = new AntiMagicArmorMaterial(
-            "enchant_chain", 30, new int[]{2, 3, 3, 2}, 60,
-            SoundEvents.ARMOR_EQUIP_CHAIN, 3.0F, 0.0F,
-            () -> Ingredient.of(MagicItemRegistry.ENCHANT_CHAIN), 0, 0.25f);
+            "enchant_chain", 30, new int[]{3, 4, 4, 3}, 60,
+            SoundEvents.ARMOR_EQUIP_CHAIN, 20.0F, 0.0F,
+            () -> Ingredient.of(MagicItemRegistry.ENCHANT_CHAIN), 0, 0.20f);
 
     private static final int[] HEALTH_PER_SLOT = new int[]{13, 15, 16, 11};
     private final String name;

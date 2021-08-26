@@ -42,8 +42,8 @@ public class PermissionEventHandler {
     }
 
     @SubscribeEvent
-    public void onMobGriefingEvent(EntityMobGriefingEvent event){
-        
+    public void onMobGriefingEvent(EntityMobGriefingEvent event) {
+
     }
 
 }

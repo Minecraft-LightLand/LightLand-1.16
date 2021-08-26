@@ -1,6 +1,9 @@
 package com.hikarishima.lightland;
 
-import com.hikarishima.lightland.event.forge.*;
+import com.hikarishima.lightland.event.forge.DamageEventHandler;
+import com.hikarishima.lightland.event.forge.GenericEventHandler;
+import com.hikarishima.lightland.event.forge.ItemUseEventHandler;
+import com.hikarishima.lightland.event.forge.PermissionEventHandler;
 import com.hikarishima.lightland.proxy.PacketHandler;
 import com.hikarishima.lightland.recipe.RecipeRegistry;
 import com.hikarishima.lightland.registry.ItemRegistry;
