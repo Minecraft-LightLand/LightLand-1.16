@@ -29,18 +29,23 @@ public class ProxyExample implements ProxyContainer<ProxyMethod> {
     @Getter
     private final ListProxy<ProxyMethod> proxy = new ListProxy<>();
     private final int a = 1;
+    final AtomicInteger r = new AtomicInteger();
 
     public ProxyExample() {
         for (int i = 0; i < 100; i++) {
             proxy.addProxy((GetA) () -> {
-                //System.out.println("on proxy");
+                //System.out.println("on proxy get A");
                 return 0;
             });
             proxy.addProxy((GetB) () -> {
-                System.out.println("on proxy");
+                System.out.println("on proxy get B");
                 return 3;
             });
         }
+        proxy.addProxy((SetA) a -> {
+            System.out.println("on set a");
+            r.set(a);
+        });
 
         final AtomicInteger r = new AtomicInteger();
         int loopTime = 10;
@@ -61,12 +66,25 @@ public class ProxyExample implements ProxyContainer<ProxyMethod> {
         }
     }
 
+    //@Test
+    //public void testMethodHandle() throws NoSuchMethodException, IllegalAccessException {
+    //    final ProxyExample proxyExample = newProxyTest();
+    //    final Method setA = proxyExample.getClass().getDeclaredMethod("setA", int.class);
+    //    final MethodHandle methodHandle = MethodHandles.lookup().findVirtual(
+    //        proxy.iterator().next().getClass(),
+    //        "setA",
+    //        MethodType.methodType(setA.getReturnType(), setA.getParameterTypes()));
+    //    System.out.println(methodHandle);
+    //}
+
     @Test
     public void test() {
         Proxy.of("");
         final ProxyExample proxyExample = newProxyTest();
         System.out.println(proxyExample.getA());
         System.out.println(proxyExample.getB());
+        proxyExample.setA(100);
+        System.out.println(r.get());
         System.out.println(Arrays.toString(proxyExample.getClass().getDeclaredFields()));
     }
 
@@ -86,22 +104,21 @@ public class ProxyExample implements ProxyContainer<ProxyMethod> {
         final ProxyExample proxyExample = newProxyTest();
         long timeStart, timeEnd;
         int loopTime = 1000000;
-        final AtomicInteger r = new AtomicInteger();
 
         for (int i = 0; i < loopTime; i++) {
-            proxy.getProxyList().stream().filter(p -> p instanceof GetA).forEach(p -> {
-                r.set(((GetA) p).getA());
-            });
+            for (ProxyMethod p : proxy) {
+                if(!(p instanceof GetA)) continue;
+                ((GetA) p).getA();
+            }
             r.set(getA());
         }
 
         timeStart = System.currentTimeMillis();
         for (int i = 0; i < loopTime; i++) {
-            proxy.getProxyList().stream().filter(p -> p instanceof GetA)
-                    .map(p -> (GetA) p)
-                    .forEach(p -> {
-                        r.set(p.getA());
-                    });
+            for (ProxyMethod p : proxy) {
+                if(!(p instanceof GetA)) continue;
+                ((GetA) p).getA();
+            }
             r.set(getA());
         }
         timeEnd = System.currentTimeMillis();
@@ -126,6 +143,10 @@ public class ProxyExample implements ProxyContainer<ProxyMethod> {
         return a;
     }
 
+    @ForEachProxy
+    public void setA(int a) {
+    }
+
     @ForFirstProxy
     public int getB() {
         System.out.println("not on proxy");
@@ -138,11 +159,15 @@ public class ProxyExample implements ProxyContainer<ProxyMethod> {
         return 2;
     }
 
-    interface GetA extends ProxyMethod {
+    public interface GetA extends ProxyMethod {
         int getA();
     }
 
-    interface GetB extends ProxyMethod {
+    public interface SetA extends ProxyMethod {
+        void setA(int a);
+    }
+
+    public interface GetB extends ProxyMethod {
         int getB();
     }
 

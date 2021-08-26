@@ -3,11 +3,6 @@ package com.lcy0x1.base.proxy;
 import lombok.*;
 
 public interface Proxy<T extends ProxyMethod> extends Iterable<T> {
-    @SuppressWarnings("unchecked")
-    static <R> Result<R> of() {
-        return (Result<R>) Result.NULL;
-    }
-
     default void forEachProxy(ForEachProxyHandler<T> action) throws Throwable {
         for (T t : this) {
             action.accept(t);
@@ -32,6 +27,35 @@ public interface Proxy<T extends ProxyMethod> extends Iterable<T> {
         R apply(T t) throws Throwable;
     }
 
+    default long getLastModify() {
+        return System.currentTimeMillis();
+    }
+
+    @Getter
+    @ToString
+    @AllArgsConstructor
+    class Result<R> {
+
+        private static final Result<?> failed = new Result<>(false, null);
+
+        private static final Result<?> main = new Result<>(true, null);
+        private static final Result<?> NULL = new Result<>(true, null);
+        private static final Thread mainThread = Thread.currentThread();
+        private boolean success;
+        @Setter(AccessLevel.PACKAGE)
+        private R result;
+    }
+
+    @SuppressWarnings("unchecked")
+    static <R> Result<R> failed() {
+        return (Result<R>) Result.failed;
+    }
+
+    @SuppressWarnings("unchecked")
+    static <R> Result<R> of() {
+        return (Result<R>) Result.NULL;
+    }
+
     @SuppressWarnings("unchecked")
     static <R> Result<R> of(R result) {
         if (Thread.currentThread() == Result.mainThread) {
@@ -43,28 +67,5 @@ public interface Proxy<T extends ProxyMethod> extends Iterable<T> {
 
     static <R> Result<R> alloc(R result) {
         return new Result<>(true, result);
-    }
-
-    default long getLastModify() {
-        return System.currentTimeMillis();
-    }
-
-    @Getter
-    @ToString
-    @AllArgsConstructor
-    class Result<R> {
-        private static final Result<?> failed = new Result<>(false, null);
-        private static final Result<?> main = new Result<>(true, null);
-        private static final Result<?> NULL = new Result<>(true, null);
-        private static final Thread mainThread = Thread.currentThread();
-
-        private boolean success;
-        @Setter(AccessLevel.PACKAGE)
-        private R result;
-    }
-
-    static <R> Result<R> failed() {
-        //noinspection unchecked
-        return (Result<R>) Result.failed;
     }
 }

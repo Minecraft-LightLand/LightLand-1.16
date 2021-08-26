@@ -2,7 +2,7 @@ plugins {
     java
     id("eclipse")
     `maven-publish`
-    kotlin("jvm") version "1.5.21"
+    kotlin("jvm") version "1.5.30"
 }
 
 println(

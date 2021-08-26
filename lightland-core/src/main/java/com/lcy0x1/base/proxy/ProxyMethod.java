@@ -1,5 +1,6 @@
 package com.lcy0x1.base.proxy;
 
+import com.esotericsoftware.reflectasm.MethodAccess;
 import lombok.Data;
 import net.sf.cglib.proxy.MethodProxy;
 import org.apache.commons.lang3.StringUtils;
@@ -42,19 +43,28 @@ public interface ProxyMethod extends ProxyMethodHandler {
     @SuppressWarnings("unused")
     @NotNull
     default ProxyMethodHandler getHandler(Object obj, Method method, Object[] args, MethodProxy proxy, ProxyContext context) throws Throwable {
-        final Method selfMethod;
-        try {
-            String methodName = context.get(ProxyContext.methodNameKey);
-            if (StringUtils.isEmpty(methodName)) {
-                methodName = method.getName();
-            }
-
-            selfMethod = getClass().getMethod(methodName, method.getParameterTypes());
-            selfMethod.setAccessible(true);
-            return (obj1, method1, args1, proxy1, methodName1) -> Proxy.of(selfMethod.invoke(this, args1));
-        } catch (Exception e) {
-            return ProxyMethodHandler.failed;
+        String methodName = context.get(ProxyContext.methodNameKey);
+        if (StringUtils.isEmpty(methodName)) {
+            methodName = method.getName();
         }
+
+        // get method by ReflectASM
+        try {
+            final MethodAccess methodAccess = Reflections.getMethodAccess(getClass());
+            final int index = methodAccess.getIndex(methodName, method.getParameterTypes());
+            return (obj1, method1, args1, proxy1, context1) -> Proxy.of(methodAccess.invoke(this, index, args1));
+        } catch (Exception ignored) {
+        }
+
+        // get method by java reflect
+        try {
+            final Method declaredMethod = getClass().getDeclaredMethod(methodName, method.getParameterTypes());
+            declaredMethod.setAccessible(true);
+            return (obj1, method1, args1, proxy1, context1) -> Proxy.of(declaredMethod.invoke(this, args1));
+        } catch (Exception ignored) {
+        }
+
+        return ProxyMethodHandler.failed;
     }
 
     @Data

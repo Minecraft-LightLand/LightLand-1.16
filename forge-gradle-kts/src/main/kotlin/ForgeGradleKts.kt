@@ -168,13 +168,13 @@ val DependencyHandler.junit: Dependency?
     get() = add("api", "junit", "junit", "4.13.2")
 
 val DependencyHandler.core: Dependency?
-    get() = add("api", project(mapOf("path" to ":lightland-core")))
+    get() = add("compileOnly", project(mapOf("path" to ":lightland-core")))
 val DependencyHandler.magic: Dependency?
-    get() = add("api", project(mapOf("path" to ":lightland-magic")))
+    get() = add("compileOnly", project(mapOf("path" to ":lightland-magic")))
 val DependencyHandler.quest: Dependency?
-    get() = add("api", project(mapOf("path" to ":lightland-quest")))
+    get() = add("compileOnly", project(mapOf("path" to ":lightland-quest")))
 val DependencyHandler.terrain: Dependency?
-    get() = add("api", project(mapOf("path" to ":lightland-terrain")))
+    get() = add("compileOnly", project(mapOf("path" to ":lightland-terrain")))
 val DependencyHandler.lombok: Unit
     get() {
         val lombokDependency = "org.projectlombok:lombok:1.18.20"
