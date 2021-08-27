@@ -8,10 +8,18 @@ import net.minecraft.item.BlockItemUseContext;
 
 @WithinProxyContext(block = true)
 public interface IPlacement extends IMultImpl {
+    ProxyContext.Key<BlockState> blockStateKey = new ProxyContext.Key<>();
+
     @SuppressWarnings("ConstantConditions")
     default BlockState getStateForPlacement(BlockItemUseContext context) {
-        return getStateForPlacement(ProxyContext.local().get(ProxyContext.block)
-            .defaultBlockState(), context);
+        final ProxyContext proxyContext = ProxyContext.local();
+        BlockState blockState = proxyContext.get(blockStateKey);
+        if (blockState == null) {
+            blockState = proxyContext.get(ProxyContext.block).defaultBlockState();
+        }
+        blockState = getStateForPlacement(blockState, context);
+        proxyContext.put(blockStateKey, blockState);
+        return blockState;
     }
 
     BlockState getStateForPlacement(BlockState def, BlockItemUseContext context);

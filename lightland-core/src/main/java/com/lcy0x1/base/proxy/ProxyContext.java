@@ -19,6 +19,7 @@ public class ProxyContext {
     public static final Key<Result<ProxyHandler>> proxyMethod = new Key<>();
     public static final Key<Boolean> cacheFirstProxyMethod = new Key<>();
     public static final Key<Collection<? extends Class<?>>> classes = new Key<>();
+    public static final Key<?> pre = new ProxyContext.Key<>(); // pre proxy return
 
     public static final Key<Block> block = new Key<Block>(proxy) {
         @Override
@@ -35,17 +36,31 @@ public class ProxyContext {
     @Data
     public static class Key<T> {
         private final int id;
+        private final Class<T> clazz;
 
         public Key() {
             id = keyIdGenerator.getAndIncrement();
+            clazz = null;
         }
 
         public Key(Key<?> key) {
             this.id = key.id;
+            clazz = null;
         }
 
+        public Key(Key<?> key, Class<T> clazz) {
+            this.id = key.id;
+            this.clazz = clazz;
+        }
+
+        @SuppressWarnings("unchecked")
         public T get(ProxyContext context) {
-            return context.get(id);
+            final Object value = context.get(id);
+            if (clazz == null || clazz.isInstance(value)) {
+                return (T) value;
+            } else {
+                return null;
+            }
         }
 
         public void remove(ProxyContext context) {

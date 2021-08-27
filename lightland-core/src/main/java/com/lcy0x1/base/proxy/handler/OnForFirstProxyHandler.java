@@ -35,7 +35,7 @@ public class OnForFirstProxyHandler implements OnProxy {
 
         if (proxyMethod == null || lastModify != proxyContainer.getLastModify()) {
             final long lastModify = proxyContainer.getLastModify();
-            result = loop(proxyContainer, p, method, args, proxy);
+            result = loop(proxyContainer, context, p, method, args, proxy);
             this.lastModify = lastModify;
         } else if (proxyMethod.isSuccess()) {
             // use ProxyMethod cache
@@ -55,12 +55,12 @@ public class OnForFirstProxyHandler implements OnProxy {
         return Result.failed();
     }
 
-    public Result<?> loop(ProxyMethodContainer<?> proxyContainer, Proxy<?> obj, Method method, Object[] args, MethodProxy proxy) throws Throwable {
+    public Result<?> loop(ProxyMethodContainer<?> proxyContainer, ProxyContext context,
+                          Proxy<?> obj, Method method, Object[] args, MethodProxy proxy) throws Throwable {
         return proxyContainer.forFirstProxy(p -> {
             if (classes != null && classes.stream().noneMatch(c -> c.isInstance(p))) {
                 return Result.failed();
             }
-            context.clean();
             final Result<?> methodResult = p.onProxy(obj, method, args, proxy, context);
             // check cache config
             if (forFirstProxy.cache() && !Boolean.FALSE.equals(context.getAndRemove(ProxyContext.cacheFirstProxyMethod))) {

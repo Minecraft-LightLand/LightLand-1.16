@@ -12,7 +12,7 @@ public @interface ForEachProxy {
 
     String name() default "";
 
-    boolean keepContext() default false;
+    boolean keepContext() default true;
 
     LoopType type() default LoopType.BEFORE;
 
