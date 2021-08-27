@@ -1,6 +1,7 @@
 package com.lcy0x1.base.block.mult;
 
 import com.lcy0x1.base.block.type.IMultImpl;
+import com.lcy0x1.base.proxy.Proxy;
 import com.lcy0x1.base.proxy.ProxyContext;
 import com.lcy0x1.base.proxy.Reflections;
 import com.lcy0x1.base.proxy.Result;
@@ -28,11 +29,11 @@ public interface IClick extends IMultImpl {
     ActionResultType onClick(BlockState bs, World w, BlockPos pos, PlayerEntity pl, Hand h, BlockRayTraceResult r);
 
     @Override
-    default Result<?> onProxy(Object obj, Method method, Object[] args, MethodProxy proxy, ProxyContext context) throws Throwable {
+    default Result<?> onProxy(Proxy<?> obj, Method method, Object[] args, MethodProxy proxy, ProxyContext context) throws Throwable {
         final Result<?> result = IMultImpl.super.onProxy(obj, method, args, proxy, context);
         log.warn("onProxy: {} {} {}", method, result, Reflections.equalsMethod(method, "onClick", parameterTypes));
         if (result != null && result.isSuccess() && Reflections.equalsMethod(method, "onClick", parameterTypes) &&
-                result.getResult() == ActionResultType.PASS) {
+            result.getResult() == ActionResultType.PASS) {
             // tell framework do not cache proxy method
             context.put(ProxyContext.cacheFirstProxyMethod, false);
             return Result.failed();

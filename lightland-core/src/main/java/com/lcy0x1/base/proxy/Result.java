@@ -9,7 +9,7 @@ import java.util.Objects;
 @ToString
 public final class Result<R> {
     private static final Result<?> failed = new Result<>(false, null);
-    private static final Result<?> main = new Result<>(true, null);
+    private static final Result<?> main = new Result<>(true, null, true);
     private static final Result<?> NULL = new Result<>(true, null);
     private static final Result<Boolean> TRUE = new Result<>(true, true);
     private static final Result<Boolean> FALSE = new Result<>(true, false);
@@ -18,16 +18,31 @@ public final class Result<R> {
     private final boolean success;
     private R result;
     private int hashCode;
-
+    private final boolean cache;
 
     public Result(boolean success, R result) {
         this.success = success;
         this.result = result;
+        cache = false;
+    }
+
+    public Result(boolean success, R result, boolean cache) {
+        this.success = success;
+        this.result = result;
+        this.cache = cache;
     }
 
     void setResult(R result) {
         this.result = result;
         hashCode = 0;
+    }
+
+    public Result<R> snapshot() {
+        if (cache) {
+            return new Result<>(success, result);
+        } else {
+            return this;
+        }
     }
 
     @Override

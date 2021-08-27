@@ -80,7 +80,7 @@ public interface Proxy<T extends ProxyMethod> {
         }
         proxyContext.put(ProxyContext.methodNameKey, methodName);
 
-        return new OnForeachProxyHandler(proxyContext);
+        return new OnForeachProxyHandler(proxyContext, forEachProxy);
     }
 
     static OnProxy onForFirstProxy(Method method, ForFirstProxy forFirstProxy) {

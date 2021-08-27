@@ -1,6 +1,6 @@
 package com.lcy0x1.base.proxy;
 
-import com.lcy0x1.base.proxy.handler.ProxyMethod;
+import com.lcy0x1.base.proxy.handler.ProxyHandler;
 import lombok.Data;
 import net.minecraft.block.Block;
 import org.jetbrains.annotations.NotNull;
@@ -15,15 +15,46 @@ public class ProxyContext {
     private static final ThreadLocal<ProxyContext> localProxyContext = new ThreadLocal<>();
 
     public static final Key<String> methodNameKey = new Key<>();
-    public static final Key<Block> block = new Key<>();
-    public static final Key<Result<ProxyMethod>> proxyMethod = new Key<>();
+    public static final Key<Proxy<?>> proxy = new Key<>();
+    public static final Key<Result<ProxyHandler>> proxyMethod = new Key<>();
     public static final Key<Boolean> cacheFirstProxyMethod = new Key<>();
     public static final Key<Collection<? extends Class<?>>> classes = new Key<>();
-    public static final Key<Proxy<?>> proxy = new Key<>();
+
+    public static final Key<Block> block = new Key<Block>(proxy) {
+        @Override
+        public Block get(ProxyContext context) {
+            final Object value = context.get(getId());
+            if (value instanceof Block) {
+                return (Block) value;
+            } else {
+                return null;
+            }
+        }
+    };
 
     @Data
     public static class Key<T> {
-        private final int id = keyIdGenerator.getAndIncrement();
+        private final int id;
+
+        public Key() {
+            id = keyIdGenerator.getAndIncrement();
+        }
+
+        public Key(Key<?> key) {
+            this.id = key.id;
+        }
+
+        public T get(ProxyContext context) {
+            return context.get(id);
+        }
+
+        public void remove(ProxyContext context) {
+            context.remove(id);
+        }
+
+        public void put(ProxyContext context, T value) {
+            context.put(id, value);
+        }
     }
 
     public interface Callable<R> {
@@ -66,39 +97,45 @@ public class ProxyContext {
         return new ProxyContext(this);
     }
 
-    @SuppressWarnings("unchecked")
     @Nullable
     public <T> T get(@Nullable Key<T> key) {
-        if (key == null || context == null || key.getId() >= context.length) {
+        if (key == null || context == null) {
             return null;
         }
+        return key.get(this);
+    }
 
-        T t = (T) context[key.getId()];
-        if (t == null && parent != null) {
-            t = parent.get(key);
+    @Nullable
+    public <T> T getAndRemove(@Nullable Key<T> key) {
+        if (key == null || context == null) {
+            return null;
+        }
+        T t = key.get(this);
+        if (t != null) {
+            key.remove(this);
         }
         return t;
     }
 
     @SuppressWarnings("unchecked")
     @Nullable
-    public <T> T getAndRemove(@Nullable Key<T> key) {
-        if (key == null) {
+    public <T> T get(int id) {
+        if (context == null || id >= context.length) {
             return null;
         }
-        T t;
-        if (context == null || key.getId() >= context.length) {
-            t = null;
-        } else {
-            t = (T) context[key.getId()];
-        }
 
+        T t = (T) context[id];
         if (t == null && parent != null) {
-            t = parent.get(key);
-        } else if (context != null) {
-            context[key.getId()] = null;
+            t = parent.get(id);
         }
         return t;
+    }
+
+    public void remove(int id) {
+        if (context == null || id >= context.length) {
+            return;
+        }
+        context[id] = null;
     }
 
     @SuppressWarnings("ConstantConditions")
@@ -106,12 +143,16 @@ public class ProxyContext {
         if (key == null) {
             return;
         }
+        key.put(this, value);
+    }
+
+    public <T> void put(int id, T value) {
         if (context == null) {
             context = new Object[getResize(keyIdGenerator.get())];
-        } else if (key.getId() >= context.length) {
+        } else if (id >= context.length) {
             context = Arrays.copyOf(context, getResize(keyIdGenerator.get()));
         }
-        context[key.getId()] = value;
+        context[id] = value;
     }
 
     public void clean() {

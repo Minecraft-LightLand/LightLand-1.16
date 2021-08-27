@@ -3,9 +3,9 @@ package com.lcy0x1.base.proxy.container;
 import com.lcy0x1.base.proxy.Result;
 import com.lcy0x1.base.proxy.handler.ForEachProxyHandler;
 import com.lcy0x1.base.proxy.handler.ForFirstProxyHandler;
-import com.lcy0x1.base.proxy.handler.ProxyMethod;
+import com.lcy0x1.base.proxy.handler.ProxyHandler;
 
-public interface ProxyMethodContainer<T extends ProxyMethod> extends Iterable<T> {
+public interface ProxyMethodContainer<T extends ProxyHandler> extends Iterable<T> {
     int size();
 
     boolean isEmpty();

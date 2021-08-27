@@ -19,14 +19,14 @@ public class WithinProxyContextProxyHandler implements ProxyHandler {
     }
 
     @Override
-    public Result<?> onProxy(Object obj, Method method, Object[] args, MethodProxy proxy, ProxyContext context) throws Throwable {
+    public Result<?> onProxy(Proxy<?> obj, Method method, Object[] args, MethodProxy proxy, ProxyContext context) throws Throwable {
         return ProxyContext.withThreadLocalProxyContext(context,
             () -> {
                 if (withinProxyContext.block() && obj instanceof Block) {
                     context.put(ProxyContext.block, (Block) obj);
                 }
-                if (withinProxyContext.proxy() && obj instanceof Proxy) {
-                    context.put(ProxyContext.proxy, (Proxy) obj);
+                if (withinProxyContext.proxy()) {
+                    context.put(ProxyContext.proxy, obj);
                 }
                 return handler.onProxy(obj, method, args, proxy, context);
             });

@@ -1,6 +1,7 @@
 package com.lcy0x1.base.proxy.handler;
 
 import com.esotericsoftware.reflectasm.MethodAccess;
+import com.lcy0x1.base.proxy.Proxy;
 import com.lcy0x1.base.proxy.ProxyContext;
 import com.lcy0x1.base.proxy.Reflections;
 import com.lcy0x1.base.proxy.Result;
@@ -18,14 +19,14 @@ import java.util.concurrent.ConcurrentHashMap;
 public interface ProxyMethod extends ProxyHandler {
     ProxyMethod failed = new ProxyMethod() {
         @Override
-        public Result<?> onProxy(Object obj, Method method, Object[] args, MethodProxy proxy, ProxyContext context) throws Throwable {
+        public Result<?> onProxy(Proxy<?> obj, Method method, Object[] args, MethodProxy proxy, ProxyContext context) throws Throwable {
             return Result.failed();
         }
     };
     Map<CacheMapKey, Result<? extends ProxyHandler>> handlerCacheMap = new ConcurrentHashMap<>();
 
     @Override
-    default Result<?> onProxy(Object obj, Method method, Object[] args, MethodProxy proxy, ProxyContext context) throws Throwable {
+    default Result<?> onProxy(Proxy<?> obj, Method method, Object[] args, MethodProxy proxy, ProxyContext context) throws Throwable {
         final CacheMapKey key = new CacheMapKey(method, getClass());
         final Result<? extends ProxyHandler> methodResult = handlerCacheMap.get(key);
         if (methodResult != null) {

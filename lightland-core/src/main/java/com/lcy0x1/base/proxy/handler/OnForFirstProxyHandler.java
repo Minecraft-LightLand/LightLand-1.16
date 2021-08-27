@@ -27,21 +27,19 @@ public class OnForFirstProxyHandler implements OnProxy {
     }
 
     @Override
-    public Result<?> onProxy(Object obj, Method method, Object[] args, MethodProxy proxy) throws Throwable {
-        if (!(obj instanceof Proxy<?>)) return Result.failed();
+    public Result<?> onProxy(Proxy<?> p, Method method, Object[] args, MethodProxy proxy) throws Throwable {
         final ProxyContext context = this.context.getSubContext();
-        final Proxy<?> container = (Proxy<?>) obj;
-        final ProxyMethodContainer<?> proxyContainer = container.getProxyContainer();
-        final Result<ProxyMethod> proxyMethod = context.get(ProxyContext.proxyMethod);
+        final ProxyMethodContainer<?> proxyContainer = p.getProxyContainer();
+        final Result<ProxyHandler> proxyMethod = context.get(ProxyContext.proxyMethod);
         Result<?> result = null;
 
         if (proxyMethod == null || lastModify != proxyContainer.getLastModify()) {
             final long lastModify = proxyContainer.getLastModify();
-            result = loop(proxyContainer, obj, method, args, proxy);
+            result = loop(proxyContainer, p, method, args, proxy);
             this.lastModify = lastModify;
         } else if (proxyMethod.isSuccess()) {
             // use ProxyMethod cache
-            result = proxyMethod.getResult().onProxy(obj, method, args, proxy, context);
+            result = proxyMethod.getResult().onProxy(p, method, args, proxy, context);
         }
 
         if (result != null && result.isSuccess()) {
@@ -51,13 +49,13 @@ public class OnForFirstProxyHandler implements OnProxy {
         // when request not handled
         if (forFirstProxy.must()) {
             // generate error message
-            final String errMsg = buildErrorMsg(method, args, container);
+            final String errMsg = buildErrorMsg(method, args, p);
             throw forFirstProxy.errClass().getConstructor(String.class).newInstance(errMsg);
         }
         return Result.failed();
     }
 
-    public Result<?> loop(ProxyMethodContainer<?> proxyContainer, Object obj, Method method, Object[] args, MethodProxy proxy) throws Throwable {
+    public Result<?> loop(ProxyMethodContainer<?> proxyContainer, Proxy<?> obj, Method method, Object[] args, MethodProxy proxy) throws Throwable {
         return proxyContainer.forFirstProxy(p -> {
             if (classes != null && classes.stream().noneMatch(c -> c.isInstance(p))) {
                 return Result.failed();

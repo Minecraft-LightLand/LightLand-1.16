@@ -11,4 +11,14 @@ public @interface ForEachProxy {
     Class<?>[] value() default {};
 
     String name() default "";
+
+    boolean keepContext() default false;
+
+    LoopType type() default LoopType.BEFORE;
+
+    enum LoopType {
+        BEFORE, // loop and call proxied instance
+        AFTER, // loop and return last proxy return
+        BEFORE_WITH_RETURN, // loop and return without call proxied instance
+    }
 }

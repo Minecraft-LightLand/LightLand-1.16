@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 
-public class ListProxyHandler<T extends ProxyHandler> implements Iterable<T> {
+public class ListProxyHandler<T extends ProxyHandler> implements ProxyMethodContainer<T>, Iterable<T> {
     @NotNull
     @Getter
     protected final ArrayList<T> proxyList = new ArrayList<>();
@@ -18,10 +18,12 @@ public class ListProxyHandler<T extends ProxyHandler> implements Iterable<T> {
     @Getter
     protected volatile long lastModify = System.nanoTime();
 
+    @Override
     public int size() {
         return proxyList.size();
     }
 
+    @Override
     public boolean isEmpty() {
         return proxyList.isEmpty();
     }
@@ -73,6 +75,7 @@ public class ListProxyHandler<T extends ProxyHandler> implements Iterable<T> {
     }
 
     @SuppressWarnings("unchecked")
+    @Override
     public void forEachProxy(ForEachProxyHandler<T> action) throws Throwable {
         final Object[] elementData = this.elementData;
         if (elementData != null) {

@@ -1,8 +1,9 @@
 package com.lcy0x1.base.proxy;
 
 import com.esotericsoftware.reflectasm.MethodAccess;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 import org.jetbrains.annotations.Nullable;
-import sun.misc.Unsafe;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -22,8 +23,14 @@ public class Reflections {
     static {
         try {
             unsafe = new UnsafeReflections();
-        } catch (Exception ignored) {
+        } catch (Throwable ignored) {
         }
+    }
+
+    @Data
+    @AllArgsConstructor
+    public static class Reference<T> {
+        T value;
     }
 
     public static boolean inMainThread() {
@@ -57,7 +64,7 @@ public class Reflections {
 
     public static boolean equalsMethod(Method method, String name, Class<?>[] parameterTypes) {
         return Objects.equals(method.getName(), name) &&
-                Arrays.equals(parameterTypes, getParameterTypes(method));
+            Arrays.equals(parameterTypes, getParameterTypes(method));
     }
 
     public static Field getField(Class<?> clazz, String fieldName) {
@@ -112,8 +119,13 @@ public class Reflections {
         return methodAccess;
     }
 
+    @SuppressWarnings("unchecked")
+    public static <T> T cast(Object value) {
+        return (T) value;
+    }
+
     public static class UnsafeReflections {
-        private final Unsafe theUnsafe = (Unsafe) getField(getField(Unsafe.class, "theUnsafe"), null);
+        private final sun.misc.Unsafe theUnsafe = (sun.misc.Unsafe) getField(getField(sun.misc.Unsafe.class, "theUnsafe"), null);
         private final long parameterTypesOffset = objectFieldOffset(parameterTypesField);
         private final long arrayListElementDataOffset = objectFieldOffset(arrayListElementDataField);
 

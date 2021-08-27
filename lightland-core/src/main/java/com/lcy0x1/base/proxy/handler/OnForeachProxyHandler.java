@@ -2,7 +2,9 @@ package com.lcy0x1.base.proxy.handler;
 
 import com.lcy0x1.base.proxy.Proxy;
 import com.lcy0x1.base.proxy.ProxyContext;
+import com.lcy0x1.base.proxy.Reflections;
 import com.lcy0x1.base.proxy.Result;
+import com.lcy0x1.base.proxy.annotation.ForEachProxy;
 import com.lcy0x1.base.proxy.container.ListProxyHandler;
 import com.lcy0x1.base.proxy.container.ProxyMethodContainer;
 import net.sf.cglib.proxy.MethodProxy;
@@ -12,72 +14,105 @@ import java.lang.reflect.Method;
 
 public class OnForeachProxyHandler implements OnProxy {
     private final ProxyContext context;
-    private volatile ListProxyHandler<ProxyMethod> proxyMethods = null;
+    private final ForEachProxy forEachProxy;
+    private volatile ListProxyHandler<ProxyHandler> proxyMethods = null;
     private volatile long lastModify = 0;
 
-    public OnForeachProxyHandler(ProxyContext context) {
+    public OnForeachProxyHandler(ProxyContext context, ForEachProxy forEachProxy) {
         this.context = context;
+        this.forEachProxy = forEachProxy;
     }
 
     @Override
-    public Result<?> onProxy(Object o, Method m, Object[] a, MethodProxy p) throws Throwable {
-        if (!(o instanceof Proxy<?>)) return Result.failed();
+    public Result<?> onProxy(Proxy<?> o, Method m, Object[] a, MethodProxy p) throws Throwable {
         final ProxyContext subContext = context.getSubContext();
-        Proxy<?> proxy = (Proxy<?>) o;
-        final ProxyMethodContainer<?> proxyContainer = proxy.getProxyContainer();
+        final ProxyMethodContainer<?> proxyContainer = o.getProxyContainer();
 
-        if (noNeedUseCache(proxyContainer, subContext, o, m, a, p)) {
-            return Result.failed();
+        Result<?> result = noNeedUseCache(proxyContainer, subContext, o, m, a, p);
+        if (result != null) {
+            return result;
         }
-        if (useCache(proxyContainer, subContext, o, m, a, p)) {
-            return Result.failed();
+        result = useCache(proxyContainer, subContext, o, m, a, p);
+        if (result != null) {
+            return result;
         }
-        rebuildCache(proxyContainer, subContext, o, m, a, p);
-        return Result.failed();
+        return rebuildCache(proxyContainer, subContext, o, m, a, p);
     }
 
-    private boolean noNeedUseCache(
-        @NotNull ProxyMethodContainer<?> proxyContainer, ProxyContext subContext,
-        Object o, Method m, Object[] a, MethodProxy p
+    private Result<?> noNeedUseCache(
+        @NotNull ProxyMethodContainer<?> proxyContainer, ProxyContext c,
+        Proxy<?> o, Method m, Object[] a, MethodProxy p
     ) throws Throwable {
         if (proxyContainer.size() < 16) {
-            proxyContainer.forEachProxy(proxyMethod -> {
-                proxyMethod.onProxy(o, m, a, p, subContext);
-                subContext.clean();
-            });
-            return true;
+            return loop(proxyContainer, c, o, m, a, p);
         }
-        return false;
+        return null;
     }
 
-    private boolean useCache(
-        @NotNull ProxyMethodContainer<?> proxyContainer, ProxyContext subContext,
-        Object o, Method m, Object[] a, MethodProxy p
+    private Result<?> useCache(
+        @NotNull ProxyMethodContainer<?> proxyContainer, ProxyContext c,
+        Proxy<?> o, Method m, Object[] a, MethodProxy p
     ) throws Throwable {
         if (lastModify == proxyContainer.getLastModify() && proxyMethods != null) {
-            proxyMethods.forEachProxy(proxyMethod -> {
-                proxyMethod.onProxy(o, m, a, p, subContext);
-                subContext.clean();
-            });
-            return true;
+            return loop(proxyMethods, c, o, m, a, p);
         }
-        return false;
+        return null;
     }
 
-    private void rebuildCache(
-        @NotNull ProxyMethodContainer<?> proxyContainer, ProxyContext subContext,
-        Object o, Method m, Object[] a, MethodProxy p
+    private Result<?> rebuildCache(
+        @NotNull ProxyMethodContainer<?> proxyContainer, ProxyContext c,
+        Proxy<?> o, Method m, Object[] a, MethodProxy p
     ) throws Throwable {
+        final Reflections.Reference<Result<?>> r = new Reflections.Reference<>(Result.of().snapshot());
+        if (forEachProxy.type() == ForEachProxy.LoopType.AFTER) {
+            r.setValue(Result.of(p.invokeSuper(o, a)).snapshot());
+        }
         final long lastModify = proxyContainer.getLastModify();
-        final ListProxyHandler<ProxyMethod> proxyMethods = new ListProxyHandler<>();
+        final ListProxyHandler<ProxyHandler> proxyMethods = new ListProxyHandler<>();
         proxyContainer.forEachProxy(proxyMethod -> {
-            final Result<?> result = proxyMethod.onProxy(o, m, a, p, subContext);
+            final Result<?> result = call(proxyMethod, o, m, a, p, c);
             if (result != null && result.isSuccess()) {
                 proxyMethods.addProxy(proxyMethod);
+                r.setValue(result.snapshot());
             }
-            subContext.clean();
         });
         this.proxyMethods = proxyMethods;
         this.lastModify = lastModify;
+
+        if (forEachProxy.type() == ForEachProxy.LoopType.BEFORE_WITH_RETURN) {
+            return r.getValue();
+        }
+        return Result.failed();
+    }
+
+    private Result<?> call(
+        @NotNull ProxyHandler proxyMethod,
+        Proxy<?> o, Method m, Object[] a, MethodProxy p, ProxyContext c
+    ) throws Throwable {
+        final Result<?> result = proxyMethod.onProxy(o, m, a, p, c);
+        if (!forEachProxy.keepContext()) {
+            c.clean();
+        }
+        return result;
+    }
+
+    private Result<?> loop(
+        @NotNull ProxyMethodContainer<? extends ProxyHandler> proxyMethods, ProxyContext c,
+        Proxy<?> o, Method m, Object[] a, MethodProxy p
+    ) throws Throwable {
+        final Reflections.Reference<Result<?>> r = new Reflections.Reference<>(Result.failed());
+        if (forEachProxy.type() == ForEachProxy.LoopType.AFTER) {
+            r.setValue(Result.of(p.invokeSuper(o, a)).snapshot());
+        }
+        proxyMethods.forEachProxy(proxyMethod -> {
+            final Result<?> result = call(proxyMethod, o, m, a, p, c);
+            if (result != null && result.isSuccess()) {
+                r.setValue(result.snapshot());
+            }
+        });
+        if (forEachProxy.type() == ForEachProxy.LoopType.BEFORE_WITH_RETURN) {
+            return r.getValue();
+        }
+        return Result.failed();
     }
 }
