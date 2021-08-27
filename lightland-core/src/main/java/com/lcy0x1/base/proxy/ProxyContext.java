@@ -92,7 +92,7 @@ public class ProxyContext {
         }
 
         if (t == null && parent != null) {
-            t = parent.getAndRemove(key);
+            t = parent.get(key);
         } else if (context != null) {
             context[key.getId()] = null;
         }
@@ -105,9 +105,9 @@ public class ProxyContext {
             return;
         }
         if (context == null) {
-            context = new Object[keyIdGenerator.get()];
+            context = new Object[getResize(keyIdGenerator.get())];
         } else if (key.getId() >= context.length) {
-            context = Arrays.copyOf(context, keyIdGenerator.get());
+            context = Arrays.copyOf(context, getResize(keyIdGenerator.get()));
         }
         context[key.getId()] = value;
     }
@@ -134,5 +134,15 @@ public class ProxyContext {
             System.arraycopy(context, 0, target, 0, Math.min(context.length, target.length));
         }
         return target;
+    }
+
+    private static int getResize(int size) {
+        int k = 0;
+        if (size >> (k ^ 16) != 0) k = k ^ 16;
+        if (size >> (k ^ 8) != 0) k = k ^ 8;
+        if (size >> (k ^ 4) != 0) k = k ^ 4;
+        if (size >> (k ^ 2) != 0) k = k ^ 2;
+        if (size >> (k ^ 1) != 0) k = k ^ 1;
+        return 1 << k + 1;
     }
 }
