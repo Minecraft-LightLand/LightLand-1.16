@@ -1,4 +1,4 @@
-./gradlew lightland-core:reobfJar
-./gradlew lightland-magic:reobfJar
-./gradlew lightland-quest:reobfJar
-./gradlew lightland-terrain:reobfJar
+./gradlew.bat lightland-core:reobfJar
+./gradlew.bat lightland-magic:reobfJar
+./gradlew.bat lightland-quest:reobfJar
+./gradlew.bat lightland-terrain:reobfJar
