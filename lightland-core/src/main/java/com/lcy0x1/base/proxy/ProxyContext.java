@@ -13,6 +13,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class ProxyContext {
     private static final AtomicInteger keyIdGenerator = new AtomicInteger();
     private static final ThreadLocal<ProxyContext> localProxyContext = new ThreadLocal<>();
+    private static ProxyContext mainProxyContext = null;
 
     public static final Key<String> methodNameKey = new Key<>();
     public static final Key<Proxy<?>> proxy = new Key<>();
@@ -77,12 +78,22 @@ public class ProxyContext {
     }
 
     public static <R> R withThreadLocalProxyContext(ProxyContext context, Callable<R> c) throws Throwable {
-        final ProxyContext parent = localProxyContext.get();
-        localProxyContext.set(context);
-        try {
-            return c.call();
-        } finally {
-            localProxyContext.set(parent);
+        if (Reflections.inMainThread()) {
+            final ProxyContext parent = mainProxyContext;
+            mainProxyContext = context;
+            try {
+                return c.call();
+            } finally {
+                mainProxyContext = parent;
+            }
+        } else {
+            final ProxyContext parent = localProxyContext.get();
+            localProxyContext.set(context);
+            try {
+                return c.call();
+            } finally {
+                localProxyContext.set(parent);
+            }
         }
     }
 

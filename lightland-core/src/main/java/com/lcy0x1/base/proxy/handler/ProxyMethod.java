@@ -6,7 +6,8 @@ import com.lcy0x1.base.proxy.ProxyContext;
 import com.lcy0x1.base.proxy.Reflections;
 import com.lcy0x1.base.proxy.Result;
 import com.lcy0x1.base.proxy.annotation.WithinProxyContext;
-import lombok.Data;
+import com.lcy0x1.base.proxy.container.WithinProxyContextConfig;
+import lombok.Getter;
 import net.sf.cglib.proxy.MethodProxy;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
@@ -27,7 +28,7 @@ public interface ProxyMethod extends ProxyHandler {
 
     @Override
     default Result<?> onProxy(Proxy<?> obj, Method method, Object[] args, MethodProxy proxy, ProxyContext context) throws Throwable {
-        final CacheMapKey key = new CacheMapKey(method, getClass());
+        final CacheMapKey key = CacheMapKey.of(method, getClass());
         final Result<? extends ProxyHandler> methodResult = handlerCacheMap.get(key);
         if (methodResult != null) {
             if (methodResult.isSuccess()) {
@@ -38,15 +39,19 @@ public interface ProxyMethod extends ProxyHandler {
         }
         ProxyHandler handler = getHandler(obj, method, args, proxy, context);
         if (handler == ProxyHandler.failed) {
-            handlerCacheMap.put(key, Result.failed());
+            handlerCacheMap.put(key.snapshot(), Result.failed());
         } else {
-            final WithinProxyContext withinProxyContext = WithinProxyContext.Utils.get(this);
+            final WithinProxyContextConfig withinProxyContext = getProxyContextConfig();
             if (withinProxyContext != null) {
                 handler = new WithinProxyContextProxyHandler(handler, withinProxyContext);
             }
-            handlerCacheMap.put(key, Result.alloc(handler));
+            handlerCacheMap.put(key.snapshot(), Result.alloc(handler));
         }
         return handler.onProxy(obj, method, args, proxy, context);
+    }
+
+    default WithinProxyContextConfig getProxyContextConfig() {
+        return WithinProxyContext.Utils.get(this);
     }
 
     @SuppressWarnings("unused")
@@ -81,8 +86,10 @@ public interface ProxyMethod extends ProxyHandler {
         return ProxyHandler.failed;
     }
 
-    @Data
+    @Getter
     final class CacheMapKey {
+        @SuppressWarnings("ConstantConditions")
+        private static final CacheMapKey main = new CacheMapKey(null, null);
         @NotNull
         private Method method;
         @NotNull
@@ -90,6 +97,22 @@ public interface ProxyMethod extends ProxyHandler {
 
         // hash cache
         private int hash;
+
+        /**
+         * 可以尝试从主线程中获取 CacheMapKey对象
+         * 因为游戏的绝大部分逻辑都是在主线程中运行的
+         * 这种优化的效果非常好，可以节约大量对象分配
+         */
+        public static CacheMapKey of(@NotNull Method method, @NotNull Class<? extends ProxyMethod> clazz) {
+            if (Reflections.inMainThread()) {
+                main.clazz = clazz;
+                main.method = method;
+                main.hash = 0;
+                return main;
+            } else {
+                return new CacheMapKey(method, clazz);
+            }
+        }
 
         public CacheMapKey(@NotNull Method method, @NotNull Class<? extends ProxyMethod> clazz) {
             this.method = method;
@@ -112,6 +135,16 @@ public interface ProxyMethod extends ProxyHandler {
                 //hash = Objects.hash(method, clazz);
             }
             return hash;
+        }
+
+        public CacheMapKey snapshot() {
+            if (Reflections.inMainThread()) {
+                final CacheMapKey key = new CacheMapKey(method, clazz);
+                key.hash = this.hash;
+                return key;
+            } else {
+                return this;
+            }
         }
     }
 }

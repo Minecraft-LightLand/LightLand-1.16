@@ -1,9 +1,11 @@
 package example;
 
 import com.lcy0x1.base.proxy.Proxy;
+import com.lcy0x1.base.proxy.ProxyContext;
 import com.lcy0x1.base.proxy.ProxyInterceptor;
 import com.lcy0x1.base.proxy.annotation.ForEachProxy;
 import com.lcy0x1.base.proxy.annotation.ForFirstProxy;
+import com.lcy0x1.base.proxy.annotation.WithinProxyContext;
 import com.lcy0x1.base.proxy.container.ListProxyMethodContainer;
 import com.lcy0x1.base.proxy.handler.ProxyMethod;
 import lombok.Getter;
@@ -23,6 +25,7 @@ public class ProxyExample implements Proxy<ProxyMethod> {
     private static final Enhancer enhancer = ProxyInterceptor.getEnhancer(ProxyExample.class);
 
     private static final Class<?>[] construct = {};
+    private static final ProxyContext.Key<Integer> callTimeKey = new ProxyContext.Key<>();
 
     @Getter
     private final ListProxyMethodContainer<ProxyMethod> proxyContainer = new ListProxyMethodContainer<>();
@@ -37,6 +40,21 @@ public class ProxyExample implements Proxy<ProxyMethod> {
                 if (!testPerformance) {
                     //System.out.println("on proxy get A");
                 }
+                //final ProxyContext proxyContext = ProxyContext.local();
+                //if (proxyContext != null) {
+                //    final Integer callTimeInteger = proxyContext.get(callTimeKey);
+                //    int callTime = 0;
+                //    if (callTimeInteger != null) {
+                //        callTime = callTimeInteger;
+                //    }
+                //
+                //    if (callTime % 5 == 0) {
+                //        System.out.println("call " + callTime + " time");
+                //    }
+                //
+                //    proxyContext.put(callTimeKey, callTime + 1);
+                //}
+
                 return 0;
             });
             proxyContainer.addProxy((GetB) () -> {
@@ -162,6 +180,7 @@ public class ProxyExample implements Proxy<ProxyMethod> {
         return 2;
     }
 
+    @WithinProxyContext
     public interface GetA extends ProxyMethod {
         int getA();
     }

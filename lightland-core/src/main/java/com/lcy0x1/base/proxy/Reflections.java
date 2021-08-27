@@ -62,6 +62,10 @@ public class Reflections {
         }
     }
 
+    public static boolean equalsMethod(Method m1, Method m2) {
+        return equalsMethod(m1, m2.getName(), getParameterTypes(m2));
+    }
+
     public static boolean equalsMethod(Method method, String name, Class<?>[] parameterTypes) {
         return Objects.equals(method.getName(), name) &&
             Arrays.equals(parameterTypes, getParameterTypes(method));

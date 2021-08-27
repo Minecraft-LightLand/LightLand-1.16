@@ -7,6 +7,7 @@ import net.sf.cglib.proxy.MethodProxy;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 
 public class ProxyInterceptor implements MethodInterceptor {
     public static final ProxyInterceptor INSTANCE = new ProxyInterceptor();
@@ -37,7 +38,13 @@ public class ProxyInterceptor implements MethodInterceptor {
     }
 
     private static boolean isPassProxyMethod(Method method) {
-        return isOnProxyMethod(method) || isGetHandlerMethod(method);
+        for (Method m : Proxy.class.getDeclaredMethods()) {
+            if (!Modifier.isStatic(m.getModifiers()) && Reflections.equalsMethod(method, m)) {
+                return true;
+            }
+        }
+        return false;
+        //return isOnProxyMethod(method) || isGetHandlerMethod(method);
     }
 
     private static boolean isOnProxyMethod(Method method) {

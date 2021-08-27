@@ -66,7 +66,6 @@ public class OnForeachProxyHandler implements OnProxy {
             @NotNull ProxyMethodContainer<?> proxyContainer, ProxyContext c,
             Proxy<?> o, Method m, Object[] a, MethodProxy p
     ) throws Throwable {
-        System.out.println("rebuild loop cache");
         final Reflections.Reference<Result<?>> r = new Reflections.Reference<>(Result.of().snapshot());
         if (forEachProxy.type() == ForEachProxy.LoopType.AFTER) {
             r.setValue(Result.of(p.invokeSuper(o, a)).snapshot());
