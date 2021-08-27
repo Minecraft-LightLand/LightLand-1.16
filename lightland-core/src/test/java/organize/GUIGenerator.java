@@ -7,7 +7,6 @@ import com.google.gson.JsonParser;
 import com.google.gson.internal.Streams;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import org.junit.Test;
 
 import javax.imageio.ImageIO;
 import java.awt.*;

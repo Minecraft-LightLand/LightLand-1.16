@@ -17,6 +17,7 @@ public class SpellRegistry {
     public static final WindBladeSpell BLADE_SIDE = reg("blade_side", new WindBladeSpell());
     public static final WindBladeSpell BLADE_FRONT = reg("blade_front", new WindBladeSpell());
     public static final FireArrowSpell FIRE_RAIN = reg("fire_rain", new FireArrowSpell());
+    public static final FireArrowSpell EXPLOSION_RAIN = reg("explosion_rain", new FireArrowSpell());
     public static final FireArrowSpell FIRE_EXPLOSION = reg("fire_explosion", new FireArrowSpell());
 
     private static <V extends T, T extends ForgeRegistryEntry<T>> V reg(String name, V v) {

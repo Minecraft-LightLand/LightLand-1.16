@@ -1,9 +1,9 @@
 {
     "type": "lightland-magic:magic_default",
     "product_type": "lightland-magic:spell",
-    "product_id": "lightland-magic:fire_explosion",
+    "product_id": "lightland-magic:explosion_rain",
     "predecessor": [
-        "lightland-magic:spell_explosion_rain"
+        "lightland-magic:spell_fire_rain"
     ],
     "elemental_mastery": [
         {
@@ -12,7 +12,7 @@
         }
     ],
     "screen": {
-        "x": 2,
+        "x": 1,
         "y": 3
 
     },

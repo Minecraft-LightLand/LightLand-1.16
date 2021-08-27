@@ -9,8 +9,8 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Singleton {
     String[] errMsgTemplate = {
-        "%O", // checked object
-        "%C", // checked Class
+            "%O", // checked object
+            "%C", // checked Class
     };
 
     String errMsg() default "";

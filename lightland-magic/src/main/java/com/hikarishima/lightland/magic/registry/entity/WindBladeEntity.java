@@ -55,8 +55,8 @@ public class WindBladeEntity extends ThrowableEntity implements IEntityAdditiona
 
         Vector3d vector3d = this.getDeltaMovement();
         float f = MathHelper.sqrt(getHorizontalDistanceSqr(vector3d));
-        this.xRot =  (float)(MathHelper.atan2(vector3d.y, f) * (double)(180F / (float)Math.PI));
-        this.yRot =  (float)(MathHelper.atan2(vector3d.x, vector3d.z) * (double)(180F / (float)Math.PI));
+        this.xRot = (float) (MathHelper.atan2(vector3d.y, f) * (double) (180F / (float) Math.PI));
+        this.yRot = (float) (MathHelper.atan2(vector3d.x, vector3d.z) * (double) (180F / (float) Math.PI));
         this.xRotO = this.xRot;
         this.yRotO = this.yRot;
     }
@@ -74,11 +74,11 @@ public class WindBladeEntity extends ThrowableEntity implements IEntityAdditiona
         double vx = velocity.x;
         double vy = velocity.y;
         double vz = velocity.z;
-        for(int i = 0; i < 4; ++i) {
+        for (int i = 0; i < 4; ++i) {
             this.level.addParticle(ParticleTypes.CRIT,
-                    this.getX() + vx * (double)i / 4.0D,
-                    this.getY() + vy * (double)i / 4.0D,
-                    this.getZ() + vz * (double)i / 4.0D,
+                    this.getX() + vx * (double) i / 4.0D,
+                    this.getY() + vy * (double) i / 4.0D,
+                    this.getZ() + vz * (double) i / 4.0D,
                     -vx, -vy + 0.2, -vz);
         }
     }

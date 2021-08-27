@@ -33,7 +33,7 @@ public class ThunderAxe extends Arcane {
         World w = player.level;
         strike(w, player, target);
         if (!w.isClientSide()) {
-            w.getEntities(player, new AxisAlignedBB(player.blockPosition()).deflate(radius), e -> {
+            w.getEntities(player, new AxisAlignedBB(player.blockPosition()).inflate(radius), e -> {
                 if (!(e instanceof LivingEntity))
                     return false;
                 if (e == player || e == target || e.isAlliedTo(e))

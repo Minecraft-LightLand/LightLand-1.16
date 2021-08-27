@@ -138,9 +138,9 @@ public interface Proxy<T extends ProxyMethod> {
     }
 
     static Result<?> onForFirstProxy(
-        Object obj, Method method, Object[] args, MethodProxy proxy,
-        ForFirstProxy forFirstProxy, Collection<Class<?>> classes, AtomicLong lastModify,
-        ProxyContext context) throws Throwable {
+            Object obj, Method method, Object[] args, MethodProxy proxy,
+            ForFirstProxy forFirstProxy, Collection<Class<?>> classes, AtomicLong lastModify,
+            ProxyContext context) throws Throwable {
         if (!(obj instanceof Proxy<?>)) return Result.failed();
         final Proxy<?> container = (Proxy<?>) obj;
         final ProxyMethodContainer<?> containerProxyMethodContainer = container.getProxyContainer();
