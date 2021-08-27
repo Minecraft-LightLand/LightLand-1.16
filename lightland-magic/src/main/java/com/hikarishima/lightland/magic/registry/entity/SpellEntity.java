@@ -53,7 +53,7 @@ public class SpellEntity extends BaseEntity {
     }
 
     public void setData(ActivationConfig act, SpellConfig.SpellDisplay spell) {
-        Vector3d pos = act.pos;
+        Vector3d pos = act.target == null ? act.pos : act.target.position().add(0, act.target.getBbHeight() / 2, 0);
         pos = pos.add(0, 1e-3, 0);
         float xr = -90;
         setData(pos.x, pos.y, pos.z, spell.duration, spell.setup, spell.close, xr, 0);

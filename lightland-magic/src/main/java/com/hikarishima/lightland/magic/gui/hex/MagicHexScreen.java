@@ -286,7 +286,6 @@ public class MagicHexScreen extends Screen {
     public void onClose() {
         if (this.minecraft != null && this.minecraft.screen == this && this.parent != null)
             this.minecraft.setScreen(this.parent);
-        super.onClose();
     }
 
 }

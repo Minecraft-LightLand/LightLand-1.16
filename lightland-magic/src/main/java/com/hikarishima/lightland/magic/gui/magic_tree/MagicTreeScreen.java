@@ -46,6 +46,7 @@ public class MagicTreeScreen extends Screen {
 
     @SuppressWarnings({"unchecked", "rawtypes"})
     public void init() {
+        if (selected != null) return;
         tabs.clear();
         for (MagicProductType<?, ?> type : TABS) {
             tabs.put(type.getAsType(), new MagicTreeGui(this, type, tabs.size()));

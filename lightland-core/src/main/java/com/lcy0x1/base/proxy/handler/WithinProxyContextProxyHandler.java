@@ -20,11 +20,11 @@ public class WithinProxyContextProxyHandler implements ProxyHandler {
     @Override
     public Result<?> onProxy(Proxy<?> obj, Method method, Object[] args, MethodProxy proxy, ProxyContext context) throws Throwable {
         return ProxyContext.withThreadLocalProxyContext(context,
-            () -> {
-                if (withinProxyContext.isProxy() || withinProxyContext.isBlock()) {
-                    context.put(ProxyContext.proxy, obj);
-                }
-                return handler.onProxy(obj, method, args, proxy, context);
-            });
+                () -> {
+                    if (withinProxyContext.isProxy() || withinProxyContext.isBlock()) {
+                        context.put(ProxyContext.proxy, obj);
+                    }
+                    return handler.onProxy(obj, method, args, proxy, context);
+                });
     }
 }

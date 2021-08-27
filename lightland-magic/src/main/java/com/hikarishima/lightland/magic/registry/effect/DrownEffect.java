@@ -14,7 +14,7 @@ public class DrownEffect extends Effect {
 
     public DrownEffect() {
         super(EffectType.HARMFUL, 0x00007F);
-        this.addAttributeModifier(ForgeMod.SWIM_SPEED.get(), ID.toString(), -0.2f, AttributeModifier.Operation.MULTIPLY_TOTAL);
+        this.addAttributeModifier(ForgeMod.SWIM_SPEED.get(), ID.toString(), -0.5f, AttributeModifier.Operation.MULTIPLY_TOTAL);
     }
 
 }

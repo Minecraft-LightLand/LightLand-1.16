@@ -1,0 +1,40 @@
+{
+  "_class": "organize.json.JsonPartMap",
+  "file": "config_spell",
+  "path": "map",
+  "common": {
+    "_class": "com.hikarishima.lightland.magic.spell.magic.WaterTrapSpell$Config"
+  },
+  "map": {
+    "lightland-magic:water_trap_0": {
+      "duration": 30,
+      "mana_cost": 25,
+      "spell_load": 50,
+      "type": "SCROLL",
+      "spell_time": {
+        "id": "test.spell",
+        "duration": 50,
+        "setup": 20,
+        "close": 20
+      },
+      "effect_time": 300,
+      "effect_level": 0,
+      "radius": 6
+    },
+    "lightland-magic:water_trap_1": {
+      "duration": 30,
+      "mana_cost": 25,
+      "spell_load": 50,
+      "type": "SCROLL",
+      "spell_time": {
+        "id": "test.spell",
+        "duration": 50,
+        "setup": 20,
+        "close": 20
+      },
+      "effect_time": 200,
+      "effect_level": 1,
+      "radius": 3
+    }
+  }
+}

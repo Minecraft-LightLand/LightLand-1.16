@@ -7,7 +7,6 @@ import organize.sub.*;
 import java.io.File;
 import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -42,8 +41,8 @@ public abstract class ResourceOrganizer {
             delete(new File("./" + MODID + "/src/main/resources/data/"));
             if (!fi.isDirectory())
                 continue;
-            for (ResourceOrganizer obj : MAP.values()){
-                File fo = new File(fi.getPath()+"/"+obj.folder);
+            for (ResourceOrganizer obj : MAP.values()) {
+                File fo = new File(fi.getPath() + "/" + obj.folder);
                 if (!fo.exists())
                     continue;
                 obj.organize(fo);

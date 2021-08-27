@@ -1,5 +1,6 @@
 package com.hikarishima.lightland.magic.event;
 
+import com.hikarishima.lightland.magic.LightLandMagic;
 import com.hikarishima.lightland.magic.MagicRenderState;
 import com.hikarishima.lightland.magic.registry.VanillaMagicRegistry;
 import com.hikarishima.lightland.proxy.PacketHandler;
@@ -12,6 +13,7 @@ import net.minecraft.client.renderer.entity.LivingRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.potion.Effect;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.RenderLivingEvent;
@@ -27,12 +29,15 @@ import java.util.function.Supplier;
 @SuppressWarnings("unused")
 public class ClientRenderEventHandler {
 
-    private static final Map<UUID, Set<Effect>> EFFECT_MAP = new HashMap<>();
+    public static final ResourceLocation RL_ENTITY_BODY_ICON = new ResourceLocation(LightLandMagic.MODID, "textures/arcane_icon.png");
+    public static final ResourceLocation WATER_TRAP_ICON = new ResourceLocation(LightLandMagic.MODID, "textures/water_trap_icon.png");
 
+    private static final Map<UUID, Set<Effect>> EFFECT_MAP = new HashMap<>();
     private static final Set<Effect> TRACKED = new HashSet<>();
 
     public static void init() {
         TRACKED.add(VanillaMagicRegistry.ARCANE);
+        TRACKED.add(VanillaMagicRegistry.WATER_TRAP);
     }
 
     @OnlyIn(Dist.CLIENT)
@@ -40,8 +45,14 @@ public class ClientRenderEventHandler {
     public void onLivingEntityRender(RenderLivingEvent.Post<?, ?> event) {
         LivingEntity entity = event.getEntity();
         LivingRenderer<?, ?> renderer = event.getRenderer();
-        if (EFFECT_MAP.containsKey(entity.getUUID()) && EFFECT_MAP.get(entity.getUUID()).contains(VanillaMagicRegistry.ARCANE)) {
-            renderArcaneIcon(entity, event.getMatrixStack(), event.getBuffers(), renderer.getDispatcher());
+        if (EFFECT_MAP.containsKey(entity.getUUID())) {
+            Set<Effect> set = EFFECT_MAP.get(entity.getUUID());
+            if (set.contains(VanillaMagicRegistry.ARCANE)) {
+                renderIcon(entity, event.getMatrixStack(), event.getBuffers(), renderer.getDispatcher(), RL_ENTITY_BODY_ICON);
+            }
+            if (set.contains(VanillaMagicRegistry.WATER_TRAP)) {
+                renderIcon(entity, event.getMatrixStack(), event.getBuffers(), renderer.getDispatcher(), WATER_TRAP_ICON);
+            }
         }
     }
 
@@ -110,13 +121,13 @@ public class ClientRenderEventHandler {
     }
 
     @OnlyIn(Dist.CLIENT)
-    private static void renderArcaneIcon(Entity entity, MatrixStack matrix, IRenderTypeBuffer buffer, EntityRendererManager manager) {
+    private static void renderIcon(Entity entity, MatrixStack matrix, IRenderTypeBuffer buffer, EntityRendererManager manager, ResourceLocation rl) {
         float f = entity.getBbHeight() / 2;
         matrix.pushPose();
         matrix.translate(0, f, 0);
         matrix.mulPose(manager.cameraOrientation());
         MatrixStack.Entry entry = matrix.last();
-        IVertexBuilder ivertexbuilder = buffer.getBuffer(MagicRenderState.get2DIcon(MagicRenderState.RL_ENTITY_BODY_ICON));
+        IVertexBuilder ivertexbuilder = buffer.getBuffer(MagicRenderState.get2DIcon(rl));
         iconVertex(entry, ivertexbuilder, 0.5f, -0.5f, 0, 1);
         iconVertex(entry, ivertexbuilder, -0.5f, -0.5f, 1, 1);
         iconVertex(entry, ivertexbuilder, -0.5f, 0.5f, 1, 0);

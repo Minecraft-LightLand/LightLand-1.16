@@ -12,8 +12,8 @@ import java.lang.reflect.Modifier;
 public class ProxyInterceptor implements MethodInterceptor {
     public static final ProxyInterceptor INSTANCE = new ProxyInterceptor();
     private static final MethodInterceptor[] CALLBACKS = {
-        (obj, method, args, proxy) -> proxy.invokeSuper(obj, args),
-        INSTANCE,
+            (obj, method, args, proxy) -> proxy.invokeSuper(obj, args),
+            INSTANCE,
     };
     private static final CallbackFilter callbackFilter = method -> {
         if (isPassProxyMethod(method)) {

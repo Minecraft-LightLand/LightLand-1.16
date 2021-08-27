@@ -10,8 +10,6 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 @OnlyIn(Dist.CLIENT)
 public class MagicRenderState extends RenderState {
 
-    public static final ResourceLocation RL_ENTITY_BODY_ICON = new ResourceLocation(LightLandMagic.MODID, "textures/arcane_icon.png");
-
     public static RenderType get2DIcon(ResourceLocation rl) {
         return RenderType.create(
                 "entity_body_icon",

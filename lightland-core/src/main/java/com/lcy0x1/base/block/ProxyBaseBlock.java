@@ -63,7 +63,7 @@ public class ProxyBaseBlock extends BaseBlock implements Proxy<IImpl> {
     public ProxyBaseBlock(BlockProp p, IImpl... impl) {
         super(handler(construct(p).addImpls(impl)));
         registerDefaultState(this.impl.execute(IDefaultState.class).reduce(defaultBlockState(),
-            (state, def) -> def.getDefaultState(state), (a, b) -> a));
+                (state, def) -> def.getDefaultState(state), (a, b) -> a));
     }
 
     public static BlockImplementor construct(BlockProp bb) {
@@ -91,7 +91,7 @@ public class ProxyBaseBlock extends BaseBlock implements Proxy<IImpl> {
     @Override
     public int getAnalogOutputSignal(BlockState blockState, World worldIn, BlockPos pos) {
         return impl.one(ITE.class).map(e -> Optional.ofNullable(worldIn.getBlockEntity(pos))
-            .map(Container::getRedstoneSignalFromBlockEntity).orElse(0)).orElse(0);
+                .map(Container::getRedstoneSignalFromBlockEntity).orElse(0)).orElse(0);
     }
 
     @Override

@@ -171,11 +171,13 @@
     "lightland-magic:stone_slab": "石阶",
     "lightland-magic:stone_block": "石牢",
     "lightland-magic:fang_round": "鲨鱼召唤",
+    "lightland-magic:water_trap_0": "水牢",
+    "lightland-magic:water_trap_1": "水狱",
     "lightland-magic:blade_front": "狙击风刃",
     "lightland-magic:blade_side": "连击风刃",
     "lightland-magic:fire_rain": "火雨",
     "lightland-magic:explosion_rain": "火球爆炸术",
-    "lightland-magic:fire_explosion":"巨大火球术"
+    "lightland-magic:fire_explosion": "巨大火球术"
   },
   "lightland-magic:magic_product_type": {
     "lightland-magic:enchantment": "附魔",
@@ -239,8 +241,8 @@
       "spell_scroll": "符文-卷轴",
       "gilded_wand": "镀金法杖",
       "record_pearl": "记录宝珠",
-      "ritual_core":"仪式主台",
-      "ritual_side":"仪式基座"
+      "ritual_core": "仪式主台",
+      "ritual_side": "仪式基座"
     },
     "lightland-quest": {
       "quest_book": "任务书"
@@ -249,8 +251,8 @@
   "block.lightland-magic": {
     "temp_dirt": "泥土",
     "temp_cobblestone": "圆石",
-    "ritual_core":"仪式主台",
-    "ritual_side":"仪式基座"
+    "ritual_core": "仪式主台",
+    "ritual_side": "仪式基座"
   },
   "itemGroup.lightland-core": "Lightland",
   "generator.lightland-terrain.image_biome": "地图生成器"
