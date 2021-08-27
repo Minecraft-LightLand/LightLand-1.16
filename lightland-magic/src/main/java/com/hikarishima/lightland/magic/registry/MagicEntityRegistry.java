@@ -4,9 +4,7 @@ import com.hikarishima.lightland.magic.LightLandMagic;
 import com.hikarishima.lightland.magic.registry.entity.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ItemRenderer;
-import net.minecraft.client.renderer.entity.ArrowRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
-import net.minecraft.client.renderer.entity.SpriteRenderer;
 import net.minecraft.client.renderer.entity.TippedArrowRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityClassification;
@@ -52,7 +50,7 @@ public class MagicEntityRegistry {
         manager.register(ET_WIND_BLADE, new WindBladeEntityRenderer(manager));
         manager.register(ET_SPELL, new SpellEntityRenderer(manager));
         manager.register(ET_FIRE_ARROW, new TippedArrowRenderer(manager));
-        manager.register(ET_FIRE_BALL,new SpriteRenderer<>(manager, item, 3.0F, true));
+        manager.register(ET_FIRE_BALL, new SpecialSpriteRenderer<>(manager, item, true));
     }
 
 }

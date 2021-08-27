@@ -32,7 +32,7 @@ public interface IClick extends IMultImpl {
         final Result<?> result = IMultImpl.super.onProxy(obj, method, args, proxy, context);
         log.warn("onProxy: {} {} {}", method, result, Reflections.equalsMethod(method, "onClick", parameterTypes));
         if (result != null && result.isSuccess() && Reflections.equalsMethod(method, "onClick", parameterTypes) &&
-            result.getResult() == ActionResultType.PASS) {
+                result.getResult() == ActionResultType.PASS) {
             // tell framework do not cache proxy method
             context.put(ProxyContext.cacheFirstProxyMethod, false);
             return Result.failed();

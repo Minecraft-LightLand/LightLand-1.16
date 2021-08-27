@@ -72,7 +72,7 @@ public class FireArrowSpell extends Spell<FireArrowSpell.Config, FireArrowSpell.
 
     private void addFireball(Vector3d target, PlayerEntity player, World world, Config config) {
         Vector3d pos = target.add(0, config.distance, 0);
-        MagicFireBallEntity e = new MagicFireBallEntity(world, player, pos);
+        MagicFireBallEntity e = new MagicFireBallEntity(world, player, pos, config.size);
         Vector3d velocity = new Vector3d(0, -config.velocity, 0);
         e.setDeltaMovement(velocity);
         e.explosionPower = config.explosion;
@@ -93,7 +93,7 @@ public class FireArrowSpell extends Spell<FireArrowSpell.Config, FireArrowSpell.
         public int period, repeat, explosion;
 
         @SerialClass.SerialField
-        public float damage, distance, velocity, radius;
+        public float damage, distance, velocity, radius, size;
 
         @SerialClass.SerialField
         public SpellDisplay spell_time;

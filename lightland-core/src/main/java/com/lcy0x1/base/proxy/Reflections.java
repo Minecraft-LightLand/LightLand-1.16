@@ -57,7 +57,7 @@ public class Reflections {
 
     public static boolean equalsMethod(Method method, String name, Class<?>[] parameterTypes) {
         return Objects.equals(method.getName(), name) &&
-            Arrays.equals(parameterTypes, getParameterTypes(method));
+                Arrays.equals(parameterTypes, getParameterTypes(method));
     }
 
     public static Field getField(Class<?> clazz, String fieldName) {
