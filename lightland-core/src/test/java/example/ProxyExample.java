@@ -32,7 +32,7 @@ public class ProxyExample implements Proxy<ProxyMethod> {
 
     public ProxyExample() {
         testPerformance = true;
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < 20; i++) {
             proxyContainer.addProxy((GetA) () -> {
                 if (!testPerformance) {
                     //System.out.println("on proxy get A");
