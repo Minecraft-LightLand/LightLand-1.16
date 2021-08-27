@@ -6,6 +6,7 @@ import com.lcy0x1.base.proxy.ProxyContext;
 import com.lcy0x1.base.proxy.Result;
 import com.lcy0x1.base.proxy.annotation.ForFirstProxy;
 import com.lcy0x1.base.proxy.container.ProxyMethodContainer;
+import lombok.extern.log4j.Log4j2;
 import net.sf.cglib.proxy.MethodProxy;
 import org.apache.commons.lang3.StringUtils;
 
@@ -13,6 +14,7 @@ import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.Collection;
 
+@Log4j2
 public class OnForFirstProxyHandler implements OnProxy {
     private static final String[] errMsgSearchList = {"%M", "%B", "%A"};
     final ForFirstProxy forFirstProxy;

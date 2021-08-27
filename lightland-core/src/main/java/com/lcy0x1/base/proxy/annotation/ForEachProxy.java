@@ -18,7 +18,7 @@ public @interface ForEachProxy {
 
     enum LoopType {
         BEFORE, // loop and call proxied instance
-        AFTER, // loop and return last proxy return
+        AFTER, // loop and return last proxy return, support ProxyContext.pre
         BEFORE_WITH_RETURN, // loop and return without call proxied instance
     }
 }

@@ -101,12 +101,9 @@ public class ProxyBaseBlock extends BaseBlock implements Proxy<IImpl> {
     }
 
     @Override
-    @ForEachProxy(value = IPlacement.class, name = "getStateForPlacement",
-        keepContext = true, type = ForEachProxy.LoopType.BEFORE_WITH_RETURN)
+    @ForEachProxy(value = IPlacement.class, name = "getStateForPlacement", type = ForEachProxy.LoopType.AFTER)
     public BlockState getStateForPlacement(BlockItemUseContext context) {
-        return null;
-        //return impl.execute(IPlacement.class).reduce(defaultBlockState(),
-        //    (state, impl) -> impl.getStateForPlacement(state, context), (a, b) -> a);
+        return defaultBlockState();
     }
 
     @Override
@@ -127,9 +124,9 @@ public class ProxyBaseBlock extends BaseBlock implements Proxy<IImpl> {
     }
 
     @Override
-    @ForFirstProxy(value = IClick.class, name = "onClick")
+    @ForFirstProxy(value = IClick.class, name = "onClick", cache = false)
     public ActionResultType use(BlockState bs, World w, BlockPos pos, PlayerEntity pl, Hand h, BlockRayTraceResult r) {
-        //log.warn("this class: {}, stack trace: ", getClass(), new Throwable());
+        log.warn("this class: {}, stack trace: ", getClass(), new Throwable());
         return ActionResultType.PASS;
     }
 

@@ -20,7 +20,7 @@ public class ProxyContext {
     public static final Key<Result<ProxyHandler>> proxyMethod = new Key<>();
     public static final Key<Boolean> cacheFirstProxyMethod = new Key<>();
     public static final Key<Collection<? extends Class<?>>> classes = new Key<>();
-    public static final Key<?> pre = new ProxyContext.Key<>(); // pre proxy return
+    public static final Key<Object> pre = new ProxyContext.Key<>(); // pre proxy return
 
     public static final Key<Block> block = new Key<Block>(proxy) {
         @Override

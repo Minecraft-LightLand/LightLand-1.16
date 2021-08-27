@@ -1,12 +1,10 @@
 package com.lcy0x1.base.proxy;
 
 import lombok.Getter;
-import lombok.ToString;
 
 import java.util.Objects;
 
 @Getter
-@ToString
 public final class Result<R> {
     private static final Result<?> failed = new Result<>(false, null);
     private static final Result<?> main = new Result<>(true, null, true);
@@ -35,6 +33,11 @@ public final class Result<R> {
     void setResult(R result) {
         this.result = result;
         hashCode = 0;
+    }
+
+    @Override
+    public String toString() {
+        return "Result{" + "success=" + success + ", result=" + result + '}';
     }
 
     public Result<R> snapshot() {
