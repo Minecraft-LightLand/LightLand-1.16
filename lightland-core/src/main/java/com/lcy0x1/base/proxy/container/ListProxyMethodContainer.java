@@ -1,47 +1,21 @@
-package com.lcy0x1.base.proxy;
+package com.lcy0x1.base.proxy.container;
 
 import com.lcy0x1.base.proxy.annotation.Singleton;
-import lombok.Getter;
+import com.lcy0x1.base.proxy.handler.ProxyMethod;
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang3.StringUtils;
-import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Constructor;
 import java.util.*;
 
 @Log4j2
-public class ListProxyMethodContainer<T extends ProxyMethod> implements MutableProxyMethodContainer<T> {
-    @NotNull
-    @Getter
-    private final ArrayList<T> proxyList;
-    private Object[] elementData = null;
-    @Getter
-    private volatile long lastModify = 0;
-    private Map<Class<?>, Object> singletonMap = new HashMap<>();
-
-    public ListProxyMethodContainer() {
-        proxyList = new ArrayList<>();
-    }
-
-    //public ListProxy(@NotNull List<T> proxyList) {
-    //    this.proxyList = proxyList;
-    //}
-
-    protected synchronized void modified() {
-        lastModify = System.currentTimeMillis();
-        try {
-            elementData = Reflections.getElementData(proxyList);
-        } catch (Exception ignored) {
-        }
-    }
+public class ListProxyMethodContainer<T extends ProxyMethod> extends ListProxyHandler<T> implements MutableProxyMethodContainer<T> {
+    private final Map<Class<?>, Object> singletonMap = new HashMap<>();
 
     @Override
     public synchronized int addProxy(T proxy) {
         check(proxy);
-        lastModify = System.currentTimeMillis();
-        proxyList.add(proxy);
-        modified();
-        return proxyList.size() - 1;
+        return super.addProxy(proxy);
     }
 
     @Override
@@ -49,44 +23,23 @@ public class ListProxyMethodContainer<T extends ProxyMethod> implements MutableP
         for (T p : proxy) {
             check(p);
         }
-        lastModify = System.currentTimeMillis();
-        final boolean addAll = proxyList.addAll(proxy);
-        modified();
-        return addAll;
+        return super.addAllProxy(proxy);
     }
 
     @Override
-    public synchronized void removeProxy(T proxy) {
-        lastModify = System.currentTimeMillis();
-        removeSingleton(proxyList.remove(proxy));
-        modified();
-    }
-
-    @Override
-    public synchronized void removeProxy(int index) {
-        lastModify = System.currentTimeMillis();
-        removeSingleton(proxyList.remove(index));
-        modified();
-    }
-
-    @NotNull
-    @Override
-    public Iterator<T> iterator() {
-        return proxyList.iterator();
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    public void forEachProxy(ForEachProxyHandler<T> action) throws Throwable {
-        final Object[] elementData = this.elementData;
-        if (elementData != null) {
-            final int size = proxyList.size();
-            for (int i = 0; i < size; i++) {
-                action.accept((T) elementData[i]);
-            }
-        } else {
-            MutableProxyMethodContainer.super.forEachProxy(action);
+    public synchronized boolean removeProxy(T proxy) {
+        final boolean remove = super.removeProxy(proxy);
+        if (remove) {
+            removeSingleton(proxy);
         }
+        return remove;
+    }
+
+    @Override
+    public synchronized T removeProxy(int index) {
+        final T remove = super.removeProxy(index);
+        removeSingleton(remove);
+        return remove;
     }
 
     protected synchronized void check(Object obj) {
@@ -97,7 +50,7 @@ public class ListProxyMethodContainer<T extends ProxyMethod> implements MutableP
     }
 
     private void check(Class<?> clazz, Set<Class<?>> note, Object obj) {
-        if (clazz == Object.class || !note.add(clazz)) {
+        if (clazz == null || clazz == Object.class || !note.add(clazz)) {
             return;
         }
 
@@ -141,19 +94,19 @@ public class ListProxyMethodContainer<T extends ProxyMethod> implements MutableP
         if (obj == null) {
             return;
         }
-        removeSingleton(obj.getClass(), new HashSet<>(), obj);
+        removeSingleton(obj.getClass(), new HashSet<>());
     }
 
-    protected void removeSingleton(Class<?> clazz, Set<Class<?>> note, Object obj) {
-        if (clazz == Object.class || !note.add(clazz)) {
+    protected void removeSingleton(Class<?> clazz, Set<Class<?>> note) {
+        if (clazz == null || clazz == Object.class || !note.add(clazz)) {
             return;
         }
         if (clazz.getAnnotation(Singleton.class) != null) {
             singletonMap.remove(clazz);
         }
-        removeSingleton(clazz.getSuperclass(), note, obj);
+        removeSingleton(clazz.getSuperclass(), note);
         for (Class<?> anInterface : clazz.getInterfaces()) {
-            removeSingleton(anInterface, note, obj);
+            removeSingleton(anInterface, note);
         }
     }
 }

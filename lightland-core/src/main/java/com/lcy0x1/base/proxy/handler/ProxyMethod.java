@@ -1,6 +1,9 @@
-package com.lcy0x1.base.proxy;
+package com.lcy0x1.base.proxy.handler;
 
 import com.esotericsoftware.reflectasm.MethodAccess;
+import com.lcy0x1.base.proxy.ProxyContext;
+import com.lcy0x1.base.proxy.Reflections;
+import com.lcy0x1.base.proxy.Result;
 import lombok.Data;
 import net.sf.cglib.proxy.MethodProxy;
 import org.apache.commons.lang3.StringUtils;
@@ -21,7 +24,7 @@ public interface ProxyMethod extends ProxyHandler {
     Map<CacheMapKey, Result<? extends ProxyHandler>> handlerCacheMap = new ConcurrentHashMap<>();
 
     @Override
-    default Result<? extends Object> onProxy(Object obj, Method method, Object[] args, MethodProxy proxy, ProxyContext context) throws Throwable {
+    default Result<?> onProxy(Object obj, Method method, Object[] args, MethodProxy proxy, ProxyContext context) throws Throwable {
         final CacheMapKey key = new CacheMapKey(method, getClass());
         final Result<? extends ProxyHandler> methodResult = handlerCacheMap.get(key);
         if (methodResult != null) {

@@ -1,4 +1,6 @@
-package com.lcy0x1.base.proxy;
+package com.lcy0x1.base.proxy.container;
+
+import com.lcy0x1.base.proxy.handler.ProxyMethod;
 
 import java.util.Collection;
 
@@ -7,7 +9,7 @@ public interface MutableProxyMethodContainer<T extends ProxyMethod> extends Prox
 
     boolean addAllProxy(Collection<T> proxy);
 
-    void removeProxy(T proxy);
+    boolean removeProxy(T proxy);
 
-    void removeProxy(int index);
+    T removeProxy(int index);
 }

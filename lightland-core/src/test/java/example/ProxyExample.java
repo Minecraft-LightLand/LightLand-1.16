@@ -1,11 +1,11 @@
 package example;
 
-import com.lcy0x1.base.proxy.ListProxyMethodContainer;
 import com.lcy0x1.base.proxy.Proxy;
 import com.lcy0x1.base.proxy.ProxyInterceptor;
-import com.lcy0x1.base.proxy.ProxyMethod;
 import com.lcy0x1.base.proxy.annotation.ForEachProxy;
 import com.lcy0x1.base.proxy.annotation.ForFirstProxy;
+import com.lcy0x1.base.proxy.container.ListProxyMethodContainer;
+import com.lcy0x1.base.proxy.handler.ProxyMethod;
 import lombok.Getter;
 import net.sf.cglib.proxy.Enhancer;
 import org.junit.Test;

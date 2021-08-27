@@ -1,6 +1,6 @@
-package com.lcy0x1.base.proxy;
+package com.lcy0x1.base.proxy.handler;
 
-import net.sf.cglib.proxy.MethodProxy;
+import com.lcy0x1.base.proxy.Result;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -14,9 +14,6 @@ public class ProxyHandlerCache {
     public static final OnProxy empty = (obj, method, args, proxy) -> Result.failed();
     private final Map<Method, OnProxy> handlerMap = new ConcurrentHashMap<>();
 
-    public interface OnProxy {
-        Result<?> onProxy(Object obj, Method method, Object[] args, MethodProxy proxy) throws Throwable;
-    }
 
     @Nullable
     public OnProxy getHandler(@NotNull Method method) {

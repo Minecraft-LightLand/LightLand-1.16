@@ -1,6 +1,15 @@
-package com.lcy0x1.base.proxy;
+package com.lcy0x1.base.proxy.container;
+
+import com.lcy0x1.base.proxy.Result;
+import com.lcy0x1.base.proxy.handler.ForEachProxyHandler;
+import com.lcy0x1.base.proxy.handler.ForFirstProxyHandler;
+import com.lcy0x1.base.proxy.handler.ProxyMethod;
 
 public interface ProxyMethodContainer<T extends ProxyMethod> extends Iterable<T> {
+    int size();
+
+    boolean isEmpty();
+
     default void forEachProxy(ForEachProxyHandler<T> action) throws Throwable {
         for (T t : this) {
             action.accept(t);
@@ -17,16 +26,8 @@ public interface ProxyMethodContainer<T extends ProxyMethod> extends Iterable<T>
         return Result.failed();
     }
 
-    interface ForEachProxyHandler<T extends ProxyMethod> {
-        void accept(T t) throws Throwable;
-    }
-
-    interface ForFirstProxyHandler<T, R> {
-        R apply(T t) throws Throwable;
-    }
-
 
     default long getLastModify() {
-        return System.currentTimeMillis();
+        return System.nanoTime();
     }
 }

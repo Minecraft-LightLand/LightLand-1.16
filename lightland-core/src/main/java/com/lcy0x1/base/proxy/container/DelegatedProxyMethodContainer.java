@@ -1,5 +1,9 @@
-package com.lcy0x1.base.proxy;
+package com.lcy0x1.base.proxy.container;
 
+import com.lcy0x1.base.proxy.Result;
+import com.lcy0x1.base.proxy.handler.ForEachProxyHandler;
+import com.lcy0x1.base.proxy.handler.ForFirstProxyHandler;
+import com.lcy0x1.base.proxy.handler.ProxyMethod;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Iterator;
@@ -9,6 +13,16 @@ import java.util.function.Consumer;
 public interface DelegatedProxyMethodContainer<T extends ProxyMethod> extends ProxyMethodContainer<T> {
     @NotNull
     ProxyMethodContainer<T> getProxy();
+
+    @Override
+    default int size() {
+        return getProxy().size();
+    }
+
+    @Override
+    default boolean isEmpty() {
+        return getProxy().isEmpty();
+    }
 
     @Override
     default void forEachProxy(ForEachProxyHandler<T> action) throws Throwable {

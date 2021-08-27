@@ -1,4 +1,4 @@
-package com.lcy0x1.base.proxy;
+package com.lcy0x1.base.proxy.exception;
 
 public class NoProxyFoundException extends RuntimeException {
     public NoProxyFoundException() {

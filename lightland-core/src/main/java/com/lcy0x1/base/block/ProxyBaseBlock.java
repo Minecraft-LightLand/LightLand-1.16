@@ -5,9 +5,15 @@ import com.lcy0x1.base.block.mult.*;
 import com.lcy0x1.base.block.one.*;
 import com.lcy0x1.base.block.type.IImpl;
 import com.lcy0x1.base.block.type.STE;
-import com.lcy0x1.base.proxy.*;
+import com.lcy0x1.base.proxy.Proxy;
+import com.lcy0x1.base.proxy.ProxyInterceptor;
 import com.lcy0x1.base.proxy.annotation.ForEachProxy;
 import com.lcy0x1.base.proxy.annotation.ForFirstProxy;
+import com.lcy0x1.base.proxy.container.DelegatedProxyMethodContainer;
+import com.lcy0x1.base.proxy.container.ListProxyMethodContainer;
+import com.lcy0x1.base.proxy.container.MutableProxyMethodContainer;
+import com.lcy0x1.base.proxy.container.ProxyMethodContainer;
+import com.lcy0x1.base.proxy.exception.NoProxyFoundException;
 import lombok.Getter;
 import lombok.extern.log4j.Log4j2;
 import mcp.MethodsReturnNonnullByDefault;
@@ -188,8 +194,6 @@ public class ProxyBaseBlock extends BaseBlock implements Proxy<IImpl> {
     }
 
     public static class BlockImplementor implements DelegatedProxyMethodContainer<IImpl> {
-        @Getter
-        private long lastModify = 0;
         private final Properties props;
         @NotNull
         @Getter
@@ -200,7 +204,6 @@ public class ProxyBaseBlock extends BaseBlock implements Proxy<IImpl> {
         }
 
         public BlockImplementor addImpls(IImpl... impls) {
-            lastModify = System.currentTimeMillis();
             for (IImpl impl : impls)
                 if (impl instanceof STE)
                     proxy.addProxy(new TEPvd((STE) impl));

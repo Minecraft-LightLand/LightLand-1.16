@@ -1,5 +1,6 @@
 package com.lcy0x1.base.proxy;
 
+import com.lcy0x1.base.proxy.handler.ProxyMethod;
 import lombok.Data;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;

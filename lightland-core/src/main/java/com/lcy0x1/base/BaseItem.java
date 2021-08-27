@@ -1,6 +1,6 @@
 package com.lcy0x1.base;
 
-import com.lcy0x1.base.proxy.ProxyMethod;
+import com.lcy0x1.base.proxy.handler.ProxyMethod;
 import com.lcy0x1.core.util.NBTObj;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.Entity;
