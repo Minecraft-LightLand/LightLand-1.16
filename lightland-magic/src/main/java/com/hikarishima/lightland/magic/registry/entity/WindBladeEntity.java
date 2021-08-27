@@ -13,6 +13,7 @@ import net.minecraft.network.IPacket;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.IndirectEntityDamageSource;
 import net.minecraft.util.math.EntityRayTraceResult;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceResult;
@@ -99,7 +100,7 @@ public class WindBladeEntity extends ThrowableEntity implements IEntityAdditiona
         if (!level.isClientSide) {
             Entity entity = result.getEntity();
             Entity owner = this.getOwner();
-            DamageSource source = DamageSource.indirectMagic(this, owner);
+            DamageSource source = new IndirectEntityDamageSource("wind_blade", entity, owner);
             if (isArcane) {
                 source = IArcaneWeapon.toMagic(issuer, this, owner, source, damage, ArcaneRegistry.ARCANE_TIME);
             }

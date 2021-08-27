@@ -1,6 +1,6 @@
 {
 	"credit": "Made with Blockbench",
-	"parent":"block:block",
+	"parent":"block/block",
 	"textures": {
 		"0": "lightland-magic:block/ritual_gold",
 		"1": "lightland-magic:block/ritual_wood",
