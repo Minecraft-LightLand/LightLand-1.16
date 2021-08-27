@@ -11,6 +11,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class ProxyContext {
     private static final AtomicInteger keyIdGenerator = new AtomicInteger();
+    private static final ThreadLocal<ProxyContext> localProxyContext = new ThreadLocal<>();
 
     public static final Key<String> methodNameKey = new Key<>();
     public static final Key<String> block = new Key<>();
@@ -20,7 +21,25 @@ public class ProxyContext {
 
     @Data
     public static class Key<T> {
-        private final int id = keyIdGenerator.incrementAndGet();
+        private final int id = keyIdGenerator.getAndIncrement();
+    }
+
+    public interface Callable<R> {
+        R call() throws Throwable;
+    }
+
+    public static <R> R withThreadLocalProxyContext(ProxyContext context, Callable<R> c) throws Throwable {
+        final ProxyContext parent = localProxyContext.get();
+        localProxyContext.set(context);
+        try {
+            return c.call();
+        } finally {
+            localProxyContext.set(parent);
+        }
+    }
+
+    public static ProxyContext getLocalProxyContext() {
+        return localProxyContext.get();
     }
 
     @Nullable
