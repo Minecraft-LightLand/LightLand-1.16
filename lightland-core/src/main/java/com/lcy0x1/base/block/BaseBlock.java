@@ -10,7 +10,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 @MethodsReturnNonnullByDefault
 public class BaseBlock extends Block {
 
-    private static final boolean useProxy = false;
+    private static final boolean useProxy = true;
 
     public static BaseBlock newBaseBlock(BlockProp p, IImpl... impl) {
         return useProxy ? ProxyBaseBlock.newBaseBlock(p, impl) : new ImplBaseBlock(p, impl);
