@@ -2,6 +2,7 @@ package com.lcy0x1.base.proxy;
 
 import com.lcy0x1.base.proxy.handler.ProxyMethod;
 import lombok.Data;
+import net.minecraft.block.Block;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -14,10 +15,11 @@ public class ProxyContext {
     private static final ThreadLocal<ProxyContext> localProxyContext = new ThreadLocal<>();
 
     public static final Key<String> methodNameKey = new Key<>();
-    public static final Key<String> block = new Key<>();
+    public static final Key<Block> block = new Key<>();
     public static final Key<Result<ProxyMethod>> proxyMethod = new Key<>();
     public static final Key<Boolean> cacheFirstProxyMethod = new Key<>();
     public static final Key<Collection<? extends Class<?>>> classes = new Key<>();
+    public static final Key<Proxy<?>> proxy = new Key<>();
 
     @Data
     public static class Key<T> {
@@ -38,7 +40,7 @@ public class ProxyContext {
         }
     }
 
-    public static ProxyContext getLocalProxyContext() {
+    public static ProxyContext local() {
         return localProxyContext.get();
     }
 

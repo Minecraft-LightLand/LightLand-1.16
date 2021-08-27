@@ -4,6 +4,7 @@ import com.esotericsoftware.reflectasm.MethodAccess;
 import com.lcy0x1.base.proxy.ProxyContext;
 import com.lcy0x1.base.proxy.Reflections;
 import com.lcy0x1.base.proxy.Result;
+import com.lcy0x1.base.proxy.annotation.WithinProxyContext;
 import lombok.Data;
 import net.sf.cglib.proxy.MethodProxy;
 import org.apache.commons.lang3.StringUtils;
@@ -34,10 +35,14 @@ public interface ProxyMethod extends ProxyHandler {
                 return Result.failed();
             }
         }
-        final ProxyHandler handler = getHandler(obj, method, args, proxy, context);
+        ProxyHandler handler = getHandler(obj, method, args, proxy, context);
         if (handler == ProxyHandler.failed) {
             handlerCacheMap.put(key, Result.failed());
         } else {
+            final WithinProxyContext withinProxyContext = WithinProxyContext.Utils.get(this);
+            if (withinProxyContext != null) {
+                handler = new WithinProxyContextProxyHandler(handler, withinProxyContext);
+            }
             handlerCacheMap.put(key, Result.alloc(handler));
         }
         return handler.onProxy(obj, method, args, proxy, context);
