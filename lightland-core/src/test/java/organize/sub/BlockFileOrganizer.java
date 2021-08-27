@@ -48,6 +48,7 @@ public class BlockFileOrganizer extends ResourceOrganizer {
                 String name = fi.getName().split("\\.")[0];
                 write(state + name + ".json", BS.replaceAll("\\^s", name));
                 write(loot + name + ".json", BL.replaceAll("\\^s", name));
+                ((ItemFileOrganizer) MAP.get("items")).createBlock(name);
             }
         }
     }
@@ -63,7 +64,10 @@ public class BlockFileOrganizer extends ResourceOrganizer {
             Files.copy(fi, ti);
             write(state + name + ".json", BS.replaceAll("\\^s", name));
             write(model + name + ".json", BM.replaceAll("\\^s", name));
-            if (drop) write(loot + name + ".json", BL.replaceAll("\\^s", name));
+            if (drop) {
+                write(loot + name + ".json", BL.replaceAll("\\^s", name));
+                ((ItemFileOrganizer) MAP.get("items")).createBlock(name);
+            }
         }
     }
 

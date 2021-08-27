@@ -52,5 +52,8 @@ public class ItemFileOrganizer extends ResourceOrganizer {
         return IM;
     }
 
+    void createBlock(String name) throws Exception {
+        write(model + name + ".json", IM_B.replaceAll("\\^s", name));
+    }
 
 }

@@ -8,12 +8,13 @@ import java.io.File;
 import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
 public abstract class ResourceOrganizer {
 
-    public static final Map<String, ResourceOrganizer> MAP = new HashMap<>();
+    public static final Map<String, ResourceOrganizer> MAP = new LinkedHashMap<>();
     public static String MODID;
     public final Type type;
     public final String folder;
@@ -41,13 +42,11 @@ public abstract class ResourceOrganizer {
             delete(new File("./" + MODID + "/src/main/resources/data/"));
             if (!fi.isDirectory())
                 continue;
-            for (File fj : fi.listFiles()) {
-                if (!fj.isDirectory())
+            for (ResourceOrganizer obj : MAP.values()){
+                File fo = new File(fi.getPath()+"/"+obj.folder);
+                if (!fo.exists())
                     continue;
-                if (fj.getName().equals("gui"))
-                    continue;
-                ResourceOrganizer obj = MAP.get(fj.getName());
-                obj.organize(fj);
+                obj.organize(fo);
             }
         }
     }
