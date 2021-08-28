@@ -100,16 +100,19 @@ public class MagicCraftRecipeCategory implements IRecipeCategory<MagicCraftRecip
         int in = 0;
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
-                set(layout.getItemStacks(),
-                        Lists.newArrayList(entry.get(i * 3 + j).input.getItems()),
-                        in++, true, j * 18, i * 18);
+                Ingredient item = entry.get(i * 3 + j).input;
+                if (!item.isEmpty())
+                    set(layout.getItemStacks(),
+                            Lists.newArrayList(item.getItems()),
+                            in++, true, j * 18, i * 18);
             }
         }
-        int out = 0;
+        int out = in;
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
+                ItemStack item = entry.get(i * 3 + j).output;
                 set(layout.getItemStacks(),
-                        Collections.singletonList(entry.get(i * 3 + j).output),
+                        Collections.singletonList(item),
                         out++, false, 90 + j * 18, i * 18);
             }
         }

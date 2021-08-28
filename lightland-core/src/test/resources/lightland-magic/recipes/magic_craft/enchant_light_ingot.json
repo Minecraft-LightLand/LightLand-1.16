@@ -43,14 +43,6 @@
         },
         {
             "input": {
-                "item": "minecraft:diamond"
-            },
-            "output": {
-                "item": "lightland-magic:light_alloy_ingot"
-            }
-        },
-        {
-            "input": {
                 "item": "lightland-magic:enchant_alloy_ingot"
             },
             "output": {
@@ -68,6 +60,14 @@
         {
             "input": {
                 "item": "lightland-magic:enchant_alloy_ingot"
+            },
+            "output": {
+                "item": "lightland-magic:light_alloy_ingot"
+            }
+        },
+        {
+            "input": {
+                "item": "minecraft:diamond"
             },
             "output": {
                 "item": "lightland-magic:light_alloy_ingot"

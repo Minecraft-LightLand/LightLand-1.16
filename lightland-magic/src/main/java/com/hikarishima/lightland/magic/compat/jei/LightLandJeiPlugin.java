@@ -105,6 +105,7 @@ public class LightLandJeiPlugin implements IModPlugin {
     public void registerRecipeCatalysts(IRecipeCatalystRegistration registration) {
         registration.addRecipeCatalyst(MagicItemRegistry.DISENCHANT_BOOK.getDefaultInstance(), DISENCHANT.getUid());
         registration.addRecipeCatalyst(MagicItemRegistry.CHEM_BOOK.getDefaultInstance(), CHEM_CATEGORY.getUid());
+        registration.addRecipeCatalyst(MagicItemRegistry.I_RITUAL_CORE, MAGIC_CRAFT.getUid());
     }
 
     @Override
