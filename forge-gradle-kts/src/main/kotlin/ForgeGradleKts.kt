@@ -114,7 +114,7 @@ fun Project.useGeneratedResources() {
  */
 fun Project.excludeReobfJar() {
     val notRebofJarTask = gradle.startParameter.taskNames.find { taskName ->
-        ":reobfJar" in taskName
+        "reobfJar" in taskName || "shadowJar" in taskName
     } == null
     tasks.whenTaskAdded {
         if ((it is net.minecraftforge.gradle.patcher.task.TaskReobfuscateJar || it.name == "reobfJar") && (notRebofJarTask || it.project != this)) {

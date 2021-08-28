@@ -6,6 +6,8 @@ import com.lcy0x1.base.proxy.container.ProxyMethodContainer;
 import com.lcy0x1.base.proxy.handler.*;
 import net.sf.cglib.proxy.MethodProxy;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.annotation.Annotation;
@@ -16,7 +18,7 @@ import java.util.Collections;
 import java.util.HashSet;
 
 public interface Proxy<T extends ProxyMethod> {
-    String[] errMsgSearchList = {"%M", "%B", "%A"};
+    Logger log = LogManager.getLogger(Proxy.class);
 
     @NotNull
     ProxyMethodContainer<? extends T> getProxyContainer() throws Throwable;
@@ -41,11 +43,11 @@ public interface Proxy<T extends ProxyMethod> {
     }
 
     @SuppressWarnings("unused")
-    default OnProxy getHandler(Method method, Object[] args, MethodProxy proxy) {
+    default OnProxy getHandler(Method method, Object[] args, MethodProxy proxy) throws Throwable {
         for (Annotation annotation : method.getAnnotations()) {
             if (annotation instanceof ForEachProxy) {
                 ForEachProxy forEachProxy = (ForEachProxy) annotation;
-                return onForeachProxy(method, forEachProxy);
+                return onForeachProxy(method, forEachProxy, args, proxy);
             } else if (annotation instanceof ForFirstProxy) {
                 final ForFirstProxy forFirstProxy = (ForFirstProxy) annotation;
                 return onForFirstProxy(method, forFirstProxy);
@@ -55,7 +57,7 @@ public interface Proxy<T extends ProxyMethod> {
     }
 
     @NotNull
-    static OnProxy onForeachProxy(Method method, ForEachProxy forEachProxy) {
+    default OnProxy onForeachProxy(Method method, ForEachProxy forEachProxy, Object[] args, MethodProxy proxy) throws Throwable {
         final ProxyContext proxyContext = new ProxyContext();
 
         Class<?>[] type = forEachProxy.value();
@@ -80,6 +82,11 @@ public interface Proxy<T extends ProxyMethod> {
         }
         proxyContext.put(ProxyContext.methodNameKey, methodName);
 
+        //log.info("proxy method: {}, name: {}", method, methodName);
+        //if (methodName.equals("createBlockStateDefinition")) {
+        //    log.info("createBlockStateDefinition handler list: {}", CollectionsKt.toList(getProxyContainer()));
+        //    proxyContext.put(ProxyContext.loggerKey, LogManager.getLogger("com.lcy0x1.base.proxy.log"));
+        //}
         return new OnForeachProxyHandler(proxyContext, forEachProxy);
     }
 

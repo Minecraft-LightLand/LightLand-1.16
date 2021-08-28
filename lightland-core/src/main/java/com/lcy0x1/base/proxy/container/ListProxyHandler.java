@@ -4,12 +4,14 @@ import com.lcy0x1.base.proxy.Reflections;
 import com.lcy0x1.base.proxy.handler.ForEachProxyHandler;
 import com.lcy0x1.base.proxy.handler.ProxyHandler;
 import lombok.Getter;
+import lombok.extern.log4j.Log4j2;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 
+@Log4j2
 public class ListProxyHandler<T extends ProxyHandler> implements ProxyMethodContainer<T>, Iterable<T> {
     @NotNull
     @Getter
@@ -77,10 +79,12 @@ public class ListProxyHandler<T extends ProxyHandler> implements ProxyMethodCont
     @SuppressWarnings("unchecked")
     @Override
     public void forEachProxy(ForEachProxyHandler<T> action) throws Throwable {
+        //log.info("forEachProxy, size:{}, elementData: {}", proxyList.size(), elementData);
         final Object[] elementData = this.elementData;
         if (elementData != null) {
             final int size = proxyList.size();
             for (int i = 0; i < size; i++) {
+                //log.info("forEachProxy, callback: {}", elementData[i]);
                 action.accept((T) elementData[i]);
             }
         } else {
@@ -88,5 +92,13 @@ public class ListProxyHandler<T extends ProxyHandler> implements ProxyMethodCont
                 action.accept(t);
             }
         }
+    }
+
+    @Override
+    public String toString() {
+        return "ListProxyHandler{" +
+            "proxyList=" + proxyList +
+            ", lastModify=" + lastModify +
+            '}';
     }
 }

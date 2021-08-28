@@ -3,6 +3,7 @@ plugins {
   `maven-publish`
   kotlin("jvm")
   id("forge-gradle-kts")
+  id("com.github.johnrengelman.shadow") version "6.1.0"
 }
 
 apply(plugin = "net.minecraftforge.gradle")
@@ -59,6 +60,18 @@ dependencies {
   implementation("com.esotericsoftware:reflectasm:1.11.9")
 }
 
+tasks.getByName("shadowJar") {
+  this as com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
+  archiveClassifier.set("")
+  // append("")
+
+  dependencies {
+    include(dependency("org.jetbrains.kotlin:kotlin-stdlib:1.5.30"))
+    include(dependency("cglib:cglib:3.3.0"))
+    include(dependency("com.esotericsoftware:reflectasm:1.11.9"))
+  }
+}
+
 // Example for how to get properties into the manifest for reading by the runtime..
 jar {
   defaultManifest(project)
@@ -85,6 +98,13 @@ publishing {
 
 disableTests()
 excludeReobfJar()
+
+tasks.whenTaskAdded {
+  if ("reobfJar" in name) {
+    dependsOn("shadowJar")
+    // tasks.getByName("shadowJar").dependsOn(path)
+  }
+}
 
 tasks.withType<JavaCompile> {
   options.encoding = "UTF-8"
