@@ -17,7 +17,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public class ShapedRecipeMixin {
 
     @Inject(method = "itemFromJson", at = @At("HEAD"), cancellable = true)
-    private void injectItemFromJson(JsonObject obj, CallbackInfoReturnable<ItemStack> info) {
+    private static void injectItemFromJson(JsonObject obj, CallbackInfoReturnable<ItemStack> info) {
         if (obj.has("enchant_book")) {
             JsonObject book = obj.getAsJsonObject("enchant_book");
             Enchantment ench = ForgeRegistries.ENCHANTMENTS.getValue(new ResourceLocation(book.get("id").getAsString()));

@@ -1,6 +1,5 @@
 package com.hikarishima.lightland.magic.compat.jei.recipes;
 
-import com.google.common.collect.Lists;
 import com.hikarishima.lightland.config.StringSubstitution;
 import com.hikarishima.lightland.magic.LightLandMagic;
 import com.hikarishima.lightland.magic.Translator;
