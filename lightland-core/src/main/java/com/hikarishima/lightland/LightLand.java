@@ -33,6 +33,8 @@ public class LightLand {
         PacketHandler.reg(ItemUseEventHandler.Msg.class, ItemUseEventHandler.Msg::handle, NetworkDirection.PLAY_TO_SERVER);
         RegistryBase.REGISTRIES.add(ItemRegistry.class);
         RegistryBase.REGISTRIES.add(RecipeRegistry.class);
+
+        //GradleMainDispatcher.INSTANCE.init();
     }
 
 }

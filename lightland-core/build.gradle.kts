@@ -48,8 +48,9 @@ configureForge {
 useGeneratedResources()
 
 dependencies {
-  // api(kotlin("stdlib"))
-  // api(kotlin("reflect"))
+  api(kotlin("stdlib"))
+  api(kotlin("reflect"))
+  api("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.1")
   minecraft(project)
   jei(project)
   compileOnly(fg.deobf("net.darkhax.gamestages:GameStages-$mcVersion:7.2.8"))
@@ -61,14 +62,21 @@ dependencies {
 }
 
 tasks.getByName("shadowJar") {
+  if (gradle.startParameter.taskNames.find { taskName ->
+        "reobfJar" in taskName || "shadowJar" in taskName
+      } == null) {
+    enabled = false
+  }
   this as com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
   archiveClassifier.set("")
   // append("")
 
   dependencies {
-    include(dependency("org.jetbrains.kotlin:kotlin-stdlib:1.5.30"))
     include(dependency("cglib:cglib:3.3.0"))
     include(dependency("com.esotericsoftware:reflectasm:1.11.9"))
+    //include(dependency("org.jetbrains.kotlin:kotlin-stdlib:1.5.30"))
+    //include(dependency("org.jetbrains.kotlin:kotlin-reflect:1.5.30"))
+    //include(dependency("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.1"))
   }
 }
 
