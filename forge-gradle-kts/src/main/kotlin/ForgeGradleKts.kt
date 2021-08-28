@@ -46,9 +46,9 @@ private fun RunConfig.init(project: Project?) {
 }
 
 fun NamedDomainObjectContainer<RunConfig>.createClient(
-    name: String = "client",
-    project: Project? = null,
-    configureAction: Action<RunConfig>? = null
+        name: String = "client",
+        project: Project? = null,
+        configureAction: Action<RunConfig>? = null
 ) {
     create("client") {
         it.taskName = if (name.startsWith("run")) {
@@ -64,9 +64,9 @@ fun NamedDomainObjectContainer<RunConfig>.createClient(
 }
 
 fun NamedDomainObjectContainer<RunConfig>.createServer(
-    name: String = "server",
-    project: Project? = null,
-    configureAction: Action<RunConfig>? = null
+        name: String = "server",
+        project: Project? = null,
+        configureAction: Action<RunConfig>? = null
 ) {
     create("server") {
         it.taskName = if (name.startsWith("run")) {
@@ -82,9 +82,9 @@ fun NamedDomainObjectContainer<RunConfig>.createServer(
 }
 
 fun NamedDomainObjectContainer<RunConfig>.createData(
-    name: String = "data",
-    project: Project? = null,
-    configureAction: Action<RunConfig>? = null
+        name: String = "data",
+        project: Project? = null,
+        configureAction: Action<RunConfig>? = null
 ) {
     create("data") {
         it.taskName = if (name.startsWith("run")) {
@@ -124,40 +124,40 @@ fun Project.excludeReobfJar() {
 }
 
 private fun DependencyHandler.add(
-    configurationName: String,
-    group: String,
-    name: String,
-    version: String? = null,
-    configuration: String? = null,
-    classifier: String? = null,
-    ext: String? = null
+        configurationName: String,
+        group: String,
+        name: String,
+        version: String? = null,
+        configuration: String? = null,
+        classifier: String? = null,
+        ext: String? = null
 ): Dependency? = (create(
-    mapOf(
-        "group" to group,
-        "name" to name,
-        "version" to version,
-        "configuration" to configuration,
-        "classifier" to classifier,
-        "ext" to ext
-    ).filterValues { it != null }
+        mapOf(
+                "group" to group,
+                "name" to name,
+                "version" to version,
+                "configuration" to configuration,
+                "classifier" to classifier,
+                "ext" to ext
+        ).filterValues { it != null }
 ) as ExternalModuleDependency).run {
     add(configurationName, this)
 }
 
 fun DependencyHandler.minecraft(
-    group: String,
-    name: String,
-    version: String? = null,
-    configuration: String? = null,
-    classifier: String? = null,
-    ext: String? = null
+        group: String,
+        name: String,
+        version: String? = null,
+        configuration: String? = null,
+        classifier: String? = null,
+        ext: String? = null
 ): Dependency? = add("minecraft", group, name, version, configuration, classifier, ext)
 
 fun DependencyHandler.minecraft(dependencyNotation: Any): Dependency? =
-    add("minecraft", dependencyNotation)
+        add("minecraft", dependencyNotation)
 
 fun DependencyHandler.minecraft(project: Project): Dependency? =
-    minecraft(group = "net.minecraftforge", name = "forge", version = "${project.mcVersion}-${project.forgeVersion}")
+        minecraft(group = "net.minecraftforge", name = "forge", version = "${project.mcVersion}-${project.forgeVersion}")
 
 fun DependencyHandler.jei(project: Project) {
     add("compileOnly", project.fg.deobf("mezz.jei:jei-${project.mcVersion}:${project.jeiVersion}:api"))
@@ -184,6 +184,12 @@ val DependencyHandler.lombok: Unit
         add("testCompileOnly", lombokDependency)
         add("testAnnotationProcessor", lombokDependency)
     }
+val DependencyHandler.mixin: Unit
+    get() {
+        val dep = "org.spongepowered:mixin:0.8.2:processor";
+        add("annotationProcessor", dep)
+        add("testAnnotationProcessor", dep)
+    }
 
 /**
  * 在test以外的任务中关闭所有test任务运行
@@ -191,8 +197,8 @@ val DependencyHandler.lombok: Unit
  */
 fun Project.disableTests(excludeCompileTest: Boolean = true) {
     if (gradle.startParameter.taskNames.find { taskName ->
-            ":test" in taskName
-        } == null) {
+                ":test" in taskName
+            } == null) {
         tasks.run {
             disableTasks {
                 yieldAll("test", "testClasses", "processTestResources")
@@ -213,18 +219,18 @@ fun Project.disableTasks(taskNames: Iterator<String>) {
 }
 
 inline fun Project.tasksByNames(
-    noinline taskNames: suspend SequenceScope<String>.() -> Unit,
-    action: Task.() -> Unit
+        noinline taskNames: suspend SequenceScope<String>.() -> Unit,
+        action: Task.() -> Unit
 ) = tasksByNames(sequence(taskNames), action)
 
 inline fun Project.tasksByNames(vararg taskNames: String, action: Task.() -> Unit) =
-    tasksByNames(taskNames.iterator(), action)
+        tasksByNames(taskNames.iterator(), action)
 
 inline fun Project.tasksByNames(taskNames: Iterable<String>, action: Task.() -> Unit) =
-    tasksByNames(taskNames.iterator(), action)
+        tasksByNames(taskNames.iterator(), action)
 
 inline fun Project.tasksByNames(taskNames: Sequence<String>, action: Task.() -> Unit) =
-    tasksByNames(taskNames.iterator(), action)
+        tasksByNames(taskNames.iterator(), action)
 
 inline fun Project.tasksByNames(taskNames: Iterator<String>, action: Task.() -> Unit) {
     tasks.run {
@@ -241,8 +247,8 @@ suspend fun <T> SequenceScope<T>.yieldAll(vararg elements: T) = yieldAll(element
 
 private inline fun <reified T : Any> Project.configure(noinline configuration: T.() -> Unit) {
     convention.findByType(T::class.java)?.let(configuration)
-        ?: convention.findPlugin(T::class.java)?.let(configuration)
-        ?: convention.configure(T::class.java, configuration)
+            ?: convention.findPlugin(T::class.java)?.let(configuration)
+            ?: convention.configure(T::class.java, configuration)
 }
 
 fun Project.configureForge(configuration: UserDevExtension.() -> Unit) {
@@ -262,15 +268,15 @@ fun Jar.defaultManifest(project: Project) {
     manifest {
         @Suppress("SpellCheckingInspection")
         it.attributes(
-            mapOf(
-                "Specification-Title" to "lightland-quest",
-                "Specification-Vendor" to "hikarishima",
-                "Specification-Version" to "1", // We are version 1 of ourselves
-                "Implementation-Title" to project.name,
-                "Implementation-Version" to archiveVersion.get(),
-                "Implementation-Vendor" to "hikarishima",
-                "Implementation-Timestamp" to SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ").format(Date())
-            )
+                mapOf(
+                        "Specification-Title" to "lightland-quest",
+                        "Specification-Vendor" to "hikarishima",
+                        "Specification-Version" to "1", // We are version 1 of ourselves
+                        "Implementation-Title" to project.name,
+                        "Implementation-Version" to archiveVersion.get(),
+                        "Implementation-Vendor" to "hikarishima",
+                        "Implementation-Timestamp" to SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ").format(Date())
+                )
         )
     }
 }

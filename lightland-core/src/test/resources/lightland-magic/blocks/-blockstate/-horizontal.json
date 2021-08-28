@@ -1,0 +1,8 @@
+{
+    "variants": {
+        "facing=south": { "model": "^m:block/^s" },
+        "facing=west": { "model": "^m:block/^s", "y": 90 },
+        "facing=north": { "model": "^m:block/^s", "y": 180 },
+        "facing=east": { "model": "^m:block/^s", "y": 270 }
+    }
+}

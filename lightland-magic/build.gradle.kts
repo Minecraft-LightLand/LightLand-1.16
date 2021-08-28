@@ -6,6 +6,7 @@ plugins {
 }
 
 apply(plugin = "net.minecraftforge.gradle")
+apply(plugin = "org.spongepowered.mixin")
 
 configureForge {
     runs {
@@ -23,11 +24,17 @@ dependencies {
     jei(project)
     compileOnly(fg.deobf("net.darkhax.gamestages:GameStages-$mcVersion:7.2.8"))
     junit
+    mixin
 }
 
 // Example for how to get properties into the manifest for reading by the runtime..
 jar {
     defaultManifest(project)
+    manifest {
+        attributes + mapOf(
+                "MixinConfig" to "mixins.lightland-magic.json"
+        )
+    }
     finalizedBy("reobfJar")
 }
 

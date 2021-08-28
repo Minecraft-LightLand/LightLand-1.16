@@ -15,6 +15,9 @@ repositories {
     maven {
         url = uri("https://nvm.tursom.cn/repository/maven-public/")
     }
+    maven {
+        url = uri("https://repo.spongepowered.org/maven")
+    }
 }
 
 allprojects {
@@ -25,6 +28,9 @@ allprojects {
         maven {
             url = uri("https://nvm.tursom.cn/repository/maven-public/")
         }
+        maven {
+            url = uri("https://repo.spongepowered.org/maven")
+        }
     }
 }
 
@@ -33,6 +39,9 @@ subprojects {
         repositories {
             maven {
                 url = uri("https://nvm.tursom.cn/repository/maven-public/")
+            }
+            maven {
+                url = uri("https://repo.spongepowered.org/maven")
             }
         }
         dependencies {

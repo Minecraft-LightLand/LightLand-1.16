@@ -242,7 +242,8 @@
       "gilded_wand": "镀金法杖",
       "record_pearl": "记录宝珠",
       "ritual_core": "仪式主台",
-      "ritual_side": "仪式基座"
+      "ritual_side": "仪式基座",
+      "anvil": "永恒铁砧"
     },
     "lightland-quest": {
       "quest_book": "任务书"
@@ -252,7 +253,8 @@
     "temp_dirt": "泥土",
     "temp_cobblestone": "圆石",
     "ritual_core": "仪式主台",
-    "ritual_side": "仪式基座"
+    "ritual_side": "仪式基座",
+    "anvil": "永恒铁砧"
   },
   "itemGroup.lightland-core": "Lightland",
   "generator.lightland-terrain.image_biome": "地图生成器"

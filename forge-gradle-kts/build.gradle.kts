@@ -18,9 +18,13 @@ repositories {
   maven {
     url = uri("https://nvm.tursom.cn/repository/maven-public/")
   }
+  maven {
+    url = uri("https://repo.spongepowered.org/maven")
+  }
 }
 
 dependencies {
   api("net.minecraftforge.gradle:ForgeGradle:4.1.14")
+  api("org.spongepowered:mixingradle:0.7-SNAPSHOT")
 }
 

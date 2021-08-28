@@ -21,6 +21,7 @@ import com.lcy0x1.base.block.BlockProp;
 import com.lcy0x1.base.block.BlockProxy;
 import com.lcy0x1.base.block.type.STE;
 import net.minecraft.block.AbstractBlock;
+import net.minecraft.block.AnvilBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.inventory.EquipmentSlotType;
@@ -41,6 +42,7 @@ public class MagicItemRegistry {
     public static final TempBlock TEMP_COBBLE = reg("temp_cobblestone", new TempBlock(AbstractBlock.Properties.copy(Blocks.COBBLESTONE).noDrops()));
     public static final BaseBlock B_RITUAL_CORE = reg("ritual_core", BaseBlock.newBaseBlock(PEDESTAL, RitualCore.ACTIVATE, RitualCore.CLICK, BlockProxy.TRIGGER, (STE) RitualCore.TE::new));
     public static final BaseBlock B_RITUAL_SIDE = reg("ritual_side", BaseBlock.newBaseBlock(PEDESTAL, RitualCore.CLICK, (STE) RitualSide.TE::new));
+    public static final Block B_ANVIL = reg("anvil", new AnvilBlock(AbstractBlock.Properties.copy(Blocks.ANVIL)));
 
     public static final ScreenBook MAGIC_BOOK = regItem("magic_book", p -> new ScreenBook(p, () -> MagicTreeScreen::new));
     public static final ScreenBook ABILITY_BOOK = regItem("ability_book", p -> new ScreenBook(p, () -> ProfessionScreen::new));
@@ -83,6 +85,7 @@ public class MagicItemRegistry {
 
     public static final BlockItem I_RITUAL_CORE = regBlockItem(B_RITUAL_CORE);
     public static final BlockItem I_RITUAL_SIDE = regBlockItem(B_RITUAL_SIDE);
+    public static final BlockItem I_ANVIL = regBlockItem(B_ANVIL);
 
     private static <V extends T, T extends ForgeRegistryEntry<T>> V reg(String name, V v) {
         v.setRegistryName(LightLandMagic.MODID, name);
