@@ -1,7 +1,7 @@
 {
     "type": "lightland-magic:anvil",
-    "input": "minecraft:diamond_hoe",
-    "output": "minecraft:diamond",
+    "input": "sword",
+    "output": "",
     "max": 2,
     "level": 2,
     "consume": {

@@ -1,7 +1,7 @@
 {
     "type": "lightland-magic:anvil",
-    "input": "minecraft:diamond_pickaxe",
-    "output": "minecraft:diamond",
+    "input": "pickaxe",
+    "output": "",
     "max": 3,
     "level": 3,
     "consume": {

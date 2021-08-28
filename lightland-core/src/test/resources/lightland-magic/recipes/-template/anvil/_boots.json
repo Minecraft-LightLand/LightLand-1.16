@@ -1,7 +1,7 @@
 {
     "type": "lightland-magic:anvil",
-    "input": "minecraft:golden_boots",
-    "output": "minecraft:gold_ingot",
+    "input": "boots",
+    "output": "",
     "max": 4,
     "level": 4,
     "consume": {

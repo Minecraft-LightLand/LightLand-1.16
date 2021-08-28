@@ -62,5 +62,27 @@
             "a": "^m:^n_ingot",
             "b": "^m:^n"
         }
+    },
+    "-anvil":{
+        "-list":[
+            "anvil_axe",
+            "anvil_sword",
+            "anvil_helmet",
+            "anvil_chestplate",
+            "anvil_leggings",
+            "anvil_boots"
+        ],
+        "diamond":{
+            "a":"minecraft:^n",
+            "b":"minecraft:^n"
+        },
+        "gold":{
+            "a":"minecraft:^n_ingot",
+            "b":"minecraft:^nen"
+        },
+        "iron":{
+            "a":"minecraft:^n_ingot",
+            "b":"minecraft:^n"
+        }
     }
 }

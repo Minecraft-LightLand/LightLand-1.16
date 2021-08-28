@@ -1,7 +1,7 @@
 {
     "type": "lightland-magic:anvil",
-    "input": "minecraft:golden_axe",
-    "output": "minecraft:gold_ingot",
+    "input": "^b_axe",
+    "output": "^a",
     "max": 3,
     "level": 3,
     "consume": {
