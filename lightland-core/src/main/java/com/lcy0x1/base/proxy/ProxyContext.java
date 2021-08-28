@@ -12,12 +12,27 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.concurrent.atomic.AtomicInteger;
 
+/**
+ * 用来储存代理逻辑的上下文对象的容器
+ * 线程不安全，不支持在不同线程间共用同一个对象
+ * 使用数组储存数据，每个key保存一个index
+ * 获取和设置值的方式实际上就是用key的index访问数组元素，时间复杂度为 O(1)，比HashMap还快
+ * <p>
+ * 为了隔离每一次代理的环境，同时也为了减少数组拷贝开销，允许ProxyContext拥有父环境
+ * 当在子环境中找不到数据的时候就会去访问父环境获取
+ * 而设置值的时候只能更改子环境的值
+ * 具体实现使用了 CopyOnWrite 技术，子环境在初始化之后只有在第一次更改值的时候才会创建数组
+ */
 @Log4j2
 public class ProxyContext {
     private static final AtomicInteger keyIdGenerator = new AtomicInteger();
     private static final ThreadLocal<ProxyContext> localProxyContext = new ThreadLocal<>();
+    // 主线程特化的 ProxyContext
     private static ProxyContext mainProxyContext = null;
 
+    /**
+     * 用来存储当前代理目标方法名设置的key
+     */
     public static final Key<String> methodNameKey = new Key<>();
     public static final Key<Proxy<?>> proxy = new Key<>();
     public static final Key<Result<ProxyHandler>> proxyMethod = new Key<>();
@@ -26,29 +41,12 @@ public class ProxyContext {
     public static final Key<Object> pre = new ProxyContext.Key<>(); // pre proxy return
     public static final Key<Logger> loggerKey = new Key<>();
 
-    public static final Key<Block> block = new Key<Block>(proxy) {
-        @Override
-        public Block get(ProxyContext context) {
-            final Object value = context.get(getId());
-            if (value instanceof Block) {
-                return (Block) value;
-            } else {
-                return null;
-            }
-        }
-    };
-
-    @Override
-    public String toString() {
-        return "ProxyContext{" +
-            "parent=" + parent +
-            ", context=" + Arrays.toString(context) +
-            '}';
-    }
+    public static final Key<Block> block = new Key<>(proxy, Block.class);
 
     @Data
     public static class Key<T> {
         private final int id;
+        // 允许通过 Class 过滤获取的值
         private final Class<T> clazz;
 
         public Key() {
@@ -56,12 +54,17 @@ public class ProxyContext {
             clazz = null;
         }
 
-        public Key(Key<?> key) {
+        public Key(@NotNull Key<?> key) {
             this.id = key.id;
             clazz = null;
         }
 
-        public Key(Key<?> key, Class<T> clazz) {
+        public Key(@Nullable Class<T> clazz) {
+            id = keyIdGenerator.getAndIncrement();
+            this.clazz = clazz;
+        }
+
+        public Key(@NotNull Key<?> key, @Nullable Class<T> clazz) {
             this.id = key.id;
             this.clazz = clazz;
         }
@@ -155,29 +158,16 @@ public class ProxyContext {
         return t;
     }
 
-    @SuppressWarnings("unchecked")
-    @Nullable
-    public <T> T get(int id) {
-        T t;
-        if (context == null || id >= context.length) {
-            t = null;
-        } else {
-            t = (T) context[id];
-        }
-
-        //log.debug("get {} by this: {}", id, t);
-        if (t == null && parent != null) {
-            t = parent.get(id);
-            //log.debug("get {} by parent: {}", id, t);
-        }
-        return t;
-    }
-
-    public void remove(int id) {
-        if (context == null || id >= context.length) {
+    @SuppressWarnings("ConstantConditions")
+    public void remove(@NotNull Key<?> key) {
+        if (key == null) {
             return;
         }
-        context[id] = null;
+        key.remove(this);
+    }
+
+    public <T> void set(@NotNull Key<T> key, T value) {
+        put(key, value);
     }
 
     @SuppressWarnings("ConstantConditions")
@@ -188,13 +178,48 @@ public class ProxyContext {
         key.put(this, value);
     }
 
+    /**
+     * 根据 Key id 获取代理环境变量
+     */
+    @SuppressWarnings("unchecked")
+    @Nullable
+    public <T> T get(int id) {
+        T t = null;
+        ProxyContext proxyContext = this;
+        do {
+            // 获取环境
+            final Object[] context = proxyContext.context;
+            // 判断越界
+            if (context != null && id < context.length) {
+                t = (T) context[id];
+            }
+            // 继续循环
+        } while (t == null && (proxyContext = proxyContext.parent) != null);
+        return t;
+    }
+
+    /**
+     * 根据 Key id 设置代理环境变量
+     */
     public <T> void put(int id, T value) {
         if (context == null) {
+            // context 为空，生成新环境
             context = new Object[getResize(keyIdGenerator.get())];
+            // 如果有父环境，从父环境拷贝一份镜像以加速获取
+            if (parent != null && parent.context != null) {
+                System.arraycopy(parent.context, 0, context, 0, parent.context.length);
+            }
         } else if (id >= context.length) {
             context = Arrays.copyOf(context, getResize(keyIdGenerator.get()));
         }
         context[id] = value;
+    }
+
+    public void remove(int id) {
+        if (context == null || id >= context.length) {
+            return;
+        }
+        context[id] = null;
     }
 
     public void clean() {
@@ -209,6 +234,14 @@ public class ProxyContext {
             return parent.snapshot();
         }
         return new ProxyContext();
+    }
+
+    @Override
+    public String toString() {
+        return "ProxyContext{" +
+                "parent=" + parent +
+                ", context=" + Arrays.toString(context) +
+                '}';
     }
 
     private Object[] putContext(Object[] target) {

@@ -1,5 +1,6 @@
 package com.lcy0x1.base.proxy;
 
+import lombok.extern.log4j.Log4j2;
 import net.sf.cglib.proxy.CallbackFilter;
 import net.sf.cglib.proxy.Enhancer;
 import net.sf.cglib.proxy.MethodInterceptor;
@@ -9,6 +10,7 @@ import org.jetbrains.annotations.NotNull;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 
+@Log4j2
 public class ProxyInterceptor implements MethodInterceptor {
     public static final ProxyInterceptor INSTANCE = new ProxyInterceptor();
     private static final MethodInterceptor[] CALLBACKS = {
