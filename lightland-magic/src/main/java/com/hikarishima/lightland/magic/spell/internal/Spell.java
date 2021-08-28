@@ -4,6 +4,7 @@ import com.hikarishima.lightland.magic.MagicProxy;
 import com.hikarishima.lightland.magic.capabilities.MagicHandler;
 import com.hikarishima.lightland.magic.capabilities.ToClientMsg;
 import com.hikarishima.lightland.proxy.PacketHandler;
+import net.minecraft.client.entity.player.ClientPlayerEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.world.World;
@@ -43,6 +44,8 @@ public abstract class Spell<C extends SpellConfig, A extends ActivationConfig> e
         activate(world, player, a, c);
         return true;
     }
+
+    public abstract int getDistance(PlayerEntity player);
 
     public enum Type {
         SCROLL, WAND

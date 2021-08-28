@@ -5,6 +5,7 @@ import com.hikarishima.lightland.magic.registry.entity.FireArrowEntity;
 import com.hikarishima.lightland.magic.registry.entity.MagicFireBallEntity;
 import com.hikarishima.lightland.magic.registry.entity.SpellEntity;
 import com.hikarishima.lightland.magic.spell.internal.ActivationConfig;
+import com.hikarishima.lightland.magic.spell.internal.SimpleSpell;
 import com.hikarishima.lightland.magic.spell.internal.Spell;
 import com.hikarishima.lightland.magic.spell.internal.SpellConfig;
 import com.lcy0x1.core.math.AutoAim;
@@ -14,11 +15,11 @@ import net.minecraft.entity.projectile.AbstractArrowEntity;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
 
-public class FireArrowSpell extends Spell<FireArrowSpell.Config, FireArrowSpell.Activation> {
+public class FireArrowSpell extends SimpleSpell<FireArrowSpell.Config> {
 
     @Override
-    protected Activation canActivate(Type type, World world, PlayerEntity player) {
-        return new Activation(world, player);
+    public int getDistance(PlayerEntity player) {
+        return 64;
     }
 
     @Override
@@ -27,7 +28,7 @@ public class FireArrowSpell extends Spell<FireArrowSpell.Config, FireArrowSpell.
     }
 
     @Override
-    protected void activate(World world, PlayerEntity player, Activation activation, Config config) {
+    protected void activate(World world, PlayerEntity player, ActivationConfig activation, Config config) {
         if (world.isClientSide()) {
             return;
         }
@@ -77,13 +78,6 @@ public class FireArrowSpell extends Spell<FireArrowSpell.Config, FireArrowSpell.
         e.setDeltaMovement(velocity);
         e.explosionPower = config.explosion;
         world.addFreshEntity(e);
-    }
-
-    public static class Activation extends ActivationConfig {
-
-        public Activation(World world, PlayerEntity player) {
-            super(world, player, 64);
-        }
     }
 
     @SerialClass

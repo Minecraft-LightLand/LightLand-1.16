@@ -4,6 +4,7 @@ import com.hikarishima.lightland.magic.MagicRegistry;
 import com.hikarishima.lightland.magic.capabilities.MagicAbility;
 import com.hikarishima.lightland.magic.capabilities.MagicHandler;
 import com.hikarishima.lightland.magic.registry.MagicItemRegistry;
+import com.hikarishima.lightland.magic.registry.item.combat.IGlowingTarget;
 import com.hikarishima.lightland.magic.spell.internal.AbstractSpell;
 import com.hikarishima.lightland.magic.spell.internal.Spell;
 import com.hikarishima.lightland.proxy.Proxy;
@@ -19,6 +20,8 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -27,7 +30,7 @@ import java.util.function.Supplier;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public class MagicScroll extends Item {
+public class MagicScroll extends Item implements IGlowingTarget {
 
     public final ScrollType type;
 
@@ -103,6 +106,15 @@ public class MagicScroll extends Item {
             stack.shrink(1);
         }
         return ActionResult.sidedSuccess(stack, world.isClientSide());
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    @Override
+    public int getDistance(ItemStack stack) {
+        Spell<?, ?> spell = getSpell(stack);
+        if (spell == null)
+            return 0;
+        return spell.getDistance(Proxy.getClientPlayer());
     }
 
     public enum ScrollType {

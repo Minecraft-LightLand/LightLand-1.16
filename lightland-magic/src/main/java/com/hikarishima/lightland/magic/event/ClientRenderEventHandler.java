@@ -3,7 +3,10 @@ package com.hikarishima.lightland.magic.event;
 import com.hikarishima.lightland.magic.LightLandMagic;
 import com.hikarishima.lightland.magic.MagicRenderState;
 import com.hikarishima.lightland.magic.registry.VanillaMagicRegistry;
+import com.hikarishima.lightland.magic.registry.item.combat.IGlowingTarget;
 import com.hikarishima.lightland.proxy.PacketHandler;
+import com.hikarishima.lightland.proxy.Proxy;
+import com.lcy0x1.core.math.AutoAim;
 import com.lcy0x1.core.util.SerialClass;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
@@ -12,10 +15,13 @@ import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.entity.LivingRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Effect;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.EntityRayTraceResult;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.client.event.EntityViewRenderEvent;
 import net.minecraftforge.client.event.RenderLivingEvent;
 import net.minecraftforge.event.entity.living.PotionEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
@@ -24,7 +30,6 @@ import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.network.NetworkEvent;
 
 import java.util.*;
-import java.util.function.Supplier;
 
 @SuppressWarnings("unused")
 public class ClientRenderEventHandler {
@@ -34,6 +39,8 @@ public class ClientRenderEventHandler {
 
     private static final Map<UUID, Set<Effect>> EFFECT_MAP = new HashMap<>();
     private static final Set<Effect> TRACKED = new HashSet<>();
+
+    private static Entity target;
 
     public static void init() {
         TRACKED.add(VanillaMagicRegistry.ARCANE);
@@ -53,6 +60,37 @@ public class ClientRenderEventHandler {
             if (set.contains(VanillaMagicRegistry.WATER_TRAP)) {
                 renderIcon(entity, event.getMatrixStack(), event.getBuffers(), renderer.getDispatcher(), WATER_TRAP_ICON);
             }
+        }
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    @SubscribeEvent
+    public void onCameraSetup(EntityViewRenderEvent.CameraSetup event) {
+        if (target != null) {
+            target.setGlowing(false);
+        }
+        target = null;
+        ItemStack stack = Proxy.getClientPlayer().getMainHandItem();
+        if (stack.getItem() instanceof IGlowingTarget){
+            int dist = ((IGlowingTarget) stack.getItem()).getDistance(stack);
+            EntityRayTraceResult result = AutoAim.rayTraceEntity(Proxy.getClientPlayer(), dist, e -> e instanceof LivingEntity);
+            if (result != null) {
+                Entity entity = result.getEntity();
+                if (!entity.isGlowing()) {
+                    target = result.getEntity();
+                    target.setGlowing(true);
+                }
+            }
+        }
+
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    @SubscribeEvent
+    public void onLivingRenderPost(RenderLivingEvent.Post<?, ?> event) {
+        if (event.getEntity() == target) {
+            target.setGlowing(false);
+            target = null;
         }
     }
 

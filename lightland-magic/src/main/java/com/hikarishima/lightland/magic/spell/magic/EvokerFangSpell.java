@@ -3,6 +3,7 @@ package com.hikarishima.lightland.magic.spell.magic;
 import com.hikarishima.lightland.magic.registry.MagicEntityRegistry;
 import com.hikarishima.lightland.magic.registry.entity.SpellEntity;
 import com.hikarishima.lightland.magic.spell.internal.ActivationConfig;
+import com.hikarishima.lightland.magic.spell.internal.SimpleSpell;
 import com.hikarishima.lightland.magic.spell.internal.Spell;
 import com.hikarishima.lightland.magic.spell.internal.SpellConfig;
 import com.lcy0x1.core.util.SerialClass;
@@ -10,11 +11,11 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.EvokerFangsEntity;
 import net.minecraft.world.World;
 
-public class EvokerFangSpell extends Spell<EvokerFangSpell.Config, EvokerFangSpell.Activation> {
+public class EvokerFangSpell extends SimpleSpell<EvokerFangSpell.Config> {
 
     @Override
-    protected Activation canActivate(Type type, World world, PlayerEntity player) {
-        return new Activation(world, player);
+    public int getDistance(PlayerEntity player) {
+        return 0;
     }
 
     @Override
@@ -23,7 +24,7 @@ public class EvokerFangSpell extends Spell<EvokerFangSpell.Config, EvokerFangSpe
     }
 
     @Override
-    protected void activate(World world, PlayerEntity player, Activation activation, Config config) {
+    protected void activate(World world, PlayerEntity player, ActivationConfig activation, Config config) {
         if (world.isClientSide()) {
             return;
         }
@@ -43,13 +44,6 @@ public class EvokerFangSpell extends Spell<EvokerFangSpell.Config, EvokerFangSpe
                 double z0 = z + layer.radius * Math.sin(angle);
                 world.addFreshEntity(new EvokerFangsEntity(world, x0, y, z0, (float) angle, layer.delay, player));
             }
-        }
-    }
-
-    public static class Activation extends ActivationConfig {
-
-        public Activation(World world, PlayerEntity player) {
-            super(world, player, 0);
         }
     }
 

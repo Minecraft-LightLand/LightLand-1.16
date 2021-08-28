@@ -4,6 +4,7 @@ import com.hikarishima.lightland.magic.registry.MagicEntityRegistry;
 import com.hikarishima.lightland.magic.registry.VanillaMagicRegistry;
 import com.hikarishima.lightland.magic.registry.entity.SpellEntity;
 import com.hikarishima.lightland.magic.spell.internal.ActivationConfig;
+import com.hikarishima.lightland.magic.spell.internal.SimpleSpell;
 import com.hikarishima.lightland.magic.spell.internal.Spell;
 import com.hikarishima.lightland.magic.spell.internal.SpellConfig;
 import com.lcy0x1.core.util.SerialClass;
@@ -14,12 +15,7 @@ import net.minecraft.potion.EffectInstance;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.world.World;
 
-public class WaterTrapSpell extends Spell<WaterTrapSpell.Config, WaterTrapSpell.Activation> {
-
-    @Override
-    protected Activation canActivate(Type type, World world, PlayerEntity player) {
-        return new Activation(world, player);
-    }
+public class WaterTrapSpell extends SimpleSpell<WaterTrapSpell.Config> {
 
     @Override
     public Config getConfig(World world, PlayerEntity player) {
@@ -27,7 +23,12 @@ public class WaterTrapSpell extends Spell<WaterTrapSpell.Config, WaterTrapSpell.
     }
 
     @Override
-    protected void activate(World world, PlayerEntity player, Activation activation, Config config) {
+    public int getDistance(PlayerEntity player) {
+        return 64;
+    }
+
+    @Override
+    protected void activate(World world, PlayerEntity player, ActivationConfig activation, Config config) {
         if (world.isClientSide()) {
             return;
         }

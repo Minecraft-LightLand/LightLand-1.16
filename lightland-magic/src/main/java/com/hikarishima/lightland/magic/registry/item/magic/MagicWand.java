@@ -4,6 +4,7 @@ import com.hikarishima.lightland.magic.MagicRegistry;
 import com.hikarishima.lightland.magic.capabilities.MagicHandler;
 import com.hikarishima.lightland.magic.products.MagicProduct;
 import com.hikarishima.lightland.magic.recipe.IMagicRecipe;
+import com.hikarishima.lightland.magic.registry.item.combat.IGlowingTarget;
 import com.hikarishima.lightland.magic.spell.internal.Spell;
 import com.hikarishima.lightland.proxy.Proxy;
 import mcp.MethodsReturnNonnullByDefault;
@@ -17,6 +18,8 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -24,7 +27,7 @@ import java.util.List;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public class MagicWand extends Item {
+public class MagicWand extends Item implements IGlowingTarget {
 
     public MagicWand(Properties props) {
         super(props.stacksTo(1));
@@ -78,5 +81,15 @@ public class MagicWand extends Item {
 
     public void setMagic(IMagicRecipe<?> recipe, ItemStack stack) {
         stack.getOrCreateTag().putString("recipe", recipe.id.toString());
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    @Override
+    public int getDistance(ItemStack stack) {
+        MagicProduct<?, ?> prod = getData(Proxy.getClientPlayer(), stack);
+        if (prod == null || prod.type != MagicRegistry.MPT_SPELL)
+            return 0;
+        Spell<?,?> spell = (Spell<?, ?>) prod.item;
+        return spell.getDistance(Proxy.getClientPlayer());
     }
 }

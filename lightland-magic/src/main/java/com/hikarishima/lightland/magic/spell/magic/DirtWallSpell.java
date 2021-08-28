@@ -2,23 +2,20 @@ package com.hikarishima.lightland.magic.spell.magic;
 
 import com.hikarishima.lightland.magic.registry.block.TempBlock;
 import com.hikarishima.lightland.magic.spell.internal.ActivationConfig;
+import com.hikarishima.lightland.magic.spell.internal.SimpleSpell;
 import com.hikarishima.lightland.magic.spell.internal.Spell;
 import com.hikarishima.lightland.magic.spell.internal.SpellConfig;
 import com.lcy0x1.core.util.SerialClass;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.client.entity.player.ClientPlayerEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 
-public class DirtWallSpell extends Spell<DirtWallSpell.Config, DirtWallSpell.Activation> {
-
-    @Override
-    protected Activation canActivate(Type type, World world, PlayerEntity player) {
-        return new Activation(player, world);
-    }
+public class DirtWallSpell extends SimpleSpell<DirtWallSpell.Config> {
 
     @Override
     public Config getConfig(World world, PlayerEntity player) {
@@ -26,7 +23,7 @@ public class DirtWallSpell extends Spell<DirtWallSpell.Config, DirtWallSpell.Act
     }
 
     @Override
-    protected void activate(World world, PlayerEntity player, Activation act, Config config) {
+    protected void activate(World world, PlayerEntity player, ActivationConfig act, Config config) {
         if (world.isClientSide())
             return;
         ServerWorld w = (ServerWorld) world;
@@ -49,6 +46,11 @@ public class DirtWallSpell extends Spell<DirtWallSpell.Config, DirtWallSpell.Act
                 }
     }
 
+    @Override
+    public int getDistance(PlayerEntity player) {
+        return 4;
+    }
+
     @SerialClass
     public static class Config extends SpellConfig {
 
@@ -58,13 +60,6 @@ public class DirtWallSpell extends Spell<DirtWallSpell.Config, DirtWallSpell.Act
         @SerialClass.SerialField
         public int time, ry, rs, rn;
 
-    }
-
-    public static class Activation extends ActivationConfig {
-
-        public Activation(PlayerEntity player, World world) {
-            super(world, player, 4);
-        }
     }
 
 }

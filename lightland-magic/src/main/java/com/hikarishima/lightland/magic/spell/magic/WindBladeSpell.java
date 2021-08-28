@@ -4,6 +4,7 @@ import com.hikarishima.lightland.magic.registry.MagicEntityRegistry;
 import com.hikarishima.lightland.magic.registry.entity.SpellEntity;
 import com.hikarishima.lightland.magic.registry.entity.WindBladeEntity;
 import com.hikarishima.lightland.magic.spell.internal.ActivationConfig;
+import com.hikarishima.lightland.magic.spell.internal.SimpleSpell;
 import com.hikarishima.lightland.magic.spell.internal.Spell;
 import com.hikarishima.lightland.magic.spell.internal.SpellConfig;
 import com.lcy0x1.core.math.AutoAim;
@@ -13,11 +14,11 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
 
-public class WindBladeSpell extends Spell<WindBladeSpell.Config, WindBladeSpell.Activation> {
+public class WindBladeSpell extends SimpleSpell<WindBladeSpell.Config> {
 
     @Override
-    protected Activation canActivate(Type type, World world, PlayerEntity player) {
-        return new Activation(world, player);
+    public int getDistance(PlayerEntity player) {
+        return 64;
     }
 
     @Override
@@ -26,7 +27,7 @@ public class WindBladeSpell extends Spell<WindBladeSpell.Config, WindBladeSpell.
     }
 
     @Override
-    protected void activate(World world, PlayerEntity player, Activation activation, Config config) {
+    protected void activate(World world, PlayerEntity player, ActivationConfig activation, Config config) {
         if (world.isClientSide()) {
             return;
         }
@@ -61,13 +62,6 @@ public class WindBladeSpell extends Spell<WindBladeSpell.Config, WindBladeSpell.
             blade.setDeltaMovement(velocity);
             blade.setProperties(config.damage, Math.round(config.distance / config.velocity), 0f, ItemStack.EMPTY);
             world.addFreshEntity(blade);
-        }
-    }
-
-    public static class Activation extends ActivationConfig {
-
-        public Activation(World world, PlayerEntity player) {
-            super(world, player, 64);
         }
     }
 
