@@ -89,7 +89,7 @@ public class MagicWand extends Item implements IGlowingTarget {
         MagicProduct<?, ?> prod = getData(Proxy.getClientPlayer(), stack);
         if (prod == null || prod.type != MagicRegistry.MPT_SPELL)
             return 0;
-        Spell<?,?> spell = (Spell<?, ?>) prod.item;
+        Spell<?, ?> spell = (Spell<?, ?>) prod.item;
         return spell.getDistance(Proxy.getClientPlayer());
     }
 }

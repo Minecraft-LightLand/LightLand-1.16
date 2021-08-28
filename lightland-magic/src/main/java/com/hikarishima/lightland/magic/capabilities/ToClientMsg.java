@@ -12,7 +12,6 @@ import net.minecraftforge.fml.network.NetworkEvent;
 
 import java.util.function.Consumer;
 import java.util.function.Function;
-import java.util.function.Supplier;
 
 @SerialClass
 public class ToClientMsg extends PacketHandler.BaseSerialMsg {

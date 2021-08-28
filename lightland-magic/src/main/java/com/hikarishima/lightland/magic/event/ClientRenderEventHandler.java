@@ -71,7 +71,7 @@ public class ClientRenderEventHandler {
         }
         target = null;
         ItemStack stack = Proxy.getClientPlayer().getMainHandItem();
-        if (stack.getItem() instanceof IGlowingTarget){
+        if (stack.getItem() instanceof IGlowingTarget) {
             int dist = ((IGlowingTarget) stack.getItem()).getDistance(stack);
             EntityRayTraceResult result = AutoAim.rayTraceEntity(Proxy.getClientPlayer(), dist, e -> e instanceof LivingEntity);
             if (result != null) {

@@ -4,7 +4,6 @@ import com.hikarishima.lightland.magic.registry.MagicEntityRegistry;
 import com.hikarishima.lightland.magic.registry.entity.SpellEntity;
 import com.hikarishima.lightland.magic.spell.internal.ActivationConfig;
 import com.hikarishima.lightland.magic.spell.internal.SimpleSpell;
-import com.hikarishima.lightland.magic.spell.internal.Spell;
 import com.hikarishima.lightland.magic.spell.internal.SpellConfig;
 import com.lcy0x1.core.util.SerialClass;
 import net.minecraft.entity.player.PlayerEntity;

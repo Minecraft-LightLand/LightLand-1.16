@@ -9,8 +9,6 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.network.NetworkEvent;
 
-import java.util.function.Supplier;
-
 @SerialClass
 public class OptionToClient extends PacketHandler.BaseSerialMsg {
 
