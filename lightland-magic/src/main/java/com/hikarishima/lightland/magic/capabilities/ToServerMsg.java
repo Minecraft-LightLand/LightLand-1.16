@@ -164,13 +164,13 @@ public class ToServerMsg extends PacketHandler.BaseSerialMsg {
         this.tag = tag;
     }
 
-    public static void handle(ToServerMsg msg, Supplier<NetworkEvent.Context> ctx) {
-        ServerPlayerEntity player = ctx.get().getSender();
+    public static void handle(ToServerMsg msg, NetworkEvent.Context ctx) {
+        ServerPlayerEntity player = ctx.getSender();
         if (player == null || !player.isAlive())
             return;
         MagicHandler handler = MagicHandler.get(player);
         msg.action.cons.accept(handler, msg.tag);
-        ctx.get().setPacketHandled(true);
+        ctx.setPacketHandled(true);
     }
 
 }

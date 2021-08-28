@@ -11,7 +11,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 @SuppressWarnings("unused")
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public class CraftEventHandler {
+public class MagicCraftEventHandler {
 
     @SubscribeEvent
     public void onAnvilChange(AnvilUpdateEvent event) {

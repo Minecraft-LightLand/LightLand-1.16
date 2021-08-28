@@ -15,7 +15,6 @@ import net.minecraftforge.fml.network.NetworkEvent;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Supplier;
 
 @SuppressWarnings("unused")
 public class ItemUseEventHandler {
@@ -132,8 +131,8 @@ public class ItemUseEventHandler {
             this(true, true);
         }
 
-        public static void handle(Msg msg, Supplier<NetworkEvent.Context> sup) {
-            ServerPlayerEntity pl = sup.get().getSender();
+        public static void handle(Msg msg, NetworkEvent.Context ctx) {
+            ServerPlayerEntity pl = ctx.getSender();
             if (pl != null) {
                 if (msg.right) {
                     PlayerInteractEvent.RightClickEmpty event = new PlayerInteractEvent.RightClickEmpty(pl,
@@ -144,7 +143,7 @@ public class ItemUseEventHandler {
                     INSTANCE.onPlayerLeftClickEmpty(event);
                 }
             }
-            sup.get().setPacketHandled(true);
+            ctx.setPacketHandled(true);
         }
 
     }

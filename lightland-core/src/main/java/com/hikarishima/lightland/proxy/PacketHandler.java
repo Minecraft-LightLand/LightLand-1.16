@@ -18,7 +18,6 @@ import net.minecraftforge.fml.network.simple.SimpleChannel;
 import java.util.Optional;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
-import java.util.function.Supplier;
 
 public class PacketHandler {
 
@@ -41,15 +40,18 @@ public class PacketHandler {
     }
 
     public static <T> void reg(Class<T> cls, BiConsumer<T, PacketBuffer> encoder, Function<PacketBuffer, T> decoder,
-                               BiConsumer<T, Supplier<NetworkEvent.Context>> handler, NetworkDirection dire) {
-        CH.registerMessage(id++, cls, encoder, decoder, handler, Optional.of(dire));
+                               BiConsumer<T, NetworkEvent.Context> handler, NetworkDirection dire) {
+        CH.registerMessage(id++, cls, encoder, decoder, (t, sup) -> {
+            NetworkEvent.Context u = sup.get();
+            u.enqueueWork(() -> handler.accept(t, u));
+        }, Optional.of(dire));
     }
 
     public static <T extends ContSerialMsg, C extends SerialMsgCont<T>> void reg(Class<T> cls, Class<C> cont, NetworkDirection dire) {
-        reg(cls, (t, s) -> handle(t, cont, s.get()), dire);
+        reg(cls, (t, s) -> handle(t, cont, s), dire);
     }
 
-    public static <T extends BaseSerialMsg> void reg(Class<T> cls, BiConsumer<T, Supplier<NetworkEvent.Context>> handler, NetworkDirection dire) {
+    public static <T extends BaseSerialMsg> void reg(Class<T> cls, BiConsumer<T, NetworkEvent.Context> handler, NetworkDirection dire) {
         reg(cls, (msg, p) -> Serializer.to(p, msg), (p) -> Serializer.from(p, cls, null), handler, dire);
     }
 

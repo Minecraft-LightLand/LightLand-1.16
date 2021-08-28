@@ -102,8 +102,8 @@ public class ClientRenderEventHandler {
         PacketHandler.distribute(e, new EffectToClient(eff, e, false));
     }
 
-    public static void handle(EffectToClient eff, Supplier<NetworkEvent.Context> sup) {
-        sup.get().setPacketHandled(true);
+    public static void handle(EffectToClient eff, NetworkEvent.Context sup) {
+        sup.setPacketHandled(true);
         DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> handleImpl(eff));
     }
 

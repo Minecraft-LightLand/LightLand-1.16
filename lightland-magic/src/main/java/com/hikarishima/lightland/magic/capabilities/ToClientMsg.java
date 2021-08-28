@@ -33,11 +33,11 @@ public class ToClientMsg extends PacketHandler.BaseSerialMsg {
         this.tag = action.server.apply(handler);
     }
 
-    public static void handle(ToClientMsg msg, Supplier<NetworkEvent.Context> context) {
+    public static void handle(ToClientMsg msg, NetworkEvent.Context context) {
         if (!Proxy.getClientPlayer().isAlive())
             return;
         msg.action.client.accept(msg.tag);
-        context.get().setPacketHandled(true);
+        context.setPacketHandled(true);
     }
 
     public static void reset(ServerPlayerEntity e, MagicHandler.Reset reset) {
