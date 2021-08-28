@@ -1,4 +1,4 @@
-package com.hikarishima.lightland.magic.compat.ingredients;
+package com.hikarishima.lightland.magic.compat.jei.ingredients;
 
 import com.google.common.collect.Lists;
 import com.hikarishima.lightland.magic.MagicProxy;

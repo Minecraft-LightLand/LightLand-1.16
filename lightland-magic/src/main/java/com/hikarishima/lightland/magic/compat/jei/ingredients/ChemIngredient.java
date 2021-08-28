@@ -1,8 +1,8 @@
-package com.hikarishima.lightland.magic.compat.ingredients;
+package com.hikarishima.lightland.magic.compat.jei.ingredients;
 
 import com.hikarishima.lightland.magic.chem.ChemElement;
 import com.hikarishima.lightland.magic.chem.ChemItem;
-import com.hikarishima.lightland.magic.compat.LightLandJeiPlugin;
+import com.hikarishima.lightland.magic.compat.jei.LightLandJeiPlugin;
 import com.lcy0x1.core.chem.AbChemObj;
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.ingredients.IIngredientType;

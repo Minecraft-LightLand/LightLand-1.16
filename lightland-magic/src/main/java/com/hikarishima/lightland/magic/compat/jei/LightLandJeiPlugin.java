@@ -1,13 +1,13 @@
-package com.hikarishima.lightland.magic.compat;
+package com.hikarishima.lightland.magic.compat.jei;
 
 import com.hikarishima.lightland.magic.LightLandMagic;
 import com.hikarishima.lightland.magic.MagicRegistry;
 import com.hikarishima.lightland.magic.chem.HashEquationPool;
-import com.hikarishima.lightland.magic.compat.ingredients.*;
-import com.hikarishima.lightland.magic.compat.recipes.ChemRecipeCategory;
-import com.hikarishima.lightland.magic.compat.recipes.DisEnchanterRecipeCategory;
-import com.hikarishima.lightland.magic.compat.recipes.MagicCraftRecipeCategory;
-import com.hikarishima.lightland.magic.compat.screen.ExtraInfoScreen;
+import com.hikarishima.lightland.magic.compat.jei.ingredients.*;
+import com.hikarishima.lightland.magic.compat.jei.recipes.ChemRecipeCategory;
+import com.hikarishima.lightland.magic.compat.jei.recipes.DisEnchanterRecipeCategory;
+import com.hikarishima.lightland.magic.compat.jei.recipes.MagicCraftRecipeCategory;
+import com.hikarishima.lightland.magic.compat.jei.screen.ExtraInfoScreen;
 import com.hikarishima.lightland.magic.gui.container.ArcaneInjectScreen;
 import com.hikarishima.lightland.magic.gui.container.ChemScreen;
 import com.hikarishima.lightland.magic.gui.container.DisEnchanterScreen;

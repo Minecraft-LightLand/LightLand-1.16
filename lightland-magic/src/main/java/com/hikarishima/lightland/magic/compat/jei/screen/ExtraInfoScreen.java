@@ -1,8 +1,8 @@
-package com.hikarishima.lightland.magic.compat.screen;
+package com.hikarishima.lightland.magic.compat.jei.screen;
 
 import com.hikarishima.lightland.magic.MagicElement;
-import com.hikarishima.lightland.magic.compat.ingredients.ChemIngredient;
-import com.hikarishima.lightland.magic.compat.ingredients.ElementIngredient;
+import com.hikarishima.lightland.magic.compat.jei.ingredients.ChemIngredient;
+import com.hikarishima.lightland.magic.compat.jei.ingredients.ElementIngredient;
 import com.hikarishima.lightland.magic.gui.container.AbstractScreen;
 import com.hikarishima.lightland.magic.gui.container.ExtraInfo;
 import com.lcy0x1.core.chem.AbChemObj;

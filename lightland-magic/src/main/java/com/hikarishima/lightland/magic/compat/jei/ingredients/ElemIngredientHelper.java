@@ -1,4 +1,4 @@
-package com.hikarishima.lightland.magic.compat.ingredients;
+package com.hikarishima.lightland.magic.compat.jei.ingredients;
 
 import com.hikarishima.lightland.config.StringSubstitution;
 import mezz.jei.api.MethodsReturnNonnullByDefault;

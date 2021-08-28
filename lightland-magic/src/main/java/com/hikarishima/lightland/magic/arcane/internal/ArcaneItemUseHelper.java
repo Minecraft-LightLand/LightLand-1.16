@@ -49,7 +49,8 @@ public class ArcaneItemUseHelper implements ItemUseEventHandler.ItemClickHandler
         if (arcane == null || arcane.cost > tag.getInt("mana"))
             return false;
         if (arcane.activate(player, magic, stack, target)) {
-            tag.putInt("mana", tag.getInt("mana") - arcane.cost);
+            if (!player.level.isClientSide())
+                tag.putInt("mana", tag.getInt("mana") - arcane.cost);
             return true;
         }
         return false;

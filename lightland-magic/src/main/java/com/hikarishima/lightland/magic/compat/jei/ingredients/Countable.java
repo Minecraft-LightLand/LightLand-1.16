@@ -1,4 +1,4 @@
-package com.hikarishima.lightland.magic.compat.ingredients;
+package com.hikarishima.lightland.magic.compat.jei.ingredients;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
