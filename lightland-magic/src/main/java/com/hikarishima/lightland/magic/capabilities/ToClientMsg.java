@@ -37,7 +37,6 @@ public class ToClientMsg extends PacketHandler.BaseSerialMsg {
         if (!Proxy.getClientPlayer().isAlive())
             return;
         msg.action.client.accept(msg.tag);
-        context.setPacketHandled(true);
     }
 
     public static void reset(ServerPlayerEntity e, MagicHandler.Reset reset) {

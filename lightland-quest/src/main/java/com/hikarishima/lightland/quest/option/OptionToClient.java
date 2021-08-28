@@ -26,13 +26,12 @@ public class OptionToClient extends PacketHandler.BaseSerialMsg {
         data = msg.data;
     }
 
-    public static void handle(OptionToClient msg, Supplier<NetworkEvent.Context> ctx) {
+    public static void handle(OptionToClient msg, NetworkEvent.Context ctx) {
         DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> clientHandle(msg, ctx));
-        ctx.get().setPacketHandled(true);
     }
 
     @OnlyIn(Dist.CLIENT)
-    private static void clientHandle(OptionToClient msg, Supplier<NetworkEvent.Context> ctx) {
+    private static void clientHandle(OptionToClient msg, NetworkEvent.Context ctx) {
         ClientPlayerEntity player = Minecraft.getInstance().player;
         for (Object obj : msg.data) {
             IOptionComponent comp = (IOptionComponent) obj;

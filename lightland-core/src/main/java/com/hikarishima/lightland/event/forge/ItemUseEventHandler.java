@@ -143,7 +143,6 @@ public class ItemUseEventHandler {
                     INSTANCE.onPlayerLeftClickEmpty(event);
                 }
             }
-            ctx.setPacketHandled(true);
         }
 
     }

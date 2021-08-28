@@ -170,7 +170,6 @@ public class ToServerMsg extends PacketHandler.BaseSerialMsg {
             return;
         MagicHandler handler = MagicHandler.get(player);
         msg.action.cons.accept(handler, msg.tag);
-        ctx.setPacketHandled(true);
     }
 
 }

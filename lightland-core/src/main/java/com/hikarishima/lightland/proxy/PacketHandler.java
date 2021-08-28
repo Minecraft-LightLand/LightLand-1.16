@@ -44,6 +44,7 @@ public class PacketHandler {
         CH.registerMessage(id++, cls, encoder, decoder, (t, sup) -> {
             NetworkEvent.Context u = sup.get();
             u.enqueueWork(() -> handler.accept(t, u));
+            u.setPacketHandled(true);
         }, Optional.of(dire));
     }
 

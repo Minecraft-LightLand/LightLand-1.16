@@ -22,9 +22,8 @@ public class OptionToServer extends PacketHandler.BaseSerialMsg {
         data = option.getComponents().toArray();
     }
 
-    public static void handle(OptionToServer msg, Supplier<NetworkEvent.Context> ctx) {
-        ServerPlayerEntity player = ctx.get().getSender();
-        ctx.get().setPacketHandled(true);
+    public static void handle(OptionToServer msg, NetworkEvent.Context ctx) {
+        ServerPlayerEntity player = ctx.getSender();
         if (player != null) {
             for (Object obj : msg.data) {
                 IOptionComponent comp = (IOptionComponent) obj;

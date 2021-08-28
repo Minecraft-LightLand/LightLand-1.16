@@ -103,7 +103,6 @@ public class ClientRenderEventHandler {
     }
 
     public static void handle(EffectToClient eff, NetworkEvent.Context sup) {
-        sup.setPacketHandled(true);
         DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> handleImpl(eff));
     }
 

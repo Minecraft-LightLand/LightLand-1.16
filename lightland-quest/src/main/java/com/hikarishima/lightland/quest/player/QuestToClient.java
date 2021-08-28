@@ -53,13 +53,12 @@ public class QuestToClient extends PacketHandler.BaseSerialMsg {
         this.tag = tag;
     }
 
-    public static void handle(QuestToClient msg, Supplier<NetworkEvent.Context> ctx) {
-        ctx.get().setPacketHandled(true);
+    public static void handle(QuestToClient msg, NetworkEvent.Context ctx) {
         DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> clientHandle(msg, ctx));
     }
 
     @OnlyIn(Dist.CLIENT)
-    public static void clientHandle(QuestToClient msg, Supplier<NetworkEvent.Context> ctx) {
+    public static void clientHandle(QuestToClient msg, NetworkEvent.Context ctx) {
         PlayerEntity pl = Minecraft.getInstance().player;
         if (pl != null) {
             msg.action.cons.accept(msg.tag);
