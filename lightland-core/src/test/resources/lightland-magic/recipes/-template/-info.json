@@ -1,69 +1,66 @@
 {
-    "merge": {
-        "enchant_gold_ingot_by_merge": {
-            "a": "lightland-magic:enchant_gold_nugget",
-            "b": "lightland-magic:enchant_gold_ingot"
+    "-split": {
+        "-list": [
+            "split",
+            "merge"
+        ],
+        "enchant_gold_nugget": {
+            "a": "^m:^n",
+            "b": "^m:enchant_gold_ingot"
         },
-        "enchant_gold_block_by_merge": {
-            "a": "lightland-magic:enchant_gold_ingot",
-            "b": "lightland-magic:enchant_gold_block"
+        "enchant_gold": {
+            "a": "^m:^n_ingot",
+            "b": "^m:^n_block"
         },
-        "enchant_alloy_block_by_merge": {
-            "a": "lightland-magic:enchant_alloy_ingot",
-            "b": "lightland-magic:enchant_alloy_block"
+        "enchant_alloy": {
+            "a": "^m:^n_ingot",
+            "b": "^m:^n_block"
         },
-        "enchant_light_block_by_merge": {
-            "a": "lightland-magic:enchant_light_ingot",
-            "b": "lightland-magic:enchant_light_block"
+        "enchant_light": {
+            "a": "^m:^n_ingot",
+            "b": "^m:^n_block"
         },
-        "light_alloy_block_by_merge": {
-            "a": "lightland-magic:light_alloy_ingot",
-            "b": "lightland-magic:light_alloy_block"
+        "light_alloy": {
+            "a": "^m:^n_ingot",
+            "b": "^m:^n_block"
         },
-        "permanence_iron_block_by_merge": {
-            "a": "lightland-magic:permanence_iron_ingot",
-            "b": "lightland-magic:permanence_iron_block"
+        "permanence_iron": {
+            "a": "^m:^n_ingot",
+            "b": "^m:^n_block"
         },
-        "anti_magic_metal_block_by_merge": {
-            "a": "lightland-magic:anti_magic_metal_ingot",
-            "b": "lightland-magic:anti_magic_metal_block"
+        "anti_magic_metal": {
+            "a": "^m:^n_ingot",
+            "b": "^m:^n_block"
         },
-        "anti_magic_alloy_block_by_merge": {
-            "a": "lightland-magic:anti_magic_alloy_ingot",
-            "b": "lightland-magic:anti_magic_alloy_block"
+        "anti_magic_alloy": {
+            "a": "^m:^n_ingot",
+            "b": "^m:^n_block"
         }
-    },"split": {
-        "enchant_gold_nugget_by_split": {
-            "a": "lightland-magic:enchant_gold_nugget",
-            "b": "lightland-magic:enchant_gold_ingot"
+    },
+    "-combat": {
+        "-list": [
+            "craft_axe",
+            "craft_sword",
+            "craft_helmet",
+            "craft_chestplate",
+            "craft_leggings",
+            "craft_boots"
+        ],
+        "anti_magic_metal": {
+            "a": "^m:^n_ingot",
+            "b": "^m:^n"
         },
-        "enchant_gold_ingot_by_split": {
-            "a": "lightland-magic:enchant_gold_ingot",
-            "b": "lightland-magic:enchant_gold_block"
+        "anti_magic_alloy": {
+            "a": "^m:^n_ingot",
+            "b": "^m:^n"
         },
-        "enchant_alloy_ingot_by_split": {
-            "a": "lightland-magic:enchant_alloy_ingot",
-            "b": "lightland-magic:enchant_alloy_block"
+        "light_alloy": {
+            "a": "^m:^n_ingot",
+            "b": "^m:^n"
         },
-        "enchant_light_ingot_by_split": {
-            "a": "lightland-magic:enchant_light_ingot",
-            "b": "lightland-magic:enchant_light_block"
-        },
-        "light_alloy_ingot_by_split": {
-            "a": "lightland-magic:light_alloy_ingot",
-            "b": "lightland-magic:light_alloy_block"
-        },
-        "permanence_iron_ingot_by_split": {
-            "a": "lightland-magic:permanence_iron_ingot",
-            "b": "lightland-magic:permanence_iron_block"
-        },
-        "anti_magic_metal_ingot_by_split": {
-            "a": "lightland-magic:anti_magic_metal_ingot",
-            "b": "lightland-magic:anti_magic_metal_block"
-        },
-        "anti_magic_alloy_ingot_by_split": {
-            "a": "lightland-magic:anti_magic_alloy_ingot",
-            "b": "lightland-magic:anti_magic_alloy_block"
+        "permanence_iron": {
+            "a": "^m:^n_ingot",
+            "b": "^m:^n"
         }
     }
 }
