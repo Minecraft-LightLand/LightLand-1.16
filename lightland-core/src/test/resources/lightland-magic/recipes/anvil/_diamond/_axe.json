@@ -1,0 +1,11 @@
+{
+    "type": "lightland-magic:anvil",
+    "input": "minecraft:diamond_axe",
+    "output": "minecraft:diamond",
+    "max": 3,
+    "level": 3,
+    "consume": {
+        "item": "minecraft:flint",
+        "count": 3
+    }
+}

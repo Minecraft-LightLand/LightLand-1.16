@@ -1,0 +1,11 @@
+{
+    "type": "lightland-magic:anvil",
+    "input": "minecraft:diamond_shovel",
+    "output": "minecraft:diamond",
+    "max": 1,
+    "level": 1,
+    "consume": {
+        "item": "minecraft:flint",
+        "count": 1
+    }
+}

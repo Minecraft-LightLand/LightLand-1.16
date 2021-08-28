@@ -1,0 +1,11 @@
+{
+    "type": "lightland-magic:anvil",
+    "input": "minecraft:iron_axe",
+    "output": "minecraft:iron_ingot",
+    "max": 3,
+    "level": 3,
+    "consume": {
+        "item": "minecraft:flint",
+        "count": 3
+    }
+}
