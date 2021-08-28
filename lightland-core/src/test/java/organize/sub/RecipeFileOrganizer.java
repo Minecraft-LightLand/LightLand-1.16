@@ -27,7 +27,32 @@ public class RecipeFileOrganizer extends ResourceOrganizer {
     public void organize(File f) throws Exception {
         parts = Maps.newLinkedHashMap();
         addParts(new File(f.getPath() + "/-parts/"));
+        generate(new File(f.getPath() + "/-template"));
         process("", f);
+    }
+
+    private void generate(File file) throws Exception {
+        if (!file.exists())
+            return;
+        File info = new File(file.getPath() + "/-info.json");
+        if (!info.exists())
+            return;
+        JsonElement elem = new JsonParser().parse(new FileReader(info));
+        for (Map.Entry<String, JsonElement> layer_0 : elem.getAsJsonObject().entrySet()) {
+            String temp = readFile(file.getPath() + "/" + layer_0.getKey() + ".json");
+            for (Map.Entry<String, JsonElement> layer_1 : layer_0.getValue().getAsJsonObject().entrySet()) {
+                String name = layer_1.getKey();
+                File dst = new File(getTargetFolder() + name + ".json");
+                check(dst);
+                String ans = temp;
+                for (Map.Entry<String, JsonElement> layer_2 : layer_1.getValue().getAsJsonObject().entrySet()) {
+                    ans = ans.replaceAll("\\^" + layer_2.getKey(), layer_2.getValue().getAsString());
+                }
+                PrintStream ps = new PrintStream(dst);
+                ps.println(ans);
+                ps.close();
+            }
+        }
     }
 
     private void addParts(File f) throws Exception {

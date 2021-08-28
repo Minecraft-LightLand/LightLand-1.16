@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "lightland-magic:anti_magic_metal_block"
+    }
+  ],
+  "result": {
+    "item": "lightland-magic:anti_magic_metal_ingot",
+    "count": 9
+  }
+}
+

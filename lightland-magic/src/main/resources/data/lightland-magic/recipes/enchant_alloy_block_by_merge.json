@@ -7,10 +7,11 @@
   ],
   "key": {
     "b": {
-      "item": "lightland-magic:enchant_gold_nugget"
+      "item": "lightland-magic:enchant_alloy_ingot"
     }
   },
   "result": {
-    "item": "lightland-magic:enchant_gold_ingot"
+    "item": "lightland-magic:enchant_alloy_block"
   }
 }
+

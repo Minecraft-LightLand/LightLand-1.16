@@ -38,6 +38,13 @@ public class MagicItemRegistry {
     private static final int MANA = 256;
     private static final BlockProp PEDESTAL = BlockProp.copy(Blocks.STONE).make(e -> e.noOcclusion().lightLevel(bs -> bs.getValue(BlockStateProperties.LIT) ? 15 : 7));
 
+    public static final Block B_ENCHANT_GOLD = reg("enchant_gold_block", new Block(AbstractBlock.Properties.copy(Blocks.GOLD_BLOCK)));
+    public static final Block B_ENCHANT_ALLOY = reg("enchant_alloy_block", new Block(AbstractBlock.Properties.copy(Blocks.IRON_BLOCK)));
+    public static final Block B_PERMANENCE_IRON = reg("permanence_iron_block", new Block(AbstractBlock.Properties.copy(Blocks.IRON_BLOCK)));
+    public static final Block B_ENCHANT_LIGHT = reg("enchant_light_block", new Block(AbstractBlock.Properties.copy(Blocks.IRON_BLOCK)));
+    public static final Block B_ANTI_MAGIC_METAL = reg("anti_magic_metal_block", new Block(AbstractBlock.Properties.copy(Blocks.IRON_BLOCK)));
+    public static final Block B_LIGHT_ALLOY = reg("light_alloy_block", new Block(AbstractBlock.Properties.copy(Blocks.IRON_BLOCK)));
+    public static final Block B_ANTI_MAGIC_ALLOY = reg("anti_magic_alloy_block", new Block(AbstractBlock.Properties.copy(Blocks.IRON_BLOCK)));
     public static final TempBlock TEMP_DIRT = reg("temp_dirt", new TempBlock(AbstractBlock.Properties.copy(Blocks.DIRT).noDrops()));
     public static final TempBlock TEMP_COBBLE = reg("temp_cobblestone", new TempBlock(AbstractBlock.Properties.copy(Blocks.COBBLESTONE).noDrops()));
     public static final BaseBlock B_RITUAL_CORE = reg("ritual_core", BaseBlock.newBaseBlock(PEDESTAL, RitualCore.ACTIVATE, RitualCore.CLICK, BlockProxy.TRIGGER, (STE) RitualCore.TE::new));
@@ -55,6 +62,7 @@ public class MagicItemRegistry {
     public static final Item ENCHANT_GOLD_NUGGET = regItem("enchant_gold_nugget", p -> new ManaStorage(p, Items.GOLD_NUGGET, MANA));
     public static final Item ENCHANT_GOLD_INGOT = regItem("enchant_gold_ingot", p -> new ManaStorage(p, Items.GOLD_INGOT, MANA * 9));
     public static final Item ENCHANT_ALLOY_INGOT = regItem("enchant_alloy_ingot", FoiledItem::new);
+    public static final Item PERMANENCE_IRON_INGOT = regItem("permanence_iron_ingot", FoiledItem::new);
     public static final Item ENCHANT_LIGHT_INGOT = regItem("enchant_light_ingot", FoiledItem::new);
     public static final Item ANTI_MAGIC_METAL = regItem("anti_magic_metal_ingot", Item::new);
     public static final Item LIGHT_ALLOY = regItem("light_alloy_ingot", Item::new);
@@ -83,6 +91,14 @@ public class MagicItemRegistry {
     public static final AntiMagicArmor[] CLOTH_ARMOR = regArmor("enchant_cloth_", (s, p) -> new AntiMagicArmor(AntiMagicArmorMaterial.CLOTH, s, p), new AntiMagicArmor[4]);
     public static final AntiMagicArmor[] CLOTH_CHAIN = regArmor("enchant_chain_", (s, p) -> new AntiMagicArmor(AntiMagicArmorMaterial.CHAIN, s, p), new AntiMagicArmor[4]);
 
+    
+    public static final BlockItem I_ENCHANT_GOLD = regBlockItem(B_ENCHANT_GOLD);
+    public static final BlockItem I_ENCHANT_ALLOY = regBlockItem(B_ENCHANT_ALLOY);
+    public static final BlockItem I_PERMANENCE_IRON = regBlockItem(B_PERMANENCE_IRON);
+    public static final BlockItem I_ENCHANT_LIGHT = regBlockItem(B_ENCHANT_LIGHT);
+    public static final BlockItem I_ANTI_MAGIC_METAL = regBlockItem(B_ANTI_MAGIC_METAL);
+    public static final BlockItem I_LIGHT_ALLOY = regBlockItem(B_LIGHT_ALLOY);
+    public static final BlockItem I_ANTI_MAGIC_ALLOY = regBlockItem(B_ANTI_MAGIC_ALLOY);
     public static final BlockItem I_RITUAL_CORE = regBlockItem(B_RITUAL_CORE);
     public static final BlockItem I_RITUAL_SIDE = regBlockItem(B_RITUAL_SIDE);
     public static final BlockItem I_ANVIL = regBlockItem(B_ANVIL);

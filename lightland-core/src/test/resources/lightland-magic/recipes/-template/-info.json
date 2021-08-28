@@ -1,0 +1,69 @@
+{
+    "merge": {
+        "enchant_gold_ingot_by_merge": {
+            "a": "lightland-magic:enchant_gold_nugget",
+            "b": "lightland-magic:enchant_gold_ingot"
+        },
+        "enchant_gold_block_by_merge": {
+            "a": "lightland-magic:enchant_gold_ingot",
+            "b": "lightland-magic:enchant_gold_block"
+        },
+        "enchant_alloy_block_by_merge": {
+            "a": "lightland-magic:enchant_alloy_ingot",
+            "b": "lightland-magic:enchant_alloy_block"
+        },
+        "enchant_light_block_by_merge": {
+            "a": "lightland-magic:enchant_light_ingot",
+            "b": "lightland-magic:enchant_light_block"
+        },
+        "light_alloy_block_by_merge": {
+            "a": "lightland-magic:light_alloy_ingot",
+            "b": "lightland-magic:light_alloy_block"
+        },
+        "permanence_iron_block_by_merge": {
+            "a": "lightland-magic:permanence_iron_ingot",
+            "b": "lightland-magic:permanence_iron_block"
+        },
+        "anti_magic_metal_block_by_merge": {
+            "a": "lightland-magic:anti_magic_metal_ingot",
+            "b": "lightland-magic:anti_magic_metal_block"
+        },
+        "anti_magic_alloy_block_by_merge": {
+            "a": "lightland-magic:anti_magic_alloy_ingot",
+            "b": "lightland-magic:anti_magic_alloy_block"
+        }
+    },"split": {
+        "enchant_gold_nugget_by_split": {
+            "a": "lightland-magic:enchant_gold_nugget",
+            "b": "lightland-magic:enchant_gold_ingot"
+        },
+        "enchant_gold_ingot_by_split": {
+            "a": "lightland-magic:enchant_gold_ingot",
+            "b": "lightland-magic:enchant_gold_block"
+        },
+        "enchant_alloy_ingot_by_split": {
+            "a": "lightland-magic:enchant_alloy_ingot",
+            "b": "lightland-magic:enchant_alloy_block"
+        },
+        "enchant_light_ingot_by_split": {
+            "a": "lightland-magic:enchant_light_ingot",
+            "b": "lightland-magic:enchant_light_block"
+        },
+        "light_alloy_ingot_by_split": {
+            "a": "lightland-magic:light_alloy_ingot",
+            "b": "lightland-magic:light_alloy_block"
+        },
+        "permanence_iron_ingot_by_split": {
+            "a": "lightland-magic:permanence_iron_ingot",
+            "b": "lightland-magic:permanence_iron_block"
+        },
+        "anti_magic_metal_ingot_by_split": {
+            "a": "lightland-magic:anti_magic_metal_ingot",
+            "b": "lightland-magic:anti_magic_metal_block"
+        },
+        "anti_magic_alloy_ingot_by_split": {
+            "a": "lightland-magic:anti_magic_alloy_ingot",
+            "b": "lightland-magic:anti_magic_alloy_block"
+        }
+    }
+}

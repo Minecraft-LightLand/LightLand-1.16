@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "lightland-magic:enchant_gold_block"
+    }
+  ],
+  "result": {
+    "item": "lightland-magic:enchant_gold_ingot",
+    "count": 9
+  }
+}
+

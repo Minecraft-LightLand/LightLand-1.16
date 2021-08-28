@@ -2,11 +2,12 @@
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
     {
-      "item": "lightland-magic:enchant_gold_ingot"
+      "item": "lightland-magic:anti_magic_alloy_block"
     }
   ],
   "result": {
-    "item": "lightland-magic:enchant_gold_nugget",
+    "item": "lightland-magic:anti_magic_alloy_ingot",
     "count": 9
   }
 }
+
