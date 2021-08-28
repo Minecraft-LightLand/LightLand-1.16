@@ -1,7 +1,8 @@
 {
   "compatibilityLevel": "JAVA_8",
-  "package": "com.hikarishima.lightland.magic.mixin",
+  "package": "com.hikarishima.lightland.magic.compat.mixin",
   "mixins": [
+    "AnvilBlockMixin"
   ],
   "client": [
     "MainMenuScreenMixin"

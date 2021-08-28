@@ -48,6 +48,7 @@ subprojects {
             classpath("net.minecraftforge.gradle:ForgeGradle:4.1.+") {
                 isChanging = true
             }
+            classpath("org.spongepowered:mixingradle:0.7-SNAPSHOT")
         }
     }
 }

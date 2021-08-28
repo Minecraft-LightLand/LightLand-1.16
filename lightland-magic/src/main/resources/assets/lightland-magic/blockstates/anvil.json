@@ -1,0 +1,9 @@
+{
+    "variants": {
+        "facing=south": { "model": "lightland-magic:block/anvil" },
+        "facing=west": { "model": "lightland-magic:block/anvil", "y": 90 },
+        "facing=north": { "model": "lightland-magic:block/anvil", "y": 180 },
+        "facing=east": { "model": "lightland-magic:block/anvil", "y": 270 }
+    }
+}
+

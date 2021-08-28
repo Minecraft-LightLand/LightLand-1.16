@@ -10,8 +10,12 @@ apply(plugin = "org.spongepowered.mixin")
 
 configureForge {
     runs {
-        createClient("clientMagic", project)
-        createServer("serverMagic", project)
+        createClient("clientMagic", project) {
+            arg("-mixin.config=lightland-magic.mixins.json")
+        }
+        createServer("serverMagic", project) {
+            arg("-mixin.config=lightland-magic.mixins.json")
+        }
     }
 }
 
