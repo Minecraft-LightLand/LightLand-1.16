@@ -71,10 +71,10 @@ public class MagicCraftRecipeCategory implements IRecipeCategory<MagicCraftRecip
     @Override
     public void setIngredients(MagicCraftRecipe sl, IIngredients list) {
         List<Ingredient> input = new ArrayList<>();
-        input.add(sl.core.input);
+        input.add(Ingredient.of(sl.core.input));
         for (MagicCraftRecipe.Entry ent : sl.side) {
             if (!ent.input.isEmpty()) {
-                input.add(ent.input);
+                input.add(Ingredient.of(ent.input));
             }
         }
         list.setInputIngredients(input);
@@ -90,8 +90,7 @@ public class MagicCraftRecipeCategory implements IRecipeCategory<MagicCraftRecip
 
     @Override
     public void setRecipe(IRecipeLayout layout, MagicCraftRecipe sl, IIngredients list) {
-        List<MagicCraftRecipe.Entry> entry = new ArrayList<>();
-        entry.addAll(sl.side);
+        List<MagicCraftRecipe.Entry> entry = new ArrayList<>(sl.side);
         while (entry.size() < 8) {
             entry.add(new MagicCraftRecipe.Entry());
         }
@@ -100,10 +99,10 @@ public class MagicCraftRecipeCategory implements IRecipeCategory<MagicCraftRecip
         int in = 0;
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
-                Ingredient item = entry.get(i * 3 + j).input;
+                ItemStack item = entry.get(i * 3 + j).input;
                 if (!item.isEmpty())
                     set(layout.getItemStacks(),
-                            Lists.newArrayList(item.getItems()),
+                            Collections.singletonList(item),
                             in++, true, j * 18, i * 18);
             }
         }
@@ -111,9 +110,10 @@ public class MagicCraftRecipeCategory implements IRecipeCategory<MagicCraftRecip
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
                 ItemStack item = entry.get(i * 3 + j).output;
-                set(layout.getItemStacks(),
-                        Collections.singletonList(item),
-                        out++, false, 90 + j * 18, i * 18);
+                if (!item.isEmpty())
+                    set(layout.getItemStacks(),
+                            Collections.singletonList(item),
+                            out++, false, 90 + j * 18, i * 18);
             }
         }
     }

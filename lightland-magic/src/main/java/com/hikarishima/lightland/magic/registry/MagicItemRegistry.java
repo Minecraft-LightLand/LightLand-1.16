@@ -91,7 +91,6 @@ public class MagicItemRegistry {
     public static final AntiMagicArmor[] CLOTH_ARMOR = regArmor("enchant_cloth_", (s, p) -> new AntiMagicArmor(AntiMagicArmorMaterial.CLOTH, s, p), new AntiMagicArmor[4]);
     public static final AntiMagicArmor[] CLOTH_CHAIN = regArmor("enchant_chain_", (s, p) -> new AntiMagicArmor(AntiMagicArmorMaterial.CHAIN, s, p), new AntiMagicArmor[4]);
 
-    
     public static final BlockItem I_ENCHANT_GOLD = regBlockItem(B_ENCHANT_GOLD);
     public static final BlockItem I_ENCHANT_ALLOY = regBlockItem(B_ENCHANT_ALLOY);
     public static final BlockItem I_PERMANENCE_IRON = regBlockItem(B_PERMANENCE_IRON);

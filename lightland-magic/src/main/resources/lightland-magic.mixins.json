@@ -2,7 +2,8 @@
   "compatibilityLevel": "JAVA_8",
   "package": "com.hikarishima.lightland.magic.compat.mixin",
   "mixins": [
-    "AnvilBlockMixin"
+    "AnvilBlockMixin",
+    "ShapedRecipeMixin"
   ],
   "client": [
   ],
