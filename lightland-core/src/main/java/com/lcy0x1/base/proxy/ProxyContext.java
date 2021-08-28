@@ -2,7 +2,9 @@ package com.lcy0x1.base.proxy;
 
 import com.lcy0x1.base.proxy.handler.ProxyHandler;
 import lombok.Data;
+import lombok.extern.log4j.Log4j2;
 import net.minecraft.block.Block;
+import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -10,6 +12,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.concurrent.atomic.AtomicInteger;
 
+@Log4j2
 public class ProxyContext {
     private static final AtomicInteger keyIdGenerator = new AtomicInteger();
     private static final ThreadLocal<ProxyContext> localProxyContext = new ThreadLocal<>();
@@ -21,6 +24,7 @@ public class ProxyContext {
     public static final Key<Boolean> cacheFirstProxyMethod = new Key<>();
     public static final Key<Collection<? extends Class<?>>> classes = new Key<>();
     public static final Key<Object> pre = new ProxyContext.Key<>(); // pre proxy return
+    public static final Key<Logger> loggerKey = new Key<>();
 
     public static final Key<Block> block = new Key<Block>(proxy) {
         @Override
@@ -33,6 +37,14 @@ public class ProxyContext {
             }
         }
     };
+
+    @Override
+    public String toString() {
+        return "ProxyContext{" +
+            "parent=" + parent +
+            ", context=" + Arrays.toString(context) +
+            '}';
+    }
 
     @Data
     public static class Key<T> {
@@ -125,7 +137,7 @@ public class ProxyContext {
 
     @Nullable
     public <T> T get(@Nullable Key<T> key) {
-        if (key == null || context == null) {
+        if (key == null) {
             return null;
         }
         return key.get(this);
@@ -133,7 +145,7 @@ public class ProxyContext {
 
     @Nullable
     public <T> T getAndRemove(@Nullable Key<T> key) {
-        if (key == null || context == null) {
+        if (key == null) {
             return null;
         }
         T t = key.get(this);
@@ -146,13 +158,17 @@ public class ProxyContext {
     @SuppressWarnings("unchecked")
     @Nullable
     public <T> T get(int id) {
+        T t;
         if (context == null || id >= context.length) {
-            return null;
+            t = null;
+        } else {
+            t = (T) context[id];
         }
 
-        T t = (T) context[id];
+        //log.debug("get {} by this: {}", id, t);
         if (t == null && parent != null) {
             t = parent.get(id);
+            //log.debug("get {} by parent: {}", id, t);
         }
         return t;
     }

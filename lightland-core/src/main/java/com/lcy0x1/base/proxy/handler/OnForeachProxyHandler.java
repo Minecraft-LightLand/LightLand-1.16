@@ -33,6 +33,8 @@ public class OnForeachProxyHandler implements OnProxy {
         final ProxyContext subContext = context.getSubContext();
         final ProxyMethodContainer<?> proxyContainer = o.getProxyContainer();
 
+        //log.info("onProxy:\n\tForEachProxy: {}\n\tproxy: {},\n\tmethod: {},\n\targs: {},\n\tmethodProxy: {}\n\tcontext: {}",
+        //    forEachProxy, o, m, a, p, context);
         Result<?> result = noNeedUseCache(proxyContainer, subContext, o, m, a, p);
         if (result != null) {
             return result;
@@ -128,9 +130,7 @@ public class OnForeachProxyHandler implements OnProxy {
                 });
                 return r.getValue();
             default:
-                proxyMethods.forEachProxy(proxyMethod -> {
-                    call(proxyMethod, o, m, a, p, c);
-                });
+                proxyMethods.forEachProxy(proxyMethod -> call(proxyMethod, o, m, a, p, c));
                 return Result.failed();
         }
     }

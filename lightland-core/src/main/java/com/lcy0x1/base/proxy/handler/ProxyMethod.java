@@ -10,6 +10,8 @@ import com.lcy0x1.base.proxy.container.WithinProxyContextConfig;
 import lombok.Getter;
 import net.sf.cglib.proxy.MethodProxy;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Method;
@@ -18,6 +20,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 public interface ProxyMethod extends ProxyHandler {
+    Logger log = LogManager.getLogger(ProxyMethod.class);
     ProxyMethod failed = new ProxyMethod() {
         @Override
         public Result<?> onProxy(Proxy<?> obj, Method method, Object[] args, MethodProxy proxy, ProxyContext context) throws Throwable {
@@ -57,6 +60,8 @@ public interface ProxyMethod extends ProxyHandler {
     @SuppressWarnings("unused")
     @NotNull
     default ProxyHandler getHandler(Object obj, Method method, Object[] args, MethodProxy proxy, ProxyContext context) throws Throwable {
+        //log.info("getHandler(obj={}, method={}, args={}, proxy={}, context={})",
+        //    obj, method, args, proxy, context);
         final Collection<? extends Class<?>> classes = context.get(ProxyContext.classes);
         if (classes != null && !classes.isEmpty() && classes.stream().noneMatch(c -> c.isInstance(this))) {
             return ProxyHandler.failed;
@@ -67,12 +72,16 @@ public interface ProxyMethod extends ProxyHandler {
             methodName = method.getName();
         }
 
+        //log.info("load method {} by {}", methodName, getClass());
+
         // get method by ReflectASM
         try {
             final MethodAccess methodAccess = Reflections.getMethodAccess(getClass());
             final int index = methodAccess.getIndex(methodName, method.getParameterTypes());
+            //log.info("load MethodAccess index: {}", index);
             return (obj1, method1, args1, proxy1, context1) -> Result.of(methodAccess.invoke(this, index, args1));
         } catch (Exception ignored) {
+            //log.warn("an exception caused on get MethodAccess", ignored);
         }
 
         // get method by java reflect
@@ -81,6 +90,7 @@ public interface ProxyMethod extends ProxyHandler {
             declaredMethod.setAccessible(true);
             return (obj1, method1, args1, proxy1, context1) -> Result.of(declaredMethod.invoke(this, args1));
         } catch (Exception ignored) {
+            //log.warn("an exception caused on get Method", ignored);
         }
 
         return ProxyHandler.failed;

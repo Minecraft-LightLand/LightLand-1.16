@@ -126,7 +126,7 @@ public class ProxyBaseBlock extends BaseBlock implements Proxy<IImpl> {
     @Override
     @ForFirstProxy(value = IClick.class, name = "onClick", cache = false)
     public ActionResultType use(BlockState bs, World w, BlockPos pos, PlayerEntity pl, Hand h, BlockRayTraceResult r) {
-        log.warn("this class: {}, stack trace: ", getClass(), new Throwable());
+        //log.warn("this class: {}, stack trace: ", getClass(), new Throwable());
         return ActionResultType.PASS;
     }
 
