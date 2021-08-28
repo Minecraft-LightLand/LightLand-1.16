@@ -1,9 +1,11 @@
 package com.hikarishima.lightland.magic.recipe;
 
 import com.hikarishima.lightland.magic.registry.block.RitualCore;
+import com.lcy0x1.base.BaseRecipe;
 import com.lcy0x1.core.util.SerialClass;
 import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 
@@ -16,7 +18,8 @@ import java.util.stream.Collectors;
 @MethodsReturnNonnullByDefault
 @ParametersAreNonnullByDefault
 @SerialClass
-public class ShapelessCraftRecipe extends IMagicCraftRecipe<ShapelessCraftRecipe> {
+public class MagicCraftRecipe extends BaseRecipe<MagicCraftRecipe, MagicCraftRecipe, RitualCore.Inv> {
+
 
     @SerialClass.SerialField
     public Entry core;
@@ -25,8 +28,8 @@ public class ShapelessCraftRecipe extends IMagicCraftRecipe<ShapelessCraftRecipe
     public ArrayList<Entry> side;
 
 
-    public ShapelessCraftRecipe(ResourceLocation id) {
-        super(id, MagicRecipeRegistry.RSM_SHAPELESS);
+    public MagicCraftRecipe(ResourceLocation id) {
+        super(id, MagicRecipeRegistry.RSM_CRAFT);
     }
 
     @Override
@@ -70,8 +73,24 @@ public class ShapelessCraftRecipe extends IMagicCraftRecipe<ShapelessCraftRecipe
     }
 
     @Override
+    public boolean canCraftInDimensions(int r, int c) {
+        return true;
+    }
+
+    @Override
     public ItemStack getResultItem() {
         return core.output;
+    }
+
+    @SerialClass
+    public static class Entry {
+
+        @SerialClass.SerialField
+        public Ingredient input = Ingredient.EMPTY;
+
+        @SerialClass.SerialField
+        public ItemStack output = ItemStack.EMPTY;
+
     }
 
 }

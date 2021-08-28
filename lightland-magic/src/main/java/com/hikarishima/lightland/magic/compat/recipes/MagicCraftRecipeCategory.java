@@ -4,8 +4,7 @@ import com.google.common.collect.Lists;
 import com.hikarishima.lightland.config.StringSubstitution;
 import com.hikarishima.lightland.magic.LightLandMagic;
 import com.hikarishima.lightland.magic.Translator;
-import com.hikarishima.lightland.magic.recipe.IMagicCraftRecipe;
-import com.hikarishima.lightland.magic.recipe.ShapelessCraftRecipe;
+import com.hikarishima.lightland.magic.recipe.MagicCraftRecipe;
 import com.hikarishima.lightland.magic.registry.MagicItemRegistry;
 import mcp.MethodsReturnNonnullByDefault;
 import mezz.jei.api.constants.VanillaTypes;
@@ -26,7 +25,7 @@ import java.util.List;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public class MagicCraftRecipeCategory implements IRecipeCategory<IMagicCraftRecipe<?>> {
+public class MagicCraftRecipeCategory implements IRecipeCategory<MagicCraftRecipe> {
 
     private static final ResourceLocation BG = new ResourceLocation(LightLandMagic.MODID, "textures/jei/background.png");
 
@@ -51,7 +50,7 @@ public class MagicCraftRecipeCategory implements IRecipeCategory<IMagicCraftReci
     @SuppressWarnings({"unchecked", "rawtypes"})
     @Override
     public Class getRecipeClass() {
-        return IMagicCraftRecipe.class;
+        return MagicCraftRecipe.class;
     }
 
     @Override
@@ -70,40 +69,34 @@ public class MagicCraftRecipeCategory implements IRecipeCategory<IMagicCraftReci
     }
 
     @Override
-    public void setIngredients(IMagicCraftRecipe<?> r, IIngredients list) {
-        if (r instanceof ShapelessCraftRecipe) {
-            ShapelessCraftRecipe sl = (ShapelessCraftRecipe) r;
-            List<Ingredient> input = new ArrayList<>();
-            input.add(sl.core.input);
-            for (IMagicCraftRecipe.Entry ent : sl.side) {
-                if (!ent.input.isEmpty()) {
-                    input.add(ent.input);
-                }
+    public void setIngredients(MagicCraftRecipe sl, IIngredients list) {
+        List<Ingredient> input = new ArrayList<>();
+        input.add(sl.core.input);
+        for (MagicCraftRecipe.Entry ent : sl.side) {
+            if (!ent.input.isEmpty()) {
+                input.add(ent.input);
             }
-            list.setInputIngredients(input);
-            List<ItemStack> output = new ArrayList<>();
-            output.add(sl.core.output);
-            for (IMagicCraftRecipe.Entry ent : sl.side) {
-                if (!ent.output.isEmpty()) {
-                    output.add(ent.output);
-                }
-            }
-            list.setOutputs(VanillaTypes.ITEM, output);
         }
-        //TODO shaped
+        list.setInputIngredients(input);
+        List<ItemStack> output = new ArrayList<>();
+        output.add(sl.core.output);
+        for (MagicCraftRecipe.Entry ent : sl.side) {
+            if (!ent.output.isEmpty()) {
+                output.add(ent.output);
+            }
+        }
+        list.setOutputs(VanillaTypes.ITEM, output);
     }
 
     @Override
-    public void setRecipe(IRecipeLayout layout, IMagicCraftRecipe<?> r, IIngredients list) {
-        List<IMagicCraftRecipe.Entry> entry = new ArrayList<>();
-        if (r instanceof ShapelessCraftRecipe) {
-            ShapelessCraftRecipe sl = (ShapelessCraftRecipe) r;
-            entry.addAll(sl.side);
-            while (entry.size() < 8) {
-                entry.add(new IMagicCraftRecipe.Entry());
-            }
-            entry.add(4, sl.core);
+    public void setRecipe(IRecipeLayout layout, MagicCraftRecipe sl, IIngredients list) {
+        List<MagicCraftRecipe.Entry> entry = new ArrayList<>();
+        entry.addAll(sl.side);
+        while (entry.size() < 8) {
+            entry.add(new MagicCraftRecipe.Entry());
         }
+        entry.add(4, sl.core);
+
         int in = 0;
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {

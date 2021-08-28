@@ -1,6 +1,6 @@
 package com.hikarishima.lightland.magic.registry.block;
 
-import com.hikarishima.lightland.magic.recipe.IMagicCraftRecipe;
+import com.hikarishima.lightland.magic.recipe.MagicCraftRecipe;
 import com.hikarishima.lightland.magic.recipe.MagicRecipeRegistry;
 import com.hikarishima.lightland.magic.registry.MagicContainerRegistry;
 import com.hikarishima.lightland.magic.registry.item.magic.MagicWand;
@@ -88,7 +88,7 @@ public class RitualCore {
     @SerialClass
     public static class TE extends RitualTE implements ITickableTileEntity {
 
-        public IMagicCraftRecipe<?> recipe = null;
+        public MagicCraftRecipe recipe = null;
 
         @SerialClass.SerialField
         public int remainingTime = 0;
@@ -106,7 +106,7 @@ public class RitualCore {
                 return;
             }
             Inv inv = new Inv(this, list);
-            Optional<IMagicCraftRecipe<?>> r = level.getRecipeManager().getRecipeFor(MagicRecipeRegistry.RT_CRAFT, inv, level);
+            Optional<MagicCraftRecipe> r = level.getRecipeManager().getRecipeFor(MagicRecipeRegistry.RT_CRAFT, inv, level);
             r.ifPresent(e -> {
                 recipe = e;
                 remainingTime = 200;
@@ -139,7 +139,7 @@ public class RitualCore {
             List<RitualSide.TE> list = getSide();
             if (list.size() == 8 && recipe == null) {
                 Inv inv = new Inv(this, list);
-                Optional<IMagicCraftRecipe<?>> r = level.getRecipeManager().getRecipeFor(MagicRecipeRegistry.RT_CRAFT, inv, level);
+                Optional<MagicCraftRecipe> r = level.getRecipeManager().getRecipeFor(MagicRecipeRegistry.RT_CRAFT, inv, level);
                 if (r.isPresent()) {
                     recipe = r.get();
                 } else {
@@ -182,7 +182,7 @@ public class RitualCore {
 
     }
 
-    public static class Inv implements BaseRecipe.RecInv<IMagicCraftRecipe<?>> {
+    public static class Inv implements BaseRecipe.RecInv<MagicCraftRecipe> {
 
         private final RitualCore.TE core;
         private final List<RitualSide.TE> sides;
