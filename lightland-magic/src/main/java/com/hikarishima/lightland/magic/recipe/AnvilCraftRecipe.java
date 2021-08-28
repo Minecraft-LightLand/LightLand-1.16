@@ -36,8 +36,12 @@ public class AnvilCraftRecipe extends BaseRecipe<AnvilCraftRecipe, AnvilCraftRec
         ItemStack left = event.getLeft();
         ItemStack right = event.getRight();
         if (left.getItem() == input && right.getItem() == consume.getItem() && right.getCount() > consume.getCount()) {
-            int count = max * input.getMaxDamage(left) / input.getDamage(left);
-            return count > 0;
+            int max_damage = input.getMaxDamage(left);
+            if (max_damage > 0) {
+                int damage = max_damage - input.getDamage(left);
+                int count = max * damage / max_damage;
+                return count > 0;
+            }
         }
         return false;
     }
@@ -46,11 +50,15 @@ public class AnvilCraftRecipe extends BaseRecipe<AnvilCraftRecipe, AnvilCraftRec
         ItemStack left = event.getLeft();
         ItemStack right = event.getRight();
         if (left.getItem() == input && right.getItem() == consume.getItem() && right.getCount() > consume.getCount()) {
-            int count = max * input.getMaxDamage(left) / input.getDamage(left);
-            if (count>0) {
-                event.setOutput(new ItemStack(output, count));
-                event.setMaterialCost(consume.getCount());
-                event.setCost(level);
+            int max_damage = input.getMaxDamage(left);
+            if (max_damage > 0) {
+                int damage = max_damage - input.getDamage(left);
+                int count = max * damage / max_damage;
+                if (count > 0) {
+                    event.setOutput(new ItemStack(output, count));
+                    event.setMaterialCost(consume.getCount());
+                    event.setCost(level);
+                }
             }
         }
     }
