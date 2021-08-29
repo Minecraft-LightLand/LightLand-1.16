@@ -1,0 +1,12 @@
+{
+    "type": "lightland-magic:anvil",
+    "input": "lightland-magic:anti_magic_alloy_sword",
+    "output": "lightland-magic:anti_magic_alloy_ingot",
+    "max": 2,
+    "level": 2,
+    "consume": {
+        "item": "minecraft:flint",
+        "count": 2
+    }
+}
+

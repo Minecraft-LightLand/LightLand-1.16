@@ -15,6 +15,9 @@ repositories {
     maven {
         url = uri("https://nvm.tursom.cn/repository/maven-public/")
     }
+    maven {
+        url = uri("https://repo.spongepowered.org/maven")
+    }
 }
 
 allprojects {
@@ -25,6 +28,9 @@ allprojects {
         maven {
             url = uri("https://nvm.tursom.cn/repository/maven-public/")
         }
+        maven {
+            url = uri("https://repo.spongepowered.org/maven")
+        }
     }
 }
 
@@ -34,11 +40,15 @@ subprojects {
             maven {
                 url = uri("https://nvm.tursom.cn/repository/maven-public/")
             }
+            maven {
+                url = uri("https://repo.spongepowered.org/maven")
+            }
         }
         dependencies {
             classpath("net.minecraftforge.gradle:ForgeGradle:4.1.+") {
                 isChanging = true
             }
+            classpath("org.spongepowered:mixingradle:0.7-SNAPSHOT")
         }
     }
 }

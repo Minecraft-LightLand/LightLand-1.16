@@ -1,6 +1,5 @@
 package com.hikarishima.lightland.magic.compat.jei.recipes;
 
-import com.google.common.collect.Lists;
 import com.hikarishima.lightland.config.StringSubstitution;
 import com.hikarishima.lightland.magic.LightLandMagic;
 import com.hikarishima.lightland.magic.Translator;
@@ -71,10 +70,10 @@ public class MagicCraftRecipeCategory implements IRecipeCategory<MagicCraftRecip
     @Override
     public void setIngredients(MagicCraftRecipe sl, IIngredients list) {
         List<Ingredient> input = new ArrayList<>();
-        input.add(sl.core.input);
+        input.add(Ingredient.of(sl.core.input));
         for (MagicCraftRecipe.Entry ent : sl.side) {
             if (!ent.input.isEmpty()) {
-                input.add(ent.input);
+                input.add(Ingredient.of(ent.input));
             }
         }
         list.setInputIngredients(input);
@@ -90,8 +89,7 @@ public class MagicCraftRecipeCategory implements IRecipeCategory<MagicCraftRecip
 
     @Override
     public void setRecipe(IRecipeLayout layout, MagicCraftRecipe sl, IIngredients list) {
-        List<MagicCraftRecipe.Entry> entry = new ArrayList<>();
-        entry.addAll(sl.side);
+        List<MagicCraftRecipe.Entry> entry = new ArrayList<>(sl.side);
         while (entry.size() < 8) {
             entry.add(new MagicCraftRecipe.Entry());
         }
@@ -100,17 +98,21 @@ public class MagicCraftRecipeCategory implements IRecipeCategory<MagicCraftRecip
         int in = 0;
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
-                set(layout.getItemStacks(),
-                        Lists.newArrayList(entry.get(i * 3 + j).input.getItems()),
-                        in++, true, j * 18, i * 18);
+                ItemStack item = entry.get(i * 3 + j).input;
+                if (!item.isEmpty())
+                    set(layout.getItemStacks(),
+                            Collections.singletonList(item),
+                            in++, true, j * 18, i * 18);
             }
         }
-        int out = 0;
+        int out = in;
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
-                set(layout.getItemStacks(),
-                        Collections.singletonList(entry.get(i * 3 + j).output),
-                        out++, false, 90 + j * 18, i * 18);
+                ItemStack item = entry.get(i * 3 + j).output;
+                if (!item.isEmpty())
+                    set(layout.getItemStacks(),
+                            Collections.singletonList(item),
+                            out++, false, 90 + j * 18, i * 18);
             }
         }
     }

@@ -1,0 +1,7 @@
+{
+    "parent": "block/cube_all",
+    "textures": {
+        "all": "lightland-magic:block/anti_magic_alloy_block"
+    }
+}
+

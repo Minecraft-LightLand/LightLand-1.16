@@ -97,8 +97,8 @@ public class ListProxyHandler<T extends ProxyHandler> implements ProxyMethodCont
     @Override
     public String toString() {
         return "ListProxyHandler{" +
-            "proxyList=" + proxyList +
-            ", lastModify=" + lastModify +
-            '}';
+                "proxyList=" + proxyList +
+                ", lastModify=" + lastModify +
+                '}';
     }
 }

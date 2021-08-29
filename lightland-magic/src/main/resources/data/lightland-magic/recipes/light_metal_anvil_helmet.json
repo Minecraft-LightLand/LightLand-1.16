@@ -1,0 +1,12 @@
+{
+    "type": "lightland-magic:anvil",
+    "input": "lightland-magic:light_metal_helmet",
+    "output": "lightland-magic:light_metal_ingot",
+    "max": 5,
+    "level": 5,
+    "consume": {
+        "item": "minecraft:flint",
+        "count": 5
+    }
+}
+

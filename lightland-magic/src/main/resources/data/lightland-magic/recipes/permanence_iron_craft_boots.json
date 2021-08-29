@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "b b",
+    "b b"
+  ],
+  "key": {
+    "b": {
+      "item": "lightland-magic:permanence_iron_ingot"
+    }
+  },
+  "result": {
+    "item": "lightland-magic:permanence_iron_boots"
+  }
+}
+

@@ -1,0 +1,77 @@
+{
+    "type": "lightland-magic:craft_shapeless",
+    "core": {
+        "input": {
+            "item": "lightland-magic:enchant_alloy_ingot"
+        },
+        "output": {
+            "item": "lightland-magic:permanence_iron_ingot"
+        }
+    },
+    "side": [
+        {
+            "input": {
+                "enchant_book": {
+                    "id": "minecraft:mending",
+                    "lvl": 1
+                }
+            }
+        },
+        {
+            "input": {
+                "item": "minecraft:iron_ingot"
+            },
+            "output": {
+                "item": "lightland-magic:permanence_iron_ingot"
+            }
+        },
+        {
+            "input": {
+                "enchant_book": {
+                    "id": "minecraft:infinity",
+                    "lvl": 1
+                }
+            }
+        },
+        {
+            "input": {
+                "item": "minecraft:iron_ingot"
+            },
+            "output": {
+                "item": "lightland-magic:permanence_iron_ingot"
+            }
+        },
+        {
+            "input": {
+                "item": "minecraft:iron_ingot"
+            },
+            "output": {
+                "item": "lightland-magic:permanence_iron_ingot"
+            }
+        },
+        {
+            "input": {
+                "enchant_book": {
+                    "id": "minecraft:infinity",
+                    "lvl": 1
+                }
+            }
+        },
+        {
+            "input": {
+                "item": "minecraft:iron_ingot"
+            },
+            "output": {
+                "item": "lightland-magic:permanence_iron_ingot"
+            }
+        },
+        {
+            "input": {
+                "enchant_book": {
+                    "id": "minecraft:mending",
+                    "lvl": 1
+                }
+            }
+        }
+    ]
+}

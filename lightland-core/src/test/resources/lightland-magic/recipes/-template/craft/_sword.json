@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "b",
+    "b",
+    "a"
+  ],
+  "key": {
+    "b": {
+      "item": "^a"
+    },
+    "a": {
+      "item": "minecraft:stick"
+    }
+  },
+  "result": {
+    "item": "^b_sword"
+  }
+}

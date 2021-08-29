@@ -10,7 +10,7 @@ public interface IArcaneItem extends IGlowingTarget {
     int getMaxMana(ItemStack stack);
 
     @OnlyIn(Dist.CLIENT)
-    default int getDistance(ItemStack stack){
+    default int getDistance(ItemStack stack) {
         return 64;
     }
 

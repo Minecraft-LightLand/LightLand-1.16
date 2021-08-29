@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "bbb",
+    "bbb",
+    "bbb"
+  ],
+  "key": {
+    "b": {
+      "item": "lightland-magic:enchant_alloy_ingot"
+    }
+  },
+  "result": {
+    "item": "lightland-magic:enchant_alloy_block"
+  }
+}
+

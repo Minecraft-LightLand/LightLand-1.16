@@ -126,7 +126,8 @@
   },
   "lightland-magic:container": {
     "disenchant": "附魔分解台",
-    "magic_craft": "魔法合成台",
+    "magic_craft": "魔法合成仪式",
+    "anvil_craft": "铁砧分解",
     "spell_craft": "符文合成台",
     "arcane_inject": "奥术注魔台",
     "chemistry": "炼药锅"
@@ -204,6 +205,7 @@
       "enchant_carrot": "魔力金胡萝卜",
       "enchant_apple": "魔力金苹果",
       "enchant_alloy_ingot": "魔导合金",
+      "permanence_iron_ingot": "永恒铁锭",
       "enchant_light_ingot": "轻质硬化魔导合金",
       "enchant_cloth": "蕴魔布",
       "enchant_chain": "硬化蕴魔布",
@@ -241,18 +243,34 @@
       "spell_scroll": "符文-卷轴",
       "gilded_wand": "镀金法杖",
       "record_pearl": "记录宝珠",
+      "anti_magic_alloy_block": "轻质硬化斥魔合金块",
+      "anti_magic_metal_block": "斥魔金属块",
+      "enchant_alloy_block": "魔导合金块",
+      "enchant_gold_block": "蓄魔金块",
+      "enchant_light_block": "轻质硬化魔导合金块",
+      "light_alloy_block": "轻质硬化惰性合金块",
+      "permanence_iron_block": "永恒铁块",
       "ritual_core": "仪式主台",
-      "ritual_side": "仪式基座"
+      "ritual_side": "仪式基座",
+      "anvil": "永恒铁砧"
     },
     "lightland-quest": {
       "quest_book": "任务书"
     }
   },
   "block.lightland-magic": {
+    "anti_magic_alloy_block": "轻质硬化斥魔合金块",
+    "anti_magic_metal_block": "斥魔金属块",
+    "enchant_alloy_block": "魔导合金块",
+    "enchant_gold_block": "蓄魔金块",
+    "enchant_light_block": "轻质硬化魔导合金块",
+    "light_alloy_block": "轻质硬化惰性合金块",
+    "permanence_iron_block": "永恒铁块",
     "temp_dirt": "泥土",
     "temp_cobblestone": "圆石",
     "ritual_core": "仪式主台",
-    "ritual_side": "仪式基座"
+    "ritual_side": "仪式基座",
+    "anvil": "永恒铁砧"
   },
   "itemGroup.lightland-core": "Lightland",
   "generator.lightland-terrain.image_biome": "地图生成器"

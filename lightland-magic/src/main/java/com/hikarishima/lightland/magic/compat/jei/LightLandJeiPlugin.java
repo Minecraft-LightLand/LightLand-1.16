@@ -4,6 +4,7 @@ import com.hikarishima.lightland.magic.LightLandMagic;
 import com.hikarishima.lightland.magic.MagicRegistry;
 import com.hikarishima.lightland.magic.chem.HashEquationPool;
 import com.hikarishima.lightland.magic.compat.jei.ingredients.*;
+import com.hikarishima.lightland.magic.compat.jei.recipes.AnvilCraftRecipeCategory;
 import com.hikarishima.lightland.magic.compat.jei.recipes.ChemRecipeCategory;
 import com.hikarishima.lightland.magic.compat.jei.recipes.DisEnchanterRecipeCategory;
 import com.hikarishima.lightland.magic.compat.jei.recipes.MagicCraftRecipeCategory;
@@ -20,10 +21,13 @@ import com.hikarishima.lightland.recipe.ConfigRecipe;
 import mcp.MethodsReturnNonnullByDefault;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
+import mezz.jei.api.constants.VanillaRecipeCategoryUid;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.ingredients.IIngredientType;
 import mezz.jei.api.registration.*;
 import mezz.jei.api.runtime.IJeiRuntime;
+import net.minecraft.block.Block;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.util.ResourceLocation;
 
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -51,6 +55,7 @@ public class LightLandJeiPlugin implements IModPlugin {
     public final DisEnchanterRecipeCategory DISENCHANT = new DisEnchanterRecipeCategory();
     public final ChemRecipeCategory CHEM_CATEGORY = new ChemRecipeCategory();
     public final MagicCraftRecipeCategory MAGIC_CRAFT = new MagicCraftRecipeCategory();
+    public final AnvilCraftRecipeCategory ANVIL_CRAFT = new AnvilCraftRecipeCategory();
 
     public final ExtraInfoScreen EXTRA_INFO = new ExtraInfoScreen();
 
@@ -84,6 +89,7 @@ public class LightLandJeiPlugin implements IModPlugin {
         registration.addRecipeCategories(DISENCHANT.init(helper));
         registration.addRecipeCategories(CHEM_CATEGORY.init(helper));
         registration.addRecipeCategories(MAGIC_CRAFT.init(helper));
+        registration.addRecipeCategories(ANVIL_CRAFT.init(helper));
     }
 
     @Override
@@ -95,6 +101,7 @@ public class LightLandJeiPlugin implements IModPlugin {
         registration.addRecipes(IMagicRecipe.getMap(Proxy.getWorld(), MagicRegistry.MPT_ENCH).values(), DISENCHANT.getUid());
         registration.addRecipes(Arrays.asList(getPool().equations), CHEM_CATEGORY.getUid());
         registration.addRecipes(Proxy.getWorld().getRecipeManager().getAllRecipesFor(MagicRecipeRegistry.RT_CRAFT), MAGIC_CRAFT.getUid());
+        registration.addRecipes(Proxy.getWorld().getRecipeManager().getAllRecipesFor(MagicRecipeRegistry.RT_ANVIL), ANVIL_CRAFT.getUid());
     }
 
     @Override
@@ -105,6 +112,11 @@ public class LightLandJeiPlugin implements IModPlugin {
     public void registerRecipeCatalysts(IRecipeCatalystRegistration registration) {
         registration.addRecipeCatalyst(MagicItemRegistry.DISENCHANT_BOOK.getDefaultInstance(), DISENCHANT.getUid());
         registration.addRecipeCatalyst(MagicItemRegistry.CHEM_BOOK.getDefaultInstance(), CHEM_CATEGORY.getUid());
+        registration.addRecipeCatalyst(MagicItemRegistry.I_RITUAL_CORE.getDefaultInstance(), MAGIC_CRAFT.getUid());
+        for (Block b : BlockTags.ANVIL.getValues()) {
+            registration.addRecipeCatalyst(b.asItem().getDefaultInstance(), ANVIL_CRAFT.getUid());
+        }
+        registration.addRecipeCatalyst(MagicItemRegistry.I_ANVIL.getDefaultInstance(), VanillaRecipeCategoryUid.ANVIL);
     }
 
     @Override

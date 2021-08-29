@@ -1,0 +1,8 @@
+{
+    "variants": {
+        "": {
+            "model": "lightland-magic:block/enchant_light_block"
+        }
+    }
+}
+

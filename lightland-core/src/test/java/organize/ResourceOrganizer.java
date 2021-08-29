@@ -34,6 +34,7 @@ public abstract class ResourceOrganizer {
         new ArmorFileOrganizer();
         new RecipeFileOrganizer();
         new AssetMisc();
+        new DataMisc();
         File f = new File("./lightland-core/src/test/resources");
         for (File fi : f.listFiles()) {
             MODID = fi.getName();

@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "bb",
+    "ab",
+    "a "
+  ],
+  "key": {
+    "b": {
+      "item": "lightland-magic:permanence_iron_ingot"
+    },
+    "a": {
+      "item": "minecraft:stick"
+    }
+  },
+  "result": {
+    "item": "lightland-magic:permanence_iron_axe"
+  }
+}
+

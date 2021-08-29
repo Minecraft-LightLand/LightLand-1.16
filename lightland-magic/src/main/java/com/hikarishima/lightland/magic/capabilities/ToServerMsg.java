@@ -24,7 +24,6 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 import java.util.function.BiConsumer;
-import java.util.function.Supplier;
 
 @SerialClass
 public class ToServerMsg extends PacketHandler.BaseSerialMsg {

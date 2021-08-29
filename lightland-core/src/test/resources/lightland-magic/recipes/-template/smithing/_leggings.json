@@ -1,0 +1,12 @@
+{
+    "type": "minecraft:smithing",
+    "base": {
+        "item": "^c_leggings"
+    },
+    "addition": {
+        "item": "^a"
+    },
+    "result": {
+        "item": "^b_leggings"
+    }
+}

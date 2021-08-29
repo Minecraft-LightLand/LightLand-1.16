@@ -9,7 +9,7 @@ public class BlockFileOrganizer extends ResourceOrganizer {
 
 
     private String texture, model, state, loot;
-    private String BM, BS, BL;
+    private String BM, BS, BL, BS_H;
 
     public BlockFileOrganizer() {
         super(null, "blocks", null);
@@ -22,6 +22,7 @@ public class BlockFileOrganizer extends ResourceOrganizer {
         loot = getResourceFolder(true) + Type.DATA + "/" + MODID + "/loot_tables/blocks/";
 
         BS = readFile(f.getPath() + "/-blockstate/-.json");
+        BS_H = readFile(f.getPath() + "/-blockstate/-horizontal.json");
         BM = readFile(f.getPath() + "/-model/-.json");
         BL = readFile(f.getPath() + "/-loot_tables/-.json");
     }
@@ -34,22 +35,36 @@ public class BlockFileOrganizer extends ResourceOrganizer {
 
         File special = new File(f.getPath() + "/-special");
         if (special.exists()) {
-            File models = new File(f.getPath() + "/-special/model");
-            File textures = new File(f.getPath() + "/-special/textures");
-            for (File fi : textures.listFiles()) {
-                File ti = new File(texture + fi.getName());
-                check(ti);
-                Files.copy(fi, ti);
-            }
-            for (File fi : models.listFiles()) {
-                File ti = new File(model + fi.getName());
-                check(ti);
-                Files.copy(fi, ti);
-                String name = fi.getName().split("\\.")[0];
-                write(state + name + ".json", BS.replaceAll("\\^s", name));
-                write(loot + name + ".json", BL.replaceAll("\\^s", name));
-                ((ItemFileOrganizer) MAP.get("items")).createBlock(name);
-            }
+            special(f);
+        }
+    }
+
+    private void special(File f) throws Exception {
+        File models = new File(f.getPath() + "/-special/model");
+        File model_h = new File(f.getPath() + "/-special/model_horizontal");
+        File textures = new File(f.getPath() + "/-special/textures");
+        for (File fi : textures.listFiles()) {
+            File ti = new File(texture + fi.getName());
+            check(ti);
+            Files.copy(fi, ti);
+        }
+        for (File fi : models.listFiles()) {
+            File ti = new File(model + fi.getName());
+            check(ti);
+            Files.copy(fi, ti);
+            String name = fi.getName().split("\\.")[0];
+            write(state + name + ".json", BS.replaceAll("\\^s", name));
+            write(loot + name + ".json", BL.replaceAll("\\^s", name));
+            ((ItemFileOrganizer) MAP.get("items")).createBlock(name);
+        }
+        for (File fi : model_h.listFiles()) {
+            File ti = new File(model + fi.getName());
+            check(ti);
+            Files.copy(fi, ti);
+            String name = fi.getName().split("\\.")[0];
+            write(state + name + ".json", BS_H.replaceAll("\\^s", name));
+            write(loot + name + ".json", BL.replaceAll("\\^s", name));
+            ((ItemFileOrganizer) MAP.get("items")).createBlock(name);
         }
     }
 

@@ -70,7 +70,7 @@ public class RitualCore {
             for (RitualSide.TE ste : side) {
                 if (ste.isEmpty()) continue;
                 BlockPos spos = ste.getBlockPos();
-                world.addParticle(ParticleTypes.ENCHANT,
+                world.addAlwaysVisibleParticle(ParticleTypes.ENCHANT,
                         pos.getX() + 0.5,
                         pos.getY() + 2.5,
                         pos.getZ() + 0.5,

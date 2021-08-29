@@ -1,0 +1,169 @@
+{
+    "-split": {
+        "-list": [
+            "split",
+            "merge"
+        ],
+        "enchant_gold_nugget": {
+            "a": "^m:^n",
+            "b": "^m:enchant_gold_ingot"
+        },
+        "enchant_gold": {
+            "a": "^m:^n_ingot",
+            "b": "^m:^n_block"
+        },
+        "enchant_alloy": {
+            "a": "^m:^n_ingot",
+            "b": "^m:^n_block"
+        },
+        "enchant_light": {
+            "a": "^m:^n_ingot",
+            "b": "^m:^n_block"
+        },
+        "light_alloy": {
+            "a": "^m:^n_ingot",
+            "b": "^m:^n_block"
+        },
+        "permanence_iron": {
+            "a": "^m:^n_ingot",
+            "b": "^m:^n_block"
+        },
+        "anti_magic_metal": {
+            "a": "^m:^n_ingot",
+            "b": "^m:^n_block"
+        },
+        "anti_magic_alloy": {
+            "a": "^m:^n_ingot",
+            "b": "^m:^n_block"
+        }
+    },
+    "-combat": {
+        "-list": [
+            "craft_axe",
+            "craft_sword",
+            "craft_helmet",
+            "craft_chestplate",
+            "craft_leggings",
+            "craft_boots"
+        ],
+        "anti_magic_metal": {
+            "a": "^m:^n_ingot",
+            "b": "^m:^n"
+        },
+        "anti_magic_alloy": {
+            "a": "^m:^n_ingot",
+            "b": "^m:^n"
+        },
+        "light_alloy": {
+            "a": "^m:^n_ingot",
+            "b": "^m:^n"
+        },
+        "permanence_iron": {
+            "a": "^m:^n_ingot",
+            "b": "^m:^n"
+        }
+    },
+    "-anvil_0": {
+        "-list": [
+            "anvil_axe",
+            "anvil_sword",
+            "anvil_helmet",
+            "anvil_chestplate",
+            "anvil_leggings",
+            "anvil_boots"
+        ],
+        "diamond": {
+            "a": "minecraft:^n",
+            "b": "minecraft:^n"
+        },
+        "gold": {
+            "a": "minecraft:^n_ingot",
+            "b": "minecraft:^nen"
+        },
+        "iron": {
+            "a": "minecraft:^n_ingot",
+            "b": "minecraft:^n"
+        },
+        "anti_magic_metal": {
+            "a": "^m:^n_ingot",
+            "b": "^m:^n"
+        },
+        "anti_magic_alloy": {
+            "a": "^m:^n_ingot",
+            "b": "^m:^n"
+        },
+        "light_metal": {
+            "a": "^m:^n_ingot",
+            "b": "^m:^n"
+        },
+        "permanence_iron": {
+            "a": "^m:^n_ingot",
+            "b": "^m:^n"
+        }
+    },
+    "-anvil_1": {
+        "-list": [
+            "anvil_pickaxe",
+            "anvil_shovel",
+            "anvil_hoe"
+        ],
+        "diamond": {
+            "a": "minecraft:^n",
+            "b": "minecraft:^n"
+        },
+        "gold": {
+            "a": "minecraft:^n_ingot",
+            "b": "minecraft:^nen"
+        },
+        "iron": {
+            "a": "minecraft:^n_ingot",
+            "b": "minecraft:^n"
+        }
+    },
+    "-anvil_2": {
+        "-list": [
+            "anvil_fixed_helmet",
+            "anvil_fixed_chestplate",
+            "anvil_fixed_leggings",
+            "anvil_fixed_boots"
+        ],
+        "netherite": {
+            "a": "minecraft:^n_scrap",
+            "b": "minecraft:^n",
+            "t": 4
+        },
+        "enchant_light": {
+            "a": "^m:^n_ingot",
+            "b": "^m:^n",
+            "t": 1
+        }
+    },
+    "-anvil_3": {
+        "-list": [
+            "anvil_fixed_axe",
+            "anvil_fixed_sword",
+            "anvil_fixed_pickaxe",
+            "anvil_fixed_shovel",
+            "anvil_fixed_hoe"
+        ],
+        "netherite": {
+            "a": "minecraft:^n_scrap",
+            "b": "minecraft:^n",
+            "t": 4
+        }
+    },
+    "-smithing":{
+        "-list":[
+            "smithing_helmet",
+            "smithing_chestplate",
+            "smithing_leggings",
+            "smithing_boots"
+        ],
+        "enchant_light":{
+            "a":"^m:^n_ingot",
+            "b":"^m:^n",
+            "c":"^m:enchant_chain"
+        }
+        
+    }
+}

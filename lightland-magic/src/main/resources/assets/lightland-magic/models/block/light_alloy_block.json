@@ -1,0 +1,7 @@
+{
+    "parent": "block/cube_all",
+    "textures": {
+        "all": "lightland-magic:block/light_alloy_block"
+    }
+}
+

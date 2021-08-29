@@ -21,6 +21,7 @@ import com.lcy0x1.base.block.BlockProp;
 import com.lcy0x1.base.block.BlockProxy;
 import com.lcy0x1.base.block.type.STE;
 import net.minecraft.block.AbstractBlock;
+import net.minecraft.block.AnvilBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.inventory.EquipmentSlotType;
@@ -37,10 +38,18 @@ public class MagicItemRegistry {
     private static final int MANA = 256;
     private static final BlockProp PEDESTAL = BlockProp.copy(Blocks.STONE).make(e -> e.noOcclusion().lightLevel(bs -> bs.getValue(BlockStateProperties.LIT) ? 15 : 7));
 
+    public static final Block B_ENCHANT_GOLD = reg("enchant_gold_block", new Block(AbstractBlock.Properties.copy(Blocks.GOLD_BLOCK)));
+    public static final Block B_ENCHANT_ALLOY = reg("enchant_alloy_block", new Block(AbstractBlock.Properties.copy(Blocks.IRON_BLOCK)));
+    public static final Block B_PERMANENCE_IRON = reg("permanence_iron_block", new Block(AbstractBlock.Properties.copy(Blocks.IRON_BLOCK)));
+    public static final Block B_ENCHANT_LIGHT = reg("enchant_light_block", new Block(AbstractBlock.Properties.copy(Blocks.IRON_BLOCK)));
+    public static final Block B_ANTI_MAGIC_METAL = reg("anti_magic_metal_block", new Block(AbstractBlock.Properties.copy(Blocks.IRON_BLOCK)));
+    public static final Block B_LIGHT_ALLOY = reg("light_alloy_block", new Block(AbstractBlock.Properties.copy(Blocks.IRON_BLOCK)));
+    public static final Block B_ANTI_MAGIC_ALLOY = reg("anti_magic_alloy_block", new Block(AbstractBlock.Properties.copy(Blocks.IRON_BLOCK)));
     public static final TempBlock TEMP_DIRT = reg("temp_dirt", new TempBlock(AbstractBlock.Properties.copy(Blocks.DIRT).noDrops()));
     public static final TempBlock TEMP_COBBLE = reg("temp_cobblestone", new TempBlock(AbstractBlock.Properties.copy(Blocks.COBBLESTONE).noDrops()));
     public static final BaseBlock B_RITUAL_CORE = reg("ritual_core", BaseBlock.newBaseBlock(PEDESTAL, RitualCore.ACTIVATE, RitualCore.CLICK, BlockProxy.TRIGGER, (STE) RitualCore.TE::new));
     public static final BaseBlock B_RITUAL_SIDE = reg("ritual_side", BaseBlock.newBaseBlock(PEDESTAL, RitualCore.CLICK, (STE) RitualSide.TE::new));
+    public static final Block B_ANVIL = reg("anvil", new AnvilBlock(AbstractBlock.Properties.copy(Blocks.ANVIL)));
 
     public static final ScreenBook MAGIC_BOOK = regItem("magic_book", p -> new ScreenBook(p, () -> MagicTreeScreen::new));
     public static final ScreenBook ABILITY_BOOK = regItem("ability_book", p -> new ScreenBook(p, () -> ProfessionScreen::new));
@@ -53,19 +62,23 @@ public class MagicItemRegistry {
     public static final Item ENCHANT_GOLD_NUGGET = regItem("enchant_gold_nugget", p -> new ManaStorage(p, Items.GOLD_NUGGET, MANA));
     public static final Item ENCHANT_GOLD_INGOT = regItem("enchant_gold_ingot", p -> new ManaStorage(p, Items.GOLD_INGOT, MANA * 9));
     public static final Item ENCHANT_ALLOY_INGOT = regItem("enchant_alloy_ingot", FoiledItem::new);
+    public static final Item PERMANENCE_IRON_INGOT = regItem("permanence_iron_ingot", FoiledItem::new);
     public static final Item ENCHANT_LIGHT_INGOT = regItem("enchant_light_ingot", FoiledItem::new);
     public static final Item ANTI_MAGIC_METAL = regItem("anti_magic_metal_ingot", Item::new);
     public static final Item LIGHT_ALLOY = regItem("light_alloy_ingot", Item::new);
     public static final Item ANTI_MAGIC_ALLOY = regItem("anti_magic_alloy_ingot", Item::new);
-    public static final AntiMagicArmor[] AMM_ARMOR = regArmor("anti_magic_metal_", (s, p) -> new AntiMagicArmor(AntiMagicArmorMaterial.METAL, s, p), new AntiMagicArmor[4]);
-    public static final AntiMagicArmor[] LA_ARMOR = regArmor("light_alloy_", (s, p) -> new AntiMagicArmor(AntiMagicArmorMaterial.LIGHT, s, p), new AntiMagicArmor[4]);
-    public static final AntiMagicArmor[] AMA_ARMOR = regArmor("anti_magic_alloy_", (s, p) -> new AntiMagicArmor(AntiMagicArmorMaterial.ALLOY, s, p), new AntiMagicArmor[4]);
-    public static final AntiMagicSword AMM_SWORD = regItem("anti_magic_metal_sword", (p) -> new AntiMagicSword(AntiMagicItemTier.METAL, 5, -2.4f, p.stacksTo(1)));
-    public static final AntiMagicSword LA_SWORD = regItem("light_alloy_sword", (p) -> new AntiMagicSword(AntiMagicItemTier.LIGHT, 5, -2f, p.stacksTo(1)));
-    public static final AntiMagicSword AMA_SWORD = regItem("anti_magic_alloy_sword", (p) -> new AntiMagicSword(AntiMagicItemTier.ALLOY, 7, -2.4f, p.stacksTo(1)));
-    public static final AntiMagicAxe AMM_AXE = regItem("anti_magic_metal_axe", (p) -> new AntiMagicAxe(AntiMagicItemTier.METAL, 8, -3.1f, p.stacksTo(1)));
-    public static final AntiMagicAxe LA_AXE = regItem("light_alloy_axe", (p) -> new AntiMagicAxe(AntiMagicItemTier.LIGHT, 8, -2.4f, p.stacksTo(1)));
-    public static final AntiMagicAxe AMA_AXE = regItem("anti_magic_alloy_axe", (p) -> new AntiMagicAxe(AntiMagicItemTier.ALLOY, 10, -3f, p.stacksTo(1)));
+    public static final MagicArmor[] AMM_ARMOR = regArmor("anti_magic_metal_", (s, p) -> new MagicArmor(MagicArmorMaterial.METAL, s, p), new MagicArmor[4]);
+    public static final MagicArmor[] LA_ARMOR = regArmor("light_alloy_", (s, p) -> new MagicArmor(MagicArmorMaterial.LIGHT, s, p), new MagicArmor[4]);
+    public static final MagicArmor[] AMA_ARMOR = regArmor("anti_magic_alloy_", (s, p) -> new MagicArmor(MagicArmorMaterial.ALLOY, s, p), new MagicArmor[4]);
+    public static final MagicArmor[] PER_ARMOR = regArmor("permanence_iron_", (s, p) -> new MagicArmor(MagicArmorMaterial.PERMANENCE, s, p), new MagicArmor[4]);
+    public static final MagicSword AMM_SWORD = regItem("anti_magic_metal_sword", (p) -> new MagicSword(MagicItemTier.METAL, 5, -2.4f, p.stacksTo(1)));
+    public static final MagicSword LA_SWORD = regItem("light_alloy_sword", (p) -> new MagicSword(MagicItemTier.LIGHT, 5, -2f, p.stacksTo(1)));
+    public static final MagicSword AMA_SWORD = regItem("anti_magic_alloy_sword", (p) -> new MagicSword(MagicItemTier.ALLOY, 7, -2.4f, p.stacksTo(1)));
+    public static final MagicSword PER_SWORD = regItem("permanence_iron_sword", (p) -> new MagicSword(MagicItemTier.PERMANENCE, 5, -2.4f, p.stacksTo(1)));
+    public static final MagicAxe AMM_AXE = regItem("anti_magic_metal_axe", (p) -> new MagicAxe(MagicItemTier.METAL, 8, -3.1f, p.stacksTo(1)));
+    public static final MagicAxe LA_AXE = regItem("light_alloy_axe", (p) -> new MagicAxe(MagicItemTier.LIGHT, 8, -2.4f, p.stacksTo(1)));
+    public static final MagicAxe AMA_AXE = regItem("anti_magic_alloy_axe", (p) -> new MagicAxe(MagicItemTier.ALLOY, 10, -3f, p.stacksTo(1)));
+    public static final MagicAxe PER_AXE = regItem("permanence_iron_axe", (p) -> new MagicAxe(MagicItemTier.PERMANENCE, 8, -3.1f, p.stacksTo(1)));
     public static final MagicScroll SPELL_CARD = regItem("spell_card", (p) -> new MagicScroll(MagicScroll.ScrollType.CARD, p));
     public static final MagicScroll SPELL_PARCHMENT = regItem("spell_parchment", (p) -> new MagicScroll(MagicScroll.ScrollType.PARCHMENT, p));
     public static final MagicScroll SPELL_SCROLL = regItem("spell_scroll", (p) -> new MagicScroll(MagicScroll.ScrollType.SCROLL, p));
@@ -78,11 +91,20 @@ public class MagicItemRegistry {
     public static final Item ENCHANT_STRING = regItem("enchant_string", FoiledItem::new);
     public static final Item ENCHANT_CLOTH = regItem("enchant_cloth", FoiledItem::new);
     public static final Item ENCHANT_CHAIN = regItem("enchant_chain", FoiledItem::new);
-    public static final AntiMagicArmor[] CLOTH_ARMOR = regArmor("enchant_cloth_", (s, p) -> new AntiMagicArmor(AntiMagicArmorMaterial.CLOTH, s, p), new AntiMagicArmor[4]);
-    public static final AntiMagicArmor[] CLOTH_CHAIN = regArmor("enchant_chain_", (s, p) -> new AntiMagicArmor(AntiMagicArmorMaterial.CHAIN, s, p), new AntiMagicArmor[4]);
+    public static final MagicArmor[] CLOTH_ARMOR = regArmor("enchant_cloth_", (s, p) -> new MagicArmor(MagicArmorMaterial.CLOTH, s, p), new MagicArmor[4]);
+    public static final MagicArmor[] CLOTH_CHAIN = regArmor("enchant_chain_", (s, p) -> new MagicArmor(MagicArmorMaterial.CHAIN, s, p), new MagicArmor[4]);
+    public static final MagicArmor[] CLOTH_LIGHT = regArmor("enchant_light_", (s, p) -> new MagicArmor(MagicArmorMaterial.ENCH_LIGHT, s, p), new MagicArmor[4]);
 
+    public static final BlockItem I_ENCHANT_GOLD = regBlockItem(B_ENCHANT_GOLD);
+    public static final BlockItem I_ENCHANT_ALLOY = regBlockItem(B_ENCHANT_ALLOY);
+    public static final BlockItem I_PERMANENCE_IRON = regBlockItem(B_PERMANENCE_IRON);
+    public static final BlockItem I_ENCHANT_LIGHT = regBlockItem(B_ENCHANT_LIGHT);
+    public static final BlockItem I_ANTI_MAGIC_METAL = regBlockItem(B_ANTI_MAGIC_METAL);
+    public static final BlockItem I_LIGHT_ALLOY = regBlockItem(B_LIGHT_ALLOY);
+    public static final BlockItem I_ANTI_MAGIC_ALLOY = regBlockItem(B_ANTI_MAGIC_ALLOY);
     public static final BlockItem I_RITUAL_CORE = regBlockItem(B_RITUAL_CORE);
     public static final BlockItem I_RITUAL_SIDE = regBlockItem(B_RITUAL_SIDE);
+    public static final BlockItem I_ANVIL = regBlockItem(B_ANVIL);
 
     private static <V extends T, T extends ForgeRegistryEntry<T>> V reg(String name, V v) {
         v.setRegistryName(LightLandMagic.MODID, name);

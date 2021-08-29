@@ -1,0 +1,11 @@
+{
+    "type": "lightland-magic:anvil",
+    "input": "^b_helmet",
+    "output": "^a",
+    "max": 5,
+    "level": 5,
+    "consume": {
+        "item": "minecraft:flint",
+        "count": 5
+    }
+}

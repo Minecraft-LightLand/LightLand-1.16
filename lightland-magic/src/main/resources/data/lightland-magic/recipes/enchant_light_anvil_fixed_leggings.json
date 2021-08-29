@@ -1,0 +1,12 @@
+{
+    "type": "lightland-magic:anvil",
+    "input": "lightland-magic:enchant_light_leggings",
+    "output": "lightland-magic:enchant_light_ingot",
+    "max": 1,
+    "level": 1,
+    "consume": {
+        "item": "minecraft:flint",
+        "count": 1
+    }
+}
+

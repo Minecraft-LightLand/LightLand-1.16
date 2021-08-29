@@ -15,7 +15,6 @@ import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.network.NetworkEvent;
 
 import java.util.function.Consumer;
-import java.util.function.Supplier;
 
 @SerialClass
 public class QuestToClient extends PacketHandler.BaseSerialMsg {

@@ -1,0 +1,11 @@
+{
+    "type": "lightland-magic:anvil",
+    "input": "^b_chestplate",
+    "output": "^a",
+    "max": 8,
+    "level": 8,
+    "consume": {
+        "item": "minecraft:flint",
+        "count": 8
+    }
+}
