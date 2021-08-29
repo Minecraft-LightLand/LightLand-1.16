@@ -1,0 +1,95 @@
+{
+    "simple": {
+        "item": {
+            "-path": [
+                "item.lightland-magic"
+            ],
+            "magic_book": "魔导书",
+            "ability_book": "职业书",
+            "disenchant_book": "卸魔书",
+            "magic_craft_book": "魔法合成书",
+            "spell_craft_book": "符文合成书",
+            "arcane_inject_book": "奥术注魔书",
+            "chemistry_book": "炼金书",
+            "gilded_arcane_sword": "镀金奥术剑",
+            "gilded_arcane_axe": "镀金奥术斧",
+            "enchant_gold_nugget": "蓄魔金粒",
+            "enchant_gold_ingot": "蓄魔金锭",
+            "enchant_cookie": "魔力饼干",
+            "enchant_melon": "魔力西瓜片",
+            "enchant_carrot": "魔力金胡萝卜",
+            "enchant_apple": "魔力金苹果",
+            "enchant_alloy_ingot": "魔导合金",
+            "permanence_iron_ingot": "永恒铁锭",
+            "enchant_light_ingot": "轻质硬化魔导合金",
+            "enchant_string":"蕴魔线",
+            "enchant_cloth": "蕴魔布",
+            "enchant_chain": "硬化蕴魔布",
+            "anti_magic_metal_ingot": "斥魔金属",
+            "light_alloy_ingot": "轻质硬化惰性合金",
+            "anti_magic_alloy_ingot": "轻质硬化斥魔合金",
+            "spell_card": "符文-卡片",
+            "spell_parchment": "符文-羊皮纸",
+            "spell_scroll": "符文-卷轴",
+            "gilded_wand": "镀金法杖",
+            "record_pearl": "记录宝珠"
+        },
+        "block": {
+            "-path": [
+                "item.lightland-magic",
+                "block.lightland-magic"
+            ],
+            "anti_magic_alloy_block": "轻质硬化斥魔合金块",
+            "anti_magic_metal_block": "斥魔金属块",
+            "enchant_alloy_block": "魔导合金块",
+            "enchant_gold_block": "蓄魔金块",
+            "enchant_light_block": "轻质硬化魔导合金块",
+            "light_alloy_block": "轻质硬化惰性合金块",
+            "permanence_iron_block": "永恒铁块",
+            "ritual_core": "仪式主台",
+            "ritual_side": "仪式基座",
+            "anvil": "永恒铁砧"
+        }
+    },
+    "cartesian": {
+        "combat_metal": {
+            "-path": [
+                "item.lightland-magic"
+            ],
+            "list": [
+                {
+                    "anti_magic_metal": "斥魔",
+                    "anti_magic_alloy": "轻质硬化斥魔",
+                    "light_alloy": "轻质硬化惰性合金",
+                    "permanence_iron": "永恒铁"
+                },
+                {
+                    "sword": "剑",
+                    "axe": "斧",
+                    "helmet": "头盔",
+                    "chestplate": "胸甲",
+                    "leggings": "护腿",
+                    "boots": "靴子"
+                }
+            ]
+        },
+        "combat_magic": {
+            "-path": [
+                "item.lightland-magic"
+            ],
+            "list": [
+                {
+                    "enchant_cloth": "蕴魔布",
+                    "enchant_chain": "蕴魔硬化",
+                    "enchant_light": "魔钢"
+                },
+                {
+                    "helmet": "法师帽",
+                    "chestplate": "法袍",
+                    "leggings": "法裙",
+                    "boots": "法师靴"
+                }
+            ]
+        }
+    }
+}

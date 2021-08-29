@@ -1,7 +1,7 @@
 {
     "type": "lightland-magic:anvil",
-    "input": "lightland-magic:light_metal_chestplate",
-    "output": "lightland-magic:light_metal_ingot",
+    "input": "lightland-magic:light_alloy_chestplate",
+    "output": "lightland-magic:light_alloy_ingot",
     "max": 8,
     "level": 8,
     "consume": {
