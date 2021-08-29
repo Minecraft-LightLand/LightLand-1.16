@@ -36,7 +36,7 @@ jar {
     defaultManifest(project)
     manifest {
         attributes(attributes + mapOf(
-            "MixinConfig" to "mixins.lightland-magic.json"
+                "MixinConfig" to "lightland-magic.mixins.json"
         ))
     }
     finalizedBy("reobfJar")
