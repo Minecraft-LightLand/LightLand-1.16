@@ -18,7 +18,7 @@ public class ListProxyHandler<T extends ProxyHandler> implements ProxyMethodCont
     @NotNull
     @Getter
     protected final ArrayList<T> proxyList = new ArrayList<>();
-    protected T[] elementData = null;
+    protected Object[] elementData = null;
     @Getter
     protected volatile long lastModify = System.nanoTime();
 
@@ -36,7 +36,7 @@ public class ListProxyHandler<T extends ProxyHandler> implements ProxyMethodCont
         lastModify = System.nanoTime();
         try {
             //noinspection unchecked
-            elementData = (T[]) Reflections.getElementData(proxyList);
+            elementData = Reflections.getElementData(proxyList);
         } catch (Exception ignored) {
         }
     }
@@ -79,10 +79,11 @@ public class ListProxyHandler<T extends ProxyHandler> implements ProxyMethodCont
         return proxyList.iterator();
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public void forEachProxy(ForEachProxyHandler<T> action) throws Throwable {
         //log.info("forEachProxy, size:{}, elementData: {}", proxyList.size(), elementData);
-        final T[] elementData = this.elementData;
+        final Object[] elementData = this.elementData;
         if (elementData != null) {
             final int size = proxyList.size();
             for (int i = 0; i < size; i++) {
@@ -96,13 +97,14 @@ public class ListProxyHandler<T extends ProxyHandler> implements ProxyMethodCont
         }
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public <R> Result<? extends R> forFirstProxy(ForFirstProxyHandler<? super T, ? extends Result<? extends R>> action) throws Throwable {
-        final T[] elementData = this.elementData;
+        final Object[] elementData = this.elementData;
         if (elementData != null) {
             final int size = proxyList.size();
             for (int i = 0; i < size; i++) {
-                Result<? extends R> result = action.apply(elementData[i]);
+                Result<? extends R> result = action.apply((T) elementData[i]);
                 if (result != null && result.isSuccess()) {
                     return result;
                 }

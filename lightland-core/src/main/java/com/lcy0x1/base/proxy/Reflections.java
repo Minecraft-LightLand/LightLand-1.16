@@ -15,6 +15,8 @@ public class Reflections {
     private static final Field arrayListElementDataField = getField(ArrayList.class, "elementData");
     private static final Field parameterTypesField = getField(Method.class, "parameterTypes");
     private static final Map<Class<?>, Result<MethodAccess>> methodAccessMap = new ConcurrentHashMap<>();
+    ;
+    private static final Map<Class<?>, MethodAccessGroup> methodAccessGroupMap = new ConcurrentHashMap<>();
     private static final Thread mainThread = Thread.currentThread();
     private static UnsafeReflections unsafe = null;
 
@@ -65,8 +67,15 @@ public class Reflections {
     }
 
     public static boolean equalsMethod(Method method, String name, Class<?>[] parameterTypes) {
-        return Objects.equals(method.getName(), name) &&
-                Arrays.equals(parameterTypes, getParameterTypes(method));
+        return Objects.equals(method.getName(), name) && Arrays.equals(parameterTypes, getParameterTypes(method));
+    }
+
+    public static boolean equalsMethod(ProxyContext context, Method method, String name, Class<?>[] parameterTypes) {
+        String m1Mame = context.get(ProxyContext.methodNameKey);
+        if (m1Mame == null) {
+            m1Mame = method.getName();
+        }
+        return Objects.equals(m1Mame, name) && Arrays.equals(getParameterTypes(method), parameterTypes);
     }
 
     public static Field getField(Class<?> clazz, String fieldName) {
@@ -109,9 +118,42 @@ public class Reflections {
             if (method != null) {
                 return method;
             }
+            for (Class<?> anInterface : clazz.getInterfaces()) {
+                method = getMethod(note, anInterface.getSuperclass(), methodName, paramTypes);
+                if (method != null) {
+                    return method;
+                }
+            }
         }
         return null;
     }
+
+    @NotNull
+    public static MethodAccessGroup getMethodAccessGroup(@NotNull Class<?> clazz) {
+        final MethodAccessGroup methodAccessGroup = methodAccessGroupMap.get(clazz);
+        if (methodAccessGroup != null) {
+            return methodAccessGroup;
+        }
+        final HashSet<Class<?>> note = new HashSet<>();
+        final List<MethodAccess> group = new ArrayList<>();
+        getMethodAccessGroup(clazz, note, group);
+        return new MethodAccessGroup(group);
+    }
+
+    public static void getMethodAccessGroup(Class<?> clazz, HashSet<Class<?>> note, List<MethodAccess> group) {
+        if (clazz == null || !note.add(clazz)) {
+            return;
+        }
+        final MethodAccess methodAccess = getMethodAccessWithCache(clazz);
+        if (methodAccess != null) {
+            group.add(methodAccess);
+        }
+        getMethodAccessGroup(clazz.getSuperclass(), note, group);
+        for (Class<?> anInterface : clazz.getInterfaces()) {
+            getMethodAccessGroup(anInterface, note, group);
+        }
+    }
+
 
     public static MethodAccess getMethodAccess(Class<?> clazz) {
         if (clazz.getName().indexOf('/') == -1) {

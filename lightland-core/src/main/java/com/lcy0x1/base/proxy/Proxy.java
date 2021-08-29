@@ -28,6 +28,9 @@ public interface Proxy<T extends ProxyMethod> {
      * 在代理方法被调用时，该方法会被调用
      */
     default Result<?> onProxy(Method method, Object[] args, MethodProxy proxy) throws Throwable {
+        if (method.getName().equals("hasTileEntity")) {
+            log.info("hasTileEntity");
+        }
         OnProxy handler = ProxyHandlerCache.INSTANCE.getHandler(method);
         if (handler != null) {
             return handler.onProxy(this, method, args, proxy);

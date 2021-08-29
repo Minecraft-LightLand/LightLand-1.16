@@ -2,6 +2,7 @@ package com.lcy0x1.base.block.impl;
 
 import com.lcy0x1.base.block.mult.IClick;
 import com.lcy0x1.base.block.one.ITE;
+import lombok.AllArgsConstructor;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.container.INamedContainerProvider;
@@ -15,13 +16,9 @@ import net.minecraft.world.World;
 
 import java.util.function.Supplier;
 
+@AllArgsConstructor
 public class TEPvd implements ITE, IClick {
-
     private final Supplier<? extends TileEntity> f;
-
-    public TEPvd(Supplier<? extends TileEntity> sup) {
-        f = sup;
-    }
 
     @Override
     public TileEntity createTileEntity(BlockState state, IBlockReader world) {

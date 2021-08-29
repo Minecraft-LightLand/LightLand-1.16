@@ -88,6 +88,16 @@ public class ProxyContext {
         public void put(ProxyContext context, T value) {
             context.put(id, value);
         }
+
+        public boolean put(T value) {
+            final ProxyContext local = local();
+            if (local != null) {
+                local.put(id, value);
+                return true;
+            } else {
+                return false;
+            }
+        }
     }
 
     public interface Callable<R> {

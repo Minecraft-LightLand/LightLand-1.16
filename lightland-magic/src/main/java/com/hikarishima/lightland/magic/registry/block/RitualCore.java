@@ -47,7 +47,8 @@ public class RitualCore {
         @Override
         public ActionResultType onClick(BlockState bs, World w, BlockPos pos, PlayerEntity pl, Hand h, BlockRayTraceResult r) {
             if (w.isClientSide()) {
-                return pl.getMainHandItem().getItem() instanceof MagicWand ? ActionResultType.SUCCESS : ActionResultType.PASS;
+                final ActionResultType actionResultType = pl.getMainHandItem().getItem() instanceof MagicWand ? ActionResultType.SUCCESS : ActionResultType.PASS;
+                return actionResultType;
             }
             if (pl.getMainHandItem().getItem() instanceof MagicWand) {
                 TileEntity te = w.getBlockEntity(pos);

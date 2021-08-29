@@ -12,6 +12,7 @@ public interface IPlacement extends IMultImpl {
     ProxyContext.Key<Result<BlockState>> blockStateKey = new ProxyContext.Key<>(ProxyContext.pre);
 
     @SuppressWarnings("ConstantConditions")
+    @WithinProxyContext(block = true, preSuper = true)
     default BlockState getStateForPlacement(BlockItemUseContext context) {
         final ProxyContext proxyContext = ProxyContext.local();
         Result<BlockState> blockState = proxyContext.get(blockStateKey);

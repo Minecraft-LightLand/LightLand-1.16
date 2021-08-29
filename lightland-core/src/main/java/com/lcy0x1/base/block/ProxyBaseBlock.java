@@ -116,7 +116,7 @@ public class ProxyBaseBlock extends BaseBlock implements Proxy<IImpl> {
     @Override
     @ForFirstProxy(value = ITE.class, name = "hasTileEntity")
     public boolean hasTileEntity(BlockState state) {
-        return impl.one(ITE.class).isPresent();
+        return false;
     }
 
     @Override

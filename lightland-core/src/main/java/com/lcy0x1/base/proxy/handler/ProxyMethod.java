@@ -1,10 +1,6 @@
 package com.lcy0x1.base.proxy.handler;
 
-import com.esotericsoftware.reflectasm.MethodAccess;
-import com.lcy0x1.base.proxy.Proxy;
-import com.lcy0x1.base.proxy.ProxyContext;
-import com.lcy0x1.base.proxy.Reflections;
-import com.lcy0x1.base.proxy.Result;
+import com.lcy0x1.base.proxy.*;
 import com.lcy0x1.base.proxy.annotation.WithinProxyContext;
 import com.lcy0x1.base.proxy.container.WithinProxyContextConfig;
 import lombok.Getter;
@@ -21,12 +17,6 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public interface ProxyMethod extends ProxyHandler {
     Logger log = LogManager.getLogger(ProxyMethod.class);
-    //ProxyMethod failed = new ProxyMethod() {
-    //    @Override
-    //    public Result<?> onProxy(@NotNull Proxy<?> obj,@NotNull  Method method,@NotNull  Object[] args,@NotNull  MethodProxy proxy,@NotNull  ProxyContext context) throws Throwable {
-    //        return Result.failed();
-    //    }
-    //};
     Map<CacheMapKey, Result<? extends ProxyHandler>> handlerCacheMap = new ConcurrentHashMap<>();
 
     @Override
@@ -73,12 +63,12 @@ public interface ProxyMethod extends ProxyHandler {
         //log.info("load method {} by {}", methodName, getClass());
 
         // get method by ReflectASM
-        try {
-            final MethodAccess methodAccess = Reflections.getMethodAccess(getClass());
-            final int index = methodAccess.getIndex(methodName, method.getParameterTypes());
-            //log.info("load MethodAccess index: {}", index);
+        final MethodAccessGroup methodAccess = Reflections.getMethodAccessGroup(getClass());
+        final MethodAccessGroup.MethodAccessIndex index = methodAccess.getIndex(methodName, method.getParameterTypes());
+        //log.info("load MethodAccess index: {}", index);
+        if (index != null) {
             ProxyHandler proxyHandler = (obj1, method1, args1, proxy1, context1) -> {
-                Object invoke = methodAccess.invoke(this, index, args1);
+                Object invoke = index.invoke(this, args1);
                 if (invoke instanceof Result<?>) {
                     invoke = ((Result<?>) invoke).snapshot();
                 }
@@ -92,8 +82,6 @@ public interface ProxyMethod extends ProxyHandler {
             }
 
             return proxyHandler;
-        } catch (Exception ignored) {
-            //log.warn("an exception caused on get MethodAccess", ignored);
         }
 
         // get method by java reflect
