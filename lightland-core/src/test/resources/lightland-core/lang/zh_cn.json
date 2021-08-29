@@ -126,7 +126,8 @@
   },
   "lightland-magic:container": {
     "disenchant": "附魔分解台",
-    "magic_craft": "魔法合成台",
+    "magic_craft": "魔法合成仪式",
+    "anvil_craft": "铁砧分解",
     "spell_craft": "符文合成台",
     "arcane_inject": "奥术注魔台",
     "chemistry": "炼药锅"
