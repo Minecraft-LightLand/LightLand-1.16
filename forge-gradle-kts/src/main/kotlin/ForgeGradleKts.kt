@@ -1,5 +1,6 @@
 @file:Suppress("unused")
 
+import com.google.gson.Gson
 import net.minecraftforge.gradle.common.util.RunConfig
 import net.minecraftforge.gradle.userdev.DependencyManagementExtension
 import net.minecraftforge.gradle.userdev.UserDevExtension
@@ -9,11 +10,33 @@ import org.gradle.api.artifacts.ExternalModuleDependency
 import org.gradle.api.artifacts.dsl.DependencyHandler
 import org.gradle.api.tasks.bundling.Jar
 import org.gradle.jvm.toolchain.internal.DefaultJavaLanguageVersion
+import org.yaml.snakeyaml.Yaml
+import java.io.FileNotFoundException
 import java.text.SimpleDateFormat
 import java.util.*
 
 class ForgeGradleKts : Plugin<Project> {
+    companion object {
+        val yaml = Yaml()
+    }
+
     override fun apply(target: Project) {
+        if (target.rootProject != target) {
+            apply(target.rootProject)
+        }
+        listOf(
+            "local.properties",
+            "local.yml",
+            "local.yaml",
+            "gradle.yml",
+            "gradle.yaml"
+        ).forEach { propertiesFile ->
+            when {
+                propertiesFile.endsWith(".properties") -> loadProperties(target, propertiesFile)
+                propertiesFile.endsWith(".yml") || propertiesFile.endsWith(".yaml") ->
+                    loadYaml(target, propertiesFile)
+            }
+        }
         target.afterEvaluate { project ->
             try {
                 (project.extensions.getByName("java") as org.gradle.api.plugins.JavaPluginExtension).apply {
@@ -26,6 +49,54 @@ class ForgeGradleKts : Plugin<Project> {
         }
     }
 }
+
+val gson = Gson()
+
+fun loadProperties(target: Project, propertiesFile: String) = try {
+    val properties = Properties()
+    properties.load(target.file(propertiesFile).inputStream())
+    properties.forEach { (k, v) ->
+        setProperty(target, k.toString(), v)
+    }
+} catch (e: Exception) {
+}
+
+fun loadYaml(target: Project, propertiesFile: String) {
+    try {
+        ForgeGradleKts.yaml.load<Map<String, Any>>(target.file(propertiesFile).inputStream()).forEach { (k, v) ->
+            put(target, k, v)
+        }
+    } catch (e: Exception) {
+        if (e !is FileNotFoundException) {
+            e.printStackTrace()
+        }
+    }
+}
+
+fun put(target: Project, key: String, value: Any?) {
+    when (value) {
+        null -> return
+        is String, is Byte, is Short, is Int, is Long, is Float, is Double, is Char ->
+            setProperty(target, key, value)
+        else -> {
+            setProperty(target, key, value)
+            if (value is Map<*, *>) {
+                value.forEach { (k, v) ->
+                    put(target, "$key.$k", v)
+                }
+            }
+        }
+    }
+}
+
+fun setProperty(target: Project, key: String, value: Any) {
+    target.ext.set(key, value)
+    try {
+        target.setProperty(key, value)
+    } catch (e: Exception) {
+    }
+}
+
 
 val Project.fg
     get() = extensions.getByType(DependencyManagementExtension::class.java)
@@ -45,6 +116,7 @@ private fun RunConfig.init(project: Project?) {
     }
 }
 
+@Suppress("UNCHECKED_CAST")
 fun NamedDomainObjectContainer<RunConfig>.createClient(
     name: String = "client",
     project: Project? = null,
@@ -59,6 +131,34 @@ fun NamedDomainObjectContainer<RunConfig>.createClient(
             "run${name[0].toUpperCase()}${name.substring(1)}"
         }
         it.init(project)
+        if (project != null) {
+            val clientArgs = (project.rootProject.properties["forge.run.userProperties.client.args"] as? List<Any>
+                ?: emptyList()) + (project.properties["forge.run.userProperties.client.args"] as? List<Any>
+                ?: emptyList())
+
+            if (clientArgs.isNotEmpty()) {
+                println("client args: $clientArgs")
+                it.args.addAll(clientArgs.map { it.toString() })
+            }
+
+            val clientEnvironment = (project.rootProject.properties["forge.run.userProperties.client.environment"] as? Map<String, Any>
+                ?: emptyMap()) + (project.properties["forge.run.userProperties.client.environment"] as? Map<String, Any>
+                ?: emptyMap())
+            if (clientEnvironment.isNotEmpty()) {
+                it.environment(it.environment + clientEnvironment.entries.associate {
+                    it.key to gson.toJson(it.value)
+                })
+            }
+
+            val clientProperties = (project.rootProject.properties["forge.run.userProperties.client.properties"] as? Map<String, Any>
+                ?: emptyMap()) + (project.properties["forge.run.userProperties.client.properties"] as? Map<String, Any>
+                ?: emptyMap())
+            if (clientProperties.isNotEmpty()) {
+                it.properties(it.properties + clientProperties.entries.associate {
+                    it.key to gson.toJson(it.value)
+                })
+            }
+        }
         configureAction?.execute(it)
     }
 }

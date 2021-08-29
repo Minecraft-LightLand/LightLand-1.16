@@ -33,15 +33,15 @@ configureForge {
         createServer("serverCore", project)
         createData("dataCore", project) {
             // Specify the modid for data generation, where to output the resulting resource, and where to look for existing resources.
-            args(
+            args.addAll(listOf(
                 "--mod",
                 "lightland",
                 "--all",
                 "--output",
-                file("src/generated/resources/"),
+                file("src/generated/resources/").absolutePath,
                 "--existing",
-                file("src/main/resources/")
-            )
+                file("src/main/resources/").absolutePath
+            ))
         }
     }
 }
