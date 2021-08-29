@@ -48,7 +48,7 @@ private fun RunConfig.init(project: Project?) {
 fun NamedDomainObjectContainer<RunConfig>.createClient(
     name: String = "client",
     project: Project? = null,
-    configureAction: Action<RunConfig>? = null,
+    configureAction: Action<RunConfig>? = null
 ) {
     create("client") {
         it.taskName = if (name.startsWith("run")) {
@@ -66,7 +66,7 @@ fun NamedDomainObjectContainer<RunConfig>.createClient(
 fun NamedDomainObjectContainer<RunConfig>.createServer(
     name: String = "server",
     project: Project? = null,
-    configureAction: Action<RunConfig>? = null,
+    configureAction: Action<RunConfig>? = null
 ) {
     create("server") {
         it.taskName = if (name.startsWith("run")) {
@@ -84,7 +84,7 @@ fun NamedDomainObjectContainer<RunConfig>.createServer(
 fun NamedDomainObjectContainer<RunConfig>.createData(
     name: String = "data",
     project: Project? = null,
-    configureAction: Action<RunConfig>? = null,
+    configureAction: Action<RunConfig>? = null
 ) {
     create("data") {
         it.taskName = if (name.startsWith("run")) {
@@ -130,7 +130,7 @@ private fun DependencyHandler.add(
     version: String? = null,
     configuration: String? = null,
     classifier: String? = null,
-    ext: String? = null,
+    ext: String? = null
 ): Dependency? = (create(
     mapOf(
         "group" to group,
@@ -150,7 +150,7 @@ fun DependencyHandler.minecraft(
     version: String? = null,
     configuration: String? = null,
     classifier: String? = null,
-    ext: String? = null,
+    ext: String? = null
 ): Dependency? = add("minecraft", group, name, version, configuration, classifier, ext)
 
 fun DependencyHandler.minecraft(dependencyNotation: Any): Dependency? =
@@ -220,7 +220,7 @@ fun Project.disableTasks(taskNames: Iterator<String>) {
 
 inline fun Project.tasksByNames(
     noinline taskNames: suspend SequenceScope<String>.() -> Unit,
-    action: Task.() -> Unit,
+    action: Task.() -> Unit
 ) = tasksByNames(sequence(taskNames), action)
 
 inline fun Project.tasksByNames(vararg taskNames: String, action: Task.() -> Unit) =
