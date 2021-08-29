@@ -1,6 +1,9 @@
 {
+  "required": true,
   "compatibilityLevel": "JAVA_8",
+  "minVersion": "0.8",
   "package": "com.hikarishima.lightland.magic.compat.mixin",
+  "refmap": "mixin.refmap.json",
   "mixins": [
     "AnvilBlockMixin",
     "ShapedRecipeMixin"
@@ -8,6 +11,8 @@
   "client": [
   ],
   "server": [
-
-  ]
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
 }
