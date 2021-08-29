@@ -1,0 +1,12 @@
+{
+    "type": "lightland-magic:anvil",
+    "input": "lightland-magic:anti_magic_alloy_chestplate",
+    "output": "lightland-magic:anti_magic_alloy_ingot",
+    "max": 8,
+    "level": 8,
+    "consume": {
+        "item": "minecraft:flint",
+        "count": 8
+    }
+}
+

@@ -1,0 +1,12 @@
+{
+    "type": "lightland-magic:anvil",
+    "input": "lightland-magic:anti_magic_alloy_leggings",
+    "output": "lightland-magic:anti_magic_alloy_ingot",
+    "max": 7,
+    "level": 7,
+    "consume": {
+        "item": "minecraft:flint",
+        "count": 7
+    }
+}
+
