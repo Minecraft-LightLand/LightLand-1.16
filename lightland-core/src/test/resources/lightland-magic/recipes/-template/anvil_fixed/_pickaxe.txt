@@ -1,0 +1,11 @@
+{
+    "type": "lightland-magic:anvil",
+    "input": "^b_pickaxe",
+    "output": "^a",
+    "max": ^t,
+    "level": ^t,
+    "consume": {
+        "item": "minecraft:flint",
+        "count": ^t
+    }
+}

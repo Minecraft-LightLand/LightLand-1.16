@@ -1,0 +1,11 @@
+{
+    "type": "lightland-magic:anvil",
+    "input": "^b_axe",
+    "output": "^a",
+    "max": ^t,
+    "level": ^t,
+    "consume": {
+        "item": "minecraft:flint",
+        "count": ^t
+    }
+}

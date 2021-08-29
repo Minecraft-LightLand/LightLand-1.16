@@ -1,0 +1,12 @@
+{
+    "type": "lightland-magic:anvil",
+    "input": "minecraft:netherite_leggings",
+    "output": "minecraft:netherite_scrap",
+    "max": 4,
+    "level": 4,
+    "consume": {
+        "item": "minecraft:flint",
+        "count": 4
+    }
+}
+
