@@ -130,14 +130,16 @@ public class Reflections {
 
     @NotNull
     public static MethodAccessGroup getMethodAccessGroup(@NotNull Class<?> clazz) {
-        final MethodAccessGroup methodAccessGroup = methodAccessGroupMap.get(clazz);
+        MethodAccessGroup methodAccessGroup = methodAccessGroupMap.get(clazz);
         if (methodAccessGroup != null) {
             return methodAccessGroup;
         }
         final HashSet<Class<?>> note = new HashSet<>();
         final List<MethodAccess> group = new ArrayList<>();
         getMethodAccessGroup(clazz, note, group);
-        return new MethodAccessGroup(group);
+        methodAccessGroup = new MethodAccessGroup(group);
+        methodAccessGroupMap.put(clazz, methodAccessGroup);
+        return methodAccessGroup;
     }
 
     public static void getMethodAccessGroup(Class<?> clazz, HashSet<Class<?>> note, List<MethodAccess> group) {
@@ -188,7 +190,7 @@ public class Reflections {
         return (T) value;
     }
 
-    public static class UnsafeReflections {
+    private static class UnsafeReflections {
         private final sun.misc.Unsafe theUnsafe = (sun.misc.Unsafe) getField(getField(sun.misc.Unsafe.class, "theUnsafe"), null);
         private final long parameterTypesOffset = objectFieldOffset(parameterTypesField);
         private final long arrayListElementDataOffset = objectFieldOffset(arrayListElementDataField);
@@ -200,11 +202,13 @@ public class Reflections {
             return theUnsafe.objectFieldOffset(field);
         }
 
+        @Nullable
         public Class<?>[] getParameterTypes(Method method) {
             if (parameterTypesOffset < 0) return null;
             return (Class<?>[]) theUnsafe.getObject(method, parameterTypesOffset);
         }
 
+        @Nullable
         public Object[] getElementData(ArrayList<?> arrayList) {
             if (arrayListElementDataOffset < 0) return null;
             return (Object[]) theUnsafe.getObject(arrayList, arrayListElementDataOffset);
