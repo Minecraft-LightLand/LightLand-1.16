@@ -1,6 +1,0 @@
-forge:
-  run:
-    userProperties:
-      client:
-        properties:
-          lightland.proxy.block: true

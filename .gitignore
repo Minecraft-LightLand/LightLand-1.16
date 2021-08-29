@@ -33,3 +33,5 @@ logs/
 .DS_Store
 
 .idea
+local.yml
+local.properties

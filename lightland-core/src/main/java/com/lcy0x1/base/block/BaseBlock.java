@@ -15,7 +15,7 @@ public class BaseBlock extends Block {
     private static final boolean useProxy = Boolean.parseBoolean(System.getProperty("lightland.proxy.block", Boolean.toString(defaultUseProxy)));
 
     static {
-        log.info("use proxy block: {}", System.getProperty("lightland.proxy.block"));
+        log.info("use proxy block: {}", useProxy);
     }
 
     public static BaseBlock newBaseBlock(BlockProp p, IImpl... impl) {
