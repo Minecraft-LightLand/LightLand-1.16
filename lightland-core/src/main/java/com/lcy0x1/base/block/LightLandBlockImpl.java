@@ -1,8 +1,11 @@
 package com.lcy0x1.base.block;
 
-import com.lcy0x1.base.block.impl.TileEntityBlockMethodImpl;
+import com.lcy0x1.base.block.impl.TitleEntityBlockMethodImpl;
 import com.lcy0x1.base.block.mult.*;
-import com.lcy0x1.base.block.one.*;
+import com.lcy0x1.base.block.one.BlockPowerBlockMethod;
+import com.lcy0x1.base.block.one.LightBlockMethod;
+import com.lcy0x1.base.block.one.MirrorRotateBlockMethod;
+import com.lcy0x1.base.block.one.TitleEntityBlockMethod;
 import com.lcy0x1.base.block.type.BlockMethod;
 import com.lcy0x1.base.block.type.MultipleBlockMethod;
 import com.lcy0x1.base.block.type.SingletonBlockMethod;
@@ -171,7 +174,7 @@ public class LightLandBlockImpl extends LightLandBlock {
             for (BlockMethod impl : impls) {
                 BlockMethod i = impl;
                 if (i instanceof TileEntitySupplier)
-                    i = new TileEntityBlockMethodImpl((TileEntitySupplier) impl);
+                    i = new TitleEntityBlockMethodImpl((TileEntitySupplier) impl);
                 if (i instanceof MultipleBlockMethod)
                     list.add((MultipleBlockMethod) i);
                 if (i instanceof SingletonBlockMethod) {

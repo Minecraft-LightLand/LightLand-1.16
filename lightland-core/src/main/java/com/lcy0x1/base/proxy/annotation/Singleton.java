@@ -13,6 +13,8 @@ public @interface Singleton {
             "%C", // checked Class
     };
 
+    boolean enabled() default true;
+
     String errMsg() default "";
 
     Class<? extends RuntimeException> errClass() default RuntimeException.class;

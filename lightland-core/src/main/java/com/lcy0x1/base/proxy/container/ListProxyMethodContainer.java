@@ -12,18 +12,26 @@ import java.util.*;
 public class ListProxyMethodContainer<T extends ProxyMethod> extends ListProxyHandler<T> implements MutableProxyMethodContainer<T> {
     private final Map<Class<?>, Object> singletonMap = new HashMap<>();
 
+    @SuppressWarnings("unchecked")
     @Override
     public synchronized int addProxy(T proxy) {
+        if (proxy == null) return -1;
         check(proxy);
-        return super.addProxy(proxy);
+        final int addProxy;
+        if (proxy.onAdded((MutableProxyMethodContainer<ProxyMethod>) this)) {
+            addProxy = super.addProxy(proxy);
+        } else {
+            return -1;
+        }
+        return addProxy;
     }
 
     @Override
     public synchronized boolean addAllProxy(Collection<T> proxy) {
         for (T p : proxy) {
-            check(p);
+            addProxy(p);
         }
-        return super.addAllProxy(proxy);
+        return true;
     }
 
     @Override
@@ -37,12 +45,13 @@ public class ListProxyMethodContainer<T extends ProxyMethod> extends ListProxyHa
 
     @Override
     public synchronized T removeProxy(int index) {
+        if (index < 0) return null;
         final T remove = super.removeProxy(index);
         removeSingleton(remove);
         return remove;
     }
 
-    protected synchronized void check(Object obj) {
+    protected synchronized void check(ProxyMethod obj) {
         if (obj == null) {
             return;
         }
@@ -55,7 +64,7 @@ public class ListProxyMethodContainer<T extends ProxyMethod> extends ListProxyHa
         }
 
         final Singleton singleton = clazz.getAnnotation(Singleton.class);
-        if (singleton != null) {
+        if (singleton != null && singleton.enabled()) {
             if (singletonMap.get(clazz) == null) {
                 singletonMap.put(clazz, obj);
             } else {

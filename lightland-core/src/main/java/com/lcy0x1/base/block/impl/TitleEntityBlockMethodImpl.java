@@ -17,7 +17,7 @@ import net.minecraft.world.World;
 import java.util.function.Supplier;
 
 @AllArgsConstructor
-public class TileEntityBlockMethodImpl implements TitleEntityBlockMethod, OnClickBlockMethod {
+public class TitleEntityBlockMethodImpl implements TitleEntityBlockMethod, OnClickBlockMethod {
     private final Supplier<? extends TileEntity> f;
 
     @Override

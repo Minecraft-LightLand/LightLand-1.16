@@ -2,6 +2,7 @@ package com.lcy0x1.base.proxy.handler;
 
 import com.lcy0x1.base.proxy.*;
 import com.lcy0x1.base.proxy.annotation.WithinProxyContext;
+import com.lcy0x1.base.proxy.container.MutableProxyMethodContainer;
 import com.lcy0x1.base.proxy.container.WithinProxyContextConfig;
 import lombok.Getter;
 import net.sf.cglib.proxy.MethodProxy;
@@ -18,6 +19,15 @@ import java.util.concurrent.ConcurrentHashMap;
 public interface ProxyMethod {
     Logger log = LogManager.getLogger(ProxyMethod.class);
     Map<CacheMapKey, Result<? extends ProxyHandler>> handlerCacheMap = new ConcurrentHashMap<>();
+
+    /**
+     * 在 ProxyMethod 被添加进容器时执行
+     *
+     * @return 是否接受加入容器
+     */
+    default boolean onAdded(MutableProxyMethodContainer<ProxyMethod> container) {
+        return true;
+    }
 
     default Result<?> onProxy(@NotNull Proxy<?> obj, @NotNull Method method, @NotNull Object[] args, @NotNull MethodProxy proxy, @NotNull ProxyContext context) throws Throwable {
         final CacheMapKey key = CacheMapKey.of(method, getClass());

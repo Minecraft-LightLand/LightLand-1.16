@@ -1,10 +1,11 @@
 package com.lcy0x1.base.block;
 
-import com.lcy0x1.base.block.impl.TileEntityBlockMethodImpl;
 import com.lcy0x1.base.block.mult.*;
-import com.lcy0x1.base.block.one.*;
+import com.lcy0x1.base.block.one.BlockPowerBlockMethod;
+import com.lcy0x1.base.block.one.LightBlockMethod;
+import com.lcy0x1.base.block.one.MirrorRotateBlockMethod;
+import com.lcy0x1.base.block.one.TitleEntityBlockMethod;
 import com.lcy0x1.base.block.type.BlockMethod;
-import com.lcy0x1.base.block.type.TileEntitySupplier;
 import com.lcy0x1.base.proxy.Proxy;
 import com.lcy0x1.base.proxy.ProxyInterceptor;
 import com.lcy0x1.base.proxy.annotation.ForEachProxy;
@@ -38,6 +39,7 @@ import net.sf.cglib.proxy.Enhancer;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.ParametersAreNonnullByDefault;
+import java.util.Arrays;
 import java.util.Optional;
 import java.util.Random;
 import java.util.stream.Stream;
@@ -206,11 +208,7 @@ public class ProxyLightLandBlockImpl extends LightLandBlock implements Proxy<Blo
         }
 
         public BlockImplementor addImpls(BlockMethod... impls) {
-            for (BlockMethod impl : impls)
-                if (impl instanceof TileEntitySupplier)
-                    proxy.addProxy(new TileEntityBlockMethodImpl((TileEntitySupplier) impl));
-                else if (impl != null)
-                    proxy.addProxy(impl);
+            proxy.addAllProxy(Arrays.asList(impls));
             return this;
         }
 
