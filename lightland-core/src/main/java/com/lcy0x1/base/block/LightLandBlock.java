@@ -18,7 +18,7 @@ public class LightLandBlock extends Block {
         log.info("use proxy block: {}", useProxy);
     }
 
-    public static LightLandBlock newBaseBlock(BlockProp p, BlockMethod... impl) {
+    public static LightLandBlock newBaseBlock(LightLandBlockProperties p, BlockMethod... impl) {
         return useProxy ? ProxyLightLandBlockImpl.newBaseBlock(p, impl) : new LightLandBlockImpl(p, impl);
     }
 

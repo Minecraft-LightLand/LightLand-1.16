@@ -52,21 +52,21 @@ public class ProxyLightLandBlockImpl extends LightLandBlock implements Proxy<Blo
     private static final ThreadLocal<BlockImplementor> TEMP = new ThreadLocal<>();
 
     private static final Enhancer ENHANCER = ProxyInterceptor.getEnhancer(ProxyLightLandBlockImpl.class);
-    private static final Class<?>[] CONSTRUCTOR = {BlockProp.class, BlockMethod[].class};
+    private static final Class<?>[] CONSTRUCTOR = {LightLandBlockProperties.class, BlockMethod[].class};
 
-    public static LightLandBlock newBaseBlock(BlockProp p, BlockMethod... impl) {
+    public static LightLandBlock newBaseBlock(LightLandBlockProperties p, BlockMethod... impl) {
         return (LightLandBlock) ENHANCER.create(CONSTRUCTOR, new Object[]{p, impl});
     }
 
     private BlockImplementor impl;
 
-    public ProxyLightLandBlockImpl(BlockProp p, BlockMethod... impl) {
+    public ProxyLightLandBlockImpl(LightLandBlockProperties p, BlockMethod... impl) {
         super(handler(construct(p).addImpls(impl)));
         registerDefaultState(this.impl.execute(DefaultStateBlockMethod.class).reduce(defaultBlockState(),
                 (state, def) -> def.getDefaultState(state), (a, b) -> a));
     }
 
-    public static BlockImplementor construct(BlockProp bb) {
+    public static BlockImplementor construct(LightLandBlockProperties bb) {
         return new BlockImplementor(bb.getProps());
     }
 

@@ -38,13 +38,13 @@ public class LightLandBlockImpl extends LightLandBlock {
 
     private BlockImplementor impl;
 
-    protected LightLandBlockImpl(BlockProp p, BlockMethod... impl) {
+    protected LightLandBlockImpl(LightLandBlockProperties p, BlockMethod... impl) {
         super(handler(construct(p).addImpls(impl)));
         registerDefaultState(this.impl.execute(DefaultStateBlockMethod.class).reduce(defaultBlockState(),
                 (state, def) -> def.getDefaultState(state), (a, b) -> a));
     }
 
-    public static BlockImplementor construct(BlockProp bb) {
+    public static BlockImplementor construct(LightLandBlockProperties bb) {
         return new BlockImplementor(bb.getProps());
     }
 

@@ -16,9 +16,9 @@ import com.hikarishima.lightland.registry.ItemRegistry;
 import com.hikarishima.lightland.registry.item.ContainerBook;
 import com.hikarishima.lightland.registry.item.FoiledItem;
 import com.hikarishima.lightland.registry.item.ScreenBook;
-import com.lcy0x1.base.block.BlockProp;
 import com.lcy0x1.base.block.BlockProxy;
 import com.lcy0x1.base.block.LightLandBlock;
+import com.lcy0x1.base.block.LightLandBlockProperties;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.AnvilBlock;
 import net.minecraft.block.Block;
@@ -35,7 +35,7 @@ import java.util.function.Function;
 public class MagicItemRegistry {
 
     private static final int MANA = 256;
-    private static final BlockProp PEDESTAL = BlockProp.copy(Blocks.STONE).make(e -> e.noOcclusion().lightLevel(bs -> bs.getValue(BlockStateProperties.LIT) ? 15 : 7));
+    private static final LightLandBlockProperties PEDESTAL = LightLandBlockProperties.copy(Blocks.STONE).make(e -> e.noOcclusion().lightLevel(bs -> bs.getValue(BlockStateProperties.LIT) ? 15 : 7));
 
     public static final Block B_ENCHANT_GOLD = reg("enchant_gold_block", new Block(AbstractBlock.Properties.copy(Blocks.GOLD_BLOCK)));
     public static final Block B_ENCHANT_ALLOY = reg("enchant_alloy_block", new Block(AbstractBlock.Properties.copy(Blocks.IRON_BLOCK)));
