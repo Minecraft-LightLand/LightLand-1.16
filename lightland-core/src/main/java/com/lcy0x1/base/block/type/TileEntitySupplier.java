@@ -4,7 +4,7 @@ import net.minecraft.tileentity.TileEntity;
 
 import java.util.function.Supplier;
 
-public interface STE extends IImpl, Supplier<TileEntity> {
+public interface TileEntitySupplier extends BlockMethod, Supplier<TileEntity> {
     @Override
     TileEntity get();
 }

@@ -1,7 +1,7 @@
 package com.lcy0x1.base.block.impl;
 
-import com.lcy0x1.base.block.mult.IClick;
-import com.lcy0x1.base.block.one.ITE;
+import com.lcy0x1.base.block.mult.OnClickBlockMethod;
+import com.lcy0x1.base.block.one.TitleEntityBlockMethod;
 import lombok.AllArgsConstructor;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
@@ -17,7 +17,7 @@ import net.minecraft.world.World;
 import java.util.function.Supplier;
 
 @AllArgsConstructor
-public class TEPvd implements ITE, IClick {
+public class TileEntityBlockMethodImpl implements TitleEntityBlockMethod, OnClickBlockMethod {
     private final Supplier<? extends TileEntity> f;
 
     @Override

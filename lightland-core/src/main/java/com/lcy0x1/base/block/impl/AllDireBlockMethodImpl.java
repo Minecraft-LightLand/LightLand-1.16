@@ -1,16 +1,16 @@
 package com.lcy0x1.base.block.impl;
 
 import com.lcy0x1.base.block.BlockProxy;
-import com.lcy0x1.base.block.mult.IPlacement;
-import com.lcy0x1.base.block.mult.IState;
+import com.lcy0x1.base.block.mult.CreateBlockStateBlockMethod;
+import com.lcy0x1.base.block.mult.PlacementBlockMethod;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.state.StateContainer;
 
-public class AllDireBlock implements IPlacement, IState {
+public class AllDireBlockMethodImpl implements PlacementBlockMethod, CreateBlockStateBlockMethod {
 
-    public AllDireBlock() {
+    public AllDireBlockMethodImpl() {
     }
 
     @Override

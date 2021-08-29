@@ -1,6 +1,6 @@
 package com.lcy0x1.base.block.mult;
 
-import com.lcy0x1.base.block.type.IMultImpl;
+import com.lcy0x1.base.block.type.MultipleBlockMethod;
 import com.lcy0x1.base.proxy.ProxyContext;
 import com.lcy0x1.base.proxy.Result;
 import com.lcy0x1.base.proxy.annotation.WithinProxyContext;
@@ -8,7 +8,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.item.BlockItemUseContext;
 
 @WithinProxyContext(block = true)
-public interface IPlacement extends IMultImpl {
+public interface PlacementBlockMethod extends MultipleBlockMethod {
     ProxyContext.Key<Result<BlockState>> blockStateKey = new ProxyContext.Key<>(ProxyContext.pre);
 
     @SuppressWarnings("ConstantConditions")

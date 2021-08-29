@@ -1,12 +1,12 @@
 package com.lcy0x1.base.block;
 
-import com.lcy0x1.base.block.impl.TEPvd;
+import com.lcy0x1.base.block.impl.TileEntityBlockMethodImpl;
 import com.lcy0x1.base.block.mult.*;
 import com.lcy0x1.base.block.one.*;
-import com.lcy0x1.base.block.type.IImpl;
-import com.lcy0x1.base.block.type.IMultImpl;
-import com.lcy0x1.base.block.type.IOneImpl;
-import com.lcy0x1.base.block.type.STE;
+import com.lcy0x1.base.block.type.BlockMethod;
+import com.lcy0x1.base.block.type.MultipleBlockMethod;
+import com.lcy0x1.base.block.type.SingletonBlockMethod;
+import com.lcy0x1.base.block.type.TileEntitySupplier;
 import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -32,15 +32,15 @@ import java.util.stream.Stream;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public class ImplBaseBlock extends BaseBlock {
+public class LightLandBlockImpl extends LightLandBlock {
 
     private static final ThreadLocal<BlockImplementor> TEMP = new ThreadLocal<>();
 
     private BlockImplementor impl;
 
-    protected ImplBaseBlock(BlockProp p, IImpl... impl) {
+    protected LightLandBlockImpl(BlockProp p, BlockMethod... impl) {
         super(handler(construct(p).addImpls(impl)));
-        registerDefaultState(this.impl.execute(IDefaultState.class).reduce(defaultBlockState(),
+        registerDefaultState(this.impl.execute(DefaultStateBlockMethod.class).reduce(defaultBlockState(),
                 (state, def) -> def.getDefaultState(state), (a, b) -> a));
     }
 
@@ -57,52 +57,52 @@ public class ImplBaseBlock extends BaseBlock {
 
     @Override
     public final boolean isSignalSource(BlockState bs) {
-        return impl.one(IPower.class).isPresent();
+        return impl.one(BlockPowerBlockMethod.class).isPresent();
     }
 
     @Override
     public final TileEntity createTileEntity(BlockState state, IBlockReader world) {
-        return impl.one(ITE.class).map(e -> e.createTileEntity(state, world)).orElse(null);
+        return impl.one(TitleEntityBlockMethod.class).map(e -> e.createTileEntity(state, world)).orElse(null);
     }
 
     @Override
     public final int getAnalogOutputSignal(BlockState blockState, World worldIn, BlockPos pos) {
-        return impl.one(ITE.class).map(e -> Optional.ofNullable(worldIn.getBlockEntity(pos))
+        return impl.one(TitleEntityBlockMethod.class).map(e -> Optional.ofNullable(worldIn.getBlockEntity(pos))
                 .map(Container::getRedstoneSignalFromBlockEntity).orElse(0)).orElse(0);
     }
 
     @Override
     public final int getLightValue(BlockState bs, IBlockReader w, BlockPos pos) {
-        return impl.one(ILight.class).map(e -> e.getLightValue(bs, w, pos))
+        return impl.one(LightBlockMethod.class).map(e -> e.getLightValue(bs, w, pos))
                 .orElse(super.getLightValue(bs, w, pos));
     }
 
     @Override
     public final BlockState getStateForPlacement(BlockItemUseContext context) {
-        return impl.execute(IPlacement.class).reduce(defaultBlockState(),
+        return impl.execute(PlacementBlockMethod.class).reduce(defaultBlockState(),
                 (state, impl) -> impl.getStateForPlacement(state, context), (a, b) -> a);
     }
 
     @Override
     public final int getSignal(BlockState bs, IBlockReader r, BlockPos pos, Direction d) {
-        return impl.one(IPower.class)
+        return impl.one(BlockPowerBlockMethod.class)
                 .map(e -> e.getSignal(bs, r, pos, d))
                 .orElse(0);
     }
 
     @Override
     public final boolean hasTileEntity(BlockState state) {
-        return impl.one(ITE.class).isPresent();
+        return impl.one(TitleEntityBlockMethod.class).isPresent();
     }
 
     @Override
     public final BlockState mirror(BlockState state, Mirror mirrorIn) {
-        return impl.one(IRotMir.class).map(e -> e.mirror(state, mirrorIn)).orElse(state);
+        return impl.one(MirrorRotateBlockMethod.class).map(e -> e.mirror(state, mirrorIn)).orElse(state);
     }
 
     @Override
     public final ActionResultType use(BlockState bs, World w, BlockPos pos, PlayerEntity pl, Hand h, BlockRayTraceResult r) {
-        return impl.execute(IClick.class)
+        return impl.execute(OnClickBlockMethod.class)
                 .map(e -> e.onClick(bs, w, pos, pl, h, r))
                 .filter(e -> e != ActionResultType.PASS)
                 .findFirst().orElse(ActionResultType.PASS);
@@ -110,7 +110,7 @@ public class ImplBaseBlock extends BaseBlock {
 
     @Override
     public final void onRemove(BlockState state, World worldIn, BlockPos pos, BlockState newState, boolean isMoving) {
-        if (impl.one(ITE.class).isPresent() && state.getBlock() != newState.getBlock()) {
+        if (impl.one(TitleEntityBlockMethod.class).isPresent() && state.getBlock() != newState.getBlock()) {
             TileEntity tileentity = worldIn.getBlockEntity(pos);
             if (tileentity != null) {
                 if (tileentity instanceof IInventory) {
@@ -120,62 +120,62 @@ public class ImplBaseBlock extends BaseBlock {
                 worldIn.removeBlockEntity(pos);
             }
         }
-        impl.execute(IRep.class).forEach(e -> e.onReplaced(state, worldIn, pos, newState, isMoving));
+        impl.execute(OnReplacedBlockMethod.class).forEach(e -> e.onReplaced(state, worldIn, pos, newState, isMoving));
     }
 
     @Override
     public final BlockState rotate(BlockState state, Rotation rot) {
-        return impl.one(IRotMir.class).map(e -> e.rotate(state, rot)).orElse(state);
+        return impl.one(MirrorRotateBlockMethod.class).map(e -> e.rotate(state, rot)).orElse(state);
     }
 
     @Override
     protected final void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder) {
         impl = TEMP.get();
         TEMP.set(null);
-        impl.execute(IState.class).forEach(e -> e.createBlockStateDefinition(builder));
+        impl.execute(CreateBlockStateBlockMethod.class).forEach(e -> e.createBlockStateDefinition(builder));
     }
 
     @Override
     public final void neighborChanged(BlockState state, World world, BlockPos pos, Block nei_block, BlockPos nei_pos, boolean moving) {
-        impl.execute(INeighborUpdate.class).forEach(e -> e.neighborChanged(this, state, world, pos, nei_block, nei_pos, moving));
+        impl.execute(NeighborUpdateBlockMethod.class).forEach(e -> e.neighborChanged(this, state, world, pos, nei_block, nei_pos, moving));
         super.neighborChanged(state, world, pos, nei_block, nei_pos, moving);
     }
 
     @Override
     public final void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
-        impl.execute(IRandomTick.class).forEach(e -> e.randomTick(state, world, pos, random));
+        impl.execute(RandomTickBlockMethod.class).forEach(e -> e.randomTick(state, world, pos, random));
     }
 
     @Override
     public final void tick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
-        impl.execute(IScheduleTick.class).forEach(e -> e.tick(state, world, pos, random));
+        impl.execute(ScheduleTickBlockMethod.class).forEach(e -> e.tick(state, world, pos, random));
     }
 
     @OnlyIn(Dist.CLIENT)
     @Override
     public void animateTick(BlockState state, World world, BlockPos pos, Random r) {
-        impl.execute(IAnimateTick.class).forEach(e -> e.animateTick(state, world, pos, r));
+        impl.execute(AnimateTickBlockMethod.class).forEach(e -> e.animateTick(state, world, pos, r));
     }
 
     public static class BlockImplementor {
 
         private final Properties props;
-        private final List<IMultImpl> list = new ArrayList<>();
-        private final HashMap<Class<?>, IOneImpl> map = new HashMap<>();
+        private final List<MultipleBlockMethod> list = new ArrayList<>();
+        private final HashMap<Class<?>, SingletonBlockMethod> map = new HashMap<>();
 
         public BlockImplementor(Properties p) {
             props = p;
         }
 
-        public BlockImplementor addImpls(IImpl... impls) {
-            for (IImpl impl : impls) {
-                IImpl i = impl;
-                if (i instanceof STE)
-                    i = new TEPvd((STE) impl);
-                if (i instanceof IMultImpl)
-                    list.add((IMultImpl) i);
-                if (i instanceof IOneImpl) {
-                    IOneImpl one = (IOneImpl) i;
+        public BlockImplementor addImpls(BlockMethod... impls) {
+            for (BlockMethod impl : impls) {
+                BlockMethod i = impl;
+                if (i instanceof TileEntitySupplier)
+                    i = new TileEntityBlockMethodImpl((TileEntitySupplier) impl);
+                if (i instanceof MultipleBlockMethod)
+                    list.add((MultipleBlockMethod) i);
+                if (i instanceof SingletonBlockMethod) {
+                    SingletonBlockMethod one = (SingletonBlockMethod) i;
                     List<Class<?>> list = new ArrayList<>();
                     addOneImpl(one.getClass(), list);
                     for (Class<?> cls : list) {
@@ -192,12 +192,12 @@ public class ImplBaseBlock extends BaseBlock {
 
         private void addOneImpl(Class<?> cls, List<Class<?>> list) {
             for (Class<?> ci : cls.getInterfaces()) {
-                if (ci == IOneImpl.class) {
+                if (ci == SingletonBlockMethod.class) {
                     throw new RuntimeException("class " + cls + " should not implement IOneImpl directly");
                 }
-                if (IOneImpl.class.isAssignableFrom(ci)) {
+                if (SingletonBlockMethod.class.isAssignableFrom(ci)) {
                     Class<?>[] arr = ci.getInterfaces();
-                    if (arr.length == 1 && arr[0] == IOneImpl.class) {
+                    if (arr.length == 1 && arr[0] == SingletonBlockMethod.class) {
                         list.add(ci);
                     } else {
                         addOneImpl(ci, list);
@@ -207,12 +207,12 @@ public class ImplBaseBlock extends BaseBlock {
         }
 
         @SuppressWarnings("unchecked")
-        public <T extends IMultImpl> Stream<T> execute(Class<T> cls) {
+        public <T extends MultipleBlockMethod> Stream<T> execute(Class<T> cls) {
             return list.stream().filter(cls::isInstance).map(e -> (T) e);
         }
 
         @SuppressWarnings("unchecked")
-        public <T extends IOneImpl> Optional<T> one(Class<T> cls) {
+        public <T extends SingletonBlockMethod> Optional<T> one(Class<T> cls) {
             return Optional.ofNullable((T) map.get(cls));
         }
 

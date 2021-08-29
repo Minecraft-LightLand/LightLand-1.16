@@ -1,6 +1,6 @@
 package com.lcy0x1.base.block.mult;
 
-import com.lcy0x1.base.block.type.IMultImpl;
+import com.lcy0x1.base.block.type.MultipleBlockMethod;
 import com.lcy0x1.base.proxy.Proxy;
 import com.lcy0x1.base.proxy.ProxyContext;
 import com.lcy0x1.base.proxy.Reflections;
@@ -19,7 +19,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Method;
 
-public interface IClick extends IMultImpl {
+public interface OnClickBlockMethod extends MultipleBlockMethod {
     Logger log = LogManager.getLogger();
     Class<?>[] parameterTypes = {BlockState.class, World.class, BlockPos.class, PlayerEntity.class, Hand.class, BlockRayTraceResult.class};
 
@@ -27,7 +27,7 @@ public interface IClick extends IMultImpl {
 
     @Override
     default Result<?> onProxy(@NotNull Proxy<?> obj, @NotNull Method method, @NotNull Object[] args, @NotNull MethodProxy proxy, @NotNull ProxyContext context) throws Throwable {
-        final Result<?> result = Result.snapshot(IMultImpl.super.onProxy(obj, method, args, proxy, context));
+        final Result<?> result = Result.snapshot(MultipleBlockMethod.super.onProxy(obj, method, args, proxy, context));
         if (result.isSuccess() &&
                 result.getResult() == ActionResultType.PASS &&
                 Reflections.equalsMethod(context, method, "onClick", parameterTypes)) {

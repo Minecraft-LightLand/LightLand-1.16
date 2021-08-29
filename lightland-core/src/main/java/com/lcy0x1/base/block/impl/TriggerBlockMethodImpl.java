@@ -1,8 +1,8 @@
 package com.lcy0x1.base.block.impl;
 
-import com.lcy0x1.base.block.mult.IDefaultState;
-import com.lcy0x1.base.block.mult.INeighborUpdate;
-import com.lcy0x1.base.block.mult.IState;
+import com.lcy0x1.base.block.mult.CreateBlockStateBlockMethod;
+import com.lcy0x1.base.block.mult.DefaultStateBlockMethod;
+import com.lcy0x1.base.block.mult.NeighborUpdateBlockMethod;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.state.StateContainer;
@@ -10,11 +10,11 @@ import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class TriggerBlock implements INeighborUpdate, IState, IDefaultState {
+public class TriggerBlockMethodImpl implements NeighborUpdateBlockMethod, CreateBlockStateBlockMethod, DefaultStateBlockMethod {
 
     private final int delay;
 
-    public TriggerBlock(int delay) {
+    public TriggerBlockMethodImpl(int delay) {
         this.delay = delay;
     }
 

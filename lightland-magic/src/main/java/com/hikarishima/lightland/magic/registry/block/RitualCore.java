@@ -5,11 +5,11 @@ import com.hikarishima.lightland.magic.recipe.MagicRecipeRegistry;
 import com.hikarishima.lightland.magic.registry.MagicContainerRegistry;
 import com.hikarishima.lightland.magic.registry.item.magic.MagicWand;
 import com.lcy0x1.base.BaseRecipe;
-import com.lcy0x1.base.block.mult.IClick;
-import com.lcy0x1.base.block.mult.IScheduleTick;
-import com.lcy0x1.base.block.one.IAnimateTick;
-import com.lcy0x1.base.block.type.IImpl;
-import com.lcy0x1.base.block.type.STE;
+import com.lcy0x1.base.block.mult.OnClickBlockMethod;
+import com.lcy0x1.base.block.mult.ScheduleTickBlockMethod;
+import com.lcy0x1.base.block.one.AnimateTickBlockMethod;
+import com.lcy0x1.base.block.type.BlockMethod;
+import com.lcy0x1.base.block.type.TileEntitySupplier;
 import com.lcy0x1.core.util.SerialClass;
 import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.block.BlockState;
@@ -34,9 +34,9 @@ import java.util.Random;
 @MethodsReturnNonnullByDefault
 @ParametersAreNonnullByDefault
 public class RitualCore {
-    public static final STE STE_BUILDER = TE::new;
+    public static final TileEntitySupplier TILE_ENTITY_SUPPLIER_BUILDER = TE::new;
 
-    public static class Activate implements IScheduleTick, IClick, IAnimateTick {
+    public static class Activate implements ScheduleTickBlockMethod, OnClickBlockMethod, AnimateTickBlockMethod {
 
         @Override
         public void tick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
@@ -84,8 +84,8 @@ public class RitualCore {
         }
     }
 
-    public static final IImpl CLICK = new RitualTE.RitualPlace();
-    public static final IImpl ACTIVATE = new Activate();
+    public static final BlockMethod CLICK = new RitualTE.RitualPlace();
+    public static final BlockMethod ACTIVATE = new Activate();
     public static final int[][] POS = {{-2, -2}, {-3, 0}, {-2, 2}, {0, -3}, {0, 3}, {2, -2}, {3, 0}, {2, 2}};
 
     @SerialClass

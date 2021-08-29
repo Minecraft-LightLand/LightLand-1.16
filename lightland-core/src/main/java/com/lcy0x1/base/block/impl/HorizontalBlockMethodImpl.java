@@ -1,9 +1,9 @@
 package com.lcy0x1.base.block.impl;
 
 import com.lcy0x1.base.block.BlockProxy;
-import com.lcy0x1.base.block.mult.IPlacement;
-import com.lcy0x1.base.block.mult.IState;
-import com.lcy0x1.base.block.one.IRotMir;
+import com.lcy0x1.base.block.mult.CreateBlockStateBlockMethod;
+import com.lcy0x1.base.block.mult.PlacementBlockMethod;
+import com.lcy0x1.base.block.one.MirrorRotateBlockMethod;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.item.BlockItemUseContext;
@@ -11,9 +11,9 @@ import net.minecraft.state.StateContainer;
 import net.minecraft.util.Mirror;
 import net.minecraft.util.Rotation;
 
-public class HorizontalBlock implements IRotMir, IState, IPlacement {
+public class HorizontalBlockMethodImpl implements MirrorRotateBlockMethod, CreateBlockStateBlockMethod, PlacementBlockMethod {
 
-    public HorizontalBlock() {
+    public HorizontalBlockMethodImpl() {
     }
 
     @Override

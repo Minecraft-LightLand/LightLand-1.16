@@ -16,9 +16,9 @@ import com.hikarishima.lightland.registry.ItemRegistry;
 import com.hikarishima.lightland.registry.item.ContainerBook;
 import com.hikarishima.lightland.registry.item.FoiledItem;
 import com.hikarishima.lightland.registry.item.ScreenBook;
-import com.lcy0x1.base.block.BaseBlock;
 import com.lcy0x1.base.block.BlockProp;
 import com.lcy0x1.base.block.BlockProxy;
+import com.lcy0x1.base.block.LightLandBlock;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.AnvilBlock;
 import net.minecraft.block.Block;
@@ -46,8 +46,8 @@ public class MagicItemRegistry {
     public static final Block B_ANTI_MAGIC_ALLOY = reg("anti_magic_alloy_block", new Block(AbstractBlock.Properties.copy(Blocks.IRON_BLOCK)));
     public static final TempBlock TEMP_DIRT = reg("temp_dirt", new TempBlock(AbstractBlock.Properties.copy(Blocks.DIRT).noDrops()));
     public static final TempBlock TEMP_COBBLE = reg("temp_cobblestone", new TempBlock(AbstractBlock.Properties.copy(Blocks.COBBLESTONE).noDrops()));
-    public static final BaseBlock B_RITUAL_CORE = reg("ritual_core", BaseBlock.newBaseBlock(PEDESTAL, RitualCore.ACTIVATE, RitualCore.CLICK, BlockProxy.TRIGGER, RitualCore.STE_BUILDER));
-    public static final BaseBlock B_RITUAL_SIDE = reg("ritual_side", BaseBlock.newBaseBlock(PEDESTAL, RitualCore.CLICK, RitualSide.STE_BUILDER));
+    public static final LightLandBlock B_RITUAL_CORE = reg("ritual_core", LightLandBlock.newBaseBlock(PEDESTAL, RitualCore.ACTIVATE, RitualCore.CLICK, BlockProxy.TRIGGER, RitualCore.TILE_ENTITY_SUPPLIER_BUILDER));
+    public static final LightLandBlock B_RITUAL_SIDE = reg("ritual_side", LightLandBlock.newBaseBlock(PEDESTAL, RitualCore.CLICK, RitualSide.TILE_ENTITY_SUPPLIER_BUILDER));
     public static final Block B_ANVIL = reg("anvil", new AnvilBlock(AbstractBlock.Properties.copy(Blocks.ANVIL)));
 
     public static final ScreenBook MAGIC_BOOK = regItem("magic_book", p -> new ScreenBook(p, () -> MagicTreeScreen::new));

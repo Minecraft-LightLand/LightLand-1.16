@@ -1,8 +1,8 @@
 package com.hikarishima.lightland.magic.registry.block;
 
-import com.lcy0x1.base.block.mult.IClick;
-import com.lcy0x1.base.block.mult.IDefaultState;
-import com.lcy0x1.base.block.mult.IState;
+import com.lcy0x1.base.block.mult.CreateBlockStateBlockMethod;
+import com.lcy0x1.base.block.mult.DefaultStateBlockMethod;
+import com.lcy0x1.base.block.mult.OnClickBlockMethod;
 import com.lcy0x1.core.util.SerialClass;
 import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.block.Block;
@@ -65,7 +65,7 @@ public class RitualTE extends SyncedSingleItemTE {
         }
     }
 
-    public static class RitualPlace implements IClick, IState, IDefaultState {
+    public static class RitualPlace implements OnClickBlockMethod, CreateBlockStateBlockMethod, DefaultStateBlockMethod {
 
         @Override
         public ActionResultType onClick(BlockState bs, World w, BlockPos pos, PlayerEntity pl, Hand h, BlockRayTraceResult r) {

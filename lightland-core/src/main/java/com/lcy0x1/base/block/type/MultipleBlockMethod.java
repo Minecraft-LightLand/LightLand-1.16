@@ -8,10 +8,10 @@ import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Method;
 
-public interface IMultImpl extends IImpl {
+public interface MultipleBlockMethod extends BlockMethod {
     @Override
     default Result<?> onProxy(@NotNull Proxy<?> obj, @NotNull Method method, @NotNull Object[] args, @NotNull MethodProxy proxy, @NotNull ProxyContext context) throws Throwable {
         context.put(ProxyContext.cacheFirstProxyMethod, false);
-        return IImpl.super.onProxy(obj, method, args, proxy, context);
+        return BlockMethod.super.onProxy(obj, method, args, proxy, context);
     }
 }

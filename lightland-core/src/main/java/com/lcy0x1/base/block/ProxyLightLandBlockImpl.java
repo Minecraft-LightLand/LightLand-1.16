@@ -1,10 +1,10 @@
 package com.lcy0x1.base.block;
 
-import com.lcy0x1.base.block.impl.TEPvd;
+import com.lcy0x1.base.block.impl.TileEntityBlockMethodImpl;
 import com.lcy0x1.base.block.mult.*;
 import com.lcy0x1.base.block.one.*;
-import com.lcy0x1.base.block.type.IImpl;
-import com.lcy0x1.base.block.type.STE;
+import com.lcy0x1.base.block.type.BlockMethod;
+import com.lcy0x1.base.block.type.TileEntitySupplier;
 import com.lcy0x1.base.proxy.Proxy;
 import com.lcy0x1.base.proxy.ProxyInterceptor;
 import com.lcy0x1.base.proxy.annotation.ForEachProxy;
@@ -47,22 +47,22 @@ import java.util.stream.StreamSupport;
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 @Log4j2
-public class ProxyBaseBlock extends BaseBlock implements Proxy<IImpl> {
+public class ProxyLightLandBlockImpl extends LightLandBlock implements Proxy<BlockMethod> {
 
     private static final ThreadLocal<BlockImplementor> TEMP = new ThreadLocal<>();
 
-    private static final Enhancer ENHANCER = ProxyInterceptor.getEnhancer(ProxyBaseBlock.class);
-    private static final Class<?>[] CONSTRUCTOR = {BlockProp.class, IImpl[].class};
+    private static final Enhancer ENHANCER = ProxyInterceptor.getEnhancer(ProxyLightLandBlockImpl.class);
+    private static final Class<?>[] CONSTRUCTOR = {BlockProp.class, BlockMethod[].class};
 
-    public static BaseBlock newBaseBlock(BlockProp p, IImpl... impl) {
-        return (BaseBlock) ENHANCER.create(CONSTRUCTOR, new Object[]{p, impl});
+    public static LightLandBlock newBaseBlock(BlockProp p, BlockMethod... impl) {
+        return (LightLandBlock) ENHANCER.create(CONSTRUCTOR, new Object[]{p, impl});
     }
 
     private BlockImplementor impl;
 
-    public ProxyBaseBlock(BlockProp p, IImpl... impl) {
+    public ProxyLightLandBlockImpl(BlockProp p, BlockMethod... impl) {
         super(handler(construct(p).addImpls(impl)));
-        registerDefaultState(this.impl.execute(IDefaultState.class).reduce(defaultBlockState(),
+        registerDefaultState(this.impl.execute(DefaultStateBlockMethod.class).reduce(defaultBlockState(),
                 (state, def) -> def.getDefaultState(state), (a, b) -> a));
     }
 
@@ -78,62 +78,62 @@ public class ProxyBaseBlock extends BaseBlock implements Proxy<IImpl> {
     }
 
     @Override
-    @ForFirstProxy(value = IPower.class, name = "isSignalSource")
+    @ForFirstProxy(value = BlockPowerBlockMethod.class, name = "isSignalSource")
     public boolean isSignalSource(BlockState bs) {
         return false;
     }
 
     @Override
-    @ForFirstProxy(value = ITE.class, name = "createTileEntity")
+    @ForFirstProxy(value = TitleEntityBlockMethod.class, name = "createTileEntity")
     public TileEntity createTileEntity(BlockState state, IBlockReader world) {
         return null;
     }
 
     @Override
     public int getAnalogOutputSignal(BlockState blockState, World worldIn, BlockPos pos) {
-        return impl.one(ITE.class).map(e -> Optional.ofNullable(worldIn.getBlockEntity(pos))
+        return impl.one(TitleEntityBlockMethod.class).map(e -> Optional.ofNullable(worldIn.getBlockEntity(pos))
                 .map(Container::getRedstoneSignalFromBlockEntity).orElse(0)).orElse(0);
     }
 
     @Override
-    @ForFirstProxy(value = ILight.class, name = "getLightValue")
+    @ForFirstProxy(value = LightBlockMethod.class, name = "getLightValue")
     public int getLightValue(BlockState bs, IBlockReader w, BlockPos pos) {
         return super.getLightValue(bs, w, pos);
     }
 
     @Override
-    @ForEachProxy(value = IPlacement.class, name = "getStateForPlacement", type = ForEachProxy.LoopType.AFTER)
+    @ForEachProxy(value = PlacementBlockMethod.class, name = "getStateForPlacement", type = ForEachProxy.LoopType.AFTER)
     public BlockState getStateForPlacement(BlockItemUseContext context) {
         return defaultBlockState();
     }
 
     @Override
-    @ForFirstProxy(value = IPower.class, name = "getSignal")
+    @ForFirstProxy(value = BlockPowerBlockMethod.class, name = "getSignal")
     public int getSignal(BlockState bs, IBlockReader r, BlockPos pos, Direction d) {
         return 0;
     }
 
     @Override
-    @ForFirstProxy(value = ITE.class, name = "hasTileEntity")
+    @ForFirstProxy(value = TitleEntityBlockMethod.class, name = "hasTileEntity")
     public boolean hasTileEntity(BlockState state) {
         return false;
     }
 
     @Override
-    @ForFirstProxy(value = IRotMir.class, name = "mirror")
+    @ForFirstProxy(value = MirrorRotateBlockMethod.class, name = "mirror")
     public BlockState mirror(BlockState state, Mirror mirrorIn) {
         return state;
     }
 
     @Override
-    @ForFirstProxy(value = IClick.class, name = "onClick", cache = false)
+    @ForFirstProxy(value = OnClickBlockMethod.class, name = "onClick", cache = false)
     public ActionResultType use(BlockState bs, World w, BlockPos pos, PlayerEntity pl, Hand h, BlockRayTraceResult r) {
         return ActionResultType.PASS;
     }
 
     @Override
     public void onRemove(BlockState state, World worldIn, BlockPos pos, BlockState newState, boolean isMoving) {
-        if (impl.one(ITE.class).isPresent() && state.getBlock() != newState.getBlock()) {
+        if (impl.one(TitleEntityBlockMethod.class).isPresent() && state.getBlock() != newState.getBlock()) {
             TileEntity tileentity = worldIn.getBlockEntity(pos);
             if (tileentity != null) {
                 if (tileentity instanceof IInventory) {
@@ -143,46 +143,46 @@ public class ProxyBaseBlock extends BaseBlock implements Proxy<IImpl> {
                 worldIn.removeBlockEntity(pos);
             }
         }
-        impl.execute(IRep.class).forEach(e -> e.onReplaced(state, worldIn, pos, newState, isMoving));
+        impl.execute(OnReplacedBlockMethod.class).forEach(e -> e.onReplaced(state, worldIn, pos, newState, isMoving));
     }
 
     @Override
-    @ForFirstProxy(value = IRotMir.class, name = "rotate")
+    @ForFirstProxy(value = MirrorRotateBlockMethod.class, name = "rotate")
     public BlockState rotate(BlockState state, Rotation rot) {
         return state;
     }
 
     @Override
-    @ForEachProxy(value = IState.class, name = "createBlockStateDefinition")
+    @ForEachProxy(value = CreateBlockStateBlockMethod.class, name = "createBlockStateDefinition")
     protected void createBlockStateDefinition(Builder<Block, BlockState> builder) {
     }
 
     @Override
     public void neighborChanged(BlockState state, World world, BlockPos pos, Block nei_block, BlockPos nei_pos, boolean moving) {
-        impl.execute(INeighborUpdate.class).forEach(e -> e.neighborChanged(this, state, world, pos, nei_block, nei_pos, moving));
+        impl.execute(NeighborUpdateBlockMethod.class).forEach(e -> e.neighborChanged(this, state, world, pos, nei_block, nei_pos, moving));
         super.neighborChanged(state, world, pos, nei_block, nei_pos, moving);
     }
 
     @Override
-    @ForEachProxy(value = IRandomTick.class, name = "randomTick")
+    @ForEachProxy(value = RandomTickBlockMethod.class, name = "randomTick")
     public void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
     }
 
     @Override
-    @ForEachProxy(value = IScheduleTick.class, name = "tick") // skip test
+    @ForEachProxy(value = ScheduleTickBlockMethod.class, name = "tick") // skip test
     public void tick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
     }
 
     @OnlyIn(Dist.CLIENT)
     @Override
-    @ForEachProxy(value = IAnimateTick.class, name = "animateTick")
+    @ForEachProxy(value = AnimateTickBlockMethod.class, name = "animateTick")
     public void animateTick(BlockState state, World world, BlockPos pos, Random r) {
         //impl.execute(IAnimateTick.class).forEach(e -> e.animateTick(state, world, pos, r));
     }
 
     @NotNull
     @Override
-    public ProxyMethodContainer<? extends IImpl> getProxyContainer() {
+    public ProxyMethodContainer<? extends BlockMethod> getProxyContainer() {
         if (impl == null) {
             final BlockImplementor blockImplementor = TEMP.get();
             if (blockImplementor != null) {
@@ -195,31 +195,31 @@ public class ProxyBaseBlock extends BaseBlock implements Proxy<IImpl> {
         return impl;
     }
 
-    public static class BlockImplementor implements DelegatedProxyMethodContainer<IImpl> {
+    public static class BlockImplementor implements DelegatedProxyMethodContainer<BlockMethod> {
         private final Properties props;
         @NotNull
         @Getter
-        private final MutableProxyMethodContainer<IImpl> proxy = new ListProxyMethodContainer<>();
+        private final MutableProxyMethodContainer<BlockMethod> proxy = new ListProxyMethodContainer<>();
 
         public BlockImplementor(Properties p) {
             props = p;
         }
 
-        public BlockImplementor addImpls(IImpl... impls) {
-            for (IImpl impl : impls)
-                if (impl instanceof STE)
-                    proxy.addProxy(new TEPvd((STE) impl));
+        public BlockImplementor addImpls(BlockMethod... impls) {
+            for (BlockMethod impl : impls)
+                if (impl instanceof TileEntitySupplier)
+                    proxy.addProxy(new TileEntityBlockMethodImpl((TileEntitySupplier) impl));
                 else if (impl != null)
                     proxy.addProxy(impl);
             return this;
         }
 
         @SuppressWarnings("unchecked")
-        public <T extends IImpl> Stream<T> execute(Class<T> cls) {
+        public <T extends BlockMethod> Stream<T> execute(Class<T> cls) {
             return StreamSupport.stream(proxy.spliterator(), false).filter(cls::isInstance).map(e -> (T) e);
         }
 
-        public <T extends IImpl> Optional<T> one(Class<T> cls) {
+        public <T extends BlockMethod> Optional<T> one(Class<T> cls) {
             return execute(cls).findFirst();
         }
     }
