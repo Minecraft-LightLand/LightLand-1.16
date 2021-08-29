@@ -42,7 +42,7 @@ public class MagicArmorMaterial implements IArmorMaterial {
             () -> Ingredient.of(MagicItemRegistry.ENCHANT_CHAIN), 0, 0.20f);
 
     public static final MagicArmorMaterial ENCH_LIGHT = new MagicArmorMaterial(
-            "enchant_light_alloy", 60, new int[]{3, 6, 8, 3}, 60,
+            "enchant_light", 60, new int[]{3, 6, 8, 3}, 60,
             SoundEvents.ARMOR_EQUIP_NETHERITE, 30.0F, 0.0F,
             () -> Ingredient.of(MagicItemRegistry.ENCHANT_LIGHT_INGOT), 0, 0.25f);
 

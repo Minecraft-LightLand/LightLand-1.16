@@ -93,7 +93,7 @@ public class MagicItemRegistry {
     public static final Item ENCHANT_CHAIN = regItem("enchant_chain", FoiledItem::new);
     public static final MagicArmor[] CLOTH_ARMOR = regArmor("enchant_cloth_", (s, p) -> new MagicArmor(MagicArmorMaterial.CLOTH, s, p), new MagicArmor[4]);
     public static final MagicArmor[] CLOTH_CHAIN = regArmor("enchant_chain_", (s, p) -> new MagicArmor(MagicArmorMaterial.CHAIN, s, p), new MagicArmor[4]);
-    public static final MagicArmor[] CLOTH_LIGHT = regArmor("enchant_light_alloy_", (s, p) -> new MagicArmor(MagicArmorMaterial.ENCH_LIGHT, s, p), new MagicArmor[4]);
+    public static final MagicArmor[] CLOTH_LIGHT = regArmor("enchant_light_", (s, p) -> new MagicArmor(MagicArmorMaterial.ENCH_LIGHT, s, p), new MagicArmor[4]);
 
     public static final BlockItem I_ENCHANT_GOLD = regBlockItem(B_ENCHANT_GOLD);
     public static final BlockItem I_ENCHANT_ALLOY = regBlockItem(B_ENCHANT_ALLOY);

@@ -1,0 +1,13 @@
+{
+    "type": "minecraft:smithing",
+    "base": {
+        "item": "lightland-magic:enchant_chain_leggings"
+    },
+    "addition": {
+        "item": "lightland-magic:enchant_light_ingot"
+    },
+    "result": {
+        "item": "lightland-magic:enchant_light_leggings"
+    }
+}
+

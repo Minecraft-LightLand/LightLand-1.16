@@ -151,5 +151,19 @@
             "b": "minecraft:^n",
             "t": 4
         }
+    },
+    "-smithing":{
+        "-list":[
+            "smithing_helmet",
+            "smithing_chestplate",
+            "smithing_leggings",
+            "smithing_boots"
+        ],
+        "enchant_light":{
+            "a":"^m:^n_ingot",
+            "b":"^m:^n",
+            "c":"^m:enchant_chain"
+        }
+        
     }
 }
