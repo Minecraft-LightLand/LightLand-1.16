@@ -8,8 +8,10 @@ import lombok.Data;
 public class WithinProxyContextConfig {
     final boolean block;
     final boolean proxy;
+    final boolean pre;
+    final boolean preSuper;
 
     public WithinProxyContextConfig() {
-        this(false, false);
+        this(false, false, false, false);
     }
 }

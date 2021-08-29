@@ -15,6 +15,7 @@ import net.minecraft.world.World;
 import net.sf.cglib.proxy.MethodProxy;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Method;
 
@@ -25,14 +26,16 @@ public interface IClick extends IMultImpl {
     ActionResultType onClick(BlockState bs, World w, BlockPos pos, PlayerEntity pl, Hand h, BlockRayTraceResult r);
 
     @Override
-    default Result<?> onProxy(Proxy<?> obj, Method method, Object[] args, MethodProxy proxy, ProxyContext context) throws Throwable {
-        final Result<?> result = IMultImpl.super.onProxy(obj, method, args, proxy, context);
-        if (result != null && result.isSuccess() &&
+    default Result<?> onProxy(@NotNull Proxy<?> obj, @NotNull Method method, @NotNull Object[] args, @NotNull MethodProxy proxy, @NotNull ProxyContext context) throws Throwable {
+        final Result<?> result = Result.snapshot(IMultImpl.super.onProxy(obj, method, args, proxy, context));
+        if (result.isSuccess() &&
                 Reflections.equalsMethod(method, "onClick", parameterTypes) &&
                 result.getResult() == ActionResultType.PASS) {
+            log.warn("onProxy(obj: {}, method: {}, args: {}, proxy: {}, context: {}): {}",
+                    obj, method, args, proxy, context, result);
             // tell framework do not cache proxy method
             context.put(ProxyContext.cacheFirstProxyMethod, false);
-            return Result.failed();
+            context.put(ProxyContext.continueFirstProxyMethod, true);
         }
         return result;
     }

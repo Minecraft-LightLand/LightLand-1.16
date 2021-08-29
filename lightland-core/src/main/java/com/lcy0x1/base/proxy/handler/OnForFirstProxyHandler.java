@@ -70,12 +70,16 @@ public class OnForFirstProxyHandler implements OnProxy {
             if (forFirstProxy.cache() && !Boolean.FALSE.equals(context.getAndRemove(ProxyContext.cacheFirstProxyMethod))) {
                 // if get cache command
                 if (methodResult != null && methodResult.isSuccess()) {
-                    context.put(ProxyContext.proxyMethod, Result.alloc(p));
+                    this.context.put(ProxyContext.proxyMethod, Result.alloc(p));
                 } else {
-                    context.put(ProxyContext.proxyMethod, Result.failed());
+                    this.context.put(ProxyContext.proxyMethod, Result.failed());
                 }
             }
-            return methodResult;
+            if (Boolean.TRUE.equals(context.getAndRemove(ProxyContext.continueFirstProxyMethod))) {
+                return Result.failed();
+            } else {
+                return methodResult;
+            }
         });
     }
 

@@ -1,7 +1,9 @@
 package com.lcy0x1.base.proxy.container;
 
 import com.lcy0x1.base.proxy.Reflections;
+import com.lcy0x1.base.proxy.Result;
 import com.lcy0x1.base.proxy.handler.ForEachProxyHandler;
+import com.lcy0x1.base.proxy.handler.ForFirstProxyHandler;
 import com.lcy0x1.base.proxy.handler.ProxyHandler;
 import lombok.Getter;
 import lombok.extern.log4j.Log4j2;
@@ -16,7 +18,7 @@ public class ListProxyHandler<T extends ProxyHandler> implements ProxyMethodCont
     @NotNull
     @Getter
     protected final ArrayList<T> proxyList = new ArrayList<>();
-    protected Object[] elementData = null;
+    protected T[] elementData = null;
     @Getter
     protected volatile long lastModify = System.nanoTime();
 
@@ -33,7 +35,8 @@ public class ListProxyHandler<T extends ProxyHandler> implements ProxyMethodCont
     protected synchronized void modified() {
         lastModify = System.nanoTime();
         try {
-            elementData = Reflections.getElementData(proxyList);
+            //noinspection unchecked
+            elementData = (T[]) Reflections.getElementData(proxyList);
         } catch (Exception ignored) {
         }
     }
@@ -76,11 +79,10 @@ public class ListProxyHandler<T extends ProxyHandler> implements ProxyMethodCont
         return proxyList.iterator();
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     public void forEachProxy(ForEachProxyHandler<T> action) throws Throwable {
         //log.info("forEachProxy, size:{}, elementData: {}", proxyList.size(), elementData);
-        final Object[] elementData = this.elementData;
+        final T[] elementData = this.elementData;
         if (elementData != null) {
             final int size = proxyList.size();
             for (int i = 0; i < size; i++) {
@@ -92,6 +94,28 @@ public class ListProxyHandler<T extends ProxyHandler> implements ProxyMethodCont
                 action.accept(t);
             }
         }
+    }
+
+    @Override
+    public <R> Result<? extends R> forFirstProxy(ForFirstProxyHandler<? super T, ? extends Result<? extends R>> action) throws Throwable {
+        final T[] elementData = this.elementData;
+        if (elementData != null) {
+            final int size = proxyList.size();
+            for (int i = 0; i < size; i++) {
+                Result<? extends R> result = action.apply(elementData[i]);
+                if (result != null && result.isSuccess()) {
+                    return result;
+                }
+            }
+        } else {
+            for (T t : this) {
+                Result<? extends R> result = action.apply(t);
+                if (result != null && result.isSuccess()) {
+                    return result;
+                }
+            }
+        }
+        return Result.failed();
     }
 
     @Override

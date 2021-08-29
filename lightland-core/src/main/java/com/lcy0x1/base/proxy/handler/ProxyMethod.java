@@ -21,16 +21,16 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public interface ProxyMethod extends ProxyHandler {
     Logger log = LogManager.getLogger(ProxyMethod.class);
-    ProxyMethod failed = new ProxyMethod() {
-        @Override
-        public Result<?> onProxy(Proxy<?> obj, Method method, Object[] args, MethodProxy proxy, ProxyContext context) throws Throwable {
-            return Result.failed();
-        }
-    };
+    //ProxyMethod failed = new ProxyMethod() {
+    //    @Override
+    //    public Result<?> onProxy(@NotNull Proxy<?> obj,@NotNull  Method method,@NotNull  Object[] args,@NotNull  MethodProxy proxy,@NotNull  ProxyContext context) throws Throwable {
+    //        return Result.failed();
+    //    }
+    //};
     Map<CacheMapKey, Result<? extends ProxyHandler>> handlerCacheMap = new ConcurrentHashMap<>();
 
     @Override
-    default Result<?> onProxy(Proxy<?> obj, Method method, Object[] args, MethodProxy proxy, ProxyContext context) throws Throwable {
+    default Result<?> onProxy(@NotNull Proxy<?> obj, @NotNull Method method, @NotNull Object[] args, @NotNull MethodProxy proxy, @NotNull ProxyContext context) throws Throwable {
         final CacheMapKey key = CacheMapKey.of(method, getClass());
         final Result<? extends ProxyHandler> methodResult = handlerCacheMap.get(key);
         if (methodResult != null) {
@@ -45,7 +45,7 @@ public interface ProxyMethod extends ProxyHandler {
             handlerCacheMap.put(key.snapshot(), Result.failed());
         } else {
             final WithinProxyContextConfig withinProxyContext = getProxyContextConfig();
-            if (withinProxyContext != null) {
+            if (withinProxyContext != null && !(handler instanceof WithinProxyContextProxyHandler)) {
                 handler = new WithinProxyContextProxyHandler(handler, withinProxyContext);
             }
             handlerCacheMap.put(key.snapshot(), Result.alloc(handler));
@@ -60,8 +60,6 @@ public interface ProxyMethod extends ProxyHandler {
     @SuppressWarnings("unused")
     @NotNull
     default ProxyHandler getHandler(Object obj, Method method, Object[] args, MethodProxy proxy, ProxyContext context) throws Throwable {
-        //log.info("getHandler(obj={}, method={}, args={}, proxy={}, context={})",
-        //    obj, method, args, proxy, context);
         final Collection<? extends Class<?>> classes = context.get(ProxyContext.classes);
         if (classes != null && !classes.isEmpty() && classes.stream().noneMatch(c -> c.isInstance(this))) {
             return ProxyHandler.failed;
@@ -79,19 +77,45 @@ public interface ProxyMethod extends ProxyHandler {
             final MethodAccess methodAccess = Reflections.getMethodAccess(getClass());
             final int index = methodAccess.getIndex(methodName, method.getParameterTypes());
             //log.info("load MethodAccess index: {}", index);
-            return (obj1, method1, args1, proxy1, context1) -> Result.of(methodAccess.invoke(this, index, args1));
+            ProxyHandler proxyHandler = (obj1, method1, args1, proxy1, context1) -> {
+                Object invoke = methodAccess.invoke(this, index, args1);
+                if (invoke instanceof Result<?>) {
+                    invoke = ((Result<?>) invoke).snapshot();
+                }
+                return Result.of(invoke);
+            };
+
+            final WithinProxyContextConfig withinProxyContextConfig = WithinProxyContext.Utils.get(
+                    Reflections.getMethod(getClass(), methodName, method.getParameterTypes()));
+            if (withinProxyContextConfig != null) {
+                proxyHandler = new WithinProxyContextProxyHandler(proxyHandler, withinProxyContextConfig);
+            }
+
+            return proxyHandler;
         } catch (Exception ignored) {
             //log.warn("an exception caused on get MethodAccess", ignored);
         }
 
         // get method by java reflect
-        try {
-            final Method declaredMethod = getClass().getDeclaredMethod(methodName, method.getParameterTypes());
+        final Method declaredMethod = Reflections.getMethod(getClass(), methodName, method.getParameterTypes());
+        if (declaredMethod != null) {
             declaredMethod.setAccessible(true);
-            return (obj1, method1, args1, proxy1, context1) -> Result.of(declaredMethod.invoke(this, args1));
-        } catch (Exception ignored) {
-            //log.warn("an exception caused on get Method", ignored);
+            ProxyHandler proxyHandler = (obj1, method1, args1, proxy1, context1) -> {
+                Object invoke = declaredMethod.invoke(this, args1);
+                if (invoke instanceof Result<?>) {
+                    invoke = ((Result<?>) invoke).snapshot();
+                }
+                return Result.of(invoke);
+            };
+
+            final WithinProxyContextConfig withinProxyContextConfig = WithinProxyContext.Utils.get(declaredMethod);
+            if (withinProxyContextConfig != null) {
+                proxyHandler = new WithinProxyContextProxyHandler(proxyHandler, withinProxyContextConfig);
+            }
+
+            return proxyHandler;
         }
+
 
         return ProxyHandler.failed;
     }

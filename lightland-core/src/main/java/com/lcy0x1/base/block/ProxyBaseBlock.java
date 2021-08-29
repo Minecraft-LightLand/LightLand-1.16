@@ -78,8 +78,9 @@ public class ProxyBaseBlock extends BaseBlock implements Proxy<IImpl> {
     }
 
     @Override
+    @ForFirstProxy(value = IPower.class, name = "isSignalSource")
     public boolean isSignalSource(BlockState bs) {
-        return impl.one(IPower.class).isPresent();
+        return false;
     }
 
     @Override
@@ -113,6 +114,7 @@ public class ProxyBaseBlock extends BaseBlock implements Proxy<IImpl> {
     }
 
     @Override
+    @ForFirstProxy(value = ITE.class, name = "hasTileEntity")
     public boolean hasTileEntity(BlockState state) {
         return impl.one(ITE.class).isPresent();
     }
@@ -174,8 +176,9 @@ public class ProxyBaseBlock extends BaseBlock implements Proxy<IImpl> {
 
     @OnlyIn(Dist.CLIENT)
     @Override
+    @ForEachProxy(value = IAnimateTick.class, name = "animateTick")
     public void animateTick(BlockState state, World world, BlockPos pos, Random r) {
-        impl.execute(IAnimateTick.class).forEach(e -> e.animateTick(state, world, pos, r));
+        //impl.execute(IAnimateTick.class).forEach(e -> e.animateTick(state, world, pos, r));
     }
 
     @NotNull

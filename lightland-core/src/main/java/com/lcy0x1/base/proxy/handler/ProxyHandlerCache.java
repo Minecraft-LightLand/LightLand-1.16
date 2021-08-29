@@ -10,7 +10,13 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class ProxyHandlerCache {
     public static final ProxyHandlerCache INSTANCE = new ProxyHandlerCache();
-    public static final OnProxy callSuper = (obj, method, args, proxy) -> Result.of(proxy.invokeSuper(obj, args));
+    public static final OnProxy callSuper = (obj, method, args, proxy) -> {
+        Object result = proxy.invokeSuper(obj, args);
+        if (result instanceof Result<?>) {
+            result = ((Result<?>) result).snapshot();
+        }
+        return Result.of(result);
+    };
     public static final OnProxy empty = (obj, method, args, proxy) -> Result.failed();
     private final Map<Method, OnProxy> handlerMap = new ConcurrentHashMap<>();
 

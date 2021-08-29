@@ -38,8 +38,10 @@ public class ProxyContext {
     public static final Key<Result<ProxyHandler>> proxyMethod = new Key<>();
     public static final Key<Boolean> cacheFirstProxyMethod = new Key<>();
     public static final Key<Collection<? extends Class<?>>> classes = new Key<>();
-    public static final Key<Object> pre = new ProxyContext.Key<>(); // pre proxy return
+    public static final Key<Result<?>> pre = new ProxyContext.Key<>(); // pre proxy return
+    public static final Key<Result<Object>> objectPre = new ProxyContext.Key<>(pre); // pre proxy return
     public static final Key<Logger> loggerKey = new Key<>();
+    public static final Key<Boolean> continueFirstProxyMethod = new Key<>();
 
     public static final Key<Block> block = new Key<>(proxy, Block.class);
 
@@ -112,8 +114,13 @@ public class ProxyContext {
         }
     }
 
+    @Nullable
     public static ProxyContext local() {
-        return localProxyContext.get();
+        if (Reflections.inMainThread()) {
+            return mainProxyContext;
+        } else {
+            return localProxyContext.get();
+        }
     }
 
     @Nullable
@@ -144,6 +151,33 @@ public class ProxyContext {
             return null;
         }
         return key.get(this);
+    }
+
+    @Nullable
+    public <T> T getResult(@Nullable Key<Result<T>> key) {
+        if (key == null) {
+            return null;
+        }
+        final Result<T> result = key.get(this);
+        if (result != null && result.isSuccess()) {
+            return result.getResult();
+        } else {
+            return null;
+        }
+    }
+
+    public <T> void setResult(@Nullable Key<Result<T>> key, T result) {
+        if (key == null) {
+            return;
+        }
+        set(key, Result.alloc(result));
+    }
+
+    public <T> void putResult(@Nullable Key<Result<T>> key, T result) {
+        if (key == null) {
+            return;
+        }
+        put(key, Result.alloc(result));
     }
 
     @Nullable

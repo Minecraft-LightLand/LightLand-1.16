@@ -10,6 +10,7 @@ import com.lcy0x1.base.proxy.container.ProxyMethodContainer;
 import lombok.extern.log4j.Log4j2;
 import net.sf.cglib.proxy.MethodProxy;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.lang.reflect.Method;
 
@@ -76,9 +77,13 @@ public class OnForeachProxyHandler implements OnProxy {
             @NotNull ProxyMethodContainer<?> proxyContainer, ProxyContext c,
             Proxy<?> o, Method m, Object[] a, MethodProxy p
     ) throws Throwable {
-        final Reflections.Reference<Result<?>> r = new Reflections.Reference<>(Result.of().snapshot());
+        final Reflections.Reference<Result<?>> r = new Reflections.Reference<>(Result.of());
         if (forEachProxy.type() == ForEachProxy.LoopType.AFTER) {
-            r.setValue(Result.of(p.invokeSuper(o, a)).snapshot());
+            Object result = p.invokeSuper(o, a);
+            if (result instanceof Result<?>) {
+                result = ((Result<?>) result).snapshot();
+            }
+            r.setValue(Result.of(result));
         }
         final long lastModify = proxyContainer.getLastModify();
         final ListProxyHandler<ProxyHandler> proxyMethods = new ListProxyHandler<>();
@@ -98,6 +103,7 @@ public class OnForeachProxyHandler implements OnProxy {
         return Result.failed();
     }
 
+    @Nullable
     private Result<?> call(
             @NotNull ProxyHandler proxyMethod,
             Proxy<?> o, Method m, Object[] a, MethodProxy p, ProxyContext c
@@ -118,14 +124,14 @@ public class OnForeachProxyHandler implements OnProxy {
             case AFTER:
                 final Reflections.Reference<Result<?>> r = new Reflections.Reference<>(Result.failed());
                 if (forEachProxy.type() == ForEachProxy.LoopType.AFTER) {
-                    r.setValue(Result.of(p.invokeSuper(o, a)).snapshot());
+                    final Result<?> invokeSuper = Result.alloc(p.invokeSuper(o, a));
+                    r.setValue(invokeSuper);
+                    c.put(ProxyContext.pre, invokeSuper);
                 }
                 proxyMethods.forEachProxy(proxyMethod -> {
-                    Result<?> result = call(proxyMethod, o, m, a, p, c);
+                    final Result<?> result = call(proxyMethod, o, m, a, p, c);
                     if (result != null && result.isSuccess()) {
-                        result = result.snapshot();
-                        r.setValue(result);
-                        c.put(ProxyContext.pre, result);
+                        r.setValue(result.snapshot());
                     }
                 });
                 return r.getValue();

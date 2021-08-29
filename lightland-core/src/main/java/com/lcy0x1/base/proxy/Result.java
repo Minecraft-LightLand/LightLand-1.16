@@ -1,36 +1,83 @@
 package com.lcy0x1.base.proxy;
 
 import lombok.Getter;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
 
+@SuppressWarnings("StaticInitializerReferencesSubClass")
 @Getter
-public final class Result<R> {
-    private static final Result<?> failed = new Result<>(false, null);
-    private static final Result<?> main = new Result<>(true, null, true);
-    private static final Result<?> NULL = new Result<>(true, null);
-    private static final Result<Boolean> TRUE = new Result<>(true, true);
-    private static final Result<Boolean> FALSE = new Result<>(true, false);
+public class Result<R> {
+    @NotNull
+    public static final Result<?> failed = new StaticResult<>(false, null);
+    private static final Result<?> main = new Result<>(true, null);
+    private static final Result<?> NULL = alloc(null);
+    private static final Result<Boolean> TRUE = alloc(true);
+    private static final Result<Boolean> FALSE = alloc(false);
     private static final Thread mainThread = Thread.currentThread();
+
+    @SuppressWarnings("unchecked")
+    @NotNull
+    public static <R> Result<R> failed() {
+        return (Result<R>) Result.failed;
+    }
+
+    @SuppressWarnings("unchecked")
+    @NotNull
+    public static <R> Result<R> of() {
+        return (Result<R>) Result.NULL;
+    }
+
+    @SuppressWarnings("unchecked")
+    @NotNull
+    public static <R> Result<R> of(R result) {
+        if (Thread.currentThread() == Result.mainThread) {
+            ((Result<R>) Result.main).setResult(result);
+            return (Result<R>) Result.main;
+        }
+        return new StaticResult<>(true, result);
+    }
+
+    @NotNull
+    public static Result<Boolean> of(boolean b) {
+        return alloc(b);
+    }
+
+    @NotNull
+    public static <R> Result<R> alloc(R result) {
+        return new StaticResult<>(true, result);
+    }
+
+    @SuppressWarnings("ConstantConditions")
+    @NotNull
+    public static Result<Boolean> alloc(boolean b) {
+        if (b) {
+            return TRUE;
+        } else {
+            return FALSE;
+        }
+    }
+
+    @NotNull
+    public static <R> Result<R> snapshot(@Nullable Result<R> result) {
+        if (result == null) {
+            return failed();
+        } else {
+            return result.snapshot();
+        }
+    }
 
     private final boolean success;
     private R result;
     private int hashCode;
-    private final boolean cache;
 
-    public Result(boolean success, R result) {
+    private Result(boolean success, R result) {
         this.success = success;
         this.result = result;
-        cache = false;
     }
 
-    public Result(boolean success, R result, boolean cache) {
-        this.success = success;
-        this.result = result;
-        this.cache = cache;
-    }
-
-    void setResult(R result) {
+    private void setResult(R result) {
         this.result = result;
         hashCode = 0;
     }
@@ -41,11 +88,7 @@ public final class Result<R> {
     }
 
     public Result<R> snapshot() {
-        if (cache) {
-            return new Result<>(success, result);
-        } else {
-            return this;
-        }
+        return new Result<>(success, result);
     }
 
     @Override
@@ -64,38 +107,14 @@ public final class Result<R> {
         return hashCode;
     }
 
-    @SuppressWarnings("unchecked")
-    public static <R> Result<R> failed() {
-        return (Result<R>) Result.failed;
-    }
-
-    @SuppressWarnings("unchecked")
-    public static <R> Result<R> of() {
-        return (Result<R>) Result.NULL;
-    }
-
-    @SuppressWarnings("unchecked")
-    public static <R> Result<R> of(R result) {
-        if (Thread.currentThread() == Result.mainThread) {
-            ((Result<R>) Result.main).setResult(result);
-            return (Result<R>) Result.main;
+    private final static class StaticResult<R> extends Result<R> {
+        public StaticResult(boolean success, R result) {
+            super(success, result);
         }
-        return new Result<>(true, result);
-    }
 
-    public static Result<Boolean> of(boolean b) {
-        return alloc(b);
-    }
-
-    public static <R> Result<R> alloc(R result) {
-        return new Result<>(true, result);
-    }
-
-    public static Result<Boolean> alloc(boolean b) {
-        if (b) {
-            return TRUE;
-        } else {
-            return FALSE;
+        @Override
+        public Result<R> snapshot() {
+            return this;
         }
     }
 }

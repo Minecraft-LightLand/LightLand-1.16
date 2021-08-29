@@ -8,5 +8,9 @@ import net.minecraft.world.IBlockReader;
 
 @Singleton
 public interface ITE extends IOneImpl {
+    default boolean hasTileEntity(BlockState state) {
+        return true;
+    }
+
     TileEntity createTileEntity(BlockState state, IBlockReader world);
 }

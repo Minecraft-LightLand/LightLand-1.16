@@ -3,14 +3,12 @@ package com.lcy0x1.base.proxy;
 import com.esotericsoftware.reflectasm.MethodAccess;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class Reflections {
@@ -93,6 +91,26 @@ public class Reflections {
         } catch (IllegalAccessException ignored) {
             return null;
         }
+    }
+
+    @Nullable
+    public static Method getMethod(@Nullable Class<?> clazz, @NotNull String methodName, @NotNull Class<?>... paramTypes) {
+        return getMethod(new HashSet<>(), clazz, methodName, paramTypes);
+    }
+
+    private static Method getMethod(Set<Class<?>> note, Class<?> clazz, String methodName, Class<?>... paramTypes) {
+        if (clazz == null || !note.add(clazz)) {
+            return null;
+        }
+        try {
+            return clazz.getDeclaredMethod(methodName, paramTypes);
+        } catch (NoSuchMethodException ignored) {
+            Method method = getMethod(note, clazz.getSuperclass(), methodName, paramTypes);
+            if (method != null) {
+                return method;
+            }
+        }
+        return null;
     }
 
     public static MethodAccess getMethodAccess(Class<?> clazz) {

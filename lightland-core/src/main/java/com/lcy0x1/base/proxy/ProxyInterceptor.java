@@ -14,28 +14,34 @@ import java.lang.reflect.Modifier;
 public class ProxyInterceptor implements MethodInterceptor {
     public static final ProxyInterceptor INSTANCE = new ProxyInterceptor();
     private static final MethodInterceptor[] CALLBACKS = {
-            (obj, method, args, proxy) -> proxy.invokeSuper(obj, args),
             INSTANCE,
-    };
-    private static final CallbackFilter callbackFilter = method -> {
-        if (isPassProxyMethod(method)) {
-            return 0;
-        } else {
-            return 1;
-        }
+            (obj, method, args, proxy) -> proxy.invokeSuper(obj, args),
     };
 
     private static final String onProxyName = "onProxy";
     private static final Class<?>[] onProxyParameterTypes = {Method.class, Object[].class, MethodProxy.class};
     private static final String getHandlerName = "getHandler";
     private static final Class<?>[] getHandlerParameterTypes = onProxyParameterTypes;
+    private static final ProxyCallbackFilter defaultProxyCallbackFilter = new ProxyCallbackFilter(Object.class, Proxy.class);
 
     @NotNull
     public static Enhancer getEnhancer(Class<? extends Proxy<?>> proxyClass) {
+        return getEnhancer(proxyClass, defaultProxyCallbackFilter);
+    }
+
+    @NotNull
+    public static Enhancer getEnhancer(Class<? extends Proxy<?>> proxyClass, Class<?>... ignoreClass) {
+        return getEnhancer(proxyClass, new ProxyCallbackFilter(ignoreClass));
+    }
+
+    @NotNull
+    public static Enhancer getEnhancer(Class<? extends Proxy<?>> proxyClass, CallbackFilter callbackFilter) {
         Enhancer enhancer = new Enhancer();
         enhancer.setSuperclass(proxyClass);
         enhancer.setCallbacks(CALLBACKS);
-        enhancer.setCallbackFilter(callbackFilter);
+        if (callbackFilter != null) {
+            enhancer.setCallbackFilter(callbackFilter);
+        }
         return enhancer;
     }
 

@@ -9,5 +9,9 @@ import net.minecraft.world.IBlockReader;
 
 @Singleton
 public interface IPower extends IOneImpl {
+    default boolean isSignalSource(BlockState bs) {
+        return true;
+    }
+
     int getSignal(BlockState bs, IBlockReader r, BlockPos pos, Direction d);
 }

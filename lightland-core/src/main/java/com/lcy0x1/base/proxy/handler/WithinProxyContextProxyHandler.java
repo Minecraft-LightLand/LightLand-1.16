@@ -5,6 +5,7 @@ import com.lcy0x1.base.proxy.ProxyContext;
 import com.lcy0x1.base.proxy.Result;
 import com.lcy0x1.base.proxy.container.WithinProxyContextConfig;
 import net.sf.cglib.proxy.MethodProxy;
+import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Method;
 
@@ -18,13 +19,20 @@ public class WithinProxyContextProxyHandler implements ProxyHandler {
     }
 
     @Override
-    public Result<?> onProxy(Proxy<?> obj, Method method, Object[] args, MethodProxy proxy, ProxyContext context) throws Throwable {
+    public Result<?> onProxy(@NotNull Proxy<?> obj, @NotNull Method method, @NotNull Object[] args, @NotNull MethodProxy proxy, @NotNull ProxyContext context) throws Throwable {
         return ProxyContext.withThreadLocalProxyContext(context,
                 () -> {
                     if (withinProxyContext.isProxy() || withinProxyContext.isBlock()) {
                         context.put(ProxyContext.proxy, obj);
                     }
-                    return handler.onProxy(obj, method, args, proxy, context);
+                    if (withinProxyContext.isPreSuper() && context.get(ProxyContext.pre) == null) {
+                        context.putResult(ProxyContext.objectPre, proxy.invokeSuper(obj, args));
+                    }
+                    final Result<?> result = handler.onProxy(obj, method, args, proxy, context);
+                    if (result != null && result.isSuccess() && withinProxyContext.isPre()) {
+                        context.put(ProxyContext.pre, result.snapshot());
+                    }
+                    return result;
                 });
     }
 }

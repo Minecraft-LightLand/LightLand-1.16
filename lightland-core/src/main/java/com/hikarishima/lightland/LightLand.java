@@ -25,6 +25,7 @@ public class LightLand {
     public static final String NETWORK_VERSION = "0.4.3";
 
     public LightLand() {
+        System.out.println("class loader: " + getClass().getClassLoader());
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
         MinecraftForge.EVENT_BUS.register(new ItemUseEventHandler());
         MinecraftForge.EVENT_BUS.register(new GenericEventHandler());
