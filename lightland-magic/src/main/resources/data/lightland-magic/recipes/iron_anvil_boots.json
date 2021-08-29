@@ -1,11 +1,12 @@
 {
     "type": "lightland-magic:anvil",
-    "input": "minecraft:iron_pickaxe",
+    "input": "minecraft:iron_boots",
     "output": "minecraft:iron_ingot",
-    "max": 3,
-    "level": 3,
+    "max": 4,
+    "level": 4,
     "consume": {
         "item": "minecraft:flint",
-        "count": 3
+        "count": 4
     }
 }
+

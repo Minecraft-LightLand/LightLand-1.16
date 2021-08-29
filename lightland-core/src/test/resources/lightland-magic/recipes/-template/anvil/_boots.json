@@ -1,7 +1,7 @@
 {
     "type": "lightland-magic:anvil",
-    "input": "boots",
-    "output": "",
+    "input": "^b_boots",
+    "output": "^a",
     "max": 4,
     "level": 4,
     "consume": {

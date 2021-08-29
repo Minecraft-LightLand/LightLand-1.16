@@ -1,11 +1,12 @@
 {
     "type": "lightland-magic:anvil",
-    "input": "minecraft:iron_chestplate",
+    "input": "minecraft:iron_leggings",
     "output": "minecraft:iron_ingot",
-    "max": 8,
-    "level": 8,
+    "max": 7,
+    "level": 7,
     "consume": {
         "item": "minecraft:flint",
-        "count": 8
+        "count": 7
     }
 }
+

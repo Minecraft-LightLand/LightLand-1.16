@@ -1,11 +1,12 @@
 {
     "type": "lightland-magic:anvil",
-    "input": "minecraft:iron_helmet",
+    "input": "minecraft:iron_shovel",
     "output": "minecraft:iron_ingot",
-    "max": 5,
-    "level": 5,
+    "max": 1,
+    "level": 1,
     "consume": {
         "item": "minecraft:flint",
-        "count": 5
+        "count": 1
     }
 }
+

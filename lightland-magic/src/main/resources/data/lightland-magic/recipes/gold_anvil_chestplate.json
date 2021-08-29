@@ -1,11 +1,12 @@
 {
     "type": "lightland-magic:anvil",
-    "input": "minecraft:golden_shovel",
+    "input": "minecraft:golden_chestplate",
     "output": "minecraft:gold_ingot",
-    "max": 1,
-    "level": 1,
+    "max": 8,
+    "level": 8,
     "consume": {
         "item": "minecraft:flint",
-        "count": 1
+        "count": 8
     }
 }
+

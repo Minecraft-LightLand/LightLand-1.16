@@ -1,6 +1,6 @@
 {
     "type": "lightland-magic:anvil",
-    "input": "minecraft:golden_sword",
+    "input": "minecraft:golden_hoe",
     "output": "minecraft:gold_ingot",
     "max": 2,
     "level": 2,
@@ -9,3 +9,4 @@
         "count": 2
     }
 }
+

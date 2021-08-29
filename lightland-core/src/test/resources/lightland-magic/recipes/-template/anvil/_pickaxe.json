@@ -1,7 +1,7 @@
 {
     "type": "lightland-magic:anvil",
-    "input": "pickaxe",
-    "output": "",
+    "input": "^b_pickaxe",
+    "output": "^a",
     "max": 3,
     "level": 3,
     "consume": {

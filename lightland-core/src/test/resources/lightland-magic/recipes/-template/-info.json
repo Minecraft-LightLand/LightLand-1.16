@@ -63,7 +63,7 @@
             "b": "^m:^n"
         }
     },
-    "-anvil":{
+    "-anvil_0":{
         "-list":[
             "anvil_axe",
             "anvil_sword",
@@ -71,6 +71,25 @@
             "anvil_chestplate",
             "anvil_leggings",
             "anvil_boots"
+        ],
+        "diamond":{
+            "a":"minecraft:^n",
+            "b":"minecraft:^n"
+        },
+        "gold":{
+            "a":"minecraft:^n_ingot",
+            "b":"minecraft:^nen"
+        },
+        "iron":{
+            "a":"minecraft:^n_ingot",
+            "b":"minecraft:^n"
+        }
+    },
+    "-anvil_1":{
+        "-list":[
+            "anvil_pickaxe",
+            "anvil_shovel",
+            "anvil_hoe"
         ],
         "diamond":{
             "a":"minecraft:^n",

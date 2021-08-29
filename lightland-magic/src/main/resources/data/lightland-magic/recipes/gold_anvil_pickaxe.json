@@ -1,11 +1,12 @@
 {
     "type": "lightland-magic:anvil",
-    "input": "minecraft:golden_hoe",
+    "input": "minecraft:golden_pickaxe",
     "output": "minecraft:gold_ingot",
-    "max": 2,
-    "level": 2,
+    "max": 3,
+    "level": 3,
     "consume": {
         "item": "minecraft:flint",
-        "count": 2
+        "count": 3
     }
 }
+

@@ -1,11 +1,12 @@
 {
     "type": "lightland-magic:anvil",
-    "input": "minecraft:diamond_pickaxe",
+    "input": "minecraft:diamond_chestplate",
     "output": "minecraft:diamond",
-    "max": 3,
-    "level": 3,
+    "max": 8,
+    "level": 8,
     "consume": {
         "item": "minecraft:flint",
-        "count": 3
+        "count": 8
     }
 }
+

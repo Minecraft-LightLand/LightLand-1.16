@@ -1,7 +1,7 @@
 {
     "type": "lightland-magic:anvil",
-    "input": "leggings",
-    "output": "",
+    "input": "^b_leggings",
+    "output": "^a",
     "max": 7,
     "level": 7,
     "consume": {

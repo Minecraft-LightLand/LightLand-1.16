@@ -1,7 +1,7 @@
 {
     "type": "lightland-magic:anvil",
-    "input": "helmet",
-    "output": "",
+    "input": "^b_helmet",
+    "output": "^a",
     "max": 5,
     "level": 5,
     "consume": {

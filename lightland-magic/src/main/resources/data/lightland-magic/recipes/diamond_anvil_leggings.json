@@ -1,11 +1,12 @@
 {
     "type": "lightland-magic:anvil",
-    "input": "minecraft:diamond_chestplate",
+    "input": "minecraft:diamond_leggings",
     "output": "minecraft:diamond",
-    "max": 8,
-    "level": 8,
+    "max": 7,
+    "level": 7,
     "consume": {
         "item": "minecraft:flint",
-        "count": 8
+        "count": 7
     }
 }
+

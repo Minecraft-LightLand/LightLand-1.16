@@ -1,7 +1,7 @@
 {
     "type": "lightland-magic:anvil",
-    "input": "minecraft:golden_axe",
-    "output": "minecraft:gold_ingot",
+    "input": "minecraft:diamond_pickaxe",
+    "output": "minecraft:diamond",
     "max": 3,
     "level": 3,
     "consume": {
@@ -9,3 +9,4 @@
         "count": 3
     }
 }
+
