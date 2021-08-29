@@ -4,7 +4,7 @@ import com.lcy0x1.base.proxy.Reflections;
 import com.lcy0x1.base.proxy.Result;
 import com.lcy0x1.base.proxy.handler.ForEachProxyHandler;
 import com.lcy0x1.base.proxy.handler.ForFirstProxyHandler;
-import com.lcy0x1.base.proxy.handler.ProxyHandler;
+import com.lcy0x1.base.proxy.handler.ProxyMethod;
 import lombok.Getter;
 import lombok.extern.log4j.Log4j2;
 import org.jetbrains.annotations.NotNull;
@@ -14,7 +14,7 @@ import java.util.Collection;
 import java.util.Iterator;
 
 @Log4j2
-public class ListProxyHandler<T extends ProxyHandler> implements ProxyMethodContainer<T>, Iterable<T> {
+public class ListProxyHandler<T extends ProxyMethod> implements ProxyMethodContainer<T>, Iterable<T> {
     @NotNull
     @Getter
     protected final ArrayList<T> proxyList = new ArrayList<>();

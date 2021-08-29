@@ -18,7 +18,7 @@ import java.lang.reflect.Method;
 public class OnForeachProxyHandler implements OnProxy {
     private final ProxyContext context;
     private final ForEachProxy forEachProxy;
-    private volatile ListProxyHandler<ProxyHandler> proxyMethods = null;
+    private volatile ListProxyHandler<ProxyMethod> proxyMethods = null;
     private volatile long lastModify = 0;
     // cache forEachProxy.keepContext()
     private final boolean keepContext;
@@ -86,7 +86,7 @@ public class OnForeachProxyHandler implements OnProxy {
             r.setValue(Result.of(result));
         }
         final long lastModify = proxyContainer.getLastModify();
-        final ListProxyHandler<ProxyHandler> proxyMethods = new ListProxyHandler<>();
+        final ListProxyHandler<ProxyMethod> proxyMethods = new ListProxyHandler<>();
         proxyContainer.forEachProxy(proxyMethod -> {
             final Result<?> result = call(proxyMethod, o, m, a, p, c);
             if (result != null && result.isSuccess()) {
@@ -105,7 +105,7 @@ public class OnForeachProxyHandler implements OnProxy {
 
     @Nullable
     private Result<?> call(
-            @NotNull ProxyHandler proxyMethod,
+            @NotNull ProxyMethod proxyMethod,
             Proxy<?> o, Method m, Object[] a, MethodProxy p, ProxyContext c
     ) throws Throwable {
         final Result<?> result = proxyMethod.onProxy(o, m, a, p, c);
@@ -116,7 +116,7 @@ public class OnForeachProxyHandler implements OnProxy {
     }
 
     private Result<?> loop(
-            @NotNull ProxyMethodContainer<? extends ProxyHandler> proxyMethods, ProxyContext c,
+            @NotNull ProxyMethodContainer<? extends ProxyMethod> proxyMethods, ProxyContext c,
             Proxy<?> o, Method m, Object[] a, MethodProxy p
     ) throws Throwable {
         switch (forEachProxy.type()) {

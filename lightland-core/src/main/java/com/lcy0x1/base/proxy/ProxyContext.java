@@ -1,6 +1,6 @@
 package com.lcy0x1.base.proxy;
 
-import com.lcy0x1.base.proxy.handler.ProxyHandler;
+import com.lcy0x1.base.proxy.handler.ProxyMethod;
 import lombok.Data;
 import lombok.extern.log4j.Log4j2;
 import net.minecraft.block.Block;
@@ -35,7 +35,7 @@ public class ProxyContext {
      */
     public static final Key<String> methodNameKey = new Key<>();
     public static final Key<Proxy<?>> proxy = new Key<>();
-    public static final Key<Result<ProxyHandler>> proxyMethod = new Key<>();
+    public static final Key<Result<ProxyMethod>> proxyMethod = new Key<>();
     public static final Key<Boolean> cacheFirstProxyMethod = new Key<>();
     public static final Key<Collection<? extends Class<?>>> classes = new Key<>();
     public static final Key<Result<?>> pre = new ProxyContext.Key<>(); // pre proxy return

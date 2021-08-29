@@ -15,17 +15,16 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-public interface ProxyMethod extends ProxyHandler {
+public interface ProxyMethod {
     Logger log = LogManager.getLogger(ProxyMethod.class);
     Map<CacheMapKey, Result<? extends ProxyHandler>> handlerCacheMap = new ConcurrentHashMap<>();
 
-    @Override
     default Result<?> onProxy(@NotNull Proxy<?> obj, @NotNull Method method, @NotNull Object[] args, @NotNull MethodProxy proxy, @NotNull ProxyContext context) throws Throwable {
         final CacheMapKey key = CacheMapKey.of(method, getClass());
         final Result<? extends ProxyHandler> methodResult = handlerCacheMap.get(key);
         if (methodResult != null) {
             if (methodResult.isSuccess()) {
-                return methodResult.getResult().onProxy(obj, method, args, proxy, context);
+                return methodResult.getResult().onProxy(this, obj, method, args, proxy, context);
             } else {
                 return Result.failed();
             }
@@ -40,7 +39,7 @@ public interface ProxyMethod extends ProxyHandler {
             }
             handlerCacheMap.put(key.snapshot(), Result.alloc(handler));
         }
-        return handler.onProxy(obj, method, args, proxy, context);
+        return handler.onProxy(this, obj, method, args, proxy, context);
     }
 
     default WithinProxyContextConfig getProxyContextConfig() {
@@ -67,8 +66,8 @@ public interface ProxyMethod extends ProxyHandler {
         final MethodAccessGroup.MethodAccessIndex index = methodAccess.getIndex(methodName, method.getParameterTypes());
         //log.info("load MethodAccess index: {}", index);
         if (index != null) {
-            ProxyHandler proxyHandler = (obj1, method1, args1, proxy1, context1) -> {
-                Object invoke = index.invoke(this, args1);
+            ProxyHandler proxyHandler = (proxyMethod, obj1, method1, args1, proxy1, context1) -> {
+                Object invoke = index.getMethodAccess().invoke(proxyMethod, index.getIndex(), args1);
                 if (invoke instanceof Result<?>) {
                     invoke = ((Result<?>) invoke).snapshot();
                 }
@@ -88,8 +87,8 @@ public interface ProxyMethod extends ProxyHandler {
         final Method declaredMethod = Reflections.getMethod(getClass(), methodName, method.getParameterTypes());
         if (declaredMethod != null) {
             declaredMethod.setAccessible(true);
-            ProxyHandler proxyHandler = (obj1, method1, args1, proxy1, context1) -> {
-                Object invoke = declaredMethod.invoke(this, args1);
+            ProxyHandler proxyHandler = (proxyMethod, obj1, method1, args1, proxy1, context1) -> {
+                Object invoke = declaredMethod.invoke(proxyMethod, args1);
                 if (invoke instanceof Result<?>) {
                     invoke = ((Result<?>) invoke).snapshot();
                 }

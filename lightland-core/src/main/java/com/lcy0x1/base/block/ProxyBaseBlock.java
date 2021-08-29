@@ -169,7 +169,7 @@ public class ProxyBaseBlock extends BaseBlock implements Proxy<IImpl> {
     }
 
     @Override
-    @ForEachProxy(value = IScheduleTick.class, name = "tick")
+    @ForEachProxy(value = IScheduleTick.class, name = "tick") // skip test
     public void tick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
     }
 

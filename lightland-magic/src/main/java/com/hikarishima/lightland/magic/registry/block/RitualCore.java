@@ -9,6 +9,7 @@ import com.lcy0x1.base.block.mult.IClick;
 import com.lcy0x1.base.block.mult.IScheduleTick;
 import com.lcy0x1.base.block.one.IAnimateTick;
 import com.lcy0x1.base.block.type.IImpl;
+import com.lcy0x1.base.block.type.STE;
 import com.lcy0x1.core.util.SerialClass;
 import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.block.BlockState;
@@ -33,6 +34,7 @@ import java.util.Random;
 @MethodsReturnNonnullByDefault
 @ParametersAreNonnullByDefault
 public class RitualCore {
+    public static final STE STE_BUILDER = TE::new;
 
     public static class Activate implements IScheduleTick, IClick, IAnimateTick {
 

@@ -31,7 +31,7 @@ public class OnForFirstProxyHandler implements OnProxy {
     @Override
     public Result<?> onProxy(Proxy<?> p, Method method, Object[] args, MethodProxy proxy) throws Throwable {
         final ProxyMethodContainer<?> proxyContainer = p.getProxyContainer();
-        final Result<ProxyHandler> proxyMethod = context.get(ProxyContext.proxyMethod);
+        final Result<ProxyMethod> proxyMethod = context.get(ProxyContext.proxyMethod);
         final ProxyContext context = this.context.getSubContext();
         Result<?> result = null;
 

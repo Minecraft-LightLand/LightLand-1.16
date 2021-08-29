@@ -11,7 +11,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 @MethodsReturnNonnullByDefault
 @Log4j2
 public class BaseBlock extends Block {
-    private static final boolean defaultUseProxy = false;
+    private static final boolean defaultUseProxy = true;
     private static final boolean useProxy = Boolean.parseBoolean(System.getProperty("lightland.proxy.block", Boolean.toString(defaultUseProxy)));
 
     static {

@@ -3,8 +3,10 @@ package com.lcy0x1.base.proxy;
 import com.esotericsoftware.reflectasm.MethodAccess;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Iterator;
 import java.util.List;
 
 @AllArgsConstructor
@@ -13,7 +15,9 @@ public class MethodAccessGroup {
 
     @Data
     public static class MethodAccessIndex {
+        @NotNull
         private final MethodAccess methodAccess;
+        @NotNull
         private final int index;
 
         public Object invoke(Object object, Object... args) {
@@ -23,7 +27,13 @@ public class MethodAccessGroup {
 
     @Nullable
     public MethodAccessIndex getIndex(String methodName, Class<?>... paramTypes) {
-        for (MethodAccess methodAccess : group) {
+        final Iterator<MethodAccess> methodAccessIterator = group.iterator();
+        while (methodAccessIterator.hasNext()) {
+            final MethodAccess methodAccess = methodAccessIterator.next();
+            if (methodAccess == null) {
+                methodAccessIterator.remove();
+                continue;
+            }
             try {
                 final int index = methodAccess.getIndex(methodName, paramTypes);
                 return new MethodAccessIndex(methodAccess, index);

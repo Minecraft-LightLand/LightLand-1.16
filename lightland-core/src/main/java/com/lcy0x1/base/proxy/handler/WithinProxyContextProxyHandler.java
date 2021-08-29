@@ -19,7 +19,7 @@ public class WithinProxyContextProxyHandler implements ProxyHandler {
     }
 
     @Override
-    public Result<?> onProxy(@NotNull Proxy<?> obj, @NotNull Method method, @NotNull Object[] args, @NotNull MethodProxy proxy, @NotNull ProxyContext context) throws Throwable {
+    public Result<?> onProxy(ProxyMethod proxyMethod, @NotNull Proxy<?> obj, @NotNull Method method, @NotNull Object[] args, @NotNull MethodProxy proxy, @NotNull ProxyContext context) throws Throwable {
         return ProxyContext.withThreadLocalProxyContext(context,
                 () -> {
                     if (withinProxyContext.isProxy() || withinProxyContext.isBlock()) {
@@ -28,7 +28,7 @@ public class WithinProxyContextProxyHandler implements ProxyHandler {
                     if (withinProxyContext.isPreSuper() && context.get(ProxyContext.pre) == null) {
                         context.putResult(ProxyContext.objectPre, proxy.invokeSuper(obj, args));
                     }
-                    final Result<?> result = handler.onProxy(obj, method, args, proxy, context);
+                    final Result<?> result = handler.onProxy(proxyMethod, obj, method, args, proxy, context);
                     if (result != null && result.isSuccess() && withinProxyContext.isPre()) {
                         context.put(ProxyContext.pre, result.snapshot());
                     }
