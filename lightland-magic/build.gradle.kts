@@ -1,3 +1,6 @@
+import org.spongepowered.asm.gradle.plugins.MixinExtension
+import org.spongepowered.asm.gradle.plugins.MixinGradlePlugin
+
 plugins {
     id("eclipse")
     `maven-publish`
@@ -7,6 +10,10 @@ plugins {
 
 apply(plugin = "net.minecraftforge.gradle")
 apply(plugin = "org.spongepowered.mixin")
+
+configure<MixinExtension> {
+    add(sourceSets["main"], "lightland-magic.refmap.json")
+}
 
 configureForge {
     runs {
@@ -29,10 +36,6 @@ dependencies {
     compileOnly(fg.deobf("net.darkhax.gamestages:GameStages-$mcVersion:7.2.8"))
     junit
     mixin
-}
-
-mixin {
-    add sourceSets.main, "lightland-magic.refmap.json"
 }
 
 // Example for how to get properties into the manifest for reading by the runtime..
