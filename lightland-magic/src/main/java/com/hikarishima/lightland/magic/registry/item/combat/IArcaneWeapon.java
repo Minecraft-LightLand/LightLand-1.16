@@ -29,7 +29,7 @@ public interface IArcaneWeapon extends ISpecialWeapon {
             if (stack.getItem() instanceof IArcaneItem) {
                 ArcaneItemUseHelper.addArcaneMana(stack, (int) f);
             }
-            LightLandFakeEntity.addEffect(e, new EffectInstance(VanillaMagicRegistry.ARCANE, time));
+            LightLandFakeEntity.addEffect(e, new EffectInstance(VanillaMagicRegistry.EFF_ARCANE, time));
         }));
         return source;
     }

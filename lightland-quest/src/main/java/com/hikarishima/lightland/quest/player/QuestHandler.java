@@ -68,13 +68,13 @@ public class QuestHandler {
     public PlayerEntity player;
 
     @SerialClass.SerialField(generic = {String.class, QuestToken.class})
-    private final Map<String, QuestToken> tokens = Maps.newLinkedHashMap();
+    public Map<String, QuestToken> tokens = Maps.newLinkedHashMap();
 
     @SerialClass.SerialField(generic = {String.class, PlayerProgress.class})
-    private final Map<String, PlayerProgress> progress = Maps.newLinkedHashMap();
+    public Map<String, PlayerProgress> progress = Maps.newLinkedHashMap();
 
     @SerialClass.SerialField(generic = {String.class, String.class})
-    private final Map<String, String> quest_dialog = Maps.newLinkedHashMap();
+    public Map<String, String> quest_dialog = Maps.newLinkedHashMap();
 
     public void init() {
 

@@ -24,7 +24,7 @@ public class MagicAbility {
     @SerialClass.SerialField
     public int magic_level, spell_level, tick;
     @SerialClass.SerialField
-    protected int magic_mana, spell_load;
+    public int magic_mana, spell_load;
 
     MagicAbility(MagicHandler parent) {
         this.parent = parent;
@@ -44,6 +44,7 @@ public class MagicAbility {
             magic_mana = MathHelper.clamp(magic_mana + getManaRestoration(), 0, getMaxMana());
             spell_load = Math.max(spell_load - getSpellReduction(), 0);
             tick = 0;
+            parent.abilityPoints.tickArmorWeight();
         }
         for (int i = 0; i < getMaxSpellSlot(); i++) {
             ItemStack stack = parent.player.inventory.getItem(i);

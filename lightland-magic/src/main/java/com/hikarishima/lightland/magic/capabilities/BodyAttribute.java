@@ -33,7 +33,7 @@ public class BodyAttribute {
             ModifiableAttributeInstance ins = player.getAttribute(attr.attr);
             if (ins != null) {
                 ins.removeModifier(attr.id);
-                ins.addTransientModifier(attr.get(ability));
+                ins.addPermanentModifier(attr.get(ability));
             }
         }
     }

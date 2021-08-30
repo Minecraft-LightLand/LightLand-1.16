@@ -29,11 +29,11 @@ import javax.annotation.ParametersAreNonnullByDefault;
 public class WindBladeEntity extends ThrowableEntity implements IEntityAdditionalSpawnData {
 
     @SerialClass.SerialField
-    private float damage = 3;
+    public float damage = 3;
     @SerialClass.SerialField
-    private int last = 200;
+    public int last = 200;
     @SerialClass.SerialField
-    private boolean isArcane = false;
+    public boolean isArcane = false;
     @SerialClass.SerialField
     public float zrot = 0f;
 

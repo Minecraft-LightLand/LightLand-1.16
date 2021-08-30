@@ -43,8 +43,8 @@ public class ClientRenderEventHandler {
     private static Entity target;
 
     public static void init() {
-        TRACKED.add(VanillaMagicRegistry.ARCANE);
-        TRACKED.add(VanillaMagicRegistry.WATER_TRAP);
+        TRACKED.add(VanillaMagicRegistry.EFF_ARCANE);
+        TRACKED.add(VanillaMagicRegistry.EFF_WATER_TRAP);
     }
 
     @OnlyIn(Dist.CLIENT)
@@ -54,10 +54,10 @@ public class ClientRenderEventHandler {
         LivingRenderer<?, ?> renderer = event.getRenderer();
         if (EFFECT_MAP.containsKey(entity.getUUID())) {
             Set<Effect> set = EFFECT_MAP.get(entity.getUUID());
-            if (set.contains(VanillaMagicRegistry.ARCANE)) {
+            if (set.contains(VanillaMagicRegistry.EFF_ARCANE)) {
                 renderIcon(entity, event.getMatrixStack(), event.getBuffers(), renderer.getDispatcher(), RL_ENTITY_BODY_ICON);
             }
-            if (set.contains(VanillaMagicRegistry.WATER_TRAP)) {
+            if (set.contains(VanillaMagicRegistry.EFF_WATER_TRAP)) {
                 renderIcon(entity, event.getMatrixStack(), event.getBuffers(), renderer.getDispatcher(), WATER_TRAP_ICON);
             }
         }

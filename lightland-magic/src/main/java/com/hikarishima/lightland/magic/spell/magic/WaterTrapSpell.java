@@ -43,7 +43,7 @@ public class WaterTrapSpell extends SimpleSpell<WaterTrapSpell.Config> {
                                 !le.isAlliedTo(player) &&
                                 le.position().distanceTo(spell.position()) < config.radius
                 ).forEach(le -> LightLandFakeEntity.addEffect((LivingEntity) le,
-                        new EffectInstance(VanillaMagicRegistry.WATER_TRAP, config.effect_time, config.effect_level)));
+                        new EffectInstance(VanillaMagicRegistry.EFF_WATER_TRAP, config.effect_time, config.effect_level)));
             });
             world.addFreshEntity(e);
         }

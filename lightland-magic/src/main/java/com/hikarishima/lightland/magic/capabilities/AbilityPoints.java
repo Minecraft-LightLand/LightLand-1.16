@@ -1,7 +1,10 @@
 package com.hikarishima.lightland.magic.capabilities;
 
+import com.hikarishima.lightland.magic.capabilities.weight.WeightCalculator;
 import com.hikarishima.lightland.magic.profession.Profession;
+import com.hikarishima.lightland.magic.registry.VanillaMagicRegistry;
 import com.lcy0x1.core.util.SerialClass;
+import net.minecraft.potion.EffectInstance;
 
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -99,6 +102,19 @@ public class AbilityPoints {
 
     public void updateAttribute() {
         BodyAttribute.resetModifiers(this, parent.player);
+    }
+
+    public int getWeightAble() {
+        return 1000 + 200 * health + 100 * strength;
+    }
+
+    void tickArmorWeight() {
+        int weight = WeightCalculator.getTotalWeight(parent.player);
+        int base = getWeightAble();
+        int slow = weight <= base ? 0 : weight <= base * 1.2 ? 1 : 2;
+        if (slow > 0) {
+            parent.player.addEffect(new EffectInstance(VanillaMagicRegistry.EFF_HEAVY, 40, slow - 1));
+        }
     }
 
     public enum LevelType {

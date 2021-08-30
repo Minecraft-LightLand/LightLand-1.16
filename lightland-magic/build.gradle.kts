@@ -31,6 +31,10 @@ dependencies {
     mixin
 }
 
+mixin {
+    add sourceSets.main, "lightland-magic.refmap.json"
+}
+
 // Example for how to get properties into the manifest for reading by the runtime..
 jar {
     defaultManifest(project)

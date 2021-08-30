@@ -20,7 +20,7 @@ public abstract class SyncedSingleItemTE extends BaseTileEntity implements ISide
     private static final int[] SLOTS = {0};
 
     @SerialClass.SerialField(toClient = true)
-    private ItemStack stack = ItemStack.EMPTY;
+    public ItemStack stack = ItemStack.EMPTY;
 
     public SyncedSingleItemTE(TileEntityType<?> type) {
         super(type);

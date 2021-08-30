@@ -17,7 +17,7 @@ import java.util.function.Consumer;
 public class SpellEntity extends BaseEntity {
 
     @SerialClass.SerialField
-    private int time, setup, close;
+    public int time, setup, close;
 
     private Consumer<SpellEntity> action;
 

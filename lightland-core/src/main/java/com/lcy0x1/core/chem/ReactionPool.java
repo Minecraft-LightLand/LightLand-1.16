@@ -394,7 +394,7 @@ public class ReactionPool {
     @Getter
     public static class Result {
         @SerialClass.SerialField(generic = {String.class, Double.class})
-        private final Map<String, Double> map = Maps.newLinkedHashMap();
+        public final Map<String, Double> map = Maps.newLinkedHashMap();
 
         @Deprecated
         public Result() {

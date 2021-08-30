@@ -1,14 +1,17 @@
 package com.hikarishima.lightland.magic.gui.overlay;
 
 import com.hikarishima.lightland.magic.capabilities.AbilityPoints;
+import com.hikarishima.lightland.magic.capabilities.weight.WeightCalculator;
+import com.hikarishima.lightland.proxy.Proxy;
 import net.minecraft.client.gui.AbstractGui;
+import net.minecraft.util.math.MathHelper;
 
 public class ManaOverlay extends AbstractOverlay {
 
     public static final ManaOverlay INSTANCE = new ManaOverlay();
 
     protected boolean render() {
-        if (handler == null)
+        if (handler == null || handler.abilityPoints.profession == null)
             return false;
         int x0 = 4;
         int dy = 10;
@@ -28,6 +31,12 @@ public class ManaOverlay extends AbstractOverlay {
             String s2 = "" + (handler.magicAbility.getSpellLoad() / endur);
             renderBar(x0, y0, f2, s2, 0, 0x80FF20);
         }
+        y0 += dy;
+        int base = handler.abilityPoints.getWeightAble();
+        int load = WeightCalculator.getTotalWeight(Proxy.getClientPlayer());
+        float f3 = MathHelper.clamp(1f * load / base, 0, 2);
+        String s3 = load + "/" + base;
+        renderBar(x0, y0, f3, s3, 0, 0x80FF20);
         return false;
     }
 
