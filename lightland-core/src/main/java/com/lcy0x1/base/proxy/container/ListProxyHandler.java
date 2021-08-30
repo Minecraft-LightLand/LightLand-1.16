@@ -14,7 +14,7 @@ import java.util.Collection;
 import java.util.Iterator;
 
 @Log4j2
-public class ListProxyHandler<T extends ProxyMethod> implements ProxyMethodContainer<T>, Iterable<T> {
+public class ListProxyHandler<T extends ProxyMethod> implements ProxyContainer<T>, Iterable<T> {
     @NotNull
     @Getter
     protected final ArrayList<T> proxyList = new ArrayList<>();

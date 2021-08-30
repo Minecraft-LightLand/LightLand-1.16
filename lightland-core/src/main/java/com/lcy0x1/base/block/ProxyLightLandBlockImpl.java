@@ -10,10 +10,10 @@ import com.lcy0x1.base.proxy.Proxy;
 import com.lcy0x1.base.proxy.ProxyInterceptor;
 import com.lcy0x1.base.proxy.annotation.ForEachProxy;
 import com.lcy0x1.base.proxy.annotation.ForFirstProxy;
-import com.lcy0x1.base.proxy.container.DelegatedProxyMethodContainer;
-import com.lcy0x1.base.proxy.container.ListProxyMethodContainer;
-import com.lcy0x1.base.proxy.container.MutableProxyMethodContainer;
-import com.lcy0x1.base.proxy.container.ProxyMethodContainer;
+import com.lcy0x1.base.proxy.container.DelegatedProxyContainer;
+import com.lcy0x1.base.proxy.container.ListProxyContainer;
+import com.lcy0x1.base.proxy.container.MutableProxyContainer;
+import com.lcy0x1.base.proxy.container.ProxyContainer;
 import com.lcy0x1.base.proxy.exception.NoProxyFoundException;
 import lombok.Getter;
 import lombok.extern.log4j.Log4j2;
@@ -184,7 +184,7 @@ public class ProxyLightLandBlockImpl extends LightLandBlock implements Proxy<Blo
 
     @NotNull
     @Override
-    public ProxyMethodContainer<? extends BlockMethod> getProxyContainer() {
+    public ProxyContainer<? extends BlockMethod> getProxyContainer() {
         if (impl == null) {
             final BlockImplementor blockImplementor = TEMP.get();
             if (blockImplementor != null) {
@@ -197,11 +197,11 @@ public class ProxyLightLandBlockImpl extends LightLandBlock implements Proxy<Blo
         return impl;
     }
 
-    public static class BlockImplementor implements DelegatedProxyMethodContainer<BlockMethod> {
+    public static class BlockImplementor implements DelegatedProxyContainer<BlockMethod> {
         private final Properties props;
         @NotNull
         @Getter
-        private final MutableProxyMethodContainer<BlockMethod> proxy = new ListProxyMethodContainer<>();
+        private final MutableProxyContainer<BlockMethod> proxy = new ListProxyContainer<>();
 
         public BlockImplementor(Properties p) {
             props = p;

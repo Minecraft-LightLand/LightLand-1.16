@@ -5,7 +5,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;
 
-public interface MutableProxyMethodContainer<T extends ProxyMethod> extends ProxyMethodContainer<T> {
+public interface MutableProxyContainer<T extends ProxyMethod> extends ProxyContainer<T> {
     int addProxy(@Nullable T proxy);
 
     boolean addAllProxy(Collection<T> proxy);

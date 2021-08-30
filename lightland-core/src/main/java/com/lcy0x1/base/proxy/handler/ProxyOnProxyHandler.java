@@ -6,6 +6,6 @@ import net.sf.cglib.proxy.MethodProxy;
 
 import java.lang.reflect.Method;
 
-public interface OnProxy {
+public interface ProxyOnProxyHandler {
     Result<?> onProxy(Proxy<?> obj, Method method, Object[] args, MethodProxy proxy) throws Throwable;
 }

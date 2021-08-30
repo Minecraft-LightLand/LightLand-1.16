@@ -3,8 +3,8 @@ package com.lcy0x1.base.proxy
 import cn.tursom.forge.Open
 import com.lcy0x1.base.proxy.annotation.ForFirstProxy
 import com.lcy0x1.base.proxy.annotation.WithinProxyContext
-import com.lcy0x1.base.proxy.container.ListProxyMethodContainer
-import com.lcy0x1.base.proxy.container.ProxyMethodContainer
+import com.lcy0x1.base.proxy.container.ListProxyContainer
+import com.lcy0x1.base.proxy.container.ProxyContainer
 import com.lcy0x1.base.proxy.handler.ProxyMethod
 import net.sf.cglib.proxy.MethodProxy
 import org.junit.Test
@@ -32,7 +32,7 @@ class ProxyTestFirst {
     @Open
     class ProxyTestTarget : Proxy<ProxyMethod>, TestInterface {
         val random = Random.nextInt()
-        private val proxy = ListProxyMethodContainer<ProxyMethod>()
+        private val proxy = ListProxyContainer<ProxyMethod>()
 
         @get:ForFirstProxy
         override val testProxy: Int by ::random
@@ -47,7 +47,7 @@ class ProxyTestFirst {
         @get:ForFirstProxy(must = true)
         val testMust: Int by ::random
 
-        override fun getProxyContainer(): ProxyMethodContainer<out ProxyMethod> = proxy
+        override fun getProxyContainer(): ProxyContainer<out ProxyMethod> = proxy
 
         init {
             repeat(proxyCount) {

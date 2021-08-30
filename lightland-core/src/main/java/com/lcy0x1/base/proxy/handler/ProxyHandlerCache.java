@@ -10,26 +10,26 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class ProxyHandlerCache {
     public static final ProxyHandlerCache INSTANCE = new ProxyHandlerCache();
-    public static final OnProxy callSuper = (obj, method, args, proxy) -> {
+    public static final ProxyOnProxyHandler callSuper = (obj, method, args, proxy) -> {
         Object result = proxy.invokeSuper(obj, args);
         if (result instanceof Result<?>) {
             result = ((Result<?>) result).snapshot();
         }
         return Result.of(result);
     };
-    public static final OnProxy empty = (obj, method, args, proxy) -> Result.failed();
-    private final Map<Method, OnProxy> handlerMap = new ConcurrentHashMap<>();
+    public static final ProxyOnProxyHandler empty = (obj, method, args, proxy) -> Result.failed();
+    private final Map<Method, ProxyOnProxyHandler> handlerMap = new ConcurrentHashMap<>();
 
 
     @Nullable
-    public OnProxy getHandler(@NotNull Method method) {
+    public ProxyOnProxyHandler getHandler(@NotNull Method method) {
         return handlerMap.get(method);
     }
 
-    public void setHandler(@NotNull Method method, @Nullable OnProxy onProxy) {
-        if (onProxy == null) {
-            onProxy = callSuper;
+    public void setHandler(@NotNull Method method, @Nullable ProxyOnProxyHandler proxyOnProxyHandler) {
+        if (proxyOnProxyHandler == null) {
+            proxyOnProxyHandler = callSuper;
         }
-        handlerMap.put(method, onProxy);
+        handlerMap.put(method, proxyOnProxyHandler);
     }
 }

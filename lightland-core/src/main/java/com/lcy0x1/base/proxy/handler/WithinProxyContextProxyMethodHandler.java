@@ -9,11 +9,11 @@ import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Method;
 
-public class WithinProxyContextProxyHandler implements ProxyHandler {
-    final ProxyHandler handler;
+public class WithinProxyContextProxyMethodHandler implements ProxyMethodHandler {
+    final ProxyMethodHandler handler;
     final WithinProxyContextConfig withinProxyContext;
 
-    public WithinProxyContextProxyHandler(ProxyHandler handler, WithinProxyContextConfig withinProxyContext) {
+    public WithinProxyContextProxyMethodHandler(ProxyMethodHandler handler, WithinProxyContextConfig withinProxyContext) {
         this.handler = handler;
         this.withinProxyContext = withinProxyContext;
     }

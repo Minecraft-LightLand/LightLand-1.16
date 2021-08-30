@@ -6,7 +6,7 @@ import com.lcy0x1.base.proxy.ProxyInterceptor;
 import com.lcy0x1.base.proxy.annotation.ForEachProxy;
 import com.lcy0x1.base.proxy.annotation.ForFirstProxy;
 import com.lcy0x1.base.proxy.annotation.WithinProxyContext;
-import com.lcy0x1.base.proxy.container.ListProxyMethodContainer;
+import com.lcy0x1.base.proxy.container.ListProxyContainer;
 import com.lcy0x1.base.proxy.handler.ProxyMethod;
 import lombok.Getter;
 import net.sf.cglib.proxy.Enhancer;
@@ -28,7 +28,7 @@ public class ProxyExample implements Proxy<ProxyMethod> {
     private static final ProxyContext.Key<Integer> callTimeKey = new ProxyContext.Key<>();
 
     @Getter
-    private final ListProxyMethodContainer<ProxyMethod> proxyContainer = new ListProxyMethodContainer<>();
+    private final ListProxyContainer<ProxyMethod> proxyContainer = new ListProxyContainer<>();
     private final int a = 1;
     final AtomicInteger r = new AtomicInteger();
     private boolean testPerformance;

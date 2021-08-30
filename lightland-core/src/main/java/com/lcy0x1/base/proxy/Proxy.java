@@ -2,7 +2,7 @@ package com.lcy0x1.base.proxy;
 
 import com.lcy0x1.base.proxy.annotation.ForEachProxy;
 import com.lcy0x1.base.proxy.annotation.ForFirstProxy;
-import com.lcy0x1.base.proxy.container.ProxyMethodContainer;
+import com.lcy0x1.base.proxy.container.ProxyContainer;
 import com.lcy0x1.base.proxy.handler.*;
 import net.sf.cglib.proxy.MethodProxy;
 import org.apache.commons.lang3.StringUtils;
@@ -21,7 +21,7 @@ public interface Proxy<T extends ProxyMethod> {
     Logger log = LogManager.getLogger(Proxy.class);
 
     @NotNull
-    ProxyMethodContainer<? extends T> getProxyContainer() throws Throwable;
+    ProxyContainer<? extends T> getProxyContainer() throws Throwable;
 
     /**
      * will be call when proxy method invoke.
@@ -31,7 +31,7 @@ public interface Proxy<T extends ProxyMethod> {
         if (method.getName().equals("hasTileEntity")) {
             log.info("hasTileEntity");
         }
-        OnProxy handler = ProxyHandlerCache.INSTANCE.getHandler(method);
+        ProxyOnProxyHandler handler = ProxyHandlerCache.INSTANCE.getHandler(method);
         if (handler != null) {
             return handler.onProxy(this, method, args, proxy);
         }
@@ -46,7 +46,7 @@ public interface Proxy<T extends ProxyMethod> {
     }
 
     @SuppressWarnings("unused")
-    default OnProxy getHandler(Method method, Object[] args, MethodProxy proxy) throws Throwable {
+    default ProxyOnProxyHandler getHandler(Method method, Object[] args, MethodProxy proxy) throws Throwable {
         for (Annotation annotation : method.getAnnotations()) {
             if (annotation instanceof ForEachProxy) {
                 ForEachProxy forEachProxy = (ForEachProxy) annotation;
@@ -60,7 +60,7 @@ public interface Proxy<T extends ProxyMethod> {
     }
 
     @NotNull
-    default OnProxy onForeachProxy(Method method, ForEachProxy forEachProxy, Object[] args, MethodProxy proxy) throws Throwable {
+    default ProxyOnProxyHandler onForeachProxy(Method method, ForEachProxy forEachProxy, Object[] args, MethodProxy proxy) throws Throwable {
         final ProxyContext proxyContext = new ProxyContext();
 
         Class<?>[] type = forEachProxy.value();
@@ -90,10 +90,10 @@ public interface Proxy<T extends ProxyMethod> {
         //    log.info("createBlockStateDefinition handler list: {}", CollectionsKt.toList(getProxyContainer()));
         //    proxyContext.put(ProxyContext.loggerKey, LogManager.getLogger("com.lcy0x1.base.proxy.log"));
         //}
-        return new OnForeachProxyHandler(proxyContext, forEachProxy);
+        return new ProxyOnForeachProxyHandlerHandler(proxyContext, forEachProxy);
     }
 
-    static OnProxy onForFirstProxy(Method method, ForFirstProxy forFirstProxy) {
+    static ProxyOnProxyHandler onForFirstProxy(Method method, ForFirstProxy forFirstProxy) {
         final ProxyContext proxyContext = new ProxyContext();
         final Collection<Class<?>> classes;
         switch (forFirstProxy.value().length) {
@@ -114,6 +114,6 @@ public interface Proxy<T extends ProxyMethod> {
         }
         proxyContext.put(ProxyContext.methodNameKey, methodName);
 
-        return new OnForFirstProxyHandler(forFirstProxy, classes, proxyContext);
+        return new ProxyOnForFirstProxyHandlerHandler(forFirstProxy, classes, proxyContext);
     }
 }

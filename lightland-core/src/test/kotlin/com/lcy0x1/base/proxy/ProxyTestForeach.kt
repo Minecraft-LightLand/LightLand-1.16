@@ -3,8 +3,8 @@ package com.lcy0x1.base.proxy
 import cn.tursom.forge.Open
 import com.lcy0x1.base.proxy.annotation.ForEachProxy
 import com.lcy0x1.base.proxy.annotation.WithinProxyContext
-import com.lcy0x1.base.proxy.container.ListProxyMethodContainer
-import com.lcy0x1.base.proxy.container.ProxyMethodContainer
+import com.lcy0x1.base.proxy.container.ListProxyContainer
+import com.lcy0x1.base.proxy.container.ProxyContainer
 import com.lcy0x1.base.proxy.handler.ProxyMethod
 import org.junit.Test
 import java.util.concurrent.atomic.AtomicInteger
@@ -30,7 +30,7 @@ class ProxyTestForeach {
     @Open
     class ProxyTestTarget private constructor(
         val random: Int = Random.nextInt(),
-        private val proxy: ListProxyMethodContainer<ProxyMethod> = ListProxyMethodContainer(),
+        private val proxy: ListProxyContainer<ProxyMethod> = ListProxyContainer(),
     ) : Proxy<ProxyMethod> {
         @get:ForEachProxy
         val testProxy: Int by ::random
@@ -44,7 +44,7 @@ class ProxyTestForeach {
         @get:ForEachProxy(type = ForEachProxy.LoopType.BEFORE_WITH_RETURN)
         val testBeforeWithReturn: Int by ::random
 
-        override fun getProxyContainer(): ProxyMethodContainer<out ProxyMethod> = proxy
+        override fun getProxyContainer(): ProxyContainer<out ProxyMethod> = proxy
 
         init {
             repeat(proxyCount) {

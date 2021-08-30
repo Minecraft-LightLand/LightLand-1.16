@@ -10,9 +10,9 @@ import java.util.Iterator;
 import java.util.Spliterator;
 import java.util.function.Consumer;
 
-public interface DelegatedProxyMethodContainer<T extends ProxyMethod> extends ProxyMethodContainer<T> {
+public interface DelegatedProxyContainer<T extends ProxyMethod> extends ProxyContainer<T> {
     @NotNull
-    ProxyMethodContainer<T> getProxy();
+    ProxyContainer<T> getProxy();
 
     @Override
     default int size() {

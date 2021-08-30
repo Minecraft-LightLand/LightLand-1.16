@@ -6,7 +6,7 @@ import com.lcy0x1.base.proxy.Reflections;
 import com.lcy0x1.base.proxy.Result;
 import com.lcy0x1.base.proxy.annotation.ForEachProxy;
 import com.lcy0x1.base.proxy.container.ListProxyHandler;
-import com.lcy0x1.base.proxy.container.ProxyMethodContainer;
+import com.lcy0x1.base.proxy.container.ProxyContainer;
 import lombok.extern.log4j.Log4j2;
 import net.sf.cglib.proxy.MethodProxy;
 import org.jetbrains.annotations.NotNull;
@@ -15,7 +15,7 @@ import org.jetbrains.annotations.Nullable;
 import java.lang.reflect.Method;
 
 @Log4j2
-public class OnForeachProxyHandler implements OnProxy {
+public class ProxyOnForeachProxyHandlerHandler implements ProxyOnProxyHandler {
     private final ProxyContext context;
     private final ForEachProxy forEachProxy;
     private volatile ListProxyHandler<ProxyMethod> proxyMethods = null;
@@ -23,7 +23,7 @@ public class OnForeachProxyHandler implements OnProxy {
     // cache forEachProxy.keepContext()
     private final boolean keepContext;
 
-    public OnForeachProxyHandler(ProxyContext context, ForEachProxy forEachProxy) {
+    public ProxyOnForeachProxyHandlerHandler(ProxyContext context, ForEachProxy forEachProxy) {
         this.context = context;
         this.forEachProxy = forEachProxy;
         keepContext = forEachProxy.keepContext();
@@ -32,7 +32,7 @@ public class OnForeachProxyHandler implements OnProxy {
     @Override
     public Result<?> onProxy(Proxy<?> o, Method m, Object[] a, MethodProxy p) throws Throwable {
         final ProxyContext subContext = context.getSubContext();
-        final ProxyMethodContainer<?> proxyContainer = o.getProxyContainer();
+        final ProxyContainer<?> proxyContainer = o.getProxyContainer();
 
         //log.info("onProxy:\n\tForEachProxy: {}\n\tproxy: {},\n\tmethod: {},\n\targs: {},\n\tmethodProxy: {}\n\tcontext: {}",
         //    forEachProxy, o, m, a, p, context);
@@ -48,7 +48,7 @@ public class OnForeachProxyHandler implements OnProxy {
     }
 
     private Result<?> noNeedUseCache(
-            @NotNull ProxyMethodContainer<?> proxyContainer, ProxyContext c,
+            @NotNull ProxyContainer<?> proxyContainer, ProxyContext c,
             Proxy<?> o, Method m, Object[] a, MethodProxy p
     ) throws Throwable {
         if (proxyContainer.isEmpty()) {
@@ -61,7 +61,7 @@ public class OnForeachProxyHandler implements OnProxy {
     }
 
     private Result<?> useCache(
-            @NotNull ProxyMethodContainer<?> proxyContainer, ProxyContext c,
+            @NotNull ProxyContainer<?> proxyContainer, ProxyContext c,
             Proxy<?> o, Method m, Object[] a, MethodProxy p
     ) throws Throwable {
         if (lastModify == proxyContainer.getLastModify() && proxyMethods != null) {
@@ -74,7 +74,7 @@ public class OnForeachProxyHandler implements OnProxy {
     }
 
     private Result<?> rebuildCache(
-            @NotNull ProxyMethodContainer<?> proxyContainer, ProxyContext c,
+            @NotNull ProxyContainer<?> proxyContainer, ProxyContext c,
             Proxy<?> o, Method m, Object[] a, MethodProxy p
     ) throws Throwable {
         final Reflections.Reference<Result<?>> r = new Reflections.Reference<>(Result.of());
@@ -116,7 +116,7 @@ public class OnForeachProxyHandler implements OnProxy {
     }
 
     private Result<?> loop(
-            @NotNull ProxyMethodContainer<? extends ProxyMethod> proxyMethods, ProxyContext c,
+            @NotNull ProxyContainer<? extends ProxyMethod> proxyMethods, ProxyContext c,
             Proxy<?> o, Method m, Object[] a, MethodProxy p
     ) throws Throwable {
         switch (forEachProxy.type()) {

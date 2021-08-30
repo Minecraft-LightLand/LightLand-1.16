@@ -9,8 +9,8 @@ import org.jetbrains.annotations.Nullable;
 
 import java.lang.reflect.Method;
 
-public interface ProxyHandler {
-    ProxyHandler failed = (proxyMethod, obj, method, args, proxy, methodName) -> Result.failed();
+public interface ProxyMethodHandler {
+    ProxyMethodHandler failed = (proxyMethod, obj, method, args, proxy, methodName) -> Result.failed();
 
     @Nullable
     Result<?> onProxy(ProxyMethod proxyMethod, @NotNull Proxy<?> obj, @NotNull Method method, @NotNull Object[] args,

@@ -9,7 +9,7 @@ import java.lang.reflect.Constructor;
 import java.util.*;
 
 @Log4j2
-public class ListProxyMethodContainer<T extends ProxyMethod> extends ListProxyHandler<T> implements MutableProxyMethodContainer<T> {
+public class ListProxyContainer<T extends ProxyMethod> extends ListProxyHandler<T> implements MutableProxyContainer<T> {
     private final Map<Class<?>, Object> singletonMap = new HashMap<>();
 
     @SuppressWarnings("unchecked")
@@ -18,7 +18,7 @@ public class ListProxyMethodContainer<T extends ProxyMethod> extends ListProxyHa
         if (proxy == null) return -1;
         check(proxy);
         final int addProxy;
-        if (proxy.onAdded((MutableProxyMethodContainer<ProxyMethod>) this)) {
+        if (proxy.onAdded((MutableProxyContainer<ProxyMethod>) this)) {
             addProxy = super.addProxy(proxy);
         } else {
             return -1;

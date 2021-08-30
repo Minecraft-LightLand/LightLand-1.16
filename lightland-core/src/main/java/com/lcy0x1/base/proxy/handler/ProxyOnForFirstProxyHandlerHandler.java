@@ -5,7 +5,7 @@ import com.lcy0x1.base.proxy.Proxy;
 import com.lcy0x1.base.proxy.ProxyContext;
 import com.lcy0x1.base.proxy.Result;
 import com.lcy0x1.base.proxy.annotation.ForFirstProxy;
-import com.lcy0x1.base.proxy.container.ProxyMethodContainer;
+import com.lcy0x1.base.proxy.container.ProxyContainer;
 import lombok.extern.log4j.Log4j2;
 import net.sf.cglib.proxy.MethodProxy;
 import org.apache.commons.lang3.StringUtils;
@@ -15,14 +15,14 @@ import java.util.Arrays;
 import java.util.Collection;
 
 @Log4j2
-public class OnForFirstProxyHandler implements OnProxy {
+public class ProxyOnForFirstProxyHandlerHandler implements ProxyOnProxyHandler {
     private static final String[] errMsgSearchList = {"%M", "%B", "%A"};
     final ForFirstProxy forFirstProxy;
     final Collection<Class<?>> classes;
     volatile long lastModify = 0;
     final ProxyContext context;
 
-    public OnForFirstProxyHandler(ForFirstProxy forFirstProxy, Collection<Class<?>> classes, ProxyContext context) {
+    public ProxyOnForFirstProxyHandlerHandler(ForFirstProxy forFirstProxy, Collection<Class<?>> classes, ProxyContext context) {
         this.forFirstProxy = forFirstProxy;
         this.classes = classes;
         this.context = context;
@@ -30,7 +30,7 @@ public class OnForFirstProxyHandler implements OnProxy {
 
     @Override
     public Result<?> onProxy(Proxy<?> p, Method method, Object[] args, MethodProxy proxy) throws Throwable {
-        final ProxyMethodContainer<?> proxyContainer = p.getProxyContainer();
+        final ProxyContainer<?> proxyContainer = p.getProxyContainer();
         final Result<ProxyMethod> proxyMethod = context.get(ProxyContext.proxyMethod);
         final ProxyContext context = this.context.getSubContext();
         Result<?> result = null;
@@ -59,7 +59,7 @@ public class OnForFirstProxyHandler implements OnProxy {
         return Result.failed();
     }
 
-    public Result<?> loop(ProxyMethodContainer<?> proxyContainer, ProxyContext context,
+    public Result<?> loop(ProxyContainer<?> proxyContainer, ProxyContext context,
                           Proxy<?> obj, Method method, Object[] args, MethodProxy proxy) throws Throwable {
         return proxyContainer.forFirstProxy(p -> {
             if (classes != null && classes.stream().noneMatch(c -> c.isInstance(p))) {
