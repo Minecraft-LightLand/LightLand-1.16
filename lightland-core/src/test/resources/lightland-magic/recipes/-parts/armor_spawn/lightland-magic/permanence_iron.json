@@ -1,0 +1,23 @@
+{
+    "_class": "organize.json.JsonPartList",
+    "file": "config_mobspawn",
+    "path": "map.armor.items",
+    "common": {
+        "level": 2,
+        "weight": 25
+    },
+    "list": [
+        {
+            "item": "lightland-magic:permanence_iron_helmet"
+        },
+        {
+            "item": "lightland-magic:permanence_iron_chestplate"
+        },
+        {
+            "item": "lightland-magic:permanence_iron_leggings"
+        },
+        {
+            "item": "lightland-magic:permanence_iron_boots"
+        }
+    ]
+}

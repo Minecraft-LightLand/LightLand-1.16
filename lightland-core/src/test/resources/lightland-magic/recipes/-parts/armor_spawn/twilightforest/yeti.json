@@ -1,0 +1,23 @@
+{
+    "_class": "organize.json.JsonPartList",
+    "file": "config_mobspawn",
+    "path": "map.armor.items",
+    "common": {
+        "level": 2,
+        "weight": 10
+    },
+    "list": [
+        {
+            "item": "twilightforest:yeti_helmet"
+        },
+        {
+            "item": "twilightforest:yeti_chestplate"
+        },
+        {
+            "item": "twilightforest:yeti_leggings"
+        },
+        {
+            "item": "twilightforest:yeti_boots"
+        }
+    ]
+}

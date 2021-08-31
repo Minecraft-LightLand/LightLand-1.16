@@ -1,0 +1,23 @@
+{
+    "_class": "organize.json.JsonPartList",
+    "file": "config_mobspawn",
+    "path": "map.armor.items",
+    "common": {
+        "level": 1,
+        "weight": 150
+    },
+    "list": [
+        {
+            "item": "minecraft:iron_helmet"
+        },
+        {
+            "item": "minecraft:iron_chestplate"
+        },
+        {
+            "item": "minecraft:iron_leggings"
+        },
+        {
+            "item": "minecraft:iron_boots"
+        }
+    ]
+}

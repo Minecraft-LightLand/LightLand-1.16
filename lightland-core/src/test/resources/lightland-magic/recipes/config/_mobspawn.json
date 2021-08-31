@@ -4,7 +4,7 @@
         "general": {
             "_class": "com.hikarishima.lightland.mobspawn.config.GeneralConfig",
             "enchant_factor": 10,
-            "armor_chance": 1
+            "armor_chance": 0.5
         },
         "armor": {
             "_class": "com.hikarishima.lightland.mobspawn.config.ArmorConfig",

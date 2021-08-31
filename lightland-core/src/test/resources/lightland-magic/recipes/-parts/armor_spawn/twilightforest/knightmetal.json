@@ -1,0 +1,23 @@
+{
+    "_class": "organize.json.JsonPartList",
+    "file": "config_mobspawn",
+    "path": "map.armor.items",
+    "common": {
+        "level": 1,
+        "weight": 25
+    },
+    "list": [
+        {
+            "item": "twilightforest:knightmetal_helmet"
+        },
+        {
+            "item": "twilightforest:knightmetal_chestplate"
+        },
+        {
+            "item": "twilightforest:knightmetal_leggings"
+        },
+        {
+            "item": "twilightforest:knightmetal_boots"
+        }
+    ]
+}

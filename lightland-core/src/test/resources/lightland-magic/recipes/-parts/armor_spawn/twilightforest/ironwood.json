@@ -1,0 +1,23 @@
+{
+    "_class": "organize.json.JsonPartList",
+    "file": "config_mobspawn",
+    "path": "map.armor.items",
+    "common": {
+        "level": 1,
+        "weight": 25
+    },
+    "list": [
+        {
+            "item": "twilightforest:ironwood_helmet"
+        },
+        {
+            "item": "twilightforest:ironwood_chestplate"
+        },
+        {
+            "item": "twilightforest:ironwood_leggings"
+        },
+        {
+            "item": "twilightforest:ironwood_boots"
+        }
+    ]
+}

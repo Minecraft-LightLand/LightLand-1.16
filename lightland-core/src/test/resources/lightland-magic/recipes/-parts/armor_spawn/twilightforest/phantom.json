@@ -1,0 +1,17 @@
+{
+    "_class": "organize.json.JsonPartList",
+    "file": "config_mobspawn",
+    "path": "map.armor.items",
+    "common": {
+        "level": 2,
+        "weight": 5
+    },
+    "list": [
+        {
+            "item": "twilightforest:phantom_helmet"
+        },
+        {
+            "item": "twilightforest:phantom_chestplate"
+        }
+    ]
+}

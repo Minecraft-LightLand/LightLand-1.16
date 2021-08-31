@@ -1,0 +1,23 @@
+{
+    "_class": "organize.json.JsonPartList",
+    "file": "config_mobspawn",
+    "path": "map.armor.items",
+    "common": {
+        "level": 3,
+        "weight": 25
+    },
+    "list": [
+        {
+            "item": "minecraft:netherite_helmet"
+        },
+        {
+            "item": "minecraft:netherite_chestplate"
+        },
+        {
+            "item": "minecraft:netherite_leggings"
+        },
+        {
+            "item": "minecraft:netherite_boots"
+        }
+    ]
+}

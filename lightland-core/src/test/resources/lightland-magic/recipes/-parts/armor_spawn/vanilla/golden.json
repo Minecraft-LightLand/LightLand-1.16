@@ -1,0 +1,23 @@
+{
+    "_class": "organize.json.JsonPartList",
+    "file": "config_mobspawn",
+    "path": "map.armor.items",
+    "common": {
+        "level": 1.5,
+        "weight": 100
+    },
+    "list": [
+        {
+            "item": "minecraft:golden_helmet"
+        },
+        {
+            "item": "minecraft:golden_chestplate"
+        },
+        {
+            "item": "minecraft:golden_leggings"
+        },
+        {
+            "item": "minecraft:golden_boots"
+        }
+    ]
+}

@@ -1,0 +1,17 @@
+{
+    "_class": "organize.json.JsonPartList",
+    "file": "config_mobspawn",
+    "path": "map.armor.items",
+    "common": {
+        "level": 2,
+        "weight": 10
+    },
+    "list": [
+        {
+            "item": "twilightforest:naga_chestplate"
+        },
+        {
+            "item": "twilightforest:naga_leggings"
+        }
+    ]
+}

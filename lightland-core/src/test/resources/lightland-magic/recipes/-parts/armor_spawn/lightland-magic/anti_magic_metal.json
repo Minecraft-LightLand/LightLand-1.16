@@ -1,0 +1,23 @@
+{
+    "_class": "organize.json.JsonPartList",
+    "file": "config_mobspawn",
+    "path": "map.armor.items",
+    "common": {
+        "level": 2,
+        "weight": 50
+    },
+    "list": [
+        {
+            "item": "lightland-magic:anti_magic_metal_helmet"
+        },
+        {
+            "item": "lightland-magic:anti_magic_metal_chestplate"
+        },
+        {
+            "item": "lightland-magic:anti_magic_metal_leggings"
+        },
+        {
+            "item": "lightland-magic:anti_magic_metal_boots"
+        }
+    ]
+}
