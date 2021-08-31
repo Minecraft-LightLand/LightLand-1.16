@@ -1,0 +1,88 @@
+{
+    "_class": "organize.json.JsonPartMap",
+    "file": "config_weight",
+    "path": "map.armor_weight.entries",
+    "map": {
+        "dungeons_gear:guards": {
+            "ingredient_weight": 50
+        },
+        "dungeons_gear:curious": {
+            "ingredient_weight": 50
+        },
+        "dungeons_gear:scale_mail": {
+            "ingredient_weight": 50
+        },
+        "dungeons_gear:highland": {
+            "ingredient_weight": 50
+        },
+        "dungeons_gear:spelunker": {
+            "ingredient_weight": 50
+        },
+        "dungeons_gear:cave_crawler": {
+            "ingredient_weight": 50
+        },
+        "dungeons_gear:champions": {
+            "ingredient_weight": 70
+        },
+        "dungeons_gear:heros": {
+            "ingredient_weight": 70
+        },
+        "dungeons_gear:snow": {
+            "ingredient_weight": 70
+        },
+        "dungeons_gear:frost": {
+            "ingredient_weight": 70
+        },
+        "dungeons_gear:reinforced_mail": {
+            "ingredient_weight": 70
+        },
+        "dungeons_gear:stalwart": {
+            "ingredient_weight": 70
+        },
+        "dungeons_gear:dark": {
+            "ingredient_weight": 90
+        },
+        "dungeons_gear:royal_guard": {
+            "ingredient_weight": 90
+        },
+        "dungeons_gear:titans_shroud": {
+            "ingredient_weight": 90
+        },
+        "dungeons_gear:mercenary": {
+            "ingredient_weight": 90
+        },
+        "dungeons_gear:renegade": {
+            "ingredient_weight": 90
+        },
+        "dungeons_gear:plate": {
+            "ingredient_weight": 90
+        },
+        "dungeons_gear:full_metal": {
+            "ingredient_weight": 90
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

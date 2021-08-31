@@ -7,7 +7,7 @@ import com.hikarishima.lightland.magic.capabilities.ToServerMsg;
 import com.hikarishima.lightland.magic.command.ArcaneCommand;
 import com.hikarishima.lightland.magic.command.MagicCommand;
 import com.hikarishima.lightland.magic.event.ClientRenderEventHandler;
-import com.hikarishima.lightland.magic.event.MagicCraftEventHandler;
+import com.hikarishima.lightland.magic.event.MagicMiscEventHandler;
 import com.hikarishima.lightland.magic.event.MagicDamageEventHandler;
 import com.hikarishima.lightland.magic.event.MagicEventHandler;
 import com.hikarishima.lightland.magic.gui.container.ChemContainer;
@@ -41,7 +41,7 @@ public class LightLandMagic {
         MinecraftForge.EVENT_BUS.register(new MagicEventHandler());
         MinecraftForge.EVENT_BUS.register(new ClientRenderEventHandler());
         MinecraftForge.EVENT_BUS.register(new MagicDamageEventHandler());
-        MinecraftForge.EVENT_BUS.register(new MagicCraftEventHandler());
+        MinecraftForge.EVENT_BUS.register(new MagicMiscEventHandler());
         RegistryBase.REGISTRIES.add(MagicRecipeRegistry.class);
         RegistryBase.REGISTRIES.add(MagicContainerRegistry.class);
         RegistryBase.REGISTRIES.add(MagicItemRegistry.class);

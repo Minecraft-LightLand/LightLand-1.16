@@ -1,0 +1,32 @@
+{
+    "_class": "organize.json.JsonPartMap",
+    "file": "config_weight",
+    "path": "map.armor_weight.entries",
+    "map": {
+        "twilightforest:naga": {
+            "ingredient_weight": 40
+        },
+        "twilightforest:iron_wood": {
+            "ingredient_weight": 55
+        },
+        "twilightforest:fiery": {
+            "ingredient_weight": 70
+        },
+        "twilightforest:steeleaf": {
+            "ingredient_weight": 45
+        },
+        "twilightforest:knightmetal": {
+            "ingredient_weight": 75
+        },
+        "twilightforest:phantom": {
+            "ingredient_weight": 75,
+            "extra_weight": 100
+        },
+        "twilightforest:yeti": {
+            "ingredient_weight": 60
+        },
+        "twilightforest:arctic": {
+            "ingredient_weight": 40
+        }
+    }
+}

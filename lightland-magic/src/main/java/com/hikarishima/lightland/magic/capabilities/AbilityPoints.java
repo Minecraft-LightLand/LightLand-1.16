@@ -109,6 +109,8 @@ public class AbilityPoints {
     }
 
     void tickArmorWeight() {
+        if (profession == null)
+            return;
         int weight = WeightCalculator.getTotalWeight(parent.player);
         int base = getWeightAble();
         int slow = weight <= base ? 0 : weight <= base * 1.2 ? 1 : 2;

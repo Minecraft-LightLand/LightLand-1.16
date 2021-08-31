@@ -1,0 +1,29 @@
+{
+    "_class": "organize.json.JsonPartMap",
+    "file": "config_weight",
+    "path": "map.armor_weight.entries",
+    "map": {
+        "minecraft:leather": {
+            "ingredient_weight": 30
+        },
+        "minecraft:chainmail": {
+            "ingredient_weight": 50
+        },
+        "minecraft:iron": {
+            "ingredient_weight": 70
+        },
+        "minecraft:golden": {
+            "ingredient_weight": 100
+        },
+        "minecraft:diamond": {
+            "ingredient_weight": 80
+        },
+        "minecraft:netherite": {
+            "ingredient_weight": 80,
+            "extra_weight": 30
+        },
+        "minecraft:turtle_helmet": {
+            "extra_weight": 200
+        }
+    }
+}

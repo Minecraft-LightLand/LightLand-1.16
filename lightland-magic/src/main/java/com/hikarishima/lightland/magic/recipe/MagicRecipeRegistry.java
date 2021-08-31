@@ -3,6 +3,7 @@ package com.hikarishima.lightland.magic.recipe;
 import com.hikarishima.lightland.magic.LightLandMagic;
 import com.hikarishima.lightland.magic.registry.block.RitualCore;
 import com.lcy0x1.base.BaseRecipe;
+import javafx.scene.effect.Light;
 import net.minecraft.item.crafting.IRecipeType;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.registries.IForgeRegistryEntry;
@@ -29,6 +30,8 @@ public class MagicRecipeRegistry {
     public static final ResourceLocation PRODUCT_TYPE_DISPLAY = new ResourceLocation(LightLandMagic.MODID, "config_product_type");
     public static final ResourceLocation CHEM = new ResourceLocation(LightLandMagic.MODID, "config_chemistry");
     public static final ResourceLocation SPELL_ENTITY = new ResourceLocation(LightLandMagic.MODID, "config_spell_entity");
+    public static final ResourceLocation WEIGHT = new ResourceLocation(LightLandMagic.MODID, "config_weight");
+    public static final ResourceLocation SPAWN = new ResourceLocation(LightLandMagic.MODID, "config_mobspawn");
 
     private static <V extends T, T extends IForgeRegistryEntry<T>> V reg(String name, V v) {
         v.setRegistryName(new ResourceLocation(LightLandMagic.MODID, name));

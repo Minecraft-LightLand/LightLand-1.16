@@ -1,0 +1,82 @@
+{
+    "_class": "organize.json.JsonPartMap",
+    "file": "config_weight",
+    "path": "map.armor_weight.entries",
+    "map": {
+        "dungeons_gear:soul": {
+            "ingredient_weight": 25
+        },
+        "dungeons_gear:souldancer": {
+            "ingredient_weight": 25
+        },
+        "dungeons_gear:battle": {
+            "ingredient_weight": 25
+        },
+        "dungeons_gear:splendid": {
+            "ingredient_weight": 25
+        },
+        "dungeons_gear:evocation": {
+            "ingredient_weight": 25
+        },
+        "dungeons_gear:ember": {
+            "ingredient_weight": 25
+        },
+        "dungeons_gear:hunters": {
+            "ingredient_weight": 30
+        },
+        "dungeons_gear:archers": {
+            "ingredient_weight": 30
+        },
+        "dungeons_gear:thief": {
+            "ingredient_weight": 30
+        },
+        "dungeons_gear:spider": {
+            "ingredient_weight": 30
+        },
+        "dungeons_gear:ocelot": {
+            "ingredient_weight": 35
+        },
+        "dungeons_gear:shadow_walker": {
+            "ingredient_weight": 35
+        },
+        "dungeons_gear:wolf": {
+            "ingredient_weight": 35
+        },
+        "dungeons_gear:fox": {
+            "ingredient_weight": 35
+        },
+        "dungeons_gear:grim": {
+            "ingredient_weight": 45
+        },
+        "dungeons_gear:wither": {
+            "ingredient_weight": 45
+        },
+        "dungeons_gear:phantom": {
+            "ingredient_weight": 45
+        },
+        "dungeons_gear:frost_bite": {
+            "ingredient_weight": 45
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -3,6 +3,7 @@ package com.hikarishima.lightland.terrain.config;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import com.hikarishima.lightland.config.FileIO;
+import com.hikarishima.lightland.terrain.LightLandTerrain;
 import com.lcy0x1.core.util.ExceptionHandler;
 import com.lcy0x1.core.util.SerialClass;
 import com.lcy0x1.core.util.Serializer;
@@ -17,7 +18,7 @@ public class VolcanoBiomeReader {
     public static void init() {
         if (CONFIG != null)
             return;
-        File configfile = FileIO.loadConfigFile("volcano_config.json");
+        File configfile = FileIO.loadConfigFile(LightLandTerrain.MODID,"volcano_config.json");
         ExceptionHandler.run(() -> {
             JsonElement je = new JsonParser().parse(new FileReader(configfile));
             CONFIG = Serializer.from(je.getAsJsonObject(), VolcanoConfig.class, null);

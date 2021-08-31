@@ -3,6 +3,7 @@ package com.hikarishima.lightland.terrain.config;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import com.hikarishima.lightland.config.FileIO;
+import com.hikarishima.lightland.terrain.LightLandTerrain;
 import com.lcy0x1.core.util.ExceptionHandler;
 import com.lcy0x1.core.util.SerialClass;
 import com.lcy0x1.core.util.Serializer;
@@ -31,8 +32,8 @@ public class ImageRoadReader {
     public static BufferedImage ROAD;
 
     public static void init() {
-        File roadfile = FileIO.loadConfigFile("road.png");
-        File configfile = FileIO.loadConfigFile("road_config.json");
+        File roadfile = FileIO.loadConfigFile(LightLandTerrain.MODID,"road.png");
+        File configfile = FileIO.loadConfigFile(LightLandTerrain.MODID,"road_config.json");
         ExceptionHandler.run(() -> {
             ROAD = ImageIO.read(roadfile);
             JsonElement je = new JsonParser().parse(new FileReader(configfile));

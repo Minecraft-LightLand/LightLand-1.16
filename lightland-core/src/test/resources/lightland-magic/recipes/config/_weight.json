@@ -1,0 +1,20 @@
+{
+    "type": "lightland-core:config",
+    "map": {
+        "armor_weight": {
+            "_class": "com.hikarishima.lightland.magic.capabilities.weight.ArmorWeight",
+            "entries": {},
+            "materials": {},
+            "suffixes": [
+                "helmet",
+                "chestplate",
+                "leggings",
+                "boots",
+                "vest",
+                "hood",
+                "robe",
+                "hat"
+            ]
+        }
+    }
+}

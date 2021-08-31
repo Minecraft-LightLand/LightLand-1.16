@@ -11,12 +11,12 @@ import java.nio.file.StandardCopyOption;
 
 public class FileIO {
 
-    public static File loadConfigFile(String name) {
+    public static File loadConfigFile(String id, String name) {
         String path = FMLPaths.CONFIGDIR.get().toString();
-        File file = new File(path + File.separator + LightLand.MODID + File.separator + name);
+        File file = new File(path + File.separator + id + File.separator + name);
         if (!file.exists()) {
             ExceptionHandler.run(() -> {
-                String jar_path = "/data/" + LightLand.MODID + "/default_config/" + name;
+                String jar_path = "/data/" + id + "/default_config/" + name;
                 InputStream is = FileIO.class.getResourceAsStream(jar_path);
                 if (!file.getParentFile().exists())
                     file.getParentFile().mkdirs();
