@@ -187,7 +187,7 @@
     "lightland-magic:spell": "魔法",
     "lightland-magic:craft": "合成"
   },
-  "lightland-magic:toooltip": {
+  "lightland-magic:tooltip": {
     "weight": "装备重量:%s"
   },
   "item": {
