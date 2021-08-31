@@ -41,7 +41,7 @@ dependencies {
     compileOnly(fg.deobf("net.darkhax.gamestages:GameStages-$mcVersion:7.2.8"))
     junit
     mixin
-    implementation(fg.deobf("twilightforest:twilightforest-1.16.5:4.0.546-universal"))
+    implementation("teamtwilight:twilightforest:4.0.546")
 }
 
 // Example for how to get properties into the manifest for reading by the runtime..

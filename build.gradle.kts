@@ -28,9 +28,6 @@ allprojects {
         maven {
             url = uri("https://nvm.tursom.cn/repository/maven-public/")
         }
-        maven {
-            url = uri("https://repo.spongepowered.org/maven")
-        }
     }
 }
 
