@@ -30,38 +30,35 @@ public class WindBladeSpell extends SimpleSpell<WindBladeSpell.Config> {
         if (world.isClientSide()) {
             return;
         }
-        SpellEntity e = MagicEntityRegistry.ET_SPELL.create(world);
-        if (e != null) {
-            e.setData(player, config.spell_time, config.plane);
-            e.setAction(spell -> {
-                int t = spell.tickCount - config.spell_time.setup;
-                if (t < 0 || t > config.spell_time.duration - config.spell_time.close)
-                    return;
-                if (t % config.period != 0)
-                    return;
-                Vector3d target = activation.target == null ? activation.pos :
-                        activation.target.getPosition(1)
-                                .add(0, activation.target.getBbHeight() / 2, 0);
-                for (int offset : config.offset)
-                    addBlade(config.normal, offset, player, world, spell, target, config);
-            });
-            world.addFreshEntity(e);
-        }
+        SpellEntity e = new SpellEntity(world);
+        e.setData(player, config.spell_time, config.plane);
+        e.setAction(spell -> {
+            int t = spell.tickCount - config.spell_time.setup;
+            if (t < 0 || t > config.spell_time.duration - config.spell_time.close)
+                return;
+            if (t % config.period != 0)
+                return;
+            Vector3d target = activation.target == null ? activation.pos :
+                    activation.target.getPosition(1)
+                            .add(0, activation.target.getBbHeight() / 2, 0);
+            for (int offset : config.offset)
+                addBlade(config.normal, offset, player, world, spell, target, config);
+        });
+        world.addFreshEntity(e);
+
     }
 
     private void addBlade(float noffset, float soffset, PlayerEntity player, World world, SpellEntity spell, Vector3d target, Config config) {
-        WindBladeEntity blade = MagicEntityRegistry.ET_WIND_BLADE.create(world);
-        if (blade != null) {
-            Vector3d pos = spell.getPosition(1);
-            pos = AutoAim.getRayTerm(pos, spell.xRot, spell.yRot, noffset);
-            pos = AutoAim.getRayTerm(pos, spell.xRot, spell.yRot + 90, soffset);
-            blade.setOwner(player);
-            blade.setPos(pos.x, pos.y, pos.z);
-            Vector3d velocity = target.subtract(pos).normalize().scale(config.velocity);
-            blade.setDeltaMovement(velocity);
-            blade.setProperties(config.damage, Math.round(config.distance / config.velocity), 0f, ItemStack.EMPTY);
-            world.addFreshEntity(blade);
-        }
+        WindBladeEntity blade = new WindBladeEntity(world);
+        Vector3d pos = spell.getPosition(1);
+        pos = AutoAim.getRayTerm(pos, spell.xRot, spell.yRot, noffset);
+        pos = AutoAim.getRayTerm(pos, spell.xRot, spell.yRot + 90, soffset);
+        blade.setOwner(player);
+        blade.setPos(pos.x, pos.y, pos.z);
+        Vector3d velocity = target.subtract(pos).normalize().scale(config.velocity);
+        blade.setDeltaMovement(velocity);
+        blade.setProperties(config.damage, Math.round(config.distance / config.velocity), 0f, ItemStack.EMPTY);
+        world.addFreshEntity(blade);
     }
 
     @SerialClass

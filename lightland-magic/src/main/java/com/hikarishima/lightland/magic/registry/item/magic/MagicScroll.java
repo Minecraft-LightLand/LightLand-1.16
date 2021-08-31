@@ -5,7 +5,6 @@ import com.hikarishima.lightland.magic.capabilities.MagicAbility;
 import com.hikarishima.lightland.magic.capabilities.MagicHandler;
 import com.hikarishima.lightland.magic.registry.MagicItemRegistry;
 import com.hikarishima.lightland.magic.registry.item.combat.IGlowingTarget;
-import com.hikarishima.lightland.magic.spell.internal.AbstractSpell;
 import com.hikarishima.lightland.magic.spell.internal.Spell;
 import com.hikarishima.lightland.proxy.Proxy;
 import mcp.MethodsReturnNonnullByDefault;
@@ -50,10 +49,10 @@ public class MagicScroll extends Item implements IGlowingTarget {
         if (id.length() == 0)
             return null;
         ResourceLocation rl = new ResourceLocation(id);
-        AbstractSpell abs = MagicRegistry.SPELL.getValue(rl);
+        Spell<?,?> abs = MagicRegistry.SPELL.getValue(rl);
         if (abs == null)
             return null;
-        return abs.cast();
+        return abs;
     }
 
     public void appendHoverText(ItemStack stack, @Nullable World world, List<ITextComponent> list, ITooltipFlag flag) {
@@ -118,9 +117,9 @@ public class MagicScroll extends Item implements IGlowingTarget {
     }
 
     public enum ScrollType {
-        CARD(64, () -> MagicItemRegistry.SPELL_CARD),
-        PARCHMENT(16, () -> MagicItemRegistry.SPELL_PARCHMENT),
-        SCROLL(2, () -> MagicItemRegistry.SPELL_SCROLL);
+        CARD(64, MagicItemRegistry.SPELL_CARD),
+        PARCHMENT(16, MagicItemRegistry.SPELL_PARCHMENT),
+        SCROLL(2, MagicItemRegistry.SPELL_SCROLL);
 
         public final int stack;
         private final Supplier<MagicScroll> item;

@@ -8,6 +8,7 @@ import com.hikarishima.lightland.magic.recipe.IMagicRecipe;
 import com.hikarishima.lightland.magic.recipe.MagicRecipeRegistry;
 import com.hikarishima.lightland.proxy.Proxy;
 import com.hikarishima.lightland.recipe.ConfigRecipe;
+import com.lcy0x1.base.NamedEntry;
 import com.lcy0x1.core.util.NBTObj;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.registries.IForgeRegistry;
@@ -16,7 +17,7 @@ import net.minecraftforge.registries.IForgeRegistryEntry;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
-public class MagicProductType<I extends IForgeRegistryEntry<I>, P extends MagicProduct<I, P>> extends MagicRegistry.MPTRaw {
+public class MagicProductType<I extends IForgeRegistryEntry<I>, P extends MagicProduct<I, P>> extends NamedEntry<MagicProductType<?,?>> {
 
     public final Class<P> cls;
     public final MagicFactory<I, P> fac;
@@ -27,6 +28,7 @@ public class MagicProductType<I extends IForgeRegistryEntry<I>, P extends MagicP
 
     public MagicProductType(Class<P> cls, MagicFactory<I, P> fac, Supplier<IForgeRegistry<I>> registry,
                             Function<I, String> namer, MagicElement elem) {
+        super(()->MagicRegistry.PRODUCT_TYPE);
         this.cls = cls;
         this.fac = fac;
         this.getter = (s) -> registry.get().getValue(s);

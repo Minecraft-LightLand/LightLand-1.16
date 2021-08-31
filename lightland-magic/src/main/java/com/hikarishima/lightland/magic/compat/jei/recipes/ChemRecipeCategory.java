@@ -47,7 +47,7 @@ public class ChemRecipeCategory implements IRecipeCategory<Equation> {
 
     public ChemRecipeCategory init(IGuiHelper guiHelper) {
         background = guiHelper.createDrawable(BG, 0, 0, 174, 18);
-        icon = guiHelper.createDrawableIngredient(new ItemStack(MagicItemRegistry.CHEM_BOOK));
+        icon = guiHelper.createDrawableIngredient(MagicItemRegistry.CHEM_BOOK.get().getDefaultInstance());
         return this;
     }
 

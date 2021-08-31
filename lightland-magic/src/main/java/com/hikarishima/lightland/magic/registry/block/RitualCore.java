@@ -97,7 +97,7 @@ public class RitualCore {
         public int remainingTime = 0;
 
         public TE() {
-            super(MagicContainerRegistry.TE_RITUAL_CORE);
+            super(MagicContainerRegistry.TE_RITUAL_CORE.get());
         }
 
         public void activate() {

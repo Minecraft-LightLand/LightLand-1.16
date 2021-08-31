@@ -1,6 +1,5 @@
 package com.hikarishima.lightland.magic.spell.magic;
 
-import com.hikarishima.lightland.magic.registry.MagicEntityRegistry;
 import com.hikarishima.lightland.magic.registry.entity.FireArrowEntity;
 import com.hikarishima.lightland.magic.registry.entity.MagicFireBallEntity;
 import com.hikarishima.lightland.magic.registry.entity.SpellEntity;
@@ -31,29 +30,27 @@ public class FireArrowSpell extends SimpleSpell<FireArrowSpell.Config> {
         if (world.isClientSide()) {
             return;
         }
-        SpellEntity e = MagicEntityRegistry.ET_SPELL.create(world);
-        if (e != null) {
-            e.setData(activation, config.spell_time);
-            e.setAction(spell -> {
-                int t = spell.tickCount - config.spell_time.setup;
-                if (t < 0 || t > config.spell_time.duration - config.spell_time.close)
-                    return;
-                if (t % config.period != 0)
-                    return;
-                for (int i = 0; i < config.repeat; i++) {
-                    Vector3d target = activation.pos;
-                    float angle = (float) (Math.random() * 360);
-                    float radius = (float) (Math.random() * config.radius);
-                    target = AutoAim.getRayTerm(target, 0, angle, radius);
-                    if (config.explosion == 0) {
-                        addArrow(target, player, world, config);
-                    } else {
-                        addFireball(target, player, world, config);
-                    }
+        SpellEntity e = new SpellEntity(world);
+        e.setData(activation, config.spell_time);
+        e.setAction(spell -> {
+            int t = spell.tickCount - config.spell_time.setup;
+            if (t < 0 || t > config.spell_time.duration - config.spell_time.close)
+                return;
+            if (t % config.period != 0)
+                return;
+            for (int i = 0; i < config.repeat; i++) {
+                Vector3d target = activation.pos;
+                float angle = (float) (Math.random() * 360);
+                float radius = (float) (Math.random() * config.radius);
+                target = AutoAim.getRayTerm(target, 0, angle, radius);
+                if (config.explosion == 0) {
+                    addArrow(target, player, world, config);
+                } else {
+                    addFireball(target, player, world, config);
                 }
-            });
-            world.addFreshEntity(e);
-        }
+            }
+        });
+        world.addFreshEntity(e);
     }
 
     private void addArrow(Vector3d target, PlayerEntity player, World world, Config config) {

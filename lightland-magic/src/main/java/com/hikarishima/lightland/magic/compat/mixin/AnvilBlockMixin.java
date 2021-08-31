@@ -13,7 +13,7 @@ public class AnvilBlockMixin {
 
     @Inject(method = "damage", at = @At("HEAD"), cancellable = true)
     private static void injectDamage(BlockState state, CallbackInfoReturnable<BlockState> info) {
-        if (state.getBlock() == MagicItemRegistry.B_ANVIL) {
+        if (state.getBlock() == MagicItemRegistry.B_ANVIL.get()) {
             info.setReturnValue(state);
             info.cancel();
         }

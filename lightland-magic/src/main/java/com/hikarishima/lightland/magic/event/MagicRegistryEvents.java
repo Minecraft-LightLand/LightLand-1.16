@@ -5,11 +5,12 @@ import com.hikarishima.lightland.magic.MagicRegistry;
 import com.hikarishima.lightland.magic.arcane.ArcaneRegistry;
 import com.hikarishima.lightland.magic.arcane.internal.Arcane;
 import com.hikarishima.lightland.magic.arcane.internal.ArcaneType;
+import com.hikarishima.lightland.magic.products.MagicProductType;
 import com.hikarishima.lightland.magic.profession.Profession;
 import com.hikarishima.lightland.magic.skills.Skill;
 import com.hikarishima.lightland.magic.skills.SkillRegistry;
 import com.hikarishima.lightland.magic.spell.SpellRegistry;
-import com.hikarishima.lightland.magic.spell.internal.AbstractSpell;
+import com.hikarishima.lightland.magic.spell.internal.Spell;
 import com.hikarishima.lightland.registry.RegistryBase;
 import com.lcy0x1.core.util.Automator;
 import com.lcy0x1.core.util.Serializer;
@@ -41,8 +42,8 @@ public class MagicRegistryEvents {
     }
 
     @SubscribeEvent
-    public static void onMagicProductTypeRegistry(RegistryEvent.Register<MagicRegistry.MPTRaw> event) {
-        RegistryBase.process(MagicRegistry.class, MagicRegistry.MPTRaw.class, event.getRegistry()::register);
+    public static void onMagicProductTypeRegistry(RegistryEvent.Register<MagicProductType<?,?>> event) {
+        RegistryBase.process(MagicRegistry.class, MagicProductType.class, event.getRegistry()::register);
     }
 
     @SubscribeEvent
@@ -56,8 +57,8 @@ public class MagicRegistryEvents {
     }
 
     @SubscribeEvent
-    public static void onSpellRegistry(RegistryEvent.Register<AbstractSpell> event) {
-        RegistryBase.process(SpellRegistry.class, AbstractSpell.class, event.getRegistry()::register);
+    public static void onSpellRegistry(RegistryEvent.Register<Spell<?,?>> event) {
+        RegistryBase.process(SpellRegistry.class, Spell.class, event.getRegistry()::register);
     }
 
     @SubscribeEvent

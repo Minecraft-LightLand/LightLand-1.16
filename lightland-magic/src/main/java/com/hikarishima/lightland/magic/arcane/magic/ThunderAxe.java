@@ -38,7 +38,7 @@ public class ThunderAxe extends Arcane {
                     return false;
                 if (e == player || e == target || e.isAlliedTo(e))
                     return false;
-                return ((LivingEntity) e).hasEffect(VanillaMagicRegistry.EFF_ARCANE);
+                return ((LivingEntity) e).hasEffect(VanillaMagicRegistry.EFF_ARCANE.get());
             }).forEach(e -> strike(w, player, (LivingEntity) e));
         }
         return w.canSeeSky(pos);

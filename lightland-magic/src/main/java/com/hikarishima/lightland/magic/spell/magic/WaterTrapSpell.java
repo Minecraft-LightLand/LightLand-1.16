@@ -1,6 +1,5 @@
 package com.hikarishima.lightland.magic.spell.magic;
 
-import com.hikarishima.lightland.magic.registry.MagicEntityRegistry;
 import com.hikarishima.lightland.magic.registry.VanillaMagicRegistry;
 import com.hikarishima.lightland.magic.registry.entity.SpellEntity;
 import com.hikarishima.lightland.magic.spell.internal.ActivationConfig;
@@ -31,22 +30,20 @@ public class WaterTrapSpell extends SimpleSpell<WaterTrapSpell.Config> {
         if (world.isClientSide()) {
             return;
         }
-        SpellEntity e = MagicEntityRegistry.ET_SPELL.create(world);
-        if (e != null) {
-            e.setData(activation, config.spell_time);
-            e.setAction(spell -> {
-                int t = spell.tickCount - config.spell_time.setup;
-                if (t != 0)
-                    return;
-                world.getEntities(player, new AxisAlignedBB(spell.blockPosition()).inflate(config.radius),
-                        le -> le instanceof LivingEntity &&
-                                !le.isAlliedTo(player) &&
-                                le.position().distanceTo(spell.position()) < config.radius
-                ).forEach(le -> LightLandFakeEntity.addEffect((LivingEntity) le,
-                        new EffectInstance(VanillaMagicRegistry.EFF_WATER_TRAP, config.effect_time, config.effect_level)));
-            });
-            world.addFreshEntity(e);
-        }
+        SpellEntity e = new SpellEntity(world);
+        e.setData(activation, config.spell_time);
+        e.setAction(spell -> {
+            int t = spell.tickCount - config.spell_time.setup;
+            if (t != 0)
+                return;
+            world.getEntities(player, new AxisAlignedBB(spell.blockPosition()).inflate(config.radius),
+                    le -> le instanceof LivingEntity &&
+                            !le.isAlliedTo(player) &&
+                            le.position().distanceTo(spell.position()) < config.radius
+            ).forEach(le -> LightLandFakeEntity.addEffect((LivingEntity) le,
+                    new EffectInstance(VanillaMagicRegistry.EFF_WATER_TRAP.get(), config.effect_time, config.effect_level)));
+        });
+        world.addFreshEntity(e);
     }
 
     public static class Activation extends ActivationConfig {

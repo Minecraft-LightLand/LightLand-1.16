@@ -1,6 +1,7 @@
 package com.hikarishima.lightland.magic.registry.entity;
 
 import com.hikarishima.lightland.magic.arcane.ArcaneRegistry;
+import com.hikarishima.lightland.magic.registry.MagicEntityRegistry;
 import com.hikarishima.lightland.magic.registry.item.combat.IArcaneWeapon;
 import com.lcy0x1.core.util.SerialClass;
 import mcp.MethodsReturnNonnullByDefault;
@@ -41,6 +42,10 @@ public class WindBladeEntity extends ThrowableEntity implements IEntityAdditiona
 
     public WindBladeEntity(EntityType<? extends WindBladeEntity> type, World w) {
         super(type, w);
+    }
+
+    public WindBladeEntity(World w) {
+        this(MagicEntityRegistry.ET_WIND_BLADE.get(), w);
     }
 
     @Override

@@ -56,7 +56,7 @@ public abstract class AbstractAbilityScreen extends Screen {
         RenderSystem.enableRescaleNormal();
         RenderSystem.defaultBlendFunc();
         for (AbilityTab tab : AbilityTab.values()) {
-            tab.type.drawIcon(x0, y0, tab.index, ir, tab.icon);
+            tab.type.drawIcon(x0, y0, tab.index, ir, tab.icon.get());
         }
         RenderSystem.disableBlend();
         this.font.draw(matrix, tab.title, (float) (x0 + 8), (float) (y0 + 6), 4210752);
@@ -95,19 +95,19 @@ public abstract class AbstractAbilityScreen extends Screen {
     public abstract void renderInnerTooltip(MatrixStack matrix, int w, int h, int mx, int my);
 
     public enum AbilityTab {
-        PROFESSION(0, Items.IRON_SWORD.getDefaultInstance(), ProfessionScreen::canAccess, ProfessionScreen::new, ProfessionScreen.TITLE),
-        ABILITY(1, Items.GOLDEN_APPLE.getDefaultInstance(), () -> true, AbilityScreen::new, AbilityScreen.TITLE),
-        ELEMENT(2, MagicItemRegistry.MAGIC_BOOK.getDefaultInstance(), ElementalScreen::canAccess, ElementalScreen::new, ElementalScreen.TITLE),
-        ARCANE(3, MagicItemRegistry.ARCANE_AXE_GILDED.getDefaultInstance(), ArcaneScreen::canAccess, ArcaneScreen::new, ArcaneScreen.TITLE);
+        PROFESSION(0, Items.IRON_SWORD::getDefaultInstance, ProfessionScreen::canAccess, ProfessionScreen::new, ProfessionScreen.TITLE),
+        ABILITY(1, Items.GOLDEN_APPLE::getDefaultInstance, () -> true, AbilityScreen::new, AbilityScreen.TITLE),
+        ELEMENT(2, () -> MagicItemRegistry.MAGIC_BOOK.get().getDefaultInstance(), ElementalScreen::canAccess, ElementalScreen::new, ElementalScreen.TITLE),
+        ARCANE(3, () -> MagicItemRegistry.ARCANE_AXE_GILDED.get().getDefaultInstance(), ArcaneScreen::canAccess, ArcaneScreen::new, ArcaneScreen.TITLE);
 
         public final GuiTabType type = GuiTabType.ABOVE;
         public final int index;
-        public final ItemStack icon;
+        public final Supplier<ItemStack> icon;
         public final BooleanSupplier pred;
         public final Supplier<? extends AbstractAbilityScreen> sup;
         public final ITextComponent title;
 
-        AbilityTab(int index, ItemStack icon, BooleanSupplier pred, Supplier<? extends AbstractAbilityScreen> sup, ITextComponent title) {
+        AbilityTab(int index, Supplier<ItemStack> icon, BooleanSupplier pred, Supplier<? extends AbstractAbilityScreen> sup, ITextComponent title) {
             this.index = index;
             this.icon = icon;
             this.pred = pred;

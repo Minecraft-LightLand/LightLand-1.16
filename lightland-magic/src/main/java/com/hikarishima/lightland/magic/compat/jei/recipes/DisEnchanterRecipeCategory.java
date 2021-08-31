@@ -47,7 +47,7 @@ public class DisEnchanterRecipeCategory implements IRecipeCategory<IMagicRecipe<
 
     public DisEnchanterRecipeCategory init(IGuiHelper guiHelper) {
         background = guiHelper.createDrawable(BG, 0, 18, 176, 18);
-        icon = guiHelper.createDrawableIngredient(new ItemStack(MagicItemRegistry.DISENCHANT_BOOK));
+        icon = guiHelper.createDrawableIngredient(MagicItemRegistry.DISENCHANT_BOOK.get().getDefaultInstance());
         return this;
     }
 
@@ -87,7 +87,7 @@ public class DisEnchanterRecipeCategory implements IRecipeCategory<IMagicRecipe<
         for (int i = 1; i <= ench.getMaxLevel(); i++) {
             l0.add(EnchantedBookItem.createForEnchantment(new EnchantmentData(ench, i)));
             l1.add(new ItemStack(Items.GOLD_NUGGET, i));
-            l2.add(new ItemStack(MagicItemRegistry.ENCHANT_GOLD_NUGGET, i));
+            l2.add(new ItemStack(MagicItemRegistry.ENCHANT_GOLD_NUGGET.get(), i));
         }
         List<List<ElementIngredient>> l3 = elem.stream().map(e -> {
             List<ElementIngredient> ans = new ArrayList<>();

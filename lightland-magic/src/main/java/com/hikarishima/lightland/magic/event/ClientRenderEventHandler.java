@@ -43,8 +43,8 @@ public class ClientRenderEventHandler {
     private static Entity target;
 
     public static void init() {
-        TRACKED.add(VanillaMagicRegistry.EFF_ARCANE);
-        TRACKED.add(VanillaMagicRegistry.EFF_WATER_TRAP);
+        TRACKED.add(VanillaMagicRegistry.EFF_ARCANE.get());
+        TRACKED.add(VanillaMagicRegistry.EFF_WATER_TRAP.get());
     }
 
     @OnlyIn(Dist.CLIENT)

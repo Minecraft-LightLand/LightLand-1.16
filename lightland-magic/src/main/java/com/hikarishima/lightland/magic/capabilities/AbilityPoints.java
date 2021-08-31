@@ -115,7 +115,7 @@ public class AbilityPoints {
         int base = getWeightAble();
         int slow = weight <= base ? 0 : weight <= base * 1.2 ? 1 : 2;
         if (slow > 0) {
-            parent.player.addEffect(new EffectInstance(VanillaMagicRegistry.EFF_HEAVY, 40, slow - 1));
+            parent.player.addEffect(new EffectInstance(VanillaMagicRegistry.EFF_HEAVY.get(), 40, slow - 1));
         }
     }
 

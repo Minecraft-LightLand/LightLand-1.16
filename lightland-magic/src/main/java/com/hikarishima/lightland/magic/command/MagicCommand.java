@@ -8,7 +8,6 @@ import com.hikarishima.lightland.magic.capabilities.MagicHandler;
 import com.hikarishima.lightland.magic.capabilities.ToClientMsg;
 import com.hikarishima.lightland.magic.profession.Profession;
 import com.hikarishima.lightland.magic.registry.item.magic.MagicScroll;
-import com.hikarishima.lightland.magic.spell.internal.AbstractSpell;
 import com.hikarishima.lightland.magic.spell.internal.Spell;
 import com.hikarishima.lightland.proxy.PacketHandler;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
@@ -48,7 +47,7 @@ public class MagicCommand extends BaseCommand {
                 .then(Commands.argument("spell", RegistryParser.SPELL)
                         .executes(withPlayer((context, e) -> {
                             ItemStack stack = e.getMainHandItem();
-                            Spell<?, ?> spell = context.getArgument("spell", AbstractSpell.class).cast();
+                            Spell<?, ?> spell = context.getArgument("spell", Spell.class);
                             ServerWorld world = context.getSource().getLevel();
                             if (spell == null || stack.isEmpty() ||
                                     !(stack.getItem() instanceof MagicScroll) ||

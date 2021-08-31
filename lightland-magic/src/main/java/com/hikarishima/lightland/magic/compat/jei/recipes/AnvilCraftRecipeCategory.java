@@ -43,7 +43,7 @@ public class AnvilCraftRecipeCategory implements IRecipeCategory<AnvilCraftRecip
         background = guiHelper.drawableBuilder(BG, 0, 168, 125, 18)
                 .addPadding(0, 20, 0, 0)
                 .build();
-        icon = guiHelper.createDrawableIngredient(new ItemStack(MagicItemRegistry.I_ANVIL));
+        icon = guiHelper.createDrawableIngredient(MagicItemRegistry.I_ANVIL.get().getDefaultInstance());
         return this;
     }
 

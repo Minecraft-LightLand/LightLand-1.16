@@ -1,14 +1,20 @@
 package com.hikarishima.lightland.magic.spell.internal;
 
 import com.hikarishima.lightland.magic.MagicProxy;
+import com.hikarishima.lightland.magic.MagicRegistry;
 import com.hikarishima.lightland.magic.capabilities.MagicHandler;
 import com.hikarishima.lightland.magic.capabilities.ToClientMsg;
 import com.hikarishima.lightland.proxy.PacketHandler;
+import com.lcy0x1.base.NamedEntry;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.world.World;
 
-public abstract class Spell<C extends SpellConfig, A extends ActivationConfig> extends AbstractSpell {
+public abstract class Spell<C extends SpellConfig, A extends ActivationConfig> extends NamedEntry<Spell<?, ?>> {
+
+    public Spell() {
+        super(() -> MagicRegistry.SPELL);
+    }
 
     protected abstract A canActivate(Type type, World world, PlayerEntity player);
 

@@ -1,5 +1,6 @@
 package com.hikarishima.lightland.magic.registry.entity;
 
+import com.hikarishima.lightland.magic.registry.MagicEntityRegistry;
 import com.hikarishima.lightland.magic.spell.internal.ActivationConfig;
 import com.hikarishima.lightland.magic.spell.internal.SpellConfig;
 import com.hikarishima.lightland.magic.spell.render.SpellComponent;
@@ -23,6 +24,10 @@ public class SpellEntity extends BaseEntity {
 
     public SpellEntity(EntityType<?> type, World world) {
         super(type, world);
+    }
+
+    public SpellEntity(World w){
+        this(MagicEntityRegistry.ET_SPELL.get(), w);
     }
 
     public void setData(double x, double y, double z, int time, int setup, int close, float xr, float yr) {

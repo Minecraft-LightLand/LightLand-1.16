@@ -20,7 +20,7 @@ public class FireArrowEntity extends ArrowEntity {
     }
 
     public FireArrowEntity(World world, LivingEntity owner) {
-        this(MagicEntityRegistry.ET_FIRE_ARROW, world);
+        this(MagicEntityRegistry.ET_FIRE_ARROW.get(), world);
         this.setOwner(owner);
     }
 

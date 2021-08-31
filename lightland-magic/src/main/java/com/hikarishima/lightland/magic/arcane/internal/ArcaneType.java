@@ -34,7 +34,7 @@ public class ArcaneType extends NamedEntry<ArcaneType> {
         this.weapon = weapon;
         this.hit = hit;
         this.mana = mana;
-        stack = (weapon == Weapon.AXE ? MagicItemRegistry.ARCANE_AXE_GILDED : MagicItemRegistry.ARCANE_SWORD_GILDED).getDefaultInstance();
+        stack = (weapon == Weapon.AXE ? MagicItemRegistry.ARCANE_AXE_GILDED : MagicItemRegistry.ARCANE_SWORD_GILDED).get().getDefaultInstance();
         if (mana == Mana.ACTIVE) {
             stack.getOrCreateTag().putBoolean("foil", true);
         }

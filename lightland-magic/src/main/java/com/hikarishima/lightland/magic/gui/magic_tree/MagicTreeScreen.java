@@ -49,11 +49,11 @@ public class MagicTreeScreen extends Screen {
         if (selected != null) return;
         tabs.clear();
         for (MagicProductType<?, ?> type : TABS) {
-            tabs.put(type.getAsType(), new MagicTreeGui(this, type, tabs.size()));
+            tabs.put(type, new MagicTreeGui(this, type, tabs.size()));
         }
         selected = tabs.values().iterator().next();
         for (IMagicRecipe<?> r : handler.magicHolder.listRecipe()) {
-            ((MagicTreeGui) tabs.get(r.product_type.getAsType())).addWidget(handler.magicHolder.getProduct(r));
+            ((MagicTreeGui) tabs.get(r.product_type)).addWidget(handler.magicHolder.getProduct(r));
         }
     }
 

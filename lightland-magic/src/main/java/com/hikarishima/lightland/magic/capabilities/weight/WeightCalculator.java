@@ -19,7 +19,7 @@ public class WeightCalculator {
 
     public static int getWeight(ItemStack stack) {
         int weight = getItemWeight(stack);
-        int lv = EnchantmentHelper.getItemEnchantmentLevel(VanillaMagicRegistry.ENCH_HEAVY, stack);
+        int lv = EnchantmentHelper.getItemEnchantmentLevel(VanillaMagicRegistry.ENCH_HEAVY.get(), stack);
         return (int) (weight * (1 + 0.1 * lv));
     }
 

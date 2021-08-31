@@ -39,7 +39,7 @@ public class SpellCraftContainer extends AbstractContainer {
     private boolean changing = false;
 
     public SpellCraftContainer(int wid, PlayerInventory plInv) {
-        super(MagicContainerRegistry.CT_SPELL_CRAFT, wid, plInv, 5, MANAGER);
+        super(MagicContainerRegistry.CT_SPELL_CRAFT.get(), wid, plInv, 5, MANAGER);
         addSlot("wand_slot", stack -> stack.getItem() instanceof MagicWand);
         addSlot("input_slot", stack -> stack.getItem() instanceof MagicScroll);
         addSlot("ench_slot", stack -> stack.getItem() instanceof ManaStorage);

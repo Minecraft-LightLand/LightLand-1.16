@@ -13,16 +13,16 @@ public class MagicItemTier implements IItemTier {
 
     public static final MagicItemTier METAL = new MagicItemTier(
             2, 250, 6.0F, 2.0F, 0,
-            () -> Ingredient.of(MagicItemRegistry.ANTI_MAGIC_METAL), 0.2f, 0.5f);
+            () -> Ingredient.of(MagicItemRegistry.ANTI_MAGIC_METAL.get()), 0.2f, 0.5f);
     public static final MagicItemTier LIGHT = new MagicItemTier(
             4, 2031, 12.0F, 4.0F, 2,
-            () -> Ingredient.of(MagicItemRegistry.LIGHT_ALLOY), 0f, 0.5f);
+            () -> Ingredient.of(MagicItemRegistry.LIGHT_ALLOY.get()), 0f, 0.5f);
     public static final MagicItemTier ALLOY = new MagicItemTier(
             4, 3000, 9.0F, 4.0F, 1,
-            () -> Ingredient.of(MagicItemRegistry.ANTI_MAGIC_ALLOY), 0.5f, 1f);
+            () -> Ingredient.of(MagicItemRegistry.ANTI_MAGIC_ALLOY.get()), 0.5f, 1f);
     public static final MagicItemTier PERMANENCE = new MagicItemTier(
             2, 0, 6f, 2f, 18,
-            () -> Ingredient.of(MagicItemRegistry.PERMANENCE_IRON_INGOT), 0, 0);
+            () -> Ingredient.of(MagicItemRegistry.PERMANENCE_IRON_INGOT.get()), 0, 0);
 
     private final int level;
     private final int uses;

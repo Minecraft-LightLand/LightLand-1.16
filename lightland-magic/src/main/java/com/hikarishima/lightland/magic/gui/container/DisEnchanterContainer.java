@@ -32,7 +32,7 @@ public class DisEnchanterContainer extends AbstractContainer {
     protected final Map<Enchantment, IMagicRecipe<?>> ench_map;
 
     public DisEnchanterContainer(int wid, PlayerInventory plInv) {
-        super(MagicContainerRegistry.CT_DISENCH, wid, plInv, 3, MANAGER);
+        super(MagicContainerRegistry.CT_DISENCH.get(), wid, plInv, 3, MANAGER);
         addSlot("main_slot", stack -> stack.isEnchanted() || stack.getItem() == Items.ENCHANTED_BOOK);
         addSlot("gold_slot", stack -> stack.getItem() == Items.GOLD_NUGGET);
         addSlot("ench_slot", stack -> false);
@@ -70,7 +70,7 @@ public class DisEnchanterContainer extends AbstractContainer {
                 slot.setItem(1, ItemStack.EMPTY);
             } else gold.shrink(arr[0]);
             if (res.isEmpty()) {
-                slot.setItem(2, new ItemStack(MagicItemRegistry.ENCHANT_GOLD_NUGGET, arr[0]));
+                slot.setItem(2, new ItemStack(MagicItemRegistry.ENCHANT_GOLD_NUGGET.get(), arr[0]));
             } else res.grow(arr[0]);
             slotsChanged(slot);
             return true;

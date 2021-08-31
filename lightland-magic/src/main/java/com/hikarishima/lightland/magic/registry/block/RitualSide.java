@@ -16,7 +16,7 @@ public class RitualSide {
     public static class TE extends RitualTE {
 
         public TE() {
-            super(MagicContainerRegistry.TE_RITUAL_SIDE);
+            super(MagicContainerRegistry.TE_RITUAL_SIDE.get());
         }
 
     }

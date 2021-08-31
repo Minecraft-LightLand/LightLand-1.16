@@ -29,7 +29,7 @@ public class IMagicRecipe<R extends IMagicRecipe<R>> extends BaseRecipe<R, IMagi
     @SerialClass.SerialField
     public ElementalMastery[] elemental_mastery;
     @SerialClass.SerialField
-    public MagicRegistry.MPTRaw product_type;
+    public MagicProductType<?,?> product_type;
     @SerialClass.SerialField
     public ResourceLocation product_id;
     @SerialClass.SerialField
@@ -47,7 +47,7 @@ public class IMagicRecipe<R extends IMagicRecipe<R>> extends BaseRecipe<R, IMagi
 
     public static <T extends IForgeRegistryEntry<T>> Map<T, IMagicRecipe<?>> getMap(World w, MagicProductType<T, ?> type) {
         Map<T, IMagicRecipe<?>> ans = Maps.newLinkedHashMap();
-        getAll(w).stream().filter(r -> r.product_type.getAsType() == type)
+        getAll(w).stream().filter(r -> r.product_type == type)
                 .forEach(r -> Optional.of(type.getter.apply(r.product_id)).ifPresent((t) -> ans.put(t, r)));
         return ans;
     }

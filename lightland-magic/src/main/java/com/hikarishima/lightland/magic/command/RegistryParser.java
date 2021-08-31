@@ -5,8 +5,9 @@ import com.hikarishima.lightland.magic.MagicRegistry;
 import com.hikarishima.lightland.magic.Translator;
 import com.hikarishima.lightland.magic.arcane.internal.Arcane;
 import com.hikarishima.lightland.magic.arcane.internal.ArcaneType;
+import com.hikarishima.lightland.magic.products.MagicProductType;
 import com.hikarishima.lightland.magic.profession.Profession;
-import com.hikarishima.lightland.magic.spell.internal.AbstractSpell;
+import com.hikarishima.lightland.magic.spell.internal.Spell;
 import com.mojang.brigadier.StringReader;
 import com.mojang.brigadier.arguments.ArgumentType;
 import com.mojang.brigadier.context.CommandContext;
@@ -22,13 +23,14 @@ import net.minecraftforge.registries.IForgeRegistryEntry;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Supplier;
 
+@SuppressWarnings({"unchecked","rawtypes"})
 public class RegistryParser<T extends IForgeRegistryEntry<T>> implements ArgumentType<T> {
 
     public static final RegistryParser<MagicElement> ELEMENT = new RegistryParser<>(MagicElement.class, () -> MagicRegistry.ELEMENT);
-    public static final RegistryParser<MagicRegistry.MPTRaw> PRODUCT_TYPE = new RegistryParser<>(MagicRegistry.MPTRaw.class, () -> MagicRegistry.PRODUCT_TYPE);
+    public static final RegistryParser<MagicProductType<?,?>> PRODUCT_TYPE = new RegistryParser(MagicProductType.class, () -> MagicRegistry.PRODUCT_TYPE);
     public static final RegistryParser<ArcaneType> ARCANE_TYPE = new RegistryParser<>(ArcaneType.class, () -> MagicRegistry.ARCANE_TYPE);
     public static final RegistryParser<Arcane> ARCANE = new RegistryParser<>(Arcane.class, () -> MagicRegistry.ARCANE);
-    public static final RegistryParser<AbstractSpell> SPELL = new RegistryParser<>(AbstractSpell.class, () -> MagicRegistry.SPELL);
+    public static final RegistryParser<Spell<?,?>> SPELL = new RegistryParser(Spell.class, () -> MagicRegistry.SPELL);
     public static final RegistryParser<Profession> PROFESSION = new RegistryParser<>(Profession.class, () -> MagicRegistry.PROFESSION);
 
     public final Class<T> cls;

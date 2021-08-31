@@ -110,13 +110,13 @@ public class LightLandJeiPlugin implements IModPlugin {
 
     @Override
     public void registerRecipeCatalysts(IRecipeCatalystRegistration registration) {
-        registration.addRecipeCatalyst(MagicItemRegistry.DISENCHANT_BOOK.getDefaultInstance(), DISENCHANT.getUid());
-        registration.addRecipeCatalyst(MagicItemRegistry.CHEM_BOOK.getDefaultInstance(), CHEM_CATEGORY.getUid());
-        registration.addRecipeCatalyst(MagicItemRegistry.I_RITUAL_CORE.getDefaultInstance(), MAGIC_CRAFT.getUid());
+        registration.addRecipeCatalyst(MagicItemRegistry.DISENCHANT_BOOK.get().getDefaultInstance(), DISENCHANT.getUid());
+        registration.addRecipeCatalyst(MagicItemRegistry.CHEM_BOOK.get().getDefaultInstance(), CHEM_CATEGORY.getUid());
+        registration.addRecipeCatalyst(MagicItemRegistry.I_RITUAL_CORE.get().getDefaultInstance(), MAGIC_CRAFT.getUid());
         for (Block b : BlockTags.ANVIL.getValues()) {
             registration.addRecipeCatalyst(b.asItem().getDefaultInstance(), ANVIL_CRAFT.getUid());
         }
-        registration.addRecipeCatalyst(MagicItemRegistry.I_ANVIL.getDefaultInstance(), VanillaRecipeCategoryUid.ANVIL);
+        registration.addRecipeCatalyst(MagicItemRegistry.I_ANVIL.get().getDefaultInstance(), VanillaRecipeCategoryUid.ANVIL);
     }
 
     @Override

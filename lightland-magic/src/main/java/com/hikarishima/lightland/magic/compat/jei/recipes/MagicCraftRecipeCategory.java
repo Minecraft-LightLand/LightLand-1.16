@@ -37,7 +37,7 @@ public class MagicCraftRecipeCategory implements IRecipeCategory<MagicCraftRecip
 
     public MagicCraftRecipeCategory init(IGuiHelper guiHelper) {
         background = guiHelper.createDrawable(BG, 0, 36, 145, 54);
-        icon = guiHelper.createDrawableIngredient(new ItemStack(MagicItemRegistry.I_RITUAL_CORE));
+        icon = guiHelper.createDrawableIngredient(MagicItemRegistry.I_RITUAL_CORE.get());
         return this;
     }
 

@@ -38,7 +38,7 @@ public class ArcaneInjectContainer extends AbstractContainer {
     private boolean changing = false;
 
     public ArcaneInjectContainer(int wid, PlayerInventory plInv) {
-        super(MagicContainerRegistry.CT_ARCANE_INJECT, wid, plInv, 5, MANAGER);
+        super(MagicContainerRegistry.CT_ARCANE_INJECT.get(), wid, plInv, 5, MANAGER);
         addSlot("wand_slot", stack -> stack.getItem() instanceof MagicWand);
         addSlot("input_slot", ArcaneItemUseHelper::isArcaneItem);
         addSlot("ench_slot", stack -> stack.getItem() instanceof ManaStorage);

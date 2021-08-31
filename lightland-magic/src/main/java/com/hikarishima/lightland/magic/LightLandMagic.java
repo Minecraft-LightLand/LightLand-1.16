@@ -38,15 +38,12 @@ public class LightLandMagic {
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
         bus.addListener(this::setup);
         bus.addListener(this::doClientStuff);
+        MagicRegistry.initAllRegistries(bus);
         MinecraftForge.EVENT_BUS.register(new MagicEventHandler());
         MinecraftForge.EVENT_BUS.register(new ClientRenderEventHandler());
         MinecraftForge.EVENT_BUS.register(new MagicDamageEventHandler());
         MinecraftForge.EVENT_BUS.register(new MagicMiscEventHandler());
         RegistryBase.REGISTRIES.add(MagicRecipeRegistry.class);
-        RegistryBase.REGISTRIES.add(MagicContainerRegistry.class);
-        RegistryBase.REGISTRIES.add(MagicItemRegistry.class);
-        RegistryBase.REGISTRIES.add(VanillaMagicRegistry.class);
-        RegistryBase.REGISTRIES.add(MagicEntityRegistry.class);
         PacketHandler.reg(ToClientMsg.class, ToClientMsg::handle, NetworkDirection.PLAY_TO_CLIENT);
         PacketHandler.reg(ToServerMsg.class, ToServerMsg::handle, NetworkDirection.PLAY_TO_SERVER);
         PacketHandler.reg(ChemPacket.class, ChemContainer.class, NetworkDirection.PLAY_TO_SERVER);

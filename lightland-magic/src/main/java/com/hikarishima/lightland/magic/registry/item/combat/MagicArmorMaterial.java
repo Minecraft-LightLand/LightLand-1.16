@@ -19,43 +19,43 @@ public class MagicArmorMaterial implements IArmorMaterial {
     public static final MagicArmorMaterial METAL = new MagicArmorMaterial(
             "anti_magic_metal", 15, new int[]{2, 5, 6, 2}, 0,
             SoundEvents.ARMOR_EQUIP_IRON, 0.0F, 0.0F,
-            () -> Ingredient.of(MagicItemRegistry.ANTI_MAGIC_METAL), 0.2f, 0.12f
+            () -> Ingredient.of(MagicItemRegistry.ANTI_MAGIC_METAL.get()), 0.2f, 0.12f
     );
 
     public static final MagicArmorMaterial LIGHT = new MagicArmorMaterial(
             "light_alloy", 37, new int[]{3, 6, 8, 3}, 2,
             SoundEvents.ARMOR_EQUIP_NETHERITE, 2.0F, 0.0F,
-            () -> Ingredient.of(MagicItemRegistry.LIGHT_ALLOY), 0f, 0.15f
+            () -> Ingredient.of(MagicItemRegistry.LIGHT_ALLOY.get()), 0f, 0.15f
     );
 
     public static final MagicArmorMaterial ALLOY = new MagicArmorMaterial(
             "anti_magic_alloy", 60, new int[]{3, 6, 8, 3}, 1,
             SoundEvents.ARMOR_EQUIP_NETHERITE, 3.0F, 0.1F,
-            () -> Ingredient.of(MagicItemRegistry.ANTI_MAGIC_ALLOY), 0.5f, 0.25f
+            () -> Ingredient.of(MagicItemRegistry.ANTI_MAGIC_ALLOY.get()), 0.5f, 0.25f
     );
 
     public static final MagicArmorMaterial CLOTH = new MagicArmorMaterial(
             "enchant_cloth", 15, new int[]{1, 3, 2, 1}, 40,
             SoundEvents.ARMOR_EQUIP_LEATHER, 10.0F, 0.0F,
-            () -> Ingredient.of(MagicItemRegistry.ENCHANT_CLOTH), 0, 0.15f
+            () -> Ingredient.of(MagicItemRegistry.ENCHANT_CLOTH.get()), 0, 0.15f
     );
 
     public static final MagicArmorMaterial CHAIN = new MagicArmorMaterial(
             "enchant_chain", 30, new int[]{2, 5, 6, 2}, 60,
             SoundEvents.ARMOR_EQUIP_CHAIN, 20.0F, 0.0F,
-            () -> Ingredient.of(MagicItemRegistry.ENCHANT_CHAIN), 0, 0.20f
+            () -> Ingredient.of(MagicItemRegistry.ENCHANT_CHAIN.get()), 0, 0.20f
     );
 
     public static final MagicArmorMaterial ENCH_LIGHT = new MagicArmorMaterial(
             "enchant_light", 60, new int[]{3, 6, 8, 3}, 60,
             SoundEvents.ARMOR_EQUIP_NETHERITE, 30.0F, 0.0F,
-            () -> Ingredient.of(MagicItemRegistry.ENCHANT_LIGHT_INGOT), 0, 0.25f
+            () -> Ingredient.of(MagicItemRegistry.ENCHANT_LIGHT_INGOT.get()), 0, 0.25f
     );
 
     public static final MagicArmorMaterial PERMANENCE = new MagicArmorMaterial(
             "permanence", 0, new int[]{2, 5, 6, 2}, 18,
             SoundEvents.ARMOR_EQUIP_IRON, 0f, 0f,
-            () -> Ingredient.of(MagicItemRegistry.PERMANENCE_IRON_INGOT), 0, 0
+            () -> Ingredient.of(MagicItemRegistry.PERMANENCE_IRON_INGOT.get()), 0, 0
     );
 
     private static final int[] HEALTH_PER_SLOT = new int[]{13, 15, 16, 11};

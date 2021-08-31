@@ -82,7 +82,7 @@ public class MagicHolder {
     public MagicProduct<?, ?> getProduct(IMagicRecipe<?> r) {
         if (r == null)
             return null;
-        MagicProductType<?, ?> type = r.product_type.getAsType();
+        MagicProductType<?, ?> type = r.product_type;
         Map<ResourceLocation, MagicProduct<?, ?>> submap;
         if (!product_cache.containsKey(type))
             product_cache.put(type, submap = new HashMap<>());
@@ -109,7 +109,7 @@ public class MagicHolder {
         }
         MagicElement type = elem.get(0);
         MagicProductType<?, ?> res = MagicRegistry.PRODUCT_TYPE.getValues().stream()
-                .filter(e -> e.getAsType().elem == type).map(MagicRegistry.MPTRaw::getAsType)
+                .filter(e -> e.elem == type)
                 .findFirst().orElseThrow(() -> new NoSuchElementException("no matching type"));
         if (!product_cache.containsKey(res))
             return null;

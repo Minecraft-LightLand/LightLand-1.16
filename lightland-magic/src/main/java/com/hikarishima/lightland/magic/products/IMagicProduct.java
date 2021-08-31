@@ -20,8 +20,8 @@ public class IMagicProduct<I extends IForgeRegistryEntry<I>, P extends MagicProd
         return type.namer.apply(item);
     }
 
-    public static IMagicProduct<?, ?> getInstance(MagicRegistry.MPTRaw type, ResourceLocation rl) {
-        return type.getAsType().fac.get(null, null, rl, null);
+    public static IMagicProduct<?, ?> getInstance(MagicProductType<?,?> type, ResourceLocation rl) {
+        return type.fac.get(null, null, rl, null);
     }
 
 }

@@ -3,7 +3,7 @@ package com.hikarishima.lightland.magic.capabilities;
 import com.hikarishima.lightland.magic.MagicProxy;
 import com.hikarishima.lightland.magic.arcane.internal.ArcaneType;
 import com.hikarishima.lightland.magic.registry.item.magic.MagicScroll;
-import com.hikarishima.lightland.magic.spell.internal.AbstractSpell;
+import com.hikarishima.lightland.magic.spell.internal.Spell;
 import com.lcy0x1.core.util.NBTObj;
 import com.lcy0x1.core.util.SerialClass;
 import net.minecraft.item.ItemStack;
@@ -58,7 +58,7 @@ public class MagicAbility {
     private void tickSpell(ItemStack stack, CompoundNBT tag) {
         if (stack.getItem() instanceof MagicScroll) {
             String tag_spell = tag.getString("spell");
-            AbstractSpell spell = MagicScroll.getSpell(stack);
+            Spell<?,?> spell = MagicScroll.getSpell(stack);
             if (spell != null) {
                 if (tag_spell.equals(spell.getID())) {
                     int tick = tag.getInt("time");

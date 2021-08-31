@@ -20,7 +20,7 @@ public class MagicDamageEventHandler {
                     event.setCanceled(true);
                     return;
                 }
-                LightLandFakeEntity.addEffect(event.getEntityLiving(), new EffectInstance(VanillaMagicRegistry.EFF_ARCANE, ArcaneRegistry.ARCANE_TIME));
+                LightLandFakeEntity.addEffect(event.getEntityLiving(), new EffectInstance(VanillaMagicRegistry.EFF_ARCANE.get(), ArcaneRegistry.ARCANE_TIME));
             }
         }
     }

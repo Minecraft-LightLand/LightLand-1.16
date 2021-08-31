@@ -29,7 +29,7 @@ public class MagicFireBallEntity extends FireballEntity implements IEntityAdditi
     private float size;
 
     public MagicFireBallEntity(World world, LivingEntity owner, Vector3d vec, float size) {
-        this(MagicEntityRegistry.ET_FIRE_BALL, world);
+        this(MagicEntityRegistry.ET_FIRE_BALL.get(), world);
         this.setOwner(owner);
         this.setPos(vec.x, vec.y, vec.z);
         this.size = size;

@@ -1,6 +1,5 @@
 package com.hikarishima.lightland.magic.spell.magic;
 
-import com.hikarishima.lightland.magic.registry.MagicEntityRegistry;
 import com.hikarishima.lightland.magic.registry.entity.SpellEntity;
 import com.hikarishima.lightland.magic.spell.internal.ActivationConfig;
 import com.hikarishima.lightland.magic.spell.internal.SimpleSpell;
@@ -27,11 +26,9 @@ public class EvokerFangSpell extends SimpleSpell<EvokerFangSpell.Config> {
         if (world.isClientSide()) {
             return;
         }
-        SpellEntity e = MagicEntityRegistry.ET_SPELL.create(world);
-        if (e != null) {
-            e.setData(player, config.spell_time, SpellEntity.SpellPlane.VERTICAL);
-            world.addFreshEntity(e);
-        }
+        SpellEntity e = new SpellEntity(world);
+        e.setData(player, config.spell_time, SpellEntity.SpellPlane.VERTICAL);
+        world.addFreshEntity(e);
         double x = player.getX();
         double y = player.getY();
         double z = player.getZ();

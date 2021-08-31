@@ -42,7 +42,7 @@ public class ChemContainer extends AbstractContainer implements PacketHandler.Se
     protected String temp = null;
 
     public ChemContainer(int wid, PlayerInventory plInv) {
-        super(MagicContainerRegistry.CT_CHEM, wid, plInv, 4, MANAGER);
+        super(MagicContainerRegistry.CT_CHEM.get(), wid, plInv, 4, MANAGER);
         addSlot("input_in_slot", stack -> HashEquationPool.getChemObj(plInv.player.level, stack.getItem()) != null);
         addSlot("input_out_slot", stack -> false);
         addSlot("output_in_slot", stack -> stack.getItem() == Items.GLASS_BOTTLE);
