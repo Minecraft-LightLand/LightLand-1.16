@@ -17,6 +17,7 @@ configureForge {
 useGeneratedResources()
 
 dependencies {
+    implementation(fg.deobf(fileTree(mapOf("dir" to "libs", "include" to arrayOf("*.jar")))))
     minecraft(project)
     core
     magic
