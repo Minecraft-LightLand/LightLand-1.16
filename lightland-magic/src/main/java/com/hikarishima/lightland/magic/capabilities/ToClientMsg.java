@@ -33,7 +33,7 @@ public class ToClientMsg extends PacketHandler.BaseSerialMsg {
     }
 
     public static void handle(ToClientMsg msg, NetworkEvent.Context context) {
-        if (!Proxy.getClientPlayer().isAlive())
+        if (msg.action != Action.ALL && msg.action != Action.CLONE && !Proxy.getClientPlayer().isAlive())
             return;
         msg.action.client.accept(msg.tag);
     }

@@ -31,7 +31,7 @@ public class MagicRecipeRegistry {
     public static final ResourceLocation CHEM = new ResourceLocation(LightLandMagic.MODID, "config_chemistry");
     public static final ResourceLocation SPELL_ENTITY = new ResourceLocation(LightLandMagic.MODID, "config_spell_entity");
     public static final ResourceLocation WEIGHT = new ResourceLocation(LightLandMagic.MODID, "config_weight");
-    public static final ResourceLocation SPAWN = new ResourceLocation(LightLandMagic.MODID, "config_spawn");
+    public static final ResourceLocation SPAWN = new ResourceLocation(LightLandMagic.MODID, "config_mobspawn");
 
     private static <V extends T, T extends IForgeRegistryEntry<T>> V reg(String name, V v) {
         v.setRegistryName(new ResourceLocation(LightLandMagic.MODID, name));
