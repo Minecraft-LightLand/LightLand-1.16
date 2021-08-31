@@ -14,6 +14,12 @@ configure<MixinExtension> {
     add(sourceSets["main"], "lightland-magic.refmap.json")
 }
 
+repositories {
+    flatDir {
+        dirs("libs")
+    }
+}
+
 configureForge {
     runs {
         createClient("clientMagic", project) {
@@ -28,7 +34,6 @@ configureForge {
 useGeneratedResources()
 
 dependencies {
-    implementation(fg.deobf(fileTree(mapOf("dir" to "libs", "include" to arrayOf("*.jar")))))
     minecraft(project)
     core
     lombok
@@ -36,6 +41,7 @@ dependencies {
     compileOnly(fg.deobf("net.darkhax.gamestages:GameStages-$mcVersion:7.2.8"))
     junit
     mixin
+    implementation(fg.deobf("twilightforest:twilightforest-1.16.5:4.0.546-universal"))
 }
 
 // Example for how to get properties into the manifest for reading by the runtime..
@@ -43,9 +49,9 @@ jar {
     defaultManifest(project)
     manifest {
         attributes(
-            attributes + mapOf(
-                "MixinConfigs" to "lightland-magic.mixins.json"
-            )
+                attributes + mapOf(
+                        "MixinConfigs" to "lightland-magic.mixins.json"
+                )
         )
     }
     finalizedBy("reobfJar")

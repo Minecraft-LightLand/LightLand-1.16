@@ -51,7 +51,7 @@ public class WorldGenRegistryEvents {
     public static void onWorldTypeRegistry(RegistryEvent.Register<ForgeWorldType> event) {
         event.getRegistry().register(LightLandTerrain.WORLD_TYPE.setRegistryName(LightLandTerrain.MODID, "image_biome"));
     }
-    
+
     @SuppressWarnings({"unchecked", "rawtypes"})
     public static <T> void process(Class<?> provider, Class<T> reg, Consumer<T> acceptor) {
         ExceptionHandler.run(() -> {
