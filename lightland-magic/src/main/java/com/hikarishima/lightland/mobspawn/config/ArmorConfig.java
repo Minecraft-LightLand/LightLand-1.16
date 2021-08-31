@@ -31,7 +31,7 @@ public class ArmorConfig {
                 sum += entry.weight;
             }
         }
-        if (sum == 0){
+        if (sum == 0) {
             return null;
         }
         int rand = r.nextInt(sum);
@@ -46,7 +46,7 @@ public class ArmorConfig {
 
     public ItemStack getItemStack(EquipmentSlotType type, float level, int enchant, Random r) {
         Item item = getItem(type, level, r);
-        if (item == null){
+        if (item == null) {
             return ItemStack.EMPTY;
         }
         ItemStack stack = item.getDefaultInstance();

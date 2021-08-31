@@ -2,7 +2,6 @@ package com.hikarishima.lightland.magic.recipe;
 
 import com.google.common.collect.Maps;
 import com.hikarishima.lightland.magic.MagicElement;
-import com.hikarishima.lightland.magic.MagicRegistry;
 import com.hikarishima.lightland.magic.products.IMagicProduct;
 import com.hikarishima.lightland.magic.products.MagicProductType;
 import com.hikarishima.lightland.magic.products.info.DisplayInfo;
@@ -29,7 +28,7 @@ public class IMagicRecipe<R extends IMagicRecipe<R>> extends BaseRecipe<R, IMagi
     @SerialClass.SerialField
     public ElementalMastery[] elemental_mastery;
     @SerialClass.SerialField
-    public MagicProductType<?,?> product_type;
+    public MagicProductType<?, ?> product_type;
     @SerialClass.SerialField
     public ResourceLocation product_id;
     @SerialClass.SerialField

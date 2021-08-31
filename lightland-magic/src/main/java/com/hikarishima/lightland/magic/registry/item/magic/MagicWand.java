@@ -62,7 +62,7 @@ public class MagicWand extends Item implements IGlowingTarget {
         }
         if (p.type == MagicRegistry.MPT_SPELL) {
             Spell<?, ?> sp = (Spell<?, ?>) p.item;
-            if(sp.attempt(Spell.Type.WAND, player.level, player))
+            if (sp.attempt(Spell.Type.WAND, player.level, player))
                 player.getCooldowns().addCooldown(this, 60);
         }
         return ActionResult.success(stack);

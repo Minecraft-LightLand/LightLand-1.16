@@ -30,7 +30,7 @@ public class MagicCraftRecipe extends BaseRecipe<MagicCraftRecipe, MagicCraftRec
     public ArrayList<Entry> side;
 
     public MagicCraftRecipe(ResourceLocation id) {
-        super(id, MagicRecipeRegistry.RSM_CRAFT);
+        super(id, MagicRecipeRegistry.RSM_CRAFT.get());
     }
 
     @Override

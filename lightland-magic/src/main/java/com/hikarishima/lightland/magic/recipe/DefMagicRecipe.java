@@ -17,7 +17,7 @@ public class DefMagicRecipe extends IMagicRecipe<DefMagicRecipe> {
     public String[] flows;
 
     public DefMagicRecipe(ResourceLocation id) {
-        super(id, MagicRecipeRegistry.RSM_DEF);
+        super(id, MagicRecipeRegistry.RSM_DEF.get());
     }
 
     private static boolean flowRegex(char[] chars, String s0, String s1, boolean[][] bools, boolean bidirect) {

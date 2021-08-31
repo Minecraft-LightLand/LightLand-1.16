@@ -6,8 +6,6 @@ import com.hikarishima.lightland.event.forge.ItemUseEventHandler;
 import com.hikarishima.lightland.event.forge.PermissionEventHandler;
 import com.hikarishima.lightland.proxy.PacketHandler;
 import com.hikarishima.lightland.recipe.RecipeRegistry;
-import com.hikarishima.lightland.registry.ItemRegistry;
-import com.hikarishima.lightland.registry.RegistryBase;
 import lombok.extern.log4j.Log4j2;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -22,20 +20,16 @@ import net.minecraftforge.fml.network.NetworkDirection;
 public class LightLand {
 
     public static final String MODID = "lightland-core";
-    public static final String NETWORK_VERSION = "0.4.3";
+    public static final String NETWORK_VERSION = "0.4.5";
 
     public LightLand() {
-        System.out.println("class loader: " + getClass().getClassLoader());
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
         MinecraftForge.EVENT_BUS.register(new ItemUseEventHandler());
         MinecraftForge.EVENT_BUS.register(new GenericEventHandler());
         MinecraftForge.EVENT_BUS.register(new DamageEventHandler());
         MinecraftForge.EVENT_BUS.register(new PermissionEventHandler());
         PacketHandler.reg(ItemUseEventHandler.Msg.class, ItemUseEventHandler.Msg::handle, NetworkDirection.PLAY_TO_SERVER);
-        RegistryBase.REGISTRIES.add(ItemRegistry.class);
-        RegistryBase.REGISTRIES.add(RecipeRegistry.class);
-
-        //GradleMainDispatcher.INSTANCE.init();
+        RecipeRegistry.REC.register(bus);
     }
 
 }

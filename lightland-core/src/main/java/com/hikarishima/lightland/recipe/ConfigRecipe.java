@@ -15,7 +15,7 @@ public class ConfigRecipe extends IConfigRecipe<ConfigRecipe> {
     public HashMap<String, Object> map = new HashMap<>();
 
     public ConfigRecipe(ResourceLocation id) {
-        super(id, RecipeRegistry.RSM_CONFIG);
+        super(id, RecipeRegistry.RSM_CONFIG.get());
     }
 
     public static <T> T getObject(World world, ResourceLocation recipe, String id) {

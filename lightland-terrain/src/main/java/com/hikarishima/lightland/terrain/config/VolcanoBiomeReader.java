@@ -18,7 +18,7 @@ public class VolcanoBiomeReader {
     public static void init() {
         if (CONFIG != null)
             return;
-        File configfile = FileIO.loadConfigFile(LightLandTerrain.MODID,"volcano_config.json");
+        File configfile = FileIO.loadConfigFile(LightLandTerrain.MODID, "volcano_config.json");
         ExceptionHandler.run(() -> {
             JsonElement je = new JsonParser().parse(new FileReader(configfile));
             CONFIG = Serializer.from(je.getAsJsonObject(), VolcanoConfig.class, null);

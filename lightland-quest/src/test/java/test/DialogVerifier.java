@@ -34,7 +34,7 @@ public class DialogVerifier {
     public static void main(String[] args) throws Exception {
         File f = new File("./src/main/resources/data/lightland/recipes/config_dialog.json");
         JsonElement elem = new JsonParser().parse(new FileReader(f));
-        ConfigRecipe r = RecipeRegistry.RSM_CONFIG.fromJson(new ResourceLocation(LightLand.MODID, "config_dialog"), elem.getAsJsonObject());
+        ConfigRecipe r = RecipeRegistry.RSM_CONFIG.get().fromJson(new ResourceLocation(LightLand.MODID, "config_dialog"), elem.getAsJsonObject());
         Map<String, Dialog> dialog_id = getID(r.map, Dialog.class);
         Map<String, DialogSelector> selector_id = getID(r.map, DialogSelector.class);
         Map<String, QuestScene> quest_id = getID(r.map, QuestScene.class);

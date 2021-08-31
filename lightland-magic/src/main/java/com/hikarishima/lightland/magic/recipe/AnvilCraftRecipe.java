@@ -24,7 +24,7 @@ public class AnvilCraftRecipe extends BaseRecipe<AnvilCraftRecipe, AnvilCraftRec
     public int max, level;
 
     public AnvilCraftRecipe(ResourceLocation id) {
-        super(id, MagicRecipeRegistry.RSM_ANVIL);
+        super(id, MagicRecipeRegistry.RSM_ANVIL.get());
     }
 
     @Override

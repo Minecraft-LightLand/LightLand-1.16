@@ -26,7 +26,7 @@ public class SpellEntity extends BaseEntity {
         super(type, world);
     }
 
-    public SpellEntity(World w){
+    public SpellEntity(World w) {
         this(MagicEntityRegistry.ET_SPELL.get(), w);
     }
 

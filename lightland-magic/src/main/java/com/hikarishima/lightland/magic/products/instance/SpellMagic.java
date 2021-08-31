@@ -8,7 +8,7 @@ import com.hikarishima.lightland.magic.spell.internal.Spell;
 import com.lcy0x1.core.util.NBTObj;
 import net.minecraft.util.ResourceLocation;
 
-public class SpellMagic extends MagicProduct<Spell<?,?>, SpellMagic> {
+public class SpellMagic extends MagicProduct<Spell<?, ?>, SpellMagic> {
 
     public SpellMagic(MagicHandler player, NBTObj tag, ResourceLocation rl, IMagicRecipe<?> r) {
         super(MagicRegistry.MPT_SPELL, player, tag, rl, r);

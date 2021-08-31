@@ -10,9 +10,6 @@ import net.minecraft.enchantment.Enchantment;
 import net.minecraft.potion.Effect;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.ForgeRegistryEntry;
-
-import java.util.function.Supplier;
 
 public class VanillaMagicRegistry {
 

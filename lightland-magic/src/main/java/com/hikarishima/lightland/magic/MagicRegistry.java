@@ -5,6 +5,7 @@ import com.hikarishima.lightland.magic.arcane.internal.ArcaneType;
 import com.hikarishima.lightland.magic.products.MagicProductType;
 import com.hikarishima.lightland.magic.products.instance.*;
 import com.hikarishima.lightland.magic.profession.*;
+import com.hikarishima.lightland.magic.recipe.MagicRecipeRegistry;
 import com.hikarishima.lightland.magic.registry.MagicContainerRegistry;
 import com.hikarishima.lightland.magic.registry.MagicEntityRegistry;
 import com.hikarishima.lightland.magic.registry.MagicItemRegistry;
@@ -112,6 +113,7 @@ public class MagicRegistry {
         MagicContainerRegistry.CT.register(bus);
         MagicItemRegistry.ITEM.register(bus);
         MagicItemRegistry.BLOCK.register(bus);
+        MagicRecipeRegistry.REC.register(bus);
     }
 
 }

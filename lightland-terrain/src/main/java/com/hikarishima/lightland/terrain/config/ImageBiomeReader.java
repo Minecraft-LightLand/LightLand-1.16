@@ -28,8 +28,8 @@ public class ImageBiomeReader {
     public static Config CONFIG;
 
     public static void init() {
-        File imgfile = FileIO.loadConfigFile(LightLandTerrain.MODID,"biome.png");
-        File configfile = FileIO.loadConfigFile(LightLandTerrain.MODID,"biome_config.json");
+        File imgfile = FileIO.loadConfigFile(LightLandTerrain.MODID, "biome.png");
+        File configfile = FileIO.loadConfigFile(LightLandTerrain.MODID, "biome_config.json");
         ExceptionHandler.run(() -> {
             BIOME = ImageIO.read(imgfile);
             JsonElement je = new JsonParser().parse(new FileReader(configfile));

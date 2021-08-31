@@ -49,7 +49,7 @@ public class MagicScroll extends Item implements IGlowingTarget {
         if (id.length() == 0)
             return null;
         ResourceLocation rl = new ResourceLocation(id);
-        Spell<?,?> abs = MagicRegistry.SPELL.getValue(rl);
+        Spell<?, ?> abs = MagicRegistry.SPELL.getValue(rl);
         if (abs == null)
             return null;
         return abs;

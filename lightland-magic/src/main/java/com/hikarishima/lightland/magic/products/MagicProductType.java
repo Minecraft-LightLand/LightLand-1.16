@@ -17,7 +17,7 @@ import net.minecraftforge.registries.IForgeRegistryEntry;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
-public class MagicProductType<I extends IForgeRegistryEntry<I>, P extends MagicProduct<I, P>> extends NamedEntry<MagicProductType<?,?>> {
+public class MagicProductType<I extends IForgeRegistryEntry<I>, P extends MagicProduct<I, P>> extends NamedEntry<MagicProductType<?, ?>> {
 
     public final Class<P> cls;
     public final MagicFactory<I, P> fac;
@@ -28,7 +28,7 @@ public class MagicProductType<I extends IForgeRegistryEntry<I>, P extends MagicP
 
     public MagicProductType(Class<P> cls, MagicFactory<I, P> fac, Supplier<IForgeRegistry<I>> registry,
                             Function<I, String> namer, MagicElement elem) {
-        super(()->MagicRegistry.PRODUCT_TYPE);
+        super(() -> MagicRegistry.PRODUCT_TYPE);
         this.cls = cls;
         this.fac = fac;
         this.getter = (s) -> registry.get().getValue(s);

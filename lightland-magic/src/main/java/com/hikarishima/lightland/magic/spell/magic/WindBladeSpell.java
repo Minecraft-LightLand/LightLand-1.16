@@ -1,6 +1,5 @@
 package com.hikarishima.lightland.magic.spell.magic;
 
-import com.hikarishima.lightland.magic.registry.MagicEntityRegistry;
 import com.hikarishima.lightland.magic.registry.entity.SpellEntity;
 import com.hikarishima.lightland.magic.registry.entity.WindBladeEntity;
 import com.hikarishima.lightland.magic.spell.internal.ActivationConfig;

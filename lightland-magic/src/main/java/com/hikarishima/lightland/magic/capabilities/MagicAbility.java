@@ -58,7 +58,7 @@ public class MagicAbility {
     private void tickSpell(ItemStack stack, CompoundNBT tag) {
         if (stack.getItem() instanceof MagicScroll) {
             String tag_spell = tag.getString("spell");
-            Spell<?,?> spell = MagicScroll.getSpell(stack);
+            Spell<?, ?> spell = MagicScroll.getSpell(stack);
             if (spell != null) {
                 if (tag_spell.equals(spell.getID())) {
                     int tick = tag.getInt("time");

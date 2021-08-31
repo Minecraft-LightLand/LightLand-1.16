@@ -42,7 +42,7 @@ public class MagicRegistryEvents {
     }
 
     @SubscribeEvent
-    public static void onMagicProductTypeRegistry(RegistryEvent.Register<MagicProductType<?,?>> event) {
+    public static void onMagicProductTypeRegistry(RegistryEvent.Register<MagicProductType<?, ?>> event) {
         RegistryBase.process(MagicRegistry.class, MagicProductType.class, event.getRegistry()::register);
     }
 
@@ -57,7 +57,7 @@ public class MagicRegistryEvents {
     }
 
     @SubscribeEvent
-    public static void onSpellRegistry(RegistryEvent.Register<Spell<?,?>> event) {
+    public static void onSpellRegistry(RegistryEvent.Register<Spell<?, ?>> event) {
         RegistryBase.process(SpellRegistry.class, Spell.class, event.getRegistry()::register);
     }
 

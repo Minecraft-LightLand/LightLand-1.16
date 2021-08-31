@@ -1,6 +1,5 @@
 package com.hikarishima.lightland.magic.products;
 
-import com.hikarishima.lightland.magic.MagicRegistry;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.registries.IForgeRegistryEntry;
 
@@ -20,7 +19,7 @@ public class IMagicProduct<I extends IForgeRegistryEntry<I>, P extends MagicProd
         return type.namer.apply(item);
     }
 
-    public static IMagicProduct<?, ?> getInstance(MagicProductType<?,?> type, ResourceLocation rl) {
+    public static IMagicProduct<?, ?> getInstance(MagicProductType<?, ?> type, ResourceLocation rl) {
         return type.fac.get(null, null, rl, null);
     }
 

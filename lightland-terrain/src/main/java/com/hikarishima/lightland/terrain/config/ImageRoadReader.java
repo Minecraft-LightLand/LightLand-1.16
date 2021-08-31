@@ -32,8 +32,8 @@ public class ImageRoadReader {
     public static BufferedImage ROAD;
 
     public static void init() {
-        File roadfile = FileIO.loadConfigFile(LightLandTerrain.MODID,"road.png");
-        File configfile = FileIO.loadConfigFile(LightLandTerrain.MODID,"road_config.json");
+        File roadfile = FileIO.loadConfigFile(LightLandTerrain.MODID, "road.png");
+        File configfile = FileIO.loadConfigFile(LightLandTerrain.MODID, "road_config.json");
         ExceptionHandler.run(() -> {
             ROAD = ImageIO.read(roadfile);
             JsonElement je = new JsonParser().parse(new FileReader(configfile));

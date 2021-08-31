@@ -7,6 +7,6 @@ import net.minecraft.util.ResourceLocation;
 public class ShortMagicRecipe extends IMagicRecipe<ShortMagicRecipe> {
 
     public ShortMagicRecipe(ResourceLocation id) {
-        super(id, MagicRecipeRegistry.RSM_SHORT);
+        super(id, MagicRecipeRegistry.RSM_SHORT.get());
     }
 }
