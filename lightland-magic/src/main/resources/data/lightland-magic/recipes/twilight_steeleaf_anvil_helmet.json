@@ -1,0 +1,12 @@
+{
+    "type": "lightland-magic:anvil",
+    "input": "twilightforest:steeleaf_helmet",
+    "output": "twilightforest:steeleaf_ingot",
+    "max": 5,
+    "level": 5,
+    "consume": {
+        "item": "minecraft:flint",
+        "count": 5
+    }
+}
+

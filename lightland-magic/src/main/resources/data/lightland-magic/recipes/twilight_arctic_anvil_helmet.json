@@ -1,0 +1,12 @@
+{
+    "type": "lightland-magic:anvil",
+    "input": "twilightforest:arctic_helmet",
+    "output": "twilightforest:arctic_fur",
+    "max": 5,
+    "level": 5,
+    "consume": {
+        "item": "minecraft:flint",
+        "count": 5
+    }
+}
+

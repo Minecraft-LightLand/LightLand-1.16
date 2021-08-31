@@ -1,0 +1,12 @@
+{
+    "type": "lightland-magic:anvil",
+    "input": "twilightforest:yeti_boots",
+    "output": "twilightforest:alpha_fur",
+    "max": 4,
+    "level": 4,
+    "consume": {
+        "item": "minecraft:flint",
+        "count": 4
+    }
+}
+

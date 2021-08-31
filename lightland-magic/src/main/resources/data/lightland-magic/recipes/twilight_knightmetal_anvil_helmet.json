@@ -1,0 +1,12 @@
+{
+    "type": "lightland-magic:anvil",
+    "input": "twilightforest:knightmetal_helmet",
+    "output": "twilightforest:knightmetal_ingot",
+    "max": 5,
+    "level": 5,
+    "consume": {
+        "item": "minecraft:flint",
+        "count": 5
+    }
+}
+

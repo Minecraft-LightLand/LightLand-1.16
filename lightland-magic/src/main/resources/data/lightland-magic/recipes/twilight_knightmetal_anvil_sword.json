@@ -1,0 +1,12 @@
+{
+    "type": "lightland-magic:anvil",
+    "input": "twilightforest:knightmetal_sword",
+    "output": "twilightforest:knightmetal_ingot",
+    "max": 2,
+    "level": 2,
+    "consume": {
+        "item": "minecraft:flint",
+        "count": 2
+    }
+}
+

@@ -1,0 +1,12 @@
+{
+    "type": "lightland-magic:anvil",
+    "input": "twilightforest:yeti_leggings",
+    "output": "twilightforest:alpha_fur",
+    "max": 7,
+    "level": 7,
+    "consume": {
+        "item": "minecraft:flint",
+        "count": 7
+    }
+}
+

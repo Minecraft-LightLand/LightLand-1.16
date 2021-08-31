@@ -1,0 +1,12 @@
+{
+    "type": "lightland-magic:anvil",
+    "input": "minecraft:leather_leggings",
+    "output": "minecraft:leather",
+    "max": 7,
+    "level": 7,
+    "consume": {
+        "item": "minecraft:flint",
+        "count": 7
+    }
+}
+

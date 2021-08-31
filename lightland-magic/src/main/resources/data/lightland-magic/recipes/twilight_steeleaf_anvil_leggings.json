@@ -1,0 +1,12 @@
+{
+    "type": "lightland-magic:anvil",
+    "input": "twilightforest:steeleaf_leggings",
+    "output": "twilightforest:steeleaf_ingot",
+    "max": 7,
+    "level": 7,
+    "consume": {
+        "item": "minecraft:flint",
+        "count": 7
+    }
+}
+

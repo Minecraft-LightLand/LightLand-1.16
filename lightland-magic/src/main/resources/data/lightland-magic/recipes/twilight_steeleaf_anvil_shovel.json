@@ -1,0 +1,12 @@
+{
+    "type": "lightland-magic:anvil",
+    "input": "twilightforest:steeleaf_shovel",
+    "output": "twilightforest:steeleaf_ingot",
+    "max": 1,
+    "level": 1,
+    "consume": {
+        "item": "minecraft:flint",
+        "count": 1
+    }
+}
+

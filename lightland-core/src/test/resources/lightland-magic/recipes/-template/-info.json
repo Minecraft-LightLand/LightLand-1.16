@@ -164,6 +164,75 @@
             "b":"^m:^n",
             "c":"^m:enchant_chain"
         }
-        
+    },
+    "-anvil_twilight_0": {
+        "-list": [
+            "anvil_helmet",
+            "anvil_chestplate",
+            "anvil_leggings",
+            "anvil_boots",
+            "anvil_sword",
+            "anvil_axe",
+            "anvil_pickaxe",
+            "anvil_shovel",
+            "anvil_hoe"
+        ],
+        "twilight_ironwood": {
+            "a": "twilightforest:ironwood_ingot",
+            "b": "twilightforest:ironwood"
+        },
+        "twilight_steeleaf": {
+            "a": "twilightforest:steeleaf_ingot",
+            "b": "twilightforest:steeleaf"
+        }
+    },
+    "-anvil_twilight_1": {
+        "-list": [
+            "anvil_helmet",
+            "anvil_chestplate",
+            "anvil_leggings",
+            "anvil_boots",
+            "anvil_sword",
+            "anvil_pickaxe"
+        ],
+        "twilight_fiery": {
+            "a": "twilightforest:fiery_ingot",
+            "b": "twilightforest:fiery"
+        }
+    },
+    "-anvil_twilight_2": {
+        "-list": [
+            "anvil_helmet",
+            "anvil_chestplate",
+            "anvil_leggings",
+            "anvil_boots"
+        ],
+        "leather": {
+            "a": "minecraft:^n",
+            "b": "minecraft:^n"
+        },
+        "twilight_yeti": {
+            "a": "twilightforest:alpha_fur",
+            "b": "twilightforest:yeti"
+        },
+        "twilight_arctic": {
+            "a": "twilightforest:arctic_fur",
+            "b": "twilightforest:arctic"
+        }
+    },
+    "-anvil_twilight_3": {
+        "-list": [
+            "anvil_helmet",
+            "anvil_chestplate",
+            "anvil_leggings",
+            "anvil_boots",
+            "anvil_sword",
+            "anvil_axe",
+            "anvil_pickaxe"
+        ],
+        "twilight_knightmetal": {
+            "a": "twilightforest:knightmetal_ingot",
+            "b": "twilightforest:knightmetal"
+        }
     }
 }

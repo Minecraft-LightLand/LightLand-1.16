@@ -1,0 +1,12 @@
+{
+    "type": "lightland-magic:anvil",
+    "input": "twilightforest:yeti_chestplate",
+    "output": "twilightforest:alpha_fur",
+    "max": 8,
+    "level": 8,
+    "consume": {
+        "item": "minecraft:flint",
+        "count": 8
+    }
+}
+

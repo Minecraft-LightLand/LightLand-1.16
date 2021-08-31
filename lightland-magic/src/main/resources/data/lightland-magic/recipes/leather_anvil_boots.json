@@ -1,0 +1,12 @@
+{
+    "type": "lightland-magic:anvil",
+    "input": "minecraft:leather_boots",
+    "output": "minecraft:leather",
+    "max": 4,
+    "level": 4,
+    "consume": {
+        "item": "minecraft:flint",
+        "count": 4
+    }
+}
+

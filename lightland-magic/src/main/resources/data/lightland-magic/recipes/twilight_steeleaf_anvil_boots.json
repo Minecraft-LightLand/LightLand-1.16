@@ -1,0 +1,12 @@
+{
+    "type": "lightland-magic:anvil",
+    "input": "twilightforest:steeleaf_boots",
+    "output": "twilightforest:steeleaf_ingot",
+    "max": 4,
+    "level": 4,
+    "consume": {
+        "item": "minecraft:flint",
+        "count": 4
+    }
+}
+

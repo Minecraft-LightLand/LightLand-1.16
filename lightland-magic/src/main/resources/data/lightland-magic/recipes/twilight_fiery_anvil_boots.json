@@ -1,0 +1,12 @@
+{
+    "type": "lightland-magic:anvil",
+    "input": "twilightforest:fiery_boots",
+    "output": "twilightforest:fiery_ingot",
+    "max": 4,
+    "level": 4,
+    "consume": {
+        "item": "minecraft:flint",
+        "count": 4
+    }
+}
+

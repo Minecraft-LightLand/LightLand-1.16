@@ -1,0 +1,12 @@
+{
+    "type": "lightland-magic:anvil",
+    "input": "twilightforest:arctic_boots",
+    "output": "twilightforest:arctic_fur",
+    "max": 4,
+    "level": 4,
+    "consume": {
+        "item": "minecraft:flint",
+        "count": 4
+    }
+}
+
