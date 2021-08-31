@@ -1,0 +1,29 @@
+{
+    "_class": "organize.json.JsonPartMap",
+    "file": "config_weight",
+    "path": "map.armor_weight.entries",
+    "map": {
+        "lightland-magic:anti_magic_metal": {
+            "ingredient_weight": 70
+        },
+        "lightland-magic:anti_magic_alloy": {
+            "ingredient_weight": 70
+        },
+        "lightland-magic:light_alloy": {
+            "ingredient_weight": 70
+        },
+        "lightland-magic:permanence_iron": {
+            "ingredient_weight": 70
+        },
+        "lightland-magic:enchant_cloth": {
+            "ingredient_weight": 20
+        },
+        "lightland-magic:enchant_chain": {
+            "ingredient_weight": 25
+        },
+        "lightland-magic:enchant_light": {
+            "ingredient_weight": 25,
+            "extra_weight": 100
+        }
+    }
+}

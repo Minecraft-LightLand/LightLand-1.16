@@ -187,6 +187,9 @@
     "lightland-magic:spell": "魔法",
     "lightland-magic:craft": "合成"
   },
+  "lightland-magic:toooltip": {
+    "weight": "装备重量:%s"
+  },
   "item": {
     "lightland-magic": {},
     "lightland-quest": {
@@ -197,6 +200,27 @@
     "lightland-magic": {
       "temp_dirt": "泥土",
       "temp_cobblestone": "圆石"
+    }
+  },
+  "entity": {
+    "lightland-magic": {
+      "wind_blade": "风刃",
+      "spell": "法阵",
+      "fire_arrow": "箭",
+      "fire_ball": "火球"
+    }
+  },
+  "effect": {
+    "lightland-magic": {
+      "arcane": "奥术标记",
+      "drown": "溺水",
+      "water_trap": "水牢",
+      "heavy": "沉重装甲"
+    }
+  },
+  "enchantment": {
+    "lightland-magic": {
+      "heavy": "沉重"
     }
   },
   "itemGroup.lightland-core": "Lightland",

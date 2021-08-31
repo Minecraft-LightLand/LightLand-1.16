@@ -3,6 +3,7 @@ package com.hikarishima.lightland.terrain.config;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import com.hikarishima.lightland.config.FileIO;
+import com.hikarishima.lightland.terrain.LightLandTerrain;
 import com.lcy0x1.core.util.ExceptionHandler;
 import com.lcy0x1.core.util.SerialClass;
 import com.lcy0x1.core.util.Serializer;
@@ -27,8 +28,8 @@ public class ImageBiomeReader {
     public static Config CONFIG;
 
     public static void init() {
-        File imgfile = FileIO.loadConfigFile("biome.png");
-        File configfile = FileIO.loadConfigFile("biome_config.json");
+        File imgfile = FileIO.loadConfigFile(LightLandTerrain.MODID,"biome.png");
+        File configfile = FileIO.loadConfigFile(LightLandTerrain.MODID,"biome_config.json");
         ExceptionHandler.run(() -> {
             BIOME = ImageIO.read(imgfile);
             JsonElement je = new JsonParser().parse(new FileReader(configfile));

@@ -1,9 +1,10 @@
 package com.hikarishima.lightland.magic.capabilities.weight;
 
+import com.hikarishima.lightland.magic.registry.VanillaMagicRegistry;
+import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ArmorItem;
-import net.minecraft.item.ArmorMaterial;
 import net.minecraft.item.ItemStack;
 
 public class WeightCalculator {
@@ -17,19 +18,32 @@ public class WeightCalculator {
     }
 
     public static int getWeight(ItemStack stack) {
+        int weight = getItemWeight(stack);
+        int lv = EnchantmentHelper.getItemEnchantmentLevel(VanillaMagicRegistry.ENCH_HEAVY, stack);
+        return (int) (weight * (1 + 0.1 * lv));
+    }
+
+    private static int getItemWeight(ItemStack stack) {
         if (stack.getItem() instanceof ArmorItem) {
             ArmorItem armor = (ArmorItem) stack.getItem();
-            if (armor.getMaterial() instanceof IWeightedMaterial) {
-                int weight = ((IWeightedMaterial) armor.getMaterial()).getWeight(armor.getSlot());
-                if (weight > 0)
-                    return weight;
-            }
-            int slot_factor = getDefaultSlotFactor(armor.getSlot());
+            int slot_factor = getSlotFactor(armor.getSlot());
             int weight_factor = 0;
             int weight_extra = 0;
-            if (armor.getMaterial() instanceof ArmorMaterial) {
-                weight_factor = getWeightFactor((ArmorMaterial) armor.getMaterial());
-                weight_extra = getWeightExtra((ArmorMaterial) armor.getMaterial());
+            ArmorWeight config = ArmorWeight.getInstance();
+            if (armor.getRegistryName() != null) {
+                String id = armor.getRegistryName().toString();
+                ArmorWeight.Entry entry = config.entries.get(id);
+                if (entry == null) {
+                    String cut = cut(id, config);
+                    id = config.materials.get(id);
+                    if (id == null)
+                        id = cut;
+                    entry = config.entries.get(id);
+                }
+                if (entry != null) {
+                    weight_factor = entry.ingredient_weight;
+                    weight_extra = entry.extra_weight;
+                }
             }
             int weight = slot_factor * weight_factor + weight_extra;
             if (weight > 0)
@@ -39,32 +53,15 @@ public class WeightCalculator {
         return 0;
     }
 
-    private static int getWeightFactor(ArmorMaterial material) {
-        if (material == ArmorMaterial.LEATHER) {
-            return 30;
-        } else if (material == ArmorMaterial.CHAIN) {
-            return 50;
-        } else if (material == ArmorMaterial.IRON) {
-            return 70;
-        } else if (material == ArmorMaterial.GOLD) {
-            return 100;
-        } else if (material == ArmorMaterial.DIAMOND) {
-            return 80;
-        } else if (material == ArmorMaterial.NETHERITE) {
-            return 80;
-        } else if (material == ArmorMaterial.TURTLE) {
-            return 20;
+    private static String cut(String id, ArmorWeight config) {
+        for (String suf : config.suffixes) {
+            if (id.endsWith("_" + suf))
+                return id.substring(0, id.length() - 1 - suf.length());
         }
-        return 0;
+        return id;
     }
 
-    private static int getWeightExtra(ArmorMaterial material) {
-        if (material == ArmorMaterial.NETHERITE)
-            return 100;
-        return 0;
-    }
-
-    public static int getDefaultSlotFactor(EquipmentSlotType slot) {
+    public static int getSlotFactor(EquipmentSlotType slot) {
         if (slot == EquipmentSlotType.HEAD) {
             return 5;
         } else if (slot == EquipmentSlotType.CHEST) {
@@ -75,15 +72,6 @@ public class WeightCalculator {
             return 4;
         }
         return 0;
-    }
-
-    public static int[] getWeight(int mat_weight, int extra) {
-        int[] ans = new int[4];
-        for (int i = 0; i < 4; i++) {
-            ans[i] = extra + mat_weight * getDefaultSlotFactor(
-                    EquipmentSlotType.byTypeAndIndex(EquipmentSlotType.Group.ARMOR, i));
-        }
-        return ans;
     }
 
 }

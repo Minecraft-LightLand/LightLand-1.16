@@ -25,16 +25,16 @@ import java.util.concurrent.Executor;
 public class WorldGenEventHandler {
 
     public static void mod_setup() {
-        FileIO.loadConfigFile("biome.png");
-        FileIO.loadConfigFile("biome_config.json");
-        FileIO.loadConfigFile("road.png");
-        FileIO.loadConfigFile("road_config.json");
-        FileIO.loadConfigFile("volcano_config.json");
-        FileIO.loadConfigFile("spawn_rules.json");
-        FileIO.loadConfigFile("item_cost.json");
-        FileIO.loadConfigFile("enchant_cost.json");
-        FileIO.loadConfigFile("potion_cost.json");
-        FileIO.loadConfigFile("buff_cost.json");
+        FileIO.loadConfigFile(LightLandTerrain.MODID,"biome.png");
+        FileIO.loadConfigFile(LightLandTerrain.MODID,"biome_config.json");
+        FileIO.loadConfigFile(LightLandTerrain.MODID,"road.png");
+        FileIO.loadConfigFile(LightLandTerrain.MODID,"road_config.json");
+        FileIO.loadConfigFile(LightLandTerrain.MODID,"volcano_config.json");
+        FileIO.loadConfigFile(LightLandTerrain.MODID,"spawn_rules.json");
+        FileIO.loadConfigFile(LightLandTerrain.MODID,"item_cost.json");
+        FileIO.loadConfigFile(LightLandTerrain.MODID,"enchant_cost.json");
+        FileIO.loadConfigFile(LightLandTerrain.MODID,"potion_cost.json");
+        FileIO.loadConfigFile(LightLandTerrain.MODID,"buff_cost.json");
 
         VolcanoBiomeReader.init();
 

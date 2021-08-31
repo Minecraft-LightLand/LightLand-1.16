@@ -1,0 +1,94 @@
+package com.hikarishima.lightland.mobspawn.config;
+
+import com.hikarishima.lightland.magic.recipe.MagicRecipeRegistry;
+import com.hikarishima.lightland.proxy.Proxy;
+import com.hikarishima.lightland.recipe.ConfigRecipe;
+import com.lcy0x1.core.util.SerialClass;
+import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.entity.MobEntity;
+import net.minecraft.inventory.EquipmentSlotType;
+import net.minecraft.item.ArmorItem;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
+@SerialClass
+public class ArmorConfig {
+
+    public static ArmorConfig getInstance() {
+        return ConfigRecipe.getObject(Proxy.getWorld(), MagicRecipeRegistry.SPAWN, "armor");
+    }
+
+    public Item getItem(EquipmentSlotType type, float level, Random r) {
+        List<Entry> list = new ArrayList<>();
+        int sum = 0;
+        for (Entry entry : items) {
+            if (entry.matches(type) && entry.level <= level) {
+                list.add(entry);
+                sum += entry.weight;
+            }
+        }
+        int rand = r.nextInt(sum);
+        for (Entry entry : list) {
+            if (rand < entry.weight) {
+                return entry.item;
+            }
+            rand -= entry.weight;
+        }
+        return null;
+    }
+
+    public ItemStack getItemStack(EquipmentSlotType type, float level, int enchant, Random r) {
+        Item item = getItem(type, level, r);
+        ItemStack stack = item.getDefaultInstance();
+        EnchantmentHelper.enchantItem(r, stack, enchant, true);
+        return stack;
+    }
+
+    public void fillEntity(MobEntity entity, float level, Random r) {
+        GeneralConfig gen = GeneralConfig.getInstance();
+        for (EquipmentSlotType slot : EquipmentSlotType.values()) {
+            if (slot.getType() != EquipmentSlotType.Group.ARMOR)
+                continue;
+            if (!entity.getItemBySlot(slot).isEmpty())
+                continue;
+            if (r.nextDouble() > gen.armor_chance * level)
+                continue;
+            ItemStack stack = getItemStack(slot, level, (int) (level * gen.enchant_factor), r);
+            entity.setItemSlot(slot, stack);
+            entity.setDropChance(slot, 1);
+        }
+    }
+
+    @SerialClass.SerialField
+    public Entry[] items;
+
+    @SerialClass
+    public static class Entry {
+
+        @SerialClass.SerialField
+        public float level;
+
+        @SerialClass.SerialField
+        public int weight;
+
+        @SerialClass.SerialField
+        public Item item;
+
+        public boolean matches(EquipmentSlotType slot) {
+            ItemStack stack = item.getDefaultInstance();
+            if (slot.getType() == EquipmentSlotType.Group.ARMOR) {
+                if (item instanceof ArmorItem) {
+                    return item.getEquipmentSlot(stack) == slot;
+                }
+                return false;
+            }
+            return false;
+        }
+
+    }
+
+}
