@@ -49,6 +49,7 @@ configureForge {
 useGeneratedResources()
 
 dependencies {
+    implementation(fg.deobf(fileTree(mapOf("dir" to "libs", "include" to arrayOf("*.jar")))))
     api(kotlin("stdlib"))
     api(kotlin("reflect"))
     api("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.1")
