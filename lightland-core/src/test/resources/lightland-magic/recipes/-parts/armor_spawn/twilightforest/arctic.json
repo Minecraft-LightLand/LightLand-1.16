@@ -3,7 +3,7 @@
     "file": "config_mobspawn",
     "path": "map.armor.items",
     "common": {
-        "level": 0,
+        "level": 1,
         "weight": 25
     },
     "list": [

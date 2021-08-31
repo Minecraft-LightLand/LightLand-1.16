@@ -1,0 +1,23 @@
+{
+    "_class": "organize.json.JsonPartList",
+    "file": "config_mobspawn",
+    "path": "map.armor.items",
+    "common": {
+        "level": 3,
+        "weight": 20
+    },
+    "list": [
+        {
+            "item": "lightland-magic:enchant_cloth_helmet"
+        },
+        {
+            "item": "lightland-magic:enchant_cloth_chestplate"
+        },
+        {
+            "item": "lightland-magic:enchant_cloth_leggings"
+        },
+        {
+            "item": "lightland-magic:enchant_cloth_boots"
+        }
+    ]
+}

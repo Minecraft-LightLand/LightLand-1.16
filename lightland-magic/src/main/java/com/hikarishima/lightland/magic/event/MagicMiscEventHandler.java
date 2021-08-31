@@ -42,7 +42,8 @@ public class MagicMiscEventHandler {
         if (e instanceof MobEntity) {
             MobEntity mob = (MobEntity) e;
             float diff = event.getWorld().getCurrentDifficultyAt(mob.blockPosition()).getEffectiveDifficulty();
-            ArmorConfig.getInstance().fillEntity(mob, diff, new Random());
+            ArmorConfig config = ArmorConfig.getInstance();
+            if (config != null) config.fillEntity(mob, diff, new Random());
         }
 
     }

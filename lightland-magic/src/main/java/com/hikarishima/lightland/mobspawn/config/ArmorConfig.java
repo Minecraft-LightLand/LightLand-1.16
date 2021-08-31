@@ -22,11 +22,11 @@ public class ArmorConfig {
         return ConfigRecipe.getObject(Proxy.getWorld(), MagicRecipeRegistry.SPAWN, "armor");
     }
 
-    public Item getItem(EquipmentSlotType type, float level, Random r) {
+    public Item getItem(EquipmentSlotType type, MobEntity e, float level, Random r) {
         List<Entry> list = new ArrayList<>();
         int sum = 0;
         for (Entry entry : items) {
-            if (entry.matches(type) && entry.level <= level) {
+            if (entry.matches(type, e) && entry.level <= level) {
                 list.add(entry);
                 sum += entry.weight;
             }
@@ -44,8 +44,8 @@ public class ArmorConfig {
         return null;
     }
 
-    public ItemStack getItemStack(EquipmentSlotType type, float level, int enchant, Random r) {
-        Item item = getItem(type, level, r);
+    public ItemStack getItemStack(EquipmentSlotType type, MobEntity e, float level, int enchant, Random r) {
+        Item item = getItem(type, e, level, r);
         if (item == null) {
             return ItemStack.EMPTY;
         }
@@ -63,7 +63,7 @@ public class ArmorConfig {
                 continue;
             if (r.nextDouble() > gen.armor_chance * level)
                 continue;
-            ItemStack stack = getItemStack(slot, level, (int) (level * gen.enchant_factor), r);
+            ItemStack stack = getItemStack(slot, entity, level, (int) (level * gen.enchant_factor), r);
             entity.setItemSlot(slot, stack);
             entity.setDropChance(slot, 1);
         }
@@ -84,11 +84,11 @@ public class ArmorConfig {
         @SerialClass.SerialField
         public Item item;
 
-        public boolean matches(EquipmentSlotType slot) {
+        public boolean matches(EquipmentSlotType slot, MobEntity e) {
             ItemStack stack = item.getDefaultInstance();
             if (slot.getType() == EquipmentSlotType.Group.ARMOR) {
                 if (item instanceof ArmorItem) {
-                    return item.getEquipmentSlot(stack) == slot;
+                    return ((ArmorItem) item).getSlot() == slot;
                 }
                 return false;
             }
