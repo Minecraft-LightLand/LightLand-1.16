@@ -1,5 +1,4 @@
 import org.spongepowered.asm.gradle.plugins.MixinExtension
-import org.spongepowered.asm.gradle.plugins.MixinGradlePlugin
 
 plugins {
     id("eclipse")
