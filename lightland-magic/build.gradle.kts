@@ -29,6 +29,7 @@ configureForge {
 useGeneratedResources()
 
 dependencies {
+    compileOnly(fg.deobf(fileTree(mapOf("dir" to "libs", "include" to arrayOf("*.jar")))))
     minecraft(project)
     core
     lombok
