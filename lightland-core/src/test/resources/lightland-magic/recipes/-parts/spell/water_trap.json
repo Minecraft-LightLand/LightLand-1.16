@@ -8,9 +8,10 @@
   "map": {
     "lightland-magic:water_trap_0": {
       "duration": 30,
-      "mana_cost": 25,
-      "spell_load": 50,
-      "type": "SCROLL",
+      "mana_cost": 50,
+      "spell_load": 70,
+      "factor": 4,
+      "type": "PARCHMENT",
       "spell_time": {
         "id": "test.spell",
         "duration": 50,
@@ -23,9 +24,10 @@
     },
     "lightland-magic:water_trap_1": {
       "duration": 30,
-      "mana_cost": 25,
-      "spell_load": 50,
-      "type": "SCROLL",
+      "mana_cost": 50,
+      "spell_load": 70,
+      "factor": 4,
+      "type": "PARCHMENT",
       "spell_time": {
         "id": "test.spell",
         "duration": 50,

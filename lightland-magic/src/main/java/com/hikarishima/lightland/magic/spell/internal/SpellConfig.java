@@ -19,6 +19,8 @@ public class SpellConfig {
     @SerialClass.SerialField
     public int duration, mana_cost, spell_load;
     @SerialClass.SerialField
+    public float factor = 1f;
+    @SerialClass.SerialField
     public MagicScroll.ScrollType type;
 
     public static <C extends SpellConfig> C get(Spell<C, ?> spell, World world, PlayerEntity player) {
@@ -32,8 +34,8 @@ public class SpellConfig {
         if (p == null || !p.usable())
             return ans;
         ans = makeCopy(ans);
-        ans.mana_cost += p.getCost();
-        ans.spell_load += p.getCost() * 2;
+        ans.mana_cost += p.getCost() * ans.factor;
+        ans.spell_load += p.getCost() * ans.factor;
         return ans;
     }
 

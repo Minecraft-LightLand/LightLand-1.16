@@ -30,6 +30,7 @@ public class ManaStorage extends FoiledItem {
         if (e instanceof PlayerEntity) {
             if (stack.isEdible()) {
                 MagicHandler.get((PlayerEntity) e).magicAbility.giveMana(mana);
+                MagicHandler.get((PlayerEntity) e).magicAbility.addSpellLoad(-mana);
             }
         }
         return super.finishUsingItem(stack, w, e);

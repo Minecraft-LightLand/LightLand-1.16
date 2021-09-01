@@ -8,9 +8,10 @@
   "map": {
     "lightland-magic:blade_side": {
       "duration": 30,
-      "mana_cost": 25,
-      "spell_load": 50,
-      "type": "SCROLL",
+      "mana_cost": 50,
+      "spell_load": 70,
+      "factor": 4,
+      "type": "PARCHMENT",
       "spell_time": {
         "id": "test.spell",
         "duration": 100,
@@ -29,9 +30,10 @@
     },
     "lightland-magic:blade_front": {
       "duration": 30,
-      "mana_cost": 25,
-      "spell_load": 50,
-      "type": "SCROLL",
+      "mana_cost": 50,
+      "spell_load": 70,
+      "factor": 4,
+      "type": "PARCHMENT",
       "spell_time": {
         "id": "test.spell",
         "duration":60,

@@ -108,7 +108,7 @@ public class AbilityPoints {
         return 1000 + 200 * health + 100 * strength;
     }
 
-    void tickArmorWeight() {
+    void tickSeconds() {
         if (profession == null)
             return;
         int weight = WeightCalculator.getTotalWeight(parent.player);

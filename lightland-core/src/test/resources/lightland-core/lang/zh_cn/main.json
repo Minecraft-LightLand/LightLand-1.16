@@ -236,7 +236,8 @@
   },
   "enchantment": {
     "lightland-magic": {
-      "heavy": "沉重"
+      "heavy": "沉重",
+      "physics": "物理保护"
     }
   },
   "itemGroup.lightland-core": "Lightland",

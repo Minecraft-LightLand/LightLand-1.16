@@ -68,6 +68,7 @@ public class MagicItemRegistry {
     public static final RegistryObject<Item> ENCHANT_ALLOY_INGOT = regItem("enchant_alloy_ingot", FoiledItem::new);
     public static final RegistryObject<Item> PERMANENCE_IRON_INGOT = regItem("permanence_iron_ingot", FoiledItem::new);
     public static final RegistryObject<Item> ENCHANT_LIGHT_INGOT = regItem("enchant_light_ingot", FoiledItem::new);
+    public static final RegistryObject<Item> ENCHANT_LIGHT_NUGGET = regItem("enchant_light_nugget", FoiledItem::new);
     public static final RegistryObject<Item> ANTI_MAGIC_METAL = regItem("anti_magic_metal_ingot", Item::new);
     public static final RegistryObject<Item> LIGHT_ALLOY = regItem("light_alloy_ingot", Item::new);
     public static final RegistryObject<Item> ANTI_MAGIC_ALLOY = regItem("anti_magic_alloy_ingot", Item::new);

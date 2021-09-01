@@ -2,6 +2,7 @@ package com.hikarishima.lightland.magic.capabilities;
 
 import com.hikarishima.lightland.magic.MagicProxy;
 import com.hikarishima.lightland.magic.arcane.internal.ArcaneType;
+import com.hikarishima.lightland.magic.registry.VanillaMagicRegistry;
 import com.hikarishima.lightland.magic.registry.item.magic.MagicScroll;
 import com.hikarishima.lightland.magic.spell.internal.Spell;
 import com.lcy0x1.core.util.NBTObj;
@@ -9,6 +10,9 @@ import com.lcy0x1.core.util.SerialClass;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.ListNBT;
+import net.minecraft.potion.EffectInstance;
+import net.minecraft.potion.Effects;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.MathHelper;
 
 @SerialClass
@@ -35,7 +39,7 @@ public class MagicAbility {
     }
 
     public void addSpellLoad(int load) {
-        spell_load += load;
+        spell_load = Math.max(spell_load + load, 0);
     }
 
     public void tick() {
@@ -44,7 +48,28 @@ public class MagicAbility {
             magic_mana = MathHelper.clamp(magic_mana + getManaRestoration(), 0, getMaxMana());
             spell_load = Math.max(spell_load - getSpellReduction(), 0);
             tick = 0;
-            parent.abilityPoints.tickArmorWeight();
+            parent.abilityPoints.tickSeconds();
+            int load = spell_load / getMaxSpellEndurance();
+            if (load == 1) {
+                parent.player.addEffect(new EffectInstance(Effects.MOVEMENT_SLOWDOWN, 40, 2));
+                parent.player.addEffect(new EffectInstance(Effects.CONFUSION, 40));
+                parent.player.hurt(DamageSource.OUT_OF_WORLD, 1);
+            }
+            if (load == 2) {
+                parent.player.addEffect(new EffectInstance(VanillaMagicRegistry.EFF_PETRI.get(), 40, 4));
+                parent.player.addEffect(new EffectInstance(Effects.BLINDNESS, 40));
+                parent.player.hurt(DamageSource.OUT_OF_WORLD, 4);
+            }
+            if (load == 3) {
+                parent.player.addEffect(new EffectInstance(VanillaMagicRegistry.EFF_PETRI.get(), 40, 4));
+                parent.player.addEffect(new EffectInstance(Effects.BLINDNESS, 40));
+                parent.player.hurt(DamageSource.OUT_OF_WORLD, 16);
+            }
+            if (load >= 4) {
+                parent.player.addEffect(new EffectInstance(VanillaMagicRegistry.EFF_PETRI.get(), 40, 4));
+                parent.player.addEffect(new EffectInstance(Effects.BLINDNESS, 40));
+                parent.player.hurt(DamageSource.OUT_OF_WORLD, 64);
+            }
         }
         for (int i = 0; i < getMaxSpellSlot(); i++) {
             ItemStack stack = parent.player.inventory.getItem(i);

@@ -8,8 +8,9 @@
   "map": {
     "lightland-magic:fire_rain": {
       "duration": 30,
-      "mana_cost": 25,
-      "spell_load": 50,
+      "mana_cost": 70,
+      "spell_load": 100,
+      "factor": 4,
       "type": "SCROLL",
       "spell_time": {
         "id": "test.spell",
@@ -27,7 +28,8 @@
     "lightland-magic:explosion_rain": {
       "duration": 30,
       "mana_cost": 100,
-      "spell_load": 50,
+      "spell_load": 150,
+      "factor": 5,
       "type": "SCROLL",
       "spell_time": {
         "id": "test.spell",
@@ -45,7 +47,8 @@
     "lightland-magic:fire_explosion": {
       "duration": 30,
       "mana_cost": 100,
-      "spell_load": 50,
+      "spell_load": 150,
+      "factor": 5,
       "type": "SCROLL",
       "spell_time": {
         "id": "test.spell",

@@ -8,9 +8,10 @@
   "map": {
     "lightland-magic:fang_round": {
       "duration": 30,
-      "mana_cost": 25,
+      "mana_cost": 30,
       "spell_load": 50,
-      "type": "SCROLL",
+      "factor": 2,
+      "type": "PARCHMENT",
       "spell_time": {
         "id": "test.spell",
         "duration": 100,

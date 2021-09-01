@@ -1,12 +1,12 @@
 {
     "type": "lightland-magic:anvil",
     "input": "lightland-magic:enchant_light_chestplate",
-    "output": "lightland-magic:enchant_light_ingot",
-    "max": 1,
-    "level": 1,
+    "output": "lightland-magic:enchant_light_nugget",
+    "max": 9,
+    "level": 9,
     "consume": {
         "item": "minecraft:flint",
-        "count": 1
+        "count": 9
     }
 }
 

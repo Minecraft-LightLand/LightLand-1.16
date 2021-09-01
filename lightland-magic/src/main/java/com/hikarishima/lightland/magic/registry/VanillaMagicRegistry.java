@@ -3,6 +3,7 @@ package com.hikarishima.lightland.magic.registry;
 import com.hikarishima.lightland.magic.LightLandMagic;
 import com.hikarishima.lightland.magic.registry.effect.*;
 import com.hikarishima.lightland.magic.registry.enchantment.HeavyEnchantment;
+import com.hikarishima.lightland.magic.registry.enchantment.PhysicsProtectionEnchantment;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.potion.Effect;
 import net.minecraftforge.fml.RegistryObject;
@@ -20,5 +21,6 @@ public class VanillaMagicRegistry {
     public static final RegistryObject<Effect> EFF_PETRI = EFFECT.register("petrification", PetrificationEffect::new);
 
     public static final RegistryObject<Enchantment> ENCH_HEAVY = ENCH.register("heavy", HeavyEnchantment::new);
+    public static final RegistryObject<Enchantment> ENCH_PHYSICS = ENCH.register("physics", PhysicsProtectionEnchantment::new);
 
 }

@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "lightland-magic:enchant_light_ingot"
+    }
+  ],
+  "result": {
+    "item": "lightland-magic:enchant_light_nugget",
+    "count": 9
+  }
+}
+

@@ -15,10 +15,11 @@ public class PetrificationEffect extends Effect {
 
     public PetrificationEffect() {
         super(EffectType.HARMFUL, 0xA0A0A0);
-        this.addAttributeModifier(Attributes.FLYING_SPEED, ID.toString(), -0.2f, AttributeModifier.Operation.MULTIPLY_TOTAL);
-        this.addAttributeModifier(Attributes.JUMP_STRENGTH, ID.toString(), -0.2f, AttributeModifier.Operation.MULTIPLY_TOTAL);
-        this.addAttributeModifier(Attributes.MOVEMENT_SPEED, ID.toString(), -0.2f, AttributeModifier.Operation.MULTIPLY_TOTAL);
-        this.addAttributeModifier(ForgeMod.SWIM_SPEED.get(), ID.toString(), -0.2f, AttributeModifier.Operation.MULTIPLY_TOTAL);
+        this.addAttributeModifier(Attributes.FLYING_SPEED, ID.toString(), -0.199f, AttributeModifier.Operation.MULTIPLY_TOTAL);
+        this.addAttributeModifier(Attributes.JUMP_STRENGTH, ID.toString(), -0.199f, AttributeModifier.Operation.MULTIPLY_TOTAL);
+        this.addAttributeModifier(Attributes.MOVEMENT_SPEED, ID.toString(), -0.199f, AttributeModifier.Operation.MULTIPLY_TOTAL);
+        this.addAttributeModifier(ForgeMod.SWIM_SPEED.get(), ID.toString(), -0.199f, AttributeModifier.Operation.MULTIPLY_TOTAL);
+        this.addAttributeModifier(ForgeMod.REACH_DISTANCE.get(), ID.toString(), -0.199f, AttributeModifier.Operation.MULTIPLY_TOTAL);
     }
 
 }

@@ -8,6 +8,10 @@
             "a": "^m:^n",
             "b": "^m:enchant_gold_ingot"
         },
+        "enchant_light_nugget": {
+            "a": "^m:^n",
+            "b": "^m:enchant_light_ingot"
+        },
         "enchant_gold": {
             "a": "^m:^n_ingot",
             "b": "^m:^n_block"
@@ -104,7 +108,6 @@
     "-anvil_1": {
         "-list": [
             "anvil_pickaxe",
-            "anvil_shovel",
             "anvil_hoe"
         ],
         "diamond": {
@@ -133,9 +136,9 @@
             "t": 4
         },
         "enchant_light": {
-            "a": "^m:^n_ingot",
+            "a": "^m:^n_nugget",
             "b": "^m:^n",
-            "t": 1
+            "t": 9
         }
     },
     "-anvil_3": {
@@ -143,7 +146,6 @@
             "anvil_fixed_axe",
             "anvil_fixed_sword",
             "anvil_fixed_pickaxe",
-            "anvil_fixed_shovel",
             "anvil_fixed_hoe"
         ],
         "netherite": {
@@ -174,7 +176,6 @@
             "anvil_sword",
             "anvil_axe",
             "anvil_pickaxe",
-            "anvil_shovel",
             "anvil_hoe"
         ],
         "twilight_ironwood": {
