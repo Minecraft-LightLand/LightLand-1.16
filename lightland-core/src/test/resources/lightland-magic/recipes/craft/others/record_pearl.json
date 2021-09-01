@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "bab",
+    "aoa",
+    "bab"
+  ],
+  "key": {
+    "o":{
+      "item":"minecraft:ener_pearl"
+    },
+    "a": {
+      "item": "lightland-magic:enchant_alloy_ingot"
+    },
+    "b": {
+      "item": "lightland-magic:enchant_gold_nugget"
+    }
+  },
+  "result": {
+    "item": "lightland-magic:record_pearl"
+  }
+}

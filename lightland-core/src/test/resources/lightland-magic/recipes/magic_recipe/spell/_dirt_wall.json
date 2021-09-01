@@ -1,23 +1,23 @@
 {
     "type": "lightland-magic:magic_default",
     "product_type": "lightland-magic:spell",
-    "product_id": "lightland-magic:fire_rain",
+    "product_id": "lightland-magic:dirt_wall",
     "predecessor": [],
     "elemental_mastery": [
         {
-            "element": "lightland-magic:fire",
+            "element": "lightland-magic:earth",
             "level": 1
         }
     ],
     "screen": {
         "x": 0,
-        "y": 3
+        "y": 0
 
     },
     "elements": {
-        "A": "lightland-magic:air",
-        "B": "lightland-magic:fire",
-        "C": "lightland-magic:fire"
+        "A": "lightland-magic:water",
+        "B": "lightland-magic:earth",
+        "C": "lightland-magic:earth"
     },
     "flows": [
         "A<->BC"

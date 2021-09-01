@@ -1,0 +1,25 @@
+{
+    "type": "lightland-magic:magic_default",
+    "product_type": "lightland-magic:arcane",
+    "product_id": "lightland-magic:thunder_axe",
+    "predecessor": [],
+    "elemental_mastery": [
+        {
+            "element": "lightland-magic:quint",
+            "level": 1
+        }
+    ],
+    "screen": {
+        "x": 1,
+        "y": 0
+    },
+    "elements": {
+        "A": "lightland-magic:fire",
+        "B": "lightland-magic:water",
+        "C": "lightland-magic:air",
+        "D": "lightland-magic:quint"
+    },
+    "flows": [
+        "ABCD|"
+    ]
+}

@@ -10,6 +10,8 @@ import net.minecraft.item.ItemStack;
 public class WeightCalculator {
 
     public static int getTotalWeight(LivingEntity entity) {
+        if (ArmorWeight.getInstance()==null)
+            return 0;
         int ans = 0;
         for (ItemStack stack : entity.getArmorSlots()) {
             ans += getWeight(stack);

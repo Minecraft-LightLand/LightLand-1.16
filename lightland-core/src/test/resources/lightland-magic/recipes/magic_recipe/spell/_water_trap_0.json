@@ -1,7 +1,7 @@
 {
     "type": "lightland-magic:magic_default",
     "product_type": "lightland-magic:spell",
-    "product_id": "lightland-magic:fang_round",
+    "product_id": "lightland-magic:water_trap_0",
     "predecessor": [],
     "elemental_mastery": [
         {
@@ -10,24 +10,18 @@
         }
     ],
     "screen": {
-        "x": 0,
+        "x": 1,
         "y": 1
 
     },
     "elements": {
         "A": "lightland-magic:earth",
-        "B": "lightland-magic:water",
-        "C": "lightland-magic:earth",
+        "B": "lightland-magic:earth",
+        "C": "lightland-magic:water",
         "D": "lightland-magic:water",
-        "E": "lightland-magic:earth",
-        "F": "lightland-magic:water"
+        "E": "lightland-magic:water"
     },
     "flows": [
-        "A->B",
-        "B->C",
-        "C->D",
-        "D->E",
-        "E->F",
-        "F->A"
+        "AB<->CDE"
     ]
 }

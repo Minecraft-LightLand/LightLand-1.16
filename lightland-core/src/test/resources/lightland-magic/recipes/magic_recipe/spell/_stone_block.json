@@ -1,7 +1,7 @@
 {
     "type": "lightland-magic:magic_default",
     "product_type": "lightland-magic:spell",
-    "product_id": "lightland-magic:stone_slab",
+    "product_id": "lightland-magic:stone_block",
     "predecessor": [
         "lightland-magic:spell_dirt_wall"
     ],
@@ -16,14 +16,13 @@
         "y": 0
     },
     "elements": {
-        "A": "lightland-magic:earth",
+        "A": "lightland-magic:water",
         "B": "lightland-magic:earth",
         "C": "lightland-magic:earth",
         "D": "lightland-magic:earth",
-        "E": "lightland-magic:earth",
-        "F": "lightland-magic:air"
+        "E": "lightland-magic:earth"
     },
     "flows": [
-        "ABCDE<->F"
+        "A<->BCDE"
     ]
 }

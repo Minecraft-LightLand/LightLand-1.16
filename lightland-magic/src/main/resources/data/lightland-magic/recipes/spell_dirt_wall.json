@@ -15,19 +15,11 @@
 
     },
     "elements": {
-        "A": "lightland-magic:earth",
+        "A": "lightland-magic:water",
         "B": "lightland-magic:earth",
-        "C": "lightland-magic:earth",
-        "D": "lightland-magic:earth",
-        "E": "lightland-magic:earth",
-        "F": "lightland-magic:earth"
+        "C": "lightland-magic:earth"
     },
     "flows": [
-        "A->B",
-        "B->C",
-        "C->D",
-        "D->E",
-        "E->F",
-        "F->A"
+        "A<->BC"
     ]
 }

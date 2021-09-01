@@ -1,0 +1,12 @@
+{
+    "type": "lightland-magic:anvil",
+    "input": "twilightforest:naga_chestplate",
+    "output": "twilightforest:naga_scale",
+    "max": 8,
+    "level": 8,
+    "consume": {
+        "item": "minecraft:flint",
+        "count": 8
+    }
+}
+

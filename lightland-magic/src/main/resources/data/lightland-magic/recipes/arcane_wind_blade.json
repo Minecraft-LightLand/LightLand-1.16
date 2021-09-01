@@ -1,0 +1,30 @@
+{
+    "type": "lightland-magic:magic_default",
+    "product_type": "lightland-magic:arcane",
+    "product_id": "lightland-magic:wind_blade",
+    "predecessor": [],
+    "elemental_mastery": [
+        {
+            "element": "lightland-magic:quint",
+            "level": 1
+        }
+    ],
+    "screen": {
+        "x": 0,
+        "y": 0
+    },
+    "elements": {
+        "A": "lightland-magic:water",
+        "B": "lightland-magic:earth",
+        "C": "lightland-magic:quint",
+        "D": "lightland-magic:quint",
+        "E": "lightland-magic:fire",
+        "F": "lightland-magic:fire"
+    },
+    "flows": [
+        "A->B",
+        "B->CD",
+        "CD->EF",
+        "EF->A"
+    ]
+}

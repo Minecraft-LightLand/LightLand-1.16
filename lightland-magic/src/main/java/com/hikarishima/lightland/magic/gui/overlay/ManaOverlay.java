@@ -1,5 +1,7 @@
 package com.hikarishima.lightland.magic.gui.overlay;
 
+import com.hikarishima.lightland.config.StringSubstitution;
+import com.hikarishima.lightland.magic.Translator;
 import com.hikarishima.lightland.magic.capabilities.AbilityPoints;
 import com.hikarishima.lightland.magic.capabilities.weight.WeightCalculator;
 import com.hikarishima.lightland.proxy.Proxy;
@@ -21,21 +23,21 @@ public class ManaOverlay extends AbstractOverlay {
         renderBar(x0, y0 += dy, f0, s0, 0, 0x80FF20);
         if (handler.magicAbility.getMaxMana() > 0) {
             float f1 = 1f * handler.magicAbility.getMana() / handler.magicAbility.getMaxMana();
-            String s1 = handler.magicAbility.getMana() + "/" + handler.magicAbility.getMaxMana();
+            String s1 = StringSubstitution.toString(Translator.get("screen.overlay.mana")) + handler.magicAbility.getMana() + "/" + handler.magicAbility.getMaxMana();
             renderBar(x0, y0, f1, s1, 0, 0x80FF20);
         }
         y0 += dy;
         int endur = handler.magicAbility.getMaxSpellEndurance();
         if (endur > 0) {
             float f2 = 1f * handler.magicAbility.getSpellLoad() / endur % 1;
-            String s2 = "" + (handler.magicAbility.getSpellLoad() / endur);
+            String s2 = StringSubstitution.toString(Translator.get("screen.overlay.load")) + (handler.magicAbility.getSpellLoad() / endur);
             renderBar(x0, y0, f2, s2, 0, 0x80FF20);
         }
         y0 += dy;
         int base = handler.abilityPoints.getWeightAble();
         int load = WeightCalculator.getTotalWeight(Proxy.getClientPlayer());
         float f3 = MathHelper.clamp(1f * load / base, 0, 2);
-        String s3 = load + "/" + base;
+        String s3 = StringSubstitution.toString(Translator.get("screen.overlay.weight")) + load + "/" + base;
         renderBar(x0, y0, f3, s3, 0, 0x80FF20);
         return false;
     }

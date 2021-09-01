@@ -35,13 +35,13 @@ public class ThunderSword extends Arcane {
         }
         BlockPos pos = target.blockPosition();
         World w = player.level;
-        if (!w.isClientSide() && w.canSeeSky(pos)) {
+        if (!w.isClientSide()) {
             LightningBoltEntity e = EntityType.LIGHTNING_BOLT.create(w);
             e.moveTo(Vector3d.atBottomCenterOf(pos));
             e.setCause(player instanceof ServerPlayerEntity ? (ServerPlayerEntity) player : null);
             w.addFreshEntity(e);
             e.playSound(SoundEvents.LIGHTNING_BOLT_THUNDER, 5f, 1.0F);
         }
-        return w.canSeeSky(pos);
+        return true;
     }
 }

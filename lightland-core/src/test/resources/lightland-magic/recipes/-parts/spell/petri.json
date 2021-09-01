@@ -1,0 +1,42 @@
+{
+  "_class": "organize.json.JsonPartMap",
+  "file": "config_spell",
+  "path": "map",
+  "common": {
+    "_class": "com.hikarishima.lightland.magic.spell.magic.PetrificationSpell$Config"
+  },
+  "map": {
+    "lightland-magic:petrification_0": {
+      "duration": 30,
+      "mana_cost": 25,
+      "spell_load": 50,
+      "type": "SCROLL",
+      "spell_time": {
+        "id": "test.spell",
+        "duration": 50,
+        "setup": 20,
+        "close": 20
+      },
+      "effect_time": 300,
+      "effect_level": 4,
+      "max_hp": 40,
+      "radius": 6
+    },
+    "lightland-magic:petrification_1": {
+      "duration": 30,
+      "mana_cost": 25,
+      "spell_load": 50,
+      "type": "SCROLL",
+      "spell_time": {
+        "id": "test.spell",
+        "duration": 50,
+        "setup": 20,
+        "close": 20
+      },
+      "effect_time": 1728000,
+      "effect_level": 4,
+      "max_hp": 5,
+      "radius": 2
+    }
+  }
+}

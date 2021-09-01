@@ -1,6 +1,8 @@
 package com.hikarishima.lightland.magic.registry.item.combat;
 
 import com.hikarishima.lightland.event.combat.ISpecialArmor;
+import com.hikarishima.lightland.magic.Translator;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.LivingEntity;
@@ -8,11 +10,16 @@ import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ArmorItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.text.ITextComponent;
 import net.minecraft.world.World;
+import org.jetbrains.annotations.Nullable;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
 
+@ParametersAreNonnullByDefault
 public class MagicArmor extends ArmorItem implements ISpecialArmor {
 
     private final float resist, prob;
@@ -57,4 +64,16 @@ public class MagicArmor extends ArmorItem implements ISpecialArmor {
     public <T extends LivingEntity> int damageItem(ItemStack stack, int amount, T entity, Consumer<T> onBroken) {
         return getMaxDamage(stack) > 0 ? amount : 0;
     }
+
+    @Override
+    public void appendHoverText(ItemStack stack, @Nullable World world, List<ITextComponent> list, ITooltipFlag flag) {
+        if (resist > 0) {
+            list.add(Translator.get("tooltip.magic_resist", (int) (resist * 100) + "%"));
+        }
+        if (prob > 0) {
+            list.add(Translator.get("tooltip.disenchant",  (int) (prob * 100) + "%"));
+        }
+        super.appendHoverText(stack, world, list, flag);
+    }
+
 }

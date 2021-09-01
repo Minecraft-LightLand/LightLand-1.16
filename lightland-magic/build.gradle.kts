@@ -23,9 +23,11 @@ repositories {
 configureForge {
     runs {
         createClient("clientMagic", project) {
+            properties(mapOf("mixin.env.disableRefMap" to "true"))
             arg("-mixin.config=lightland-magic.mixins.json")
         }
         createServer("serverMagic", project) {
+            properties(mapOf("mixin.env.disableRefMap" to "true"))
             arg("-mixin.config=lightland-magic.mixins.json")
         }
     }
@@ -41,7 +43,11 @@ dependencies {
     compileOnly(fg.deobf("net.darkhax.gamestages:GameStages-$mcVersion:7.2.8"))
     junit
     mixin
-    implementation(fg.deobf("twilightforest:twilightforest-1.16.5:4.0.546-universal"))
+    implementation(fg.deobf("zip.local.citadel:citadel-1.7.3-1.16.5:1.7.3"))
+    implementation(fg.deobf("zip.local.tf:twilightforest-1.16.5:4.0.546-universal"))
+    implementation(fg.deobf("zip.local.iaf:iceandfire-2.1.8-1.16.5:2.1.8"))
+    //implementation(fg.deobf("zip.local.dg:dungeons_gear-1.16.5:3.0.17"))
+    implementation(fg.deobf("zip.local.mt:mahoutsukai-1.16.5:v1.31.37"))
 }
 
 // Example for how to get properties into the manifest for reading by the runtime..

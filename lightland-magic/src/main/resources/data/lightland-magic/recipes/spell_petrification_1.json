@@ -1,8 +1,10 @@
 {
     "type": "lightland-magic:magic_default",
     "product_type": "lightland-magic:spell",
-    "product_id": "lightland-magic:dirt_wall",
-    "predecessor": [],
+    "product_id": "lightland-magic:petrification_1",
+    "predecessor": [
+        "lightland-magic:spell_petrification_0"
+    ],
     "elemental_mastery": [
         {
             "element": "lightland-magic:earth",
@@ -10,24 +12,18 @@
         }
     ],
     "screen": {
-        "x": 0,
+        "x": 4,
         "y": 0
-
     },
     "elements": {
-        "A": "lightland-magic:earth",
-        "B": "lightland-magic:earth",
-        "C": "lightland-magic:earth",
+        "A": "lightland-magic:water",
+        "B": "lightland-magic:water",
+        "C": "lightland-magic:water",
         "D": "lightland-magic:earth",
         "E": "lightland-magic:earth",
         "F": "lightland-magic:earth"
     },
     "flows": [
-        "A->B",
-        "B->C",
-        "C->D",
-        "D->E",
-        "E->F",
-        "F->A"
+        "ABC<->EDF"
     ]
 }

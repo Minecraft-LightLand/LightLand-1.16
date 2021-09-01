@@ -45,7 +45,6 @@ public class MagicMiscEventHandler {
             ArmorConfig config = ArmorConfig.getInstance();
             if (config != null) config.fillEntity(mob, diff, new Random());
         }
-
     }
 
 }

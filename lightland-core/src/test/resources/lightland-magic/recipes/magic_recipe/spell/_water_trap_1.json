@@ -1,8 +1,10 @@
 {
     "type": "lightland-magic:magic_default",
     "product_type": "lightland-magic:spell",
-    "product_id": "lightland-magic:water_trap_0",
-    "predecessor": [],
+    "product_id": "lightland-magic:water_trap_1",
+    "predecessor": [
+        "lightland-magic:spell_water_trap_0"
+    ],
     "elemental_mastery": [
         {
             "element": "lightland-magic:water",
@@ -10,24 +12,22 @@
         }
     ],
     "screen": {
-        "x": 1,
+        "x": 2,
         "y": 1
 
     },
     "elements": {
         "A": "lightland-magic:earth",
-        "B": "lightland-magic:water",
-        "C": "lightland-magic:earth",
+        "B": "lightland-magic:fire",
+        "C": "lightland-magic:water",
         "D": "lightland-magic:water",
-        "E": "lightland-magic:earth",
+        "E": "lightland-magic:water",
         "F": "lightland-magic:water"
     },
     "flows": [
-        "A->B",
-        "B->C",
-        "C->D",
-        "D->E",
-        "E->F",
-        "F->A"
+        "A->CD",
+        "CD->B",
+        "B->EF",
+        "EF->A"
     ]
 }

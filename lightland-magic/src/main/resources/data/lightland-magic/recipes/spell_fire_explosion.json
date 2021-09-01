@@ -17,11 +17,16 @@
 
     },
     "elements": {
-        "A": "lightland-magic:earth",
+        "A": "lightland-magic:air",
         "B": "lightland-magic:fire",
-        "C": "lightland-magic:fire"
+        "C": "lightland-magic:fire",
+        "D": "lightland-magic:fire",
+        "E": "lightland-magic:earth",
+        "F": "lightland-magic:earth"
     },
     "flows": [
-        "A<->BC"
+        "A->BCD",
+        "BCD->EF",
+        "EF->A"
     ]
 }

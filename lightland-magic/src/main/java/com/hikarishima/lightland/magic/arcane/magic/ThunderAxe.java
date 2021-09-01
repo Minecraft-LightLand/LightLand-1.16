@@ -29,7 +29,6 @@ public class ThunderAxe extends Arcane {
     public boolean activate(PlayerEntity player, MagicHandler magic, ItemStack stack, LivingEntity target) {
         if (target == null)
             return false;
-        BlockPos pos = target.blockPosition();
         World w = player.level;
         strike(w, player, target);
         if (!w.isClientSide()) {
@@ -41,12 +40,12 @@ public class ThunderAxe extends Arcane {
                 return ((LivingEntity) e).hasEffect(VanillaMagicRegistry.EFF_ARCANE.get());
             }).forEach(e -> strike(w, player, (LivingEntity) e));
         }
-        return w.canSeeSky(pos);
+        return true;
     }
 
     private void strike(World w, PlayerEntity player, LivingEntity target) {
         BlockPos pos = target.blockPosition();
-        if (!w.isClientSide() && w.canSeeSky(pos)) {
+        if (!w.isClientSide()) {
             LightningBoltEntity e = EntityType.LIGHTNING_BOLT.create(w);
             e.moveTo(Vector3d.atBottomCenterOf(pos));
             e.setCause(player instanceof ServerPlayerEntity ? (ServerPlayerEntity) player : null);

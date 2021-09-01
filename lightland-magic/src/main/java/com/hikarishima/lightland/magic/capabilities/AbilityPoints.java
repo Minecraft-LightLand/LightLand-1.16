@@ -117,6 +117,10 @@ public class AbilityPoints {
         if (slow > 0) {
             parent.player.addEffect(new EffectInstance(VanillaMagicRegistry.EFF_HEAVY.get(), 40, slow - 1));
         }
+        if (parent.player.experienceLevel >= 40) {
+            parent.player.giveExperienceLevels(-1);
+            addExp(40);
+        }
     }
 
     public enum LevelType {

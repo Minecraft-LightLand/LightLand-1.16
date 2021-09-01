@@ -1,9 +1,9 @@
 {
     "type": "lightland-magic:magic_default",
     "product_type": "lightland-magic:spell",
-    "product_id": "lightland-magic:stone_block",
+    "product_id": "lightland-magic:petrification_0",
     "predecessor": [
-        "lightland-magic:spell_dirt_wall"
+        "lightland-magic:spell_stone_slab"
     ],
     "elemental_mastery": [
         {
@@ -12,17 +12,18 @@
         }
     ],
     "screen": {
-        "x": 1,
+        "x": 3,
         "y": 0
     },
     "elements": {
         "A": "lightland-magic:water",
-        "B": "lightland-magic:earth",
+        "B": "lightland-magic:water",
         "C": "lightland-magic:earth",
         "D": "lightland-magic:earth",
-        "E": "lightland-magic:earth"
+        "E": "lightland-magic:earth",
+        "F": "lightland-magic:earth"
     },
     "flows": [
-        "A<->BCDE"
+        "AB<->CEDF"
     ]
 }

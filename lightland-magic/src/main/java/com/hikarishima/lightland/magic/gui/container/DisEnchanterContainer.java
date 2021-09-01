@@ -18,9 +18,13 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.ParametersAreNonnullByDefault;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
@@ -30,6 +34,7 @@ public class DisEnchanterContainer extends AbstractContainer {
 
     protected final Map<MagicElement, Integer> map = Maps.newLinkedHashMap();
     protected final Map<Enchantment, IMagicRecipe<?>> ench_map;
+    protected final Map<Enchantment, MagicElement[]> temp = Maps.newLinkedHashMap();
 
     public DisEnchanterContainer(int wid, PlayerInventory plInv) {
         super(MagicContainerRegistry.CT_DISENCH.get(), wid, plInv, 3, MANAGER);
@@ -37,6 +42,18 @@ public class DisEnchanterContainer extends AbstractContainer {
         addSlot("gold_slot", stack -> stack.getItem() == Items.GOLD_NUGGET);
         addSlot("ench_slot", stack -> false);
         ench_map = IMagicRecipe.getMap(plInv.player.level, MagicRegistry.MPT_ENCH);
+        for (Enchantment enc : ForgeRegistries.ENCHANTMENTS.getValues()) {
+            if (!ench_map.containsKey(enc)) {
+                int seed = enc.getRegistryName().toString().hashCode();
+                Random r = new Random(seed);
+                MagicElement[] elems = new MagicElement[3];
+                List<MagicElement> list = new ArrayList<>(MagicRegistry.ELEMENT.getValues());
+                for (int i = 0; i < 3; i++) {
+                    elems[i] = list.get(r.nextInt(list.size()));
+                }
+                temp.put(enc, elems);
+            }
+        }
     }
 
     @Override
@@ -89,6 +106,16 @@ public class DisEnchanterContainer extends AbstractContainer {
                     if (ench_map.containsKey(ench)) {
                         IMagicRecipe<?> r = ench_map.get(ench);
                         for (MagicElement elem : r.getElements()) {
+                            if (map.containsKey(elem))
+                                map.put(elem, map.get(elem) + e.getValue());
+                            else
+                                map.put(elem, e.getValue());
+                        }
+                    }
+                    //TODO temporary fix to unknown enchantments
+                    else if (temp.containsKey(ench)) {
+                        MagicElement[] elems = temp.get(ench);
+                        for (MagicElement elem : elems) {
                             if (map.containsKey(elem))
                                 map.put(elem, map.get(elem) + e.getValue());
                             else
