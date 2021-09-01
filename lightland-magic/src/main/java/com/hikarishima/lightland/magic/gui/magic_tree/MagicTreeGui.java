@@ -24,7 +24,7 @@ public class MagicTreeGui<I extends IForgeRegistryEntry<I>, P extends MagicProdu
 
     private final MagicTreeScreen screen;
     private final GuiTabType tab = GuiTabType.ABOVE;
-    private final int index;
+    final int index;
     private final Map<P, MagicTreeEntry<I, P>> widgets = Maps.newLinkedHashMap();
     private final TypeConfig display;
     private final ITextComponent title;

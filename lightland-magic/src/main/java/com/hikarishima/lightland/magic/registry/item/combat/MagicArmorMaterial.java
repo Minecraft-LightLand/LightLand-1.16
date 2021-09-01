@@ -53,7 +53,7 @@ public class MagicArmorMaterial implements IArmorMaterial {
     );
 
     public static final MagicArmorMaterial PERMANENCE = new MagicArmorMaterial(
-            "permanence", 0, new int[]{2, 5, 6, 2}, 18,
+            "permanence_iron", 0, new int[]{2, 5, 6, 2}, 18,
             SoundEvents.ARMOR_EQUIP_IRON, 0f, 0f,
             () -> Ingredient.of(MagicItemRegistry.PERMANENCE_IRON_INGOT.get()), 0, 0
     );

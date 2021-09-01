@@ -17,10 +17,11 @@ public class ManaOverlay extends AbstractOverlay {
             return false;
         int x0 = 4;
         int dy = 10;
-        int y0 = 0;
+        int y0 = dy;
         float f0 = 1f * handler.abilityPoints.exp / AbilityPoints.expRequirement(handler.abilityPoints.level);
         String s0 = "Lv." + handler.abilityPoints.level;
-        renderBar(x0, y0 += dy, f0, s0, 0, 0x80FF20);
+        renderBar(x0, y0, f0, s0, 0, 0x80FF20);
+        y0 += dy;
         if (handler.magicAbility.getMaxMana() > 0) {
             float f1 = 1f * handler.magicAbility.getMana() / handler.magicAbility.getMaxMana();
             String s1 = StringSubstitution.toString(Translator.get("screen.overlay.mana")) + handler.magicAbility.getMana() + "/" + handler.magicAbility.getMaxMana();

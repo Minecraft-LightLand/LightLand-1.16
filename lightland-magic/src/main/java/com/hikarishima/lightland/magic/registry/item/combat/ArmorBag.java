@@ -38,7 +38,7 @@ public class ArmorBag extends Item {
         NonNullList<ItemStack> list = NonNullList.withSize(64, ItemStack.EMPTY);
         CompoundNBT tag = stack.getOrCreateTagElement("BlockEntityTag");
         if (tag.contains("Items")) {
-            ItemStackHelper.loadAllItems(stack.getOrCreateTag(), list);
+            ItemStackHelper.loadAllItems(tag, list);
         }
         if (player.isShiftKeyDown()) {
             throwOut(list, player, world);
@@ -63,8 +63,8 @@ public class ArmorBag extends Item {
     }
 
     public void appendHoverText(ItemStack stack, @Nullable World world, List<ITextComponent> list, ITooltipFlag flag) {
-        list.add(Translator.get("tooltip.bag.size", getSize(stack), 64));
-        list.add(Translator.get("tooltip.bag.info"));
+        list.add(Translator.get("tooltip.armor_bag.size", getSize(stack), 64));
+        list.add(Translator.get("tooltip.armor_bag.info"));
     }
 
     public boolean showDurabilityBar(ItemStack stack) {
@@ -83,7 +83,7 @@ public class ArmorBag extends Item {
         NonNullList<ItemStack> list = NonNullList.withSize(64, ItemStack.EMPTY);
         CompoundNBT tag = stack.getOrCreateTagElement("BlockEntityTag");
         if (tag.contains("Items")) {
-            ItemStackHelper.loadAllItems(stack.getOrCreateTag(), list);
+            ItemStackHelper.loadAllItems(tag, list);
         }
         int ans = 0;
         for (ItemStack is : list) {
@@ -108,7 +108,7 @@ public class ArmorBag extends Item {
             if (list.get(i).isEmpty()) {
                 if (toAdd.isEmpty()) return;
                 Holder<ItemStack> item = toAdd.poll();
-                list.set(i, item.getter.get());
+                list.set(i, item.getter.get().copy());
                 item.remove.run();
             }
         }

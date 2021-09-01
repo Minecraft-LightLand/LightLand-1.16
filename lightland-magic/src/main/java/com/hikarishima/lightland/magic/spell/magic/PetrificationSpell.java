@@ -44,7 +44,7 @@ public class PetrificationSpell extends SimpleSpell<PetrificationSpell.Config> {
                 LivingEntity liv = (LivingEntity) le;
                 int time = config.effect_time;
                 int lv = config.effect_level;
-                if (liv.getHealth()>config.max_hp)
+                if (liv.getHealth() > config.max_hp)
                     return;
                 liv.addEffect(new EffectInstance(Effects.REGENERATION, time, 0));
                 liv.addEffect(new EffectInstance(Effects.DAMAGE_RESISTANCE, time, lv));

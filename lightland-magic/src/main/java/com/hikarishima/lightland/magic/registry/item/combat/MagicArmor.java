@@ -71,7 +71,7 @@ public class MagicArmor extends ArmorItem implements ISpecialArmor {
             list.add(Translator.get("tooltip.magic_resist", (int) (resist * 100) + "%"));
         }
         if (prob > 0) {
-            list.add(Translator.get("tooltip.disenchant",  (int) (prob * 100) + "%"));
+            list.add(Translator.get("tooltip.disenchant", (int) (prob * 100) + "%"));
         }
         super.appendHoverText(stack, world, list, flag);
     }

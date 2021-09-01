@@ -53,10 +53,10 @@ public class MagicSword extends SwordItem implements ISpecialWeapon {
     @Override
     public void appendHoverText(ItemStack stack, @Nullable World world, List<ITextComponent> list, ITooltipFlag flag) {
         if (pen > 0) {
-            list.add(Translator.get("tooltip.magic_penetrate",  (int) (pen * 100) + "%"));
+            list.add(Translator.get("tooltip.magic_penetrate", (int) (pen * 100) + "%"));
         }
         if (prob > 0) {
-            list.add(Translator.get("tooltip.disenchant",  (int) (prob * 100) + "%"));
+            list.add(Translator.get("tooltip.disenchant", (int) (prob * 100) + "%"));
         }
         super.appendHoverText(stack, world, list, flag);
     }

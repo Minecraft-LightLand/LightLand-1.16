@@ -3,7 +3,7 @@
     "product_type": "lightland-magic:spell",
     "product_id": "lightland-magic:stone_slab",
     "predecessor": [
-        "lightland-magic:spell_dirt_block"
+        "lightland-magic:spell_stone_block"
     ],
     "elemental_mastery": [
         {

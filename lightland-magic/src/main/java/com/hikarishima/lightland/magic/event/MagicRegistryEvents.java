@@ -87,5 +87,5 @@ public class MagicRegistryEvents {
                             ((Consumer) acceptor).accept(o);
         });
     }
-    
+
 }

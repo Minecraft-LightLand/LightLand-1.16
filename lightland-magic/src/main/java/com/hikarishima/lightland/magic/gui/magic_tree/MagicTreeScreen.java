@@ -46,12 +46,18 @@ public class MagicTreeScreen extends Screen {
 
     @SuppressWarnings({"unchecked", "rawtypes"})
     public void init() {
-        if (selected != null) return;
+        int index = 0;
+        if (selected != null) {
+            index = selected.index;
+        }
         tabs.clear();
         for (MagicProductType<?, ?> type : TABS) {
-            tabs.put(type, new MagicTreeGui(this, type, tabs.size()));
+            MagicTreeGui gui = new MagicTreeGui(this, type, tabs.size());
+            if (tabs.size() == index) {
+                selected = gui;
+            }
+            tabs.put(type, gui);
         }
-        selected = tabs.values().iterator().next();
         for (IMagicRecipe<?> r : handler.magicHolder.listRecipe()) {
             ((MagicTreeGui) tabs.get(r.product_type)).addWidget(handler.magicHolder.getProduct(r));
         }

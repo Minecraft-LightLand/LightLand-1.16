@@ -18,8 +18,8 @@ public class SpellRegistry {
     public static final FireArrowSpell FIRE_RAIN = reg("fire_rain", new FireArrowSpell());
     public static final FireArrowSpell EXPLOSION_RAIN = reg("explosion_rain", new FireArrowSpell());
     public static final FireArrowSpell FIRE_EXPLOSION = reg("fire_explosion", new FireArrowSpell());
-    public static final PetrificationSpell PETR_0 = reg("petrification_0",new PetrificationSpell());
-    public static final PetrificationSpell PETR_1 = reg("petrification_1",new PetrificationSpell());
+    public static final PetrificationSpell PETR_0 = reg("petrification_0", new PetrificationSpell());
+    public static final PetrificationSpell PETR_1 = reg("petrification_1", new PetrificationSpell());
 
     private static <V extends T, T extends ForgeRegistryEntry<T>> V reg(String name, V v) {
         v.setRegistryName(LightLandMagic.MODID, name);
