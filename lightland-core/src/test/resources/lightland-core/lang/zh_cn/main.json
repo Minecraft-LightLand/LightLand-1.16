@@ -199,7 +199,11 @@
     "weight": "装备重量:%s",
     "magic_resist": "法术伤害抗性:%s",
     "magic_peentrate": "%s的伤害无视魔法抗性",
-    "disenchant": "%s的概率降级敌人附魔"
+    "disenchant": "%s的概率降级敌人附魔",
+    "armor_bag": {
+      "size": "容量:%s/%s",
+      "info": "右键收起，蹲下右键倒出"
+    }
   },
   "item": {
     "lightland-magic": {},

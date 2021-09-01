@@ -22,7 +22,7 @@
             "enchant_alloy_ingot": "魔导合金",
             "permanence_iron_ingot": "永恒铁锭",
             "enchant_light_ingot": "轻质硬化魔导合金",
-            "enchant_string":"蕴魔线",
+            "enchant_string": "蕴魔线",
             "enchant_cloth": "蕴魔布",
             "enchant_chain": "硬化蕴魔布",
             "anti_magic_metal_ingot": "斥魔金属",
@@ -32,7 +32,8 @@
             "spell_parchment": "符文-羊皮纸",
             "spell_scroll": "符文-卷轴",
             "gilded_wand": "镀金法杖",
-            "record_pearl": "记录宝珠"
+            "record_pearl": "记录宝珠",
+            "armor_bag": "装备袋"
         },
         "block": {
             "-path": [

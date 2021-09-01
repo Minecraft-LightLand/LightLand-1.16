@@ -1,6 +1,8 @@
 package com.hikarishima.lightland.magic.registry.item.combat;
 
+import com.hikarishima.lightland.magic.Translator;
 import mcp.MethodsReturnNonnullByDefault;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.ItemStackHelper;
 import net.minecraft.item.Item;
@@ -9,11 +11,14 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.NonNullList;
+import net.minecraft.util.text.ITextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.items.CapabilityItemHandler;
 
+import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.ArrayDeque;
+import java.util.List;
 import java.util.Queue;
 import java.util.function.Supplier;
 
@@ -57,10 +62,42 @@ public class ArmorBag extends Item {
         return ActionResult.success(stack);
     }
 
+    public void appendHoverText(ItemStack stack, @Nullable World world, List<ITextComponent> list, ITooltipFlag flag) {
+        list.add(Translator.get("tooltip.bag.size", getSize(stack), 64));
+        list.add(Translator.get("tooltip.bag.info"));
+    }
+
+    public boolean showDurabilityBar(ItemStack stack) {
+        return true;
+    }
+
+    public double getDurabilityForDisplay(ItemStack stack) {
+        return 1 - getSize(stack) / 64f;
+    }
+
+    public int getRGBDurabilityForDisplay(ItemStack stack) {
+        return 0xFFFFFF;
+    }
+
+    private int getSize(ItemStack stack) {
+        NonNullList<ItemStack> list = NonNullList.withSize(64, ItemStack.EMPTY);
+        CompoundNBT tag = stack.getOrCreateTagElement("BlockEntityTag");
+        if (tag.contains("Items")) {
+            ItemStackHelper.loadAllItems(stack.getOrCreateTag(), list);
+        }
+        int ans = 0;
+        for (ItemStack is : list) {
+            if (!is.isEmpty()) {
+                ans++;
+            }
+        }
+        return ans;
+    }
+
     private void throwOut(NonNullList<ItemStack> list, PlayerEntity player, World world) {
         for (ItemStack stack : list) {
             if (!stack.isEmpty()) {
-                player.inventory.placeItemBackInInventory(world, stack);
+                player.inventory.placeItemBackInInventory(world, stack.copy());
             }
         }
         list.clear();
