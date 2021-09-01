@@ -40,7 +40,7 @@ dependencies {
     core
     lombok
     jei(project)
-    compileOnly(fg.deobf("net.darkhax.gamestages:GameStages-$mcVersion:7.2.8"))
+    gameStages(project)
     junit
     mixin
     implementation(fg.deobf("zip.local.citadel:citadel-1.7.3-1.16.5:1.7.3"))

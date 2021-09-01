@@ -35,3 +35,5 @@ logs/
 .idea
 local.yml
 local.properties
+/*/out/
+!**/libs/*.jar
