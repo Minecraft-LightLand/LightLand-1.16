@@ -141,18 +141,20 @@ fun NamedDomainObjectContainer<RunConfig>.createClient(
                 it.args.addAll(clientArgs.map { it.toString() })
             }
 
-            val clientEnvironment = (project.rootProject.properties["forge.run.userProperties.client.environment"] as? Map<String, Any>
-                ?: emptyMap()) + (project.properties["forge.run.userProperties.client.environment"] as? Map<String, Any>
-                ?: emptyMap())
+            val clientEnvironment =
+                (project.rootProject.properties["forge.run.userProperties.client.environment"] as? Map<String, Any>
+                    ?: emptyMap()) + (project.properties["forge.run.userProperties.client.environment"] as? Map<String, Any>
+                    ?: emptyMap())
             if (clientEnvironment.isNotEmpty()) {
                 it.environment(it.environment + clientEnvironment.entries.associate {
                     it.key to gson.toJson(it.value)
                 })
             }
 
-            val clientProperties = (project.rootProject.properties["forge.run.userProperties.client.properties"] as? Map<String, Any>
-                ?: emptyMap()) + (project.properties["forge.run.userProperties.client.properties"] as? Map<String, Any>
-                ?: emptyMap())
+            val clientProperties =
+                (project.rootProject.properties["forge.run.userProperties.client.properties"] as? Map<String, Any>
+                    ?: emptyMap()) + (project.properties["forge.run.userProperties.client.properties"] as? Map<String, Any>
+                    ?: emptyMap())
             if (clientProperties.isNotEmpty()) {
                 it.properties(it.properties + clientProperties.entries.associate {
                     it.key to gson.toJson(it.value)
@@ -284,6 +286,11 @@ val DependencyHandler.lombok: Unit
         add("testCompileOnly", lombokDependency)
         add("testAnnotationProcessor", lombokDependency)
     }
+
+fun DependencyHandler.gameStages(project: Project) {
+    add("compileOnly", project.fg.deobf("net.darkhax.gamestages:GameStages-${project.mcVersion}:7.2.8"))
+}
+
 val DependencyHandler.mixin: Unit
     get() {
         val dep = "org.spongepowered:mixin:0.8.2:processor";

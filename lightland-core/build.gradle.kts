@@ -55,7 +55,7 @@ dependencies {
     api("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.1")
     minecraft(project)
     jei(project)
-    compileOnly(fg.deobf("net.darkhax.gamestages:GameStages-$mcVersion:7.2.8"))
+    gameStages(project)
     lombok
     junit
 
