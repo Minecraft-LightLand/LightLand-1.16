@@ -240,6 +240,7 @@
       "physics": "物理保护"
     }
   },
+  "death.attack.spell_load": "%s死于施法过度",
   "itemGroup.lightland-core": "Lightland",
   "generator.lightland-terrain.image_biome": "地图生成器"
 }

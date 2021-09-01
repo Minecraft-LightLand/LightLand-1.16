@@ -19,6 +19,7 @@ import net.minecraft.util.math.MathHelper;
 public class MagicAbility {
 
     public static final int ACTIVATION = 600;
+    public static final DamageSource LOAD = new DamageSource("spell_load").bypassArmor().bypassMagic();
 
     private final MagicHandler parent;
     @SerialClass.SerialField
@@ -53,22 +54,22 @@ public class MagicAbility {
             if (load == 1) {
                 parent.player.addEffect(new EffectInstance(Effects.MOVEMENT_SLOWDOWN, 40, 2));
                 parent.player.addEffect(new EffectInstance(Effects.CONFUSION, 40));
-                parent.player.hurt(DamageSource.OUT_OF_WORLD, 1);
+                parent.player.hurt(LOAD, 1);
             }
             if (load == 2) {
                 parent.player.addEffect(new EffectInstance(VanillaMagicRegistry.EFF_PETRI.get(), 40, 4));
                 parent.player.addEffect(new EffectInstance(Effects.BLINDNESS, 40));
-                parent.player.hurt(DamageSource.OUT_OF_WORLD, 4);
+                parent.player.hurt(LOAD, 4);
             }
             if (load == 3) {
                 parent.player.addEffect(new EffectInstance(VanillaMagicRegistry.EFF_PETRI.get(), 40, 4));
                 parent.player.addEffect(new EffectInstance(Effects.BLINDNESS, 40));
-                parent.player.hurt(DamageSource.OUT_OF_WORLD, 16);
+                parent.player.hurt(LOAD, 16);
             }
             if (load >= 4) {
                 parent.player.addEffect(new EffectInstance(VanillaMagicRegistry.EFF_PETRI.get(), 40, 4));
                 parent.player.addEffect(new EffectInstance(Effects.BLINDNESS, 40));
-                parent.player.hurt(DamageSource.OUT_OF_WORLD, 64);
+                parent.player.hurt(LOAD, 64);
             }
         }
         for (int i = 0; i < getMaxSpellSlot(); i++) {
