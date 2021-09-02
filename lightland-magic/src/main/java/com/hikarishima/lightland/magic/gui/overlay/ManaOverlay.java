@@ -37,7 +37,7 @@ public class ManaOverlay extends AbstractOverlay {
         y0 += dy;
         int base = handler.abilityPoints.getWeightAble();
         int load = WeightCalculator.getTotalWeight(Proxy.getClientPlayer());
-        float f3 = MathHelper.clamp(1f * load / base, 0, 2);
+        float f3 = MathHelper.clamp(1f * load / base, 0, 2) / 2;
         String s3 = StringSubstitution.toString(Translator.get("screen.overlay.weight")) + load + "/" + base;
         renderBar(x0, y0, f3, s3, 0, 0x80FF20);
         return false;

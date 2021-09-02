@@ -54,10 +54,10 @@ public class ClientRenderEventHandler {
         LivingRenderer<?, ?> renderer = event.getRenderer();
         if (EFFECT_MAP.containsKey(entity.getUUID())) {
             Set<Effect> set = EFFECT_MAP.get(entity.getUUID());
-            if (set.contains(VanillaMagicRegistry.EFF_ARCANE)) {
+            if (set.contains(VanillaMagicRegistry.EFF_ARCANE.get())) {
                 renderIcon(entity, event.getMatrixStack(), event.getBuffers(), renderer.getDispatcher(), RL_ENTITY_BODY_ICON);
             }
-            if (set.contains(VanillaMagicRegistry.EFF_WATER_TRAP)) {
+            if (set.contains(VanillaMagicRegistry.EFF_WATER_TRAP.get())) {
                 renderIcon(entity, event.getMatrixStack(), event.getBuffers(), renderer.getDispatcher(), WATER_TRAP_ICON);
             }
         }

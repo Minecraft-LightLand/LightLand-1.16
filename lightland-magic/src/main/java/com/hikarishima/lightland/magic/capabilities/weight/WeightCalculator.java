@@ -50,7 +50,7 @@ public class WeightCalculator {
             int weight = slot_factor * weight_factor + weight_extra;
             if (weight > 0)
                 return weight;
-            return armor.getDefense() * 1000;
+            return armor.getDefense() * 100;
         }
         return 0;
     }

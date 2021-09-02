@@ -56,8 +56,9 @@ public class AbstractContainer extends Container {
         if (id >= 36) {
             moveItemStackTo(stack, 0, 36, true);
         } else {
-            moveItemStackTo(stack, 36, 36 + n, true);
+            moveItemStackTo(stack, 36, 36 + n, false);
         }
+        slot.setChanged();
         return ItemStack.EMPTY;
     }
 

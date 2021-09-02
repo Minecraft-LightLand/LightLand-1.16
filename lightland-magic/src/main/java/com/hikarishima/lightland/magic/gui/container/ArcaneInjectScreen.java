@@ -41,7 +41,7 @@ public class ArcaneInjectScreen extends AbstractScreen<ArcaneInjectContainer> im
     @Override
     protected void renderTooltip(MatrixStack matrix, int mx, int my) {
         super.renderTooltip(matrix, mx, my);
-        if (menu.sm.within("arrow", mx, my) &&
+        if (menu.sm.within("arrow", mx - getGuiLeft(), my - getGuiTop()) &&
                 menu.err != ArcaneInjectContainer.Error.NO_ITEM)
             renderTooltip(matrix, menu.err.getDesc(menu), mx, my);
         getInfoMouse(mx - getGuiLeft(), my - getGuiTop(), (ex, ey, w, h, ent) -> {

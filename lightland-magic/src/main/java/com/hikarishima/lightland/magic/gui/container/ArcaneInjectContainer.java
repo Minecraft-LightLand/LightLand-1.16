@@ -132,11 +132,12 @@ public class ArcaneInjectContainer extends AbstractContainer {
             ArcaneItemCraftHelper.setArcaneOnItem(input, spell);
             slot.setItem(3, input);
             ItemStack ench = slot.getItem(2);
+            ManaStorage mana = (ManaStorage) ench.getItem();
             ench.shrink(consume);
             ItemStack gold = slot.getItem(4);
             if (!gold.isEmpty())
                 gold.grow(consume);
-            else slot.setItem(4, new ItemStack(((ManaStorage) ench.getItem()).container, consume));
+            else slot.setItem(4, new ItemStack(mana.container, consume));
             MagicHandler handler = MagicHandler.get(plInv.player);
             for (MagicElement elem : map.keySet()) {
                 handler.magicHolder.addElement(elem, -map.get(elem));
