@@ -11,7 +11,7 @@
     "side": [
         {
             "input": {
-                "item": "minecraft:leaves"
+                "tag": "minecraft:leaves"
             },
             "output": {
                 "item": "twilightforest:steeleaf_ingot"
@@ -24,7 +24,7 @@
         },
         {
             "input": {
-                "item": "minecraft:leaves"
+                "tag": "minecraft:leaves"
             },
             "output": {
                 "item": "twilightforest:steeleaf_ingot"
@@ -42,7 +42,7 @@
         },
         {
             "input": {
-                "item": "minecraft:leaves"
+                "tag": "minecraft:leaves"
             },
             "output": {
                 "item": "twilightforest:steeleaf_ingot"
@@ -55,7 +55,7 @@
         },
         {
             "input": {
-                "item": "minecraft:leaves"
+                "tag": "minecraft:leaves"
             },
             "output": {
                 "item": "twilightforest:steeleaf_ingot"
