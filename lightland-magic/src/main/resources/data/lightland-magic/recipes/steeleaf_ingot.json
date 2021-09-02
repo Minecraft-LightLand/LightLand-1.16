@@ -1,0 +1,65 @@
+{
+    "type": "lightland-magic:craft_shapeless",
+    "core": {
+        "input": {
+            "item": "lightland-magic:enchant_gold_ingot"
+        },
+        "output": {
+            "item": "minecraft:gold_ingot"
+        }
+    },
+    "side": [
+        {
+            "input": {
+                "item": "minecraft:leaves"
+            },
+            "output": {
+                "item": "twilightforest:steeleaf_ingot"
+            }
+        },
+        {
+            "input": {
+                "item": "twilightforest:knightmetal_ingot"
+            }
+        },
+        {
+            "input": {
+                "item": "minecraft:leaves"
+            },
+            "output": {
+                "item": "twilightforest:steeleaf_ingot"
+            }
+        },
+        {
+            "input": {
+                "item": "twilightforest:knightmetal_ingot"
+            }
+        },
+        {
+            "input": {
+                "item": "twilightforest:knightmetal_ingot"
+            }
+        },
+        {
+            "input": {
+                "item": "minecraft:leaves"
+            },
+            "output": {
+                "item": "twilightforest:steeleaf_ingot"
+            }
+        },
+        {
+            "input": {
+                "item": "twilightforest:knightmetal_ingot"
+            }
+        },
+        {
+            "input": {
+                "item": "minecraft:leaves"
+            },
+            "output": {
+                "item": "twilightforest:steeleaf_ingot"
+            }
+        }
+    ]
+}

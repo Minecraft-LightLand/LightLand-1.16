@@ -4,7 +4,7 @@
     "path": "map.armor.items",
     "common": {
         "level": 3,
-        "weight": 50
+        "weight": 25
     },
     "list": [
         {

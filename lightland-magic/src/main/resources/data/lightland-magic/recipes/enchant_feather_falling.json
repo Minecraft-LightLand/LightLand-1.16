@@ -1,8 +1,14 @@
 {
     "type": "lightland-magic:craft_enchant",
-    "magic_recipe": "lightland-magic:enchantment_mending",
+    "magic_recipe": "lightland-magic:enchantment_feather_falling",
     "levels": [
-        50
+        100,
+        40,
+        34,
+        30,
+        27,
+        25,
+        24
     ],
     "core": {
         "input": {
@@ -10,7 +16,7 @@
         },
         "output": {
             "enchant_book": {
-                "id": "minecraft:mending",
+                "id": "minecraft:feather_falling",
                 "lvl": 1
             }
         }
@@ -18,36 +24,10 @@
     "side": [
         {
             "input": {
-                "item": "lightland-magic:permanence_iron_ingot"
-            },
-            "output": {
-                "item": "lightland-magic:permanence_iron_ingot"
-            }
-        },
-        {
-            "input": {
                 "item": "lightland-magic:enchant_gold_nugget"
             },
             "output": {
                 "item": "minecraft:gold_nugget"
-            }
-        },
-        {
-            "input": {
-                "item": "lightland-magic:permanence_iron_ingot"
-            },
-            "output": {
-                "item": "lightland-magic:permanence_iron_ingot"
-            }
-        },
-        {
-            "input": {
-                "item": "twilightforest:knightmetal_ingot"
-            }
-        },
-        {
-            "input": {
-                "item": "twilightforest:knightmetal_ingot"
             }
         },
         {
@@ -68,10 +48,36 @@
         },
         {
             "input": {
+                "item": "twilightforest:steeleaf_ingot"
+            }
+        },
+        {
+            "input": {
+                "item": "twilightforest:alpha_fur"
+            }
+        },
+        {
+            "input": {
+                "item": "lightland-magic:enchant_gold_nugget"
+            },
+            "output": {
+                "item": "minecraft:gold_nugget"
+            }
+        },
+        {
+            "input": {
                 "item": "lightland-magic:permanence_iron_ingot"
             },
             "output": {
                 "item": "lightland-magic:permanence_iron_ingot"
+            }
+        },
+        {
+            "input": {
+                "item": "lightland-magic:enchant_gold_nugget"
+            },
+            "output": {
+                "item": "minecraft:gold_nugget"
             }
         }
     ]

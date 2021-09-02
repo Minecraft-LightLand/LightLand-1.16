@@ -18,9 +18,10 @@
         "B": "lightland-magic:earth",
         "C": "lightland-magic:earth",
         "D": "lightland-magic:earth",
-        "E": "lightland-magic:fire"
+        "E": "lightland-magic:fire",
+        "F": "lightland-magic:fire"
     },
     "flows": [
-        "ABCD<->E"
+        "ABCD<->EF"
     ]
 }

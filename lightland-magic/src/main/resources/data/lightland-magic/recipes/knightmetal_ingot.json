@@ -2,40 +2,24 @@
     "type": "lightland-magic:craft_shapeless",
     "core": {
         "input": {
-            "item": "lightland-magic:enchant_alloy_ingot"
+            "item": "minecraft:netherite_ingot"
         },
         "output": {
-            "item": "lightland-magic:permanence_iron_ingot"
+            "item": "twilightforest:knightmetal_ingot"
         }
     },
     "side": [
         {
             "input": {
-                "enchant_book": {
-                    "id": "minecraft:mending",
-                    "lvl": 1
-                }
-            }
-        },
-        {
-            "input": {
                 "item": "minecraft:iron_ingot"
             },
             "output": {
-                "item": "lightland-magic:permanence_iron_ingot"
+                "item": "twilightforest:knightmetal_ingot"
             }
         },
         {
             "input": {
-                "enchant_book": {
-                    "id": "minecraft:protection",
-                    "lvl": 1
-                }
-            }
-        },
-        {
-            "input": {
-                "item": "minecraft:iron_ingot"
+                "item": "lightland-magic:enchant_alloy_ingot"
             },
             "output": {
                 "item": "lightland-magic:permanence_iron_ingot"
@@ -46,20 +30,12 @@
                 "item": "minecraft:iron_ingot"
             },
             "output": {
-                "item": "lightland-magic:permanence_iron_ingot"
+                "item": "twilightforest:knightmetal_ingot"
             }
         },
         {
             "input": {
-                "enchant_book": {
-                    "id": "minecraft:unbreaking",
-                    "lvl": 1
-                }
-            }
-        },
-        {
-            "input": {
-                "item": "minecraft:iron_ingot"
+                "item": "lightland-magic:enchant_alloy_ingot"
             },
             "output": {
                 "item": "lightland-magic:permanence_iron_ingot"
@@ -67,10 +43,34 @@
         },
         {
             "input": {
-                "enchant_book": {
-                    "id": "minecraft:infinity",
-                    "lvl": 1
-                }
+                "item": "lightland-magic:enchant_alloy_ingot"
+            },
+            "output": {
+                "item": "lightland-magic:permanence_iron_ingot"
+            }
+        },
+        {
+            "input": {
+                "item": "minecraft:iron_ingot"
+            },
+            "output": {
+                "item": "twilightforest:knightmetal_ingot"
+            }
+        },
+        {
+            "input": {
+                "item": "lightland-magic:enchant_alloy_ingot"
+            },
+            "output": {
+                "item": "lightland-magic:permanence_iron_ingot"
+            }
+        },
+        {
+            "input": {
+                "item": "minecraft:iron_ingot"
+            },
+            "output": {
+                "item": "twilightforest:knightmetal_ingot"
             }
         }
     ]

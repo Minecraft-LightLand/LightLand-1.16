@@ -28,7 +28,7 @@
         {
             "input": {
                 "enchant_book": {
-                    "id": "minecraft:infinity",
+                    "id": "minecraft:protection",
                     "lvl": 1
                 }
             }
@@ -52,7 +52,7 @@
         {
             "input": {
                 "enchant_book": {
-                    "id": "minecraft:infinity",
+                    "id": "minecraft:unbreaking",
                     "lvl": 1
                 }
             }
@@ -68,7 +68,7 @@
         {
             "input": {
                 "enchant_book": {
-                    "id": "minecraft:mending",
+                    "id": "minecraft:infinity",
                     "lvl": 1
                 }
             }

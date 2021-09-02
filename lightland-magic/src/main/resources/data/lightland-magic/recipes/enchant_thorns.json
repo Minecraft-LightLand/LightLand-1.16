@@ -1,14 +1,14 @@
 {
     "type": "lightland-magic:craft_enchant",
-    "magic_recipe": "lightland-magic:enchantment_unbreaking",
+    "magic_recipe": "lightland-magic:enchantment_thorns",
     "levels": [
-        150,
-        110,
-        80,
-        70,
-        60,
-        55,
-        50
+        100,
+        39,
+        33,
+        29,
+        26,
+        24,
+        23
     ],
     "core": {
         "input": {
@@ -16,7 +16,7 @@
         },
         "output": {
             "enchant_book": {
-                "id": "minecraft:unbreaking",
+                "id": "minecraft:thorns",
                 "lvl": 1
             }
         }
@@ -24,10 +24,15 @@
     "side": [
         {
             "input": {
-                "item": "lightland-magic:permanence_iron_ingot"
+                "item": "lightland-magic:enchant_gold_nugget"
             },
             "output": {
-                "item": "lightland-magic:permanence_iron_ingot"
+                "item": "minecraft:gold_nugget"
+            }
+        },
+        {
+            "input": {
+                "item": "minecraft:obsidian"
             }
         },
         {
@@ -40,22 +45,12 @@
         },
         {
             "input": {
-                "item": "twilightforest:knightmetal_ingot"
+                "item": "twilightforest:carminite"
             }
         },
         {
             "input": {
-                "item": "minecraft:diamond"
-            }
-        },
-        {
-            "input": {
-                "item": "minecraft:diamond"
-            }
-        },
-        {
-            "input": {
-                "item": "twilightforest:knightmetal_ingot"
+                "item": "twilightforest:carminite"
             }
         },
         {
@@ -68,10 +63,15 @@
         },
         {
             "input": {
-                "item": "lightland-magic:permanence_iron_ingot"
+                "item": "minecraft:obsidian"
+            }
+        },
+        {
+            "input": {
+                "item": "lightland-magic:enchant_gold_nugget"
             },
             "output": {
-                "item": "lightland-magic:permanence_iron_ingot"
+                "item": "minecraft:gold_nugget"
             }
         }
     ]

@@ -1,24 +1,24 @@
 1,1                 3, 3
 1,2                 3, 10                                       geo 0
 1,3                 4, 18           protection                  aqua 0
-1,4                 4, 22           sharpness                   geo 2
-1,5                 4, 35           stone_slab                  geo 1
+1,4                 4, 22                                       geo 2
+1,5                 4, 35                                       geo 1
 2,2                 3, 8                                        
 2,3                 4, 21           blast_protection            aqua 1
-2,4                 4, 24           stone_block                 geo 3
+2,4                 4, 24           power, sharpness            geo 3
 3,3                 5, 42           infinity                    geo 4
 1,1,1
 1,1,2               
 1,1,3               
-1,1,4               4, 24           fire_aspect                 air 0
-1,2,2               4, 20           smite                       fire 0
+1,1,4               4, 24           fire_aspect, flame          air 0
+1,2,2               4, 20           smite *                     fire 0
 1,2,3               4, 23           thorns                      fire 1
 1,3,2               4, 27           fire_protection             fire 2
 2,2,2               4, 24           projectile_protection       air 1
-1,1,2,2             4, 24           bane_of_arthropods          wind_blade
+1,1,2,2             4, 24           bane_of_arthropods *        wind_blade
 1,2,1,2             4, 24           feather_falling             aqua 2
 1,1,1,1,2
-1,1,1,1,1,1         4, 24           dirt_wall                   
+1,1,1,1,1,1         4, 24                              
 3|                  3, 7
 4|                  6, 50           unbreaking                  thunder_axe
 5|                  6, 47           mending                     thunder_sword

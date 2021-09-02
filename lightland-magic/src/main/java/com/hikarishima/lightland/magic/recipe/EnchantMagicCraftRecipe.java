@@ -51,7 +51,7 @@ public class EnchantMagicCraftRecipe extends AbstractMagicCraftRecipe<EnchantMag
     public void assemble(RitualCore.Inv inv, int level) {
         ItemStack stack = assemble(inv);
         Map<Enchantment, Integer> map = EnchantmentHelper.getEnchantments(stack);
-        map.replaceAll((e, v) -> level);
+        map.replaceAll((e, v) -> v * level);
         EnchantmentHelper.setEnchantments(map, stack);
         inv.setItem(5, stack);
     }

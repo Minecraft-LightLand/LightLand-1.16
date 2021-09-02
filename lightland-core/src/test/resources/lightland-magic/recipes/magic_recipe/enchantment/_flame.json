@@ -1,7 +1,7 @@
 {
     "type": "lightland-magic:magic_default",
     "product_type": "lightland-magic:enchantment",
-    "product_id": "minecraft:sharpness",
+    "product_id": "minecraft:flame",
     "predecessor": [],
     "elemental_mastery": [
         {
@@ -10,18 +10,20 @@
         }
     ],
     "screen": {
-        "x": 0,
+        "x": -2,
         "y": -2
     },
     "elements": {
-        "A": "lightland-magic:earth",
-        "B": "lightland-magic:earth",
-        "C": "lightland-magic:earth",
-        "D": "lightland-magic:earth",
-        "E": "lightland-magic:fire",
+        "A": "lightland-magic:air",
+        "B": "lightland-magic:air",
+        "C": "lightland-magic:fire",
+        "D": "lightland-magic:air",
+        "E": "lightland-magic:air",
         "F": "lightland-magic:fire"
     },
     "flows": [
-        "ABCD<->EF"
+        "ABDE->C",
+        "C->F",
+        "F->ABDE"
     ]
 }
