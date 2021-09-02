@@ -53,12 +53,12 @@ public class AbstractMagicCraftRecipe<R extends AbstractMagicCraftRecipe<R>> ext
         return temp.isEmpty();
     }
 
+    @Deprecated
     @Override
     public ItemStack assemble(RitualCore.Inv inv) {
         if (!core.test(inv.getItem(5)))
             return ItemStack.EMPTY;
         ItemStack ans = core.output.copy();
-        inv.setItem(5, ans);
         List<Entry> temp = side.stream().filter(e -> !e.input.isEmpty()).collect(Collectors.toList());
         for (int i = 0; i < 9; i++) {
             if (i == 5)
@@ -76,7 +76,7 @@ public class AbstractMagicCraftRecipe<R extends AbstractMagicCraftRecipe<R>> ext
     }
 
     public void assemble(RitualCore.Inv inv, int level) {
-        assemble(inv);
+        inv.setItem(5, assemble(inv));
     }
 
     @Override

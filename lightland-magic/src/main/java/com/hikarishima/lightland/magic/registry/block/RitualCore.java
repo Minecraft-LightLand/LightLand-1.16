@@ -151,7 +151,7 @@ public class RitualCore {
                 remainingTime = 200;
                 setLocked(true, list);
                 for (MagicElement elem : map.keySet()) {
-                    MagicProxy.getHandler().magicHolder.addElement(elem, map.get(elem));
+                    MagicProxy.getHandler().magicHolder.addElement(elem, -map.get(elem));
                 }
             });
 
@@ -175,7 +175,6 @@ public class RitualCore {
                 if (te instanceof RitualSide.TE) {
                     list.add((RitualSide.TE) te);
                 }
-                ;
             }
             return list;
         }

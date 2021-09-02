@@ -53,6 +53,7 @@ public class EnchantMagicCraftRecipe extends AbstractMagicCraftRecipe<EnchantMag
         Map<Enchantment, Integer> map = EnchantmentHelper.getEnchantments(stack);
         map.replaceAll((e, v) -> level);
         EnchantmentHelper.setEnchantments(map, stack);
+        inv.setItem(5, stack);
     }
 
 }

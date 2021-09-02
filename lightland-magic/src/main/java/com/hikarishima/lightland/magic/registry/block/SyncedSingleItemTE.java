@@ -37,7 +37,7 @@ public abstract class SyncedSingleItemTE extends BaseTileEntity implements ISide
 
     @Override
     public boolean canPlaceItemThroughFace(int slot, ItemStack stack, @Nullable Direction dire) {
-        return !isLocked() && slot == 0;
+        return !isLocked() && slot == 0 && stack.isEmpty();
     }
 
     @Override
