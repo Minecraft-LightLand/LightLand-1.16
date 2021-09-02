@@ -1,5 +1,9 @@
 package com.hikarishima.lightland.magic.registry.block;
 
+import com.hikarishima.lightland.magic.MagicElement;
+import com.hikarishima.lightland.magic.MagicProxy;
+import com.hikarishima.lightland.magic.MagicRegistry;
+import com.hikarishima.lightland.magic.Translator;
 import com.hikarishima.lightland.magic.products.MagicProduct;
 import com.hikarishima.lightland.magic.recipe.AbstractMagicCraftRecipe;
 import com.hikarishima.lightland.magic.recipe.MagicRecipeRegistry;
@@ -18,21 +22,21 @@ import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.particles.ParticleTypes;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
+import net.minecraft.util.text.ChatType;
+import net.minecraft.util.text.ITextComponent;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.Random;
+import java.util.*;
 
 @MethodsReturnNonnullByDefault
 @ParametersAreNonnullByDefault
@@ -45,7 +49,7 @@ public class RitualCore {
         public void tick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
             TileEntity te = world.getBlockEntity(pos);
             if (te instanceof TE) {
-                ((TE) te).activate(null);
+                ((TE) te).activate(null, null);
             }
         }
 
@@ -58,7 +62,7 @@ public class RitualCore {
                 TileEntity te = w.getBlockEntity(pos);
                 if (te instanceof TE) {
                     MagicProduct<?, ?> magic = MagicItemRegistry.GILDED_WAND.get().getData(pl, pl.getMainHandItem());
-                    ((TE) te).activate(magic);
+                    ((TE) te).activate(pl, magic);
                 }
                 return ActionResultType.SUCCESS;
             }
@@ -100,13 +104,13 @@ public class RitualCore {
         public int remainingTime = 0;
 
         @SerialClass.SerialField
-        public int special_value = 0;
+        public int lv = 0;
 
         public TE() {
             super(MagicContainerRegistry.TE_RITUAL_CORE.get());
         }
 
-        public void activate(@Nullable MagicProduct<?, ?> magic) {
+        public void activate(@Nullable PlayerEntity player, @Nullable MagicProduct<?, ?> magic) {
             if (level == null || level.isClientSide()) {
                 return;
             }
@@ -117,19 +121,50 @@ public class RitualCore {
             Inv inv = new Inv(this, list);
             Optional<AbstractMagicCraftRecipe<?>> r = level.getRecipeManager().getRecipeFor(MagicRecipeRegistry.RT_CRAFT, inv, level);
             r.ifPresent(e -> {
+                Map<MagicElement, Integer> map = new LinkedHashMap<>();
                 if (e.getMagic() != null) {
-                    if (magic == null || magic.getCost() <= 0 || !e.getMagic().equals(magic.recipe.id))
+                    if (magic == null || magic.getCost() <= 0 || !e.getMagic().equals(magic.recipe.id)) {
+                        send(player, Translator.get(true, "chat.ritual.fail.wrong"));
                         return;
-                    special_value = e.getLevel(magic.getCost());
-                    if (special_value == 0){
+                    }
+                    lv = e.getLevel(magic.getCost());
+                    if (lv == 0) {
+                        send(player, Translator.get(true, "chat.ritual.fail.zero"));
                         return;
+                    }
+                    if (magic.type == MagicRegistry.MPT_ENCH) {
+                        MagicElement[] elems = magic.recipe.getElements();
+                        for (MagicElement elem : elems) {
+                            map.put(elem, map.getOrDefault(elem, 0) + lv);
+                        }
+                        for (MagicElement elem : map.keySet()) {
+                            int has = MagicProxy.getHandler().magicHolder.getElement(elem);
+                            int take = map.get(elem);
+                            if (has < take) {
+                                send(player, Translator.get(true, "chat.ritual.fail.element"));
+                                return;
+                            }
+                        }
                     }
                 }
                 recipe = e;
                 remainingTime = 200;
                 setLocked(true, list);
+                for (MagicElement elem : map.keySet()) {
+                    MagicProxy.getHandler().magicHolder.addElement(elem, map.get(elem));
+                }
             });
 
+        }
+
+        private void send(@Nullable PlayerEntity player, ITextComponent text) {
+            if (player == null) return;
+            World world = player.level;
+            if (world == null) return;
+            MinecraftServer server = world.getServer();
+            if (server == null)
+                return;
+            server.getPlayerList().broadcastMessage(text, ChatType.GAME_INFO, player.getUUID());
         }
 
         private List<RitualSide.TE> getSide() {
@@ -161,7 +196,7 @@ public class RitualCore {
                     recipe = r.get();
                 } else {
                     remainingTime = 0;
-                    special_value = 0;
+                    lv = 0;
                     setLocked(false, list);
                     setChanged();
                     return;
@@ -170,15 +205,15 @@ public class RitualCore {
             if (list.size() < 8 || !match(list)) {
                 recipe = null;
                 remainingTime = 0;
-                special_value = 0;
+                lv = 0;
                 setLocked(false, list);
                 setChanged();
                 return;
             }
             if (remainingTime == 0) {
                 Inv inv = new Inv(this, list);
-                recipe.assemble(inv, special_value);
-                special_value = 0;
+                recipe.assemble(inv, lv);
+                lv = 0;
                 recipe = null;
                 setLocked(false, list);
             }

@@ -1,7 +1,4 @@
 
-element cost for enchantment in wand overlay
-fail message for ritual
-
 - NPC quest system
     - NPC conflict
 

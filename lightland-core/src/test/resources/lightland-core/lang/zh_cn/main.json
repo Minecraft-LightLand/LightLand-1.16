@@ -9,7 +9,12 @@
     "list_arcane_type.locked": "未解锁",
     "show_arcane_mana": "奥术能量: %s / %s",
     "show_spell_slot": "法术槽: %s",
-    "prof.exist": "职业已存在"
+    "prof.exist": "职业已存在",
+    "ritual.fail": {
+      "wrong": "法术错误",
+      "zero": "法术等级过低,请在施法界面确认",
+      "element": "元素不足,请在施法界面确认"
+    }
   },
   "lightland-magic:screen": {
     "ability": {
@@ -206,8 +211,8 @@
     },
     "mana_cost": "魔力消耗:%s",
     "enchantment_result": {
-      "result": "附魔等级:%s",
-      "next": "下一附魔等级复杂度要求:%s",
+      "result": "法术等级:%s",
+      "next": "下一法术等级复杂度要求:%s",
       "elements": "仪式消耗下列元素:"
     }
   },
