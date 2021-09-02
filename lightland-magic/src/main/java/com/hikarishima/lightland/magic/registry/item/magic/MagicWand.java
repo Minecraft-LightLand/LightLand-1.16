@@ -1,6 +1,7 @@
 package com.hikarishima.lightland.magic.registry.item.magic;
 
 import com.hikarishima.lightland.magic.MagicRegistry;
+import com.hikarishima.lightland.magic.Translator;
 import com.hikarishima.lightland.magic.capabilities.MagicHandler;
 import com.hikarishima.lightland.magic.products.MagicProduct;
 import com.hikarishima.lightland.magic.recipe.IMagicRecipe;
@@ -15,6 +16,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.IFormattableTextComponent;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
@@ -50,7 +52,7 @@ public class MagicWand extends Item implements IGlowingTarget {
     }
 
     @Override
-    public ActionResult<ItemStack> use(World p_77659_1_, PlayerEntity player, Hand hand) {
+    public ActionResult<ItemStack> use(World world, PlayerEntity player, Hand hand) {
         ItemStack stack = player.getItemInHand(hand);
         String str = stack.getOrCreateTag().getString("recipe");
         if (str.length() == 0)
@@ -75,9 +77,36 @@ public class MagicWand extends Item implements IGlowingTarget {
             MagicProduct<?, ?> p = getData(pl, stack);
             if (p != null) {
                 list.add(new TranslationTextComponent(p.getDescriptionID()));
+                if (p.type == MagicRegistry.MPT_SPELL) {
+                    Spell<?, ?> spell = (Spell<?, ?>) p.item;
+                    int cost = spell.getConfig(world, pl).mana_cost;
+                    list.add(Translator.get("tooltip.mana_cost", cost));
+                }
             }
         }
         super.appendHoverText(stack, world, list, flag);
+    }
+
+    @Override
+    public ITextComponent getName(ItemStack stack) {
+        PlayerEntity pl = Proxy.getPlayer();
+        if (pl != null) {
+            World world = pl.level;
+            if (world != null) {
+                MagicProduct<?, ?> p = getData(pl, stack);
+                if (p != null) {
+                    IFormattableTextComponent ans = new TranslationTextComponent(p.getDescriptionID());
+                    if (p.type == MagicRegistry.MPT_SPELL) {
+                        Spell<?, ?> spell = (Spell<?, ?>) p.item;
+                        int cost = spell.getConfig(world, pl).mana_cost;
+                        ans.append(" | ");
+                        ans.append(Translator.get("tooltip.mana_cost", cost));
+                    }
+                    return ans;
+                }
+            }
+        }
+        return super.getName(stack);
     }
 
     public void setMagic(IMagicRecipe<?> recipe, ItemStack stack) {

@@ -1,24 +1,28 @@
 package com.hikarishima.lightland.magic.gui.overlay;
 
 import com.hikarishima.lightland.magic.MagicElement;
+import com.hikarishima.lightland.magic.MagicProxy;
 import com.hikarishima.lightland.magic.MagicRegistry;
+import com.hikarishima.lightland.magic.Translator;
 import com.hikarishima.lightland.magic.capabilities.MagicHandler;
 import com.hikarishima.lightland.magic.capabilities.ToServerMsg;
 import com.hikarishima.lightland.magic.gui.AbstractHexGui;
 import com.hikarishima.lightland.magic.gui.ability.ElementalScreen;
-import com.hikarishima.lightland.magic.products.IMagicProduct;
 import com.hikarishima.lightland.magic.products.MagicProduct;
+import com.hikarishima.lightland.magic.recipe.AbstractMagicCraftRecipe;
+import com.hikarishima.lightland.magic.recipe.EnchantMagicCraftRecipe;
 import com.hikarishima.lightland.magic.recipe.IMagicRecipe;
+import com.hikarishima.lightland.magic.recipe.MagicRecipeRegistry;
 import com.hikarishima.lightland.magic.registry.item.magic.MagicWand;
+import com.hikarishima.lightland.magic.spell.internal.Spell;
 import com.hikarishima.lightland.proxy.Proxy;
 import net.minecraft.client.entity.player.ClientPlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Hand;
-import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.IFormattableTextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class WandOverlay extends AbstractOverlay {
 
@@ -72,12 +76,56 @@ public class WandOverlay extends AbstractOverlay {
         for (ElementalScreen.ElemType e : ElementalScreen.ElemType.values()) {
             AbstractHexGui.drawElement(matrix, width / 2f + e.x, height / 2f + e.y, e.elem, "");
         }
-        IMagicProduct<?, ?> p = preview();
+        MagicProduct<?, ?> p = preview();
         if (p != null) {
-            y = height / 2 + 40;
-            ITextComponent text = new TranslationTextComponent(p.getDescriptionID());
+            y = height / 2 - 60;
+            IFormattableTextComponent text = new TranslationTextComponent(p.getDescriptionID());
             x = (width - font.width(text)) / 2;
             font.draw(matrix, text, x, y, 0xFFFFFFFF);
+            if (p.type == MagicRegistry.MPT_ENCH) {
+                ClientPlayerEntity pl = Proxy.getClientPlayer();
+                if (pl != null) {
+                    x = (width / 2 + 60);
+                    int cost = p.getCost();
+                    Optional<AbstractMagicCraftRecipe<?>> opr = Proxy.getWorld().getRecipeManager().getAllRecipesFor(MagicRecipeRegistry.RT_CRAFT).stream()
+                            .filter(e -> e instanceof EnchantMagicCraftRecipe).filter(e -> p.recipe.id.equals(e.getMagic()))
+                            .findFirst();
+                    if (opr.isPresent()) {
+                        AbstractMagicCraftRecipe<?> r = opr.get();
+                        int lv = r.getLevel(cost);
+                        text = Translator.get("tooltip.enchantment_result.result", lv);
+                        font.draw(matrix, text, x, y + 10, lv > 0 ? 0xFFFFFF : AbstractHexGui.RED);
+                        int next = r.getNextLevel(cost);
+                        if (next > 0) {
+                            text = Translator.get("tooltip.enchantment_result.next", next);
+                            font.draw(matrix, text, x, y + 20, 0xFFFFFFFF);
+                        }
+                        text = Translator.get("tooltip.enchantment_result.elements");
+                        font.draw(matrix, text, x, y + 30, 0xFFFFFFFF);
+                        MagicElement[] elems = p.recipe.getElements();
+                        Map<MagicElement, Integer> map = new LinkedHashMap<>();
+                        for (MagicElement e : elems) {
+                            map.put(e, map.getOrDefault(e, 0) + lv);
+                        }
+                        for (MagicElement e : map.keySet()) {
+                            int has = MagicProxy.getHandler().magicHolder.getElement(e);
+                            int take = map.get(e);
+                            AbstractHexGui.drawElement(matrix, x + 9, y + 50, e, "" + take, has >= take ? 0xFFFFFF : AbstractHexGui.RED);
+                            x += 18;
+                        }
+                    }
+                }
+            }
+            if (p.type == MagicRegistry.MPT_SPELL) {
+                Spell<?, ?> spell = (Spell<?, ?>) p.item;
+                ClientPlayerEntity pl = Proxy.getClientPlayer();
+                if (pl != null) {
+                    int mana = spell.getConfig(pl.level, pl).mana_cost;
+                    text = Translator.get("tooltip.mana_cost", mana);
+                    x = (width - font.width(text)) / 2;
+                    font.draw(matrix, text, x, y + 10, 0xFFFFFFFF);
+                }
+            }
         }
         return true;
     }

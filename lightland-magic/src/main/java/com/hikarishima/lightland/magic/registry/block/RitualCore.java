@@ -1,8 +1,10 @@
 package com.hikarishima.lightland.magic.registry.block;
 
-import com.hikarishima.lightland.magic.recipe.MagicCraftRecipe;
+import com.hikarishima.lightland.magic.products.MagicProduct;
+import com.hikarishima.lightland.magic.recipe.AbstractMagicCraftRecipe;
 import com.hikarishima.lightland.magic.recipe.MagicRecipeRegistry;
 import com.hikarishima.lightland.magic.registry.MagicContainerRegistry;
+import com.hikarishima.lightland.magic.registry.MagicItemRegistry;
 import com.hikarishima.lightland.magic.registry.item.magic.MagicWand;
 import com.lcy0x1.base.BaseRecipe;
 import com.lcy0x1.base.block.mult.AnimateTickBlockMethod;
@@ -25,6 +27,7 @@ import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 
+import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.ArrayList;
 import java.util.List;
@@ -42,20 +45,20 @@ public class RitualCore {
         public void tick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
             TileEntity te = world.getBlockEntity(pos);
             if (te instanceof TE) {
-                ((TE) te).activate();
+                ((TE) te).activate(null);
             }
         }
 
         @Override
         public ActionResultType onClick(BlockState bs, World w, BlockPos pos, PlayerEntity pl, Hand h, BlockRayTraceResult r) {
             if (w.isClientSide()) {
-                final ActionResultType actionResultType = pl.getMainHandItem().getItem() instanceof MagicWand ? ActionResultType.SUCCESS : ActionResultType.PASS;
-                return actionResultType;
+                return pl.getMainHandItem().getItem() instanceof MagicWand ? ActionResultType.SUCCESS : ActionResultType.PASS;
             }
             if (pl.getMainHandItem().getItem() instanceof MagicWand) {
                 TileEntity te = w.getBlockEntity(pos);
                 if (te instanceof TE) {
-                    ((TE) te).activate();
+                    MagicProduct<?, ?> magic = MagicItemRegistry.GILDED_WAND.get().getData(pl, pl.getMainHandItem());
+                    ((TE) te).activate(magic);
                 }
                 return ActionResultType.SUCCESS;
             }
@@ -91,16 +94,19 @@ public class RitualCore {
     @SerialClass
     public static class TE extends RitualTE implements ITickableTileEntity {
 
-        public MagicCraftRecipe recipe = null;
+        public AbstractMagicCraftRecipe<?> recipe = null;
 
         @SerialClass.SerialField
         public int remainingTime = 0;
+
+        @SerialClass.SerialField
+        public int special_value = 0;
 
         public TE() {
             super(MagicContainerRegistry.TE_RITUAL_CORE.get());
         }
 
-        public void activate() {
+        public void activate(@Nullable MagicProduct<?, ?> magic) {
             if (level == null || level.isClientSide()) {
                 return;
             }
@@ -109,8 +115,16 @@ public class RitualCore {
                 return;
             }
             Inv inv = new Inv(this, list);
-            Optional<MagicCraftRecipe> r = level.getRecipeManager().getRecipeFor(MagicRecipeRegistry.RT_CRAFT, inv, level);
+            Optional<AbstractMagicCraftRecipe<?>> r = level.getRecipeManager().getRecipeFor(MagicRecipeRegistry.RT_CRAFT, inv, level);
             r.ifPresent(e -> {
+                if (e.getMagic() != null) {
+                    if (magic == null || magic.getCost() <= 0 || !e.getMagic().equals(magic.recipe.id))
+                        return;
+                    special_value = e.getLevel(magic.getCost());
+                    if (special_value == 0){
+                        return;
+                    }
+                }
                 recipe = e;
                 remainingTime = 200;
                 setLocked(true, list);
@@ -142,11 +156,12 @@ public class RitualCore {
             List<RitualSide.TE> list = getSide();
             if (list.size() == 8 && recipe == null) {
                 Inv inv = new Inv(this, list);
-                Optional<MagicCraftRecipe> r = level.getRecipeManager().getRecipeFor(MagicRecipeRegistry.RT_CRAFT, inv, level);
+                Optional<AbstractMagicCraftRecipe<?>> r = level.getRecipeManager().getRecipeFor(MagicRecipeRegistry.RT_CRAFT, inv, level);
                 if (r.isPresent()) {
                     recipe = r.get();
                 } else {
                     remainingTime = 0;
+                    special_value = 0;
                     setLocked(false, list);
                     setChanged();
                     return;
@@ -155,13 +170,15 @@ public class RitualCore {
             if (list.size() < 8 || !match(list)) {
                 recipe = null;
                 remainingTime = 0;
+                special_value = 0;
                 setLocked(false, list);
                 setChanged();
                 return;
             }
             if (remainingTime == 0) {
                 Inv inv = new Inv(this, list);
-                recipe.assemble(inv);
+                recipe.assemble(inv, special_value);
+                special_value = 0;
                 recipe = null;
                 setLocked(false, list);
             }
@@ -185,7 +202,7 @@ public class RitualCore {
 
     }
 
-    public static class Inv implements BaseRecipe.RecInv<MagicCraftRecipe> {
+    public static class Inv implements BaseRecipe.RecInv<AbstractMagicCraftRecipe<?>> {
 
         private final RitualCore.TE core;
         private final List<RitualSide.TE> sides;

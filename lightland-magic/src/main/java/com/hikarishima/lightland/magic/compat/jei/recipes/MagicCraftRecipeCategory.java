@@ -2,9 +2,12 @@ package com.hikarishima.lightland.magic.compat.jei.recipes;
 
 import com.hikarishima.lightland.config.StringSubstitution;
 import com.hikarishima.lightland.magic.LightLandMagic;
+import com.hikarishima.lightland.magic.MagicProxy;
 import com.hikarishima.lightland.magic.Translator;
-import com.hikarishima.lightland.magic.recipe.MagicCraftRecipe;
+import com.hikarishima.lightland.magic.recipe.AbstractMagicCraftRecipe;
+import com.hikarishima.lightland.magic.recipe.IMagicRecipe;
 import com.hikarishima.lightland.magic.registry.MagicItemRegistry;
+import com.hikarishima.lightland.magic.registry.item.magic.MagicWand;
 import mcp.MethodsReturnNonnullByDefault;
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.gui.IRecipeLayout;
@@ -24,7 +27,7 @@ import java.util.List;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public class MagicCraftRecipeCategory implements IRecipeCategory<MagicCraftRecipe> {
+public class MagicCraftRecipeCategory implements IRecipeCategory<AbstractMagicCraftRecipe<?>> {
 
     private static final ResourceLocation BG = new ResourceLocation(LightLandMagic.MODID, "textures/jei/background.png");
 
@@ -49,7 +52,7 @@ public class MagicCraftRecipeCategory implements IRecipeCategory<MagicCraftRecip
     @SuppressWarnings({"unchecked", "rawtypes"})
     @Override
     public Class getRecipeClass() {
-        return MagicCraftRecipe.class;
+        return AbstractMagicCraftRecipe.class;
     }
 
     @Override
@@ -68,18 +71,19 @@ public class MagicCraftRecipeCategory implements IRecipeCategory<MagicCraftRecip
     }
 
     @Override
-    public void setIngredients(MagicCraftRecipe sl, IIngredients list) {
+    public void setIngredients(AbstractMagicCraftRecipe<?> sl, IIngredients list) {
         List<Ingredient> input = new ArrayList<>();
         input.add(Ingredient.of(sl.core.input));
-        for (MagicCraftRecipe.Entry ent : sl.side) {
+        for (AbstractMagicCraftRecipe.Entry ent : sl.side) {
             if (!ent.input.isEmpty()) {
                 input.add(Ingredient.of(ent.input));
             }
         }
+        input.add(Ingredient.of(MagicItemRegistry.GILDED_WAND.get().getDefaultInstance()));
         list.setInputIngredients(input);
         List<ItemStack> output = new ArrayList<>();
         output.add(sl.core.output);
-        for (MagicCraftRecipe.Entry ent : sl.side) {
+        for (AbstractMagicCraftRecipe.Entry ent : sl.side) {
             if (!ent.output.isEmpty()) {
                 output.add(ent.output);
             }
@@ -88,10 +92,10 @@ public class MagicCraftRecipeCategory implements IRecipeCategory<MagicCraftRecip
     }
 
     @Override
-    public void setRecipe(IRecipeLayout layout, MagicCraftRecipe sl, IIngredients list) {
-        List<MagicCraftRecipe.Entry> entry = new ArrayList<>(sl.side);
+    public void setRecipe(IRecipeLayout layout, AbstractMagicCraftRecipe<?> sl, IIngredients list) {
+        List<AbstractMagicCraftRecipe.Entry> entry = new ArrayList<>(sl.side);
         while (entry.size() < 8) {
-            entry.add(new MagicCraftRecipe.Entry());
+            entry.add(new AbstractMagicCraftRecipe.Entry());
         }
         entry.add(4, sl.core);
 
@@ -105,16 +109,22 @@ public class MagicCraftRecipeCategory implements IRecipeCategory<MagicCraftRecip
                             in++, true, j * 18, i * 18);
             }
         }
-        int out = in;
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
                 ItemStack item = entry.get(i * 3 + j).output;
                 if (!item.isEmpty())
                     set(layout.getItemStacks(),
                             Collections.singletonList(item),
-                            out++, false, 90 + j * 18, i * 18);
+                            in++, false, 90 + j * 18, i * 18);
             }
         }
+        IMagicRecipe<?> magic = sl.getMagic() == null ? null : MagicProxy.getHandler().magicHolder.getRecipe(sl.getMagic());
+        MagicWand wand = MagicItemRegistry.GILDED_WAND.get();
+        ItemStack wand_stack = wand.getDefaultInstance();
+        if (magic != null) {
+            wand.setMagic(magic, wand_stack);
+        }
+        set(layout.getItemStacks(), Collections.singletonList(wand_stack), in, true, 63, 0);
     }
 
     private static <T> void set(IGuiIngredientGroup<T> group, List<T> t, int ind, boolean bool, int x, int y) {

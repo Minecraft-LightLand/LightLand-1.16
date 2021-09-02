@@ -1,0 +1,72 @@
+{
+    "type": "lightland-magic:craft_enchant",
+    "magic_recipe": "lightland-magic:enchantment_infinity",
+    "levels": [
+        42
+    ],
+    "core": {
+        "input": {
+            "item": "minecraft:book"
+        },
+        "output": {
+            "enchant_book": {
+                "id": "minecraft:unbreaking",
+                "lvl": 1
+            }
+        }
+    },
+    "side": [
+        {
+            "input": {
+                "item": "lightland-magic:permanence_iron_ingot"
+            },
+            "output": {
+                "item": "lightland-magic:permanence_iron_ingot"
+            }
+        },
+        {
+            "input": {
+                "item": "lightland-magic:enchant_gold_nugget"
+            },
+            "output": {
+                "item": "minecraft:gold_nugget"
+            }
+        },
+        {
+            "input": {
+                "item": "minecraft:iron_ingot"
+            }
+        },
+        {
+            "input": {
+                "item": "minecraft:arrow"
+            }
+        },
+        {
+            "input": {
+                "item": "minecraft:arrow"
+            }
+        },
+        {
+            "input": {
+                "item": "minecraft:iron_ingot"
+            }
+        },
+        {
+            "input": {
+                "item": "lightland-magic:enchant_gold_nugget"
+            },
+            "output": {
+                "item": "minecraft:gold_nugget"
+            }
+        },
+        {
+            "input": {
+                "item": "lightland-magic:permanence_iron_ingot"
+            },
+            "output": {
+                "item": "lightland-magic:permanence_iron_ingot"
+            }
+        }
+    ]
+}

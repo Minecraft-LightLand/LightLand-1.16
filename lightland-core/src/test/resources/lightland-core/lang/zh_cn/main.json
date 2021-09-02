@@ -203,6 +203,12 @@
     "armor_bag": {
       "size": "容量:%s/%s",
       "info": "右键收起背包中的装备，蹲下右键倒出"
+    },
+    "mana_cost": "魔力消耗:%s",
+    "enchantment_result": {
+      "result": "附魔等级:%s",
+      "next": "下一附魔等级复杂度要求:%s",
+      "elements": "仪式消耗下列元素:"
     }
   },
   "item": {

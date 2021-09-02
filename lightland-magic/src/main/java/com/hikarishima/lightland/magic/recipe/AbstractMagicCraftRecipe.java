@@ -11,6 +11,7 @@ import net.minecraft.item.Items;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 
+import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +22,7 @@ import java.util.stream.Collectors;
 @MethodsReturnNonnullByDefault
 @ParametersAreNonnullByDefault
 @SerialClass
-public class MagicCraftRecipe extends BaseRecipe<MagicCraftRecipe, MagicCraftRecipe, RitualCore.Inv> {
+public class AbstractMagicCraftRecipe<R extends AbstractMagicCraftRecipe<R>> extends BaseRecipe<R, AbstractMagicCraftRecipe<?>, RitualCore.Inv> {
 
     @SerialClass.SerialField
     public Entry core;
@@ -29,8 +30,8 @@ public class MagicCraftRecipe extends BaseRecipe<MagicCraftRecipe, MagicCraftRec
     @SerialClass.SerialField(generic = Entry.class)
     public ArrayList<Entry> side;
 
-    public MagicCraftRecipe(ResourceLocation id) {
-        super(id, MagicRecipeRegistry.RSM_CRAFT.get());
+    public AbstractMagicCraftRecipe(ResourceLocation id, RecType<R, AbstractMagicCraftRecipe<?>, RitualCore.Inv> fac) {
+        super(id, fac);
     }
 
     @Override
@@ -56,7 +57,8 @@ public class MagicCraftRecipe extends BaseRecipe<MagicCraftRecipe, MagicCraftRec
     public ItemStack assemble(RitualCore.Inv inv) {
         if (!core.test(inv.getItem(5)))
             return ItemStack.EMPTY;
-        inv.setItem(5, core.output.copy());
+        ItemStack ans = core.output.copy();
+        inv.setItem(5, ans);
         List<Entry> temp = side.stream().filter(e -> !e.input.isEmpty()).collect(Collectors.toList());
         for (int i = 0; i < 9; i++) {
             if (i == 5)
@@ -70,7 +72,11 @@ public class MagicCraftRecipe extends BaseRecipe<MagicCraftRecipe, MagicCraftRec
                 inv.setItem(i, entry.get().output.copy());
             }
         }
-        return core.output.copy();
+        return ans;
+    }
+
+    public void assemble(RitualCore.Inv inv, int level) {
+        assemble(inv);
     }
 
     @Override
@@ -105,6 +111,19 @@ public class MagicCraftRecipe extends BaseRecipe<MagicCraftRecipe, MagicCraftRec
             }
             return stack.getItem() == input.getItem();
         }
+    }
+
+    @Nullable
+    public ResourceLocation getMagic() {
+        return null;
+    }
+
+    public int getLevel(int cost) {
+        return 1;
+    }
+
+    public int getNextLevel(int cost) {
+        return 0;
     }
 
 }

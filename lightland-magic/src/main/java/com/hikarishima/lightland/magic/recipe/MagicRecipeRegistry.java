@@ -15,7 +15,7 @@ public class MagicRecipeRegistry {
     public static final DeferredRegister<IRecipeSerializer<?>> REC = DeferredRegister.create(ForgeRegistries.RECIPE_SERIALIZERS, LightLandMagic.MODID);
 
     public static final IRecipeType<IMagicRecipe<?>> RT_MAGIC = IRecipeType.register("lightland-magic:magic");
-    public static final IRecipeType<MagicCraftRecipe> RT_CRAFT = IRecipeType.register("lightland-magic:craft");
+    public static final IRecipeType<AbstractMagicCraftRecipe<?>> RT_CRAFT = IRecipeType.register("lightland-magic:craft");
     public static final IRecipeType<AnvilCraftRecipe> RT_ANVIL = IRecipeType.register("lightland-magic:anvil");
 
     public static final RegistryObject<BaseRecipe.RecType<DefMagicRecipe, IMagicRecipe<?>, IMagicRecipe.Inv>> RSM_DEF =
@@ -24,8 +24,12 @@ public class MagicRecipeRegistry {
     public static final RegistryObject<BaseRecipe.RecType<ShortMagicRecipe, IMagicRecipe<?>, IMagicRecipe.Inv>> RSM_SHORT =
             REC.register("magic_short", () -> new BaseRecipe.RecType<>(ShortMagicRecipe.class, RT_MAGIC));
 
-    public static final RegistryObject<BaseRecipe.RecType<MagicCraftRecipe, MagicCraftRecipe, RitualCore.Inv>> RSM_CRAFT =
-            REC.register("craft_shapeless", () -> new BaseRecipe.RecType<>(MagicCraftRecipe.class, RT_CRAFT));
+    public static final RegistryObject<BaseRecipe.RecType<BasicMagicCraftRecipe, AbstractMagicCraftRecipe<?>, RitualCore.Inv>> RSM_CRAFT =
+            REC.register("craft_shapeless", () -> new BaseRecipe.RecType<>(BasicMagicCraftRecipe.class, RT_CRAFT));
+
+    public static final RegistryObject<BaseRecipe.RecType<EnchantMagicCraftRecipe, AbstractMagicCraftRecipe<?>, RitualCore.Inv>> RSM_ENCHANT =
+            REC.register("craft_enchant", () -> new BaseRecipe.RecType<>(EnchantMagicCraftRecipe.class, RT_CRAFT));
+
 
     public static final RegistryObject<BaseRecipe.RecType<AnvilCraftRecipe, AnvilCraftRecipe, AnvilCraftRecipe.Inv>> RSM_ANVIL =
             REC.register("anvil", () -> new BaseRecipe.RecType<>(AnvilCraftRecipe.class, RT_ANVIL));

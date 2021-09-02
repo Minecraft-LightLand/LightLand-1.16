@@ -103,7 +103,7 @@ public class ElementalScreen extends AbstractAbilityScreen {
         public void renderElem(MagicHandler handler, MatrixStack matrix, int mx, int my) {
             int lv = handler.magicHolder.getElementalMastery(elem);
             int count = handler.magicHolder.getElement(elem);
-            AbstractHexGui.drawElement(matrix, x, y, elem, "" + count);
+            AbstractHexGui.drawElement(matrix, x, y, elem, "" + lv);
             if (within(mx, my) && handler.abilityPoints.canLevelElement())
                 fill(matrix, x - 8, y - 8, x + 8, y + 8, 0x80FFFFFF);
         }
