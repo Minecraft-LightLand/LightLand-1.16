@@ -8,7 +8,6 @@ import com.hikarishima.lightland.mobspawn.config.WeaponConfig;
 import com.hikarishima.lightland.proxy.Proxy;
 import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.item.ArmorItem;
 import net.minecraftforge.event.AnvilUpdateEvent;
@@ -44,12 +43,17 @@ public class MagicMiscEventHandler {
     public void onSpecialSpawnEvent(LivingSpawnEvent.SpecialSpawn event) {
         if (event.getWorld().isClientSide())
             return;
+        if (Proxy.getWorld() == null) {
+            return;
+        } else {
+            Proxy.getWorld().getRecipeManager();
+        }
         Entity e = event.getEntity();
         if (e instanceof MobEntity) {
             MobEntity mob = (MobEntity) e;
             float diff = event.getWorld().getCurrentDifficultyAt(mob.blockPosition()).getEffectiveDifficulty();
-            Optional.ofNullable(ArmorConfig.getInstance()).ifPresent(x->x.fillEntity(mob, diff, new Random()));
-            Optional.ofNullable(WeaponConfig.getInstance()).ifPresent(x->x.fillEntity(mob, diff, new Random()));
+            Optional.ofNullable(ArmorConfig.getInstance()).ifPresent(x -> x.fillEntity(mob, diff, new Random()));
+            Optional.ofNullable(WeaponConfig.getInstance()).ifPresent(x -> x.fillEntity(mob, diff, new Random()));
         }
     }
 
