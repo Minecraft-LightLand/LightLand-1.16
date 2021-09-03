@@ -5,6 +5,8 @@ import com.hikarishima.lightland.proxy.Proxy;
 import com.hikarishima.lightland.recipe.ConfigRecipe;
 import com.lcy0x1.core.util.SerialClass;
 
+import java.util.HashMap;
+
 @SerialClass
 public class GeneralConfig {
 
@@ -17,5 +19,8 @@ public class GeneralConfig {
 
     @SerialClass.SerialField
     public float armor_chance;
+
+    @SerialClass.SerialField(generic = {String.class, Double.class})
+    public HashMap<String,Double> weapon_chance;
 
 }

@@ -6,6 +6,11 @@ import com.hikarishima.lightland.recipe.ConfigRecipe;
 import com.lcy0x1.core.util.SerialClass;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.MobEntity;
+import net.minecraft.entity.monster.AbstractRaiderEntity;
+import net.minecraft.entity.monster.AbstractSkeletonEntity;
+import net.minecraft.entity.monster.ZombieEntity;
+import net.minecraft.entity.monster.piglin.AbstractPiglinEntity;
+import net.minecraft.entity.monster.piglin.PiglinEntity;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ArmorItem;
 import net.minecraft.item.Item;
@@ -54,7 +59,16 @@ public class ArmorConfig {
         return stack;
     }
 
+    private boolean fit(MobEntity entity){
+        return entity instanceof ZombieEntity ||
+                entity instanceof AbstractRaiderEntity ||
+                entity instanceof AbstractSkeletonEntity ||
+                entity instanceof AbstractPiglinEntity;
+    }
+
     public void fillEntity(MobEntity entity, float level, Random r) {
+        if (!fit(entity))
+            return;
         GeneralConfig gen = GeneralConfig.getInstance();
         for (EquipmentSlotType slot : EquipmentSlotType.values()) {
             if (slot.getType() != EquipmentSlotType.Group.ARMOR)
@@ -85,7 +99,6 @@ public class ArmorConfig {
         public Item item;
 
         public boolean matches(EquipmentSlotType slot, MobEntity e) {
-            ItemStack stack = item.getDefaultInstance();
             if (slot.getType() == EquipmentSlotType.Group.ARMOR) {
                 if (item instanceof ArmorItem) {
                     return ((ArmorItem) item).getSlot() == slot;

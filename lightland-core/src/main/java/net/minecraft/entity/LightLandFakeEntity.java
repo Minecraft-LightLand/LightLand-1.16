@@ -1,5 +1,6 @@
 package net.minecraft.entity;
 
+import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.util.DamageSource;
 import net.minecraftforge.common.MinecraftForge;
@@ -36,6 +37,10 @@ public class LightLandFakeEntity {
         } else if (effectinstance.update(ins)) {
             e.onEffectUpdated(effectinstance, true);
         }
+    }
+
+    public static float getEquipmentDropChance(MobEntity entity, EquipmentSlotType slot){
+        return entity.getEquipmentDropChance(slot);
     }
 
 }

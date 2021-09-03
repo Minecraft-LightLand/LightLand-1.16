@@ -1,0 +1,23 @@
+{
+    "_class": "organize.json.JsonPartList",
+    "file": "config_mobspawn",
+    "path": "map.weapon.items.BOW",
+    "common": {
+        "level": 3,
+        "weight": 25
+    },
+    "list": [
+        {
+            "item": "twilightforest:triple_bow"
+        },
+        {
+            "item": "twilightforest:seeker_bow"
+        },
+        {
+            "item": "twilightforest:ender_bow"
+        },
+        {
+            "item": "twilightforest:ice_bow"
+        }
+    ]
+}

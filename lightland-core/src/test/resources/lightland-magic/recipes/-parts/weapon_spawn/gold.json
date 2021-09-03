@@ -1,0 +1,17 @@
+{
+    "_class": "organize.json.JsonPartList",
+    "file": "config_mobspawn",
+    "path": "map.weapon.items.MEELEE",
+    "common": {
+        "level": 1,
+        "weight": 100
+    },
+    "list": [
+        {
+            "item": "minecraft:golden_sword"
+        },
+        {
+            "item": "minecraft:golden_axe"
+        }
+    ]
+}

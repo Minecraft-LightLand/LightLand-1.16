@@ -1,0 +1,17 @@
+{
+    "_class": "organize.json.JsonPartList",
+    "file": "config_mobspawn",
+    "path": "map.weapon.items.MEELEE",
+    "common": {
+        "level": 4,
+        "weight": 25
+    },
+    "list": [
+        {
+            "item": "minecraft:netherite_sword"
+        },
+        {
+            "item": "minecraft:netherite_axe"
+        }
+    ]
+}

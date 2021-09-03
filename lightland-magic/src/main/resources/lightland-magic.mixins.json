@@ -6,7 +6,9 @@
   "refmap": "lightland-magic.refmap.json",
   "mixins": [
     "AnvilBlockMixin",
-    "ShapedRecipeMixin"
+    "ShapedRecipeMixin",
+    "AbstractSkeletonEntityMixin",
+    "MobEntityMixin"
   ],
   "client": [
   ],

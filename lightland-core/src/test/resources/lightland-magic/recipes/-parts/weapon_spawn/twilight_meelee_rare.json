@@ -1,0 +1,26 @@
+{
+    "_class": "organize.json.JsonPartList",
+    "file": "config_mobspawn",
+    "path": "map.weapon.items.MEELEE",
+    "common": {
+        "level": 3,
+        "weight": 5
+    },
+    "list": [
+        {
+            "item": "twilightforest:giant_sword"
+        },
+        {
+            "item": "twilightforest:glass_sword"
+        },
+        {
+            "item": "twilightforest:ice_sword"
+        },
+        {
+            "item": "twilightforest:block_and_chain"
+        },
+        {
+            "item":"twilightforest:fiery_sword"
+        }
+    ]
+}

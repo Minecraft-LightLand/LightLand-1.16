@@ -4,11 +4,44 @@
         "general": {
             "_class": "com.hikarishima.lightland.mobspawn.config.GeneralConfig",
             "enchant_factor": 6,
-            "armor_chance": 0.2
+            "armor_chance": 0.2,
+            "weapon_chance": {
+                "MEELEE": 0.2,
+                "BOW": 0.2,
+                "TRIDENT": 0.04,
+                "CROSSBOW": 0.2
+            }
         },
         "armor": {
             "_class": "com.hikarishima.lightland.mobspawn.config.ArmorConfig",
             "items": []
+        },
+        "weapon": {
+            "_class": "com.hikarishima.lightland.mobspawn.config.WeaponConfig",
+            "items": {
+                "MEELEE": [],
+                "BOW": [
+                    {
+                        "item": "minecraft:bow",
+                        "level": 1,
+                        "weight": 1000
+                    }
+                ],
+                "TRIDENT": [
+                    {
+                        "item": "minecraft:trident",
+                        "level": 1,
+                        "weight": 100
+                    }
+                ],
+                "CROSSBOW": [
+                    {
+                        "item": "minecraft:crossbow",
+                        "level": 1,
+                        "weight": 100
+                    }
+                ]
+            }
         }
     }
 }

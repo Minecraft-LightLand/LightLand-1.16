@@ -1,0 +1,29 @@
+{
+    "_class": "organize.json.JsonPartList",
+    "file": "config_mobspawn",
+    "path": "map.weapon.items.MEELEE",
+    "common": {
+        "level": 2,
+        "weight": 25
+    },
+    "list": [
+        {
+            "item": "twilightforest:ironwood_sword"
+        },
+        {
+            "item": "twilightforest:steeleaf_sword"
+        },
+        {
+            "item": "twilightforest:knightmetal_sword"
+        },
+        {
+            "item": "twilightforest:ironwood_axe"
+        },
+        {
+            "item": "twilightforest:steeleaf_axe"
+        },
+        {
+            "item": "twilightforest:knightmetal_axe"
+        }
+    ]
+}
