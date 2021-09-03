@@ -1,5 +1,6 @@
 {
     "name": "法术",
     "description": "如果想要查找其他魔法，请参考魔法类型。关于法术的具体机制，请参考系统介绍/法术",
-    "icon": "lightland-magic:spell_card"
+    "icon": "lightland-magic:spell_card",
+    "sortnum": 4
 }

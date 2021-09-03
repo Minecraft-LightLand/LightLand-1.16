@@ -1,0 +1,12 @@
+{
+    "criteria": {
+      "tick": {
+        "trigger": "minecraft:tick"
+      }
+    },
+    "rewards": {
+      "loot": [
+        "lightland-magic:add_guide_book"
+      ]
+    }
+  }

@@ -1,0 +1,11 @@
+{
+    "name": "奥术",
+    "icon": "minecraft:writable_book",
+    "category": "lightland-magic:general",
+    "pages": [
+        {
+            "type": "patchouli:text",
+            "text": "(未完成)"
+        }
+    ]
+}

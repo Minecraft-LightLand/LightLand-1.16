@@ -1,5 +1,6 @@
 {
     "name": "职业",
     "description": "注意:职业一旦选取就只能通过记录宝珠改变，请谨慎选择。职业系统介绍请参考系统介绍/职业",
-    "icon": "minecraft:shield"
+    "icon": "minecraft:shield",
+    "sortnum": 2
 }
