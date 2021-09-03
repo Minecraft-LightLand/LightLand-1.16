@@ -289,6 +289,7 @@ val DependencyHandler.lombok: Unit
 
 fun DependencyHandler.gameStages(project: Project) {
     add("compileOnly", project.fg.deobf("net.darkhax.gamestages:GameStages-${project.mcVersion}:7.2.8"))
+    add("runtimeOnly", project.fg.deobf("net.darkhax.gamestages:GameStages-${project.mcVersion}:7.2.8"))
 }
 
 val DependencyHandler.mixin: Unit
