@@ -50,7 +50,7 @@ public class MagicAbility {
             spell_load = Math.max(spell_load - getSpellReduction(), 0);
             tick = 0;
             parent.abilityPoints.tickSeconds();
-            int load = spell_load / getMaxSpellEndurance();
+            int load = spell_load / Math.max(100, getMaxSpellEndurance());
             if (load == 1) {
                 parent.player.addEffect(new EffectInstance(Effects.MOVEMENT_SLOWDOWN, 40, 2));
                 parent.player.addEffect(new EffectInstance(Effects.CONFUSION, 40));
