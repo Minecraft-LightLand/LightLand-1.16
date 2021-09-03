@@ -1,0 +1,65 @@
+{
+    "type": "lightland-magic:craft_shapeless",
+    "core": {
+        "input": {
+            "item": "twilightforest:triple_bow"
+        },
+        "output": {
+            "item": "twilightforest:triple_bow"
+        }
+    },
+    "side": [
+        {
+            "input": {
+                "item": "minecraft:bow"
+            }
+        },
+        {
+            "input": {
+                "item": "minecraft:bow"
+            },
+            "output": {
+                "item": "twilightforest:triple_bow"
+            }
+        },
+        {
+            "input": {
+                "item": "minecraft:bow"
+            }
+        },
+        {
+            "input":{
+                "enchant_book": {
+                    "id": "minecraft:infinity",
+                    "lvl": 1
+                }
+            }
+        },
+        {
+            "input":{
+                "enchant_book": {
+                    "id": "minecraft:infinity",
+                    "lvl": 1
+                }
+            }
+        },
+        {
+            "input": {
+                "item": "minecraft:bow"
+            }
+        },
+        {
+            "input": {
+                "item": "minecraft:bow"
+            },
+            "output": {
+                "item": "twilightforest:triple_bow"
+            }
+        },
+        {
+            "input": {
+                "item": "minecraft:bow"
+            }
+        }
+    ]
+}

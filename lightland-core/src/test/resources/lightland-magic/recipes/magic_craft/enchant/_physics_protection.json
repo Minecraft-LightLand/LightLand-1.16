@@ -1,0 +1,86 @@
+{
+    "type": "lightland-magic:craft_enchant",
+    "magic_recipe": "lightland-magic:enchantment_physics_protection",
+    "levels": [
+        100,
+        35,
+        29,
+        24,
+        21,
+        19,
+        18
+    ],
+    "core": {
+        "input": {
+            "item": "minecraft:book"
+        },
+        "output": {
+            "enchant_book": {
+                "id": "lightland-magic:physics_protection",
+                "lvl": 1
+            }
+        }
+    },
+    "side": [
+        
+        {
+            "input":{
+                "enchant_book": {
+                    "id": "minecraft:protection",
+                    "lvl": 5
+                }
+            }
+        },
+        {
+            "input": {
+                "item": "lightland-magic:enchant_gold_ingot"
+            },
+            "output": {
+                "item": "minecraft:gold_ingot"
+            }
+        },
+        
+        {
+            "input":{
+                "enchant_book": {
+                    "id": "minecraft:projectile_protection",
+                    "lvl": 5
+                }
+            }
+        },
+        {
+            "input":{
+                "item":"twilightforest:knightmetal_shield"
+            }
+        },
+        {
+            "input":{
+                "item":"twilightforest:shield_scepter"
+            }
+        },
+        {
+            "input":{
+                "enchant_book": {
+                    "id": "minecraft:blast_protection",
+                    "lvl": 5
+                }
+            }
+        },
+        {
+            "input": {
+                "item": "lightland-magic:enchant_gold_ingot"
+            },
+            "output": {
+                "item": "minecraft:gold_ingot"
+            }
+        },
+        {
+            "input":{
+                "enchant_book": {
+                    "id": "minecraft:protection",
+                    "lvl": 5
+                }
+            }
+        }
+    ]
+}

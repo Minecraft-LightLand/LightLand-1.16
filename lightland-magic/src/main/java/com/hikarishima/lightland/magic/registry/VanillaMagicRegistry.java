@@ -21,6 +21,6 @@ public class VanillaMagicRegistry {
     public static final RegistryObject<Effect> EFF_PETRI = EFFECT.register("petrification", PetrificationEffect::new);
 
     public static final RegistryObject<Enchantment> ENCH_HEAVY = ENCH.register("heavy", HeavyEnchantment::new);
-    public static final RegistryObject<Enchantment> ENCH_PHYSICS = ENCH.register("physics", PhysicsProtectionEnchantment::new);
+    public static final RegistryObject<Enchantment> ENCH_PHYSICS = ENCH.register("physics_protection", PhysicsProtectionEnchantment::new);
 
 }

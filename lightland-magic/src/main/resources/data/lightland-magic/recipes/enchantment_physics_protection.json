@@ -1,0 +1,29 @@
+{
+    "type": "lightland-magic:magic_default",
+    "product_type": "lightland-magic:enchantment",
+    "product_id": "lightland-magic:physics_protection",
+    "predecessor": [],
+    "elemental_mastery": [
+        {
+            "element": "lightland-magic:earth",
+            "level": 1
+        }
+    ],
+    "screen": {
+        "x": -2,
+        "y": -1
+    },
+    "elements": {
+        "A": "lightland-magic:air",
+        "B": "lightland-magic:air",
+        "C": "lightland-magic:earth",
+        "D": "lightland-magic:earth",
+        "E": "lightland-magic:quint",
+        "F": "lightland-magic:quint"
+    },
+    "flows": [
+        "AB->CDEF",
+        "CD->ABEF",
+        "EF->ABCD"
+    ]
+}

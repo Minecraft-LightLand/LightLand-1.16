@@ -1,0 +1,65 @@
+{
+    "type": "lightland-magic:craft_shapeless",
+    "core": {
+        "input": {
+            "item": "twilightforest:glass_sword"
+        },
+        "output": {
+            "item": "twilightforest:glass_sword"
+        }
+    },
+    "side": [
+        {
+            "input": {
+                "item": "minecraft:obsidian"
+            }
+        },
+        {
+            "input": {
+                "item": "minecraft:glass"
+            },
+            "output": {
+                "item": "twilightforest:glass_sword"
+            }
+        },
+        {
+            "input": {
+                "item": "minecraft:obsidian"
+            }
+        },
+        {
+            "input":{
+                "enchant_book": {
+                    "id": "minecraft:sharpness",
+                    "lvl": 5
+                }
+            }
+        },
+        {
+            "input":{
+                "enchant_book": {
+                    "id": "minecraft:sharpness",
+                    "lvl": 5
+                }
+            }
+        },
+        {
+            "input": {
+                "item": "minecraft:obsidian"
+            }
+        },
+        {
+            "input": {
+                "item": "minecraft:glass"
+            },
+            "output": {
+                "item": "twilightforest:glass_sword"
+            }
+        },
+        {
+            "input": {
+                "item": "minecraft:obsidian"
+            }
+        }
+    ]
+}

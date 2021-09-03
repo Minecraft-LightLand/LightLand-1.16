@@ -1,0 +1,68 @@
+{
+    "type": "lightland-magic:craft_shapeless",
+    "core": {
+        "input": {
+            "item": "twilightforest:glass_sword"
+        },
+        "output": {
+            "item": "twilightforest:glass_sword",
+            "nbt": {
+                "Unbreakable": true
+            }
+        }
+    },
+    "side": [
+        {
+            "input": {
+                "item": "lightland-magic:permanence_iron_ingot"
+            }
+        },
+        {
+            "input": {
+                "enchant_book": {
+                    "id": "minecraft:unbreaking",
+                    "lvl": 7
+                }
+            }
+        },
+        {
+            "input": {
+                "item": "lightland-magic:permanence_iron_ingot"
+            }
+        },
+        {
+            "input": {
+                "enchant_book": {
+                    "id": "minecraft:mending",
+                    "lvl": 1
+                }
+            }
+        },
+        {
+            "input": {
+                "enchant_book": {
+                    "id": "minecraft:infinity",
+                    "lvl": 1
+                }
+            }
+        },
+        {
+            "input": {
+                "item": "lightland-magic:permanence_iron_ingot"
+            }
+        },
+        {
+            "input": {
+                "enchant_book": {
+                    "id": "minecraft:unbreaking",
+                    "lvl": 7
+                }
+            }
+        },
+        {
+            "input": {
+                "item": "lightland-magic:permanence_iron_ingot"
+            }
+        }
+    ]
+}

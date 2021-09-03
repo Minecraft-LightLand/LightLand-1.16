@@ -248,7 +248,7 @@
   "enchantment": {
     "lightland-magic": {
       "heavy": "沉重",
-      "physics": "物理保护"
+      "physics_protection": "物理保护"
     }
   },
   "death.attack.spell_load": "%s死于施法过度",

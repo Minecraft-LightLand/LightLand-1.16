@@ -1,0 +1,65 @@
+{
+    "type": "lightland-magic:craft_shapeless",
+    "core": {
+        "input": {
+            "item": "twilightforest:seeker_bow"
+        },
+        "output": {
+            "item": "twilightforest:seeker_bow"
+        }
+    },
+    "side": [
+        {
+            "input": {
+                "item": "minecraft:ender_eye"
+            }
+        },
+        {
+            "input": {
+                "item": "minecraft:bow"
+            },
+            "output": {
+                "item": "twilightforest:seeker_bow"
+            }
+        },
+        {
+            "input": {
+                "item": "minecraft:ender_eye"
+            }
+        },
+        {
+            "input":{
+                "enchant_book": {
+                    "id": "minecraft:power",
+                    "lvl": 5
+                }
+            }
+        },
+        {
+            "input":{
+                "enchant_book": {
+                    "id": "minecraft:power",
+                    "lvl": 5
+                }
+            }
+        },
+        {
+            "input": {
+                "item": "minecraft:ender_eye"
+            }
+        },
+        {
+            "input": {
+                "item": "minecraft:bow"
+            },
+            "output": {
+                "item": "twilightforest:seeker_bow"
+            }
+        },
+        {
+            "input": {
+                "item": "minecraft:ender_eye"
+            }
+        }
+    ]
+}

@@ -1,0 +1,78 @@
+{
+    "type": "lightland-magic:craft_enchant",
+    "magic_recipe": "lightland-magic:enchantment_sharpness",
+    "levels": [
+        100,
+        40,
+        34,
+        30,
+        27,
+        25,
+        24
+    ],
+    "core": {
+        "input": {
+            "item": "minecraft:book"
+        },
+        "output": {
+            "enchant_book": {
+                "id": "minecraft:sharpness",
+                "lvl": 4
+            }
+        }
+    },
+    "side": [
+        {
+            "input": {
+                "item": "twilightforest:ice_sword"
+            }
+        },
+        {
+            "input": {
+                "item": "lightland-magic:enchant_gold_ingot"
+            },
+            "output": {
+                "item": "minecraft:gold_ingot"
+            }
+        },
+        {
+            "input": {
+                "item": "twilightforest:glass_sword"
+            }
+        },
+        {
+            "input":{
+                "enchant_book": {
+                    "id": "minecraft:sharpness",
+                    "lvl": 5
+                }
+            }
+        },
+        {
+            "input":{
+                "enchant_book": {
+                    "id": "minecraft:sharpness",
+                    "lvl": 5
+                }
+            }
+        },
+        {
+            "input": {
+                "item": "twilightforest:giant_sword"
+            }
+        },
+        {
+            "input": {
+                "item": "lightland-magic:enchant_gold_ingot"
+            },
+            "output": {
+                "item": "minecraft:gold_ingot"
+            }
+        },
+        {
+            "input": {
+                "item": "twilightforest:fiery_sword"
+            }
+        }
+    ]
+}

@@ -1,0 +1,65 @@
+{
+    "type": "lightland-magic:craft_shapeless",
+    "core": {
+        "input": {
+            "item": "twilightforest:ender_bow"
+        },
+        "output": {
+            "item": "twilightforest:ender_bow"
+        }
+    },
+    "side": [
+        {
+            "input": {
+                "item": "minecraft:ender_pearl"
+            }
+        },
+        {
+            "input": {
+                "item": "minecraft:bow"
+            },
+            "output": {
+                "item": "twilightforest:ender_bow"
+            }
+        },
+        {
+            "input": {
+                "item": "minecraft:ender_pearl"
+            }
+        },
+        {
+            "input":{
+                "enchant_book": {
+                    "id": "minecraft:power",
+                    "lvl": 5
+                }
+            }
+        },
+        {
+            "input":{
+                "enchant_book": {
+                    "id": "minecraft:power",
+                    "lvl": 5
+                }
+            }
+        },
+        {
+            "input": {
+                "item": "minecraft:ender_pearl"
+            }
+        },
+        {
+            "input": {
+                "item": "minecraft:bow"
+            },
+            "output": {
+                "item": "twilightforest:ender_bow"
+            }
+        },
+        {
+            "input": {
+                "item": "minecraft:ender_pearl"
+            }
+        }
+    ]
+}

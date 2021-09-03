@@ -1,0 +1,65 @@
+{
+    "type": "lightland-magic:craft_shapeless",
+    "core": {
+        "input": {
+            "item": "twilightforest:ice_bow"
+        },
+        "output": {
+            "item": "twilightforest:ice_bow"
+        }
+    },
+    "side": [
+        {
+            "input": {
+                "item": "minecraft:blue_ice"
+            }
+        },
+        {
+            "input": {
+                "item": "minecraft:bow"
+            },
+            "output": {
+                "item": "twilightforest:ice_bow"
+            }
+        },
+        {
+            "input": {
+                "item": "minecraft:blue_ice"
+            }
+        },
+        {
+            "input":{
+                "enchant_book": {
+                    "id": "minecraft:power",
+                    "lvl": 5
+                }
+            }
+        },
+        {
+            "input":{
+                "enchant_book": {
+                    "id": "minecraft:power",
+                    "lvl": 5
+                }
+            }
+        },
+        {
+            "input": {
+                "item": "minecraft:blue_ice"
+            }
+        },
+        {
+            "input": {
+                "item": "minecraft:bow"
+            },
+            "output": {
+                "item": "twilightforest:ice_bow"
+            }
+        },
+        {
+            "input": {
+                "item": "minecraft:blue_ice"
+            }
+        }
+    ]
+}
