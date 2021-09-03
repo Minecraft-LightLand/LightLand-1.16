@@ -1,11 +1,11 @@
 {
-    "name": "Test Entry",
-    "icon": "minecraft:writable_book",
+    "name": "仪式合成",
+    "icon": "lightland-magic:ritual_core",
     "category": "lightland-magic:general",
     "pages": [
         {
             "type": "patchouli:text",
-            "text": "This is a test entry, but it should show up!"
+            "text": "(未完成)"
         }
     ]
 }

@@ -1,11 +1,11 @@
 {
-    "name": "Test Entry",
+    "name": "法阵绘制",
     "icon": "minecraft:writable_book",
     "category": "lightland-magic:general",
     "pages": [
         {
             "type": "patchouli:text",
-            "text": "This is a test entry, but it should show up!"
+            "text": "(未完成)"
         }
     ]
 }
