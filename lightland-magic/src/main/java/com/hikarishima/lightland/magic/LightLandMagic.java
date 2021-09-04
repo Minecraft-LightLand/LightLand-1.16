@@ -6,6 +6,7 @@ import com.hikarishima.lightland.magic.capabilities.ToClientMsg;
 import com.hikarishima.lightland.magic.capabilities.ToServerMsg;
 import com.hikarishima.lightland.magic.command.ArcaneCommand;
 import com.hikarishima.lightland.magic.command.MagicCommand;
+import com.hikarishima.lightland.magic.compat.patchouli.PatchouliEventListener;
 import com.hikarishima.lightland.magic.event.ClientRenderEventHandler;
 import com.hikarishima.lightland.magic.event.MagicDamageEventHandler;
 import com.hikarishima.lightland.magic.event.MagicEventHandler;
@@ -39,6 +40,7 @@ public class LightLandMagic {
         MinecraftForge.EVENT_BUS.register(new ClientRenderEventHandler());
         MinecraftForge.EVENT_BUS.register(new MagicDamageEventHandler());
         MinecraftForge.EVENT_BUS.register(new MagicMiscEventHandler());
+        MinecraftForge.EVENT_BUS.register(new PatchouliEventListener());
         PacketHandler.reg(ToClientMsg.class, ToClientMsg::handle, NetworkDirection.PLAY_TO_CLIENT);
         PacketHandler.reg(ToServerMsg.class, ToServerMsg::handle, NetworkDirection.PLAY_TO_SERVER);
         PacketHandler.reg(ChemPacket.class, ChemContainer.class, NetworkDirection.PLAY_TO_SERVER);
