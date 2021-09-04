@@ -1,11 +1,33 @@
 {
-    "name": "仪式合成",
+    "name": "D.仪式合成",
     "icon": "lightland-magic:ritual_core",
     "category": "lightland-magic:general",
     "pages": [
         {
             "type": "patchouli:text",
-            "text": "(未完成)"
+            "text": "仪式合成需要用仪式主台和仪式副台摆成右图所示的形状，然后右键在台子上放置物品，最后用法杖右键主台触发。$(br)$(br)部分合成需要法杖上有启用的魔法，并且合成过程会消耗元素且结果取决于魔法的复杂度，比如附魔合成。$(br)$(br)可以通过红石信号和漏斗自动化。"
+        },
+        {
+            "type": "patchouli:multiblock",
+            "name": "仪式台布置",
+            "multiblock": {
+                "mapping": {
+                    "A": "lightland-magic:ritual_side",
+                    "0": "lightland-magic:ritual_core"
+                },
+                "pattern": [
+                    [
+                        "   A   ",
+                        " A   A ",
+                        "       ",
+                        "A  0  A",
+                        "       ",
+                        " A   A ",
+                        "   A   "
+                    ]
+                ],
+                "symmetrical": true
+            }
         }
     ]
 }

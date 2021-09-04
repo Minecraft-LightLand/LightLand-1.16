@@ -21,7 +21,7 @@
             "input": {
                 "enchant_book": {
                     "id": "minecraft:unbreaking",
-                    "lvl": 7
+                    "lvl": 8
                 }
             }
         },
@@ -55,7 +55,7 @@
             "input": {
                 "enchant_book": {
                     "id": "minecraft:unbreaking",
-                    "lvl": 7
+                    "lvl": 8
                 }
             }
         },

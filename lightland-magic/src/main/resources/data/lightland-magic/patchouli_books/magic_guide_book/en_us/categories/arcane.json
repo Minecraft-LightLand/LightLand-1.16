@@ -1,6 +1,6 @@
 {
     "name": "奥术",
-    "description": "如果想要查找其他魔法，请参考魔法类型。关于奥术的具体机制，请参考系统介绍/奥术",
+    "description": "关于奥术的具体机制，请参考系统介绍/奥术",
     "icon": "lightland-magic:gilded_arcane_axe",
     "sortnum": 5
 }
