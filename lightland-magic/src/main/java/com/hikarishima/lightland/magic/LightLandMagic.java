@@ -1,6 +1,7 @@
 package com.hikarishima.lightland.magic;
 
 import com.hikarishima.lightland.command.BaseCommand;
+import com.hikarishima.lightland.equipment.EquipmentInit;
 import com.hikarishima.lightland.magic.capabilities.MagicHandler;
 import com.hikarishima.lightland.magic.capabilities.ToClientMsg;
 import com.hikarishima.lightland.magic.capabilities.ToServerMsg;
@@ -52,6 +53,7 @@ public class LightLandMagic {
     private void setup(final FMLCommonSetupEvent event) {
         MagicHandler.register();
         ClientRenderEventHandler.init();
+        EquipmentInit.init();
     }
 
     private void doClientStuff(final FMLClientSetupEvent event) {
