@@ -21,7 +21,6 @@ dependencies {
     minecraft(project)
     core
     magic
-    jei(project)
     lombok
     junit
 }

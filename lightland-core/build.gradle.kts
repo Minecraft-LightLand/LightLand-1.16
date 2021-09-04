@@ -54,8 +54,6 @@ dependencies {
     api(kotlin("reflect"))
     api("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.1")
     minecraft(project)
-    jei(project)
-    gameStages(project)
     lombok
     junit
 

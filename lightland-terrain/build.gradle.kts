@@ -20,7 +20,6 @@ dependencies {
     implementation(fg.deobf(fileTree(mapOf("dir" to "libs", "include" to arrayOf("*.jar")))))
     minecraft(project)
     core
-    jei(project)
     lombok
     junit
 }

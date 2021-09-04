@@ -261,11 +261,6 @@ fun DependencyHandler.minecraft(dependencyNotation: Any): Dependency? =
 fun DependencyHandler.minecraft(project: Project): Dependency? =
     minecraft(group = "net.minecraftforge", name = "forge", version = "${project.mcVersion}-${project.forgeVersion}")
 
-fun DependencyHandler.jei(project: Project) {
-    add("compileOnly", project.fg.deobf("mezz.jei:jei-${project.mcVersion}:${project.jeiVersion}:api"))
-    add("runtimeOnly", project.fg.deobf("mezz.jei:jei-${project.mcVersion}:${project.jeiVersion}"))
-}
-
 val DependencyHandler.junit: Dependency?
     get() = add("api", "junit", "junit", "4.13.2")
 
@@ -286,11 +281,6 @@ val DependencyHandler.lombok: Unit
         add("testCompileOnly", lombokDependency)
         add("testAnnotationProcessor", lombokDependency)
     }
-
-fun DependencyHandler.gameStages(project: Project) {
-    add("compileOnly", project.fg.deobf("net.darkhax.gamestages:GameStages-${project.mcVersion}:7.2.8"))
-    add("runtimeOnly", project.fg.deobf("net.darkhax.gamestages:GameStages-${project.mcVersion}:7.2.8"))
-}
 
 val DependencyHandler.mixin: Unit
     get() {
