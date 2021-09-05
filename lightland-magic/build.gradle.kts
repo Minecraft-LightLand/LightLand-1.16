@@ -65,10 +65,11 @@ dependencies {
     runtimeOnly(fg.deobf("vazkii.patchouli:Patchouli:1.16.4-53.1"))
     runtimeOnly(fg.deobf("zip.local.ap:Apotheosis-1.16.4:4.6.1"))
 
-    runtimeOnly(fg.deobf("zip.local.tf:twilightforest-${mcVersion}:4.0.546-universal"))
-    runtimeOnly(fg.deobf("zip.local.mt:mahoutsukai-1.16.5:v1.31.37"))
     runtimeOnly(fg.deobf("zip.local.pl:Placebo-1.16.4:4.5.0"))
 
+    runtimeOnly(fg.deobf("zip.local.tf:twilightforest-${mcVersion}:4.0.546-universal"))
+    runtimeOnly(fg.deobf("zip.local.mt:mahoutsukai-1.16.5:v1.31.37"))
+    runtimeOnly(fg.deobf("zip.local.ch:champions-forge-1.16.5:2.0.1.7"))
 
 }
 
