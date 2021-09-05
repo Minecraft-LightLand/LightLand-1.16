@@ -13,6 +13,8 @@
             "chemistry_book": "炼金书",
             "gilded_arcane_sword": "镀金奥术剑",
             "gilded_arcane_axe": "镀金奥术斧",
+            "alloy_arcane_sword": "魔导合金奥术剑",
+            "alloy_arcane_axe": "魔导合金奥术斧",
             "enchant_gold_nugget": "蓄魔金粒",
             "enchant_gold_ingot": "蓄魔金锭",
             "enchant_cookie": "魔力饼干",
@@ -34,7 +36,8 @@
             "spell_scroll": "符文-卷轴",
             "gilded_wand": "镀金法杖",
             "record_pearl": "记录宝珠",
-            "armor_bag": "装备袋"
+            "armor_bag": "装备袋",
+            "identifier_orb": "鉴定石"
         },
         "block": {
             "-path": [

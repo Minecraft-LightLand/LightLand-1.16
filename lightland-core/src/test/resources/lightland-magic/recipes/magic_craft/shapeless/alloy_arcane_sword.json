@@ -1,0 +1,59 @@
+{
+    "type": "lightland-magic:craft_shapeless",
+    "core": {
+        "input": {
+            "item": "lightland-magic:gilded_arcane_sword"
+        },
+        "output": {
+            "item": "lightland-magic:alloy_arcane_sword"
+        }
+    },
+    "side": [
+        {
+            "input": {
+                "item": "lightland-magic:enchant_alloy_ingot"
+            }
+        },
+        {
+            "input": {
+                "enchant_book": {
+                    "id": "minecraft:shaprness",
+                    "lvl": 9
+                }
+            }
+        },
+        {
+            "input": {
+                "item": "lightland-magic:enchant_alloy_ingot"
+            }
+        },
+        {
+            "input": {
+                "item": "twilightforest:ice_sword"
+            }
+        },
+        {
+            "input": {
+                "item": "twilightforest:glass_sword"
+            }
+        },
+        {
+            "input": {
+                "item": "lightland-magic:enchant_alloy_ingot"
+            }
+        },
+        {
+            "input": {
+                "enchant_book": {
+                    "id": "minecraft:shaprness",
+                    "lvl": 9
+                }
+            }
+        },
+        {
+            "input": {
+                "item": "lightland-magic:enchant_alloy_ingot"
+            }
+        }
+    ]
+}

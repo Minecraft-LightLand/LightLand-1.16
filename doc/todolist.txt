@@ -2,9 +2,6 @@
 - NPC quest system
     - NPC conflict
 
-- Magic System
-    - add tutorial screen
-
 - Add ritual craft
     - core: 4 infinity + 4 mending + diamond
     - 16 boxes of

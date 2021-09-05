@@ -77,8 +77,10 @@ public class MagicDamageSource extends EntityDamageSource {
                 dmg = getDamageAfterArmorAbsorb(e, ent, dmg);
             if (!ent.bypassMagic)
                 dmg = getDamageAfterMagicAbsorb(e, ent.source, dmg);
-            ent.execute(e);
             ans += dmg;
+        }
+        for (MagicDamageEntry ent : list) {
+            ent.execute(e, ans);
         }
         return ans;
     }

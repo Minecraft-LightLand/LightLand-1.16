@@ -1,6 +1,5 @@
 package com.hikarishima.lightland.magic.registry.entity;
 
-import com.hikarishima.lightland.magic.arcane.ArcaneRegistry;
 import com.hikarishima.lightland.magic.registry.MagicEntityRegistry;
 import com.hikarishima.lightland.magic.registry.item.combat.IArcaneWeapon;
 import com.lcy0x1.core.util.SerialClass;
@@ -107,7 +106,7 @@ public class WindBladeEntity extends ThrowableEntity implements IEntityAdditiona
             Entity owner = this.getOwner();
             DamageSource source = new IndirectEntityDamageSource("wind_blade", entity, owner);
             if (isArcane) {
-                source = IArcaneWeapon.toMagic(issuer, this, owner, source, damage, ArcaneRegistry.ARCANE_TIME);
+                source = IArcaneWeapon.toMagic(issuer, this, owner, source, damage);
             }
             entity.hurt(source, damage);
             if (owner instanceof LivingEntity) {

@@ -24,7 +24,10 @@ import net.minecraft.block.AnvilBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.inventory.EquipmentSlotType;
-import net.minecraft.item.*;
+import net.minecraft.item.BlockItem;
+import net.minecraft.item.Foods;
+import net.minecraft.item.Item;
+import net.minecraft.item.Items;
 import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
@@ -61,8 +64,8 @@ public class MagicItemRegistry {
     public static final RegistryObject<ContainerBook> SPELL_CRAFT_BOOK = regItem("spell_craft_book", p -> new ContainerBook(p, MagicContainerRegistry.CT_SPELL_CRAFT::get, (a, b, c) -> new SpellCraftContainer(a, b)));
     public static final RegistryObject<ContainerBook> ARCANE_INJECT_BOOK = regItem("arcane_inject_book", p -> new ContainerBook(p, MagicContainerRegistry.CT_ARCANE_INJECT::get, (a, b, c) -> new ArcaneInjectContainer(a, b)));
     public static final RegistryObject<ContainerBook> CHEM_BOOK = regItem("chemistry_book", p -> new ContainerBook(p, MagicContainerRegistry.CT_CHEM::get, (a, b, c) -> new ChemContainer(a, b)));
-    public static final RegistryObject<ArcaneSword> ARCANE_SWORD_GILDED = regItem("gilded_arcane_sword", p -> new ArcaneSword(ItemTier.IRON, 5, -2.4f, p.stacksTo(1).setNoRepair(), 50));
-    public static final RegistryObject<ArcaneAxe> ARCANE_AXE_GILDED = regItem("gilded_arcane_axe", p -> new ArcaneAxe(ItemTier.IRON, 8, -3.1f, p.stacksTo(1).setNoRepair(), 50));
+    public static final RegistryObject<ArcaneSword> ARCANE_SWORD_GILDED = regItem("gilded_arcane_sword", p -> new ArcaneSword(MagicItemTier.PERMANENCE, 5, -2.4f, p.stacksTo(1).setNoRepair(), 50));
+    public static final RegistryObject<ArcaneAxe> ARCANE_AXE_GILDED = regItem("gilded_arcane_axe", p -> new ArcaneAxe(MagicItemTier.PERMANENCE, 8, -3.1f, p.stacksTo(1).setNoRepair(), 50));
     public static final RegistryObject<Item> ENCHANT_GOLD_NUGGET = regItem("enchant_gold_nugget", p -> new ManaStorage(p, Items.GOLD_NUGGET, MANA));
     public static final RegistryObject<Item> ENCHANT_GOLD_INGOT = regItem("enchant_gold_ingot", p -> new ManaStorage(p, Items.GOLD_INGOT, MANA * 9));
     public static final RegistryObject<Item> ENCHANT_ALLOY_INGOT = regItem("enchant_alloy_ingot", FoiledItem::new);
@@ -100,6 +103,9 @@ public class MagicItemRegistry {
     public static final RegistryObject<MagicArmor>[] CLOTH_CHAIN = regArmor("enchant_chain_", (s, p) -> new MagicArmor(MagicArmorMaterial.CHAIN, s, p));
     public static final RegistryObject<MagicArmor>[] CLOTH_LIGHT = regArmor("enchant_light_", (s, p) -> new MagicArmor(MagicArmorMaterial.ENCH_LIGHT, s, p));
     public static final RegistryObject<ArmorBag> ARMOR_BAG = regItem("armor_bag", ArmorBag::new);
+    public static final RegistryObject<ArcaneSword> ARCANE_SWORD_ALLOY = regItem("alloy_arcane_sword", p -> new ArcaneSword(MagicItemTier.PERMANENCE, 7, -2.2f, p.stacksTo(1).setNoRepair(), 100));
+    public static final RegistryObject<ArcaneAxe> ARCANE_AXE_ALLOY = regItem("alloy_arcane_axe", p -> new ArcaneAxe(MagicItemTier.PERMANENCE, 10, -3f, p.stacksTo(1).setNoRepair(), 100));
+    public static final RegistryObject<Item> IDENTIFIER_ORB = regItem("identifier_orb", Item::new);
 
     public static final RegistryObject<BlockItem> I_ENCHANT_GOLD = regBlockItem(B_ENCHANT_GOLD);
     public static final RegistryObject<BlockItem> I_ENCHANT_ALLOY = regBlockItem(B_ENCHANT_ALLOY);

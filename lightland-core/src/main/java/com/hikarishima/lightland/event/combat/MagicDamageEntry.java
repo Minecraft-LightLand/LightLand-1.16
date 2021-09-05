@@ -3,6 +3,7 @@ package com.hikarishima.lightland.event.combat;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.DamageSource;
 
+import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 public class MagicDamageEntry {
@@ -10,13 +11,15 @@ public class MagicDamageEntry {
     public DamageSource source;
     public float armorDamageFactor = 1;
     public float damage;
-    public boolean bypassArmor = false;
-    public boolean bypassMagic = false;
-    public Consumer<LivingEntity> post;
+    public boolean bypassArmor;
+    public boolean bypassMagic;
+    public BiConsumer<LivingEntity, Float> post;
 
     public MagicDamageEntry(DamageSource source, float amount) {
         this.source = source;
         this.damage = amount;
+        bypassArmor = source.isBypassArmor();
+        bypassMagic = source.isBypassMagic();
     }
 
     public MagicDamageEntry setDamageArmor(float factor) {
@@ -35,14 +38,14 @@ public class MagicDamageEntry {
         return this;
     }
 
-    public MagicDamageEntry setPost(Consumer<LivingEntity> cons) {
+    public MagicDamageEntry setPost(BiConsumer<LivingEntity, Float> cons) {
         post = cons;
         return this;
     }
 
-    public void execute(LivingEntity target) {
+    public void execute(LivingEntity target, float damage) {
         if (post != null)
-            post.accept(target);
+            post.accept(target, damage);
     }
 
 }
