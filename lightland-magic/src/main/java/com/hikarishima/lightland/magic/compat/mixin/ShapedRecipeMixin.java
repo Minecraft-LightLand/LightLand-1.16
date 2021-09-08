@@ -1,11 +1,17 @@
 package com.hikarishima.lightland.magic.compat.mixin;
 
 import com.google.gson.JsonObject;
+import com.hikarishima.lightland.magic.recipe.AbstractMagicCraftRecipe;
+import net.minecraft.block.AbstractBlock;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentData;
+import net.minecraft.inventory.ItemStackHelper;
 import net.minecraft.item.EnchantedBookItem;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.item.crafting.ShapedRecipe;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.spongepowered.asm.mixin.Mixin;
@@ -24,6 +30,16 @@ public class ShapedRecipeMixin {
             int lvl = book.get("lvl").getAsInt();
             assert ench != null;
             info.setReturnValue(EnchantedBookItem.createForEnchantment(new EnchantmentData(ench, lvl)));
+            info.cancel();
+        }
+        if (obj.has("massive_stack")) {
+            JsonObject jo = obj.getAsJsonObject("massive_stack");
+            Item item = ForgeRegistries.ITEMS.getValue(new ResourceLocation(jo.get("item").getAsString()));
+            int count = jo.get("count").getAsInt();
+            ItemStack ans = Items.SHULKER_BOX.getDefaultInstance();
+            NonNullList<ItemStack> nonnulllist = AbstractMagicCraftRecipe.fill(item, count);
+            ItemStackHelper.saveAllItems(ans.getOrCreateTagElement("BlockEntityTag"), nonnulllist);
+            info.setReturnValue(ans);
             info.cancel();
         }
     }

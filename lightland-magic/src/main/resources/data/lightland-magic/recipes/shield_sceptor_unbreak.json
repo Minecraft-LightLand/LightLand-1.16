@@ -1,0 +1,56 @@
+{
+    "type": "lightland-magic:craft_shapeless",
+    "core": {
+        "input": {
+            "item": "twilightforest:shield_scepter"
+        },
+        "output": {
+            "item": "twilightforest:shield_scepter",
+            "nbt": {
+                "Unbreakable": true
+            }
+        }
+    },
+    "side": [
+        {
+            "input": {
+                "item": "lightland-magic:enchant_apple"
+            }
+        },
+        {
+            "input": {
+                "item": "twilightforest:lich_trophy"
+            }
+        },
+        {
+            "input": {
+                "item": "lightland-magic:enchant_apple"
+            }
+        },
+        {
+            "input": {
+                "item": "lightland-magic:enchant_apple"
+            }
+        },
+        {
+            "input": {
+                "item": "lightland-magic:enchant_apple"
+            }
+        },
+        {
+            "input": {
+                "item": "lightland-magic:enchant_apple"
+            }
+        },
+        {
+            "input": {
+                "item": "twilightforest:lich_trophy"
+            }
+        },
+        {
+            "input": {
+                "item": "lightland-magic:enchant_apple"
+            }
+        }
+    ]
+}

@@ -18,7 +18,7 @@ repositories {
 }
 
 allprojects {
-    version = "0.4.8"
+    version = "0.4.9"
     group = "com.hikarishima"
 
     repositories {

@@ -1,0 +1,81 @@
+{
+    "type": "lightland-magic:craft_shapeless",
+    "core": {
+        "input": {
+            "item": "apotheosis:potion_charm"
+        },
+        "output": {
+            "item": "apotheosis:potion_charm",
+            "nbt": {
+                "Potion": "lightland-magic:emerald_0",
+                "Unbreakable": true
+            }
+        }
+    },
+    "side": [
+        {
+            "input": {
+                "massive_stack": {
+                    "item": "minecraft:emerald",
+                    "count": 1728
+                }
+            }
+        },
+        {
+            "input": {
+                "massive_stack": {
+                    "item": "minecraft:emerald",
+                    "count": 1728
+                }
+            }
+        },
+        {
+            "input": {
+                "massive_stack": {
+                    "item": "minecraft:emerald",
+                    "count": 1728
+                }
+            }
+        },
+        {
+            "input": {
+                "massive_stack": {
+                    "item": "minecraft:emerald",
+                    "count": 1728
+                }
+            }
+        },
+        {
+            "input": {
+                "massive_stack": {
+                    "item": "minecraft:emerald",
+                    "count": 1728
+                }
+            }
+        },
+        {
+            "input": {
+                "massive_stack": {
+                    "item": "minecraft:emerald",
+                    "count": 1728
+                }
+            }
+        },
+        {
+            "input": {
+                "massive_stack": {
+                    "item": "minecraft:emerald",
+                    "count": 1728
+                }
+            }
+        },
+        {
+            "input": {
+                "massive_stack": {
+                    "item": "minecraft:emerald",
+                    "count": 1728
+                }
+            }
+        }
+    ]
+}

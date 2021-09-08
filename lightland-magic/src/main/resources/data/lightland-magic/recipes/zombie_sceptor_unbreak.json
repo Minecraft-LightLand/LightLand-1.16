@@ -1,0 +1,74 @@
+{
+    "type": "lightland-magic:craft_shapeless",
+    "core": {
+        "input": {
+            "item": "minecraft:bone"
+        },
+        "output": {
+            "item": "twilightforest:zombie_scepter",
+            "nbt": {
+                "Unbreakable": true
+            }
+        }
+    },
+    "side": [
+        {
+            "input": {
+                "massive_stack": {
+                    "item": "minecraft:rotten_flesh",
+                    "count": 1728
+                }
+            }
+        },
+        {
+            "input": {
+                "item": "twilightforest:lich_trophy"
+            }
+        },
+        {
+            "input": {
+                "massive_stack": {
+                    "item": "minecraft:rotten_flesh",
+                    "count": 1728
+                }
+            }
+        },
+        {
+            "input": {
+                "massive_stack": {
+                    "item": "minecraft:rotten_flesh",
+                    "count": 1728
+                }
+            }
+        },
+        {
+            "input": {
+                "massive_stack": {
+                    "item": "minecraft:rotten_flesh",
+                    "count": 1728
+                }
+            }
+        },
+        {
+            "input": {
+                "massive_stack": {
+                    "item": "minecraft:rotten_flesh",
+                    "count": 1728
+                }
+            }
+        },
+        {
+            "input": {
+                "item": "twilightforest:lich_trophy"
+            }
+        },
+        {
+            "input": {
+                "massive_stack": {
+                    "item": "minecraft:rotten_flesh",
+                    "count": 1728
+                }
+            }
+        }
+    ]
+}

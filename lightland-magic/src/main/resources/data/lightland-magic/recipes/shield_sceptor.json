@@ -1,0 +1,65 @@
+{
+    "type": "lightland-magic:craft_shapeless",
+    "core": {
+        "input": {
+            "item": "minecraft:bone"
+        },
+        "output": {
+            "item": "twilightforest:shield_scepter"
+        }
+    },
+    "side": [
+        {
+            "input": {
+                "item": "twilightforest:lich_trophy"
+            },
+            "output": {
+                "item": "twilightforest:lich_trophy"
+            }
+        },
+        {
+            "input": {
+                "item": "lightland-magic:enchant_apple"
+            }
+        },
+        {
+            "input": {
+                "item": "twilightforest:lich_trophy"
+            },
+            "output": {
+                "item": "twilightforest:lich_trophy"
+            }
+        },
+        {
+            "input": {
+                "item": "lightland-magic:enchant_apple"
+            }
+        },
+        {
+            "input": {
+                "item": "lightland-magic:enchant_apple"
+            }
+        },
+        {
+            "input": {
+                "item": "twilightforest:lich_trophy"
+            },
+            "output": {
+                "item": "twilightforest:lich_trophy"
+            }
+        },
+        {
+            "input": {
+                "item": "lightland-magic:enchant_apple"
+            }
+        },
+        {
+            "input": {
+                "item": "twilightforest:lich_trophy"
+            },
+            "output": {
+                "item": "twilightforest:lich_trophy"
+            }
+        }
+    ]
+}

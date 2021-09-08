@@ -1,0 +1,74 @@
+{
+    "type": "lightland-magic:craft_shapeless",
+    "core": {
+        "input": {
+            "item": "minecraft:bone"
+        },
+        "output": {
+            "item": "twilightforest:twilight_scepter",
+            "nbt": {
+                "Unbreakable": true
+            }
+        }
+    },
+    "side": [
+        {
+            "input": {
+                "massive_stack": {
+                    "item": "minecraft:ender_pearl",
+                    "count": 432
+                }
+            }
+        },
+        {
+            "input": {
+                "item": "twilightforest:lich_trophy"
+            }
+        },
+        {
+            "input": {
+                "massive_stack": {
+                    "item": "minecraft:ender_pearl",
+                    "count": 432
+                }
+            }
+        },
+        {
+            "input": {
+                "massive_stack": {
+                    "item": "minecraft:ender_pearl",
+                    "count": 432
+                }
+            }
+        },
+        {
+            "input": {
+                "massive_stack": {
+                    "item": "minecraft:ender_pearl",
+                    "count": 432
+                }
+            }
+        },
+        {
+            "input": {
+                "massive_stack": {
+                    "item": "minecraft:ender_pearl",
+                    "count": 432
+                }
+            }
+        },
+        {
+            "input": {
+                "item": "twilightforest:lich_trophy"
+            }
+        },
+        {
+            "input": {
+                "massive_stack": {
+                    "item": "minecraft:ender_pearl",
+                    "count": 432
+                }
+            }
+        }
+    ]
+}
