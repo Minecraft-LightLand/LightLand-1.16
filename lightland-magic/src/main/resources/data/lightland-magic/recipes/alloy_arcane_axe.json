@@ -17,7 +17,7 @@
         {
             "input": {
                 "enchant_book": {
-                    "id": "minecraft:shaprness",
+                    "id": "minecraft:sharpness",
                     "lvl": 9
                 }
             }
@@ -45,7 +45,7 @@
         {
             "input": {
                 "enchant_book": {
-                    "id": "minecraft:shaprness",
+                    "id": "minecraft:sharpness",
                     "lvl": 9
                 }
             }

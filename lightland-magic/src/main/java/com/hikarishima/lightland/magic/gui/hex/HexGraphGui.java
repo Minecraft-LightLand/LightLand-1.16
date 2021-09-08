@@ -33,6 +33,7 @@ public class HexGraphGui extends AbstractHexGui {
     private static final int COL_DISABLED = 0xFF404040;
     private static final int COL_HOVER = 0xFFFFFF00;
     private static final int COL_ERROR = 0xFFFF0000;
+    private static final int COL_FLOW = 0xFFFFFF7F;
 
     private static int getFlowColor(double val) {
         if (val <= 1) {
@@ -51,6 +52,7 @@ public class HexGraphGui extends AbstractHexGui {
     HexHandler graph;
     FlowChart flow = null;
     boolean[] wrong_flow = new boolean[6];
+    boolean[] ignore = new boolean[6];
     final WindowBox box = new WindowBox();
 
     protected HexCalcException error = null;
@@ -82,7 +84,7 @@ public class HexGraphGui extends AbstractHexGui {
         double width = RADIUS / 4 * magn;
         double length = HexHandler.WIDTH * 3 / 4 * magn;
         renderPath(matrix, width, length);
-        renderFlow(matrix, width, length);
+        renderFlow(matrix, width, length, partial);
         renderError(matrix, width, length);
         RenderSystem.enableTexture();
         renderIcons(matrix);
@@ -130,7 +132,7 @@ public class HexGraphGui extends AbstractHexGui {
             }
     }
 
-    private void renderFlow(MatrixStack matrix, double width, double length) {
+    private void renderFlow(MatrixStack matrix, double width, double length, float partial) {
         if (flow != null) {
             HexCell cell = new HexCell(graph, 0, 0);
             double[][] vals = new double[graph.getRowCount()][];
@@ -139,6 +141,7 @@ public class HexGraphGui extends AbstractHexGui {
             }
             for (FlowChart.Flow f : flow.flows) {
                 double val;
+                int mask = 0;
                 cell.row = f.arrow.row;
                 cell.cell = f.arrow.cell;
                 if (selected == null) {
@@ -155,16 +158,22 @@ public class HexGraphGui extends AbstractHexGui {
                     val = (fval + bval) / 6;
                 } else {
                     val = 0;
-                    if (f.forward[selected.ind] != null) {
+                    if (!ignore[selected.ind] && f.forward[selected.ind] != null) {
                         double fval = f.forward[selected.ind].getVal();
                         updateNodeVal(vals, cell, f.arrow.dir, fval);
                         val += fval;
+                        if (fval > 0) {
+                            mask |= 1;
+                        }
                     }
 
-                    if (f.backward[selected.ind] != null) {
+                    if (!ignore[selected.ind] && f.backward[selected.ind] != null) {
                         double bval = f.backward[selected.ind].getVal();
                         updateNodeVal(vals, cell, f.arrow.dir, bval);
                         val += bval;
+                        if (bval > 0) {
+                            mask |= 2;
+                        }
                     }
                 }
                 int col = getFlowColor(val);
@@ -173,6 +182,8 @@ public class HexGraphGui extends AbstractHexGui {
                 double r = RADIUS * magn;
                 int dire = f.arrow.dir.ind;
                 renderPath(matrix, x, y, HexHandler.WIDTH * magn, dire, col, width, length);
+                if (selected != null && val > 0)
+                    renderPathFlow(matrix, x, y, HexHandler.WIDTH * magn, dire, val, width, length, partial, mask);
             }
             for (cell.row = 0; cell.row < graph.getRowCount(); cell.row++)
                 for (cell.cell = 0; cell.cell < graph.getCellCount(cell.row); cell.cell++) {
@@ -299,6 +310,25 @@ public class HexGraphGui extends AbstractHexGui {
         WorldVertexBufferUploader.end(builder);
     }
 
+    private void renderPathFlow(MatrixStack matrix, double x, double y, double r, int dire, double val, double width, double length, float partial, int mask) {
+        Matrix4f last = matrix.last().pose();
+        BufferBuilder builder = Tessellator.getInstance().getBuilder();
+        builder.begin(7, DefaultVertexFormats.POSITION_COLOR);
+        double a = dire * Math.PI / 3;
+        float cx = (float) (x + r * Math.cos(a) / 2);
+        float cy = (float) (y + r * Math.sin(a) / 2);
+        float lx = (float) (length / 2 * Math.cos(a));
+        float ly = (float) (length / 2 * Math.sin(a));
+        float wx = (float) (width / 2 * Math.cos(a - Math.PI / 2));
+        float wy = (float) (width / 2 * Math.sin(a - Math.PI / 2));
+        float time = tick + partial;
+        float peak = (float) (width / Math.sqrt(12) / length);
+        vertexFlowCross(builder, last, cx, cy, lx, ly, wx, wy, (time / 20) % 1, 0.25f, peak, mask);
+        vertexFlowCross(builder, last, cx, cy, lx, ly, wx, wy, (time / 20 + 0.5f) % 1, 0.25f, peak, mask);
+        builder.end();
+        WorldVertexBufferUploader.end(builder);
+    }
+
     public boolean mouseClicked(double mx, double my, int button) {
         double x0 = box.x + box.w / 2d;
         double y0 = box.y + box.h / 2d;
@@ -391,4 +421,42 @@ public class HexGraphGui extends AbstractHexGui {
             LogManager.getLogger().throwing(e);
         }
     }
+
+    private static void vertexFlowCross(BufferBuilder builder, Matrix4f last, float cx, float cy, float lx, float ly, float wx, float wy, float p0, float plen, float peak, int mask) {
+        if (p0 + plen < 1) {
+            if ((mask & 1) > 0)
+                vertexFlowBlock(builder, last, cx, cy, lx, ly, wx, wy, p0, p0 + plen, peak);
+            if ((mask & 2) > 0)
+                vertexFlowBlock(builder, last, cx, cy, lx, ly, wx, wy, 1 - (p0 + plen), 1 - p0, -peak);
+        } else {
+            if ((mask & 1) > 0) {
+                vertexFlowBlock(builder, last, cx, cy, lx, ly, wx, wy, p0, 1, peak);
+                vertexFlowBlock(builder, last, cx, cy, lx, ly, wx, wy, 0, p0 + plen - 1, peak);
+            }
+            if ((mask & 2) > 0) {
+                vertexFlowBlock(builder, last, cx, cy, lx, ly, wx, wy, 0, 1 - p0, -peak);
+                vertexFlowBlock(builder, last, cx, cy, lx, ly, wx, wy, 2 - (p0 + plen), 1, -peak);
+            }
+        }
+    }
+
+    private static void vertexFlowBlock(BufferBuilder builder, Matrix4f last, float cx, float cy, float lx, float ly, float wx, float wy, float p0, float p1, float peak) {
+        vertexFlow(builder, last, cx, cy, lx, ly, wx, wy, 1, p1, 0);
+        vertexFlow(builder, last, cx, cy, lx, ly, wx, wy, 1, p0, 0);
+        vertexFlow(builder, last, cx, cy, lx, ly, wx, wy, 0, p0, peak);
+        vertexFlow(builder, last, cx, cy, lx, ly, wx, wy, 0, p1, peak);
+        vertexFlow(builder, last, cx, cy, lx, ly, wx, wy, 0, p1, peak);
+        vertexFlow(builder, last, cx, cy, lx, ly, wx, wy, 0, p0, peak);
+        vertexFlow(builder, last, cx, cy, lx, ly, wx, wy, -1, p0, 0);
+        vertexFlow(builder, last, cx, cy, lx, ly, wx, wy, -1, p1, 0);
+    }
+
+    private static void vertexFlow(BufferBuilder builder, Matrix4f last, float cx, float cy, float lx, float ly, float wx, float wy, int sign, float p, float peak) {
+        builder.vertex(last,
+                cx + (p * 2 - 1 + peak) * lx + sign * wx,
+                cy + (p * 2 - 1 + peak) * ly + sign * wy,
+                0).color(1, 1, 0.5f, 1).endVertex();
+    }
+
+
 }

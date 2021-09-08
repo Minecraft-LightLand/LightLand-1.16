@@ -24,10 +24,12 @@ public class MagicTreeGui<I extends IForgeRegistryEntry<I>, P extends MagicProdu
 
     private final MagicTreeScreen screen;
     private final GuiTabType tab = GuiTabType.ABOVE;
-    final int index;
     private final Map<P, MagicTreeEntry<I, P>> widgets = Maps.newLinkedHashMap();
     private final TypeConfig display;
     private final ITextComponent title;
+
+    final int index;
+    final MagicProductType<I, P> type;
 
     private boolean centered = false;
     private int maxX, maxY, minX, minY;
@@ -37,6 +39,7 @@ public class MagicTreeGui<I extends IForgeRegistryEntry<I>, P extends MagicProdu
     public MagicTreeGui(MagicTreeScreen screen, MagicProductType<I, P> type, int index) {
         this.screen = screen;
         this.index = index;
+        this.type = type;
         this.display = type.getDisplay();
         this.title = type.getDesc();
     }
@@ -150,8 +153,10 @@ public class MagicTreeGui<I extends IForgeRegistryEntry<I>, P extends MagicProdu
         MagicTreeEntry<I, P> entry = new MagicTreeEntry<>(this, product, product.recipe.screen);
         for (ResourceLocation rl : product.recipe.predecessor) {
             P parent = (P) holder.getProduct(holder.getRecipe(rl));
-            addWidget(parent);
-            entry.parents.add(widgets.get(parent));
+            if (parent.type == type) {
+                addWidget(parent);
+                entry.parents.add(widgets.get(parent));
+            }
         }
         this.widgets.put(product, entry);
         int i = entry.getX();

@@ -1,0 +1,18 @@
+{
+    "type": "lightland-magic:magic_default",
+    "product_type": "lightland-magic:craft",
+    "product_id": "minecraft:dirt",
+    "predecessor": [],
+    "elemental_mastery": [],
+    "screen": {
+        "x": 0,
+        "y": 0
+    },
+    "elements": {
+        "A": "lightland-magic:earth",
+        "B": "lightland-magic:water"
+    },
+    "flows": [
+        "A->B"
+    ]
+}

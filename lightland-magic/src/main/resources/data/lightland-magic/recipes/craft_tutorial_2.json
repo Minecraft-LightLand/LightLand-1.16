@@ -1,0 +1,21 @@
+{
+    "type": "lightland-magic:magic_default",
+    "product_type": "lightland-magic:craft",
+    "product_id": "minecraft:stone",
+    "predecessor": [
+        "lightland-magic:craft_tutorial_1"
+    ],
+    "elemental_mastery": [],
+    "screen": {
+        "x": 2,
+        "y": 0
+    },
+    "elements": {
+        "A": "lightland-magic:earth",
+        "B": "lightland-magic:earth",
+        "C": "lightland-magic:water"
+    },
+    "flows": [
+        "C->AB"
+    ]
+}

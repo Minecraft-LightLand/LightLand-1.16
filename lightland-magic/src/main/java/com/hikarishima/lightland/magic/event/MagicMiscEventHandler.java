@@ -10,6 +10,8 @@ import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.item.ArmorItem;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.event.AnvilUpdateEvent;
 import net.minecraftforge.event.entity.living.LivingSpawnEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
@@ -31,6 +33,7 @@ public class MagicMiscEventHandler {
                 .stream().filter(e -> e.matches(event)).findFirst().ifPresent(e -> e.setEvent(event));
     }
 
+    @OnlyIn(Dist.CLIENT)
     @SubscribeEvent
     public void onTooltipEvent(ItemTooltipEvent event) {
         if (event.getItemStack().getItem() instanceof ArmorItem) {

@@ -1,0 +1,22 @@
+{
+    "type": "lightland-magic:magic_default",
+    "product_type": "lightland-magic:craft",
+    "product_id": "minecraft:granite",
+    "predecessor": [
+        "lightland-magic:craft_tutorial_4"
+    ],
+    "elemental_mastery": [],
+    "screen": {
+        "x": 5,
+        "y": 0
+    },
+    "elements": {
+        "A": "lightland-magic:earth",
+        "B": "lightland-magic:earth",
+        "C": "lightland-magic:earth",
+        "D": "lightland-magic:water"
+    },
+    "flows": [
+        "D->ABC"
+    ]
+}

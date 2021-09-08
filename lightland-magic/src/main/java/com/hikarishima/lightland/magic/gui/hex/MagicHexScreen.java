@@ -188,29 +188,6 @@ public class MagicHexScreen extends Screen {
             }
             if (wrong)
                 return false;
-            for (int i = 0; i < 6; i++) {
-                Frac[] arr = graph.flow.matrix[i];
-                if (arr == null)
-                    continue;
-                Frac sample = null;
-                for (int j = 0; j < 6; j++) {
-                    Frac f = arr[j];
-                    if (f == null)
-                        continue;
-                    if (i == j) {
-                        wrong |= graph.wrong_flow[i] = true;
-                        break;
-                    }
-                    if (sample == null)
-                        sample = f;
-                    else if (!sample.equals(f)) {
-                        wrong |= graph.wrong_flow[i] = true;
-                        break;
-                    }
-                }
-            }
-            if (wrong)
-                return false;
             boolean[][] map = product.recipe.getGraph();
             for (int i = 0; i < 6; i++) {
                 Frac[] arr = graph.flow.matrix[i];
@@ -220,7 +197,11 @@ public class MagicHexScreen extends Screen {
                 for (int j = 0; j < 6; j++)
                     if (bar[result.data.order[j]])
                         rec++;
-                Frac b = rec == 0 ? null : new Frac(1, rec);
+                graph.ignore[i] = rec == 0;
+                if (rec == 0) {
+                    continue;
+                }
+                Frac b = new Frac(1, rec);
                 for (int j = 0; j < 6; j++) {
                     Frac f = arr[j];
                     if (!bar[result.data.order[j]]) {
@@ -230,12 +211,10 @@ public class MagicHexScreen extends Screen {
                         }
                         continue;
                     }
-                    if ((f == null) != (b == null)) {
+                    if (f == null) {
                         wrong |= graph.wrong_flow[i] = true;
                         break;
                     }
-                    if (f == null)
-                        continue;
                     if (!f.equals(b)) {
                         wrong |= graph.wrong_flow[i] = true;
                     }

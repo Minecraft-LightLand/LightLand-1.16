@@ -1,0 +1,21 @@
+{
+    "type": "lightland-magic:magic_default",
+    "product_type": "lightland-magic:craft",
+    "product_id": "minecraft:andesite",
+    "predecessor": [
+        "lightland-magic:craft_tutorial_3"
+    ],
+    "elemental_mastery": [],
+    "screen": {
+        "x": 4,
+        "y": 0
+    },
+    "elements": {
+        "A": "lightland-magic:earth",
+        "B": "lightland-magic:earth",
+        "C": "lightland-magic:water"
+    },
+    "flows": [
+        "AB<->C"
+    ]
+}

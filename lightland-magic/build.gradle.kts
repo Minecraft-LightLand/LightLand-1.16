@@ -53,14 +53,14 @@ dependencies {
 
     compileOnly(fg.deobf("mezz.jei:jei-${mcVersion}:${jeiVersion}:api"))
     compileOnly(fg.deobf("net.darkhax.bookshelf:Bookshelf-${mcVersion}:10.2.15"))
-    compileOnly(fg.deobf("net.darkhax.gamestages:GameStages-${mcVersion}:7.2.8"))
+    compileOnly(fg.deobf("net.darkhax.gamestages:GameStages-Forge-${mcVersion}:7.3.10"))
     compileOnly(fg.deobf("net.darkhax.itemstages:ItemStages-Forge-${mcVersion}:3.0.6"))
     compileOnly(fg.deobf("vazkii.patchouli:Patchouli:1.16.4-53.1"))
     compileOnly(fg.deobf("zip.local.ap:Apotheosis-1.16.4:4.6.1"))
 
     runtimeOnly(fg.deobf("mezz.jei:jei-${mcVersion}:${jeiVersion}"))
     runtimeOnly(fg.deobf("net.darkhax.bookshelf:Bookshelf-${mcVersion}:10.2.15"))
-    runtimeOnly(fg.deobf("net.darkhax.gamestages:GameStages-${mcVersion}:7.2.8"))
+    runtimeOnly(fg.deobf("net.darkhax.gamestages:GameStages-Forge-${mcVersion}:7.3.10"))
     runtimeOnly(fg.deobf("net.darkhax.itemstages:ItemStages-Forge-${mcVersion}:3.0.6"))
     runtimeOnly(fg.deobf("vazkii.patchouli:Patchouli:1.16.4-53.1"))
     runtimeOnly(fg.deobf("zip.local.ap:Apotheosis-1.16.4:4.6.1"))
