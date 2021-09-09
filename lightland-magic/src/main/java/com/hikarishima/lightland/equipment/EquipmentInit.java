@@ -1,28 +1,54 @@
 package com.hikarishima.lightland.equipment;
 
+import com.google.common.collect.Lists;
+import com.hikarishima.lightland.magic.capabilities.AbilityPoints;
+import net.darkhax.gamestages.GameStageHelper;
 import net.darkhax.itemstages.Restriction;
 import net.darkhax.itemstages.RestrictionManager;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
 import shadows.apotheosis.deadly.affix.AffixHelper;
 import shadows.apotheosis.deadly.affix.EquipmentType;
 import shadows.apotheosis.deadly.affix.LootRarity;
 import shadows.apotheosis.deadly.reload.AffixLootManager;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.Random;
+import java.util.function.Function;
 
 public class EquipmentInit {
 
+    private static final List<Function<AbilityPoints, Integer>> PRED = Lists.newArrayList(
+            p -> p.body / 2,
+            p -> (p.speed * 3 + p.strength) / 8,
+            p -> p.strength / 2,
+            p -> (p.strength + p.body * 3) / 8,
+            p -> (p.strength * 3 + p.body) / 8,
+            p -> p.level / 2
+    );
     private static final String[] TYPE = {"armor_", "shoot_", "sword_", "shield_", "axe_", "others_"};
 
     public static void init() {
         for (int i = 1; i <= 6; i++)
-            for (int j = 0; j < 3; j++) {
+            for (int j = 0; j < TYPE.length; j++) {
                 Restriction armor = new Restriction("lightland_" + TYPE[j] + i);
                 int finalI = i;
                 int finalJ = j;
                 armor.restrict(e -> getLevel(e) >= finalI && getStageType(e) == finalJ);
                 RestrictionManager.INSTANCE.addRestriction(armor);
+            }
+    }
+
+    public static void clear(ServerPlayerEntity player, AbilityPoints points) {
+        for (int i = 1; i <= 6; i++)
+            for (String s : TYPE) {
+                GameStageHelper.removeStage(player, "lightland_" + s + i);
+            }
+        for (int i = 1; i <= 6; i++)
+            for (int j = 0; j < TYPE.length; j++) {
+                if (PRED.get(j).apply(points) >= i)
+                    GameStageHelper.addStage(player, "lightland_" + TYPE[j] + i);
             }
     }
 

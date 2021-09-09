@@ -7,6 +7,7 @@ import com.hikarishima.lightland.magic.capabilities.ToClientMsg;
 import com.hikarishima.lightland.magic.capabilities.ToServerMsg;
 import com.hikarishima.lightland.magic.command.ArcaneCommand;
 import com.hikarishima.lightland.magic.command.MagicCommand;
+import com.hikarishima.lightland.magic.command.RegistryParser;
 import com.hikarishima.lightland.magic.compat.patchouli.PatchouliEventListener;
 import com.hikarishima.lightland.magic.event.ClientRenderEventHandler;
 import com.hikarishima.lightland.magic.event.MagicDamageEventHandler;
@@ -54,6 +55,7 @@ public class LightLandMagic {
         PacketHandler.reg(ClientRenderEventHandler.EffectToClient.class, ClientRenderEventHandler::handle, NetworkDirection.PLAY_TO_CLIENT);
         BaseCommand.LIST.add(ArcaneCommand::new);
         BaseCommand.LIST.add(MagicCommand::new);
+        RegistryParser.register();
     }
 
     private void setup(final FMLCommonSetupEvent event) {

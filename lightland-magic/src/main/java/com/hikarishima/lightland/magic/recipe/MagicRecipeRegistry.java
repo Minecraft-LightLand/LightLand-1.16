@@ -30,9 +30,17 @@ public class MagicRecipeRegistry {
     public static final RegistryObject<BaseRecipe.RecType<EnchantMagicCraftRecipe, AbstractMagicCraftRecipe<?>, RitualCore.Inv>> RSM_ENCHANT =
             REC.register("craft_enchant", () -> new BaseRecipe.RecType<>(EnchantMagicCraftRecipe.class, RT_CRAFT));
 
-
     public static final RegistryObject<BaseRecipe.RecType<AnvilCraftRecipe, AnvilCraftRecipe, AnvilCraftRecipe.Inv>> RSM_ANVIL =
             REC.register("anvil", () -> new BaseRecipe.RecType<>(AnvilCraftRecipe.class, RT_ANVIL));
+
+    public static final RegistryObject<BaseRecipe.RecType<PotionCoreRecipe, AbstractMagicCraftRecipe<?>, RitualCore.Inv>> RSM_POTION_CORE =
+            REC.register("craft_potion_core", () -> new BaseRecipe.RecType<>(PotionCoreRecipe.class, RT_CRAFT));
+
+    public static final RegistryObject<BaseRecipe.RecType<PotionSpellRecipe, AbstractMagicCraftRecipe<?>, RitualCore.Inv>> RSM_POTION_SPELL =
+            REC.register("craft_potion_spell", () -> new BaseRecipe.RecType<>(PotionSpellRecipe.class, RT_CRAFT));
+
+    public static final RegistryObject<BaseRecipe.RecType<PotionModifyRecipe, AbstractMagicCraftRecipe<?>, RitualCore.Inv>> RSM_POTION_MODIFY =
+            REC.register("craft_potion_modify", () -> new BaseRecipe.RecType<>(PotionModifyRecipe.class, RT_CRAFT));
 
     public static final ResourceLocation SPELL = new ResourceLocation(LightLandMagic.MODID, "config_spell");
     public static final ResourceLocation PRODUCT_TYPE_DISPLAY = new ResourceLocation(LightLandMagic.MODID, "config_product_type");

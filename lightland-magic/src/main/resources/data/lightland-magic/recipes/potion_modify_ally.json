@@ -1,0 +1,54 @@
+{
+    "type": "lightland-magic:craft_potion_modify",
+    "target": "ALLIES",
+    "core": {
+        "input": {
+            "item": "lightland-magic:potion_core"
+        },
+        "output": {
+            "item": "lightland-magic:potion_core"
+        }
+    },
+    "side": [
+        {
+            "input": {
+                "item": "minecraft:lapis_lazuli"
+            }
+        },
+        {
+            "input": {
+                "item": "minecraft:golden_carrot"
+            }
+        },
+        {
+            "input": {
+                "item": "minecraft:lapis_lazuli"
+            }
+        },
+        {
+            "input": {
+                "item": "minecraft:redstone"
+            }
+        },
+        {
+            "input": {
+                "item": "minecraft:redstone"
+            }
+        },
+        {
+            "input": {
+                "item": "minecraft:lapis_lazuli"
+            }
+        },
+        {
+            "input": {
+                "item": "minecraft:golden_carrot"
+            }
+        },
+        {
+            "input": {
+                "item": "minecraft:lapis_lazuli"
+            }
+        }
+    ]
+}

@@ -9,13 +9,18 @@ import com.hikarishima.lightland.magic.spell.internal.Spell;
 import com.hikarishima.lightland.proxy.Proxy;
 import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.client.util.ITooltipFlag;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.potion.EffectInstance;
+import net.minecraft.potion.PotionUtils;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
@@ -41,6 +46,36 @@ public class MagicScroll extends Item implements IGlowingTarget {
     public static void initItemStack(Spell<?, ?> spell, ItemStack stack) {
         CompoundNBT tag = stack.getOrCreateTagElement("spell");
         tag.putString("spell", spell.getID());
+        stack.getOrCreateTag().remove("CustomPotionEffects");
+    }
+
+    public static void initEffect(List<EffectInstance> list, ItemStack stack) {
+        stack.getOrCreateTag().remove("CustomPotionEffects");
+        stack.getOrCreateTagElement("spell").remove("spell");
+        PotionUtils.setCustomEffects(stack, list);
+    }
+
+    public static void setTarget(TargetType type, ItemStack stack) {
+        CompoundNBT tag = stack.getOrCreateTagElement("spell");
+        tag.putString("target", type.name());
+    }
+
+    public static TargetType getTarget(ItemStack stack) {
+        String type = stack.getOrCreateTagElement("spell").getString("target");
+        try {
+            return Enum.valueOf(TargetType.class, type);
+        } catch (Exception e) {
+            return TargetType.ALL;
+        }
+    }
+
+    public static void setRadius(double radius, ItemStack stack) {
+        CompoundNBT tag = stack.getOrCreateTagElement("spell");
+        tag.putDouble("radius", radius);
+    }
+
+    public static double getRadius(ItemStack stack) {
+        return Math.max(5, stack.getOrCreateTagElement("spell").getDouble("radius"));
     }
 
     @Nullable
@@ -49,10 +84,7 @@ public class MagicScroll extends Item implements IGlowingTarget {
         if (id.length() == 0)
             return null;
         ResourceLocation rl = new ResourceLocation(id);
-        Spell<?, ?> abs = MagicRegistry.SPELL.getValue(rl);
-        if (abs == null)
-            return null;
-        return abs;
+        return MagicRegistry.SPELL.getValue(rl);
     }
 
     public void appendHoverText(ItemStack stack, @Nullable World world, List<ITextComponent> list, ITooltipFlag flag) {
@@ -97,6 +129,28 @@ public class MagicScroll extends Item implements IGlowingTarget {
             return ActionResult.fail(stack);
         if (handler.magicAbility.getSpellActivation(selected) != 0)
             return ActionResult.fail(stack);
+        List<EffectInstance> list = PotionUtils.getCustomEffects(stack);
+        if (list.size() > 0) {
+            if (!world.isClientSide()) {
+                double radius = getRadius(stack);
+                TargetType target = getTarget(stack);
+                for (Entity e : world.getEntities(null, new AxisAlignedBB(player.blockPosition()).inflate(radius))) {
+                    if (!(e instanceof LivingEntity)) {
+                        continue;
+                    }
+                    if (e.distanceTo(player) > radius) {
+                        continue;
+                    }
+                    if (target == TargetType.ALLIES && !e.isAlliedTo(player) || target == TargetType.ENEMY && e.isAlliedTo(player)) {
+                        continue;
+                    }
+                    for (EffectInstance ins : list) {
+                        ((LivingEntity) e).addEffect(ins);
+                    }
+                }
+            }
+            return ActionResult.success(stack);
+        }
         Spell<?, ?> spell = getSpell(stack);
         if (spell == null || !spell.attempt(Spell.Type.SCROLL, world, player))
             return ActionResult.fail(stack);
@@ -137,6 +191,10 @@ public class MagicScroll extends Item implements IGlowingTarget {
         public MagicScroll toItem() {
             return item.get();
         }
+    }
+
+    public enum TargetType {
+        ALLIES, ENEMY, ALL
     }
 
 }

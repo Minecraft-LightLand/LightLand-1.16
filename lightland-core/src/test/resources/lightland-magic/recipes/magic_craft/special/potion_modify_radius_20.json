@@ -1,0 +1,54 @@
+{
+    "type": "lightland-magic:craft_potion_modify",
+    "radius": 20,
+    "core": {
+        "input": {
+            "item": "lightland-magic:potion_core"
+        },
+        "output": {
+            "item": "lightland-magic:potion_core"
+        }
+    },
+    "side": [
+        {
+            "input": {
+                "item": "lightland-magic:enchant_cookie"
+            }
+        },
+        {
+            "input": {
+                "item": "minecraft:gunpowder"
+            }
+        },
+        {
+            "input": {
+                "item": "lightland-magic:enchant_cookie"
+            }
+        },
+        {
+            "input": {
+                "item": "minecraft:gunpowder"
+            }
+        },
+        {
+            "input": {
+                "item": "minecraft:gunpowder"
+            }
+        },
+        {
+            "input": {
+                "item": "lightland-magic:enchant_cookie"
+            }
+        },
+        {
+            "input": {
+                "item": "minecraft:gunpowder"
+            }
+        },
+        {
+            "input": {
+                "item": "lightland-magic:enchant_cookie"
+            }
+        }
+    ]
+}

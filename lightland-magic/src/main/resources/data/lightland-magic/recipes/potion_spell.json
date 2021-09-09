@@ -1,0 +1,77 @@
+{
+    "type": "lightland-magic:craft_potion_spell",
+    "core": {
+        "input": {
+            "item": "lightland-magic:potion_core"
+        },
+        "output": {
+            "item": "minecraft:diamond"
+        }
+    },
+    "side": [
+        {
+            "input": {
+                "item": "lightlandmagic:spell_card"
+            },
+            "output": {
+                "item": "lightlandmagic:spell_card"
+            }
+        },
+        {
+            "input": {
+                "item": "lightlandmagic:spell_card"
+            },
+            "output": {
+                "item": "lightlandmagic:spell_card"
+            }
+        },
+        {
+            "input": {
+                "item": "lightlandmagic:spell_card"
+            },
+            "output": {
+                "item": "lightlandmagic:spell_card"
+            }
+        },
+        {
+            "input": {
+                "item": "lightlandmagic:spell_card"
+            },
+            "output": {
+                "item": "lightlandmagic:spell_card"
+            }
+        },
+        {
+            "input": {
+                "item": "lightlandmagic:spell_card"
+            },
+            "output": {
+                "item": "lightlandmagic:spell_card"
+            }
+        },
+        {
+            "input": {
+                "item": "lightlandmagic:spell_card"
+            },
+            "output": {
+                "item": "lightlandmagic:spell_card"
+            }
+        },
+        {
+            "input": {
+                "item": "lightlandmagic:spell_card"
+            },
+            "output": {
+                "item": "lightlandmagic:spell_card"
+            }
+        },
+        {
+            "input": {
+                "item": "lightlandmagic:spell_card"
+            },
+            "output": {
+                "item": "lightlandmagic:spell_card"
+            }
+        }
+    ]
+}

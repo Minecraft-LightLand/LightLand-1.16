@@ -1,6 +1,7 @@
 package com.hikarishima.lightland.command;
 
 import com.google.common.collect.Maps;
+import com.google.gson.JsonObject;
 import com.lcy0x1.core.util.ExceptionHandler;
 import com.mojang.brigadier.StringReader;
 import com.mojang.brigadier.arguments.ArgumentType;
@@ -10,6 +11,9 @@ import com.mojang.brigadier.exceptions.DynamicCommandExceptionType;
 import com.mojang.brigadier.suggestion.Suggestions;
 import com.mojang.brigadier.suggestion.SuggestionsBuilder;
 import net.minecraft.command.ISuggestionProvider;
+import net.minecraft.command.arguments.ArgumentTypes;
+import net.minecraft.command.arguments.IArgumentSerializer;
+import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.text.TranslationTextComponent;
 
 import java.util.Arrays;
@@ -21,6 +25,25 @@ import java.util.stream.Collectors;
 public class EnumParser<T extends Enum<T>> implements ArgumentType<T> {
 
     private static final Map<Class<?>, EnumParser<?>> CACHE = Maps.newLinkedHashMap();
+
+    public static void register() {
+        ArgumentTypes.register("lightland_enum", (Class<EnumParser<?>>)(Class)EnumParser.class, new IArgumentSerializer<EnumParser<?>>() {
+            @Override
+            public void serializeToNetwork(EnumParser<?> e, PacketBuffer packet) {
+                packet.writeUtf(e.cls.getName());
+            }
+
+            @Override
+            public EnumParser<?> deserializeFromNetwork(PacketBuffer packet) {
+                return getParser(ExceptionHandler.get(() -> (Class) Class.forName(packet.readUtf())));
+            }
+
+            @Override
+            public void serializeToJson(EnumParser<?> e, JsonObject json) {
+                json.addProperty("class", e.cls.getName());
+            }
+        });
+    }
 
     @SuppressWarnings("unchecked")
     public static <T extends Enum<T>> EnumParser<T> getParser(Class<T> cls) {

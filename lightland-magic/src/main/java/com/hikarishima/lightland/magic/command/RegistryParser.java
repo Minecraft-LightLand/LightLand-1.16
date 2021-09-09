@@ -1,5 +1,6 @@
 package com.hikarishima.lightland.magic.command;
 
+import com.google.gson.JsonObject;
 import com.hikarishima.lightland.magic.MagicElement;
 import com.hikarishima.lightland.magic.MagicRegistry;
 import com.hikarishima.lightland.magic.Translator;
@@ -16,15 +17,22 @@ import com.mojang.brigadier.exceptions.DynamicCommandExceptionType;
 import com.mojang.brigadier.suggestion.Suggestions;
 import com.mojang.brigadier.suggestion.SuggestionsBuilder;
 import net.minecraft.command.ISuggestionProvider;
+import net.minecraft.command.arguments.ArgumentTypes;
+import net.minecraft.command.arguments.IArgumentSerializer;
+import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.IForgeRegistryEntry;
 
+import java.util.HashSet;
+import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Supplier;
 
 @SuppressWarnings({"unchecked", "rawtypes"})
 public class RegistryParser<T extends IForgeRegistryEntry<T>> implements ArgumentType<T> {
+
+    public static final Set<RegistryParser<?>> SET = new HashSet<>();
 
     public static final RegistryParser<MagicElement> ELEMENT = new RegistryParser<>(MagicElement.class, () -> MagicRegistry.ELEMENT);
     public static final RegistryParser<MagicProductType<?, ?>> PRODUCT_TYPE = new RegistryParser(MagicProductType.class, () -> MagicRegistry.PRODUCT_TYPE);
@@ -33,12 +41,35 @@ public class RegistryParser<T extends IForgeRegistryEntry<T>> implements Argumen
     public static final RegistryParser<Spell<?, ?>> SPELL = new RegistryParser(Spell.class, () -> MagicRegistry.SPELL);
     public static final RegistryParser<Profession> PROFESSION = new RegistryParser<>(Profession.class, () -> MagicRegistry.PROFESSION);
 
+    public static void register() {
+        ArgumentTypes.register("lightland_registry", (Class<RegistryParser<?>>)(Class)RegistryParser.class, new IArgumentSerializer<RegistryParser<?>>() {
+            @Override
+            public void serializeToNetwork(RegistryParser<?> e, PacketBuffer packet) {
+                IForgeRegistry<?> reg = e.registry.get();
+                packet.writeUtf(reg.getRegistryName().toString());
+            }
+
+            @Override
+            public RegistryParser<?> deserializeFromNetwork(PacketBuffer packet) {
+                String name = packet.readUtf();
+                return SET.stream().filter(e -> e.registry.get().getRegistryName().toString().equals(name)).findFirst().orElse(null);
+            }
+
+            @Override
+            public void serializeToJson(RegistryParser<?> e, JsonObject json) {
+                IForgeRegistry<?> reg = ((RegistryParser<?>) e).registry.get();
+                json.addProperty("id", reg.getRegistryName().toString());
+            }
+        });
+    }
+
     public final Class<T> cls;
     public final Supplier<IForgeRegistry<T>> registry;
 
     public RegistryParser(Class<T> cls, Supplier<IForgeRegistry<T>> registry) {
         this.cls = cls;
         this.registry = registry;
+        SET.add(this);
     }
 
     @Override

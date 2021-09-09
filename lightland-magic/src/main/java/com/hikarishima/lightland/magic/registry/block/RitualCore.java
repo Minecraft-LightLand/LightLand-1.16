@@ -238,8 +238,8 @@ public class RitualCore {
 
     public static class Inv implements BaseRecipe.RecInv<AbstractMagicCraftRecipe<?>> {
 
-        private final RitualCore.TE core;
-        private final List<RitualSide.TE> sides;
+        public final RitualCore.TE core;
+        public final List<RitualSide.TE> sides;
 
         private Inv(TE core, List<RitualSide.TE> sides) {
             this.core = core;

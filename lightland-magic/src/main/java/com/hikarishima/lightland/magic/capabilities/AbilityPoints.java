@@ -1,9 +1,12 @@
 package com.hikarishima.lightland.magic.capabilities;
 
+import com.hikarishima.lightland.equipment.EquipmentInit;
 import com.hikarishima.lightland.magic.capabilities.weight.WeightCalculator;
 import com.hikarishima.lightland.magic.profession.Profession;
 import com.hikarishima.lightland.magic.registry.VanillaMagicRegistry;
 import com.lcy0x1.core.util.SerialClass;
+import net.darkhax.gamestages.GameStageHelper;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.potion.EffectInstance;
 
 import java.util.function.Consumer;
@@ -101,6 +104,9 @@ public class AbilityPoints {
     }
 
     public void updateAttribute() {
+        if (!parent.player.level.isClientSide()) {
+            EquipmentInit.clear((ServerPlayerEntity) parent.player, this);
+        }
         BodyAttribute.resetModifiers(this, parent.player);
     }
 

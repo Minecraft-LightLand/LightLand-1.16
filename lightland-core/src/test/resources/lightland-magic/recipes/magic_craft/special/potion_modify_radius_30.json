@@ -1,0 +1,54 @@
+{
+    "type": "lightland-magic:craft_potion_modify",
+    "radius": 30,
+    "core": {
+        "input": {
+            "item": "lightland-magic:potion_core"
+        },
+        "output": {
+            "item": "lightland-magic:potion_core"
+        }
+    },
+    "side": [
+        {
+            "input": {
+                "item": "minecraft:gunpowder"
+            }
+        },
+        {
+            "input": {
+                "item": "lightland-magic:enchant_melon"
+            }
+        },
+        {
+            "input": {
+                "item": "minecraft:gunpowder"
+            }
+        },
+        {
+            "input": {
+                "item": "minecraft:dragon_breath"
+            }
+        },
+        {
+            "input": {
+                "item": "minecraft:dragon_breath"
+            }
+        },
+        {
+            "input": {
+                "item": "minecraft:gunpowder"
+            }
+        },
+        {
+            "input": {
+                "item": "lightland-magic:enchant_melon"
+            }
+        },
+        {
+            "input": {
+                "item": "minecraft:gunpowder"
+            }
+        }
+    ]
+}

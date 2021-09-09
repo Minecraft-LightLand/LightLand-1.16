@@ -1,5 +1,6 @@
 package com.hikarishima.lightland;
 
+import com.hikarishima.lightland.command.EnumParser;
 import com.hikarishima.lightland.event.forge.DamageEventHandler;
 import com.hikarishima.lightland.event.forge.GenericEventHandler;
 import com.hikarishima.lightland.event.forge.ItemUseEventHandler;
@@ -30,6 +31,7 @@ public class LightLand {
         MinecraftForge.EVENT_BUS.register(new PermissionEventHandler());
         PacketHandler.reg(ItemUseEventHandler.Msg.class, ItemUseEventHandler.Msg::handle, NetworkDirection.PLAY_TO_SERVER);
         RecipeRegistry.REC.register(bus);
+        EnumParser.register();
     }
 
 }
