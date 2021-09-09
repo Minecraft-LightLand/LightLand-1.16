@@ -63,7 +63,7 @@ public class DisEnchanterContainer extends AbstractContainer {
             Map<Enchantment, Integer> enchs = EnchantmentHelper.getEnchantments(stack);
             int[] arr = new int[1];
             enchs.entrySet().removeIf((e) -> {
-                if (e.getValue() > 0 && ench_map.containsKey(e.getKey())) {
+                if (e.getValue() > 0 && (ench_map.containsKey(e.getKey()) || temp.containsKey(e.getKey()))) {
                     arr[0] += e.getValue();
                     return true;
                 }

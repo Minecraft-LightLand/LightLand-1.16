@@ -1,15 +1,17 @@
 package com.hikarishima.lightland.magic.registry.block;
 
 import com.hikarishima.lightland.magic.MagicElement;
-import com.hikarishima.lightland.magic.MagicProxy;
 import com.hikarishima.lightland.magic.MagicRegistry;
 import com.hikarishima.lightland.magic.Translator;
+import com.hikarishima.lightland.magic.capabilities.MagicHandler;
+import com.hikarishima.lightland.magic.capabilities.ToClientMsg;
 import com.hikarishima.lightland.magic.products.MagicProduct;
 import com.hikarishima.lightland.magic.recipe.AbstractMagicCraftRecipe;
 import com.hikarishima.lightland.magic.recipe.MagicRecipeRegistry;
 import com.hikarishima.lightland.magic.registry.MagicContainerRegistry;
 import com.hikarishima.lightland.magic.registry.MagicItemRegistry;
 import com.hikarishima.lightland.magic.registry.item.magic.MagicWand;
+import com.hikarishima.lightland.proxy.PacketHandler;
 import com.lcy0x1.base.BaseRecipe;
 import com.lcy0x1.base.block.mult.AnimateTickBlockMethod;
 import com.lcy0x1.base.block.mult.OnClickBlockMethod;
@@ -20,6 +22,7 @@ import com.lcy0x1.core.util.SerialClass;
 import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.server.MinecraftServer;
@@ -118,12 +121,13 @@ public class RitualCore {
             if (list.size() < 8) {
                 return;
             }
+            //TODO sideness
             Inv inv = new Inv(this, list);
             Optional<AbstractMagicCraftRecipe<?>> r = level.getRecipeManager().getRecipeFor(MagicRecipeRegistry.RT_CRAFT, inv, level);
             r.ifPresent(e -> {
                 Map<MagicElement, Integer> map = new LinkedHashMap<>();
                 if (e.getMagic() != null) {
-                    if (magic == null || magic.getCost() <= 0 || !e.getMagic().equals(magic.recipe.id)) {
+                    if (magic == null || magic.getCost() <= 0 || !e.getMagic().equals(magic.recipe.id) || player == null) {
                         send(player, Translator.get(true, "chat.ritual.fail.wrong"));
                         return;
                     }
@@ -132,13 +136,13 @@ public class RitualCore {
                         send(player, Translator.get(true, "chat.ritual.fail.zero"));
                         return;
                     }
-                    if (magic.type == MagicRegistry.MPT_ENCH) {
+                    if (magic.type == MagicRegistry.MPT_ENCH || magic.type == MagicRegistry.MPT_EFF) {
                         MagicElement[] elems = magic.recipe.getElements();
                         for (MagicElement elem : elems) {
                             map.put(elem, map.getOrDefault(elem, 0) + lv);
                         }
                         for (MagicElement elem : map.keySet()) {
-                            int has = MagicProxy.getHandler().magicHolder.getElement(elem);
+                            int has = MagicHandler.get(player).magicHolder.getElement(elem);
                             int take = map.get(elem);
                             if (has < take) {
                                 send(player, Translator.get(true, "chat.ritual.fail.element"));
@@ -150,8 +154,11 @@ public class RitualCore {
                 recipe = e;
                 remainingTime = 200;
                 setLocked(true, list);
-                for (MagicElement elem : map.keySet()) {
-                    MagicProxy.getHandler().magicHolder.addElement(elem, -map.get(elem));
+                if (player != null) {
+                    for (MagicElement elem : map.keySet()) {
+                        MagicHandler.get(player).magicHolder.addElement(elem, -map.get(elem));
+                    }
+                    PacketHandler.toClient((ServerPlayerEntity) player, new ToClientMsg(ToClientMsg.Action.ALL, MagicHandler.get(player)));
                 }
             });
 

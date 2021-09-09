@@ -11,6 +11,7 @@
     "MobEntityMixin"
   ],
   "client": [
+    "ClientRecipeBookMixin"
   ],
   "server": [
   ],

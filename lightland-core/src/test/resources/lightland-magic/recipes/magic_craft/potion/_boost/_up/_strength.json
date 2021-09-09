@@ -5,9 +5,10 @@
     "magic_recipe": "lightland-magic:effect_strength",
     "levels":[
         100,
-        50,
-        30,
-        25
+        35,
+        25,
+        20,
+        19
     ],
     "core": {
         "input": {
