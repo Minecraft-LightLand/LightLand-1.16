@@ -1,8 +1,8 @@
 {
     "type": "lightland-magic:craft_potion_boost",
-    "effect": "minecraft:power",
+    "effect": "minecraft:strength",
     "modify_level": 1,
-    "magic_recipe": "lightland-magic:effect_power",
+    "magic_recipe": "lightland-magic:effect_strength",
     "levels":[
         100,
         50,

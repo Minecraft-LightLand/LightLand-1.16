@@ -24,7 +24,6 @@ public class PatchouliEventListener {
 
     @SubscribeEvent
     public void reloadEvent(BookContentsReloadEvent event) {
-        System.out.println(event.book);
         if (event.book.equals(RL)) {
             Book book = BookRegistry.INSTANCE.books.get(event.book);
             List<ResourceLocation> list = new ArrayList<>();

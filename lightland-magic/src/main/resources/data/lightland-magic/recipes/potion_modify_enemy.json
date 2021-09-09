@@ -1,6 +1,6 @@
 {
     "type": "lightland-magic:craft_potion_modify",
-    "target": "EMENY",
+    "target": "ENEMY",
     "core": {
         "input": {
             "item": "lightland-magic:potion_core"

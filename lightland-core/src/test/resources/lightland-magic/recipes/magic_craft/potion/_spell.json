@@ -11,66 +11,66 @@
     "side": [
         {
             "input": {
-                "item": "lightlandmagic:spell_card"
+                "item": "lightland-magic:spell_card"
             },
             "output": {
-                "item": "lightlandmagic:spell_card"
+                "item": "lightland-magic:spell_card"
             }
         },
         {
             "input": {
-                "item": "lightlandmagic:spell_card"
+                "item": "lightland-magic:spell_card"
             },
             "output": {
-                "item": "lightlandmagic:spell_card"
+                "item": "lightland-magic:spell_card"
             }
         },
         {
             "input": {
-                "item": "lightlandmagic:spell_card"
+                "item": "lightland-magic:spell_card"
             },
             "output": {
-                "item": "lightlandmagic:spell_card"
+                "item": "lightland-magic:spell_card"
             }
         },
         {
             "input": {
-                "item": "lightlandmagic:spell_card"
+                "item": "lightland-magic:spell_card"
             },
             "output": {
-                "item": "lightlandmagic:spell_card"
+                "item": "lightland-magic:spell_card"
             }
         },
         {
             "input": {
-                "item": "lightlandmagic:spell_card"
+                "item": "lightland-magic:spell_card"
             },
             "output": {
-                "item": "lightlandmagic:spell_card"
+                "item": "lightland-magic:spell_card"
             }
         },
         {
             "input": {
-                "item": "lightlandmagic:spell_card"
+                "item": "lightland-magic:spell_card"
             },
             "output": {
-                "item": "lightlandmagic:spell_card"
+                "item": "lightland-magic:spell_card"
             }
         },
         {
             "input": {
-                "item": "lightlandmagic:spell_card"
+                "item": "lightland-magic:spell_card"
             },
             "output": {
-                "item": "lightlandmagic:spell_card"
+                "item": "lightland-magic:spell_card"
             }
         },
         {
             "input": {
-                "item": "lightlandmagic:spell_card"
+                "item": "lightland-magic:spell_card"
             },
             "output": {
-                "item": "lightlandmagic:spell_card"
+                "item": "lightland-magic:spell_card"
             }
         }
     ]

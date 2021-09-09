@@ -92,7 +92,7 @@ public class MagicScroll extends Item implements IGlowingTarget {
         Spell<?, ?> spell = getSpell(stack);
         if (spell != null)
             list.add(new TranslationTextComponent(spell.getDescriptionId()));
-        else if (stack.getTagElement("CustomPotionEffects") != null) {
+        else if (stack.getOrCreateTag().contains("CustomPotionEffects")) {
             list.add(Translator.get("tooltip.potion.target." + getTarget(stack).name().toLowerCase()));
             list.add(Translator.get("tooltip.potion.radius", getRadius(stack)));
             PotionUtils.addPotionTooltip(stack, list, 1);

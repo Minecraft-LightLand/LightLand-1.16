@@ -16,7 +16,7 @@ import java.util.List;
 public class PotionCore extends FoiledItem {
 
     public PotionCore(Properties props) {
-        super(props);
+        super(props.stacksTo(1));
     }
 
     @Override

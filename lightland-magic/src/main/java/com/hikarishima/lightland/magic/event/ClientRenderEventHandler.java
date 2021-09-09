@@ -91,8 +91,13 @@ public class ClientRenderEventHandler {
         if (event.player.level.isClientSide()) {
             UUID id = Proxy.getClientPlayer().getUUID();
             if (!Minecraft.getInstance().isPaused() && EFFECT_MAP.containsKey(id) && EFFECT_MAP.get(id).containsKey(VanillaMagicRegistry.EFF_EMERALD.get())) {
-                for (int i = 0; i < 16; i++) {
-                    addParticle(Proxy.getClientPlayer().level, Proxy.getClientPlayer().position(), EmeraldPopeEffect.RADIUS * EFFECT_MAP.get(id).get(VanillaMagicRegistry.EFF_EMERALD.get()));
+                Entity entity = Proxy.getClientPlayer();
+                Map<Effect, Integer> map = EFFECT_MAP.get(id);
+                int lv = map.get(VanillaMagicRegistry.EFF_EMERALD.get());
+                int r = EmeraldPopeEffect.RADIUS * (1 + lv);
+                int count = (1 + lv) * (1 + lv) * 4;
+                for (int i = 0; i < count; i++) {
+                    addParticle(entity.level, entity.position(), r);
                 }
             }
         }

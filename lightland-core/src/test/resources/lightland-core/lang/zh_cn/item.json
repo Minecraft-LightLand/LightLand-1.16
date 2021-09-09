@@ -38,7 +38,8 @@
             "record_pearl": "记录宝珠",
             "armor_bag": "装备袋",
             "book_bag": "书袋",
-            "identifier_orb": "鉴定石"
+            "identifier_orb": "鉴定石",
+            "potion_core": "药水核心"
         },
         "block": {
             "-path": [

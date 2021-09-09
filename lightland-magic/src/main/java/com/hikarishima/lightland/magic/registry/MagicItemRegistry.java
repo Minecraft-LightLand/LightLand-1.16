@@ -109,7 +109,7 @@ public class MagicItemRegistry {
     public static final RegistryObject<ArcaneSword> ARCANE_SWORD_ALLOY = regItem("alloy_arcane_sword", p -> new ArcaneSword(MagicItemTier.PERMANENCE, 7, -2.2f, p.stacksTo(1).setNoRepair(), 100));
     public static final RegistryObject<ArcaneAxe> ARCANE_AXE_ALLOY = regItem("alloy_arcane_axe", p -> new ArcaneAxe(MagicItemTier.PERMANENCE, 10, -3f, p.stacksTo(1).setNoRepair(), 100));
     public static final RegistryObject<Item> IDENTIFIER_ORB = regItem("identifier_orb", Item::new);
-    public static final RegistryObject<Item> POTION_CORE = regItem("potion_core", FoiledItem::new);
+    public static final RegistryObject<Item> POTION_CORE = regItem("potion_core", PotionCore::new);
 
     public static final RegistryObject<BlockItem> I_ENCHANT_GOLD = regBlockItem(B_ENCHANT_GOLD);
     public static final RegistryObject<BlockItem> I_ENCHANT_ALLOY = regBlockItem(B_ENCHANT_ALLOY);
