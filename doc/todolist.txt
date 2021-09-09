@@ -6,12 +6,10 @@
     - core: 4 infinity + 4 mending + diamond
     - 16 boxes of
         - ender pearl: infinite teleport wand
-        - rotten meat: infinite zombie summon wand
         - prismarine shard: throne core
         - wither rose: wither wand
         - sugar: speed core
     - 8 boxes of
-        - pork chop: food core lv 1 (60s)
         - emerald: emerald splash!
         - totem of undying: bless of the heaven
         - bone: infinite skeleton summon wand
@@ -41,7 +39,6 @@
         - star of the nether: power core
         - turtle egg: attraction core
         - scute: protection core
-        - food core lv 2 （10s）
 
 
 REACH_DISTANCE

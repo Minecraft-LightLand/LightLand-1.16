@@ -1,6 +1,7 @@
 package com.hikarishima.lightland.magic.capabilities.weight;
 
 import com.hikarishima.lightland.magic.registry.VanillaMagicRegistry;
+import com.hikarishima.lightland.proxy.Proxy;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.inventory.EquipmentSlotType;
@@ -10,7 +11,7 @@ import net.minecraft.item.ItemStack;
 public class WeightCalculator {
 
     public static int getTotalWeight(LivingEntity entity) {
-        if (ArmorWeight.getInstance() == null)
+        if (Proxy.getWorld() == null || ArmorWeight.getInstance() == null)
             return 0;
         int ans = 0;
         for (ItemStack stack : entity.getArmorSlots()) {

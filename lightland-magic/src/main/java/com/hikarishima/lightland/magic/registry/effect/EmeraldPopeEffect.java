@@ -13,12 +13,16 @@ import javax.annotation.ParametersAreNonnullByDefault;
 @ParametersAreNonnullByDefault
 public class EmeraldPopeEffect extends Effect {
 
+    public static final int RADIUS = 10;
+
     public EmeraldPopeEffect() {
         super(EffectType.NEUTRAL, 0x00FF00);
     }
 
     public void applyEffectTick(LivingEntity self, int level) {
-        int radius = (level + 1) * 10;
+        if (self.level.isClientSide())
+            return;
+        int radius = (level + 1) * RADIUS;
         int damage = (level + 1) * 10;
         DamageSource source = new IndirectEntityDamageSource("emerald", null, self);
         for (Entity e : self.level.getEntities(self, new AxisAlignedBB(self.blockPosition()).inflate(radius))) {
@@ -31,6 +35,10 @@ public class EmeraldPopeEffect extends Effect {
                 e.hurt(source, damage);
             }
         }
+    }
+
+    public boolean isDurationEffectTick(int tick, int lv) {
+        return tick % 10 == 0;
     }
 
 }

@@ -6,10 +6,7 @@ import com.hikarishima.lightland.magic.products.MagicProductType;
 import com.hikarishima.lightland.magic.products.instance.*;
 import com.hikarishima.lightland.magic.profession.*;
 import com.hikarishima.lightland.magic.recipe.MagicRecipeRegistry;
-import com.hikarishima.lightland.magic.registry.MagicContainerRegistry;
-import com.hikarishima.lightland.magic.registry.MagicEntityRegistry;
-import com.hikarishima.lightland.magic.registry.MagicItemRegistry;
-import com.hikarishima.lightland.magic.registry.VanillaMagicRegistry;
+import com.hikarishima.lightland.magic.registry.*;
 import com.hikarishima.lightland.magic.skills.Skill;
 import com.hikarishima.lightland.magic.spell.internal.Spell;
 import net.minecraft.enchantment.Enchantment;
@@ -108,12 +105,14 @@ public class MagicRegistry {
     public static void initAllRegistries(IEventBus bus) {
         VanillaMagicRegistry.EFFECT.register(bus);
         VanillaMagicRegistry.ENCH.register(bus);
+        VanillaMagicRegistry.POTION.register(bus);
         MagicEntityRegistry.ENTITY.register(bus);
         MagicContainerRegistry.TE.register(bus);
         MagicContainerRegistry.CT.register(bus);
         MagicItemRegistry.ITEM.register(bus);
         MagicItemRegistry.BLOCK.register(bus);
         MagicRecipeRegistry.REC.register(bus);
+        ParticleRegistry.PARTICLE.register(bus);
     }
 
 }

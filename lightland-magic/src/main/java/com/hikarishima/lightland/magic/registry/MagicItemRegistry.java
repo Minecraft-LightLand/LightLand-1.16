@@ -12,6 +12,8 @@ import com.hikarishima.lightland.magic.registry.block.RitualSide;
 import com.hikarishima.lightland.magic.registry.block.TempBlock;
 import com.hikarishima.lightland.magic.registry.item.combat.*;
 import com.hikarishima.lightland.magic.registry.item.magic.*;
+import com.hikarishima.lightland.magic.registry.item.misc.ArmorBag;
+import com.hikarishima.lightland.magic.registry.item.misc.BookBag;
 import com.hikarishima.lightland.registry.ItemRegistry;
 import com.hikarishima.lightland.registry.item.ContainerBook;
 import com.hikarishima.lightland.registry.item.FoiledItem;
@@ -103,6 +105,7 @@ public class MagicItemRegistry {
     public static final RegistryObject<MagicArmor>[] CLOTH_CHAIN = regArmor("enchant_chain_", (s, p) -> new MagicArmor(MagicArmorMaterial.CHAIN, s, p));
     public static final RegistryObject<MagicArmor>[] CLOTH_LIGHT = regArmor("enchant_light_", (s, p) -> new MagicArmor(MagicArmorMaterial.ENCH_LIGHT, s, p));
     public static final RegistryObject<ArmorBag> ARMOR_BAG = regItem("armor_bag", ArmorBag::new);
+    public static final RegistryObject<BookBag> BOOK_BAG = regItem("book_bag", BookBag::new);
     public static final RegistryObject<ArcaneSword> ARCANE_SWORD_ALLOY = regItem("alloy_arcane_sword", p -> new ArcaneSword(MagicItemTier.PERMANENCE, 7, -2.2f, p.stacksTo(1).setNoRepair(), 100));
     public static final RegistryObject<ArcaneAxe> ARCANE_AXE_ALLOY = regItem("alloy_arcane_axe", p -> new ArcaneAxe(MagicItemTier.PERMANENCE, 10, -3f, p.stacksTo(1).setNoRepair(), 100));
     public static final RegistryObject<Item> IDENTIFIER_ORB = regItem("identifier_orb", Item::new);

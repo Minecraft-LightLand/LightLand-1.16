@@ -252,7 +252,10 @@
       "physics_protection": "物理保护"
     }
   },
-  "death.attack.spell_load": "%s死于施法过度",
+  "death.attack":{
+    "spell_load": "%s死于施法过度",
+    "emerald": "%s被%s的绿宝石水花打死了"
+  },
   "itemGroup.lightland-core": "Lightland",
   "generator.lightland-terrain.image_biome": "地图生成器"
 }

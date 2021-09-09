@@ -1,4 +1,4 @@
-package com.hikarishima.lightland.magic.registry.item.combat;
+package com.hikarishima.lightland.magic.registry.item.misc;
 
 import com.hikarishima.lightland.magic.Translator;
 import mcp.MethodsReturnNonnullByDefault;
@@ -24,9 +24,9 @@ import java.util.function.Supplier;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public class ArmorBag extends Item {
+public abstract class AbstractBag extends Item {
 
-    public ArmorBag(Properties props) {
+    public AbstractBag(Properties props) {
         super(props.stacksTo(1));
     }
 
@@ -48,7 +48,7 @@ public class ArmorBag extends Item {
                     .resolve().ifPresent(e -> {
                 for (int i = 9; i < 36; i++) {
                     ItemStack inv_stack = player.inventory.items.get(i);
-                    if (inv_stack.isDamageableItem()) {
+                    if (matches(stack, inv_stack)) {
                         int finalI = i;
                         queue.add(new Holder<>(
                                 () -> e.getStackInSlot(finalI),
@@ -61,6 +61,8 @@ public class ArmorBag extends Item {
         ItemStackHelper.saveAllItems(tag, list);
         return ActionResult.success(stack);
     }
+
+    public abstract boolean matches(ItemStack self, ItemStack stack);
 
     public void appendHoverText(ItemStack stack, @Nullable World world, List<ITextComponent> list, ITooltipFlag flag) {
         list.add(Translator.get("tooltip.armor_bag.size", getSize(stack), 64));
