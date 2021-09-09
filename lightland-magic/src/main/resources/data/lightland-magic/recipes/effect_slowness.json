@@ -1,0 +1,30 @@
+{
+    "type": "lightland-magic:magic_default",
+    "product_type": "lightland-magic:effect",
+    "product_id": "minecraft:slowness",
+    "predecessor": [],
+    "elemental_mastery": [
+        {
+            "element": "lightland-magic:earth",
+            "level": 1
+        }
+    ],
+    "screen": {
+        "x": 0,
+        "y": 1
+    },
+    "elements": {
+        "A": "lightland-magic:earth",
+        "B": "lightland-magic:earth",
+        "C": "lightland-magic:water",
+        "D": "lightland-magic:water",
+        "E": "lightland-magic:fire"
+    },
+    "flows": [
+        "A->C",
+        "C->E",
+        "E->B",
+        "B->D",
+        "D->A"
+    ]
+}

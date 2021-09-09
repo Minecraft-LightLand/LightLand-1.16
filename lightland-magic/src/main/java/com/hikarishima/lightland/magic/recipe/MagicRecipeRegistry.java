@@ -42,6 +42,9 @@ public class MagicRecipeRegistry {
     public static final RegistryObject<BaseRecipe.RecType<PotionModifyRecipe, AbstractMagicCraftRecipe<?>, RitualCore.Inv>> RSM_POTION_MODIFY =
             REC.register("craft_potion_modify", () -> new BaseRecipe.RecType<>(PotionModifyRecipe.class, RT_CRAFT));
 
+    public static final RegistryObject<BaseRecipe.RecType<PotionBoostRecipe, AbstractMagicCraftRecipe<?>, RitualCore.Inv>> RSM_POTION_BOOST =
+            REC.register("potion_boost", () -> new BaseRecipe.RecType<>(PotionBoostRecipe.class, RT_CRAFT));
+
     public static final ResourceLocation SPELL = new ResourceLocation(LightLandMagic.MODID, "config_spell");
     public static final ResourceLocation PRODUCT_TYPE_DISPLAY = new ResourceLocation(LightLandMagic.MODID, "config_product_type");
     public static final ResourceLocation CHEM = new ResourceLocation(LightLandMagic.MODID, "config_chemistry");

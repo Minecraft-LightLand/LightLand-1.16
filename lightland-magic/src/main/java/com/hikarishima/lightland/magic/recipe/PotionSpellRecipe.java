@@ -23,7 +23,7 @@ public class PotionSpellRecipe extends AbstractMagicCraftRecipe<PotionSpellRecip
 
     @Override
     public void assemble(RitualCore.Inv inv, int level) {
-        ItemStack core = inv.core.getItem(0);
+        ItemStack core = inv.core.getItem(0).copy();
         List<EffectInstance> list = PotionUtils.getCustomEffects(core);
         MagicScroll.TargetType target = MagicScroll.getTarget(core);
         double radius = MagicScroll.getRadius(core);

@@ -9,10 +9,7 @@ import com.hikarishima.lightland.magic.capabilities.ToServerMsg;
 import com.hikarishima.lightland.magic.gui.AbstractHexGui;
 import com.hikarishima.lightland.magic.gui.ability.ElementalScreen;
 import com.hikarishima.lightland.magic.products.MagicProduct;
-import com.hikarishima.lightland.magic.recipe.AbstractMagicCraftRecipe;
-import com.hikarishima.lightland.magic.recipe.EnchantMagicCraftRecipe;
-import com.hikarishima.lightland.magic.recipe.IMagicRecipe;
-import com.hikarishima.lightland.magic.recipe.MagicRecipeRegistry;
+import com.hikarishima.lightland.magic.recipe.*;
 import com.hikarishima.lightland.magic.registry.item.magic.MagicWand;
 import com.hikarishima.lightland.magic.spell.internal.Spell;
 import com.hikarishima.lightland.proxy.Proxy;
@@ -82,13 +79,13 @@ public class WandOverlay extends AbstractOverlay {
             IFormattableTextComponent text = new TranslationTextComponent(p.getDescriptionID());
             x = (width - font.width(text)) / 2;
             font.draw(matrix, text, x, y, 0xFFFFFFFF);
-            if (p.type == MagicRegistry.MPT_ENCH) {
+            if (p.type == MagicRegistry.MPT_ENCH || p.type == MagicRegistry.MPT_EFF) {
                 ClientPlayerEntity pl = Proxy.getClientPlayer();
                 if (pl != null) {
                     x = (width / 2 + 60);
                     int cost = p.getCost();
                     Optional<AbstractMagicCraftRecipe<?>> opr = Proxy.getWorld().getRecipeManager().getAllRecipesFor(MagicRecipeRegistry.RT_CRAFT).stream()
-                            .filter(e -> e instanceof EnchantMagicCraftRecipe).filter(e -> p.recipe.id.equals(e.getMagic()))
+                            .filter(e -> e instanceof AbstractLevelCraftRecipe).filter(e -> p.recipe.id.equals(e.getMagic()))
                             .findFirst();
                     if (opr.isPresent()) {
                         AbstractMagicCraftRecipe<?> r = opr.get();

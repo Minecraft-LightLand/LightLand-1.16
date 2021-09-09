@@ -1,0 +1,29 @@
+{
+    "type": "lightland-magic:magic_default",
+    "product_type": "lightland-magic:effect",
+    "product_id": "minecraft:power",
+    "predecessor": [],
+    "elemental_mastery": [
+        {
+            "element": "lightland-magic:fire",
+            "level": 1
+        }
+    ],
+    "screen": {
+        "x": 1,
+        "y": 0
+    },
+    "elements": {
+        "A": "lightland-magic:fire",
+        "B": "lightland-magic:fire",
+        "C": "lightland-magic:water",
+        "D": "lightland-magic:water",
+        "E": "lightland-magic:earth"
+    },
+    "flows": [
+        "A->C",
+        "B->D",
+        "CD->E",
+        "E->AB"
+    ]
+}
