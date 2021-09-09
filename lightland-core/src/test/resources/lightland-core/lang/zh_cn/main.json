@@ -214,6 +214,14 @@
       "result": "法术等级:%s",
       "next": "下一法术等级复杂度要求:%s",
       "elements": "仪式消耗下列元素:"
+    },
+    "potion": {
+      "target": {
+        "allies": "目标:自己/队友",
+        "enemy": "目标:敌人",
+        "all": "目标:所有"
+      },
+      "radius": "半径:%s"
     }
   },
   "item": {
@@ -252,7 +260,7 @@
       "physics_protection": "物理保护"
     }
   },
-  "death.attack":{
+  "death.attack": {
     "spell_load": "%s死于施法过度",
     "emerald": "%s被%s的绿宝石水花打死了"
   },

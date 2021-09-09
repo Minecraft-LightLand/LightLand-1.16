@@ -1,6 +1,7 @@
 package com.hikarishima.lightland.magic.registry.item.magic;
 
 import com.hikarishima.lightland.magic.MagicRegistry;
+import com.hikarishima.lightland.magic.Translator;
 import com.hikarishima.lightland.magic.capabilities.MagicAbility;
 import com.hikarishima.lightland.magic.capabilities.MagicHandler;
 import com.hikarishima.lightland.magic.registry.MagicItemRegistry;
@@ -91,6 +92,11 @@ public class MagicScroll extends Item implements IGlowingTarget {
         Spell<?, ?> spell = getSpell(stack);
         if (spell != null)
             list.add(new TranslationTextComponent(spell.getDescriptionId()));
+        else if (stack.getTagElement("CustomPotionEffects") != null) {
+            list.add(Translator.get("tooltip.potion.target." + getTarget(stack).name().toLowerCase()));
+            list.add(Translator.get("tooltip.potion.radius", getRadius(stack)));
+            PotionUtils.addPotionTooltip(stack, list, 1);
+        }
     }
 
     public boolean showDurabilityBar(ItemStack stack) {
