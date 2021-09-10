@@ -1,23 +1,16 @@
 {
     "type": "lightland-magic:craft_potion_boost",
-    "effect": "minecraft:slowness",
-    "modify_level": -1,
-    "magic_recipe": "lightland-magic:effect_slowness",
-    "levels": [
-        100,
-        35,
-        30,
-        25,
-        22,
-        21
-    ],
+    "effect": "^e",
+    "modify_level": 1,
+    "magic_recipe": "^r",
+    "levels": ^l,
     "core": {
         "input": {
             "item": "lightland-magic:potion_core",
             "nbt": {
                 "CustomPotionEffects": [
                     {
-                        "Id": 2,
+                        "Id": ^i,
                         "Duration": 200
                     }
                 ]
@@ -35,7 +28,7 @@
         },
         {
             "input": {
-                "item": "minecraft:sugar"
+                "item": "^a"
             }
         },
         {
@@ -45,12 +38,12 @@
         },
         {
             "input": {
-                "item": "minecraft:fermented_spider_eye"
+                "item": "^b"
             }
         },
         {
             "input": {
-                "item": "minecraft:fermented_spider_eye"
+                "item": "^b"
             }
         },
         {
@@ -60,7 +53,7 @@
         },
         {
             "input": {
-                "item": "minecraft:sugar"
+                "item": "^a"
             }
         },
         {

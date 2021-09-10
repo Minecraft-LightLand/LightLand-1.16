@@ -1,23 +1,16 @@
 {
     "type": "lightland-magic:craft_potion_boost",
-    "effect": "minecraft:speed",
+    "effect": "minecraft:sundering",
     "modify_level": 1,
-    "magic_recipe": "lightland-magic:effect_speed",
-    "levels": [
-        100,
-        35,
-        30,
-        25,
-        22,
-        21
-    ],
+    "magic_recipe": "lightland-magic:effect_sundering",
+    "levels": [100],
     "core": {
         "input": {
             "item": "lightland-magic:potion_core",
             "nbt": {
                 "CustomPotionEffects": [
                     {
-                        "Id": 2,
+                        "Id": 0,
                         "Duration": 200
                     }
                 ]
@@ -28,7 +21,7 @@
             "nbt": {
                 "CustomPotionEffects": [
                     {
-                        "Id": 2,
+                        "Id": 0,
                         "Duration": 200,
                         "Amplifier": 1
                     }
@@ -44,7 +37,7 @@
         },
         {
             "input": {
-                "item": "minecraft:sugar"
+                "item": "minecraft:shulker_shell"
             }
         },
         {
@@ -69,7 +62,7 @@
         },
         {
             "input": {
-                "item": "minecraft:sugar"
+                "item": "minecraft:shulker_shell"
             }
         },
         {
@@ -79,3 +72,4 @@
         }
     ]
 }
+

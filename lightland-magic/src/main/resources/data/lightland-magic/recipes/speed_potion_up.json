@@ -1,0 +1,75 @@
+{
+    "type": "lightland-magic:craft_potion_boost",
+    "effect": "minecraft:speed",
+    "modify_level": 1,
+    "magic_recipe": "lightland-magic:speed",
+    "levels": [100,40,30,27,26],
+    "core": {
+        "input": {
+            "item": "lightland-magic:potion_core",
+            "nbt": {
+                "CustomPotionEffects": [
+                    {
+                        "Id": 1,
+                        "Duration": 200
+                    }
+                ]
+            }
+        },
+        "output": {
+            "item": "lightland-magic:potion_core",
+            "nbt": {
+                "CustomPotionEffects": [
+                    {
+                        "Id": 1,
+                        "Duration": 200,
+                        "Amplifier": 1
+                    }
+                ]
+            }
+        }
+    },
+    "side": [
+        {
+            "input": {
+                "item": "minecraft:glowstone_dust"
+            }
+        },
+        {
+            "input": {
+                "item": "minecraft:sugar"
+            }
+        },
+        {
+            "input": {
+                "item": "minecraft:glowstone_dust"
+            }
+        },
+        {
+            "input": {
+                "item": "minecraft:nether_wart"
+            }
+        },
+        {
+            "input": {
+                "item": "minecraft:nether_wart"
+            }
+        },
+        {
+            "input": {
+                "item": "minecraft:glowstone_dust"
+            }
+        },
+        {
+            "input": {
+                "item": "minecraft:sugar"
+            }
+        },
+        {
+            "input": {
+                "item": "minecraft:glowstone_dust"
+            }
+        }
+    ]
+}
+

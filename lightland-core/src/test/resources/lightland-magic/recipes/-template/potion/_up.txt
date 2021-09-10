@@ -1,0 +1,74 @@
+{
+    "type": "lightland-magic:craft_potion_boost",
+    "effect": "^e",
+    "modify_level": 1,
+    "magic_recipe": "^r",
+    "levels": ^l,
+    "core": {
+        "input": {
+            "item": "lightland-magic:potion_core",
+            "nbt": {
+                "CustomPotionEffects": [
+                    {
+                        "Id": ^i,
+                        "Duration": 200
+                    }
+                ]
+            }
+        },
+        "output": {
+            "item": "lightland-magic:potion_core",
+            "nbt": {
+                "CustomPotionEffects": [
+                    {
+                        "Id": ^i,
+                        "Duration": 200,
+                        "Amplifier": 1
+                    }
+                ]
+            }
+        }
+    },
+    "side": [
+        {
+            "input": {
+                "item": "minecraft:glowstone_dust"
+            }
+        },
+        {
+            "input": {
+                "item": "^a"
+            }
+        },
+        {
+            "input": {
+                "item": "minecraft:glowstone_dust"
+            }
+        },
+        {
+            "input": {
+                "item": "^b"
+            }
+        },
+        {
+            "input": {
+                "item": "^b"
+            }
+        },
+        {
+            "input": {
+                "item": "minecraft:glowstone_dust"
+            }
+        },
+        {
+            "input": {
+                "item": "^a"
+            }
+        },
+        {
+            "input": {
+                "item": "minecraft:glowstone_dust"
+            }
+        }
+    ]
+}

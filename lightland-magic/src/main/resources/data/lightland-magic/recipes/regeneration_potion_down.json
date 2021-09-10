@@ -1,0 +1,66 @@
+{
+    "type": "lightland-magic:craft_potion_boost",
+    "effect": "minecraft:regeneration",
+    "modify_level": 1,
+    "magic_recipe": "lightland-magic:effect_regeneration",
+    "levels": [100],
+    "core": {
+        "input": {
+            "item": "lightland-magic:potion_core",
+            "nbt": {
+                "CustomPotionEffects": [
+                    {
+                        "Id": 10,
+                        "Duration": 200
+                    }
+                ]
+            }
+        },
+        "output": {
+            "item": "lightland-magic:potion_core"
+        }
+    },
+    "side": [
+        {
+            "input": {
+                "item": "minecraft:redstone"
+            }
+        },
+        {
+            "input": {
+                "item": "minecraft:ghast_tear"
+            }
+        },
+        {
+            "input": {
+                "item": "minecraft:redstone"
+            }
+        },
+        {
+            "input": {
+                "item": "minecraft:nether_wart"
+            }
+        },
+        {
+            "input": {
+                "item": "minecraft:nether_wart"
+            }
+        },
+        {
+            "input": {
+                "item": "minecraft:redstone"
+            }
+        },
+        {
+            "input": {
+                "item": "minecraft:ghast_tear"
+            }
+        },
+        {
+            "input": {
+                "item": "minecraft:redstone"
+            }
+        }
+    ]
+}
+

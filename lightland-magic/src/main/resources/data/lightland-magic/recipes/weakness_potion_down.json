@@ -1,59 +1,39 @@
 {
     "type": "lightland-magic:craft_potion_boost",
-    "effect": "minecraft:strength",
+    "effect": "minecraft:weakness",
     "modify_level": 1,
-    "magic_recipe": "lightland-magic:effect_strength",
-    "levels":[
-        100,
-        35,
-        25,
-        20,
-        19
-    ],
+    "magic_recipe": "lightland-magic:effect_weakness",
+    "levels": [100],
     "core": {
         "input": {
             "item": "lightland-magic:potion_core",
             "nbt": {
                 "CustomPotionEffects": [
                     {
-                        "Id": 5,
+                        "Id": 18,
                         "Duration": 200
                     }
                 ]
             }
         },
         "output": {
-            "item": "lightland-magic:potion_core",
-            "nbt": {
-                "CustomPotionEffects": [
-                    {
-                        "Id": 5,
-                        "Duration": 200,
-                        "Amplifier": 1
-                    }
-                ]
-            }
+            "item": "lightland-magic:potion_core"
         }
     },
     "side": [
         {
             "input": {
-                "item": "minecraft:glowstone_dust"
+                "item": "minecraft:redstone"
             }
         },
         {
             "input": {
-                "item": "minecraft:blaze_powder"
+                "item": "minecraft:fermented_spider_eye"
             }
         },
         {
             "input": {
-                "item": "minecraft:glowstone_dust"
-            }
-        },
-        {
-            "input": {
-                "item": "minecraft:nether_wart"
+                "item": "minecraft:redstone"
             }
         },
         {
@@ -63,18 +43,24 @@
         },
         {
             "input": {
-                "item": "minecraft:glowstone_dust"
+                "item": "minecraft:nether_wart"
             }
         },
         {
             "input": {
-                "item": "minecraft:blaze_powder"
+                "item": "minecraft:redstone"
             }
         },
         {
             "input": {
-                "item": "minecraft:glowstone_dust"
+                "item": "minecraft:fermented_spider_eye"
+            }
+        },
+        {
+            "input": {
+                "item": "minecraft:redstone"
             }
         }
     ]
 }
+

@@ -154,17 +154,17 @@
             "t": 4
         }
     },
-    "-smithing":{
-        "-list":[
+    "-smithing": {
+        "-list": [
             "smithing_helmet",
             "smithing_chestplate",
             "smithing_leggings",
             "smithing_boots"
         ],
-        "enchant_light":{
-            "a":"^m:^n_ingot",
-            "b":"^m:^n",
-            "c":"^m:enchant_chain"
+        "enchant_light": {
+            "a": "^m:^n_ingot",
+            "b": "^m:^n",
+            "c": "^m:enchant_chain"
         }
     },
     "-anvil_twilight_0": {
@@ -236,14 +236,100 @@
             "b": "twilightforest:knightmetal"
         }
     },
-    "-anvil_twilight_4":{
-        "-list":[
+    "-anvil_twilight_4": {
+        "-list": [
             "anvil_chestplate",
             "anvil_leggings"
         ],
-        "twilight_naga":{
+        "twilight_naga": {
             "a": "twilightforest:naga_scale",
             "b": "twilightforest:naga"
+        }
+    },
+    "-potion": {
+        "-list": [
+            "potion_up",
+            "potion_down"
+        ],
+        "speed": {
+            "e": "minecraft:^n",
+            "r": "lightland-magic:^n",
+            "l": "[100,40,30,27,26]",
+            "i": "1",
+            "a": "minecraft:sugar",
+            "b": "minecraft:nether_wart"
+        },
+        "slowness": {
+            "e": "minecraft:^n",
+            "r": "lightland-magic:effect_^n",
+            "l": "[100,35,30,25,22,21]",
+            "i": "2",
+            "a": "minecraft:sugar",
+            "b": "minecraft:fermented_spider_eye"
+        },
+        "strength": {
+            "e": "minecraft:^n",
+            "r": "lightland-magic:effect_^n",
+            "l": "[100,40,30,27,26]",
+            "i": "5",
+            "a": "minecraft:blaze_powder",
+            "b": "minecraft:nether_wart"
+        },
+        "weakness": {
+            "e": "minecraft:^n",
+            "r": "lightland-magic:effect_^n",
+            "l": "[100]",
+            "i": "18",
+            "a": "minecraft:fermented_spider_eye",
+            "b": "minecraft:nether_wart"
+        },
+        "regeneration": {
+            "e": "minecraft:^n",
+            "r": "lightland-magic:effect_^n",
+            "l": "[100]",
+            "i": "10",
+            "a": "minecraft:ghast_tear",
+            "b": "minecraft:nether_wart"
+        },
+        "poison": {
+            "e": "minecraft:^n",
+            "r": "lightland-magic:effect_^n",
+            "l": "[100]",
+            "i": "19",
+            "a": "minecraft:spider_eye",
+            "b": "minecraft:nether_wart"
+        },
+        "resistance": {
+            "e": "minecraft:^n",
+            "r": "lightland-magic:effect_^n",
+            "l": "[100]",
+            "i": "11",
+            "a": "minecraft:shulker_shell",
+            "b": "minecraft:nether_wart"
+        },
+        "sundering": {
+            "e": "minecraft:^n",
+            "r": "lightland-magic:effect_^n",
+            "l": "[100]",
+            "i": "0",
+            "a": "minecraft:shulker_shell",
+            "b": "minecraft:fermented_spider_eye"
+        },
+        "instant_health": {
+            "e": "minecraft:^n",
+            "r": "lightland-magic:effect_^n",
+            "l": "[100]",
+            "i": "6",
+            "a": "minecraft:glistering_melon_slice",
+            "b": "minecraft:nether_wart"
+        },
+        "instant_damage": {
+            "e": "minecraft:^n",
+            "r": "lightland-magic:effect_^n",
+            "l": "[100]",
+            "i": "7",
+            "a": "minecraft:glistering_melon_slice",
+            "b": "minecraft:fermented_spider_eye"
         }
     }
 }

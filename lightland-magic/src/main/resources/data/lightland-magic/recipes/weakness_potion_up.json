@@ -1,23 +1,16 @@
 {
     "type": "lightland-magic:craft_potion_boost",
-    "effect": "minecraft:speed",
+    "effect": "minecraft:weakness",
     "modify_level": 1,
-    "magic_recipe": "lightland-magic:effect_speed",
-    "levels": [
-        100,
-        35,
-        30,
-        25,
-        22,
-        21
-    ],
+    "magic_recipe": "lightland-magic:effect_weakness",
+    "levels": [100],
     "core": {
         "input": {
             "item": "lightland-magic:potion_core",
             "nbt": {
                 "CustomPotionEffects": [
                     {
-                        "Id": 2,
+                        "Id": 18,
                         "Duration": 200
                     }
                 ]
@@ -28,7 +21,7 @@
             "nbt": {
                 "CustomPotionEffects": [
                     {
-                        "Id": 2,
+                        "Id": 18,
                         "Duration": 200,
                         "Amplifier": 1
                     }
@@ -44,21 +37,6 @@
         },
         {
             "input": {
-                "item": "minecraft:sugar"
-            }
-        },
-        {
-            "input": {
-                "item": "minecraft:glowstone_dust"
-            }
-        },
-        {
-            "input": {
-                "item": "minecraft:fermented_spider_eye"
-            }
-        },
-        {
-            "input": {
                 "item": "minecraft:fermented_spider_eye"
             }
         },
@@ -69,7 +47,22 @@
         },
         {
             "input": {
-                "item": "minecraft:sugar"
+                "item": "minecraft:nether_wart"
+            }
+        },
+        {
+            "input": {
+                "item": "minecraft:nether_wart"
+            }
+        },
+        {
+            "input": {
+                "item": "minecraft:glowstone_dust"
+            }
+        },
+        {
+            "input": {
+                "item": "minecraft:fermented_spider_eye"
             }
         },
         {
@@ -79,3 +72,4 @@
         }
     ]
 }
+

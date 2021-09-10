@@ -1,0 +1,66 @@
+{
+    "type": "lightland-magic:craft_potion_boost",
+    "effect": "minecraft:resistance",
+    "modify_level": 1,
+    "magic_recipe": "lightland-magic:effect_resistance",
+    "levels": [100],
+    "core": {
+        "input": {
+            "item": "lightland-magic:potion_core",
+            "nbt": {
+                "CustomPotionEffects": [
+                    {
+                        "Id": 11,
+                        "Duration": 200
+                    }
+                ]
+            }
+        },
+        "output": {
+            "item": "lightland-magic:potion_core"
+        }
+    },
+    "side": [
+        {
+            "input": {
+                "item": "minecraft:redstone"
+            }
+        },
+        {
+            "input": {
+                "item": "minecraft:shulker_shell"
+            }
+        },
+        {
+            "input": {
+                "item": "minecraft:redstone"
+            }
+        },
+        {
+            "input": {
+                "item": "minecraft:nether_wart"
+            }
+        },
+        {
+            "input": {
+                "item": "minecraft:nether_wart"
+            }
+        },
+        {
+            "input": {
+                "item": "minecraft:redstone"
+            }
+        },
+        {
+            "input": {
+                "item": "minecraft:shulker_shell"
+            }
+        },
+        {
+            "input": {
+                "item": "minecraft:redstone"
+            }
+        }
+    ]
+}
+
