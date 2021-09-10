@@ -1,0 +1,31 @@
+{
+    "type": "lightland-magic:magic_default",
+    "product_type": "lightland-magic:effect",
+    "product_id": "minecraft:regeneration",
+    "predecessor": [],
+    "elemental_mastery": [
+        {
+            "element": "lightland-magic:water",
+            "level": 1
+        }
+    ],
+    "screen": {
+        "x": 3,
+        "y": 0
+    },
+    "elements": {
+        "A": "lightland-magic:water",
+        "B": "lightland-magic:air",
+        "C": "lightland-magic:air",
+        "D": "lightland-magic:water",
+        "E": "lightland-magic:quint",
+        "F": "lightland-magic:quint"
+    },
+    "flows": [
+        "A<->BF",
+        "B<->C",
+        "F<->E",
+        "CE<->D",
+        "D<->A"
+    ]
+}

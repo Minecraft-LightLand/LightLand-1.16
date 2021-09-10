@@ -1,0 +1,31 @@
+{
+    "type": "lightland-magic:magic_default",
+    "product_type": "lightland-magic:effect",
+    "product_id": "minecraft:instant_health",
+    "predecessor": [],
+    "elemental_mastery": [
+        {
+            "element": "lightland-magic:earth",
+            "level": 1
+        }
+    ],
+    "screen": {
+        "x": 4,
+        "y": 0
+    },
+    "elements": {
+        "A": "lightland-magic:water",
+        "B": "lightland-magic:earth",
+        "C": "lightland-magic:earth",
+        "D": "lightland-magic:water",
+        "E": "lightland-magic:quint",
+        "F": "lightland-magic:quint"
+    },
+    "flows": [
+        "A->BF",
+        "B->C",
+        "F->E",
+        "CE->D",
+        "D->A"
+    ]
+}

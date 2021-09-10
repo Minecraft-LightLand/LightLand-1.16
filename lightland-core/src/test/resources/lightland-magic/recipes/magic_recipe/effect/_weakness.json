@@ -1,0 +1,32 @@
+{
+    "type": "lightland-magic:magic_default",
+    "product_type": "lightland-magic:effect",
+    "product_id": "minecraft:weakness",
+    "predecessor": [],
+    "elemental_mastery": [
+        {
+            "element": "lightland-magic:water",
+            "level": 1
+        }
+    ],
+    "screen": {
+        "x": 1,
+        "y": 1
+    },
+    "elements": {
+        "A": "lightland-magic:earth",
+        "B": "lightland-magic:earth",
+        "C": "lightland-magic:water",
+        "D": "lightland-magic:water",
+        "E": "lightland-magic:air",
+        "F": "lightland-magic:air"
+    },
+    "flows": [
+        "A->B",
+        "B->C",
+        "C->D",
+        "D->E",
+        "E->F",
+        "F->A"
+    ]
+}

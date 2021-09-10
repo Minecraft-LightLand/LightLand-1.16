@@ -1,0 +1,33 @@
+{
+    "type": "lightland-magic:magic_default",
+    "product_type": "lightland-magic:effect",
+    "product_id": "apotheosis:sundering",
+    "predecessor": [],
+    "elemental_mastery": [
+        {
+            "element": "lightland-magic:fire",
+            "level": 1
+        }
+    ],
+    "screen": {
+        "x": 2,
+        "y": 1
+    },
+    "elements": {
+        "A": "lightland-magic:water",
+        "B": "lightland-magic:earth",
+        "C": "lightland-magic:earth",
+        "D": "lightland-magic:water",
+        "E": "lightland-magic:fire",
+        "F": "lightland-magic:fire"
+    },
+    "flows": [
+        "A->B",
+        "B->CF",
+        "C->D",
+        "D<->A",
+        "F->A",
+        "E->FC",
+        "D->E"
+    ]
+}

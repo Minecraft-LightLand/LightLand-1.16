@@ -1,0 +1,30 @@
+{
+    "type": "lightland-magic:magic_default",
+    "product_type": "lightland-magic:effect",
+    "product_id": "minecraft:poison",
+    "predecessor": [],
+    "elemental_mastery": [
+        {
+            "element": "lightland-magic:water",
+            "level": 1
+        }
+    ],
+    "screen": {
+        "x": 3,
+        "y": 1
+    },
+    "elements": {
+        "A": "lightland-magic:water",
+        "B": "lightland-magic:air",
+        "C": "lightland-magic:air",
+        "D": "lightland-magic:water",
+        "E": "lightland-magic:fire",
+        "F": "lightland-magic:fire"
+    },
+    "flows": [
+        "A->BF",
+        "BF->CE",
+        "CE->D",
+        "D->A"
+    ]
+}
