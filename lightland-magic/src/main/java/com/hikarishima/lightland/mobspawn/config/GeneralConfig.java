@@ -21,6 +21,6 @@ public class GeneralConfig {
     public float armor_chance;
 
     @SerialClass.SerialField(generic = {String.class, Double.class})
-    public HashMap<String,Double> weapon_chance;
+    public HashMap<String, Double> weapon_chance;
 
 }

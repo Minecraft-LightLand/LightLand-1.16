@@ -5,7 +5,6 @@ import com.hikarishima.lightland.magic.capabilities.weight.WeightCalculator;
 import com.hikarishima.lightland.magic.profession.Profession;
 import com.hikarishima.lightland.magic.registry.VanillaMagicRegistry;
 import com.lcy0x1.core.util.SerialClass;
-import net.darkhax.gamestages.GameStageHelper;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.potion.EffectInstance;
 

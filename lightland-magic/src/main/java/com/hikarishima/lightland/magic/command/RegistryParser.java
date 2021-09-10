@@ -42,7 +42,7 @@ public class RegistryParser<T extends IForgeRegistryEntry<T>> implements Argumen
     public static final RegistryParser<Profession> PROFESSION = new RegistryParser<>(Profession.class, () -> MagicRegistry.PROFESSION);
 
     public static void register() {
-        ArgumentTypes.register("lightland_registry", (Class<RegistryParser<?>>)(Class)RegistryParser.class, new IArgumentSerializer<RegistryParser<?>>() {
+        ArgumentTypes.register("lightland_registry", (Class<RegistryParser<?>>) (Class) RegistryParser.class, new IArgumentSerializer<RegistryParser<?>>() {
             @Override
             public void serializeToNetwork(RegistryParser<?> e, PacketBuffer packet) {
                 IForgeRegistry<?> reg = e.registry.get();

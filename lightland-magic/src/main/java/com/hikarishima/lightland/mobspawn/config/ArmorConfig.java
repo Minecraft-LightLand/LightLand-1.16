@@ -10,7 +10,6 @@ import net.minecraft.entity.monster.AbstractRaiderEntity;
 import net.minecraft.entity.monster.AbstractSkeletonEntity;
 import net.minecraft.entity.monster.ZombieEntity;
 import net.minecraft.entity.monster.piglin.AbstractPiglinEntity;
-import net.minecraft.entity.monster.piglin.PiglinEntity;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ArmorItem;
 import net.minecraft.item.Item;
@@ -59,7 +58,7 @@ public class ArmorConfig {
         return stack;
     }
 
-    private boolean fit(MobEntity entity){
+    private boolean fit(MobEntity entity) {
         return entity instanceof ZombieEntity ||
                 entity instanceof AbstractRaiderEntity ||
                 entity instanceof AbstractSkeletonEntity ||

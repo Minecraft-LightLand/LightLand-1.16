@@ -14,7 +14,7 @@ public class AbstractSkeletonEntityMixin {
     @Inject(at = @At("HEAD"), method = "populateDefaultEquipmentSlots", cancellable = true)
     protected void populateDefaultEquipmentSlots(DifficultyInstance ins, CallbackInfo info) {
         AbstractSkeletonEntity self = (AbstractSkeletonEntity) (Object) this;
-        if (!self.getItemBySlot(EquipmentSlotType.MAINHAND).isEmpty()){
+        if (!self.getItemBySlot(EquipmentSlotType.MAINHAND).isEmpty()) {
             info.cancel();
         }
     }

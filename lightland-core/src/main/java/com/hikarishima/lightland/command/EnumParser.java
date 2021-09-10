@@ -27,7 +27,7 @@ public class EnumParser<T extends Enum<T>> implements ArgumentType<T> {
     private static final Map<Class<?>, EnumParser<?>> CACHE = Maps.newLinkedHashMap();
 
     public static void register() {
-        ArgumentTypes.register("lightland_enum", (Class<EnumParser<?>>)(Class)EnumParser.class, new IArgumentSerializer<EnumParser<?>>() {
+        ArgumentTypes.register("lightland_enum", (Class<EnumParser<?>>) (Class) EnumParser.class, new IArgumentSerializer<EnumParser<?>>() {
             @Override
             public void serializeToNetwork(EnumParser<?> e, PacketBuffer packet) {
                 packet.writeUtf(e.cls.getName());

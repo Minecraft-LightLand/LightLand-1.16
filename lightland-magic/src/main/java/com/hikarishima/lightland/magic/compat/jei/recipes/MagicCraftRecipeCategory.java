@@ -6,6 +6,8 @@ import com.hikarishima.lightland.magic.MagicProxy;
 import com.hikarishima.lightland.magic.Translator;
 import com.hikarishima.lightland.magic.recipe.AbstractMagicCraftRecipe;
 import com.hikarishima.lightland.magic.recipe.IMagicRecipe;
+import com.hikarishima.lightland.magic.recipe.PotionBoostRecipe;
+import com.hikarishima.lightland.magic.recipe.PotionSpellRecipe;
 import com.hikarishima.lightland.magic.registry.MagicItemRegistry;
 import com.hikarishima.lightland.magic.registry.item.magic.MagicWand;
 import mcp.MethodsReturnNonnullByDefault;
@@ -18,12 +20,19 @@ import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.recipe.category.IRecipeCategory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.Ingredient;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.ListNBT;
+import net.minecraft.potion.Effect;
+import net.minecraft.potion.EffectInstance;
+import net.minecraft.potion.PotionUtils;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
@@ -102,7 +111,7 @@ public class MagicCraftRecipeCategory implements IRecipeCategory<AbstractMagicCr
         int in = 0;
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
-                ItemStack item = entry.get(i * 3 + j).input;
+                ItemStack item = specialProcess(sl, entry.get(i * 3 + j).input, i * 3 + j == 4);
                 if (!item.isEmpty())
                     set(layout.getItemStacks(),
                             Collections.singletonList(item),
@@ -111,7 +120,7 @@ public class MagicCraftRecipeCategory implements IRecipeCategory<AbstractMagicCr
         }
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
-                ItemStack item = entry.get(i * 3 + j).output;
+                ItemStack item = specialProcess(sl, entry.get(i * 3 + j).output, i * 3 + j == 4);
                 if (!item.isEmpty())
                     set(layout.getItemStacks(),
                             Collections.singletonList(item),
@@ -125,6 +134,33 @@ public class MagicCraftRecipeCategory implements IRecipeCategory<AbstractMagicCr
             wand.setMagic(magic, wand_stack);
         }
         set(layout.getItemStacks(), Collections.singletonList(wand_stack), in, true, 63, 0);
+    }
+
+    private static ItemStack specialProcess(AbstractMagicCraftRecipe<?> sl, ItemStack stack, boolean isCore) {
+        if (sl instanceof PotionBoostRecipe) {
+            if (isCore) {
+                stack = stack.copy();
+                List<EffectInstance> list = PotionUtils.getCustomEffects(stack);
+                Effect eff = ForgeRegistries.POTIONS.getValue(((PotionBoostRecipe) sl).effect);
+                list = list.stream().map(e -> {
+                    if (e.getEffect() != eff) {
+                        return new EffectInstance(eff, e.getDuration(), e.getAmplifier());
+                    }
+                    return e;
+                }).collect(Collectors.toList());
+                PotionUtils.setCustomEffects(stack, list);
+            }
+        }
+        if (sl instanceof PotionSpellRecipe) {
+            if (!isCore) {
+                stack = stack.copy();
+                CompoundNBT compoundnbt = stack.getOrCreateTag();
+                ListNBT listnbt = compoundnbt.getList("CustomPotionEffects", 9);
+                compoundnbt.put("CustomPotionEffects", listnbt);
+                return stack;
+            }
+        }
+        return stack;
     }
 
     private static <T> void set(IGuiIngredientGroup<T> group, List<T> t, int ind, boolean bool, int x, int y) {

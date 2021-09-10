@@ -308,7 +308,7 @@
             "b": "minecraft:nether_wart"
         },
         "sundering": {
-            "e": "minecraft:^n",
+            "e": "apotheosis:^n",
             "r": "lightland-magic:effect_^n",
             "l": "[100]",
             "i": "0",

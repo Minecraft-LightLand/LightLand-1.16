@@ -39,7 +39,7 @@ public class LightLandFakeEntity {
         }
     }
 
-    public static float getEquipmentDropChance(MobEntity entity, EquipmentSlotType slot){
+    public static float getEquipmentDropChance(MobEntity entity, EquipmentSlotType slot) {
         return entity.getEquipmentDropChance(slot);
     }
 

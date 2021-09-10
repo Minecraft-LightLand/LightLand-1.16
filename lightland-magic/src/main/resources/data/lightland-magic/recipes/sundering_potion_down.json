@@ -1,6 +1,6 @@
 {
     "type": "lightland-magic:craft_potion_boost",
-    "effect": "minecraft:sundering",
+    "effect": "apotheosis:sundering",
     "modify_level": 1,
     "magic_recipe": "lightland-magic:effect_sundering",
     "levels": [100],

@@ -21,8 +21,8 @@ public class PotionCore extends FoiledItem {
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable World world, List<ITextComponent> list, ITooltipFlag flag) {
-        list.add(Translator.get("tooltip.potion.target."+MagicScroll.getTarget(stack).name().toLowerCase()));
-        list.add(Translator.get("tooltip.potion.radius",MagicScroll.getRadius(stack)));
+        list.add(Translator.get("tooltip.potion.target." + MagicScroll.getTarget(stack).name().toLowerCase()));
+        list.add(Translator.get("tooltip.potion.radius", MagicScroll.getRadius(stack)));
         PotionUtils.addPotionTooltip(stack, list, 1);
     }
 }

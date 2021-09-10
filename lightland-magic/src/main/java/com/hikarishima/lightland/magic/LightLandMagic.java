@@ -19,12 +19,9 @@ import com.hikarishima.lightland.magic.registry.MagicContainerRegistry;
 import com.hikarishima.lightland.magic.registry.MagicEntityRegistry;
 import com.hikarishima.lightland.magic.registry.ParticleRegistry;
 import com.hikarishima.lightland.proxy.PacketHandler;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.ParticleFactoryRegisterEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
@@ -69,7 +66,7 @@ public class LightLandMagic {
         MagicEntityRegistry.registerClient();
     }
 
-    public void onParticleRegistryEvent(ParticleFactoryRegisterEvent event){
+    public void onParticleRegistryEvent(ParticleFactoryRegisterEvent event) {
         ParticleRegistry.register();
     }
 
