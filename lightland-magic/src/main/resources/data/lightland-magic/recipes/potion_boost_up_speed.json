@@ -12,10 +12,27 @@
     ],
     "core": {
         "input": {
-            "item": "lightland-magic:potion_core"
+            "item": "lightland-magic:potion_core",
+            "nbt": {
+                "CustomPotionEffects": [
+                    {
+                        "Id": 1,
+                        "Duration": 200
+                    }
+                ]
+            }
         },
         "output": {
-            "item": "lightland-magic:potion_core"
+            "item": "lightland-magic:potion_core",
+            "nbt": {
+                "CustomPotionEffects": [
+                    {
+                        "Id": 1,
+                        "Duration": 200,
+                        "Amplifier": 1
+                    }
+                ]
+            }
         }
     },
     "side": [

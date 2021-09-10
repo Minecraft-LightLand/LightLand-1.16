@@ -31,7 +31,7 @@ public class PotionBoostRecipe extends AbstractLevelCraftRecipe<PotionBoostRecip
         for (EffectInstance ins : PotionUtils.getCustomEffects(stack)) {
             if (ins.getEffect().getRegistryName().equals(effect)) {
                 if (ins.getAmplifier() < level) {
-                    if (modify_level == 0)
+                    if (modify_level == -1)
                         continue;
                     list.add(new EffectInstance(ins.getEffect(), ins.getDuration(), level - 1));
                     continue;

@@ -6,7 +6,12 @@
             "item": "lightland-magic:potion_core"
         },
         "output": {
-            "item": "lightland-magic:potion_core"
+            "item": "lightland-magic:potion_core",
+            "nbt": {
+                "spell": {
+                    "radius": 10
+                }
+            }
         }
     },
     "side": [

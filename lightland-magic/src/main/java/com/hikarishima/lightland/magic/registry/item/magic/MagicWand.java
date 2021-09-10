@@ -87,28 +87,6 @@ public class MagicWand extends Item implements IGlowingTarget {
         super.appendHoverText(stack, world, list, flag);
     }
 
-    @Override
-    public ITextComponent getName(ItemStack stack) {
-        PlayerEntity pl = Proxy.getPlayer();
-        if (pl != null) {
-            World world = pl.level;
-            if (world != null) {
-                MagicProduct<?, ?> p = getData(pl, stack);
-                if (p != null) {
-                    IFormattableTextComponent ans = new TranslationTextComponent(p.getDescriptionID());
-                    if (p.type == MagicRegistry.MPT_SPELL) {
-                        Spell<?, ?> spell = (Spell<?, ?>) p.item;
-                        int cost = spell.getConfig(world, pl).mana_cost;
-                        ans.append(" | ");
-                        ans.append(Translator.get("tooltip.mana_cost", cost));
-                    }
-                    return ans;
-                }
-            }
-        }
-        return super.getName(stack);
-    }
-
     public void setMagic(IMagicRecipe<?> recipe, ItemStack stack) {
         stack.getOrCreateTag().putString("recipe", recipe.id.toString());
     }
