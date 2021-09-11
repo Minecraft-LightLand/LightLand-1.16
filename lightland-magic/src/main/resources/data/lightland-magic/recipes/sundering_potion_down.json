@@ -3,14 +3,14 @@
     "effect": "apotheosis:sundering",
     "modify_level": 1,
     "magic_recipe": "lightland-magic:effect_sundering",
-    "levels": [100],
+    "levels": [100,50,35,25],
     "core": {
         "input": {
             "item": "lightland-magic:potion_core",
             "nbt": {
                 "CustomPotionEffects": [
                     {
-                        "Id": 0,
+                        "Id": 1,
                         "Duration": 200
                     }
                 ]

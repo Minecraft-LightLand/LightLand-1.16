@@ -3,7 +3,7 @@
     "effect": "minecraft:resistance",
     "modify_level": 1,
     "magic_recipe": "lightland-magic:effect_resistance",
-    "levels": [100],
+    "levels": [100,50,35,21],
     "core": {
         "input": {
             "item": "lightland-magic:potion_core",

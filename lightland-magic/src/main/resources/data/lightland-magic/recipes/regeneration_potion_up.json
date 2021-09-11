@@ -3,7 +3,7 @@
     "effect": "minecraft:regeneration",
     "modify_level": 1,
     "magic_recipe": "lightland-magic:effect_regeneration",
-    "levels": [100],
+    "levels": [100,60,57],
     "core": {
         "input": {
             "item": "lightland-magic:potion_core",

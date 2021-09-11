@@ -3,7 +3,7 @@
     "effect": "minecraft:weakness",
     "modify_level": 1,
     "magic_recipe": "lightland-magic:effect_weakness",
-    "levels": [100],
+    "levels": [100,50,24,19],
     "core": {
         "input": {
             "item": "lightland-magic:potion_core",

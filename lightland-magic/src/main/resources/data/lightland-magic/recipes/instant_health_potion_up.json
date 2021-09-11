@@ -3,7 +3,7 @@
     "effect": "minecraft:instant_health",
     "modify_level": 1,
     "magic_recipe": "lightland-magic:effect_instant_health",
-    "levels": [100],
+    "levels": [100,50,35,25],
     "core": {
         "input": {
             "item": "lightland-magic:potion_core",
