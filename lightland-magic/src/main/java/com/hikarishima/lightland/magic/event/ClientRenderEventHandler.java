@@ -86,6 +86,7 @@ public class ClientRenderEventHandler {
         }
     }
 
+    @OnlyIn(Dist.CLIENT)
     @SubscribeEvent
     public void onPlayerTick(TickEvent.PlayerTickEvent event) {
         if (event.player.level.isClientSide()) {
