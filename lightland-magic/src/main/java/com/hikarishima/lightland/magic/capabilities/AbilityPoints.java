@@ -4,6 +4,7 @@ import com.hikarishima.lightland.equipment.EquipmentInit;
 import com.hikarishima.lightland.magic.capabilities.weight.WeightCalculator;
 import com.hikarishima.lightland.magic.profession.Profession;
 import com.hikarishima.lightland.magic.registry.VanillaMagicRegistry;
+import com.lcy0x1.core.util.ExceptionHandler;
 import com.lcy0x1.core.util.SerialClass;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.potion.EffectInstance;
@@ -104,7 +105,7 @@ public class AbilityPoints {
 
     public void updateAttribute() {
         if (!parent.player.level.isClientSide()) {
-            EquipmentInit.clear((ServerPlayerEntity) parent.player, this);
+            ExceptionHandler.run(()->EquipmentInit.clear((ServerPlayerEntity) parent.player, this));
         }
         BodyAttribute.resetModifiers(this, parent.player);
     }

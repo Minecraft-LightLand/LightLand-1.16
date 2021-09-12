@@ -1,5 +1,6 @@
 package com.lcy0x1.core.util;
 
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.mojang.blaze3d.matrix.MatrixStack;
@@ -8,19 +9,20 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.inventory.container.Slot;
-import net.minecraft.resources.IResource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.fml.loading.FMLEnvironment;
+import net.minecraftforge.fml.DistExecutor;
 
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.HashMap;
+import java.util.TreeMap;
 import java.util.function.Consumer;
 
 @SerialClass
 public class SpriteManager {
+
+    public static final TreeMap<ResourceLocation, JsonElement> CACHE = new TreeMap<>();
 
     private final String name;
     private final ResourceLocation coords, texture;
@@ -32,7 +34,7 @@ public class SpriteManager {
 
     public SpriteManager(String mod, String str) {
         name = mod + ":" + str;
-        coords = new ResourceLocation(mod, "textures/gui/coords/" + str + ".json");
+        coords = new ResourceLocation(mod, str);
         texture = new ResourceLocation(mod, "textures/gui/container/" + str + ".png");
         check();
     }
@@ -120,18 +122,16 @@ public class SpriteManager {
     }
 
     private void check() {
-        if (!loaded && FMLEnvironment.dist.isClient())
+        if (!loaded)
             load();
     }
 
     private void load() {
-        try {
-            IResource r = Minecraft.getInstance().getResourceManager().getResource(coords);
-            JsonObject jo = new JsonParser().parse(new InputStreamReader(r.getInputStream())).getAsJsonObject();
-            Serializer.from(jo, SpriteManager.class, this);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        JsonObject jo = DistExecutor.unsafeRunForDist(() -> () ->
+                ExceptionHandler.get(() -> new JsonParser().parse(new InputStreamReader(Minecraft.getInstance().getResourceManager().getResource(
+                        new ResourceLocation(coords.getNamespace(), "textures/gui/coords/" + coords.getPath() + ".json")
+                ).getInputStream())).getAsJsonObject()), () -> () -> CACHE.get(coords).getAsJsonObject());
+        Serializer.from(jo, SpriteManager.class, this);
         loaded = true;
     }
 

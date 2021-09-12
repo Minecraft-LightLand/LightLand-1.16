@@ -95,11 +95,12 @@ public class GUIGenerator {
 
     }
 
-    private final String GUI, DST, CONT;
+    private final String GUI, DST, CONT, CDST;
 
     GUIGenerator(String modid) {
         GUI = "./lightland-core/src/test/resources/lightland-core/gui/";
         DST = "./lightland-core/src/test/resources/" + modid + "/assets/textures/gui/";
+        CDST = "./lightland-core/src/test/resources/" + modid + "/data/" + modid + "/gui/";
         CONT = GUI + "-templates/container/" + modid + "/";
     }
 
@@ -171,6 +172,7 @@ public class GUIGenerator {
             check(fx);
             ImageIO.write(bimg, "PNG", fx);
             write(DST + "coords/" + fi.getName(), out);
+            write(CDST + "coords/" + fi.getName(), out);
 
         }
 
