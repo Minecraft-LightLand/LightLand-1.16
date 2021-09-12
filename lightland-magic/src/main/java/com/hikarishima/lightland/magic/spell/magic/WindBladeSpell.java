@@ -38,7 +38,7 @@ public class WindBladeSpell extends SimpleSpell<WindBladeSpell.Config> {
             if (t % config.period != 0)
                 return;
             Vector3d target = activation.target == null ? activation.pos :
-                    activation.target.getPosition(1)
+                    activation.target.getEyePosition(1f)
                             .add(0, activation.target.getBbHeight() / 2, 0);
             for (int offset : config.offset)
                 addBlade(config.normal, offset, player, world, spell, target, config);
@@ -49,7 +49,7 @@ public class WindBladeSpell extends SimpleSpell<WindBladeSpell.Config> {
 
     private void addBlade(float noffset, float soffset, PlayerEntity player, World world, SpellEntity spell, Vector3d target, Config config) {
         WindBladeEntity blade = new WindBladeEntity(world);
-        Vector3d pos = spell.getPosition(1);
+        Vector3d pos = spell.getEyePosition(1f);
         pos = AutoAim.getRayTerm(pos, spell.xRot, spell.yRot, noffset);
         pos = AutoAim.getRayTerm(pos, spell.xRot, spell.yRot + 90, soffset);
         blade.setOwner(player);

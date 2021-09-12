@@ -43,3 +43,6 @@ A->BC,B->DE,C->DF,DEF->A
 
 
 
+
+
+scp -P 35420 git/lightland/release/lightland-magic-0.4.14.jar root@play.xkmc.org:/home/pre-mod-server/mods
