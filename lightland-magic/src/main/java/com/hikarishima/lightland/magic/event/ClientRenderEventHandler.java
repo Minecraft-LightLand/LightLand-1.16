@@ -2,6 +2,7 @@ package com.hikarishima.lightland.magic.event;
 
 import com.hikarishima.lightland.magic.LightLandMagic;
 import com.hikarishima.lightland.magic.MagicRenderState;
+import com.hikarishima.lightland.magic.capabilities.MagicHandler;
 import com.hikarishima.lightland.magic.registry.ParticleRegistry;
 import com.hikarishima.lightland.magic.registry.VanillaMagicRegistry;
 import com.hikarishima.lightland.magic.registry.effect.EmeraldPopeEffect;
@@ -131,6 +132,7 @@ public class ClientRenderEventHandler {
             target.setGlowing(false);
         }
         target = null;
+        if (Proxy.getClientPlayer() == null || !MagicHandler.isProper(Proxy.getClientPlayer())) return;
         ItemStack stack = Proxy.getClientPlayer().getMainHandItem();
         if (stack.getItem() instanceof IGlowingTarget) {
             int dist = ((IGlowingTarget) stack.getItem()).getDistance(stack);

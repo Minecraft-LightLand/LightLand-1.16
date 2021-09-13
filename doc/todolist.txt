@@ -1,3 +1,7 @@
+bug: spell release position
+fix: reduce disintegrate cost
+fix: 
+
 
 - NPC quest system
     - NPC conflict

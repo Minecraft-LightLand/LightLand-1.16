@@ -203,7 +203,7 @@
   "lightland-magic:tooltip": {
     "weight": "装备重量:%s",
     "magic_resist": "法术伤害抗性:%s",
-    "magic_peentrate": "%s的伤害无视魔法抗性",
+    "magic_penetrate": "%s的伤害无视魔法抗性",
     "disenchant": "%s的概率降级敌人附魔",
     "armor_bag": {
       "size": "容量:%s/%s",

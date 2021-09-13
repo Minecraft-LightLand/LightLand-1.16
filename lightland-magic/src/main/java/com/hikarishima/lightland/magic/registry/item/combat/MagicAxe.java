@@ -47,7 +47,7 @@ public class MagicAxe extends AxeItem implements ISpecialWeapon {
     }
 
     public <T extends LivingEntity> int damageItem(ItemStack stack, int amount, T entity, Consumer<T> onBroken) {
-        return getMaxDamage(stack) > 0 ? amount : 0;
+        return getMaxDamage(stack) == 99999 ? 0 : amount;
     }
 
     @Override

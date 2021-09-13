@@ -30,6 +30,13 @@ public class ExceptionHandler {
         }
     }
 
+    public static void ignore(ExcRun sup) {
+        try {
+            sup.get();
+        } catch (Throwable e) {
+        }
+    }
+
     @FunctionalInterface
     public interface ExcRun {
 

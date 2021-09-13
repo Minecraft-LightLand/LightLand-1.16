@@ -37,6 +37,10 @@ public class MagicHandler {
         return e.getCapability(CAPABILITY).resolve().get().check();
     }
 
+    public static boolean isProper(PlayerEntity player) {
+        return player.getCapability(CAPABILITY).isPresent();
+    }
+
     private static CompoundNBT revive_cache;
 
     @OnlyIn(Dist.CLIENT)

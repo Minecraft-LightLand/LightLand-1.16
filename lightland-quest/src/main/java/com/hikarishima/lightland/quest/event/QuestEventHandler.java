@@ -89,7 +89,7 @@ public class QuestEventHandler {
             QuestHandler parent = QuestHandler.get(event.player);
             Collection<LocationVisitToken> list = parent.getTokens(LocationVisitToken.class);
             for (LocationVisitToken token : list) {
-                token.visit(event.player.getEyePosition(1f));
+                token.visit(event.player.position());
             }
         }
     }

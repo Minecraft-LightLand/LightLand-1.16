@@ -62,7 +62,7 @@ public class MagicArmor extends ArmorItem implements ISpecialArmor {
     }
 
     public <T extends LivingEntity> int damageItem(ItemStack stack, int amount, T entity, Consumer<T> onBroken) {
-        return getMaxDamage(stack) > 0 ? amount : 0;
+        return getMaxDamage(stack) % 9999 == 0 ? 0 : amount;
     }
 
     @Override

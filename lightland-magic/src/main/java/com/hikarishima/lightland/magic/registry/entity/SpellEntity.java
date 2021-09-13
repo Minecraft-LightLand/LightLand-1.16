@@ -40,7 +40,7 @@ public class SpellEntity extends BaseEntity {
     }
 
     public void setData(PlayerEntity player, SpellConfig.SpellDisplay spell, SpellPlane plane) {
-        Vector3d pos = player.getEyePosition(1f);
+        Vector3d pos = player.position();
         float xr = player.xRot;
         float yr = player.yRot;
         if (plane == SpellPlane.VERTICAL) {

@@ -21,7 +21,7 @@ public class MagicItemTier implements IItemTier {
             4, 3000, 9.0F, 4.0F, 1,
             () -> Ingredient.of(MagicItemRegistry.ANTI_MAGIC_ALLOY.get()), 0.5f, 1f);
     public static final MagicItemTier PERMANENCE = new MagicItemTier(
-            2, 0, 6f, 2f, 18,
+            2, 99999, 6f, 2f, 18,
             () -> Ingredient.of(MagicItemRegistry.PERMANENCE_IRON_INGOT.get()), 0, 0);
 
     private final int level;

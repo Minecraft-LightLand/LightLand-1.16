@@ -22,7 +22,7 @@ public class LocationVisitToken extends QuestToken {
     @Override
     public ITextComponent getQuestProgressText() {
         LocationVisitStage stage = progress.getStage();
-        double dist = Math.sqrt(progress.player.getEyePosition(1f).distanceToSqr(stage.x, stage.y, stage.z) - stage.r * stage.r);
+        double dist = Math.sqrt(progress.player.position().distanceToSqr(stage.x, stage.y, stage.z) - stage.r * stage.r);
         String str = getDescription();
         Map<String, String> map = StringSubstitution.get("distance", Math.round(dist) + " m");
         str = StringSubstitution.format(str, map);

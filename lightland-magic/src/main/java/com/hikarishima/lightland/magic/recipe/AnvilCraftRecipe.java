@@ -35,7 +35,7 @@ public class AnvilCraftRecipe extends BaseRecipe<AnvilCraftRecipe, AnvilCraftRec
     public boolean matches(AnvilUpdateEvent event) {
         ItemStack left = event.getLeft();
         ItemStack right = event.getRight();
-        if (left.getItem() == input && right.getItem() == consume.getItem() && right.getCount() > consume.getCount()) {
+        if (left.getItem() == input && right.getItem() == consume.getItem() && right.getCount() >= consume.getCount()) {
             int max_damage = input.getMaxDamage(left);
             if (max_damage > 0) {
                 int damage = max_damage - input.getDamage(left);
@@ -50,7 +50,7 @@ public class AnvilCraftRecipe extends BaseRecipe<AnvilCraftRecipe, AnvilCraftRec
     public void setEvent(AnvilUpdateEvent event) {
         ItemStack left = event.getLeft();
         ItemStack right = event.getRight();
-        if (left.getItem() == input && right.getItem() == consume.getItem() && right.getCount() > consume.getCount()) {
+        if (left.getItem() == input && right.getItem() == consume.getItem() && right.getCount() >= consume.getCount()) {
             int max_damage = input.getMaxDamage(left);
             if (max_damage > 0) {
                 int damage = max_damage - input.getDamage(left);
