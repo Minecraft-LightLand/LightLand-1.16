@@ -1,0 +1,77 @@
+{
+    "type": "lightland-magic:craft_shapeless",
+    "core": {
+        "input": {
+            "item": "twilightforest:steeleaf_ingot"
+        },
+        "output": {
+            "item": "twilightforest:steeleaf_ingot"
+        }
+    },
+    "side": [
+        {
+            "input": {
+                "item": "minecraft:oak_leaves"
+            },
+            "output": {
+                "item": "twilightforest:steeleaf_ingot"
+            }
+        },
+        {
+            "input": {
+                "item": "lightland-magic:enchant_gold_ingot"
+            },
+            "output": {
+                "item": "minecraft:gold_ingot"
+            }
+        },
+        {
+            "input": {
+                "item": "minecraft:oak_leaves"
+            },
+            "output": {
+                "item": "twilightforest:steeleaf_ingot"
+            }
+        },
+        {
+            "input": {
+                "item": "lightland-magic:enchant_gold_ingot"
+            },
+            "output": {
+                "item": "minecraft:gold_ingot"
+            }
+        },
+        {
+            "input": {
+                "item": "lightland-magic:enchant_gold_ingot"
+            },
+            "output": {
+                "item": "minecraft:gold_ingot"
+            }
+        },
+        {
+            "input": {
+                "item": "minecraft:oak_leaves"
+            },
+            "output": {
+                "item": "twilightforest:steeleaf_ingot"
+            }
+        },
+        {
+            "input": {
+                "item": "lightland-magic:enchant_gold_ingot"
+            },
+            "output": {
+                "item": "minecraft:gold_ingot"
+            }
+        },
+        {
+            "input": {
+                "item": "minecraft:oak_leaves"
+            },
+            "output": {
+                "item": "twilightforest:steeleaf_ingot"
+            }
+        }
+    ]
+}

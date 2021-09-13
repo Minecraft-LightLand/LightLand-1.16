@@ -55,10 +55,11 @@ public class AnvilCraftRecipe extends BaseRecipe<AnvilCraftRecipe, AnvilCraftRec
             if (max_damage > 0) {
                 int damage = max_damage - input.getDamage(left);
                 int count = max * damage / max_damage;
+                if (count == max) count--;
                 if (count > 0) {
                     event.setOutput(new ItemStack(output, count));
-                    event.setMaterialCost(consume.getCount());
-                    event.setCost(level);
+                    event.setMaterialCost(count);
+                    event.setCost(count);
                 }
             }
         }

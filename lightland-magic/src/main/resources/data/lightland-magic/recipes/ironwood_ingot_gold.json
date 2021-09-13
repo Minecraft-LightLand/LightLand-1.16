@@ -1,0 +1,77 @@
+{
+    "type": "lightland-magic:craft_shapeless",
+    "core": {
+        "input": {
+            "item": "twilightforest:ironwood_ingot"
+        },
+        "output": {
+            "item": "twilightforest:ironwood_ingot"
+        }
+    },
+    "side": [
+        {
+            "input": {
+                "item": "minecraft:gold_nugget"
+            },
+            "output": {
+                "item": "twilightforest:ironwood_ingot"
+            }
+        },
+        {
+            "input": {
+                "item": "lightland-magic:enchant_gold_ingot"
+            },
+            "output": {
+                "item": "minecraft:gold_ingot"
+            }
+        },
+        {
+            "input": {
+                "item": "minecraft:iron_ingot"
+            },
+            "output": {
+                "item": "twilightforest:ironwood_ingot"
+            }
+        },
+        {
+            "input": {
+                "item": "lightland-magic:enchant_gold_ingot"
+            },
+            "output": {
+                "item": "minecraft:gold_ingot"
+            }
+        },
+        {
+            "input": {
+                "item": "lightland-magic:enchant_gold_ingot"
+            },
+            "output": {
+                "item": "minecraft:gold_ingot"
+            }
+        },
+        {
+            "input": {
+                "item": "minecraft:iron_ingot"
+            },
+            "output": {
+                "item": "twilightforest:ironwood_ingot"
+            }
+        },
+        {
+            "input": {
+                "item": "lightland-magic:enchant_gold_ingot"
+            },
+            "output": {
+                "item": "minecraft:gold_ingot"
+            }
+        },
+        {
+            "input": {
+                "item": "minecraft:gold_nugget"
+            },
+            "output": {
+                "item": "twilightforest:ironwood_ingot"
+            }
+        }
+    ]
+}

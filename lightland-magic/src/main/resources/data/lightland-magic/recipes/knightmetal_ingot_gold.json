@@ -1,0 +1,77 @@
+{
+    "type": "lightland-magic:craft_shapeless",
+    "core": {
+        "input": {
+            "item": "twilightforest:knightmetal_ingot"
+        },
+        "output": {
+            "item": "twilightforest:knightmetal_ingot"
+        }
+    },
+    "side": [
+        {
+            "input": {
+                "item": "minecraft:iron_ingot"
+            },
+            "output": {
+                "item": "twilightforest:knightmetal_ingot"
+            }
+        },
+        {
+            "input": {
+                "item": "lightland-magic:enchant_gold_ingot"
+            },
+            "output": {
+                "item": "minecraft:gold_ingot"
+            }
+        },
+        {
+            "input": {
+                "item": "minecraft:iron_ingot"
+            },
+            "output": {
+                "item": "twilightforest:knightmetal_ingot"
+            }
+        },
+        {
+            "input": {
+                "item": "lightland-magic:enchant_gold_ingot"
+            },
+            "output": {
+                "item": "minecraft:gold_ingot"
+            }
+        },
+        {
+            "input": {
+                "item": "lightland-magic:enchant_gold_ingot"
+            },
+            "output": {
+                "item": "minecraft:gold_ingot"
+            }
+        },
+        {
+            "input": {
+                "item": "minecraft:iron_ingot"
+            },
+            "output": {
+                "item": "twilightforest:knightmetal_ingot"
+            }
+        },
+        {
+            "input": {
+                "item": "lightland-magic:enchant_gold_ingot"
+            },
+            "output": {
+                "item": "minecraft:gold_ingot"
+            }
+        },
+        {
+            "input": {
+                "item": "minecraft:iron_ingot"
+            },
+            "output": {
+                "item": "twilightforest:knightmetal_ingot"
+            }
+        }
+    ]
+}

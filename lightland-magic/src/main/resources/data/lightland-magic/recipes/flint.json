@@ -1,0 +1,77 @@
+{
+    "type": "lightland-magic:craft_shapeless",
+    "core": {
+        "input": {
+            "item": "lightland-magic:enchant_gold_ingot"
+        },
+        "output": {
+            "item": "minecraft:gold_ingot"
+        }
+    },
+    "side": [
+        {
+            "input": {
+                "item": "minecraft:gravel"
+            },
+            "output": {
+                "item": "minecraft:flint"
+            }
+        },
+        {
+            "input": {
+                "item": "minecraft:gravel"
+            },
+            "output": {
+                "item": "minecraft:flint"
+            }
+        },
+        {
+            "input": {
+                "item": "minecraft:gravel"
+            },
+            "output": {
+                "item": "minecraft:flint"
+            }
+        },
+        {
+            "input": {
+                "item": "minecraft:gravel"
+            },
+            "output": {
+                "item": "minecraft:flint"
+            }
+        },
+        {
+            "input": {
+                "item": "minecraft:gravel"
+            },
+            "output": {
+                "item": "minecraft:flint"
+            }
+        },
+        {
+            "input": {
+                "item": "minecraft:gravel"
+            },
+            "output": {
+                "item": "minecraft:flint"
+            }
+        },
+        {
+            "input": {
+                "item": "minecraft:gravel"
+            },
+            "output": {
+                "item": "minecraft:flint"
+            }
+        },
+        {
+            "input": {
+                "item": "minecraft:gravel"
+            },
+            "output": {
+                "item": "minecraft:flint"
+            }
+        }
+    ]
+}

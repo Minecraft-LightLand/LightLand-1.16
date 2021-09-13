@@ -5,6 +5,7 @@ import com.hikarishima.lightland.event.combat.MagicDamageEntry;
 import com.hikarishima.lightland.event.combat.MagicDamageSource;
 import com.hikarishima.lightland.magic.Translator;
 import net.minecraft.client.util.ITooltipFlag;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.SwordItem;
@@ -59,6 +60,13 @@ public class MagicSword extends SwordItem implements ISpecialWeapon {
             list.add(Translator.get("tooltip.disenchant", (int) (prob * 100) + "%"));
         }
         super.appendHoverText(stack, world, list, flag);
+    }
+
+    @Override
+    public void inventoryTick(ItemStack stack, World w, Entity e, int slot, boolean selected) {
+        if (getMaxDamage(stack) % 99999 == 0 && stack.getDamageValue() > 0) {
+            stack.setDamageValue(0);
+        }
     }
 
 }
