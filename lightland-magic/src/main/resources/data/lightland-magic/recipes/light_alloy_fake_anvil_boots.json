@@ -1,0 +1,16 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+        {
+            "item": "lightland-magic:light_alloy_boots"
+        },
+        {
+            "item": "minecraft:gravel"
+        }
+    ],
+    "result": {
+        "item": "lightland-magic:light_alloy_ingot",
+        "count": 2
+    }
+}
+

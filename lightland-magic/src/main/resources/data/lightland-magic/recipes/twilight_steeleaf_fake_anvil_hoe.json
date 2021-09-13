@@ -1,0 +1,16 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+        {
+            "item": "twilightforest:steeleaf_hoe"
+        },
+        {
+            "item": "minecraft:gravel"
+        }
+    ],
+    "result": {
+        "item": "twilightforest:steeleaf_ingot",
+        "count": 1
+    }
+}
+

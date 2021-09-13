@@ -1,0 +1,16 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+        {
+            "item": "minecraft:golden_axe"
+        },
+        {
+            "item": "minecraft:gravel"
+        }
+    ],
+    "result": {
+        "item": "minecraft:gold_ingot",
+        "count": 1
+    }
+}
+

@@ -1,0 +1,16 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+        {
+            "item": "twilightforest:yeti_leggings"
+        },
+        {
+            "item": "minecraft:gravel"
+        }
+    ],
+    "result": {
+        "item": "twilightforest:alpha_fur",
+        "count": 3
+    }
+}
+

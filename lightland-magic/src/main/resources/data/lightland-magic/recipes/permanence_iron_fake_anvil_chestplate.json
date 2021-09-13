@@ -1,0 +1,16 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+        {
+            "item": "lightland-magic:permanence_iron_chestplate"
+        },
+        {
+            "item": "minecraft:gravel"
+        }
+    ],
+    "result": {
+        "item": "lightland-magic:permanence_iron_ingot",
+        "count": 4
+    }
+}
+

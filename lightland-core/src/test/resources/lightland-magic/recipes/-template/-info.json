@@ -74,7 +74,13 @@
             "anvil_helmet",
             "anvil_chestplate",
             "anvil_leggings",
-            "anvil_boots"
+            "anvil_boots",
+            "fake_anvil_axe",
+            "fake_anvil_sword",
+            "fake_anvil_helmet",
+            "fake_anvil_chestplate",
+            "fake_anvil_leggings",
+            "fake_anvil_boots"
         ],
         "diamond": {
             "a": "minecraft:^n",
@@ -108,7 +114,9 @@
     "-anvil_1": {
         "-list": [
             "anvil_pickaxe",
-            "anvil_hoe"
+            "anvil_hoe",
+            "fake_anvil_pickaxe",
+            "fake_anvil_hoe"
         ],
         "diamond": {
             "a": "minecraft:^n",
@@ -176,7 +184,15 @@
             "anvil_sword",
             "anvil_axe",
             "anvil_pickaxe",
-            "anvil_hoe"
+            "anvil_hoe",
+            "fake_anvil_helmet",
+            "fake_anvil_chestplate",
+            "fake_anvil_leggings",
+            "fake_anvil_boots",
+            "fake_anvil_sword",
+            "fake_anvil_axe",
+            "fake_anvil_pickaxe",
+            "fake_anvil_hoe"
         ],
         "twilight_ironwood": {
             "a": "twilightforest:ironwood_ingot",
@@ -194,7 +210,13 @@
             "anvil_leggings",
             "anvil_boots",
             "anvil_sword",
-            "anvil_pickaxe"
+            "anvil_pickaxe",
+            "fake_anvil_helmet",
+            "fake_anvil_chestplate",
+            "fake_anvil_leggings",
+            "fake_anvil_boots",
+            "fake_anvil_sword",
+            "fake_anvil_pickaxe"
         ],
         "twilight_fiery": {
             "a": "twilightforest:fiery_ingot",
@@ -206,7 +228,11 @@
             "anvil_helmet",
             "anvil_chestplate",
             "anvil_leggings",
-            "anvil_boots"
+            "anvil_boots",
+            "fake_anvil_helmet",
+            "fake_anvil_chestplate",
+            "fake_anvil_leggings",
+            "fake_anvil_boots"
         ],
         "leather": {
             "a": "minecraft:^n",
@@ -229,7 +255,14 @@
             "anvil_boots",
             "anvil_sword",
             "anvil_axe",
-            "anvil_pickaxe"
+            "anvil_pickaxe",
+            "fake_anvil_helmet",
+            "fake_anvil_chestplate",
+            "fake_anvil_leggings",
+            "fake_anvil_boots",
+            "fake_anvil_sword",
+            "fake_anvil_axe",
+            "fake_anvil_pickaxe"
         ],
         "twilight_knightmetal": {
             "a": "twilightforest:knightmetal_ingot",
@@ -239,7 +272,9 @@
     "-anvil_twilight_4": {
         "-list": [
             "anvil_chestplate",
-            "anvil_leggings"
+            "anvil_leggings",
+            "fake_anvil_chestplate",
+            "fake_anvil_leggings"
         ],
         "twilight_naga": {
             "a": "twilightforest:naga_scale",
