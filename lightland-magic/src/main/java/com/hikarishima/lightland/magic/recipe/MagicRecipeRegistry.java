@@ -45,6 +45,9 @@ public class MagicRecipeRegistry {
     public static final RegistryObject<BaseRecipe.RecType<PotionBoostRecipe, AbstractMagicCraftRecipe<?>, RitualCore.Inv>> RSM_POTION_BOOST =
             REC.register("craft_potion_boost", () -> new BaseRecipe.RecType<>(PotionBoostRecipe.class, RT_CRAFT));
 
+    public static final RegistryObject<FullShapelessCraftRecipe.Serializer> RSM_FULL_CRAFT =
+            REC.register("full_crafting_shapeless", FullShapelessCraftRecipe.Serializer::new);
+
     public static final ResourceLocation SPELL = new ResourceLocation(LightLandMagic.MODID, "config_spell");
     public static final ResourceLocation PRODUCT_TYPE_DISPLAY = new ResourceLocation(LightLandMagic.MODID, "config_product_type");
     public static final ResourceLocation CHEM = new ResourceLocation(LightLandMagic.MODID, "config_chemistry");

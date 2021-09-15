@@ -14,6 +14,7 @@ import net.minecraft.client.gui.FontRenderer;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
+import javax.annotation.Nullable;
 import java.util.Arrays;
 
 @OnlyIn(Dist.CLIENT)
@@ -62,17 +63,18 @@ public class HexResultGui extends AbstractHexGui {
             double xi = x0 + RADIUS * Math.cos(ri);
             double yi = y0 + RADIUS * Math.sin(ri);
             int color = i == hover ? 0xFF808080 : 0xFFFFFFFF;
-            renderHex(matrix, xi, yi, 10, color);
+            HexRenderUtil.renderHex(matrix, xi, yi, 10, color);
         }
         RenderSystem.enableTexture();
 
         RenderSystem.blendFunc(GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ONE);
         for (int i = 0; i < 6; i++) {
-            if (getElem(i) == null)
+            MagicElement elem = getElem(i);
+            if (elem == null)
                 continue;
             double xi = getX(i);
             double yi = getY(i);
-            minecraft.getTextureManager().bind(getElem(i).getIcon());
+            minecraft.getTextureManager().bind(elem.getIcon());
             for (int j = 0; j < 6; j++) {
                 if (getElem(j) == null || !graph[data.order[i]][data.order[j]])
                     continue;
@@ -82,6 +84,7 @@ public class HexResultGui extends AbstractHexGui {
                     double p = (progress + k * 1.0 / FLOW_COUNT) % 1;
                     double xp = xi + (xj - xi) * p;
                     double yp = yi + (yj - yi) * p;
+                    //TODO icon
                     drawIcon(matrix, xp, yp, SCALE_FLOW);
                 }
             }
@@ -89,9 +92,10 @@ public class HexResultGui extends AbstractHexGui {
         RenderSystem.disableBlend();
 
         for (int i = 0; i < 6; i++) {
-            if (getElem(i) == null)
+            MagicElement elem = getElem(i);
+            if (elem == null)
                 continue;
-            minecraft.getTextureManager().bind(getElem(i).getIcon());
+            minecraft.getTextureManager().bind(elem.getIcon());
             double xi = getX(i);
             double yi = getY(i);
             drawIcon(matrix, xi, yi, SCALE_NODE);
@@ -111,6 +115,7 @@ public class HexResultGui extends AbstractHexGui {
         font.draw(matrix, Translator.get("screen.hex.cost", cost), box.x + 9, hi + 18, 0xFF000000);
     }
 
+    @Nullable
     MagicElement getElem(int i) {
         return elements[data.order[i]];
     }

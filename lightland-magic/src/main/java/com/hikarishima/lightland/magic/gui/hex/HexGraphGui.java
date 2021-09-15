@@ -1,6 +1,7 @@
 package com.hikarishima.lightland.magic.gui.hex;
 
 import com.hikarishima.lightland.magic.MagicElement;
+import com.hikarishima.lightland.magic.MagicRegistry;
 import com.hikarishima.lightland.magic.Translator;
 import com.hikarishima.lightland.magic.gui.AbstractHexGui;
 import com.lcy0x1.base.WindowBox;
@@ -9,19 +10,16 @@ import com.lcy0x1.core.math.Frac;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.BufferBuilder;
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.WorldVertexBufferUploader;
-import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.vector.Matrix4f;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.apache.logging.log4j.LogManager;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @OnlyIn(Dist.CLIENT)
 public class HexGraphGui extends AbstractHexGui {
@@ -34,6 +32,7 @@ public class HexGraphGui extends AbstractHexGui {
     private static final int COL_HOVER = 0xFFFFFF00;
     private static final int COL_ERROR = 0xFFFF0000;
     private static final int COL_FLOW = 0xFFFFFF7F;
+
 
     private static int getFlowColor(double val) {
         if (val <= 1) {
@@ -48,6 +47,7 @@ public class HexGraphGui extends AbstractHexGui {
     }
 
     private final MagicHexScreen screen;
+    private final Map<MagicElement, Integer> ELEM_2_ID = new HashMap<>();
 
     HexHandler graph;
     FlowChart flow = null;
@@ -62,20 +62,19 @@ public class HexGraphGui extends AbstractHexGui {
     private double scrollX, scrollY;
     private int tick;
 
-
     public HexGraphGui(MagicHexScreen screen) {
         this.screen = screen;
         graph = screen.product.getSolution();
         if (graph == null) {
             graph = new HexHandler(3);
         }
+        MagicRegistry.ELEMENT.forEach((a) -> ELEM_2_ID.put(a, ELEM_2_ID.size()));
     }
 
     public void render(MatrixStack matrix, double mx, double my, float partial) {
         double x0 = box.x + box.w / 2d;
         double y0 = box.y + box.h / 2d;
         RenderSystem.enableBlend();
-        RenderSystem.disableTexture();
         RenderSystem.defaultBlendFunc();
         RenderSystem.pushMatrix();
         RenderSystem.translated(x0 + scrollX, y0 + scrollY, 0);
@@ -83,11 +82,12 @@ public class HexGraphGui extends AbstractHexGui {
         renderBG(matrix, hover);
         double width = RADIUS / 4 * magn;
         double length = HexHandler.WIDTH * 3 / 4 * magn;
+
         renderPath(matrix, width, length);
         renderFlow(matrix, width, length, partial);
         renderError(matrix, width, length);
-        RenderSystem.enableTexture();
         renderIcons(matrix);
+
         RenderSystem.popMatrix();
         RenderSystem.disableBlend();
     }
@@ -97,181 +97,6 @@ public class HexGraphGui extends AbstractHexGui {
         double y0 = box.y + box.h / 2d;
         LocateResult hover = graph.getElementOnHex((mx - x0 - scrollX) / magn, (my - y0 - scrollY) / magn);
         renderTooltip(matrix, mx, my, hover);
-    }
-
-    private void renderBG(MatrixStack matrix, LocateResult hover) {
-        HexCell cell = new HexCell(graph, 0, 0);
-        for (cell.row = 0; cell.row < graph.getRowCount(); cell.row++)
-            for (cell.cell = 0; cell.cell < graph.getCellCount(cell.row); cell.cell++) {
-                double x = cell.getX() * magn;
-                double y = cell.getY() * magn;
-                double r = MARGIN * RADIUS * magn;
-                renderHex(matrix, x, y, r, COL_BG);
-            }
-        if (hover != null)
-            renderHex(matrix, hover.getX() * magn, hover.getY() * magn, RADIUS * magn / 2, COL_HOVER);
-    }
-
-    private void renderPath(MatrixStack matrix, double width, double length) {
-        HexCell cell = new HexCell(graph, 0, 0);
-        for (cell.row = 0; cell.row < graph.getRowCount(); cell.row++)
-            for (cell.cell = 0; cell.cell < graph.getCellCount(cell.row); cell.cell++) {
-                double x = cell.getX() * magn;
-                double y = cell.getY() * magn;
-                double r = RADIUS * magn;
-                int col;
-                for (int i = 0; i < 3; i++) {
-                    HexDirection dire = HexDirection.values()[i];
-                    if (cell.canWalk(dire)) {
-                        col = cell.isConnected(dire) ? COL_ENABLED : COL_DISABLED;
-                        renderPath(matrix, x, y, HexHandler.WIDTH * magn, i, col, width, length);
-                    }
-                }
-                col = cell.exists() ? COL_ENABLED : COL_DISABLED;
-                renderHex(matrix, x, y, r / 4, col);
-            }
-    }
-
-    private void renderFlow(MatrixStack matrix, double width, double length, float partial) {
-        if (flow != null) {
-            HexCell cell = new HexCell(graph, 0, 0);
-            double[][] vals = new double[graph.getRowCount()][];
-            for (cell.row = 0; cell.row < graph.getRowCount(); cell.row++) {
-                vals[cell.row] = new double[graph.getCellCount(cell.row)];
-            }
-            for (FlowChart.Flow f : flow.flows) {
-                double val;
-                int mask = 0;
-                cell.row = f.arrow.row;
-                cell.cell = f.arrow.cell;
-                if (selected == null) {
-                    double fval = 0;
-                    for (Frac fr : f.forward)
-                        if (fr != null)
-                            fval += fr.getVal();
-                    updateNodeVal(vals, cell, f.arrow.dir, fval / 6);
-                    double bval = 0;
-                    for (Frac fr : f.backward)
-                        if (fr != null)
-                            bval += fr.getVal();
-                    updateNodeVal(vals, cell, f.arrow.dir, bval / 6);
-                    val = (fval + bval) / 6;
-                } else {
-                    val = 0;
-                    if (!ignore[selected.ind] && f.forward[selected.ind] != null) {
-                        double fval = f.forward[selected.ind].getVal();
-                        updateNodeVal(vals, cell, f.arrow.dir, fval);
-                        val += fval;
-                        if (fval > 0) {
-                            mask |= 1;
-                        }
-                    }
-
-                    if (!ignore[selected.ind] && f.backward[selected.ind] != null) {
-                        double bval = f.backward[selected.ind].getVal();
-                        updateNodeVal(vals, cell, f.arrow.dir, bval);
-                        val += bval;
-                        if (bval > 0) {
-                            mask |= 2;
-                        }
-                    }
-                }
-                int col = getFlowColor(val);
-                double x = cell.getX() * magn;
-                double y = cell.getY() * magn;
-                double r = RADIUS * magn;
-                int dire = f.arrow.dir.ind;
-                renderPath(matrix, x, y, HexHandler.WIDTH * magn, dire, col, width, length);
-                if (selected != null && val > 0)
-                    renderPathFlow(matrix, x, y, HexHandler.WIDTH * magn, dire, val, width, length, partial, mask);
-            }
-            for (cell.row = 0; cell.row < graph.getRowCount(); cell.row++)
-                for (cell.cell = 0; cell.cell < graph.getCellCount(cell.row); cell.cell++) {
-                    double x = cell.getX() * magn;
-                    double y = cell.getY() * magn;
-                    double r = RADIUS * magn;
-                    double val = vals[cell.row][cell.cell];
-                    int col;
-                    if (cell.exists())
-                        col = getFlowColor(val);
-                    else col = COL_DISABLED;
-                    renderHex(matrix, x, y, r / 4, col);
-                }
-            if (selected != null) {
-                cell.toCorner(selected);
-                double x = cell.getX() * magn;
-                double y = cell.getY() * magn;
-                double r = RADIUS * magn;
-                renderHex(matrix, x, y, r / 4, COL_HOVER);
-            }
-            for (int i = 0; i < 6; i++) {
-                if (wrong_flow[i]) {
-                    cell.toCorner(HexDirection.values()[i]);
-                    double x = cell.getX() * magn;
-                    double y = cell.getY() * magn;
-                    double r = RADIUS * magn;
-                    renderHex(matrix, x, y, r / 4, COL_ERROR);
-                }
-            }
-        }
-
-    }
-
-    private void renderError(MatrixStack matrix, double width, double length) {
-        if (error != null) {
-            HexCell cell = new HexCell(graph, 0, 0);
-            for (HexCalcException.Side side : error.error) {
-                cell.row = side.row;
-                cell.cell = side.cell;
-                double x = cell.getX() * magn;
-                double y = cell.getY() * magn;
-                double r = RADIUS * magn;
-                int col = COL_ERROR;
-                int dire = side.dir.ind;
-                renderPath(matrix, x, y, HexHandler.WIDTH * magn, dire, col, width, length);
-                renderHex(matrix, x, y, r / 4, col);
-                cell.walk(side.dir);
-                x = cell.getX() * magn;
-                y = cell.getY() * magn;
-                renderHex(matrix, x, y, r / 4, col);
-
-            }
-        }
-    }
-
-    private void renderIcons(MatrixStack matrix) {
-        HexCell cell = new HexCell(graph, 0, 0);
-        for (int i = 0; i < 6; i++) {
-            MagicElement elem = screen.result.getElem(i);
-            if (elem == null)
-                continue;
-            Minecraft.getInstance().getTextureManager().bind(elem.getIcon());
-            cell.toCorner(HexDirection.values()[i]);
-            double x = cell.getX() * magn;
-            double y = cell.getY() * magn;
-            drawIcon(matrix, x, y, magn / 10);
-        }
-    }
-
-    private void renderTooltip(MatrixStack matrix, double mx, double my, LocateResult hover) {
-        if (hover == null || hover.getType() != LocateResult.ResultType.ARROW || selected == null || flow == null)
-            return;
-        flow.flows.stream().filter(e -> e.arrow.equals(hover)).findFirst().ifPresent(e -> {
-            List<ITextComponent> list = new ArrayList<>();
-            if (e.forward[selected.ind] != null)
-                list.add(Translator.get(e.arrow.dir).append(e.forward[selected.ind].toString()));
-            if (e.backward[selected.ind] != null)
-                list.add(Translator.get(e.arrow.dir.next(3)).append(e.backward[selected.ind].toString()));
-            if (list.size() > 0)
-                AbstractHexGui.drawHover(matrix, list, mx, my, screen);
-        });
-    }
-
-    private void updateNodeVal(double[][] vals, HexCell cell, HexDirection dir, double val) {
-        vals[cell.row][cell.cell] += cell.isCorner() ? val : val / 2;
-        cell.walk(dir);
-        vals[cell.row][cell.cell] += cell.isCorner() ? val : val / 2;
-        cell.walk(dir.next(3));
     }
 
     public void setRadius(int radius) {
@@ -285,48 +110,6 @@ public class HexGraphGui extends AbstractHexGui {
     public void scroll(double dx, double dy) {
         scrollX += dx;
         scrollY += dy;
-    }
-
-    private void renderPath(MatrixStack matrix, double x, double y, double r, int dire, int color, double width, double length) {
-        Matrix4f last = matrix.last().pose();
-        float ca = (float) (color >> 24 & 255) / 255.0F;
-        float cr = (float) (color >> 16 & 255) / 255.0F;
-        float cg = (float) (color >> 8 & 255) / 255.0F;
-        float cb = (float) (color & 255) / 255.0F;
-        BufferBuilder builder = Tessellator.getInstance().getBuilder();
-        builder.begin(7, DefaultVertexFormats.POSITION_COLOR);
-        double a = dire * Math.PI / 3;
-        float cx = (float) (x + r * Math.cos(a) / 2);
-        float cy = (float) (y + r * Math.sin(a) / 2);
-        float lx = (float) (length / 2 * Math.cos(a));
-        float ly = (float) (length / 2 * Math.sin(a));
-        float wx = (float) (width / 2 * Math.cos(a - Math.PI / 2));
-        float wy = (float) (width / 2 * Math.sin(a - Math.PI / 2));
-        builder.vertex(last, cx + lx + wx, cy + ly + wy, 0).color(cr, cg, cb, ca).endVertex();
-        builder.vertex(last, cx - lx + wx, cy - ly + wy, 0).color(cr, cg, cb, ca).endVertex();
-        builder.vertex(last, cx - lx - wx, cy - ly - wy, 0).color(cr, cg, cb, ca).endVertex();
-        builder.vertex(last, cx + lx - wx, cy + ly - wy, 0).color(cr, cg, cb, ca).endVertex();
-        builder.end();
-        WorldVertexBufferUploader.end(builder);
-    }
-
-    private void renderPathFlow(MatrixStack matrix, double x, double y, double r, int dire, double val, double width, double length, float partial, int mask) {
-        Matrix4f last = matrix.last().pose();
-        BufferBuilder builder = Tessellator.getInstance().getBuilder();
-        builder.begin(7, DefaultVertexFormats.POSITION_COLOR);
-        double a = dire * Math.PI / 3;
-        float cx = (float) (x + r * Math.cos(a) / 2);
-        float cy = (float) (y + r * Math.sin(a) / 2);
-        float lx = (float) (length / 2 * Math.cos(a));
-        float ly = (float) (length / 2 * Math.sin(a));
-        float wx = (float) (width / 2 * Math.cos(a - Math.PI / 2));
-        float wy = (float) (width / 2 * Math.sin(a - Math.PI / 2));
-        float time = tick + partial;
-        float peak = (float) (width / Math.sqrt(12) / length);
-        vertexFlowCross(builder, last, cx, cy, lx, ly, wx, wy, (time / 20) % 1, 0.25f, peak, mask);
-        vertexFlowCross(builder, last, cx, cy, lx, ly, wx, wy, (time / 20 + 0.5f) % 1, 0.25f, peak, mask);
-        builder.end();
-        WorldVertexBufferUploader.end(builder);
     }
 
     public boolean mouseClicked(double mx, double my, int button) {
@@ -422,41 +205,282 @@ public class HexGraphGui extends AbstractHexGui {
         }
     }
 
-    private static void vertexFlowCross(BufferBuilder builder, Matrix4f last, float cx, float cy, float lx, float ly, float wx, float wy, float p0, float plen, float peak, int mask) {
-        if (p0 + plen < 1) {
-            if ((mask & 1) > 0)
-                vertexFlowBlock(builder, last, cx, cy, lx, ly, wx, wy, p0, p0 + plen, peak);
-            if ((mask & 2) > 0)
-                vertexFlowBlock(builder, last, cx, cy, lx, ly, wx, wy, 1 - (p0 + plen), 1 - p0, -peak);
-        } else {
-            if ((mask & 1) > 0) {
-                vertexFlowBlock(builder, last, cx, cy, lx, ly, wx, wy, p0, 1, peak);
-                vertexFlowBlock(builder, last, cx, cy, lx, ly, wx, wy, 0, p0 + plen - 1, peak);
+    // --- render code ---
+
+    private void renderBG(MatrixStack matrix, LocateResult hover) {
+        HexRenderUtil.hex_start(matrix);
+        HexCell cell = new HexCell(graph, 0, 0);
+        for (cell.row = 0; cell.row < graph.getRowCount(); cell.row++)
+            for (cell.cell = 0; cell.cell < graph.getCellCount(cell.row); cell.cell++) {
+                double x = cell.getX() * magn;
+                double y = cell.getY() * magn;
+                double r = MARGIN * RADIUS * magn;
+                HexRenderUtil.hex(x, y, r, COL_BG);
             }
-            if ((mask & 2) > 0) {
-                vertexFlowBlock(builder, last, cx, cy, lx, ly, wx, wy, 0, 1 - p0, -peak);
-                vertexFlowBlock(builder, last, cx, cy, lx, ly, wx, wy, 2 - (p0 + plen), 1, -peak);
+        if (hover != null)
+            HexRenderUtil.hex(hover.getX() * magn, hover.getY() * magn, RADIUS * magn / 2, COL_HOVER);
+        HexRenderUtil.common_end();
+    }
+
+    private void renderPath(MatrixStack matrix, double width, double length) {
+        HexCell cell = new HexCell(graph, 0, 0);
+        HexRenderUtil.path_start(matrix, width, length, HexHandler.WIDTH * magn, 0);
+        for (cell.row = 0; cell.row < graph.getRowCount(); cell.row++) {
+            for (cell.cell = 0; cell.cell < graph.getCellCount(cell.row); cell.cell++) {
+                double x = cell.getX() * magn;
+                double y = cell.getY() * magn;
+                double r = RADIUS * magn;
+                int col;
+                for (int i = 0; i < 3; i++) {
+                    HexDirection dire = HexDirection.values()[i];
+                    if (cell.canWalk(dire)) {
+                        col = cell.isConnected(dire) ? COL_ENABLED : COL_DISABLED;
+                        HexRenderUtil.path(x, y, i, col);
+                    }
+                }
+            }
+        }
+        HexRenderUtil.common_end();
+        HexRenderUtil.hex_start(matrix);
+        for (cell.row = 0; cell.row < graph.getRowCount(); cell.row++) {
+            for (cell.cell = 0; cell.cell < graph.getCellCount(cell.row); cell.cell++) {
+                double x = cell.getX() * magn;
+                double y = cell.getY() * magn;
+                double r = RADIUS * magn;
+                int col = cell.exists() ? COL_ENABLED : COL_DISABLED;
+                HexRenderUtil.hex(x, y, r / 4, col);
+            }
+        }
+        HexRenderUtil.common_end();
+    }
+
+    private void renderFlow(MatrixStack matrix, double width, double length, float partial) {
+        if (flow == null) return;
+        int[] masks = new int[6];
+        int[] col_masks = new int[6];
+        for (int i = 0; i < 6; i++) {
+            MagicElement elem = screen.result.getElem(i);
+            if (elem != null) {
+                masks[i] = 1 << ELEM_2_ID.get(elem);
+                col_masks[ELEM_2_ID.get(elem)] = elem.color;
+            }
+        }
+        HexCell cell = new HexCell(graph, 0, 0);
+        double[][] vals = new double[graph.getRowCount()][];
+        int[][] node_masks = new int[graph.getRowCount()][];
+        for (cell.row = 0; cell.row < graph.getRowCount(); cell.row++) {
+            vals[cell.row] = new double[graph.getCellCount(cell.row)];
+            node_masks[cell.row] = new int[graph.getCellCount(cell.row)];
+        }
+        HexRenderUtil.path_start(matrix, width, length, HexHandler.WIDTH * magn, tick + partial);
+        renderFlowBase(masks, col_masks, vals, node_masks);
+        HexRenderUtil.common_end();
+        renderFlowSelected(matrix, width, length, partial, selected);
+        renderFlowNode(matrix, vals, node_masks, col_masks);
+    }
+
+    private void renderFlowBase(int[] masks, int[] col_masks, double[][] vals, int[][] node_masks) {
+        HexCell cell = new HexCell(graph, 0, 0);
+        int[] cols = new int[6];
+        for (FlowChart.Flow f : flow.flows) {
+            cell.row = f.arrow.row;
+            cell.cell = f.arrow.cell;
+            if (selected == null) {
+                int mask = 0;
+                Frac[] forward = f.forward;
+                for (int i = 0; i < forward.length; i++) {
+                    Frac fr = forward[i];
+                    if (fr != null) {
+                        mask |= masks[i];
+                    }
+                }
+                Frac[] backward = f.backward;
+                for (int i = 0; i < backward.length; i++) {
+                    Frac fr = backward[i];
+                    if (fr != null) {
+                        mask |= masks[i];
+                    }
+                }
+                node_masks[cell.row][cell.cell] |= mask;
+                double x = cell.getX() * magn;
+                double y = cell.getY() * magn;
+                int dire = f.arrow.dir.ind;
+                int n = 0;
+                for (int i = 0; i < 5; i++) {
+                    if ((mask & 1 << i) > 0) {
+                        cols[n] = col_masks[i];
+                        n++;
+                    }
+                }
+                HexRenderUtil.path(x, y, dire, cols, n);
+                cell.walk(f.arrow.dir);
+                node_masks[cell.row][cell.cell] |= mask;
+            } else {
+                double val = 0;
+                if (!ignore[selected.ind] && f.forward[selected.ind] != null) {
+                    double fval = f.forward[selected.ind].getVal();
+                    updateNodeVal(vals, cell, f.arrow.dir, fval);
+                    val += fval;
+                }
+                if (!ignore[selected.ind] && f.backward[selected.ind] != null) {
+                    double bval = f.backward[selected.ind].getVal();
+                    updateNodeVal(vals, cell, f.arrow.dir, bval);
+                    val += bval;
+                }
+                int col = getFlowColor(val);
+                double x = cell.getX() * magn;
+                double y = cell.getY() * magn;
+                int dire = f.arrow.dir.ind;
+                HexRenderUtil.path(x, y, dire, col);
             }
         }
     }
 
-    private static void vertexFlowBlock(BufferBuilder builder, Matrix4f last, float cx, float cy, float lx, float ly, float wx, float wy, float p0, float p1, float peak) {
-        vertexFlow(builder, last, cx, cy, lx, ly, wx, wy, 1, p1, 0);
-        vertexFlow(builder, last, cx, cy, lx, ly, wx, wy, 1, p0, 0);
-        vertexFlow(builder, last, cx, cy, lx, ly, wx, wy, 0, p0, peak);
-        vertexFlow(builder, last, cx, cy, lx, ly, wx, wy, 0, p1, peak);
-        vertexFlow(builder, last, cx, cy, lx, ly, wx, wy, 0, p1, peak);
-        vertexFlow(builder, last, cx, cy, lx, ly, wx, wy, 0, p0, peak);
-        vertexFlow(builder, last, cx, cy, lx, ly, wx, wy, -1, p0, 0);
-        vertexFlow(builder, last, cx, cy, lx, ly, wx, wy, -1, p1, 0);
+    private void renderFlowSelected(MatrixStack matrix, double width, double length, float partial, HexDirection sel) {
+        if (sel == null)
+            return;
+        MagicElement elem = screen.result.getElem(sel.ind);
+        if (elem == null || selected != null && selected != sel)
+            return;
+        int offset = ELEM_2_ID.get(elem);
+        HexCell cell = new HexCell(graph, 0, 0);
+        HexRenderUtil.flow_setup(matrix, elem.color, width, length, tick + partial, offset, HexHandler.WIDTH * magn, selected != null);
+        for (FlowChart.Flow f : flow.flows) {
+            int mask = 0;
+            cell.row = f.arrow.row;
+            cell.cell = f.arrow.cell;
+            if (!ignore[sel.ind] && f.forward[sel.ind] != null) {
+                double fval = f.forward[sel.ind].getVal();
+                if (fval > 0) {
+                    mask |= 1;
+                }
+            }
+            if (!ignore[sel.ind] && f.backward[sel.ind] != null) {
+                double bval = f.backward[sel.ind].getVal();
+                if (bval > 0) {
+                    mask |= 2;
+                }
+            }
+            double x = cell.getX() * magn;
+            double y = cell.getY() * magn;
+            int dire = f.arrow.dir.ind;
+            if (mask > 0) {
+                HexRenderUtil.flow_path(x, y, dire, mask);
+            }
+        }
+        HexRenderUtil.common_end();
     }
 
-    private static void vertexFlow(BufferBuilder builder, Matrix4f last, float cx, float cy, float lx, float ly, float wx, float wy, int sign, float p, float peak) {
-        builder.vertex(last,
-                cx + (p * 2 - 1 + peak) * lx + sign * wx,
-                cy + (p * 2 - 1 + peak) * ly + sign * wy,
-                0).color(1, 1, 0.5f, 1).endVertex();
+    private void renderFlowNode(MatrixStack matrix, double[][] vals, int[][] masks, int[] col_masks) {
+        HexCell cell = new HexCell(graph, 0, 0);
+        HexRenderUtil.hex_start(matrix);
+        for (cell.row = 0; cell.row < graph.getRowCount(); cell.row++)
+            for (cell.cell = 0; cell.cell < graph.getCellCount(cell.row); cell.cell++) {
+                double x = cell.getX() * magn;
+                double y = cell.getY() * magn;
+                double r = RADIUS * magn;
+                double val = vals[cell.row][cell.cell];
+                int col;
+                if (!cell.exists()) {
+                    col = COL_DISABLED;
+                } else {
+                    if (selected == null) {
+                        col = 0x00B0B0B0;
+                        for (int i = 0; i < 5; i++) {
+                            if (masks[cell.row][cell.cell] == 1 << i) {
+                                col = col_masks[i];
+                            }
+                        }
+                    } else {
+                        col = getFlowColor(val);
+                    }
+                }
+                HexRenderUtil.hex(x, y, r / 4, col);
+            }
+        if (selected != null) {
+            cell.toCorner(selected);
+            double x = cell.getX() * magn;
+            double y = cell.getY() * magn;
+            double r = RADIUS * magn;
+            HexRenderUtil.hex(x, y, r / 4, COL_HOVER);
+        }
+        for (int i = 0; i < 6; i++) {
+            if (wrong_flow[i]) {
+                cell.toCorner(HexDirection.values()[i]);
+                double x = cell.getX() * magn;
+                double y = cell.getY() * magn;
+                double r = RADIUS * magn;
+                HexRenderUtil.hex(x, y, r / 4, COL_ERROR);
+            }
+        }
+        HexRenderUtil.common_end();
     }
 
+    private void renderError(MatrixStack matrix, double width, double length) {
+        if (error != null) {
+            HexCell cell = new HexCell(graph, 0, 0);
+            HexRenderUtil.path_start(matrix, width, length, HexHandler.WIDTH * magn, 0);
+            for (HexCalcException.Side side : error.error) {
+                cell.row = side.row;
+                cell.cell = side.cell;
+                double x = cell.getX() * magn;
+                double y = cell.getY() * magn;
+                int dire = side.dir.ind;
+                HexRenderUtil.path(x, y, dire, COL_ERROR);
+                cell.walk(side.dir);
+            }
+            HexRenderUtil.common_end();
+            HexRenderUtil.hex_start(matrix);
+            for (HexCalcException.Side side : error.error) {
+                cell.row = side.row;
+                cell.cell = side.cell;
+                double x = cell.getX() * magn;
+                double y = cell.getY() * magn;
+                double r = RADIUS * magn;
+                int col = COL_ERROR;
+                HexRenderUtil.hex(x, y, r / 4, col);
+                cell.walk(side.dir);
+                x = cell.getX() * magn;
+                y = cell.getY() * magn;
+                HexRenderUtil.hex(x, y, r / 4, col);
+            }
+            HexRenderUtil.common_end();
+        }
+    }
+
+    private void renderIcons(MatrixStack matrix) {
+        HexCell cell = new HexCell(graph, 0, 0);
+        for (int i = 0; i < 6; i++) {
+            MagicElement elem = screen.result.getElem(i);
+            if (elem == null)
+                continue;
+            Minecraft.getInstance().getTextureManager().bind(elem.getIcon());
+            cell.toCorner(HexDirection.values()[i]);
+            double x = cell.getX() * magn;
+            double y = cell.getY() * magn;
+            drawIcon(matrix, x, y, magn / 10);
+        }
+    }
+
+    private void renderTooltip(MatrixStack matrix, double mx, double my, LocateResult hover) {
+        if (hover == null || hover.getType() != LocateResult.ResultType.ARROW || selected == null || flow == null)
+            return;
+        flow.flows.stream().filter(e -> e.arrow.equals(hover)).findFirst().ifPresent(e -> {
+            List<ITextComponent> list = new ArrayList<>();
+            if (e.forward[selected.ind] != null)
+                list.add(Translator.get(e.arrow.dir).append(e.forward[selected.ind].toString()));
+            if (e.backward[selected.ind] != null)
+                list.add(Translator.get(e.arrow.dir.next(3)).append(e.backward[selected.ind].toString()));
+            if (list.size() > 0)
+                AbstractHexGui.drawHover(matrix, list, mx, my, screen);
+        });
+    }
+
+    private void updateNodeVal(double[][] vals, HexCell cell, HexDirection dir, double val) {
+        vals[cell.row][cell.cell] += cell.isCorner() ? val : val / 2;
+        cell.walk(dir);
+        vals[cell.row][cell.cell] += cell.isCorner() ? val : val / 2;
+        cell.walk(dir.next(3));
+    }
 
 }

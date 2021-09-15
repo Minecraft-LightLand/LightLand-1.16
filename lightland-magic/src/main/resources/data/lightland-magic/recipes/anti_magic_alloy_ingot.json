@@ -2,7 +2,7 @@
     "type": "lightland-magic:craft_shapeless",
     "core": {
         "input": {
-            "item": "lightland-magic:enchant_light_ingot"
+            "item": "lightland-magic:light_alloy_ingot"
         },
         "output": {
             "item": "lightland-magic:anti_magic_alloy_ingot"

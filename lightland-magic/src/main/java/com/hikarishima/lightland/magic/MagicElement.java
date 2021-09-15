@@ -7,8 +7,11 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 public class MagicElement extends NamedEntry<MagicElement> {
 
-    public MagicElement() {
+    public final int color;
+
+    public MagicElement(int color) {
         super(() -> MagicRegistry.ELEMENT);
+        this.color = color;
     }
 
     public String getName() {

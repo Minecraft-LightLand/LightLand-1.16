@@ -2,10 +2,10 @@
     "type": "lightland-magic:craft_shapeless",
     "core": {
         "input": {
-            "item": "minecraft:netherite_ingot"
+            "item": "lightland-magic:enchant_gold_ingot"
         },
         "output": {
-            "item": "twilightforest:knightmetal_ingot"
+            "item": "minecraft:gold_ingot"
         }
     },
     "side": [
@@ -19,10 +19,7 @@
         },
         {
             "input": {
-                "item": "lightland-magic:enchant_alloy_ingot"
-            },
-            "output": {
-                "item": "lightland-magic:permanence_iron_ingot"
+                "item": "twilightforest:armor_shard"
             }
         },
         {
@@ -35,18 +32,12 @@
         },
         {
             "input": {
-                "item": "lightland-magic:enchant_alloy_ingot"
-            },
-            "output": {
-                "item": "lightland-magic:permanence_iron_ingot"
+                "item": "twilightforest:armor_shard"
             }
         },
         {
             "input": {
-                "item": "lightland-magic:enchant_alloy_ingot"
-            },
-            "output": {
-                "item": "lightland-magic:permanence_iron_ingot"
+                "item": "twilightforest:armor_shard"
             }
         },
         {
@@ -59,10 +50,7 @@
         },
         {
             "input": {
-                "item": "lightland-magic:enchant_alloy_ingot"
-            },
-            "output": {
-                "item": "lightland-magic:permanence_iron_ingot"
+                "item": "twilightforest:armor_shard"
             }
         },
         {

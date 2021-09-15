@@ -33,34 +33,6 @@ public class AbstractHexGui extends AbstractGui {
 
     private static final ResourceLocation WIDGETS_LOCATION = new ResourceLocation("textures/gui/advancements/widgets.png");
 
-    public static void renderHex(MatrixStack matrix, double x, double y, double r, int color) {
-        Matrix4f last = matrix.last().pose();
-        BufferBuilder builder = Tessellator.getInstance().getBuilder();
-        builder.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_COLOR);
-
-        float ca = (float) (color >> 24 & 255) / 255.0F;
-        float cr = (float) (color >> 16 & 255) / 255.0F;
-        float cg = (float) (color >> 8 & 255) / 255.0F;
-        float cb = (float) (color & 255) / 255.0F;
-        IntConsumer c = i -> {
-            double a = (i + 0.5) * Math.PI / 3;
-            float px = (float) (x + r * Math.cos(a));
-            float py = (float) (y + r * Math.sin(a));
-            builder.vertex(last, px, py, 0).color(cr, cg, cb, ca).endVertex();
-        };
-        c.accept(0);
-        c.accept(3);
-        c.accept(2);
-        c.accept(1);
-        c.accept(0);
-        c.accept(5);
-        c.accept(4);
-        c.accept(3);
-
-        builder.end();
-        WorldVertexBufferUploader.end(builder);
-    }
-
     public static void drawIcon(MatrixStack matrix, double x, double y, double scale) {
         RenderSystem.pushMatrix();
         RenderSystem.translated(x, y, 0);

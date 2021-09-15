@@ -7,9 +7,7 @@ import com.hikarishima.lightland.magic.gui.container.ChemContainer;
 import com.hikarishima.lightland.magic.gui.container.DisEnchanterContainer;
 import com.hikarishima.lightland.magic.gui.container.SpellCraftContainer;
 import com.hikarishima.lightland.magic.gui.magic_tree.MagicTreeScreen;
-import com.hikarishima.lightland.magic.registry.block.RitualCore;
-import com.hikarishima.lightland.magic.registry.block.RitualSide;
-import com.hikarishima.lightland.magic.registry.block.TempBlock;
+import com.hikarishima.lightland.magic.registry.block.*;
 import com.hikarishima.lightland.magic.registry.item.combat.*;
 import com.hikarishima.lightland.magic.registry.item.magic.*;
 import com.hikarishima.lightland.magic.registry.item.misc.ArmorBag;
@@ -22,7 +20,6 @@ import com.lcy0x1.base.block.BlockProxy;
 import com.lcy0x1.base.block.LightLandBlock;
 import com.lcy0x1.base.block.LightLandBlockProperties;
 import net.minecraft.block.AbstractBlock;
-import net.minecraft.block.AnvilBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.inventory.EquipmentSlotType;
@@ -58,7 +55,7 @@ public class MagicItemRegistry {
     public static final RegistryObject<TempBlock> TEMP_COBBLE = reg("temp_cobblestone", () -> new TempBlock(AbstractBlock.Properties.copy(Blocks.COBBLESTONE).noDrops()));
     public static final RegistryObject<LightLandBlock> B_RITUAL_CORE = reg("ritual_core", () -> LightLandBlock.newBaseBlock(PEDESTAL, RitualCore.ACTIVATE, RitualCore.CLICK, BlockProxy.TRIGGER, RitualCore.TILE_ENTITY_SUPPLIER_BUILDER));
     public static final RegistryObject<LightLandBlock> B_RITUAL_SIDE = reg("ritual_side", () -> LightLandBlock.newBaseBlock(PEDESTAL, RitualCore.CLICK, RitualSide.TILE_ENTITY_SUPPLIER_BUILDER));
-    public static final RegistryObject<Block> B_ANVIL = reg("anvil", () -> new AnvilBlock(AbstractBlock.Properties.copy(Blocks.ANVIL)));
+    public static final RegistryObject<Block> B_ANVIL = reg("anvil", () -> new PermanenceAnvil(AbstractBlock.Properties.copy(Blocks.ANVIL)));
 
     public static final RegistryObject<ScreenBook> MAGIC_BOOK = regItem("magic_book", p -> new ScreenBook(p, () -> MagicTreeScreen::new));
     public static final RegistryObject<ScreenBook> ABILITY_BOOK = regItem("ability_book", p -> new ScreenBook(p, () -> ProfessionScreen::new));
@@ -120,7 +117,7 @@ public class MagicItemRegistry {
     public static final RegistryObject<BlockItem> I_ANTI_MAGIC_ALLOY = regBlockItem(B_ANTI_MAGIC_ALLOY);
     public static final RegistryObject<BlockItem> I_RITUAL_CORE = regBlockItem(B_RITUAL_CORE);
     public static final RegistryObject<BlockItem> I_RITUAL_SIDE = regBlockItem(B_RITUAL_SIDE);
-    public static final RegistryObject<BlockItem> I_ANVIL = regBlockItem(B_ANVIL);
+    public static final RegistryObject<BlockItem> I_ANVIL = regBlockItem(B_ANVIL, AnvilItem::new);
 
     private static <V extends Block> RegistryObject<V> reg(String name, Supplier<V> v) {
         return BLOCK.register(name, v);
@@ -130,8 +127,12 @@ public class MagicItemRegistry {
         return ITEM.register(name, () -> func.apply(new Item.Properties().tab(ItemRegistry.ITEM_GROUP)));
     }
 
+    private static <V extends Block, I extends BlockItem> RegistryObject<BlockItem> regBlockItem(RegistryObject<V> b, BiFunction<Block, Item.Properties, I> func) {
+        return regItem(b.getId().getPath(), p -> func.apply(b.get(), p));
+    }
+
     private static <V extends Block> RegistryObject<BlockItem> regBlockItem(RegistryObject<V> b) {
-        return regItem(b.getId().getPath(), p -> new BlockItem(b.get(), p));
+        return regBlockItem(b, BlockItem::new);
     }
 
     @SuppressWarnings({"unchecked"})

@@ -2,63 +2,63 @@
     "type": "lightland-magic:craft_shapeless",
     "core": {
         "input": {
-            "item": "lightland-magic:enchant_gold_ingot"
+            "item": "lightland-magic:enchant_gold_block"
         },
         "output": {
-            "item": "minecraft:gold_ingot"
+            "item": "minecraft:gold_block"
         }
     },
     "side": [
         {
             "input": {
-                "item": "minecraft:oak_leaves"
+                "item": "minecraft:turtle_shell"
             },
             "output": {
-                "item": "twilightforest:steeleaf_ingot"
+                "item": "minecraft:shulker_shell"
             }
         },
         {
             "input": {
-                "item": "twilightforest:knightmetal_ingot"
+                "item": "minecraft:ender_pearl"
             }
         },
         {
             "input": {
-                "item": "minecraft:oak_leaves"
+                "item": "minecraft:turtle_shell"
             },
             "output": {
-                "item": "twilightforest:steeleaf_ingot"
+                "item": "minecraft:shulker_shell"
             }
         },
         {
             "input": {
-                "item": "twilightforest:knightmetal_ingot"
+                "item": "minecraft:ender_pearl"
             }
         },
         {
             "input": {
-                "item": "twilightforest:knightmetal_ingot"
+                "item": "minecraft:ender_pearl"
             }
         },
         {
             "input": {
-                "item": "minecraft:oak_leaves"
+                "item": "minecraft:turtle_shell"
             },
             "output": {
-                "item": "twilightforest:steeleaf_ingot"
+                "item": "minecraft:shulker_shell"
             }
         },
         {
             "input": {
-                "item": "twilightforest:knightmetal_ingot"
+                "item": "minecraft:ender_pearl"
             }
         },
         {
             "input": {
-                "item": "minecraft:oak_leaves"
+                "item": "minecraft:turtle_shell"
             },
             "output": {
-                "item": "twilightforest:steeleaf_ingot"
+                "item": "minecraft:shulker_shell"
             }
         }
     ]

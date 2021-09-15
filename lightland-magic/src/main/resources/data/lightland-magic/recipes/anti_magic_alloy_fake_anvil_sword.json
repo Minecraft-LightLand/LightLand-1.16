@@ -1,5 +1,5 @@
 {
-    "type": "minecraft:crafting_shapeless",
+    "type": "lightland-magic:full_crafting_shapeless",
     "ingredients": [
         {
             "item": "lightland-magic:anti_magic_alloy_sword"

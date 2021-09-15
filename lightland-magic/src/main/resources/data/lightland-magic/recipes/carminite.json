@@ -1,0 +1,77 @@
+{
+    "type": "lightland-magic:craft_shapeless",
+    "core": {
+        "input": {
+            "item": "minecraft:ghast_tear"
+        },
+        "output": {
+            "item": "twilightforest:carminite"
+        }
+    },
+    "side": [
+        {
+            "input": {
+                "item": "lightland-magic:enchant_gold_nugget"
+            },
+            "output": {
+                "item": "minecraft:gold_nugget"
+            }
+        },
+        {
+            "input": {
+                "item": "minecraft:redstone"
+            },
+            "output": {
+                "item": "twilightforest:carminite"
+            }
+        },
+        {
+            "input": {
+                "item": "lightland-magic:enchant_gold_nugget"
+            },
+            "output": {
+                "item": "minecraft:gold_nugget"
+            }
+        },
+        {
+            "input": {
+                "item": "twilightforest:borer_essence"
+            },
+            "output": {
+                "item": "twilightforest:carminite"
+            }
+        },
+        {
+            "input": {
+                "item": "twilightforest:borer_essence"
+            },
+            "output": {
+                "item": "twilightforest:carminite"
+            }
+        },
+        {
+            "input": {
+                "item": "lightland-magic:enchant_gold_nugget"
+            },
+            "output": {
+                "item": "minecraft:gold_nugget"
+            }
+        },
+        {
+            "input": {
+                "item": "minecraft:redstone"
+            },
+            "output": {
+                "item": "twilightforest:carminite"
+            }
+        },
+        {
+            "input": {
+                "item": "lightland-magic:enchant_gold_nugget"
+            },
+            "output": {
+                "item": "minecraft:gold_nugget"
+            }
+        }
+    ]
+}

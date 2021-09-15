@@ -32,7 +32,7 @@
         },
         {
             "input": {
-                "item": "minecraft:obsidian"
+                "item": "minecraft:prismarine_shard"
             }
         },
         {
@@ -45,12 +45,12 @@
         },
         {
             "input": {
-                "item": "twilightforest:carminite"
+                "item": "twilightforest:naga_scale"
             }
         },
         {
             "input": {
-                "item": "twilightforest:carminite"
+                "item": "twilightforest:naga_scale"
             }
         },
         {
@@ -63,7 +63,7 @@
         },
         {
             "input": {
-                "item": "minecraft:obsidian"
+                "item": "minecraft:prismarine_shard"
             }
         },
         {

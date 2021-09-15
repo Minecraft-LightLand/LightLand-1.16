@@ -30,11 +30,11 @@ public class MagicRegistry {
     public static IForgeRegistry<Profession> PROFESSION;
     public static IForgeRegistry<Skill> SKILL;
 
-    public static final MagicElement ELEM_EARTH = reg("earth", new MagicElement());
-    public static final MagicElement ELEM_AIR = reg("air", new MagicElement());
-    public static final MagicElement ELEM_WATER = reg("water", new MagicElement());
-    public static final MagicElement ELEM_FIRE = reg("fire", new MagicElement());
-    public static final MagicElement ELEM_QUINT = reg("quint", new MagicElement());
+    public static final MagicElement ELEM_EARTH = reg("earth", new MagicElement(0x7F511F));
+    public static final MagicElement ELEM_WATER = reg("water", new MagicElement(0x008ED6));
+    public static final MagicElement ELEM_AIR = reg("air", new MagicElement(0xB2FF6B));
+    public static final MagicElement ELEM_FIRE = reg("fire", new MagicElement(0xFF3B21));
+    public static final MagicElement ELEM_QUINT = reg("quint", new MagicElement(0x9400FF));
 
     public static final ArcaneProfession PROF_ARCANE = reg("arcane", new ArcaneProfession());
     public static final MagicianProfession PROF_MAGIC = reg("magician", new MagicianProfession());
