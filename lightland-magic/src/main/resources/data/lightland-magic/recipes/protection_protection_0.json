@@ -1,22 +1,14 @@
 {
     "type": "lightland-magic:craft_enchant",
-    "magic_recipe": "lightland-magic:enchantment_feather_falling",
-    "levels": [
-        100,
-        40,
-        34,
-        30,
-        27,
-        25,
-        24
-    ],
+    "magic_recipe": "lightland-magic:enchant_lightland-magic:protection",
+    "levels": [100,40,24,18],
     "core": {
         "input": {
             "item": "minecraft:book"
         },
         "output": {
             "enchant_book": {
-                "id": "minecraft:feather_falling",
+                "id": "minecraft:protection",
                 "lvl": 1
             }
         }
@@ -53,7 +45,7 @@
         },
         {
             "input": {
-                "item": "twilightforest:alpha_fur"
+                "item": "twilightforest:ironwood_ingot"
             }
         },
         {
@@ -82,3 +74,4 @@
         }
     ]
 }
+

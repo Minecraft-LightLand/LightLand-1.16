@@ -1,22 +1,14 @@
 {
     "type": "lightland-magic:craft_enchant",
-    "magic_recipe": "lightland-magic:enchantment_blast_protection",
-    "levels": [
-        100,
-        36,
-        31,
-        27,
-        24,
-        22,
-        21
-    ],
+    "magic_recipe": "lightland-magic:enchant_lightland-magic:fire_protection",
+    "levels": [100,40,33,27],
     "core": {
         "input": {
             "item": "minecraft:book"
         },
         "output": {
             "enchant_book": {
-                "id": "minecraft:blast_protection",
+                "id": "minecraft:fire_protection",
                 "lvl": 1
             }
         }
@@ -82,3 +74,4 @@
         }
     ]
 }
+

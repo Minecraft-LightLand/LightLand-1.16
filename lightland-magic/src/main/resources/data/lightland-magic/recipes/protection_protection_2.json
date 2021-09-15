@@ -1,0 +1,67 @@
+{
+    "type": "lightland-magic:craft_enchant",
+    "magic_recipe": "lightland-magic:enchant_lightland-magic:protection",
+    "levels": [100,40,24,18],
+    "core": {
+        "input": {
+            "item": "minecraft:book"
+        },
+        "output": {
+            "enchant_book": {
+                "id": "minecraft:protection",
+                "lvl": 5
+            }
+        }
+    },
+    "side": [
+        {
+            "input": {
+                "item": "twilightforest:hydra_trophy"
+            },
+            "output": {
+                "item": "twilightforest:hydra_trophy"
+            }
+        },
+        {
+            "input": {
+                "enchant_book": {
+                "id": "minecraft:protection",
+                "lvl": 4
+            }
+        },
+        {
+            "input": {
+                "item": "twilightforest:knight_phantom_trophy"
+            },
+            "output": {
+                "item": "twilightforest:knight_phantom_trophy"
+            }
+        },
+        {
+            "input": {
+                "item": "twilightforest:steeleaf_ingot"
+            }
+        },
+        {
+            "input": {
+                "item": "twilightforest:ironwood_ingot"
+            }
+        },
+        {
+            "input": {
+                "item": "twilightforest:giant_obsedian"
+            }
+        },
+        {
+            "input": {
+                "item": "twilightforest:shield_sceptor"
+            }
+        },
+        {
+            "input": {
+                "item": "twilightforest:aurora_block"
+            }
+        }
+    ]
+}
+

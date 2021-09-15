@@ -366,5 +366,47 @@
             "a": "minecraft:glistering_melon_slice",
             "b": "minecraft:fermented_spider_eye"
         }
+    },
+    "-protection": {
+        "-list":[
+            "protection_0",
+            "protection_1",
+            "protection_2"
+        ],
+        "protection": {
+            "e": "minecraft:^n",
+            "r": "lightland-magic:^n",
+            "l": "[100,40,24,18]",
+            "a": "twilightforest:steeleaf_ingot",
+            "b": "twilightforest:ironwood_ingot"
+        },
+        "blast_protection": {
+            "e": "minecraft:^n",
+            "r": "lightland-magic:^n",
+            "l": "[100,40,27,21]",
+            "a": "twilightforest:steeleaf_ingot",
+            "b": "twilightforest:naga_scale"
+        },
+        "projectile_protection": {
+            "e": "minecraft:^n",
+            "r": "lightland-magic:^n",
+            "l": "[100,40,30,24]",
+            "a": "twilightforest:steeleaf_ingot",
+            "b": "twilightforest:knightmetal_ingot"
+        },
+        "fire_protection": {
+            "e": "minecraft:^n",
+            "r": "lightland-magic:^n",
+            "l": "[100,40,33,27]",
+            "a": "twilightforest:steeleaf_ingot",
+            "b": "twilightforest:fiery_ingot"
+        },
+        "feather_falling": {
+            "e": "minecraft:^n",
+            "r": "lightland-magic:^n",
+            "l": "[100,40,30,24]",
+            "a": "twilightforest:steeleaf_ingot",
+            "b": "twilightforest:alpha_fur"
+        }
     }
 }

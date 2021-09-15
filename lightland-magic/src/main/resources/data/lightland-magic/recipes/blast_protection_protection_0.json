@@ -1,15 +1,7 @@
 {
     "type": "lightland-magic:craft_enchant",
-    "magic_recipe": "lightland-magic:enchantment_blast_protection",
-    "levels": [
-        100,
-        36,
-        31,
-        27,
-        24,
-        22,
-        21
-    ],
+    "magic_recipe": "lightland-magic:enchant_lightland-magic:blast_protection",
+    "levels": [100,40,27,21],
     "core": {
         "input": {
             "item": "minecraft:book"
@@ -53,7 +45,7 @@
         },
         {
             "input": {
-                "item": "twilightforest:fiery_ingot"
+                "item": "twilightforest:naga_scale"
             }
         },
         {
@@ -82,3 +74,4 @@
         }
     ]
 }
+

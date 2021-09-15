@@ -1,0 +1,70 @@
+{
+    "type": "lightland-magic:craft_enchant",
+    "magic_recipe": "lightland-magic:enchant_lightland-magic:fire_protection",
+    "levels": [100,40,33,27],
+    "core": {
+        "input": {
+            "item": "minecraft:book"
+        },
+        "output": {
+            "enchant_book": {
+                "id": "minecraft:fire_protection",
+                "lvl": 3
+            }
+        }
+    },
+    "side": [
+        {
+            "input": {
+                "item": "lightland-magic:enchant_gold_ingot"
+            },
+            "output": {
+                "item": "minecraft:gold_ingot"
+            }
+        },
+        {
+            "input": {
+                "enchant_book": {
+                "id": "minecraft:fire_protection",
+                "lvl": 2
+            }
+        },
+        {
+            "input": {
+                "item": "lightland-magic:permanence_iron_block"
+            },
+            "output": {
+                "item": "lightland-magic:permanence_iron_block"
+            }
+        },
+        {
+            "input": {
+                "item": "twilightforest:steeleaf_ingot"
+            }
+        },
+        {
+            "input": {
+                "item": "twilightforest:fiery_ingot"
+            }
+        },
+        {
+            "input": {
+                "item": "twilightforest:carminite"
+            }
+        },
+        {
+            "input": {
+                "item": "twilightforest:shield_sceptor"
+            },
+            "output": {
+                "item": "twilightforest:shield_sceptor"
+            }
+        },
+        {
+            "input": {
+                "item": "twilightforest:arctic_fur"
+            }
+        }
+    ]
+}
+

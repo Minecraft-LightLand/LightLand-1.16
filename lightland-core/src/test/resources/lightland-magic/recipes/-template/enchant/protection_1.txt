@@ -1,0 +1,69 @@
+{
+    "type": "lightland-magic:craft_enchant",
+    "magic_recipe": "lightland-magic:enchant_^r",
+    "levels": ^l,
+    "core": {
+        "input": {
+            "item": "minecraft:book"
+        },
+        "output": {
+            "enchant_book": {
+                "id": "^e",
+                "lvl": 3
+            }
+        }
+    },
+    "side": [
+        {
+            "input": {
+                "item": "lightland-magic:enchant_gold_ingot"
+            },
+            "output": {
+                "item": "minecraft:gold_ingot"
+            }
+        },
+        {
+            "input": {
+                "enchant_book": {
+                "id": "^e",
+                "lvl": 2
+            }
+        },
+        {
+            "input": {
+                "item": "lightland-magic:permanence_iron_block"
+            },
+            "output": {
+                "item": "lightland-magic:permanence_iron_block"
+            }
+        },
+        {
+            "input": {
+                "item": "^a"
+            }
+        },
+        {
+            "input": {
+                "item": "^b"
+            }
+        },
+        {
+            "input": {
+                "item": "twilightforest:carminite"
+            }
+        },
+        {
+            "input": {
+                "item": "twilightforest:shield_sceptor"
+            },
+            "output": {
+                "item": "twilightforest:shield_sceptor"
+            }
+        },
+        {
+            "input": {
+                "item": "twilightforest:arctic_fur"
+            }
+        }
+    ]
+}

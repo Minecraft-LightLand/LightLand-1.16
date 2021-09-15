@@ -1,22 +1,14 @@
 {
     "type": "lightland-magic:craft_enchant",
-    "magic_recipe": "lightland-magic:enchantment_protection",
-    "levels": [
-        100,
-        35,
-        29,
-        24,
-        21,
-        19,
-        18
-    ],
+    "magic_recipe": "lightland-magic:enchant_lightland-magic:projectile_protection",
+    "levels": [100,40,30,24],
     "core": {
         "input": {
             "item": "minecraft:book"
         },
         "output": {
             "enchant_book": {
-                "id": "minecraft:protection",
+                "id": "minecraft:projectile_protection",
                 "lvl": 1
             }
         }
@@ -53,7 +45,7 @@
         },
         {
             "input": {
-                "item": "twilightforest:ironwood_ingot"
+                "item": "twilightforest:knightmetal_ingot"
             }
         },
         {
@@ -82,3 +74,4 @@
         }
     ]
 }
+

@@ -1,0 +1,66 @@
+{
+    "type": "lightland-magic:craft_enchant",
+    "magic_recipe": "lightland-magic:enchant_^r",
+    "levels": ^l,
+    "core": {
+        "input": {
+            "item": "minecraft:book"
+        },
+        "output": {
+            "enchant_book": {
+                "id": "^e",
+                "lvl": 5
+            }
+        }
+    },
+    "side": [
+        {
+            "input": {
+                "item": "twilightforest:hydra_trophy"
+            },
+            "output": {
+                "item": "twilightforest:hydra_trophy"
+            }
+        },
+        {
+            "input": {
+                "enchant_book": {
+                "id": "^e",
+                "lvl": 4
+            }
+        },
+        {
+            "input": {
+                "item": "twilightforest:knight_phantom_trophy"
+            },
+            "output": {
+                "item": "twilightforest:knight_phantom_trophy"
+            }
+        },
+        {
+            "input": {
+                "item": "^a"
+            }
+        },
+        {
+            "input": {
+                "item": "^b"
+            }
+        },
+        {
+            "input": {
+                "item": "twilightforest:giant_obsedian"
+            }
+        },
+        {
+            "input": {
+                "item": "twilightforest:shield_sceptor"
+            }
+        },
+        {
+            "input": {
+                "item": "twilightforest:aurora_block"
+            }
+        }
+    ]
+}
