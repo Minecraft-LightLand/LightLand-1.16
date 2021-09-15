@@ -21,10 +21,7 @@
         },
         {
             "input": {
-                "enchant_book": {
-                    "id": "^e",
-                    "lvl": 2
-                }
+                "item": "twilightforest:carminite"
             }
         },
         {
@@ -34,12 +31,18 @@
         },
         {
             "input": {
-                "item": "^a"
+                "enchant_book": {
+                    "id": "^e",
+                    "lvl": 2
+                }
             }
         },
         {
             "input": {
-                "item": "^b"
+                "enchant_book": {
+                    "id": "^e",
+                    "lvl": 2
+                }
             }
         },
         {

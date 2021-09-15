@@ -16,11 +16,27 @@
     "side": [
         {
             "input": {
-                "item": "twilightforest:fiery_blood"
+                "item": "twilightforest:peacock_fan"
             }
         },
         {
+                "item": "twilightforest:carminite"
+        },
+        {
             "input": {
+                "item": "twilightforest:moonworm_queen"
+            }
+        },
+        {
+            "input":{
+                "enchant_book": {
+                    "id": "^e",
+                    "lvl": 8
+                }
+            }
+        },
+        {
+            "input":{
                 "enchant_book": {
                     "id": "^e",
                     "lvl": 8
@@ -29,27 +45,15 @@
         },
         {
             "input": {
-                "item": "twilightforest:fiery_tear"
+                "item": "twilightforest:lamp_of_cinders"
             }
         },
         {
             "input": {
-                "item": "^a"
-            }
-        },
-        {
-            "input": {
-                "item": "^b"
-            }
-        },
-        {
-            "input": {
-                "item": "twilightforest:lifedrain_sceptor"
-            }
-        },
-        {
-            "input": {
-                "item": "twilightforest:diamond_minotaur_axe"
+                "item": "lightland-magic:enchant_gold_ingot"
+            },
+            "output": {
+                "item": "minecraft:gold_ingot"
             }
         },
         {

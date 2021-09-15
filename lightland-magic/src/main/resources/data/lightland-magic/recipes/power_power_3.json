@@ -1,0 +1,66 @@
+{
+    "type": "lightland-magic:craft_enchant",
+    "magic_recipe": "lightland-magic:enchantment_power",
+    "levels": [100,40,30,24],
+    "core": {
+        "input": {
+            "item": "minecraft:book"
+        },
+        "output": {
+            "enchant_book": {
+                "id": "minecraft:power",
+                "lvl": 7
+            }
+        }
+    },
+    "side": [
+        {
+            "input": {
+                "item": "twilightforest:peacock_fan"
+            }
+        },
+        {
+                "item": "twilightforest:carminite"
+        },
+        {
+            "input": {
+                "item": "twilightforest:moonworm_queen"
+            }
+        },
+        {
+            "input":{
+                "enchant_book": {
+                    "id": "minecraft:power",
+                    "lvl": 8
+                }
+            }
+        },
+        {
+            "input":{
+                "enchant_book": {
+                    "id": "minecraft:power",
+                    "lvl": 8
+                }
+            }
+        },
+        {
+            "input": {
+                "item": "twilightforest:lamp_of_cinders"
+            }
+        },
+        {
+            "input": {
+                "item": "lightland-magic:enchant_gold_ingot"
+            },
+            "output": {
+                "item": "minecraft:gold_ingot"
+            }
+        },
+        {
+            "input": {
+                "item": "twilightforest:twilight_sceptor"
+            }
+        }
+    ]
+}
+

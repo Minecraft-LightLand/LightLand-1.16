@@ -1,0 +1,65 @@
+{
+    "type": "lightland-magic:craft_enchant",
+    "magic_recipe": "^r",
+    "levels": ^l,
+    "core": {
+        "input": {
+            "item": "minecraft:book"
+        },
+        "output": {
+            "enchant_book": {
+                "id": "^e",
+                "lvl": 5
+            }
+        }
+    },
+    "side": [
+        {
+            "input": {
+                "item": "twilightforest:seeker_bow"
+            }
+        },
+        {
+                "item": "twilightforest:carminite"
+        },
+        {
+            "input": {
+                "item": "twilightforest:triple_bow"
+            }
+        },
+        {
+            "input":{
+                "enchant_book": {
+                    "id": "^e",
+                    "lvl": 5
+                }
+            }
+        },
+        {
+            "input":{
+                "enchant_book": {
+                    "id": "^e",
+                    "lvl": 5
+                }
+            }
+        },
+        {
+            "input": {
+                "item": "twilightforest:ice_bow"
+            }
+        },
+        {
+            "input": {
+                "item": "lightland-magic:enchant_gold_ingot"
+            },
+            "output": {
+                "item": "minecraft:gold_ingot"
+            }
+        },
+        {
+            "input": {
+                "item": "twilightforest:ender_bow"
+            }
+        }
+    ]
+}

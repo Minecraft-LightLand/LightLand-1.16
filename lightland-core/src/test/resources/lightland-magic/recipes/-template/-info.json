@@ -409,24 +409,33 @@
             "b": "twilightforest:alpha_fur"
         }
     },
-    "-damage": {
+    "-sharpness": {
         "-list": [
             "damage_0",
-            "damage_1",
-            "damage_2"
+            "sharpness_1",
+            "sharpness_2",
+            "sharpness_3"
         ],
         "sharpness":{
             "e": "minecraft:^n",
             "r": "lightland-magic:enchantment_^n",
             "l": "[100,40,30,24]",
-            "a": "twilightforest:carminite",
+            "a": "twilightforest:naga_scale",
             "b": "minecraft:obsidian"
-        },
+        }
+    },
+    "-power": {
+        "-list": [
+            "damage_0",
+            "power_1",
+            "power_2",
+            "power_3"
+        ],
         "power":{
             "e": "minecraft:^n",
             "r": "lightland-magic:enchantment_^n",
             "l": "[100,40,30,24]",
-            "a": "twilightforest:carminite",
+            "a": "twilightforest:naga_scale",
             "b": "lightland-magic:enchant_string"
         }
     }

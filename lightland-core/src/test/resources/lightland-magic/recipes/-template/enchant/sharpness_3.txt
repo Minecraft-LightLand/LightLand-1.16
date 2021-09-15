@@ -1,62 +1,64 @@
 {
     "type": "lightland-magic:craft_enchant",
-    "magic_recipe": "lightland-magic:enchantment_power",
-    "levels": [100,40,30,24],
+    "magic_recipe": "^r",
+    "levels": ^l,
     "core": {
         "input": {
             "item": "minecraft:book"
         },
         "output": {
             "enchant_book": {
-                "id": "minecraft:power",
-                "lvl": 5
+                "id": "^e",
+                "lvl": 7
             }
         }
     },
     "side": [
         {
             "input": {
-                "item": "twilightforest:ice_sword"
+                "item": "twilightforest:fiery_blood"
+            }
+        },
+        {
+            "input": {
+                "item": "twilightforest:block_and_chain"
+            }
+        },
+        {
+            "input": {
+                "item": "twilightforest:fiery_tear"
             }
         },
         {
             "input": {
                 "enchant_book": {
-                    "id": "minecraft:power",
-                    "lvl": 5
+                    "id": "^e",
+                    "lvl": 8
                 }
             }
         },
         {
             "input": {
-                "item": "twilightforest:glass_sword"
+                "enchant_book": {
+                    "id": "^e",
+                    "lvl": 8
+                }
             }
         },
         {
             "input": {
-                "item": "twilightforest:carminite"
+                "item": "twilightforest:lifedrain_sceptor"
             }
         },
         {
             "input": {
-                "item": "lightland-magic:enchant_string"
+                "item": "twilightforest:diamond_minotaur_axe"
             }
         },
         {
             "input": {
-                "item": "twilightforest:giant_sword"
-            }
-        },
-        {
-            "input": {
-                "item": "twilightforest:naga_scale"
-            }
-        },
-        {
-            "input": {
-                "item": "twilightforest:fiery_sword"
+                "item": "twilightforest:twilight_sceptor"
             }
         }
     ]
 }
-

@@ -1,6 +1,6 @@
 {
     "type": "lightland-magic:craft_enchant",
-    "magic_recipe": "lightland-magic:enchantment_power",
+    "magic_recipe": "lightland-magic:enchantment_sharpness",
     "levels": [100,40,30,24],
     "core": {
         "input": {
@@ -8,7 +8,7 @@
         },
         "output": {
             "enchant_book": {
-                "id": "minecraft:power",
+                "id": "minecraft:sharpness",
                 "lvl": 3
             }
         }
@@ -21,10 +21,7 @@
         },
         {
             "input": {
-                "enchant_book": {
-                    "id": "minecraft:power",
-                    "lvl": 2
-                }
+                "item": "twilightforest:carminite"
             }
         },
         {
@@ -34,12 +31,18 @@
         },
         {
             "input": {
-                "item": "twilightforest:carminite"
+                "enchant_book": {
+                    "id": "minecraft:sharpness",
+                    "lvl": 2
+                }
             }
         },
         {
             "input": {
-                "item": "lightland-magic:enchant_string"
+                "enchant_book": {
+                    "id": "minecraft:sharpness",
+                    "lvl": 2
+                }
             }
         },
         {
