@@ -2,7 +2,7 @@
     "type": "lightland-magic:craft_potion_boost",
     "effect": "minecraft:speed",
     "modify_level": 1,
-    "magic_recipe": "lightland-magic:speed",
+    "magic_recipe": "lightland-magic:effect_speed",
     "levels": [100,40,30,27,26],
     "core": {
         "input": {

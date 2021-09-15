@@ -1,22 +1,14 @@
 {
     "type": "lightland-magic:craft_enchant",
-    "magic_recipe": "lightland-magic:enchantment_power",
-    "levels": [
-        100,
-        40,
-        34,
-        30,
-        27,
-        25,
-        24
-    ],
+    "magic_recipe": "^r",
+    "levels": ^l,
     "core": {
         "input": {
             "item": "minecraft:book"
         },
         "output": {
             "enchant_book": {
-                "id": "minecraft:power",
+                "id": "^e",
                 "lvl": 1
             }
         }
@@ -32,7 +24,7 @@
         },
         {
             "input": {
-                "item": "twilightforest:carminite"
+                "item": "^a"
             }
         },
         {
@@ -45,12 +37,12 @@
         },
         {
             "input": {
-                "item": "lightland-magic:enchant_string"
+                "item": "^b"
             }
         },
         {
             "input": {
-                "item": "lightland-magic:enchant_string"
+                "item": "^b"
             }
         },
         {
@@ -63,7 +55,7 @@
         },
         {
             "input": {
-                "item": "twilightforest:carminite"
+                "item": "^a"
             }
         },
         {

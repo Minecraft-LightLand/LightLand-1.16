@@ -1,22 +1,14 @@
 {
     "type": "lightland-magic:craft_enchant",
-    "magic_recipe": "lightland-magic:enchantment_sharpness",
-    "levels": [
-        100,
-        40,
-        34,
-        30,
-        27,
-        25,
-        24
-    ],
+    "magic_recipe": "lightland-magic:enchantment_power",
+    "levels": [100,40,30,24],
     "core": {
         "input": {
             "item": "minecraft:book"
         },
         "output": {
             "enchant_book": {
-                "id": "minecraft:sharpness",
+                "id": "minecraft:power",
                 "lvl": 1
             }
         }
@@ -45,12 +37,12 @@
         },
         {
             "input": {
-                "item": "minecraft:obsidian"
+                "item": "lightland-magic:enchant_string"
             }
         },
         {
             "input": {
-                "item": "minecraft:obsidian"
+                "item": "lightland-magic:enchant_string"
             }
         },
         {
@@ -76,3 +68,4 @@
         }
     ]
 }
+

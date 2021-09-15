@@ -27,16 +27,13 @@
             "input":{
                 "enchant_book": {
                     "id": "minecraft:protection",
-                    "lvl": 5
+                    "lvl": 6
                 }
             }
         },
         {
             "input": {
-                "item": "lightland-magic:enchant_gold_ingot"
-            },
-            "output": {
-                "item": "minecraft:gold_ingot"
+                "item": "lightland-magic:enchant_alloy_ingot"
             }
         },
         
@@ -44,7 +41,7 @@
             "input":{
                 "enchant_book": {
                     "id": "minecraft:projectile_protection",
-                    "lvl": 5
+                    "lvl": 6
                 }
             }
         },
@@ -62,23 +59,20 @@
             "input":{
                 "enchant_book": {
                     "id": "minecraft:blast_protection",
-                    "lvl": 5
+                    "lvl": 6
                 }
             }
         },
         {
             "input": {
-                "item": "lightland-magic:enchant_gold_ingot"
-            },
-            "output": {
-                "item": "minecraft:gold_ingot"
+                "item": "twilightforest:fiery_ingot"
             }
         },
         {
             "input":{
                 "enchant_book": {
-                    "id": "minecraft:protection",
-                    "lvl": 5
+                    "id": "minecraft:feather_falling",
+                    "lvl": 6
                 }
             }
         }

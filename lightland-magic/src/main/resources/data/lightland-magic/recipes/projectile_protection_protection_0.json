@@ -1,6 +1,6 @@
 {
     "type": "lightland-magic:craft_enchant",
-    "magic_recipe": "lightland-magic:enchant_lightland-magic:projectile_protection",
+    "magic_recipe": "lightland-magic:enchantment_projectile_protection",
     "levels": [100,40,30,24],
     "core": {
         "input": {

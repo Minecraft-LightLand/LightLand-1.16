@@ -1,23 +1,15 @@
 {
     "type": "lightland-magic:craft_enchant",
-    "magic_recipe": "lightland-magic:enchantment_sharpness",
-    "levels": [
-        100,
-        40,
-        34,
-        30,
-        27,
-        25,
-        24
-    ],
+    "magic_recipe": "^r",
+    "levels": ^l,
     "core": {
         "input": {
             "item": "minecraft:book"
         },
         "output": {
             "enchant_book": {
-                "id": "minecraft:sharpness",
-                "lvl": 4
+                "id": "^e",
+                "lvl": 5
             }
         }
     },
@@ -29,10 +21,10 @@
         },
         {
             "input": {
-                "item": "lightland-magic:enchant_gold_ingot"
-            },
-            "output": {
-                "item": "minecraft:gold_ingot"
+                "enchant_book": {
+                    "id": "^e",
+                    "lvl": 5
+                }
             }
         },
         {
@@ -41,19 +33,13 @@
             }
         },
         {
-            "input":{
-                "enchant_book": {
-                    "id": "minecraft:sharpness",
-                    "lvl": 5
-                }
+            "input": {
+                "item": "^a"
             }
         },
         {
-            "input":{
-                "enchant_book": {
-                    "id": "minecraft:sharpness",
-                    "lvl": 5
-                }
+            "input": {
+                "item": "^b"
             }
         },
         {
@@ -63,10 +49,7 @@
         },
         {
             "input": {
-                "item": "lightland-magic:enchant_gold_ingot"
-            },
-            "output": {
-                "item": "minecraft:gold_ingot"
+                "item": "twilightforest:naga_scale"
             }
         },
         {

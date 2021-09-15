@@ -16,25 +16,20 @@
     "side": [
         {
             "input": {
-                "item": "lightland-magic:enchant_gold_ingot"
-            },
-            "output": {
-                "item": "minecraft:gold_ingot"
+                "item": "twilightforest:ironwood_sword"
             }
         },
         {
             "input": {
                 "enchant_book": {
-                "id": "^e",
-                "lvl": 2
+                    "id": "^e",
+                    "lvl": 2
+                }
             }
         },
         {
             "input": {
-                "item": "lightland-magic:permanence_iron_block"
-            },
-            "output": {
-                "item": "lightland-magic:permanence_iron_block"
+                "item": "twilightforest:steeleaf_sword"
             }
         },
         {
@@ -49,20 +44,17 @@
         },
         {
             "input": {
-                "item": "twilightforest:carminite"
+                "item": "twilightforest:kightmetal_sword"
             }
         },
         {
             "input": {
-                "item": "twilightforest:shield_sceptor"
-            },
-            "output": {
-                "item": "twilightforest:shield_sceptor"
+                "item": "lightland-magic:enchant_alloy_ingot"
             }
         },
         {
             "input": {
-                "item": "twilightforest:arctic_fur"
+                "item": "twilightforest:gold_minotaur_axe"
             }
         }
     ]

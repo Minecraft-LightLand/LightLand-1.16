@@ -1,66 +1,62 @@
 {
     "type": "lightland-magic:craft_enchant",
-    "magic_recipe": "^r",
-    "levels": ^l,
+    "magic_recipe": "lightland-magic:enchantment_sharpness",
+    "levels": [100,40,30,24],
     "core": {
         "input": {
             "item": "minecraft:book"
         },
         "output": {
             "enchant_book": {
-                "id": "^e",
-                "lvl": 5
+                "id": "minecraft:sharpness",
+                "lvl": 3
             }
         }
     },
     "side": [
         {
             "input": {
-                "item": "twilightforest:hydra_trophy"
-            },
-            "output": {
-                "item": "twilightforest:hydra_trophy"
+                "item": "twilightforest:ironwood_sword"
             }
         },
         {
             "input": {
                 "enchant_book": {
-                "id": "^e",
-                "lvl": 5
+                    "id": "minecraft:sharpness",
+                    "lvl": 2
+                }
             }
         },
         {
             "input": {
-                "item": "twilightforest:knight_phantom_trophy"
-            },
-            "output": {
-                "item": "twilightforest:knight_phantom_trophy"
+                "item": "twilightforest:steeleaf_sword"
             }
         },
         {
             "input": {
-                "item": "^a"
+                "item": "twilightforest:carminite"
             }
         },
         {
             "input": {
-                "item": "^b"
+                "item": "minecraft:obsidian"
             }
         },
         {
             "input": {
-                "item": "twilightforest:giant_obsedian"
+                "item": "twilightforest:kightmetal_sword"
             }
         },
         {
             "input": {
-                "item": "twilightforest:shield_sceptor"
+                "item": "lightland-magic:enchant_alloy_ingot"
             }
         },
         {
             "input": {
-                "item": "twilightforest:aurora_block"
+                "item": "twilightforest:gold_minotaur_axe"
             }
         }
     ]
 }
+

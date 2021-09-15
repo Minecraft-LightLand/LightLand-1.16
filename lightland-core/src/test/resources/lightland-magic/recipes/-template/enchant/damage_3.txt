@@ -9,32 +9,27 @@
         "output": {
             "enchant_book": {
                 "id": "^e",
-                "lvl": 3
+                "lvl": 7
             }
         }
     },
     "side": [
         {
             "input": {
-                "item": "lightland-magic:enchant_gold_ingot"
-            },
-            "output": {
-                "item": "minecraft:gold_ingot"
+                "item": "twilightforest:fiery_blood"
             }
         },
         {
             "input": {
                 "enchant_book": {
-                "id": "^e",
-                "lvl": 2
+                    "id": "^e",
+                    "lvl": 8
+                }
             }
         },
         {
             "input": {
-                "item": "lightland-magic:permanence_iron_block"
-            },
-            "output": {
-                "item": "lightland-magic:permanence_iron_block"
+                "item": "twilightforest:fiery_tear"
             }
         },
         {
@@ -49,20 +44,17 @@
         },
         {
             "input": {
-                "item": "twilightforest:carminite"
+                "item": "twilightforest:lifedrain_sceptor"
             }
         },
         {
             "input": {
-                "item": "twilightforest:shield_sceptor"
-            },
-            "output": {
-                "item": "twilightforest:shield_sceptor"
+                "item": "twilightforest:diamond_minotaur_axe"
             }
         },
         {
             "input": {
-                "item": "twilightforest:arctic_fur"
+                "item": "twilightforest:twilight_sceptor"
             }
         }
     ]

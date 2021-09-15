@@ -1,6 +1,6 @@
 {
     "type": "lightland-magic:craft_enchant",
-    "magic_recipe": "lightland-magic:enchant_^r",
+    "magic_recipe": "^r",
     "levels": ^l,
     "core": {
         "input": {

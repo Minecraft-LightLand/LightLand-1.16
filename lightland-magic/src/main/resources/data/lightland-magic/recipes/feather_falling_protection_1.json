@@ -1,6 +1,6 @@
 {
     "type": "lightland-magic:craft_enchant",
-    "magic_recipe": "lightland-magic:enchant_lightland-magic:feather_falling",
+    "magic_recipe": "lightland-magic:enchantment_feather_falling",
     "levels": [100,40,30,24],
     "core": {
         "input": {

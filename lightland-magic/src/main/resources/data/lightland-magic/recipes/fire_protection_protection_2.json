@@ -1,6 +1,6 @@
 {
     "type": "lightland-magic:craft_enchant",
-    "magic_recipe": "lightland-magic:enchant_lightland-magic:fire_protection",
+    "magic_recipe": "lightland-magic:enchantment_fire_protection",
     "levels": [100,40,33,27],
     "core": {
         "input": {
@@ -26,7 +26,7 @@
             "input": {
                 "enchant_book": {
                 "id": "minecraft:fire_protection",
-                "lvl": 4
+                "lvl": 5
             }
         },
         {
