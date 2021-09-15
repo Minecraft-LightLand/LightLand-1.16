@@ -7,7 +7,6 @@ import com.hikarishima.lightland.magic.Translator;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.item.AxeItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.PickaxeItem;
 import net.minecraft.util.text.ITextComponent;
@@ -17,7 +16,6 @@ import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.List;
-import java.util.Properties;
 import java.util.function.Consumer;
 
 @ParametersAreNonnullByDefault

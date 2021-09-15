@@ -7,7 +7,10 @@ import com.hikarishima.lightland.magic.gui.container.ChemContainer;
 import com.hikarishima.lightland.magic.gui.container.DisEnchanterContainer;
 import com.hikarishima.lightland.magic.gui.container.SpellCraftContainer;
 import com.hikarishima.lightland.magic.gui.magic_tree.MagicTreeScreen;
-import com.hikarishima.lightland.magic.registry.block.*;
+import com.hikarishima.lightland.magic.registry.block.AnvilItem;
+import com.hikarishima.lightland.magic.registry.block.RitualCore;
+import com.hikarishima.lightland.magic.registry.block.RitualSide;
+import com.hikarishima.lightland.magic.registry.block.TempBlock;
 import com.hikarishima.lightland.magic.registry.item.combat.*;
 import com.hikarishima.lightland.magic.registry.item.magic.*;
 import com.hikarishima.lightland.magic.registry.item.misc.ArmorBag;
@@ -30,6 +33,7 @@ import net.minecraft.item.Items;
 import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
+import shadows.apotheosis.ench.anvil.ApothAnvilBlock;
 
 import java.util.function.BiFunction;
 import java.util.function.Function;
@@ -55,7 +59,7 @@ public class MagicItemRegistry {
     public static final RegistryObject<TempBlock> TEMP_COBBLE = reg("temp_cobblestone", () -> new TempBlock(AbstractBlock.Properties.copy(Blocks.COBBLESTONE).noDrops()));
     public static final RegistryObject<LightLandBlock> B_RITUAL_CORE = reg("ritual_core", () -> LightLandBlock.newBaseBlock(PEDESTAL, RitualCore.ACTIVATE, RitualCore.CLICK, BlockProxy.TRIGGER, RitualCore.TILE_ENTITY_SUPPLIER_BUILDER));
     public static final RegistryObject<LightLandBlock> B_RITUAL_SIDE = reg("ritual_side", () -> LightLandBlock.newBaseBlock(PEDESTAL, RitualCore.CLICK, RitualSide.TILE_ENTITY_SUPPLIER_BUILDER));
-    public static final RegistryObject<Block> B_ANVIL = reg("anvil", () -> new PermanenceAnvil(AbstractBlock.Properties.copy(Blocks.ANVIL)));
+    public static final RegistryObject<Block> B_ANVIL = reg("anvil", ApothAnvilBlock::new);
 
     public static final RegistryObject<ScreenBook> MAGIC_BOOK = regItem("magic_book", p -> new ScreenBook(p, () -> MagicTreeScreen::new));
     public static final RegistryObject<ScreenBook> ABILITY_BOOK = regItem("ability_book", p -> new ScreenBook(p, () -> ProfessionScreen::new));

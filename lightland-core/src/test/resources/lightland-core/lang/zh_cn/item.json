@@ -39,7 +39,10 @@
             "armor_bag": "装备袋",
             "book_bag": "书袋",
             "identifier_orb": "鉴定石",
-            "potion_core": "药水核心"
+            "potion_core": "药水核心",
+            "permanence_iron_pickaxe": "永恒铁镐",
+            "permanence_iron_shovel": "永恒铁铲",
+            "permanence_iron_hoe": "永恒铁锄"
         },
         "block": {
             "-path": [

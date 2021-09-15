@@ -105,7 +105,7 @@ public class AbilityPoints {
 
     public void updateAttribute() {
         if (!parent.player.level.isClientSide()) {
-            ExceptionHandler.ignore(()->EquipmentInit.clear((ServerPlayerEntity) parent.player, this));
+            ExceptionHandler.ignore(() -> EquipmentInit.clear((ServerPlayerEntity) parent.player, this));
         }
         BodyAttribute.resetModifiers(this, parent.player);
     }

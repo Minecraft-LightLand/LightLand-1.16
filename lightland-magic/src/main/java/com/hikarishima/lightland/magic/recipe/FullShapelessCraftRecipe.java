@@ -1,11 +1,13 @@
 package com.hikarishima.lightland.magic.recipe;
 
+import com.google.gson.JsonObject;
 import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.inventory.CraftingInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipeSerializer;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.item.crafting.ShapelessRecipe;
+import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
@@ -34,6 +36,16 @@ public class FullShapelessCraftRecipe extends ShapelessRecipe {
     }
 
     public static class Serializer extends ShapelessRecipe.Serializer {
+
+        public ShapelessRecipe fromJson(ResourceLocation res, JsonObject json) {
+            ShapelessRecipe r = super.fromJson(res, json);
+            return new FullShapelessCraftRecipe(r.getId(), r.getGroup(), r.getResultItem(), r.getIngredients());
+        }
+
+        public ShapelessRecipe fromNetwork(ResourceLocation res, PacketBuffer buffer) {
+            ShapelessRecipe r = super.fromNetwork(res, buffer);
+            return r == null ? null : new FullShapelessCraftRecipe(r.getId(), r.getGroup(), r.getResultItem(), r.getIngredients());
+        }
 
     }
 

@@ -20,12 +20,12 @@ import java.util.function.Function;
 public class EquipmentInit {
 
     private static final List<Function<AbilityPoints, Integer>> PRED = Lists.newArrayList(
-            p -> p.body / 2,
-            p -> (p.speed * 3 + p.strength) / 8,
-            p -> p.strength / 2,
-            p -> (p.strength + p.body * 3) / 8,
-            p -> (p.strength * 3 + p.body) / 8,
-            p -> p.level / 2
+            p -> Math.max(p.level / 2, p.body / 2),
+            p -> Math.max(p.level / 2, (p.speed * 3 + p.strength) / 8),
+            p -> Math.max(p.level / 2, p.strength / 2),
+            p -> Math.max(p.level / 2, (p.strength + p.body * 3) / 8),
+            p -> Math.max(p.level / 2, (p.strength * 3 + p.body) / 8),
+            p -> p.level
     );
     private static final String[] TYPE = {"armor_", "shoot_", "sword_", "shield_", "axe_", "others_"};
 

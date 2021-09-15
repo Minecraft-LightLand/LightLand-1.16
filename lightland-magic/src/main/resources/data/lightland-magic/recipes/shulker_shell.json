@@ -11,7 +11,7 @@
     "side": [
         {
             "input": {
-                "item": "minecraft:turtle_shell"
+                "item": "minecraft:turtle_helmet"
             },
             "output": {
                 "item": "minecraft:shulker_shell"
@@ -24,7 +24,7 @@
         },
         {
             "input": {
-                "item": "minecraft:turtle_shell"
+                "item": "minecraft:turtle_helmet"
             },
             "output": {
                 "item": "minecraft:shulker_shell"
@@ -42,7 +42,7 @@
         },
         {
             "input": {
-                "item": "minecraft:turtle_shell"
+                "item": "minecraft:turtle_helmet"
             },
             "output": {
                 "item": "minecraft:shulker_shell"
@@ -55,7 +55,7 @@
         },
         {
             "input": {
-                "item": "minecraft:turtle_shell"
+                "item": "minecraft:turtle_helmet"
             },
             "output": {
                 "item": "minecraft:shulker_shell"
