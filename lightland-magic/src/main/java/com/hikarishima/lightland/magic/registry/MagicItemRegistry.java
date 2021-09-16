@@ -46,7 +46,9 @@ public class MagicItemRegistry {
     public static final DeferredRegister<Block> BLOCK = DeferredRegister.create(Block.class, LightLandMagic.MODID);
 
     private static final int MANA = 256;
-    private static final LightLandBlockProperties PEDESTAL = LightLandBlockProperties.copy(Blocks.STONE).make(e -> e.noOcclusion().lightLevel(bs -> bs.getValue(BlockStateProperties.LIT) ? 15 : 7));
+    private static final LightLandBlockProperties PEDESTAL = LightLandBlockProperties.copy(Blocks.STONE).make(e -> e
+            .noOcclusion().lightLevel(bs -> bs.getValue(BlockStateProperties.LIT) ? 15 : 7)
+            .isRedstoneConductor((a, b, c) -> false));
 
     public static final RegistryObject<Block> B_ENCHANT_GOLD = reg("enchant_gold_block", () -> new Block(AbstractBlock.Properties.copy(Blocks.GOLD_BLOCK)));
     public static final RegistryObject<Block> B_ENCHANT_ALLOY = reg("enchant_alloy_block", () -> new Block(AbstractBlock.Properties.copy(Blocks.IRON_BLOCK)));

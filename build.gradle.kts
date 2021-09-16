@@ -37,6 +37,7 @@ subprojects {
             maven {
                 url = uri("https://repo.spongepowered.org/maven")
             }
+            maven { url = uri("https://modmaven.dev/") }
         }
         dependencies {
             classpath("net.minecraftforge.gradle:ForgeGradle:4.1.+") {
