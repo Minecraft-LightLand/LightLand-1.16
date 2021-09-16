@@ -51,10 +51,10 @@
         },
         {
             "input": {
-                "item": "twilightforest:zombie_sceptor"
+                "item": "twilightforest:zombie_scepter"
             },
             "output": {
-                "item": "twilightforest:zombie_sceptor"
+                "item": "twilightforest:zombie_scepter"
             }
         },
         {
@@ -67,10 +67,10 @@
         },
         {
             "input": {
-                "item": "twilightforest:twilight_sceptor"
+                "item": "twilightforest:twilight_scepter"
             },
             "output": {
-                "item": "twilightforest:twilight_sceptor"
+                "item": "twilightforest:twilight_scepter"
             }
         }
     ]

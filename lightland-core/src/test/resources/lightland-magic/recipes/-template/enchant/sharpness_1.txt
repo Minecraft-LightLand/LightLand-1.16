@@ -47,7 +47,7 @@
         },
         {
             "input": {
-                "item": "twilightforest:kightmetal_sword"
+                "item": "twilightforest:knightmetal_sword"
             }
         },
         {
@@ -57,7 +57,7 @@
         },
         {
             "input": {
-                "item": "twilightforest:gold_minotaur_axe"
+                "item": "twilightforest:minotaur_axe_gold"
             }
         }
     ]

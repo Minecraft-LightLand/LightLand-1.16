@@ -51,7 +51,9 @@ public class DamageEventHandler {
                     mod += arm.modifier(target, source, original);
                 }
             }
-            event.setAmount(original + mod);
+            if (original + mod < 1e-3) {
+                event.setAmount(0);
+            } else event.setAmount(original + mod);
         }
     }
 

@@ -61,7 +61,20 @@
         "light_alloy": {
             "a": "^m:^n_ingot",
             "b": "^m:^n"
-        },
+        }
+    },
+    "-combat_all": {
+        "-list": [
+            "craft_axe",
+            "craft_sword",
+            "craft_pickaxe",
+            "craft_shovel",
+            "craft_hoe",
+            "craft_helmet",
+            "craft_chestplate",
+            "craft_leggings",
+            "craft_boots"
+        ],
         "permanence_iron": {
             "a": "^m:^n_ingot",
             "b": "^m:^n"
@@ -416,7 +429,7 @@
             "sharpness_2",
             "sharpness_3"
         ],
-        "sharpness":{
+        "sharpness": {
             "e": "minecraft:^n",
             "r": "lightland-magic:enchantment_^n",
             "l": "[100,40,30,24]",
@@ -431,7 +444,7 @@
             "power_2",
             "power_3"
         ],
-        "power":{
+        "power": {
             "e": "minecraft:^n",
             "r": "lightland-magic:enchantment_^n",
             "l": "[100,40,30,24]",

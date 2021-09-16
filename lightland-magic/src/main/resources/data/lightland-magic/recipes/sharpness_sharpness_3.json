@@ -26,7 +26,7 @@
         },
         {
             "input": {
-                "item": "twilightforest:fiery_tear"
+                "item": "twilightforest:fiery_tears"
             }
         },
         {
@@ -47,17 +47,17 @@
         },
         {
             "input": {
-                "item": "twilightforest:lifedrain_sceptor"
+                "item": "twilightforest:lifedrain_scepter"
             }
         },
         {
             "input": {
-                "item": "twilightforest:diamond_minotaur_axe"
+                "item": "twilightforest:minotaur_axe"
             }
         },
         {
             "input": {
-                "item": "twilightforest:twilight_sceptor"
+                "item": "twilightforest:twilight_scepter"
             }
         }
     ]

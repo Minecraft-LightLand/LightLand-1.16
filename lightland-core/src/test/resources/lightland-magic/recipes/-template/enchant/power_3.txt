@@ -58,7 +58,7 @@
         },
         {
             "input": {
-                "item": "twilightforest:twilight_sceptor"
+                "item": "twilightforest:twilight_scepter"
             }
         }
     ]

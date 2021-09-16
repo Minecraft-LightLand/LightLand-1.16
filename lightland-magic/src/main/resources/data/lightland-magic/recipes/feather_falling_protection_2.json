@@ -25,8 +25,9 @@
         {
             "input": {
                 "enchant_book": {
-                "id": "minecraft:feather_falling",
-                "lvl": 5
+                    "id": "minecraft:feather_falling",
+                    "lvl": 2
+                }
             }
         },
         {
@@ -49,12 +50,12 @@
         },
         {
             "input": {
-                "item": "twilightforest:giant_obsedian"
+                "item": "twilightforest:giant_obsidian"
             }
         },
         {
             "input": {
-                "item": "twilightforest:shield_sceptor"
+                "item": "twilightforest:shield_scepter"
             }
         },
         {

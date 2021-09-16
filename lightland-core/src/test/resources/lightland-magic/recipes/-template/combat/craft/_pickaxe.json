@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "bbb",
+    " a ",
+    " a "
+  ],
+  "key": {
+    "b": {
+      "item": "^a"
+    },
+    "a": {
+      "item": "minecraft:stick"
+    }
+  },
+  "result": {
+    "item": "^b_pickaxe"
+  }
+}
