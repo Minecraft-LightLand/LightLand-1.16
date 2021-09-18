@@ -77,8 +77,10 @@ dependencies {
     compileOnly(fg.deobf("top.theillusivec4.curios:curios-forge:1.16.5-4.0.5.2:api"))
     runtimeOnly(fg.deobf("top.theillusivec4.curios:curios-forge:1.16.5-4.0.5.2"))
 
+    compileOnly(fg.deobf("software.bernie.geckolib:geckolib-forge-1.16.5:3.0.45"))
     runtimeOnly(fg.deobf("software.bernie.geckolib:geckolib-forge-1.16.5:3.0.45"))
 
+    compileOnly(fg.deobf("curse.maven:exp-401955:3459011"))
     runtimeOnly(fg.deobf("curse.maven:exp-401955:3459011"))
 
     compileOnly(fg.deobf("zip.local.ap:Apotheosis-1.16.4:4.6.1"))
