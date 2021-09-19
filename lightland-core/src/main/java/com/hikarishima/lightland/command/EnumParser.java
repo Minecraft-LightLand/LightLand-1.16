@@ -10,12 +10,14 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.exceptions.DynamicCommandExceptionType;
 import com.mojang.brigadier.suggestion.Suggestions;
 import com.mojang.brigadier.suggestion.SuggestionsBuilder;
+import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.command.ISuggestionProvider;
 import net.minecraft.command.arguments.ArgumentTypes;
 import net.minecraft.command.arguments.IArgumentSerializer;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.text.TranslationTextComponent;
 
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -26,6 +28,9 @@ public class EnumParser<T extends Enum<T>> implements ArgumentType<T> {
 
     private static final Map<Class<?>, EnumParser<?>> CACHE = Maps.newLinkedHashMap();
 
+    @SuppressWarnings({"unchecked","rawtypes"})
+    @MethodsReturnNonnullByDefault
+    @ParametersAreNonnullByDefault
     public static void register() {
         ArgumentTypes.register("lightland_enum", (Class<EnumParser<?>>) (Class) EnumParser.class, new IArgumentSerializer<EnumParser<?>>() {
             @Override

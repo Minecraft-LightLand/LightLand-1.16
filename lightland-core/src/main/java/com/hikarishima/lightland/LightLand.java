@@ -21,7 +21,7 @@ import net.minecraftforge.fml.network.NetworkDirection;
 public class LightLand {
 
     public static final String MODID = "lightland-core";
-    public static final String NETWORK_VERSION = "0.4.16";
+    public static final String NETWORK_VERSION = "0.4.17";
 
     public LightLand() {
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();

@@ -16,6 +16,7 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.exceptions.DynamicCommandExceptionType;
 import com.mojang.brigadier.suggestion.Suggestions;
 import com.mojang.brigadier.suggestion.SuggestionsBuilder;
+import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.command.ISuggestionProvider;
 import net.minecraft.command.arguments.ArgumentTypes;
 import net.minecraft.command.arguments.IArgumentSerializer;
@@ -24,12 +25,16 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.IForgeRegistryEntry;
 
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Supplier;
 
 @SuppressWarnings({"unchecked", "rawtypes"})
+@MethodsReturnNonnullByDefault
+@ParametersAreNonnullByDefault
 public class RegistryParser<T extends IForgeRegistryEntry<T>> implements ArgumentType<T> {
 
     public static final Set<RegistryParser<?>> SET = new HashSet<>();
@@ -52,12 +57,12 @@ public class RegistryParser<T extends IForgeRegistryEntry<T>> implements Argumen
             @Override
             public RegistryParser<?> deserializeFromNetwork(PacketBuffer packet) {
                 String name = packet.readUtf();
-                return SET.stream().filter(e -> e.registry.get().getRegistryName().toString().equals(name)).findFirst().orElse(null);
+                return Objects.requireNonNull(SET.stream().filter(e -> e.registry.get().getRegistryName().toString().equals(name)).findFirst().orElse(null));
             }
 
             @Override
             public void serializeToJson(RegistryParser<?> e, JsonObject json) {
-                IForgeRegistry<?> reg = ((RegistryParser<?>) e).registry.get();
+                IForgeRegistry<?> reg = e.registry.get();
                 json.addProperty("id", reg.getRegistryName().toString());
             }
         });

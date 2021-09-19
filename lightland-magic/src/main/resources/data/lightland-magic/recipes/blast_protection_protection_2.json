@@ -26,7 +26,7 @@
             "input": {
                 "enchant_book": {
                     "id": "minecraft:blast_protection",
-                    "lvl": 2
+                    "lvl": 5
                 }
             }
         },

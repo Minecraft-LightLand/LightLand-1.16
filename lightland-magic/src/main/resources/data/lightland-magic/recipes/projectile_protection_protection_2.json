@@ -26,7 +26,7 @@
             "input": {
                 "enchant_book": {
                     "id": "minecraft:projectile_protection",
-                    "lvl": 2
+                    "lvl": 5
                 }
             }
         },
