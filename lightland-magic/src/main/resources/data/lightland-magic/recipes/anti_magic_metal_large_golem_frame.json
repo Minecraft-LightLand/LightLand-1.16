@@ -9,12 +9,12 @@
         "a": {
             "item": "lightland-magic:large_golem_frame"
         },
-        "b": {"item":"twilightforest:steeleaf_ingot"},
+        "b": {"item":"lightland-magic:anti_magic_metal_ingot"},
     },
     "result": {
         "item": "lightland-magic:large_golem_frame",
         "nbt": {
-            "item": "twilightforest:steeleaf"
+            "item": "lightland-magic:anti_magic_metal"
         }
     }
 }

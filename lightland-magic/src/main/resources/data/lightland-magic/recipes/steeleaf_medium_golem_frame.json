@@ -17,7 +17,7 @@
     "result": {
         "item": "lightland-magic:medium_golem_frame",
         "nbt": {
-            "item": "lightland-magic:steeleaf"
+            "item": "twilightforest:steeleaf"
         }
     }
 }

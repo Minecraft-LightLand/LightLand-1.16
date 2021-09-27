@@ -14,7 +14,7 @@
     "result": {
         "item": "lightland-magic:large_golem_frame",
         "nbt": {
-            "item": "lightland-magic:clay"
+            "item": "minecraft:clay"
         }
     }
 }

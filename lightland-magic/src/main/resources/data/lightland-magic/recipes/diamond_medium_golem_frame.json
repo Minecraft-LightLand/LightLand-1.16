@@ -9,7 +9,7 @@
         "a": {
             "item": "lightland-magic:medium_golem_frame"
         },
-        "b": {"item":"minecraft:blackstone"},
+        "b": {"item":"minecraft:diamond_ingot"},
         "c": {
             "item": "minecraft:clay_ball"
         }
@@ -17,7 +17,7 @@
     "result": {
         "item": "lightland-magic:medium_golem_frame",
         "nbt": {
-            "item": "minecraft:fire_stone"
+            "item": "minecraft:diamond"
         }
     }
 }

@@ -9,7 +9,7 @@
         "a": {
             "item": "lightland-magic:small_golem_frame"
         },
-        "b": {"item":"twilightforest:knightmetal_ingot"},
+        "b": {"item":"lightland-magic:enchant_alloy_ingot"},
         "c": {
             "item": "minecraft:clay_ball"
         },
@@ -20,7 +20,7 @@
     "result": {
         "item": "lightland-magic:small_golem_frame",
         "nbt": {
-            "item": "twilightforest:knightmetal"
+            "item": "lightland-magic:enchant_alloy"
         }
     }
 }

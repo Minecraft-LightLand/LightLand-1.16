@@ -1,0 +1,56 @@
+{
+    "_class": "organize.json.JsonPartMap",
+    "file": "config_golem_material",
+    "path": "map",
+    "common": {
+        "_class": "com.hikarishima.lightland.magic.registry.entity.golem.GolemMaterial"
+    },
+    "map": {
+        "minecraft:clay": {},
+        "minecraft:wood": {},
+        "minecraft:fire_wood": {},
+        "minecraft:stone": {},
+        "minecraft:fire_stone": {},
+        "minecraft:obsidian": {},
+        "minecraft:magma": {},
+        "minecraft:iron": {},
+        "minecraft:diamond": {},
+        "minecraft:netherite": {},
+        "twilightforest:ironwood": {},
+        "twilightforest:steeleaf": {},
+        "twilightforest:knightmetal": {},
+        "twilightforest:fiery": {},
+        "lightland-magic:permanence_iron": {},
+        "lightland-magic:enchant_alloy": {},
+        "lightland-magic:anti_magic_metal": {},
+        "lightland-magic:test": {
+            "hp": 10,
+            "speed": 0.05,
+            "kb": 1,
+            "atk": 5,
+            "def": 5,
+            "tough": 2,
+            "restore": 0.01,
+            "fire_reduce": 0.2,
+            "thron": 0.2,
+            "fire_tick": 200,
+            "fire_thron_tick": 100,
+            "effects": [
+                {
+                    "id": "minecraft:speed",
+                    "amplifier": 1,
+                    "duration": 200,
+                    "radius": 0,
+                    "chance": 1
+                },
+                {
+                    "id": "minecraft:slowness",
+                    "amplifier": 1,
+                    "duration": 200,
+                    "radius": 8,
+                    "chance": 1
+                }
+            ]
+        }
+    }
+}

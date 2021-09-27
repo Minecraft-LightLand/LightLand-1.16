@@ -20,7 +20,7 @@
     "result": {
         "item": "lightland-magic:small_golem_frame",
         "nbt": {
-            "item": "lightland-magic:fiery"
+            "item": "twilightforest:fiery"
         }
     }
 }
