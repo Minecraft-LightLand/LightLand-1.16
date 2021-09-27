@@ -224,6 +224,42 @@
       "radius": "半径:%s"
     }
   },
+  "lightland-magic:golem": {
+    "attr": {
+      "hp": "血量:%s",
+      "speed": "速度:%s",
+      "kb": "击退抗性:%s%%",
+      "atk": "伤害:%s",
+      "def": "护甲:%s",
+      "tough": "韧性:%s",
+      "restore": "每秒生命回复:%s",
+      "thorn": "反伤:%s%%",
+      "bypass_armor": "穿甲概率:%s%%",
+      "bypass_magic": "穿魔概率:%s%%",
+      "fire_reduce": "火焰伤害减免:%s%%",
+      "fire_tick": "攻击火焰附加时间:%s",
+      "fire_thorn_tick": "反伤火焰附加时间:%s"
+    },
+    "material": {
+      "minecraft:clay": "粘土",
+      "minecraft:wood": "木头",
+      "minecraft:fire_wood": "下界木头",
+      "minecraft:stone": "石头",
+      "minecraft:fire_stone": "黑石",
+      "minecraft:obsidian": "黑曜石",
+      "minecraft:magma": "岩浆块",
+      "minecraft:iron": "铁",
+      "minecraft:diamond": "钻石",
+      "minecraft:netherite": "下界合金",
+      "twilghtforest:ironwood": "铁木",
+      "twilghtforest:steeleaf": "刚叶",
+      "twilghtforest:knightmetal": "骑士金属",
+      "twilghtforest:fiery": "炽铁",
+      "lightland-magic:permanence_iron": "永恒铁锭",
+      "lightland-magic:enchant_alloy": "魔导合金",
+      "lightland-magic:anti_magic_metal": "斥魔金属"
+    }
+  },
   "item": {
     "lightland-magic": {},
     "lightland-quest": {
@@ -241,7 +277,10 @@
       "wind_blade": "风刃",
       "spell": "法阵",
       "fire_arrow": "箭",
-      "fire_ball": "火球"
+      "fire_ball": "火球",
+      "alchemy_golem_small": "小型傀儡",
+      "alchemy_golem_medium": "中型傀儡",
+      "alchemy_golem_large": "大型傀儡"
     }
   },
   "effect": {
@@ -251,7 +290,9 @@
       "water_trap": "水牢",
       "heavy": "沉重装甲",
       "petrification": "石化",
-      "emerald_pope": "绿宝石水花"
+      "emerald_pope": "绿宝石水花",
+      "attract": "嘲讽",
+      "attracted": "被嘲讽"
     }
   },
   "enchantment": {

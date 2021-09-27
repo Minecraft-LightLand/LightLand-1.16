@@ -52,6 +52,7 @@ public class GolemMaterial {
             fire_tick += mat.fire_tick;
             fire_thorn_tick += mat.fire_thorn_tick;
         }
+        kb = Math.min(1, kb);
         fire_reduce = Math.min(1, fire_reduce);
         bypass_armor = Math.min(1, bypass_armor);
         bypass_magic = Math.min(1, bypass_magic);
