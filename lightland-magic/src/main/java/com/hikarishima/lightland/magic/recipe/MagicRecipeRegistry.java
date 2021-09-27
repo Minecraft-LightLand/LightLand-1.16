@@ -54,5 +54,6 @@ public class MagicRecipeRegistry {
     public static final ResourceLocation SPELL_ENTITY = new ResourceLocation(LightLandMagic.MODID, "config_spell_entity");
     public static final ResourceLocation WEIGHT = new ResourceLocation(LightLandMagic.MODID, "config_weight");
     public static final ResourceLocation SPAWN = new ResourceLocation(LightLandMagic.MODID, "config_mobspawn");
+    public static final ResourceLocation GOLEM = new ResourceLocation(LightLandMagic.MODID, "config_golem_material");
 
 }

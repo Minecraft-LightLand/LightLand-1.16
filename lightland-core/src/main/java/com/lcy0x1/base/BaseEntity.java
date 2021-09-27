@@ -26,12 +26,12 @@ public abstract class BaseEntity extends Entity implements IEntityAdditionalSpaw
     }
 
     @Override
-    protected void readAdditionalSaveData(CompoundNBT tag) {
+    protected void addAdditionalSaveData(CompoundNBT tag) {
         tag.put("auto-serial", Automator.toTag(new CompoundNBT(), this));
     }
 
     @Override
-    protected void addAdditionalSaveData(CompoundNBT tag) {
+    protected void readAdditionalSaveData(CompoundNBT tag) {
         if (!tag.contains("auto-serial"))
             return;
         ExceptionHandler.run(() -> Automator.fromTag(tag.getCompound("auto-serial"), this.getClass(), this, f -> true));

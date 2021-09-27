@@ -2,7 +2,10 @@ package com.hikarishima.lightland.magic.registry;
 
 import com.hikarishima.lightland.magic.LightLandMagic;
 import com.hikarishima.lightland.magic.registry.entity.golem.AlchemyGolemEntity;
+import com.hikarishima.lightland.magic.registry.entity.golem.LargeAlchemyGolemEntity;
+import com.hikarishima.lightland.magic.registry.entity.golem.MediumAlchemyGolemEntity;
 import com.hikarishima.lightland.magic.registry.entity.golem.SmallAlchemyGolemEntity;
+import com.hikarishima.lightland.magic.registry.entity.golem.render.LargeAlchemyGolemRenderer;
 import com.hikarishima.lightland.magic.registry.entity.misc.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ItemRenderer;
@@ -50,13 +53,13 @@ public class MagicEntityRegistry {
                     EntityClassification.MISC)
                     .sized(0.3F, 0.975F).clientTrackingRange(10));
 
-    public static final RegistryObject<EntityType<SmallAlchemyGolemEntity>> ALCHEMY_MEDIUM = reg("alchemy_golem_medium",
-            () -> EntityType.Builder.of(SmallAlchemyGolemEntity::new,
+    public static final RegistryObject<EntityType<MediumAlchemyGolemEntity>> ALCHEMY_MEDIUM = reg("alchemy_golem_medium",
+            () -> EntityType.Builder.of(MediumAlchemyGolemEntity::new,
                     EntityClassification.MISC)
                     .sized(0.6F, 1.95F).clientTrackingRange(10));
 
-    public static final RegistryObject<EntityType<SmallAlchemyGolemEntity>> ALCHEMY_LARGE = reg("alchemy_golem_large",
-            () -> EntityType.Builder.of(SmallAlchemyGolemEntity::new,
+    public static final RegistryObject<EntityType<LargeAlchemyGolemEntity>> ALCHEMY_LARGE = reg("alchemy_golem_large",
+            () -> EntityType.Builder.of(LargeAlchemyGolemEntity::new,
                     EntityClassification.MISC)
                     .sized(1.4F, 2.7F).clientTrackingRange(10));
 
@@ -73,6 +76,8 @@ public class MagicEntityRegistry {
         manager.register(ET_SPELL.get(), new SpellEntityRenderer(manager));
         manager.register(ET_FIRE_ARROW.get(), new TippedArrowRenderer(manager));
         manager.register(ET_FIRE_BALL.get(), new SpecialSpriteRenderer<>(manager, item, true));
+
+        manager.register(ALCHEMY_LARGE.get(), new LargeAlchemyGolemRenderer(manager));
 
     }
 
