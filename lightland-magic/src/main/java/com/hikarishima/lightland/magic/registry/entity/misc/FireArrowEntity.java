@@ -1,4 +1,4 @@
-package com.hikarishima.lightland.magic.registry.entity;
+package com.hikarishima.lightland.magic.registry.entity.misc;
 
 import com.hikarishima.lightland.magic.registry.MagicEntityRegistry;
 import mcp.MethodsReturnNonnullByDefault;

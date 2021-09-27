@@ -1,0 +1,22 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "cbc",
+        "bab",
+        "cbc"
+    ],
+    "key": {
+        "a": {
+            "item": "lightland-magic:basic_golem_frame"
+        },
+        "b": {
+            "item": "minecraft:iron_nugget"
+        },
+        "c": {
+            "item": "lightland-magic:enchant_gold_nugget"
+        }
+    },
+    "result": {
+        "item": "lightland-magic:small_golem_core"
+    }
+}

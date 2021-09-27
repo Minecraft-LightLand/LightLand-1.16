@@ -1,0 +1,25 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "cbc",
+        "dad",
+        "cbc"
+    ],
+    "key": {
+        "a": {
+            "item": "lightland-magic:enchant_alloy_ingot"
+        },
+        "b": {
+            "item": "lightland-magic:basic_golem_frame"
+        },
+        "c": {
+            "item": "minecraft:iron_ingot"
+        },
+        "d": {
+            "item": "minecraft:clay_ball"
+        }
+    },
+    "result": {
+        "item": "lightland-magic:medium_golem_frame"
+    }
+}

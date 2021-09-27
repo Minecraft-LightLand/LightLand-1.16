@@ -24,6 +24,8 @@ public class VanillaMagicRegistry {
     public static final RegistryObject<Effect> EFF_HEAVY = EFFECT.register("heavy", HeavyEffect::new);
     public static final RegistryObject<Effect> EFF_PETRI = EFFECT.register("petrification", PetrificationEffect::new);
     public static final RegistryObject<Effect> EFF_EMERALD = EFFECT.register("emerald_pope", EmeraldPopeEffect::new);
+    public static final RegistryObject<Effect> EFF_ATTRACT = EFFECT.register("attract", AttractEffect::new);
+    public static final RegistryObject<Effect> EFF_ATTRACTED = EFFECT.register("attracted", AttractedEffect::new);
 
     public static final RegistryObject<Potion> POTION_SAT = POTION.register("saturation", () -> new Potion(new EffectInstance(Effects.SATURATION, 20, 0)));
     public static final RegistryObject<Potion> POTION_EM0 = POTION.register("emerald_0", () -> new Potion(new EffectInstance(EFF_EMERALD.get(), 20, 0)));

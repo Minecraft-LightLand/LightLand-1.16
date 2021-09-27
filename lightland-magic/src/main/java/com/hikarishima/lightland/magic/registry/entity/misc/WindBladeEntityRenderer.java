@@ -1,4 +1,4 @@
-package com.hikarishima.lightland.magic.registry.entity;
+package com.hikarishima.lightland.magic.registry.entity.misc;
 
 import com.hikarishima.lightland.magic.LightLandMagic;
 import com.mojang.blaze3d.matrix.MatrixStack;

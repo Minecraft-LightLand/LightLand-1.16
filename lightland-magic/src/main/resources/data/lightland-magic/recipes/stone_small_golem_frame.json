@@ -1,0 +1,27 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "dbd",
+        "cac",
+        "dbd"
+    ],
+    "key": {
+        "a": {
+            "item": "lightland-magic:small_golem_frame"
+        },
+        "b": {"item":"minecraft:cobblestone"},
+        "c": {
+            "item": "minecraft:clay_ball"
+        },
+        "d": {
+            "item": "minecraft:stick"
+        }
+    },
+    "result": {
+        "item": "lightland-magic:small_golem_frame",
+        "nbt": {
+            "item": "lightland-magic:stone"
+        }
+    }
+}
+

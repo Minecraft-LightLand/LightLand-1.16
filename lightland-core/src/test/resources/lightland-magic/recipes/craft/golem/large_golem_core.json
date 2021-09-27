@@ -1,0 +1,25 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "cdc",
+        "bab",
+        "cdc"
+    ],
+    "key": {
+        "a": {
+            "item": "minecraft:ender_pearl"
+        },
+        "b": {
+            "item": "lightland-magic:medium_golem_core"
+        },
+        "c": {
+            "item": "lightland-magic:permanence_iron_ingot"
+        },
+        "d":{
+            "item":"lightland-magic:enchant_chain"
+        }
+    },
+    "result": {
+        "item": "lightland-magic:large_golem_core"
+    }
+}

@@ -3,7 +3,7 @@ package com.hikarishima.lightland.magic.arcane.magic;
 import com.hikarishima.lightland.magic.arcane.internal.Arcane;
 import com.hikarishima.lightland.magic.arcane.internal.ArcaneType;
 import com.hikarishima.lightland.magic.capabilities.MagicHandler;
-import com.hikarishima.lightland.magic.registry.entity.WindBladeEntity;
+import com.hikarishima.lightland.magic.registry.entity.misc.WindBladeEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;

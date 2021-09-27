@@ -1,0 +1,25 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "cdc",
+        "bab",
+        "cdc"
+    ],
+    "key": {
+        "a": {
+            "item": "minecraft:diamond"
+        },
+        "b": {
+            "item": "lightland-magic:small_golem_core"
+        },
+        "c": {
+            "item": "lightland-magic:enchant_chain"
+        },
+        "d":{
+            "item":"lightland-magic:enchant_alloy_ingot"
+        }
+    },
+    "result": {
+        "item": "lightland-magic:medium_golem_core"
+    }
+}

@@ -1,0 +1,20 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "bbb",
+        "bab",
+        "bbb"
+    ],
+    "key": {
+        "a": {
+            "item": "lightland-magic:large_golem_frame"
+        },
+        "b": ^a,
+    },
+    "result": {
+        "item": "lightland-magic:large_golem_frame",
+        "nbt": {
+            "item": "^b"
+        }
+    }
+}

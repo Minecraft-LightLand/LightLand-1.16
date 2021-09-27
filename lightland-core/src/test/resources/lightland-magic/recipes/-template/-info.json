@@ -451,5 +451,64 @@
             "a": "twilightforest:naga_scale",
             "b": "lightland-magic:enchant_string"
         }
+    },
+    "-golem": {
+        "-list": [
+            "small_golem_frame",
+            "medium_golem_frame",
+            "large_golem_frame"
+        ],
+        "clay": {
+            "a": "{\"item\":\"minecraft:clay_ball\"}",
+            "b": "lightland-magic:^n"
+        },
+        "wood": {
+            "a": "{\"tag\":\"minecraft:planks\"}",
+            "b": "lightland-magic:^n"
+        },
+        "nether_wood": {
+            "a": "[{\"item\":\"minecraft:warped_planks\"},{\"item\":\"minecraft:crimson_planks\"}]",
+            "b": "lightland-magic:^n"
+        },
+        "stone": {
+            "a": "{\"item\":\"minecraft:cobblestone\"}",
+            "b": "lightland-magic:^n"
+        },
+        "fire_stone": {
+            "a": "{\"item\":\"minecraft:blackstone\"}",
+            "b": "lightland-magic:^n"
+        },
+        "obsidian": {
+            "a": "{\"item\":\"minecraft:obsidian\"}",
+            "b": "lightland-magic:^n"
+        },
+        "magma": {
+            "a": "{\"item\":\"minecraft:magma_block\"}",
+            "b": "lightland-magic:^n"
+        },
+        "iron": {
+            "a": "{\"item\":\"minecraft:iron_ingot\"}",
+            "b": "lightland-magic:^n"
+        },
+        "ironwood": {
+            "a": "{\"item\":\"twilightforest:^n_ingot\"}",
+            "b": "lightland-magic:^n"
+        },
+        "steeleaf": {
+            "a": "{\"item\":\"twilightforest:^n_ingot\"}",
+            "b": "lightland-magic:^n"
+        },
+        "knightmetal": {
+            "a": "{\"item\":\"twilightforest:^n_ingot\"}",
+            "b": "lightland-magic:^n"
+        },
+        "fiery": {
+            "a": "{\"item\":\"twilightforest:^n_ingot\"}",
+            "b": "lightland-magic:^n"
+        },
+        "permanence_iron": {
+            "a": "{\"item\":\"lightland-magic:^n_ingot\"}",
+            "b": "lightland-magic:^n"
+        }
     }
 }

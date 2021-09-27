@@ -1,0 +1,23 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "cbc",
+        "bab",
+        "cbc"
+    ],
+    "key": {
+        "a": {
+            "item": "lightland-magic:enchant_alloy_ingot"
+        },
+        "b": {
+            "item": "lightland-magic:enchant_gold_nugget"
+        },
+        "c": {
+            "item": "minecraft:stick"
+        }
+    },
+    "result": {
+        "item": "lightland-magic:basic_golem_frame",
+        "count": 2
+    }
+}

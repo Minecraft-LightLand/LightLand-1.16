@@ -1,0 +1,21 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "bbb",
+        "bab",
+        "bbb"
+    ],
+    "key": {
+        "a": {
+            "item": "lightland-magic:large_golem_frame"
+        },
+        "b": {"item":"minecraft:clay_ball"},
+    },
+    "result": {
+        "item": "lightland-magic:large_golem_frame",
+        "nbt": {
+            "item": "lightland-magic:clay"
+        }
+    }
+}
+

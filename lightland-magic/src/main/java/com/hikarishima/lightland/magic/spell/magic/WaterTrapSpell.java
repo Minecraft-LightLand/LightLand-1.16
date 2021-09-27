@@ -1,7 +1,7 @@
 package com.hikarishima.lightland.magic.spell.magic;
 
 import com.hikarishima.lightland.magic.registry.VanillaMagicRegistry;
-import com.hikarishima.lightland.magic.registry.entity.SpellEntity;
+import com.hikarishima.lightland.magic.registry.entity.misc.SpellEntity;
 import com.hikarishima.lightland.magic.spell.internal.ActivationConfig;
 import com.hikarishima.lightland.magic.spell.internal.SimpleSpell;
 import com.hikarishima.lightland.magic.spell.internal.SpellConfig;

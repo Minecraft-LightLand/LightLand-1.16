@@ -1,4 +1,4 @@
-package com.hikarishima.lightland.magic.registry.entity;
+package com.hikarishima.lightland.magic.registry.entity.misc;
 
 public interface ISizedItemEntity {
 

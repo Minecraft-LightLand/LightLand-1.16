@@ -1,0 +1,22 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "cbc",
+        "bab",
+        "cbc"
+    ],
+    "key": {
+        "a": {
+            "item": "minecraft:diamond"
+        },
+        "b": {
+            "item": "lightland-magic:enchant_chain"
+        },
+        "c": {
+            "item": "lightland-magic:basic_golem_frame"
+        }
+    },
+    "result": {
+        "item": "lightland-magic:large_golem_frame"
+    }
+}

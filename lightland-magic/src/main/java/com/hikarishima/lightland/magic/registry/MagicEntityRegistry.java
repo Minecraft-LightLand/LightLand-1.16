@@ -1,7 +1,9 @@
 package com.hikarishima.lightland.magic.registry;
 
 import com.hikarishima.lightland.magic.LightLandMagic;
-import com.hikarishima.lightland.magic.registry.entity.*;
+import com.hikarishima.lightland.magic.registry.entity.golem.AlchemyGolemEntity;
+import com.hikarishima.lightland.magic.registry.entity.golem.SmallAlchemyGolemEntity;
+import com.hikarishima.lightland.magic.registry.entity.misc.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
@@ -11,12 +13,15 @@ import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntityType;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.function.Supplier;
 
+@SuppressWarnings("unused")
 public class MagicEntityRegistry {
 
     public static final DeferredRegister<EntityType<?>> ENTITY = DeferredRegister.create(ForgeRegistries.ENTITIES, LightLandMagic.MODID);
@@ -40,6 +45,21 @@ public class MagicEntityRegistry {
             () -> EntityType.Builder.<MagicFireBallEntity>of(MagicFireBallEntity::new, EntityClassification.MISC)
                     .sized(1f, 1f).clientTrackingRange(4).updateInterval(10));
 
+    public static final RegistryObject<EntityType<SmallAlchemyGolemEntity>> ALCHEMY_SMALL = reg("alchemy_golem_small",
+            () -> EntityType.Builder.of(SmallAlchemyGolemEntity::new,
+                    EntityClassification.MISC)
+                    .sized(0.3F, 0.975F).clientTrackingRange(10));
+
+    public static final RegistryObject<EntityType<SmallAlchemyGolemEntity>> ALCHEMY_MEDIUM = reg("alchemy_golem_medium",
+            () -> EntityType.Builder.of(SmallAlchemyGolemEntity::new,
+                    EntityClassification.MISC)
+                    .sized(0.6F, 1.95F).clientTrackingRange(10));
+
+    public static final RegistryObject<EntityType<SmallAlchemyGolemEntity>> ALCHEMY_LARGE = reg("alchemy_golem_large",
+            () -> EntityType.Builder.of(SmallAlchemyGolemEntity::new,
+                    EntityClassification.MISC)
+                    .sized(1.4F, 2.7F).clientTrackingRange(10));
+
 
     private static <T extends Entity> RegistryObject<EntityType<T>> reg(String name, Supplier<EntityType.Builder<T>> v) {
         return ENTITY.register(name, () -> v.get().build(name));
@@ -53,6 +73,14 @@ public class MagicEntityRegistry {
         manager.register(ET_SPELL.get(), new SpellEntityRenderer(manager));
         manager.register(ET_FIRE_ARROW.get(), new TippedArrowRenderer(manager));
         manager.register(ET_FIRE_BALL.get(), new SpecialSpriteRenderer<>(manager, item, true));
+
+    }
+
+    @SubscribeEvent
+    public static void onAttributeCreation(EntityAttributeCreationEvent event) {
+        event.put(ALCHEMY_SMALL.get(), AlchemyGolemEntity.createAttributes(10, 0.35, 0, 2, 0).build());
+        event.put(ALCHEMY_MEDIUM.get(), AlchemyGolemEntity.createAttributes(20, 0.3, 0.25, 3, 4).build());
+        event.put(ALCHEMY_LARGE.get(), AlchemyGolemEntity.createAttributes(40, 0.25, 0.5, 4, 8).build());
     }
 
 }
