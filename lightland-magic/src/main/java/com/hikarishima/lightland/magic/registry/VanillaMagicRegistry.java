@@ -12,6 +12,7 @@ import net.minecraft.potion.Potion;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 
+@SuppressWarnings("unused")
 public class VanillaMagicRegistry {
 
     public static final DeferredRegister<Effect> EFFECT = DeferredRegister.create(Effect.class, LightLandMagic.MODID);

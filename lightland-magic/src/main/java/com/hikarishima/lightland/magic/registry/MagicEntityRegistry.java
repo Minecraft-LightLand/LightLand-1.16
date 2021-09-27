@@ -5,6 +5,7 @@ import com.hikarishima.lightland.magic.registry.entity.golem.AlchemyGolemEntity;
 import com.hikarishima.lightland.magic.registry.entity.golem.LargeAlchemyGolemEntity;
 import com.hikarishima.lightland.magic.registry.entity.golem.MediumAlchemyGolemEntity;
 import com.hikarishima.lightland.magic.registry.entity.golem.SmallAlchemyGolemEntity;
+import com.hikarishima.lightland.magic.registry.entity.golem.render.BipedGolemRenderer;
 import com.hikarishima.lightland.magic.registry.entity.golem.render.LargeAlchemyGolemRenderer;
 import com.hikarishima.lightland.magic.registry.entity.misc.*;
 import net.minecraft.client.Minecraft;
@@ -77,6 +78,8 @@ public class MagicEntityRegistry {
         manager.register(ET_FIRE_ARROW.get(), new TippedArrowRenderer(manager));
         manager.register(ET_FIRE_BALL.get(), new SpecialSpriteRenderer<>(manager, item, true));
 
+        manager.register(ALCHEMY_SMALL.get(), new BipedGolemRenderer<>(manager));
+        manager.register(ALCHEMY_MEDIUM.get(), new BipedGolemRenderer<>(manager));
         manager.register(ALCHEMY_LARGE.get(), new LargeAlchemyGolemRenderer(manager));
 
     }

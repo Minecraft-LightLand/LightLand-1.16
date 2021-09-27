@@ -12,4 +12,9 @@ public class SmallAlchemyGolemEntity extends AlchemyGolemEntity {
         super(type, world);
     }
 
+    @Override
+    public boolean isBaby() {
+        return true;
+    }
+
 }
