@@ -52,7 +52,7 @@ public class MagicEntityRegistry {
     public static final RegistryObject<EntityType<SmallAlchemyGolemEntity>> ALCHEMY_SMALL = reg("alchemy_golem_small",
             () -> EntityType.Builder.of(SmallAlchemyGolemEntity::new,
                     EntityClassification.MISC)
-                    .sized(0.3F, 0.975F).clientTrackingRange(10));
+                    .sized(0.6F, 1.95F).clientTrackingRange(10));
 
     public static final RegistryObject<EntityType<MediumAlchemyGolemEntity>> ALCHEMY_MEDIUM = reg("alchemy_golem_medium",
             () -> EntityType.Builder.of(MediumAlchemyGolemEntity::new,

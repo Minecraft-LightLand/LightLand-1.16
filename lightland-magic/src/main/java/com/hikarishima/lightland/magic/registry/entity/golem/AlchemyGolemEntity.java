@@ -25,9 +25,11 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
 import net.minecraftforge.fml.network.NetworkHooks;
 
+import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @SerialClass
 @ParametersAreNonnullByDefault
@@ -36,6 +38,8 @@ public class AlchemyGolemEntity extends GolemEntity implements IEntityAdditional
 
     @SerialClass.SerialField(generic = String.class)
     public List<String> materials = new ArrayList<>();
+    @SerialClass.SerialField
+    public UUID owner;
 
     public AlchemyGolemEntity(EntityType<? extends GolemEntity> type, World world) {
         super(type, world);
@@ -54,7 +58,8 @@ public class AlchemyGolemEntity extends GolemEntity implements IEntityAdditional
         return materials;
     }
 
-    public void setMaterials(List<String> list) {
+    public void setMaterials(PlayerEntity player, List<String> list) {
+        owner = player.getUUID();
         List<GolemMaterial> mats = new ArrayList<>();
         for (String str : list) {
             GolemMaterial mat = ConfigRecipe.getObject(level, MagicRecipeRegistry.GOLEM, str);
@@ -65,14 +70,23 @@ public class AlchemyGolemEntity extends GolemEntity implements IEntityAdditional
         materials = list;
     }
 
+    @Nullable
+    public PlayerEntity getOwner() {
+        return level.getPlayerByUUID(owner);
+    }
 
     protected void registerGoals() {
         this.goalSelector.addGoal(1, new MeleeAttackGoal(this, 1.0D, true));
         this.goalSelector.addGoal(2, new MoveTowardsTargetGoal(this, 0.9D, 32.0F));
         this.goalSelector.addGoal(3, new LookAtGoal(this, PlayerEntity.class, 6.0F));
         this.goalSelector.addGoal(4, new LookRandomlyGoal(this));
-        this.targetSelector.addGoal(2, new HurtByTargetGoal(this));
-        this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, MobEntity.class, 5, false, false, (p_234199_0_) -> p_234199_0_ instanceof IMob));
+        this.targetSelector.addGoal(1, new HurtByTargetGoal(this, PlayerEntity.class, AlchemyGolemEntity.class));
+        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, MobEntity.class,
+                16, false, false,
+                (e) -> getOwner() != null && e instanceof MobEntity && ((MobEntity) e).getTarget() == getOwner()));
+        this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, MobEntity.class,
+                16, false, false,
+                (e) -> getOwner() != null && e.getLastHurtByMob() == getOwner()));
     }
 
 

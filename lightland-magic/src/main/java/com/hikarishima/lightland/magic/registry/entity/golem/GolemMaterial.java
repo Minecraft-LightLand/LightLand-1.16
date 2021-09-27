@@ -31,6 +31,32 @@ public class GolemMaterial {
     @SerialClass.SerialField(generic = EffEntry.class)
     public List<EffEntry> effects = new ArrayList<>();
 
+    @Deprecated
+    public GolemMaterial() {
+
+    }
+
+    public GolemMaterial(List<GolemMaterial> list) {
+        for (GolemMaterial mat : list) {
+            hp += mat.hp;
+            speed += mat.speed;
+            kb += mat.kb;
+            atk += mat.atk;
+            def += mat.def;
+            tough += mat.tough;
+            restore += mat.restore;
+            fire_reduce += mat.fire_reduce;
+            thorn += mat.thorn;
+            bypass_armor += mat.bypass_armor;
+            bypass_magic += mat.bypass_magic;
+            fire_tick += mat.fire_tick;
+            fire_thorn_tick += mat.fire_thorn_tick;
+        }
+        fire_reduce = Math.min(1, fire_reduce);
+        bypass_armor = Math.min(1, bypass_armor);
+        bypass_magic = Math.min(1, bypass_magic);
+    }
+
     @SerialClass
     public static class EffEntry {
 
