@@ -23,7 +23,9 @@ public class GolemMaterial {
     @SerialClass.SerialField
     public Ingredient ingredient;
     @SerialClass.SerialField
-    public double hp, speed, kb, atk, def, tough, restore, fire_reduce, thorn;
+    public double hp, speed, kb, atk, def, tough;
+    @SerialClass.SerialField
+    public double restore, fire_reduce, thorn, bypass_armor, bypass_magic;
     @SerialClass.SerialField
     public int fire_tick, fire_thorn_tick;
     @SerialClass.SerialField(generic = EffEntry.class)
