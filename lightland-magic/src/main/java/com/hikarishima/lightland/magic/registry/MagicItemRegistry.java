@@ -116,6 +116,14 @@ public class MagicItemRegistry {
     public static final RegistryObject<ArcaneAxe> ARCANE_AXE_ALLOY = regItem("alloy_arcane_axe", p -> new ArcaneAxe(MagicItemTier.PERMANENCE, 10, -3f, p.stacksTo(1).setNoRepair(), 100));
     public static final RegistryObject<Item> IDENTIFIER_ORB = regItem("identifier_orb", Item::new);
     public static final RegistryObject<Item> POTION_CORE = regItem("potion_core", PotionCore::new);
+    public static final RegistryObject<Item> BASIC_GOLEM_FRAME = regItem("basic_golem_frame", Item::new);
+    public static final RegistryObject<Item> SMALL_GOLEM_FRAME = regItem("small_golem_frame", Item::new);
+    public static final RegistryObject<Item> MEDIUM_GOLEM_FRAME = regItem("medium_golem_frame", Item::new);
+    public static final RegistryObject<Item> LARGE_GOLEM_FRAME = regItem("large_golem_frame", Item::new);
+    public static final RegistryObject<Item> SMALL_GOLEM_CORE = regItem("small_golem_core", Item::new);
+    public static final RegistryObject<Item> MEDIUM_GOLEM_CORE = regItem("medium_golem_core", Item::new);
+    public static final RegistryObject<Item> LARGE_GOLEM_CORE = regItem("large_golem_core", Item::new);
+
 
     public static final RegistryObject<BlockItem> I_ENCHANT_GOLD = regBlockItem(B_ENCHANT_GOLD);
     public static final RegistryObject<BlockItem> I_ENCHANT_ALLOY = regBlockItem(B_ENCHANT_ALLOY);
