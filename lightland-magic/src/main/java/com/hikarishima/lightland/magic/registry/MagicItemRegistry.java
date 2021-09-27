@@ -7,10 +7,7 @@ import com.hikarishima.lightland.magic.gui.container.ChemContainer;
 import com.hikarishima.lightland.magic.gui.container.DisEnchanterContainer;
 import com.hikarishima.lightland.magic.gui.container.SpellCraftContainer;
 import com.hikarishima.lightland.magic.gui.magic_tree.MagicTreeScreen;
-import com.hikarishima.lightland.magic.registry.block.AnvilItem;
-import com.hikarishima.lightland.magic.registry.block.RitualCore;
-import com.hikarishima.lightland.magic.registry.block.RitualSide;
-import com.hikarishima.lightland.magic.registry.block.TempBlock;
+import com.hikarishima.lightland.magic.registry.block.*;
 import com.hikarishima.lightland.magic.registry.item.combat.*;
 import com.hikarishima.lightland.magic.registry.item.magic.*;
 import com.hikarishima.lightland.magic.registry.item.misc.ArmorBag;
@@ -62,6 +59,7 @@ public class MagicItemRegistry {
     public static final RegistryObject<LightLandBlock> B_RITUAL_CORE = reg("ritual_core", () -> LightLandBlock.newBaseBlock(PEDESTAL, RitualCore.ACTIVATE, RitualCore.CLICK, BlockProxy.TRIGGER, RitualCore.TILE_ENTITY_SUPPLIER_BUILDER));
     public static final RegistryObject<LightLandBlock> B_RITUAL_SIDE = reg("ritual_side", () -> LightLandBlock.newBaseBlock(PEDESTAL, RitualCore.CLICK, RitualSide.TILE_ENTITY_SUPPLIER_BUILDER));
     public static final RegistryObject<Block> B_ANVIL = reg("anvil", ApothAnvilBlock::new);
+    public static final RegistryObject<Block> B_REGEN_ORE = reg("regen_ore", RegenOreBlock::new);
 
     public static final RegistryObject<ScreenBook> MAGIC_BOOK = regItem("magic_book", p -> new ScreenBook(p, () -> MagicTreeScreen::new));
     public static final RegistryObject<ScreenBook> ABILITY_BOOK = regItem("ability_book", p -> new ScreenBook(p, () -> ProfessionScreen::new));
@@ -135,6 +133,7 @@ public class MagicItemRegistry {
     public static final RegistryObject<BlockItem> I_RITUAL_CORE = regBlockItem(B_RITUAL_CORE);
     public static final RegistryObject<BlockItem> I_RITUAL_SIDE = regBlockItem(B_RITUAL_SIDE);
     public static final RegistryObject<BlockItem> I_ANVIL = regBlockItem(B_ANVIL, AnvilItem::new);
+    public static final RegistryObject<BlockItem> I_REGEN_ORE = regBlockItem(B_REGEN_ORE);
 
     private static <V extends Block> RegistryObject<V> reg(String name, Supplier<V> v) {
         return BLOCK.register(name, v);

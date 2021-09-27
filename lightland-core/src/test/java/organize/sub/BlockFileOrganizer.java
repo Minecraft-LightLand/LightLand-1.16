@@ -43,8 +43,14 @@ public class BlockFileOrganizer extends ResourceOrganizer {
         File models = new File(f.getPath() + "/-special/model");
         File model_h = new File(f.getPath() + "/-special/model_horizontal");
         File textures = new File(f.getPath() + "/-special/textures");
+        File states = new File(f.getPath() + "/-special/blockstates");
         for (File fi : textures.listFiles()) {
             File ti = new File(texture + fi.getName());
+            check(ti);
+            Files.copy(fi, ti);
+        }
+        for (File fi : states.listFiles()) {
+            File ti = new File(state + fi.getName());
             check(ti);
             Files.copy(fi, ti);
         }

@@ -1,0 +1,46 @@
+{
+    "variants": {
+        "ore=regen_0": {
+            "model": "block/stone"
+        },
+        "ore=regen_1": {
+            "model": "block/stone"
+        },
+        "ore=regen_2": {
+            "model": "block/stone"
+        },
+        "ore=regen_3": {
+            "model": "block/stone"
+        },
+        "ore=regen_4": {
+            "model": "block/stone"
+        },
+        "ore=regen_5": {
+            "model": "block/stone"
+        },
+        "ore=regen_6": {
+            "model": "block/stone"
+        },
+        "ore=regen_7": {
+            "model": "block/stone"
+        },
+        "ore=coal": {
+            "model": "block/coal_ore"
+        },
+        "ore=iron": {
+            "model": "block/iron_ore"
+        },
+        "ore=gold": {
+            "model": "block/gold_ore"
+        },
+        "ore=lapis": {
+            "model": "block/lapis_ore"
+        },
+        "ore=redstone": {
+            "model": "block/redstone_ore"
+        },
+        "ore=diamond": {
+            "model": "block/diamond_ore"
+        }
+    }
+}
