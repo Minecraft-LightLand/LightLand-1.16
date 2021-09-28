@@ -9,7 +9,7 @@
         "a": {
             "item": "lightland-magic:large_golem_frame"
         },
-        "b": {"item":"minecraft:obsidian"},
+        "b": {"item":"minecraft:obsidian"}
     },
     "result": {
         "item": "lightland-magic:large_golem_frame",

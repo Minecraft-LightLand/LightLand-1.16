@@ -12,7 +12,6 @@ import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.ai.attributes.AttributeModifierMap;
 import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.goal.*;
-import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.passive.GolemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
@@ -37,7 +36,7 @@ import java.util.UUID;
 public class AlchemyGolemEntity extends GolemEntity implements IEntityAdditionalSpawnData {
 
     @SerialClass.SerialField(generic = String.class)
-    public List<String> materials = new ArrayList<>();
+    public ArrayList<String> materials = new ArrayList<>();
     @SerialClass.SerialField
     public UUID owner;
 
@@ -58,9 +57,9 @@ public class AlchemyGolemEntity extends GolemEntity implements IEntityAdditional
         return materials;
     }
 
-    public void setMaterials(PlayerEntity player, List<String> list) {
+    public void setMaterials(PlayerEntity player, ArrayList<String> list) {
         owner = player.getUUID();
-        List<GolemMaterial> mats = new ArrayList<>();
+        ArrayList<GolemMaterial> mats = new ArrayList<>();
         for (String str : list) {
             GolemMaterial mat = ConfigRecipe.getObject(level, MagicRecipeRegistry.GOLEM, str);
             if (mat != null)
@@ -77,9 +76,8 @@ public class AlchemyGolemEntity extends GolemEntity implements IEntityAdditional
 
     protected void registerGoals() {
         this.goalSelector.addGoal(1, new MeleeAttackGoal(this, 1.0D, true));
-        this.goalSelector.addGoal(2, new MoveTowardsTargetGoal(this, 0.9D, 32.0F));
-        this.goalSelector.addGoal(3, new LookAtGoal(this, PlayerEntity.class, 6.0F));
-        this.goalSelector.addGoal(4, new LookRandomlyGoal(this));
+        this.goalSelector.addGoal(2, new LookAtGoal(this, PlayerEntity.class, 6.0F));
+        this.goalSelector.addGoal(3, new LookRandomlyGoal(this));
         this.targetSelector.addGoal(1, new HurtByTargetGoal(this, PlayerEntity.class, AlchemyGolemEntity.class));
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, MobEntity.class,
                 16, false, false,
@@ -87,8 +85,10 @@ public class AlchemyGolemEntity extends GolemEntity implements IEntityAdditional
         this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, MobEntity.class,
                 16, false, false,
                 (e) -> getOwner() != null && e.getLastHurtByMob() == getOwner()));
+        this.targetSelector.addGoal(4, new NearestAttackableTargetGoal<>(this, MobEntity.class,
+                16, false, false,
+                (e) -> e instanceof MobEntity && ((MobEntity) e).getTarget() == this));
     }
-
 
     protected SoundEvent getHurtSound(DamageSource p_184601_1_) {
         return SoundEvents.IRON_GOLEM_HURT;

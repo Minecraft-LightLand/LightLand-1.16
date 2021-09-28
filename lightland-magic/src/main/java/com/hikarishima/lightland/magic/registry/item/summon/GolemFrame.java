@@ -31,7 +31,8 @@ public class GolemFrame extends Item {
         if (material.bypass_magic > 0) list.add(Translator.get("golem.attr.bypass_magic", material.bypass_magic * 100));
         if (material.fire_reduce > 0) list.add(Translator.get("golem.attr.fire_reduce", material.fire_reduce * 100));
         if (material.fire_tick > 0) list.add(Translator.get("golem.attr.fire_tick", material.fire_tick / 20d));
-        if (material.fire_thorn_tick > 0) list.add(Translator.get("golem.attr.fire_thorn_tick", material.fire_thorn_tick / 20d));
+        if (material.fire_thorn_tick > 0)
+            list.add(Translator.get("golem.attr.fire_thorn_tick", material.fire_thorn_tick / 20d));
     }
 
     public GolemFrame(Properties props) {

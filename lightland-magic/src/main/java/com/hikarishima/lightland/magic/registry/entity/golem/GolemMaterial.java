@@ -29,7 +29,7 @@ public class GolemMaterial {
     @SerialClass.SerialField
     public int fire_tick, fire_thorn_tick;
     @SerialClass.SerialField(generic = EffEntry.class)
-    public List<EffEntry> effects = new ArrayList<>();
+    public ArrayList<EffEntry> effects = new ArrayList<>();
 
     @Deprecated
     public GolemMaterial() {

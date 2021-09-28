@@ -9,7 +9,7 @@
         "a": {
             "item": "lightland-magic:large_golem_frame"
         },
-        "b": {"item":"lightland-magic:permanence_iron_ingot"},
+        "b": {"item":"lightland-magic:permanence_iron_ingot"}
     },
     "result": {
         "item": "lightland-magic:large_golem_frame",

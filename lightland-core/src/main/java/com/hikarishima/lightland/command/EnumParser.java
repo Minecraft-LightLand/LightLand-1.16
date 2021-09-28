@@ -28,7 +28,7 @@ public class EnumParser<T extends Enum<T>> implements ArgumentType<T> {
 
     private static final Map<Class<?>, EnumParser<?>> CACHE = Maps.newLinkedHashMap();
 
-    @SuppressWarnings({"unchecked","rawtypes"})
+    @SuppressWarnings({"unchecked", "rawtypes"})
     @MethodsReturnNonnullByDefault
     @ParametersAreNonnullByDefault
     public static void register() {

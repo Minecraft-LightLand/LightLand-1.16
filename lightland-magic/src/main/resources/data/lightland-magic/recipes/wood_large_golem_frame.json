@@ -9,7 +9,7 @@
         "a": {
             "item": "lightland-magic:large_golem_frame"
         },
-        "b": {"tag":"minecraft:planks"},
+        "b": {"tag":"minecraft:planks"}
     },
     "result": {
         "item": "lightland-magic:large_golem_frame",

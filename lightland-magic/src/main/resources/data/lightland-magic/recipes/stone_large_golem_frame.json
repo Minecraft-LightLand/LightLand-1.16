@@ -9,7 +9,7 @@
         "a": {
             "item": "lightland-magic:large_golem_frame"
         },
-        "b": {"item":"minecraft:cobblestone"},
+        "b": {"item":"minecraft:cobblestone"}
     },
     "result": {
         "item": "lightland-magic:large_golem_frame",

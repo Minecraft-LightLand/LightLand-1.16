@@ -15,7 +15,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 public class ToolParticle extends DeceleratingParticle {
 
     protected ToolParticle(ClientWorld world, double x0, double y0, double z0, double x1, double y1, double z1) {
-        super(world, x0, y0, z0, x1,y1,z1);
+        super(world, x0, y0, z0, x1, y1, z1);
     }
 
     public IParticleRenderType getRenderType() {
@@ -28,7 +28,7 @@ public class ToolParticle extends DeceleratingParticle {
     }
 
     public float getQuadSize(float partial) {
-        float f = ((float)this.age + partial) / (float)this.lifetime;
+        float f = ((float) this.age + partial) / (float) this.lifetime;
         return this.quadSize * (1.0F - f * f * 0.5F);
     }
 

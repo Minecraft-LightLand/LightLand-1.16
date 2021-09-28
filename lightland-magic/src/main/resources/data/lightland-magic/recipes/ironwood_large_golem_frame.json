@@ -9,7 +9,7 @@
         "a": {
             "item": "lightland-magic:large_golem_frame"
         },
-        "b": {"item":"twilightforest:ironwood_ingot"},
+        "b": {"item":"twilightforest:ironwood_ingot"}
     },
     "result": {
         "item": "lightland-magic:large_golem_frame",

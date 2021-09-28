@@ -9,7 +9,7 @@
         "a": {
             "item": "lightland-magic:large_golem_frame"
         },
-        "b": {"item":"minecraft:magma_block"},
+        "b": {"item":"minecraft:magma_block"}
     },
     "result": {
         "item": "lightland-magic:large_golem_frame",

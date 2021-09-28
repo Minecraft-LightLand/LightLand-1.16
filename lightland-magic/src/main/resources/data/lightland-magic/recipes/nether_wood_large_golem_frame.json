@@ -9,7 +9,7 @@
         "a": {
             "item": "lightland-magic:large_golem_frame"
         },
-        "b": [{"item":"minecraft:warped_planks"},{"item":"minecraft:crimson_planks"}],
+        "b": [{"item":"minecraft:warped_planks"},{"item":"minecraft:crimson_planks"}]
     },
     "result": {
         "item": "lightland-magic:large_golem_frame",

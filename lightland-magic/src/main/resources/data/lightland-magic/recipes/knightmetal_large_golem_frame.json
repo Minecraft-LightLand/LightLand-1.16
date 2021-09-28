@@ -9,7 +9,7 @@
         "a": {
             "item": "lightland-magic:large_golem_frame"
         },
-        "b": {"item":"twilightforest:knightmetal_ingot"},
+        "b": {"item":"twilightforest:knightmetal_ingot"}
     },
     "result": {
         "item": "lightland-magic:large_golem_frame",
