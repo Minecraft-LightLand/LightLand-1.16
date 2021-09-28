@@ -80,15 +80,15 @@ dependencies {
     compileOnly(fg.deobf("software.bernie.geckolib:geckolib-forge-1.16.5:3.0.45"))
     runtimeOnly(fg.deobf("software.bernie.geckolib:geckolib-forge-1.16.5:3.0.45"))
 
-    compileOnly(fg.deobf("curse.maven:exp-401955:3459011"))
-    runtimeOnly(fg.deobf("curse.maven:exp-401955:3459011"))
+    //ompileOnly(fg.deobf("curse.maven:exp-401955:3459011"))
+    //runtimeOnly(fg.deobf("curse.maven:exp-401955:3459011"))
 
     compileOnly(fg.deobf("zip.local.ap:Apotheosis-1.16.4:4.6.1"))
     runtimeOnly(fg.deobf("zip.local.ap:Apotheosis-1.16.4:4.6.1"))
 
     runtimeOnly(fg.deobf("zip.local.pl:Placebo-1.16.4:4.5.0"))
     runtimeOnly(fg.deobf("zip.local.tf:twilightforest-${mcVersion}:4.0.546-universal"))
-    runtimeOnly(fg.deobf("zip.local.mt:mahoutsukai-1.16.5:v1.31.37"))
+    //runtimeOnly(fg.deobf("zip.local.mt:mahoutsukai-1.16.5:v1.31.37"))
     runtimeOnly(fg.deobf("zip.local.ch:champions-forge-1.16.5:2.0.1.7"))
 
 

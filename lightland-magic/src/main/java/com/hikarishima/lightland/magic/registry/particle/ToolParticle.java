@@ -12,10 +12,13 @@ import javax.annotation.ParametersAreNonnullByDefault;
 @OnlyIn(Dist.CLIENT)
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public class ToolParticle extends DeceleratingParticle {
+public class ToolParticle extends SpriteTexturedParticle {
 
     protected ToolParticle(ClientWorld world, double x0, double y0, double z0, double x1, double y1, double z1) {
         super(world, x0, y0, z0, x1, y1, z1);
+        xd = x1;
+        yd = y1;
+        zd = z1;
     }
 
     public IParticleRenderType getRenderType() {
@@ -25,6 +28,9 @@ public class ToolParticle extends DeceleratingParticle {
     public void move(double x, double y, double z) {
         this.setBoundingBox(this.getBoundingBox().move(x, y, z));
         this.setLocationFromBoundingbox();
+        xd *= 0.95;
+        yd *= 0.95;
+        zd *= 0.95;
     }
 
     public float getQuadSize(float partial) {

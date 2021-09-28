@@ -24,6 +24,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.common.ToolType;
 
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -92,7 +93,7 @@ public class RegenOreBlock extends Block {
     public static final Property<State> ORE = new OreProperty();
 
     public RegenOreBlock() {
-        super(AbstractBlock.Properties.copy(Blocks.STONE).randomTicks());
+        super(AbstractBlock.Properties.copy(Blocks.STONE).randomTicks().harvestTool(ToolType.PICKAXE));
     }
 
     public void playerDestroy(World w, PlayerEntity pl, BlockPos pos, BlockState state, @Nullable TileEntity te, ItemStack stack) {
@@ -119,13 +120,7 @@ public class RegenOreBlock extends Block {
     @Override
     public int getHarvestLevel(BlockState state) {
         State st = state.getValue(ORE);
-        if (st == State.COAL) return 1;
-        if (st == State.IRON) return 2;
-        if (st == State.LAPIS) return 2;
-        if (st == State.GOLD) return 3;
-        if (st == State.REDSTONE) return 3;
-        if (st == State.DIAMOND) return 3;
-        return 0;
+        return st.fake.get().getHarvestLevel();
     }
 
     @OnlyIn(Dist.CLIENT)
@@ -133,14 +128,15 @@ public class RegenOreBlock extends Block {
     public void animateTick(BlockState state, World world, BlockPos pos, Random random) {
         IParticleData particle = ParticleRegistry.PICKAXE.get(getHarvestLevel(state)).get();
         double d0 = pos.getX() + 0.5D;
-        double d1 = pos.getY();
+        double d1 = pos.getY() + 0.5D;
         double d2 = pos.getZ() + 0.5D;
         if (random.nextDouble() < 0.1D) {
             world.playLocalSound(d0, d1, d2, SoundEvents.FURNACE_FIRE_CRACKLE, SoundCategory.BLOCKS, 1.0F, 1.0F, false);
         }
-        double d4 = random.nextDouble() * 0.6D - 0.3D;
-        double d6 = random.nextDouble() * 6.0D / 16.0D;
-        world.addParticle(particle, d0 + d4, d1 + d6, d2 + d4, 0.0D, 0.0D, 0.0D);
+        double dx = (random.nextDouble() * 0.3 + 0.2) * (random.nextBoolean() ? 1 : -1);
+        double dy = (random.nextDouble() * 0.3 + 0.2) * (random.nextBoolean() ? 1 : -1);
+        double dz = (random.nextDouble() * 0.3 + 0.2) * (random.nextBoolean() ? 1 : -1);
+        world.addAlwaysVisibleParticle(particle, d0 + dx, d1 + dy, d2 + dz, dx * 0.3, dy * 0.3, dz * 0.3);
 
     }
 

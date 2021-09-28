@@ -9,7 +9,7 @@
         "a": {
             "item": "lightland-magic:large_golem_frame"
         },
-        "b": {"item":"minecraft:diamond_ingot"}
+        "b": {"item":"minecraft:diamond"}
     },
     "result": {
         "item": "lightland-magic:large_golem_frame",

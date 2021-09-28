@@ -9,7 +9,7 @@
         "a": {
             "item": "lightland-magic:small_golem_frame"
         },
-        "b": {"item":"minecraft:diamond_ingot"},
+        "b": {"item":"minecraft:diamond"},
         "c": {
             "item": "minecraft:clay_ball"
         },

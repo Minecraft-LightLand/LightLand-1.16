@@ -491,7 +491,7 @@
             "b": "minecraft:^n"
         },
         "diamond": {
-            "a": "{\"item\":\"minecraft:^n_ingot\"}",
+            "a": "{\"item\":\"minecraft:^n\"}",
             "b": "minecraft:^n"
         },
         "netherite": {
