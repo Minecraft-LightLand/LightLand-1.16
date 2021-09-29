@@ -17,7 +17,7 @@
         },
         "minecraft:fire_wood": {
             "restore": 0.02,
-            "fire_reduce": 0.3
+            "fire_reduce": 1
         },
         "minecraft:stone": {
             "hp": 2,
@@ -29,28 +29,30 @@
             "hp": 2,
             "speed": -0.01,
             "atk": 1,
-            "fire_reduce": 0.4
+            "fire_reduce": 1
         },
         "minecraft:obsidian": {
             "hp": 2,
             "speed": -0.01,
             "atk": 1,
             "def": 5,
-            "fire_reduce": 0.5
+            "fire_reduce": 1,
+            "kb": 0.15
         },
         "minecraft:magma": {
             "speed": -0.01,
             "atk": 1,
             "fire_reduce": 1,
-            "fire_tick": 20,
-            "fire_thron_tick": 10
+            "fire_tick": 40,
+            "fire_thron_tick": 20
         },
         "minecraft:iron": {
             "hp": 3,
             "speed": -0.015,
             "atk": 2,
             "def": 3,
-            "fire_reduce": 0.15
+            "fire_reduce": 0.15,
+            "kb": 0.05
         },
         "minecraft:diamond": {
             "hp": 8,
@@ -65,14 +67,16 @@
             "atk": 3.5,
             "def": 5,
             "tough": 3,
-            "fire_reduce": 1
+            "fire_reduce": 1,
+            "kb": 0.2
         },
         "twilightforest:ironwood": {
             "hp": 3,
             "speed": -0.01,
             "atk": 2,
             "def": 3,
-            "fire_reduce": 0.05
+            "fire_reduce": 0.05,
+            "kb": 0.05
         },
         "twilightforest:steeleaf": {
             "speed": -0.005,
@@ -86,7 +90,8 @@
             "atk": 2.5,
             "def": 4,
             "fire_reduce": 0.15,
-            "thron": 0.05
+            "thron": 0.05,
+            "kb": 0.15
         },
         "twilightforest:fiery": {
             "hp": 8,
@@ -95,8 +100,9 @@
             "def": 5,
             "fire_reduce": 1,
             "thron": 0.1,
-            "fire_tick": 60,
-            "fire_thron_tick": 40
+            "fire_tick": 200,
+            "fire_thron_tick": 100,
+            "kb": 0.1
         },
         "lightland-magic:permanence_iron": {
             "hp": 5,
@@ -104,7 +110,8 @@
             "atk": 2,
             "def": 3,
             "fire_reduce": 0.15,
-            "restore": 0.05
+            "restore": 0.05,
+            "kb": 0.1
         },
         "lightland-magic:enchant_alloy": {
             "hp": 3,
@@ -112,7 +119,8 @@
             "atk": 2,
             "def": 3,
             "fire_reduce": 0.15,
-            "bypass_armor": 0.15
+            "bypass_armor": 0.15,
+            "kb": 0.1
         },
         "lightland-magic:anti_magic_metal": {
             "hp": 3,
@@ -120,7 +128,8 @@
             "atk": 2,
             "def": 3,
             "fire_reduce": 0.15,
-            "bypass_magic": 0.15
+            "bypass_magic": 0.15,
+            "kb": 0.1
         },
         "lightland-magic:test": {
             "hp": 10,

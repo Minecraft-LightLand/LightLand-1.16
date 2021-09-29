@@ -1,6 +1,7 @@
-package com.hikarishima.lightland.magic.recipe;
+package com.hikarishima.lightland.magic.recipe.vanilla;
 
 import com.google.gson.JsonObject;
+import com.hikarishima.lightland.magic.recipe.MagicRecipeRegistry;
 import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.inventory.CraftingInventory;
 import net.minecraft.item.ItemStack;

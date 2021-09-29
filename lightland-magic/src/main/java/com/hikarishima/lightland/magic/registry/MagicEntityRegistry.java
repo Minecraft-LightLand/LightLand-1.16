@@ -87,8 +87,8 @@ public class MagicEntityRegistry {
     @SubscribeEvent
     public static void onAttributeCreation(EntityAttributeCreationEvent event) {
         event.put(ALCHEMY_SMALL.get(), AlchemyGolemEntity.createAttributes(10, 0.35, 0, 2, 0).build());
-        event.put(ALCHEMY_MEDIUM.get(), AlchemyGolemEntity.createAttributes(20, 0.3, 0.25, 3, 4).build());
-        event.put(ALCHEMY_LARGE.get(), AlchemyGolemEntity.createAttributes(40, 0.25, 0.5, 4, 8).build());
+        event.put(ALCHEMY_MEDIUM.get(), AlchemyGolemEntity.createAttributes(20, 0.32, 0.25, 3, 4).build());
+        event.put(ALCHEMY_LARGE.get(), AlchemyGolemEntity.createAttributes(40, 0.29, 0.5, 4, 8).build());
     }
 
 }

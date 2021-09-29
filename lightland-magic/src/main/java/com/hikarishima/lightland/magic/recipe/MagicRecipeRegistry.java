@@ -2,6 +2,8 @@ package com.hikarishima.lightland.magic.recipe;
 
 import com.hikarishima.lightland.magic.LightLandMagic;
 import com.hikarishima.lightland.magic.recipe.ritual.*;
+import com.hikarishima.lightland.magic.recipe.vanilla.FullShapelessCraftRecipe;
+import com.hikarishima.lightland.magic.recipe.vanilla.GolemCraftRecipe;
 import com.hikarishima.lightland.magic.registry.block.RitualCore;
 import com.lcy0x1.base.BaseRecipe;
 import net.minecraft.item.crafting.IRecipeSerializer;

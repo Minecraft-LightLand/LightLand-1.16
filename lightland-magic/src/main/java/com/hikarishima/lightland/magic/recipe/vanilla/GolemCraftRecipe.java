@@ -1,10 +1,12 @@
-package com.hikarishima.lightland.magic.recipe;
+package com.hikarishima.lightland.magic.recipe.vanilla;
 
 import com.google.gson.JsonObject;
+import com.hikarishima.lightland.magic.recipe.MagicRecipeRegistry;
 import com.hikarishima.lightland.magic.registry.item.summon.GolemFrame;
 import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.inventory.CraftingInventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.IRecipeSerializer;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.item.crafting.ShapedRecipe;
 import net.minecraft.nbt.CompoundNBT;
@@ -13,7 +15,6 @@ import net.minecraft.nbt.StringNBT;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.World;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
@@ -23,6 +24,11 @@ public class GolemCraftRecipe extends ShapedRecipe {
 
     public GolemCraftRecipe(ResourceLocation rl, String str, int w, int h, NonNullList<Ingredient> list, ItemStack result) {
         super(rl, str, w, h, list, result);
+    }
+
+
+    public IRecipeSerializer<?> getSerializer() {
+        return MagicRecipeRegistry.RSM_GOLEM_CRAFT.get();
     }
 
     @Override

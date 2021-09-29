@@ -466,7 +466,7 @@
             "a": "{\"tag\":\"minecraft:planks\"}",
             "b": "minecraft:^n"
         },
-        "nether_wood": {
+        "fire_wood": {
             "a": "[{\"item\":\"minecraft:warped_planks\"},{\"item\":\"minecraft:crimson_planks\"}]",
             "b": "minecraft:^n"
         },

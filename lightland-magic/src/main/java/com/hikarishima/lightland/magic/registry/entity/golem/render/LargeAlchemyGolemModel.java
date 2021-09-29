@@ -74,7 +74,4 @@ public class LargeAlchemyGolemModel<T extends LargeAlchemyGolemEntity> extends S
 
     }
 
-    public ModelRenderer getFlowerHoldingArm() {
-        return this.arm0;
-    }
 }

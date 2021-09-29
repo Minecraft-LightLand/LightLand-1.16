@@ -40,13 +40,13 @@ public class LightLandMagic {
         bus.addListener(this::setup);
         bus.addListener(this::doClientStuff);
         bus.addListener(this::onParticleRegistryEvent);
+        bus.addListener(MagicEntityRegistry::onAttributeCreation);
         MagicRegistry.initAllRegistries(bus);
         MinecraftForge.EVENT_BUS.register(new MagicEventHandler());
         MinecraftForge.EVENT_BUS.register(new ClientRenderEventHandler());
         MinecraftForge.EVENT_BUS.register(new MagicDamageEventHandler());
         MinecraftForge.EVENT_BUS.register(new MagicMiscEventHandler());
         MinecraftForge.EVENT_BUS.register(new PatchouliEventListener());
-        MinecraftForge.EVENT_BUS.register(MagicEntityRegistry.class);
         PacketHandler.reg(ToClientMsg.class, ToClientMsg::handle, NetworkDirection.PLAY_TO_CLIENT);
         PacketHandler.reg(ToServerMsg.class, ToServerMsg::handle, NetworkDirection.PLAY_TO_SERVER);
         PacketHandler.reg(ChemPacket.class, ChemContainer.class, NetworkDirection.PLAY_TO_SERVER);

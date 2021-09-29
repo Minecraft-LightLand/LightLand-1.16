@@ -8,6 +8,7 @@ import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.potion.Effect;
 import net.minecraft.potion.EffectInstance;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.AxisAlignedBB;
 
 import java.util.ArrayList;
@@ -31,7 +32,6 @@ public class GolemMaterial {
     @SerialClass.SerialField(generic = EffEntry.class)
     public ArrayList<EffEntry> effects = new ArrayList<>();
 
-    @Deprecated
     public GolemMaterial() {
 
     }
@@ -51,6 +51,7 @@ public class GolemMaterial {
             bypass_magic += mat.bypass_magic;
             fire_tick += mat.fire_tick;
             fire_thorn_tick += mat.fire_thorn_tick;
+            effects.addAll(mat.effects);
         }
         kb = Math.min(1, kb);
         fire_reduce = Math.min(1, fire_reduce);
@@ -70,7 +71,15 @@ public class GolemMaterial {
 
     }
 
-    public void onHit(AlchemyGolemEntity self) {
+    public void onHit(AlchemyGolemEntity self, LivingEntity attacker, DamageSource source, float amount) {
+        if (attacker != null) {
+            if (thorn > 0) {
+                attacker.hurt(DamageSource.thorns(self), (float) (amount * thorn));
+            }
+            if (fire_thorn_tick > 0) {
+                attacker.setSecondsOnFire(fire_thorn_tick / 20);
+            }
+        }
         for (EffEntry eff : effects) {
             if (Math.random() < eff.chance) {
                 if (eff.radius == 0) {
