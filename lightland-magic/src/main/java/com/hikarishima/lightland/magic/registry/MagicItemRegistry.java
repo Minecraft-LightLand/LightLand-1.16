@@ -14,6 +14,7 @@ import com.hikarishima.lightland.magic.registry.item.misc.ArmorBag;
 import com.hikarishima.lightland.magic.registry.item.misc.BookBag;
 import com.hikarishima.lightland.magic.registry.item.summon.GolemCore;
 import com.hikarishima.lightland.magic.registry.item.summon.GolemFrame;
+import com.hikarishima.lightland.magic.registry.item.summon.GolemTotem;
 import com.hikarishima.lightland.registry.ItemRegistry;
 import com.hikarishima.lightland.registry.item.ContainerBook;
 import com.hikarishima.lightland.registry.item.FoiledItem;
@@ -123,6 +124,9 @@ public class MagicItemRegistry {
     public static final RegistryObject<Item> SMALL_GOLEM_CORE = regItem("small_golem_core", GolemCore::new);
     public static final RegistryObject<Item> MEDIUM_GOLEM_CORE = regItem("medium_golem_core", GolemCore::new);
     public static final RegistryObject<Item> LARGE_GOLEM_CORE = regItem("large_golem_core", GolemCore::new);
+    public static final RegistryObject<Item> SMALL_GOLEM_TOTEM = regItem("small_golem_totem", GolemTotem::new);
+    public static final RegistryObject<Item> MEDIUM_GOLEM_TOTEM = regItem("medium_golem_totem", GolemTotem::new);
+    public static final RegistryObject<Item> LARGE_GOLEM_TOTEM = regItem("large_golem_totem", GolemTotem::new);
 
     public static final RegistryObject<BlockItem> I_ENCHANT_GOLD = regBlockItem(B_ENCHANT_GOLD);
     public static final RegistryObject<BlockItem> I_ENCHANT_ALLOY = regBlockItem(B_ENCHANT_ALLOY);

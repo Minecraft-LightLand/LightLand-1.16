@@ -1,7 +1,7 @@
 package com.hikarishima.lightland.magic.compat.mixin;
 
 import com.google.gson.JsonObject;
-import com.hikarishima.lightland.magic.recipe.AbstractMagicCraftRecipe;
+import com.hikarishima.lightland.magic.recipe.ritual.AbstractMagicCraftRecipe;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentData;
 import net.minecraft.inventory.ItemStackHelper;

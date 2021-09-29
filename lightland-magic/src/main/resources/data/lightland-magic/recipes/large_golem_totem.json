@@ -1,0 +1,19 @@
+{
+    "type": "lightland-magic:golem_craft",
+    "pattern": [
+        " b ",
+        "aaa",
+        " a "
+    ],
+    "key": {
+        "a": {
+            "item": "lightland-magic:large_golem_frame"
+        },
+        "b": {
+            "item": "lightland-magic:large_golem_core"
+        }
+    },
+    "result": {
+        "item": "lightland-magic:large_golem_totem"
+    }
+}

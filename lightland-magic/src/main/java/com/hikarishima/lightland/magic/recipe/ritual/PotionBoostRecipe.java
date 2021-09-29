@@ -1,5 +1,6 @@
-package com.hikarishima.lightland.magic.recipe;
+package com.hikarishima.lightland.magic.recipe.ritual;
 
+import com.hikarishima.lightland.magic.recipe.MagicRecipeRegistry;
 import com.hikarishima.lightland.magic.registry.block.RitualCore;
 import com.lcy0x1.core.util.SerialClass;
 import net.minecraft.item.ItemStack;

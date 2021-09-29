@@ -1,6 +1,7 @@
 package com.hikarishima.lightland.magic.recipe;
 
 import com.hikarishima.lightland.magic.LightLandMagic;
+import com.hikarishima.lightland.magic.recipe.ritual.*;
 import com.hikarishima.lightland.magic.registry.block.RitualCore;
 import com.lcy0x1.base.BaseRecipe;
 import net.minecraft.item.crafting.IRecipeSerializer;
@@ -20,9 +21,6 @@ public class MagicRecipeRegistry {
 
     public static final RegistryObject<BaseRecipe.RecType<DefMagicRecipe, IMagicRecipe<?>, IMagicRecipe.Inv>> RSM_DEF =
             REC.register("magic_default", () -> new BaseRecipe.RecType<>(DefMagicRecipe.class, RT_MAGIC));
-
-    public static final RegistryObject<BaseRecipe.RecType<ShortMagicRecipe, IMagicRecipe<?>, IMagicRecipe.Inv>> RSM_SHORT =
-            REC.register("magic_short", () -> new BaseRecipe.RecType<>(ShortMagicRecipe.class, RT_MAGIC));
 
     public static final RegistryObject<BaseRecipe.RecType<BasicMagicCraftRecipe, AbstractMagicCraftRecipe<?>, RitualCore.Inv>> RSM_CRAFT =
             REC.register("craft_shapeless", () -> new BaseRecipe.RecType<>(BasicMagicCraftRecipe.class, RT_CRAFT));
@@ -47,6 +45,9 @@ public class MagicRecipeRegistry {
 
     public static final RegistryObject<FullShapelessCraftRecipe.Serializer> RSM_FULL_CRAFT =
             REC.register("full_crafting_shapeless", FullShapelessCraftRecipe.Serializer::new);
+
+    public static final RegistryObject<GolemCraftRecipe.Serializer> RSM_GOLEM_CRAFT =
+            REC.register("golem_craft", GolemCraftRecipe.Serializer::new);
 
     public static final ResourceLocation SPELL = new ResourceLocation(LightLandMagic.MODID, "config_spell");
     public static final ResourceLocation PRODUCT_TYPE_DISPLAY = new ResourceLocation(LightLandMagic.MODID, "config_product_type");

@@ -6,7 +6,7 @@ import com.hikarishima.lightland.magic.Translator;
 import com.hikarishima.lightland.magic.capabilities.MagicHandler;
 import com.hikarishima.lightland.magic.capabilities.ToClientMsg;
 import com.hikarishima.lightland.magic.products.MagicProduct;
-import com.hikarishima.lightland.magic.recipe.AbstractMagicCraftRecipe;
+import com.hikarishima.lightland.magic.recipe.ritual.AbstractMagicCraftRecipe;
 import com.hikarishima.lightland.magic.recipe.MagicRecipeRegistry;
 import com.hikarishima.lightland.magic.registry.MagicContainerRegistry;
 import com.hikarishima.lightland.magic.registry.MagicItemRegistry;

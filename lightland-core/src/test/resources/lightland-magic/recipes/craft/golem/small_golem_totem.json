@@ -1,0 +1,18 @@
+{
+    "type": "lightland-magic:golem_craft",
+    "pattern": [
+        "b",
+        "a"
+    ],
+    "key": {
+        "a": {
+            "item": "lightland-magic:small_golem_frame"
+        },
+        "b": {
+            "item": "lightland-magic:small_golem_core"
+        }
+    },
+    "result": {
+        "item": "lightland-magic:small_golem_totem"
+    }
+}
