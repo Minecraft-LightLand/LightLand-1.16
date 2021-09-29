@@ -20,7 +20,7 @@
     "result": {
         "item": "lightland-magic:small_golem_frame",
         "nbt": {
-            "item": "twilightforest:knightmetal"
+            "item": "lightland-magic:knightmetal"
         }
     }
 }

@@ -49,6 +49,8 @@ public class AlchemyGolemEntity extends GolemEntity implements IEntityAdditional
     @SerialClass.SerialField
     public UUID owner;
 
+    private GolemMaterial _merged = null;
+
     public AlchemyGolemEntity(EntityType<? extends GolemEntity> type, World world) {
         super(type, world);
     }
@@ -67,7 +69,10 @@ public class AlchemyGolemEntity extends GolemEntity implements IEntityAdditional
     }
 
     public GolemMaterial getMerged() {
-        return new GolemMaterial(getMaterials().stream().map(e -> (GolemMaterial) ConfigRecipe.getObject(level, MagicRecipeRegistry.GOLEM, e)).collect(Collectors.toList()));
+        if (_merged != null) {
+            return _merged;
+        }
+        return _merged = new GolemMaterial(getMaterials().stream().map(e -> (GolemMaterial) ConfigRecipe.getObject(level, MagicRecipeRegistry.GOLEM, e)).collect(Collectors.toList()));
     }
 
     @Override
@@ -149,7 +154,7 @@ public class AlchemyGolemEntity extends GolemEntity implements IEntityAdditional
         boolean flag = entity.hurt(getDamageSource(), f);
         if (flag) {
             if (f1 > 0.0F && entity instanceof LivingEntity) {
-                ((LivingEntity) entity).knockback(f1 * 0.5F, (double) MathHelper.sin(this.yRot * ((float) Math.PI / 180F)), (double) (-MathHelper.cos(this.yRot * ((float) Math.PI / 180F))));
+                ((LivingEntity) entity).knockback(f1 * 0.5F, MathHelper.sin(this.yRot * ((float) Math.PI / 180F)), -MathHelper.cos(this.yRot * ((float) Math.PI / 180F)));
                 this.setDeltaMovement(this.getDeltaMovement().multiply(0.6D, 1.0D, 0.6D));
             }
 

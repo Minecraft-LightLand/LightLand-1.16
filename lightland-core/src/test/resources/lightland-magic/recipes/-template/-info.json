@@ -460,59 +460,59 @@
         ],
         "clay": {
             "a": "{\"item\":\"minecraft:clay_ball\"}",
-            "b": "minecraft:^n"
+            "b": "lightland-magic:^n"
         },
         "wood": {
             "a": "{\"tag\":\"minecraft:planks\"}",
-            "b": "minecraft:^n"
+            "b": "lightland-magic:^n"
         },
         "fire_wood": {
             "a": "[{\"item\":\"minecraft:warped_planks\"},{\"item\":\"minecraft:crimson_planks\"}]",
-            "b": "minecraft:^n"
+            "b": "lightland-magic:^n"
         },
         "stone": {
             "a": "{\"item\":\"minecraft:cobblestone\"}",
-            "b": "minecraft:^n"
+            "b": "lightland-magic:^n"
         },
         "fire_stone": {
             "a": "{\"item\":\"minecraft:blackstone\"}",
-            "b": "minecraft:^n"
+            "b": "lightland-magic:^n"
         },
         "obsidian": {
             "a": "{\"item\":\"minecraft:obsidian\"}",
-            "b": "minecraft:^n"
+            "b": "lightland-magic:^n"
         },
         "magma": {
             "a": "{\"item\":\"minecraft:magma_block\"}",
-            "b": "minecraft:^n"
+            "b": "lightland-magic:^n"
         },
         "iron": {
             "a": "{\"item\":\"minecraft:^n_ingot\"}",
-            "b": "minecraft:^n"
+            "b": "lightland-magic:^n"
         },
         "diamond": {
             "a": "{\"item\":\"minecraft:^n\"}",
-            "b": "minecraft:^n"
+            "b": "lightland-magic:^n"
         },
         "netherite": {
             "a": "{\"item\":\"minecraft:^n_ingot\"}",
-            "b": "minecraft:^n"
+            "b": "lightland-magic:^n"
         },
         "ironwood": {
             "a": "{\"item\":\"twilightforest:^n_ingot\"}",
-            "b": "twilightforest:^n"
+            "b": "lightland-magic:^n"
         },
         "steeleaf": {
             "a": "{\"item\":\"twilightforest:^n_ingot\"}",
-            "b": "twilightforest:^n"
+            "b": "lightland-magic:^n"
         },
         "knightmetal": {
             "a": "{\"item\":\"twilightforest:^n_ingot\"}",
-            "b": "twilightforest:^n"
+            "b": "lightland-magic:^n"
         },
         "fiery": {
             "a": "{\"item\":\"twilightforest:^n_ingot\"}",
-            "b": "twilightforest:^n"
+            "b": "lightland-magic:^n"
         },
         "permanence_iron": {
             "a": "{\"item\":\"lightland-magic:^n_ingot\"}",

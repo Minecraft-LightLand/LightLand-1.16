@@ -17,7 +17,7 @@
     "result": {
         "item": "lightland-magic:medium_golem_frame",
         "nbt": {
-            "item": "minecraft:obsidian"
+            "item": "lightland-magic:obsidian"
         }
     }
 }

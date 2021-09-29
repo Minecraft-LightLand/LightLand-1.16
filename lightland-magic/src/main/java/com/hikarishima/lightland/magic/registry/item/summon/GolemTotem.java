@@ -4,8 +4,10 @@ import com.hikarishima.lightland.magic.registry.entity.golem.AlchemyGolemEntity;
 import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.FlowingFluidBlock;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnReason;
+import net.minecraft.entity.passive.fish.AbstractFishEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUseContext;
@@ -20,6 +22,7 @@ import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 
+import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Objects;
 
@@ -45,7 +48,7 @@ public class GolemTotem extends GolemCore {
                 return ActionResult.pass(stack);
             } else if (world.mayInteract(player, pos) && player.mayUseItemAt(pos, ray.getDirection(), stack)) {
                 EntityType<? extends AlchemyGolemEntity> type = getType();
-                AlchemyGolemEntity entity = (AlchemyGolemEntity) type.spawn((ServerWorld) world, stack, player, pos, SpawnReason.BUCKET, false, false);
+                AlchemyGolemEntity entity = (AlchemyGolemEntity) type.spawn((ServerWorld) world, stack, player, pos, SpawnReason.MOB_SUMMONED, false, false);
                 if (entity == null) {
                     return ActionResult.pass(stack);
                 } else {
@@ -76,7 +79,7 @@ public class GolemTotem extends GolemCore {
                 pos_1 = pos.relative(dire);
             }
             EntityType<? extends AlchemyGolemEntity> type = getType();
-            AlchemyGolemEntity entity = (AlchemyGolemEntity) type.spawn((ServerWorld) world, stack, context.getPlayer(), pos_1, SpawnReason.SPAWN_EGG, true, !Objects.equals(pos, pos_1) && dire == Direction.UP);
+            AlchemyGolemEntity entity = (AlchemyGolemEntity) type.spawn((ServerWorld) world, stack, context.getPlayer(), pos_1, SpawnReason.MOB_SUMMONED, true, !Objects.equals(pos, pos_1) && dire == Direction.UP);
             if (entity != null) {
                 stack.shrink(1);
                 entity.setMaterials(player, getMaterials(stack));

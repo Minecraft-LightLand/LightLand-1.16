@@ -14,14 +14,14 @@ import javax.annotation.ParametersAreNonnullByDefault;
 @OnlyIn(Dist.CLIENT)
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public class LargeAlchemyGolemModel<T extends LargeAlchemyGolemEntity> extends SegmentedModel<T> {
+public class LargeAlchemyGolemModel extends SegmentedModel<LargeAlchemyGolemEntity> {
 
-    private final ModelRenderer head;
-    private final ModelRenderer body;
-    private final ModelRenderer arm0;
-    private final ModelRenderer arm1;
-    private final ModelRenderer leg0;
-    private final ModelRenderer leg1;
+    public final ModelRenderer head;
+    public final ModelRenderer body;
+    public final ModelRenderer arm0;
+    public final ModelRenderer arm1;
+    public final ModelRenderer leg0;
+    public final ModelRenderer leg1;
 
     public LargeAlchemyGolemModel() {
         int i = 128;
@@ -53,7 +53,7 @@ public class LargeAlchemyGolemModel<T extends LargeAlchemyGolemEntity> extends S
         return ImmutableList.of(this.head, this.body, this.leg0, this.leg1, this.arm0, this.arm1);
     }
 
-    public void setupAnim(T p_225597_1_, float p_225597_2_, float p_225597_3_, float p_225597_4_, float p_225597_5_, float p_225597_6_) {
+    public void setupAnim(LargeAlchemyGolemEntity p_225597_1_, float p_225597_2_, float p_225597_3_, float p_225597_4_, float p_225597_5_, float p_225597_6_) {
         this.head.yRot = p_225597_5_ * ((float) Math.PI / 180F);
         this.head.xRot = p_225597_6_ * ((float) Math.PI / 180F);
         this.leg0.xRot = -1.5F * MathHelper.triangleWave(p_225597_2_, 13.0F) * p_225597_3_;
@@ -62,7 +62,7 @@ public class LargeAlchemyGolemModel<T extends LargeAlchemyGolemEntity> extends S
         this.leg1.yRot = 0.0F;
     }
 
-    public void prepareMobModel(T p_212843_1_, float p_212843_2_, float p_212843_3_, float p_212843_4_) {
+    public void prepareMobModel(LargeAlchemyGolemEntity p_212843_1_, float p_212843_2_, float p_212843_3_, float p_212843_4_) {
         int i = p_212843_1_.getAttackAnimationTick();
         if (i > 0) {
             this.arm0.xRot = -2.0F + 1.5F * MathHelper.triangleWave((float) i - p_212843_4_, 10.0F);

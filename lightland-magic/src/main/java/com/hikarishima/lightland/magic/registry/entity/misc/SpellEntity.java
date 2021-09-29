@@ -111,7 +111,7 @@ public class SpellEntity extends BaseEntity {
         /**
          * circle in front
          */
-        NORMAL;
+        NORMAL
     }
 
 }

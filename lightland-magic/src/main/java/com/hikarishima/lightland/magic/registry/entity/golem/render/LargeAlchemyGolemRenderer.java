@@ -1,5 +1,6 @@
 package com.hikarishima.lightland.magic.registry.entity.golem.render;
 
+import com.hikarishima.lightland.magic.LightLandMagic;
 import com.hikarishima.lightland.magic.registry.entity.golem.LargeAlchemyGolemEntity;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import mcp.MethodsReturnNonnullByDefault;
@@ -15,11 +16,12 @@ import javax.annotation.ParametersAreNonnullByDefault;
 @OnlyIn(Dist.CLIENT)
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public class LargeAlchemyGolemRenderer extends MobRenderer<LargeAlchemyGolemEntity, LargeAlchemyGolemModel<LargeAlchemyGolemEntity>> {
-    private static final ResourceLocation GOLEM_LOCATION = new ResourceLocation("textures/entity/iron_golem/iron_golem.png");
+public class LargeAlchemyGolemRenderer extends MobRenderer<LargeAlchemyGolemEntity, LargeAlchemyGolemModel> {
+    private static final ResourceLocation GOLEM_LOCATION = new ResourceLocation(LightLandMagic.MODID,"textures/entity/alchemy_golem/large_golem.png");
 
     public LargeAlchemyGolemRenderer(EntityRendererManager p_i46133_1_) {
-        super(p_i46133_1_, new LargeAlchemyGolemModel<>(), 0.7F);
+        super(p_i46133_1_, new LargeAlchemyGolemModel(), 0.7F);
+        addLayer(new LargeGolemLayer(this, new LargeAlchemyGolemModel()));
     }
 
     public ResourceLocation getTextureLocation(LargeAlchemyGolemEntity p_110775_1_) {

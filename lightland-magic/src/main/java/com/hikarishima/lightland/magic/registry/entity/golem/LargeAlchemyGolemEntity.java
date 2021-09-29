@@ -25,7 +25,7 @@ public class LargeAlchemyGolemEntity extends AlchemyGolemEntity {
         float f = (float) getAttributeValue(Attributes.ATTACK_DAMAGE);
         boolean flag = entity.hurt(getDamageSource(), f);
         if (flag) {
-            entity.setDeltaMovement(entity.getDeltaMovement().add(0.0D, (double) 0.4F, 0.0D));
+            entity.setDeltaMovement(entity.getDeltaMovement().add(0.0D, 0.4F, 0.0D));
             this.doEnchantDamageEffects(this, entity);
             int tick = getMerged().fire_tick;
             if (tick > 0) {

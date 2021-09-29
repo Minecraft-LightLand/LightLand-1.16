@@ -6,32 +6,32 @@
         "_class": "com.hikarishima.lightland.magic.registry.entity.golem.GolemMaterial"
     },
     "map": {
-        "minecraft:clay": {
+        "lightland-magic:clay": {
             "hp": 1,
             "speed": -0.005,
             "atk": 0.5,
             "fire_reduce": 0.1
         },
-        "minecraft:wood": {
+        "lightland-magic:wood": {
             "restore": 0.02
         },
-        "minecraft:fire_wood": {
+        "lightland-magic:fire_wood": {
             "restore": 0.02,
             "fire_reduce": 1
         },
-        "minecraft:stone": {
+        "lightland-magic:stone": {
             "hp": 2,
             "speed": -0.01,
             "atk": 1,
             "fire_reduce": 0.1
         },
-        "minecraft:fire_stone": {
+        "lightland-magic:fire_stone": {
             "hp": 2,
             "speed": -0.01,
             "atk": 1,
             "fire_reduce": 1
         },
-        "minecraft:obsidian": {
+        "lightland-magic:obsidian": {
             "hp": 2,
             "speed": -0.01,
             "atk": 1,
@@ -39,14 +39,14 @@
             "fire_reduce": 1,
             "kb": 0.15
         },
-        "minecraft:magma": {
+        "lightland-magic:magma": {
             "speed": -0.01,
             "atk": 1,
             "fire_reduce": 1,
             "fire_tick": 40,
             "fire_thron_tick": 20
         },
-        "minecraft:iron": {
+        "lightland-magic:iron": {
             "hp": 3,
             "speed": -0.015,
             "atk": 2,
@@ -54,14 +54,14 @@
             "fire_reduce": 0.15,
             "kb": 0.05
         },
-        "minecraft:diamond": {
+        "lightland-magic:diamond": {
             "hp": 8,
             "speed": -0.01,
             "atk": 3,
             "def": 5,
             "tough": 2
         },
-        "minecraft:netherite": {
+        "lightland-magic:netherite": {
             "hp": 12,
             "speed": -0.02,
             "atk": 3.5,
@@ -70,7 +70,7 @@
             "fire_reduce": 1,
             "kb": 0.2
         },
-        "twilightforest:ironwood": {
+        "lightland-magic:ironwood": {
             "hp": 3,
             "speed": -0.01,
             "atk": 2,
@@ -78,13 +78,13 @@
             "fire_reduce": 0.05,
             "kb": 0.05
         },
-        "twilightforest:steeleaf": {
+        "lightland-magic:steeleaf": {
             "speed": -0.005,
             "atk": 3,
             "def": 5,
             "fire_reduce": 0.05
         },
-        "twilightforest:knightmetal": {
+        "lightland-magic:knightmetal": {
             "hp": 5,
             "speed": -0.02,
             "atk": 2.5,
@@ -93,7 +93,7 @@
             "thron": 0.05,
             "kb": 0.15
         },
-        "twilightforest:fiery": {
+        "lightland-magic:fiery": {
             "hp": 8,
             "speed": -0.015,
             "atk": 3,
