@@ -1,19 +1,30 @@
+//repositories {
+//    maven {
+//        url = uri("https://nvm.tursom.cn/repository/forge-group/")
+//    }
+//    maven {
+//        url = uri("https://repo.spongepowered.org/maven")
+//    }
+//    maven { url = uri("https://modmaven.dev/") }
+//}
+
 plugins {
     java
     id("eclipse")
     `maven-publish`
-    kotlin("jvm") version "1.5.30"
+    kotlin("jvm") version "1.6.10"
+    //id("forge-gradle-kts")
 }
 
 println(
-        "Java: " + System.getProperty("java.version") + " JVM: " + System.getProperty("java.vm.version") + "(" + System.getProperty(
-                "java.vendor"
-        ) + ") Arch: " + System.getProperty("os.arch")
+    "Java: " + System.getProperty("java.version") + " JVM: " + System.getProperty("java.vm.version") + "(" + System.getProperty(
+        "java.vendor"
+    ) + ") Arch: " + System.getProperty("os.arch")
 )
 
 repositories {
     maven {
-        url = uri("https://nvm.tursom.cn/repository/maven-public/")
+        url = uri("https://nvm.tursom.cn/repository/forge-group/")
     }
 }
 
@@ -23,7 +34,10 @@ allprojects {
 
     repositories {
         maven {
-            url = uri("https://nvm.tursom.cn/repository/maven-public/")
+            url = uri("https://nvm.tursom.cn/repository/forge-group/")
+        }
+        flatDir {
+            dirs("libs")
         }
     }
 }
@@ -32,7 +46,7 @@ subprojects {
     buildscript {
         repositories {
             maven {
-                url = uri("https://nvm.tursom.cn/repository/maven-public/")
+                url = uri("https://nvm.tursom.cn/repository/forge-group/")
             }
             maven {
                 url = uri("https://repo.spongepowered.org/maven")

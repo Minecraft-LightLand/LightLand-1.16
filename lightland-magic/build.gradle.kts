@@ -14,22 +14,25 @@ configure<MixinExtension> {
     add(sourceSets["main"], "lightland-magic.refmap.json")
 }
 
-repositories {
-    maven { url = uri("https://maven.blamejared.com") }
-    maven { url = uri("https://maven.theillusivec4.top/") }
-    maven {
-        url = uri("https://www.cursemaven.com")
-    }
-    maven { url = uri("https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/") }
-
-    jcenter()
-    mavenCentral()
-    mavenLocal()
-
-    flatDir {
-        dirs("libs")
-    }
-}
+//repositories {
+//    maven {
+//        url = uri("https://nvm.tursom.cn/repository/forge-group/")
+//    }
+//    maven { url = uri("https://maven.blamejared.com") }
+//    maven { url = uri("https://maven.theillusivec4.top/") }
+//    maven {
+//        url = uri("https://www.cursemaven.com")
+//    }
+//    maven { url = uri("https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/") }
+//
+//    jcenter()
+//    mavenCentral()
+//    mavenLocal()
+//
+//    flatDir {
+//        dirs("libs")
+//    }
+//}
 
 configureForge {
     runs {
