@@ -32,7 +32,7 @@ allprojects {
     version = "0.4.18"
     group = "com.hikarishima"
 
-    when (ext.properties["dependence"]) {
+    when (ext.properties["dependence.location"]) {
         null, "china", "China", "CHINA" -> repositories {
             maven {
                 url = uri("https://nvm.tursom.cn/repository/forge-group/")
@@ -72,7 +72,7 @@ allprojects {
 
 subprojects {
     buildscript {
-        when (ext.properties["dependence"]) {
+        when (ext.properties["dependence.location"]) {
             null, "china", "China", "CHINA" -> repositories {
                 maven {
                     url = uri("https://nvm.tursom.cn/repository/forge-group/")
