@@ -32,26 +32,66 @@ allprojects {
     version = "0.4.18"
     group = "com.hikarishima"
 
-    repositories {
-        maven {
-            url = uri("https://nvm.tursom.cn/repository/forge-group/")
+    when (ext.properties["dependence"]) {
+        null, "china", "China", "CHINA" -> repositories {
+            maven {
+                url = uri("https://nvm.tursom.cn/repository/forge-group/")
+            }
+            flatDir {
+                dirs("libs")
+            }
         }
-        flatDir {
-            dirs("libs")
+        else -> repositories {
+            mavenCentral()
+            jcenter()
+            maven { url = uri("https://maven.blamejared.com") }
+            maven { url = uri("https://dl.cloudsmith.io/public/geckolib3/geckolib/maven") }
+            maven { url = uri("https://www.cursemaven.com") }
+            maven { url = uri("https://maven.minecraftforge.net") }
+            //maven { url = uri("https://plugins.gradle.org/m2") }
+            maven { url = uri("https://modmaven.dev/") }
+            maven { url = uri("https://dvs1.progwml6.com/files/maven/") }
+            maven { url = uri("https://repo.spongepowered.org/maven") }
+            maven { url = uri("https://maven.theillusivec4.top/") }
+            //maven { url = uri("") }
+
+            flatDir {
+                dirs("libs")
+            }
         }
     }
+    //repositories {
+    //    maven {
+    //        url = uri("https://nvm.tursom.cn/repository/forge-group/")
+    //    }
+    //    flatDir {
+    //        dirs("libs")
+    //    }
+    //}
 }
 
 subprojects {
     buildscript {
-        repositories {
-            maven {
-                url = uri("https://nvm.tursom.cn/repository/forge-group/")
+        when (ext.properties["dependence"]) {
+            null, "china", "China", "CHINA" -> repositories {
+                maven {
+                    url = uri("https://nvm.tursom.cn/repository/forge-group/")
+                }
             }
-            maven {
-                url = uri("https://repo.spongepowered.org/maven")
+            else -> repositories {
+                mavenCentral()
+                jcenter()
+                maven { url = uri("https://maven.blamejared.com") }
+                maven { url = uri("https://dl.cloudsmith.io/public/geckolib3/geckolib/maven") }
+                maven { url = uri("https://www.cursemaven.com") }
+                maven { url = uri("https://maven.minecraftforge.net") }
+                maven { url = uri("https://plugins.gradle.org/m2") }
+                maven { url = uri("https://modmaven.dev/") }
+                maven { url = uri("https://dvs1.progwml6.com/files/maven/") }
+                maven { url = uri("https://repo.spongepowered.org/maven") }
+                maven { url = uri("https://maven.theillusivec4.top/") }
+                //maven { url = uri("") }
             }
-            maven { url = uri("https://modmaven.dev/") }
         }
         dependencies {
             classpath("net.minecraftforge.gradle:ForgeGradle:4.1.+") {

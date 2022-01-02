@@ -14,26 +14,6 @@ configure<MixinExtension> {
     add(sourceSets["main"], "lightland-magic.refmap.json")
 }
 
-//repositories {
-//    maven {
-//        url = uri("https://nvm.tursom.cn/repository/forge-group/")
-//    }
-//    maven { url = uri("https://maven.blamejared.com") }
-//    maven { url = uri("https://maven.theillusivec4.top/") }
-//    maven {
-//        url = uri("https://www.cursemaven.com")
-//    }
-//    maven { url = uri("https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/") }
-//
-//    jcenter()
-//    mavenCentral()
-//    mavenLocal()
-//
-//    flatDir {
-//        dirs("libs")
-//    }
-//}
-
 configureForge {
     runs {
         createClient("clientMagic", project) {
@@ -77,11 +57,11 @@ dependencies {
     compileOnly(fg.deobf("vazkii.patchouli:Patchouli:1.16.4-53.1"))
     runtimeOnly(fg.deobf("vazkii.patchouli:Patchouli:1.16.4-53.1"))
 
-    compileOnly(fg.deobf("top.theillusivec4.curios:curios-forge:1.16.5-4.0.5.2:api"))
-    runtimeOnly(fg.deobf("top.theillusivec4.curios:curios-forge:1.16.5-4.0.5.2"))
+    compileOnly(fg.deobf("top.theillusivec4.curios:curios-forge:${mcVersion}-4.0.5.2:api"))
+    runtimeOnly(fg.deobf("top.theillusivec4.curios:curios-forge:${mcVersion}-4.0.5.2"))
 
-    compileOnly(fg.deobf("software.bernie.geckolib:geckolib-forge-1.16.5:3.0.45"))
-    runtimeOnly(fg.deobf("software.bernie.geckolib:geckolib-forge-1.16.5:3.0.45"))
+    compileOnly(fg.deobf("software.bernie.geckolib:geckolib-forge-${mcVersion}:3.0.45"))
+    runtimeOnly(fg.deobf("software.bernie.geckolib:geckolib-forge-${mcVersion}:3.0.45"))
 
     //ompileOnly(fg.deobf("curse.maven:exp-401955:3459011"))
     //runtimeOnly(fg.deobf("curse.maven:exp-401955:3459011"))

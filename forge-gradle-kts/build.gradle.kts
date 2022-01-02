@@ -24,8 +24,8 @@ repositories {
 }
 
 dependencies {
-  api("net.minecraftforge.gradle:ForgeGradle:4.1.14")
-  api("org.spongepowered:mixingradle:0.7-SNAPSHOT")
+  compileOnly("net.minecraftforge.gradle:ForgeGradle:4.1.14")
+  compileOnly("org.spongepowered:mixingradle:0.7-SNAPSHOT")
   api("com.google.code.gson:gson:2.8.8")
   api(group = "org.yaml", name = "snakeyaml", version = "1.29")
 }
