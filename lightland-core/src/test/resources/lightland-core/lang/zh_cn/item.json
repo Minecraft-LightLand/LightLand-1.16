@@ -11,10 +11,6 @@
             "spell_craft_book": "符文合成书",
             "arcane_inject_book": "奥术注魔书",
             "chemistry_book": "炼金书",
-            "gilded_arcane_sword": "镀金奥术剑",
-            "gilded_arcane_axe": "镀金奥术斧",
-            "alloy_arcane_sword": "魔导合金奥术剑",
-            "alloy_arcane_axe": "魔导合金奥术斧",
             "enchant_gold_nugget": "蓄魔金粒",
             "enchant_gold_ingot": "蓄魔金锭",
             "enchant_cookie": "魔力饼干",
@@ -120,6 +116,24 @@
                     "frame": "框架",
                     "core": "核心",
                     "totem": "图腾"
+                }
+            ]
+        },
+        "arcane": {
+            "-path": [
+                "item.lightland-magic"
+            ],
+            "list": [
+                {
+                    "gilded": "镀金",
+                    "alloy": "魔导合金"
+                },
+                {
+                    "arcane": "奥术"
+                },
+                {
+                    "sword": "剑",
+                    "axe": "斧"
                 }
             ]
         }

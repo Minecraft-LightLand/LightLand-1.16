@@ -29,7 +29,7 @@ repositories {
 }
 
 allprojects {
-    version = "0.4.18"
+    version = "0.5.0"
     group = "com.hikarishima"
 
     when (ext.properties["dependence.location"]) {

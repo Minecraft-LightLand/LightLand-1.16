@@ -17,9 +17,9 @@ public class BipedGolemModel<T extends AlchemyGolemEntity> extends BipedModel<T>
         super(a, 0.0F, 64, b ? 32 : 64);
     }
 
-    public void setupAnim(T p_225597_1_, float p_225597_2_, float p_225597_3_, float p_225597_4_, float p_225597_5_, float p_225597_6_) {
-        super.setupAnim(p_225597_1_, p_225597_2_, p_225597_3_, p_225597_4_, p_225597_5_, p_225597_6_);
-        ModelHelper.animateZombieArms(this.leftArm, this.rightArm, this.isAggressive(p_225597_1_), this.attackTime, p_225597_4_);
+    public void setupAnim(T entity, float p_225597_2_, float p_225597_3_, float p_225597_4_, float p_225597_5_, float p_225597_6_) {
+        super.setupAnim(entity, p_225597_2_, p_225597_3_, p_225597_4_, p_225597_5_, p_225597_6_);
+        ModelHelper.animateZombieArms(this.leftArm, this.rightArm, this.isAggressive(entity), this.attackTime, p_225597_4_);
     }
 
     public boolean isAggressive(T p_212850_1_) {

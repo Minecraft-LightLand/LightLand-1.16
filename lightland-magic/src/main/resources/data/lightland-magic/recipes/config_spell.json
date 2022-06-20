@@ -1,1 +1,264 @@
-{"type":"lightland-core:config","map":{"lightland-magic:water_trap_0":{"duration":30,"mana_cost":50,"spell_load":70,"factor":4,"type":"PARCHMENT","spell_time":{"id":"test.spell","duration":50,"setup":20,"close":20},"effect_time":300,"effect_level":0,"radius":6,"_class":"com.hikarishima.lightland.magic.spell.magic.WaterTrapSpell$Config"},"lightland-magic:water_trap_1":{"duration":30,"mana_cost":50,"spell_load":70,"factor":4,"type":"PARCHMENT","spell_time":{"id":"test.spell","duration":50,"setup":20,"close":20},"effect_time":200,"effect_level":1,"radius":3,"_class":"com.hikarishima.lightland.magic.spell.magic.WaterTrapSpell$Config"},"lightland-magic:dirt_wall":{"duration":20,"mana_cost":10,"spell_load":20,"factor":1,"type":"CARD","block":"lightland-magic:temp_dirt","time":100,"ry":1,"rn":0,"rs":1,"_class":"com.hikarishima.lightland.magic.spell.magic.DirtWallSpell$Config"},"lightland-magic:stone_block":{"duration":180,"mana_cost":20,"spell_load":30,"factor":2,"type":"PARCHMENT","block":"lightland-magic:temp_cobblestone","time":100,"ry":1,"rn":1,"rs":1,"_class":"com.hikarishima.lightland.magic.spell.magic.DirtWallSpell$Config"},"lightland-magic:stone_slab":{"duration":20,"mana_cost":30,"spell_load":50,"factor":3,"type":"PARCHMENT","block":"lightland-magic:temp_cobblestone","time":300,"ry":0,"rn":2,"rs":2,"_class":"com.hikarishima.lightland.magic.spell.magic.DirtWallSpell$Config"},"lightland-magic:fang_round":{"duration":30,"mana_cost":30,"spell_load":50,"factor":2,"type":"PARCHMENT","spell_time":{"id":"test.spell","duration":100,"setup":30,"close":30},"layers":[{"count":4,"delay":30,"angle":0,"radius":1},{"count":8,"delay":35,"angle":22.5,"radius":2},{"count":12,"delay":40,"angle":0,"radius":3},{"count":16,"delay":45,"angle":11.25,"radius":4},{"count":20,"delay":50,"angle":0,"radius":5}],"_class":"com.hikarishima.lightland.magic.spell.magic.EvokerFangSpell$Config"},"lightland-magic:fire_rain":{"duration":30,"mana_cost":70,"spell_load":100,"factor":4,"type":"SCROLL","spell_time":{"id":"test.spell","duration":80,"setup":20,"close":20},"period":1,"repeat":2,"damage":5,"distance":16,"velocity":3,"radius":6,"_class":"com.hikarishima.lightland.magic.spell.magic.FireArrowSpell$Config"},"lightland-magic:explosion_rain":{"duration":30,"mana_cost":100,"spell_load":150,"factor":5,"type":"SCROLL","spell_time":{"id":"test.spell","duration":80,"setup":20,"close":20},"period":4,"repeat":1,"explosion":3,"distance":16,"velocity":3,"radius":6,"_class":"com.hikarishima.lightland.magic.spell.magic.FireArrowSpell$Config"},"lightland-magic:fire_explosion":{"duration":30,"mana_cost":100,"spell_load":150,"factor":5,"type":"SCROLL","spell_time":{"id":"test.spell","duration":80,"setup":20,"close":20},"period":100,"repeat":1,"explosion":8,"size":2,"distance":16,"velocity":3,"radius":0,"_class":"com.hikarishima.lightland.magic.spell.magic.FireArrowSpell$Config"},"lightland-magic:blade_side":{"duration":30,"mana_cost":50,"spell_load":70,"factor":4,"type":"PARCHMENT","spell_time":{"id":"test.spell","duration":100,"setup":30,"close":30},"period":4,"damage":5,"offset":[-1,1],"distance":64,"velocity":3,"plane":"HORIZONTAL","_class":"com.hikarishima.lightland.magic.spell.magic.WindBladeSpell$Config"},"lightland-magic:blade_front":{"duration":30,"mana_cost":50,"spell_load":70,"factor":4,"type":"PARCHMENT","spell_time":{"id":"test.spell","duration":60,"setup":30,"close":30},"period":100,"damage":20,"normal":1,"distance":64,"velocity":3.5,"plane":"NORMAL","_class":"com.hikarishima.lightland.magic.spell.magic.WindBladeSpell$Config"},"lightland-magic:petrification_0":{"duration":30,"mana_cost":50,"spell_load":70,"factor":4,"type":"PARCHMENT","spell_time":{"id":"test.spell","duration":50,"setup":20,"close":20},"effect_time":300,"effect_level":4,"max_hp":40,"radius":6,"_class":"com.hikarishima.lightland.magic.spell.magic.PetrificationSpell$Config"},"lightland-magic:petrification_1":{"duration":30,"mana_cost":100,"spell_load":150,"factor":5,"type":"SCROLL","spell_time":{"id":"test.spell","duration":50,"setup":20,"close":20},"effect_time":1728000,"effect_level":4,"max_hp":5,"radius":2,"_class":"com.hikarishima.lightland.magic.spell.magic.PetrificationSpell$Config"}}}
+{
+  "type": "lightland-core:config",
+  "map": {
+	"lightland-magic:water_trap_0": {
+	  "duration": 30,
+	  "mana_cost": 50,
+	  "spell_load": 70,
+	  "factor": 4,
+	  "type": "PARCHMENT",
+	  "spell_time": {
+		"id": "test.spell",
+		"duration": 50,
+		"setup": 20,
+		"close": 20
+	  },
+	  "effect_time": 300,
+	  "effect_level": 0,
+	  "radius": 6,
+	  "_class": "com.hikarishima.lightland.magic.spell.magic.WaterTrapSpell$Config"
+	},
+	"lightland-magic:water_trap_1": {
+	  "duration": 30,
+	  "mana_cost": 50,
+	  "spell_load": 70,
+	  "factor": 4,
+	  "type": "PARCHMENT",
+	  "spell_time": {
+		"id": "test.spell",
+		"duration": 50,
+		"setup": 20,
+		"close": 20
+	  },
+	  "effect_time": 200,
+	  "effect_level": 1,
+	  "radius": 3,
+	  "_class": "com.hikarishima.lightland.magic.spell.magic.WaterTrapSpell$Config"
+	},
+	"lightland-magic:dirt_wall": {
+	  "duration": 20,
+	  "mana_cost": 10,
+	  "spell_load": 20,
+	  "factor": 1,
+	  "type": "CARD",
+	  "block": "lightland-magic:temp_dirt",
+	  "time": 100,
+	  "ry": 1,
+	  "rn": 0,
+	  "rs": 1,
+	  "_class": "com.hikarishima.lightland.magic.spell.magic.DirtWallSpell$Config"
+	},
+	"lightland-magic:stone_block": {
+	  "duration": 180,
+	  "mana_cost": 20,
+	  "spell_load": 30,
+	  "factor": 2,
+	  "type": "PARCHMENT",
+	  "block": "lightland-magic:temp_cobblestone",
+	  "time": 100,
+	  "ry": 1,
+	  "rn": 1,
+	  "rs": 1,
+	  "_class": "com.hikarishima.lightland.magic.spell.magic.DirtWallSpell$Config"
+	},
+	"lightland-magic:stone_slab": {
+	  "duration": 20,
+	  "mana_cost": 30,
+	  "spell_load": 50,
+	  "factor": 3,
+	  "type": "PARCHMENT",
+	  "block": "lightland-magic:temp_cobblestone",
+	  "time": 300,
+	  "ry": 0,
+	  "rn": 2,
+	  "rs": 2,
+	  "_class": "com.hikarishima.lightland.magic.spell.magic.DirtWallSpell$Config"
+	},
+	"lightland-magic:fang_round": {
+	  "duration": 30,
+	  "mana_cost": 30,
+	  "spell_load": 50,
+	  "factor": 2,
+	  "type": "PARCHMENT",
+	  "spell_time": {
+		"id": "test.spell",
+		"duration": 100,
+		"setup": 30,
+		"close": 30
+	  },
+	  "layers": [
+		{
+		  "count": 4,
+		  "delay": 30,
+		  "angle": 0,
+		  "radius": 1
+		},
+		{
+		  "count": 8,
+		  "delay": 35,
+		  "angle": 22.5,
+		  "radius": 2
+		},
+		{
+		  "count": 12,
+		  "delay": 40,
+		  "angle": 0,
+		  "radius": 3
+		},
+		{
+		  "count": 16,
+		  "delay": 45,
+		  "angle": 11.25,
+		  "radius": 4
+		},
+		{
+		  "count": 20,
+		  "delay": 50,
+		  "angle": 0,
+		  "radius": 5
+		}
+	  ],
+	  "_class": "com.hikarishima.lightland.magic.spell.magic.EvokerFangSpell$Config"
+	},
+	"lightland-magic:fire_rain": {
+	  "duration": 30,
+	  "mana_cost": 70,
+	  "spell_load": 100,
+	  "factor": 4,
+	  "type": "SCROLL",
+	  "spell_time": {
+		"id": "test.spell",
+		"duration": 80,
+		"setup": 20,
+		"close": 20
+	  },
+	  "period": 1,
+	  "repeat": 2,
+	  "damage": 5,
+	  "distance": 16,
+	  "velocity": 3,
+	  "radius": 6,
+	  "_class": "com.hikarishima.lightland.magic.spell.magic.FireArrowSpell$Config"
+	},
+	"lightland-magic:explosion_rain": {
+	  "duration": 30,
+	  "mana_cost": 100,
+	  "spell_load": 150,
+	  "factor": 5,
+	  "type": "SCROLL",
+	  "spell_time": {
+		"id": "test.spell",
+		"duration": 80,
+		"setup": 20,
+		"close": 20
+	  },
+	  "period": 4,
+	  "repeat": 1,
+	  "explosion": 3,
+	  "distance": 16,
+	  "velocity": 3,
+	  "radius": 6,
+	  "_class": "com.hikarishima.lightland.magic.spell.magic.FireArrowSpell$Config"
+	},
+	"lightland-magic:fire_explosion": {
+	  "duration": 30,
+	  "mana_cost": 100,
+	  "spell_load": 150,
+	  "factor": 5,
+	  "type": "SCROLL",
+	  "spell_time": {
+		"id": "test.spell",
+		"duration": 80,
+		"setup": 20,
+		"close": 20
+	  },
+	  "period": 100,
+	  "repeat": 1,
+	  "explosion": 8,
+	  "size": 2,
+	  "distance": 16,
+	  "velocity": 3,
+	  "radius": 0,
+	  "_class": "com.hikarishima.lightland.magic.spell.magic.FireArrowSpell$Config"
+	},
+	"lightland-magic:blade_side": {
+	  "duration": 30,
+	  "mana_cost": 50,
+	  "spell_load": 70,
+	  "factor": 4,
+	  "type": "PARCHMENT",
+	  "spell_time": {
+		"id": "test.spell",
+		"duration": 100,
+		"setup": 30,
+		"close": 30
+	  },
+	  "period": 4,
+	  "damage": 5,
+	  "offset": [
+		-1,
+		1
+	  ],
+	  "distance": 64,
+	  "velocity": 3,
+	  "plane": "HORIZONTAL",
+	  "_class": "com.hikarishima.lightland.magic.spell.magic.WindBladeSpell$Config"
+	},
+	"lightland-magic:blade_front": {
+	  "duration": 30,
+	  "mana_cost": 50,
+	  "spell_load": 70,
+	  "factor": 4,
+	  "type": "PARCHMENT",
+	  "spell_time": {
+		"id": "test.spell",
+		"duration": 60,
+		"setup": 30,
+		"close": 30
+	  },
+	  "period": 100,
+	  "damage": 20,
+	  "normal": 1,
+	  "distance": 64,
+	  "velocity": 3.5,
+	  "plane": "NORMAL",
+	  "_class": "com.hikarishima.lightland.magic.spell.magic.WindBladeSpell$Config"
+	},
+	"lightland-magic:petrification_0": {
+	  "duration": 30,
+	  "mana_cost": 50,
+	  "spell_load": 70,
+	  "factor": 4,
+	  "type": "PARCHMENT",
+	  "spell_time": {
+		"id": "test.spell",
+		"duration": 50,
+		"setup": 20,
+		"close": 20
+	  },
+	  "effect_time": 300,
+	  "effect_level": 4,
+	  "max_hp": 40,
+	  "radius": 6,
+	  "_class": "com.hikarishima.lightland.magic.spell.magic.PetrificationSpell$Config"
+	},
+	"lightland-magic:petrification_1": {
+	  "duration": 30,
+	  "mana_cost": 100,
+	  "spell_load": 150,
+	  "factor": 5,
+	  "type": "SCROLL",
+	  "spell_time": {
+		"id": "test.spell",
+		"duration": 50,
+		"setup": 20,
+		"close": 20
+	  },
+	  "effect_time": 1728000,
+	  "effect_level": 4,
+	  "max_hp": 5,
+	  "radius": 2,
+	  "_class": "com.hikarishima.lightland.magic.spell.magic.PetrificationSpell$Config"
+	}
+  }
+}

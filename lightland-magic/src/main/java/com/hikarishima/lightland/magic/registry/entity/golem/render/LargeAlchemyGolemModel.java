@@ -29,7 +29,6 @@ public class LargeAlchemyGolemModel extends SegmentedModel<LargeAlchemyGolemEnti
         this.head = (new ModelRenderer(this)).setTexSize(128, 128);
         this.head.setPos(0.0F, -7.0F, -2.0F);
         this.head.texOffs(0, 0).addBox(-4.0F, -12.0F, -5.5F, 8.0F, 10.0F, 8.0F, 0.0F);
-        this.head.texOffs(24, 0).addBox(-1.0F, -5.0F, -7.5F, 2.0F, 4.0F, 2.0F, 0.0F);
         this.body = (new ModelRenderer(this)).setTexSize(128, 128);
         this.body.setPos(0.0F, -7.0F, 0.0F);
         this.body.texOffs(0, 40).addBox(-9.0F, -2.0F, -6.0F, 18.0F, 12.0F, 11.0F, 0.0F);
@@ -53,11 +52,11 @@ public class LargeAlchemyGolemModel extends SegmentedModel<LargeAlchemyGolemEnti
         return ImmutableList.of(this.head, this.body, this.leg0, this.leg1, this.arm0, this.arm1);
     }
 
-    public void setupAnim(LargeAlchemyGolemEntity p_225597_1_, float p_225597_2_, float p_225597_3_, float p_225597_4_, float p_225597_5_, float p_225597_6_) {
-        this.head.yRot = p_225597_5_ * ((float) Math.PI / 180F);
-        this.head.xRot = p_225597_6_ * ((float) Math.PI / 180F);
-        this.leg0.xRot = -1.5F * MathHelper.triangleWave(p_225597_2_, 13.0F) * p_225597_3_;
-        this.leg1.xRot = 1.5F * MathHelper.triangleWave(p_225597_2_, 13.0F) * p_225597_3_;
+    public void setupAnim(LargeAlchemyGolemEntity entity, float anim, float speed, float time, float head_y_rot, float head_x_rot) {
+        this.head.yRot = head_y_rot * ((float) Math.PI / 180F);
+        this.head.xRot = head_x_rot * ((float) Math.PI / 180F);
+        this.leg0.xRot = -1.5F * MathHelper.triangleWave(anim, 13.0F) * speed;
+        this.leg1.xRot = 1.5F * MathHelper.triangleWave(anim, 13.0F) * speed;
         this.leg0.yRot = 0.0F;
         this.leg1.yRot = 0.0F;
     }
